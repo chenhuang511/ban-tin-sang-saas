@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ROI của AI đến từ nơi không ai đặt ngân sách & bài học 9 triệu dòng code cũ · 29/07/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.dich{background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;padding:16px 20px;margin-top:16px}
+.dich .flag{font-size:12.5px;color:#94a3b8;font-style:italic;margin-bottom:8px}
+.dich h3{font-size:16px;margin:14px 0 4px}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 29/07/2026</div>
+    <h1 class="title">ROI của AI đến từ nơi không ai đặt ngân sách &amp; bài học từ 9 triệu dòng code cũ</h1>
+    <div class="meta">29/07/2026 · Thời lượng đọc ~17 phút · Nguồn: MarketScale (27/07/2026); WSJ qua Entrepreneur (06/2025)</div>
+  </header>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1">AI doanh nghiệp 2026: giá trị đến từ insight, không phải cắt chi phí</a></li>
+      <li><a href="#bai2">Morgan Stanley DevGen.AI: 9 triệu dòng code cũ, 280.000 giờ tiết kiệm</a></li>
+      <li><a href="#gocnhin">Góc nhìn: đo đúng giá trị, để AI "hiểu" trước khi "viết lại"</a></li>
+      <li><a href="#dich1">📖 Lược dịch — ROI AI doanh nghiệp 2026 (MarketScale)</a></li>
+      <li><a href="#dich2">📖 Lược dịch — Morgan Stanley DevGen.AI (Entrepreneur/WSJ)</a></li>
+    </ol>
+  </nav>
+
+  <!-- BÀI 1 -->
+  <article class="card" id="bai1">
+    <span class="tag saas">AI trong SaaS</span>
+    <h2 class="head">1 · AI doanh nghiệp 2026: giá trị thật, nhưng không nằm ở ô ngân sách bạn duyệt</h2>
+    <p class="src">Nguồn: MarketScale Newsroom — "Enterprise AI ROI lands in unexpected places in 2026" · 27/07/2026 · dẫn khảo sát SAP &amp; các bài của CIO Dive · <a href="https://www.marketscale.com/industries/software-and-technology/enterprise-ai-is-generating-business-insights-but-not-saving-money-and-the-governance-gap-is-widening" target="_blank">marketscale.com</a></p>
+
+    <div class="stat">
+      <div class="box"><div class="num">≈ 50%</div><div class="lab">người dùng AI không tin công ty đứng sau công cụ họ dùng hằng ngày <a href="https://www.ciodive.com/news/ai-adoption-surges-as-trust-plummets/825247/" target="_blank">(CIO Dive, 2026)</a></div></div>
+      <div class="box"><div class="num">Insight &gt; Chi phí</div><div class="lab">giá trị AI đến từ hiểu biết &amp; tương tác KH, không phải tiết kiệm chi phí <a href="https://www.ciodive.com/news/enterprise-roi-value-savings/825234/" target="_blank">(SAP/CIO Dive, 2026)</a></div></div>
+      <div class="box"><div class="num">Agentic ↑</div><div class="lab">AI tác nhân đẩy tiêu thụ &amp; chi phí tăng nhanh hơn copilot <a href="https://www.ciodive.com/news/keep-ai-costs-in-check-agentic-drives-usage/825476/" target="_blank">(CIO Dive, 2026)</a></div></div>
+    </div>
+
+    <p>Chi tiêu cho AI doanh nghiệp năm 2026 tăng đều, nhưng lợi ích lại rơi vào chỗ mà phần lớn tổ chức <em>không</em> lập kế hoạch. Một khảo sát của SAP (được CIO Dive dẫn lại) cho thấy các công ty báo cáo AI giúp họ khai mở insight kinh doanh và cải thiện tương tác khách hàng, nhưng <strong>không</strong> mang lại khoản tiết kiệm chi phí hay hiệu quả thời gian mà đa số đội ngũ đã dùng để làm cơ sở duyệt ngân sách.<sup><a href="https://www.marketscale.com/industries/software-and-technology/enterprise-ai-is-generating-business-insights-but-not-saving-money-and-the-governance-gap-is-widening" target="_blank">[1]</a></sup> Khoảng lệch giữa kỳ vọng và kết quả này buộc lãnh đạo IT và vận hành phải xem lại cả chiến lược triển khai lẫn quan hệ với nhà cung cấp.</p>
+
+    <p>Các nền tảng hút phần lớn khoản đầu tư đều đã quen thuộc: Microsoft Copilot (tóm tắt tài liệu tự động, gợi ý theo ngữ cảnh khắp Microsoft 365); Google mở rộng AI khắp bộ Workspace cho quản lý tài liệu &amp; tự động hóa quy trình; còn Einstein GPT của Salesforce được các đội sales/dịch vụ dùng để tự động hóa tương tác khách hàng.<sup><a href="https://www.marketscale.com/industries/software-and-technology/enterprise-ai-is-generating-business-insights-but-not-saving-money-and-the-governance-gap-is-widening" target="_blank">[1]</a></sup> Cạnh tranh giữa các "ông lớn" SaaS đang đẩy nhanh tiến độ áp dụng ở cả những công ty vốn thận trọng.</p>
+
+    <p>Vấn đề với người duyệt ngân sách rất cụ thể: nếu bạn phê duyệt AI trên tiền đề "giảm đầu người / cắt chi phí quy trình", mà giá trị đo được lại xuất hiện ở "chất lượng insight" và "gắn kết khách hàng", thì bộ KPI đánh giá có thể phải đổi <strong>trước</strong> chu kỳ ngân sách kế tiếp — nếu không, dự án tốt vẫn có nguy cơ bị cắt vốn dù công nghệ thực sự chạy tốt.<sup><a href="https://www.marketscale.com/industries/software-and-technology/enterprise-ai-is-generating-business-insights-but-not-saving-money-and-the-governance-gap-is-widening" target="_blank">[1]</a></sup> Bài báo nêu ba lằn ranh rủi ro song song: <strong>AI tác nhân (agentic)</strong> khuếch đại chi phí vì hệ tự chủ kích hoạt hành động dây chuyền, kéo mức dùng phình nhanh hơn copilot;<sup><a href="https://www.ciodive.com/news/keep-ai-costs-in-check-agentic-drives-usage/825476/" target="_blank">[2]</a></sup> <strong>an ninh mạng dùng AI vượt tốc độ quản trị</strong> — số lỗ hổng gắn với code do AI sinh tăng nhanh hơn chu kỳ vá, đến mức Nhà Trắng lập một đầu mối tổng hợp lỗ hổng;<sup><a href="https://www.ciodive.com/news/ai-adoption-cyber-defense-governance-gap/825462/" target="_blank">[3]</a></sup> và <strong>thâm hụt niềm tin</strong> — gần một nửa người dùng không tin nhà cung cấp, sinh ra shadow IT và rủi ro dữ liệu.<sup><a href="https://www.ciodive.com/news/ai-adoption-surges-as-trust-plummets/825247/" target="_blank">[4]</a></sup></p>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> Khi nhét tính năng AI vào SaaS, đừng chỉ hứa "tiết kiệm chi phí" — hãy đo và kể câu chuyện giá trị ở nơi AI thực sự tỏa sáng: chất lượng insight, tốc độ ra quyết định, trải nghiệm khách hàng. Đồng thời gắn "minh bạch dữ liệu &amp; nhật ký kiểm toán" thành tiêu chí mặc định, vì niềm tin người dùng giờ là điều kiện áp dụng, không phải điểm cộng.</div>
+
+    <div class="doslist">
+      <div>✅ <strong>Nên làm:</strong> đo lại KPI tính năng AI theo giá trị thực tế (insight, gắn kết KH); đưa quản trị &amp; bảo mật vào phòng họp trước khi lên production; đặt ngưỡng dùng &amp; cảnh báo chi phí cho AI tác nhân.</div>
+      <div>❌ <strong>Nên tránh:</strong> chỉ đo tỷ lệ dùng AI hay hứa suông "cắt chi phí"; để agent chạy tự do không kiểm soát chi phí; coi minh bạch dữ liệu chỉ là điểm marketing.</div>
+    </div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> [1] MarketScale, 27/07/2026 — <a href="https://www.marketscale.com/industries/software-and-technology/enterprise-ai-is-generating-business-insights-but-not-saving-money-and-the-governance-gap-is-widening" target="_blank">link</a> · [2] CIO Dive, chi phí agentic — <a href="https://www.ciodive.com/news/keep-ai-costs-in-check-agentic-drives-usage/825476/" target="_blank">link</a> · [3] CIO Dive, governance gap — <a href="https://www.ciodive.com/news/ai-adoption-cyber-defense-governance-gap/825462/" target="_blank">link</a> · [4] CIO Dive, trust plummets — <a href="https://www.ciodive.com/news/ai-adoption-surges-as-trust-plummets/825247/" target="_blank">link</a></div>
+  </article>
+
+  <!-- BÀI 2 -->
+  <article class="card" id="bai2">
+    <span class="tag legacy">Hiện đại hóa legacy</span>
+    <h2 class="head">2 · Morgan Stanley DevGen.AI: 9 triệu dòng code cũ, 280.000 giờ được trả lại</h2>
+    <p class="src">Nguồn: The Wall Street Journal (qua Entrepreneur, Sherin Shibu) · công bố 06/2025, dữ liệu 5 tháng đầu vận hành · <a href="https://www.entrepreneur.com/business-news/morgan-stanley-builds-ai-tool-that-fixes-major-coding-issue/492697" target="_blank">entrepreneur.com</a></p>
+
+    <div class="stat">
+      <div class="box"><div class="num">9.000.000</div><div class="lab">dòng code cũ được xử lý trong ~5 tháng <a href="https://www.entrepreneur.com/business-news/morgan-stanley-builds-ai-tool-that-fixes-major-coding-issue/492697" target="_blank">(Entrepreneur/WSJ, 2025)</a></div></div>
+      <div class="box"><div class="num">280.000 giờ</div><div class="lab">công việc lập trình được tiết kiệm <a href="https://www.entrepreneur.com/business-news/morgan-stanley-builds-ai-tool-that-fixes-major-coding-issue/492697" target="_blank">(Entrepreneur/WSJ, 2025)</a></div></div>
+      <div class="box"><div class="num">15.000</div><div class="lab">lập trình viên nội bộ đang dùng công cụ <a href="https://www.entrepreneur.com/business-news/morgan-stanley-builds-ai-tool-that-fixes-major-coding-issue/492697" target="_blank">(Entrepreneur/WSJ, 2025)</a></div></div>
+      <div class="box"><div class="num">≈ 32 dòng/giờ</div><div class="lab">tốc độ xử lý code, vượt công cụ thương mại theo MS <a href="https://developers.slashdot.org/story/25/06/04/1233253/morgan-stanley-says-its-ai-tool-processed-9-million-lines-of-legacy-code-this-year-and-saved-280000-developer-hours" target="_blank">(Slashdot, 2025)</a></div></div>
+    </div>
+
+    <p>Morgan Stanley xây một công cụ AI nội bộ tên <strong>DevGen.AI</strong> (dựa trên các mô hình GPT của OpenAI), ra mắt tháng 1/2025, để hiện đại hóa code cũ. Điểm cốt lõi: thay vì cố "dịch máy" trực tiếp code cũ sang ngôn ngữ mới, công cụ <strong>diễn giải code cũ ra đặc tả bằng tiếng Anh thuần</strong> — ví dụ với Perl (ra đời 1987) — rồi lập trình viên dùng bản đặc tả đó làm cơ sở viết lại sang ngôn ngữ mới như Python.<sup><a href="https://www.entrepreneur.com/business-news/morgan-stanley-builds-ai-tool-that-fixes-major-coding-issue/492697" target="_blank">[5]</a></sup></p>
+
+    <p>Mike Pizzi, Giám đốc toàn cầu về công nghệ &amp; vận hành của Morgan Stanley, nói với WSJ rằng trong 5 tháng kể từ khi ra mắt, DevGen.AI đã xử lý qua 9 triệu dòng code, giúp 15.000 lập trình viên của hãng tiết kiệm khoảng 280.000 giờ.<sup><a href="https://www.entrepreneur.com/business-news/morgan-stanley-builds-ai-tool-that-fixes-major-coding-issue/492697" target="_blank">[5]</a></sup> Lý do họ tự xây thay vì mua ngoài: các công cụ thương mại thiếu năng lực đọc hiểu những ngôn ngữ cũ, đặc biệt là ngôn ngữ được tùy biến riêng cho công ty. DevGen.AI được huấn luyện trên chính codebase của hãng, gồm cả các ngôn ngữ tùy biến nội bộ.<sup><a href="https://www.entrepreneur.com/business-news/morgan-stanley-builds-ai-tool-that-fixes-major-coding-issue/492697" target="_blank">[5]</a></sup></p>
+
+    <p>Điểm trung thực đáng học: Morgan Stanley <strong>không</strong> tuyên bố AI thay thế con người. Pizzi thừa nhận dù về lý thuyết công cụ có thể viết lại code từ ngôn ngữ cũ sang mới, nó <strong>chưa</strong> biết viết code mới hiệu quả hay tốt bằng lập trình viên người thật — nên hãng giữ con người trong vòng lặp ở khâu dịch code cũ, và khẳng định sẽ không cắt giảm đội kỹ sư phần mềm vì công cụ này (dù có đợt cắt 2.000 trong tổng ~80.000 nhân sự hồi tháng 3, vì lý do khác).<sup><a href="https://www.entrepreneur.com/business-news/morgan-stanley-builds-ai-tool-that-fixes-major-coding-issue/492697" target="_blank">[5]</a></sup> Câu chuyện khớp với xu hướng 2026 mà giới tư vấn mô tả: hiện đại hóa liên tục, từng phần, có AI hỗ trợ để giảm rủi ro thay vì "đại tu một lần".<sup><a href="https://devoxsoftware.com/blog/the-2026-legacy-modernization-report-research-insights-and-strategic-roadmap/" target="_blank">[6]</a></sup></p>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> Với hệ legacy, thắng lợi dễ lấy nhất không phải "AI tự viết lại toàn bộ", mà là dùng AI để <em>hiểu code cũ</em> — biến hàng triệu dòng khó đọc thành đặc tả tiếng người, rồi để kỹ sư viết lại có kiểm soát. Mô hình "AI diễn giải + người viết lại" ít rủi ro, dễ đo giá trị (giờ tiết kiệm), và giữ được chất lượng.</div>
+
+    <div class="doslist">
+      <div>✅ <strong>Nên làm:</strong> dùng AI sinh đặc tả/tài liệu từ code cũ trước (ROI rõ &amp; an toàn nhất); giữ con người trong vòng lặp khâu viết lại; cân nhắc tinh chỉnh mô hình trên codebase riêng nếu có nhiều ngôn ngữ/khung tùy biến nội bộ.</div>
+      <div>❌ <strong>Nên tránh:</strong> kỳ vọng AI viết code mới "tốt như người" ngay — đầu ra vẫn cần kỹ sư tinh chỉnh.</div>
+    </div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> [5] Sherin Shibu, Entrepreneur (dẫn WSJ), 03/06/2025 — <a href="https://www.entrepreneur.com/business-news/morgan-stanley-builds-ai-tool-that-fixes-major-coding-issue/492697" target="_blank">link</a> · Slashdot (số 32 dòng/giờ), 04/06/2025 — <a href="https://developers.slashdot.org/story/25/06/04/1233253/morgan-stanley-says-its-ai-tool-processed-9-million-lines-of-legacy-code-this-year-and-saved-280000-developer-hours" target="_blank">link</a> · [6] Devox Software, "The 2026 Legacy Modernization Report" — <a href="https://devoxsoftware.com/blog/the-2026-legacy-modernization-report-research-insights-and-strategic-roadmap/" target="_blank">link</a></div>
+  </article>
+
+  <!-- GÓC NHÌN -->
+  <article class="card" id="gocnhin">
+    <span class="tag view">Góc nhìn</span>
+    <h2 class="head">3 · Đo đúng giá trị, và để AI "hiểu" trước khi "viết lại"</h2>
+    <p>Hai bài hôm nay bổ khuyết cho nhau một cách thú vị. Bài 1 cảnh báo rằng ROI của AI thường <em>không</em> đến ở nơi ta đặt ngân sách; bài 2 lại là ví dụ hiếm hoi có ROI đo được rõ ràng (280.000 giờ). Điểm chung: cả hai đều thắng nhờ <strong>đặt kỳ vọng đúng và đo đúng</strong>. Morgan Stanley không hứa "AI thay kỹ sư"; họ chọn một việc AI làm giỏi thật — diễn giải code cũ — và đo bằng giờ tiết kiệm, thứ ai cũng kiểm chứng được. Đó chính là cách thoát khỏi cái bẫy "insight thì có mà chi phí không giảm" mà khảo sát SAP nêu.</p>
+    <p>Bài học kép cho người làm sản phẩm/kỹ thuật: (a) khi bán tính năng AI, hãy chọn thước đo phản ánh đúng nơi giá trị xuất hiện; (b) khi hiện đại hóa hệ cũ, hãy bắt đầu từ "AI giúp hiểu" (đặc tả, tài liệu, bản đồ phụ thuộc) rồi mới đến "AI giúp viết lại" có kiểm soát — mô hình ít rủi ro và dễ chứng minh giá trị nhất hiện nay.</p>
+    <p><strong>2–3 việc nên làm tuần này:</strong></p>
+    <div class="doslist">
+      <div>• Chọn 1 tính năng AI trong sản phẩm và viết lại KPI theo "giá trị insight/gắn kết KH" thay vì "giờ tiết kiệm" — xem con số kể câu chuyện gì.</div>
+      <div>• Lấy module legacy khó nhất, thử dùng LLM sinh đặc tả cho nó, rồi đo thời gian đọc-hiểu tiết kiệm được.</div>
+      <div>• Rà soát: các tác nhân/automation AI đang chạy đã có ngưỡng dùng &amp; cảnh báo chi phí chưa? Nếu chưa, đặt ngay trước khi mở rộng.</div>
+    </div>
+  </article>
+
+  <hr class="sep">
+
+  <!-- LƯỢC DỊCH 1 -->
+  <section class="dich" id="dich1">
+    <h2 class="head">📖 Lược dịch chi tiết — ROI AI doanh nghiệp 2026 (MarketScale)</h2>
+    <div class="flag">Bản diễn đạt lại bằng tiếng Việt, bám sát bố cục bài gốc — không phải dịch nguyên văn. <a href="https://www.marketscale.com/industries/software-and-technology/enterprise-ai-is-generating-business-insights-but-not-saving-money-and-the-governance-gap-is-widening" target="_blank">Bài gốc</a></div>
+    <h3>Bối cảnh</h3>
+    <p>Chi tiêu AI doanh nghiệp tăng trên diện rộng, nhưng lợi ích đáp xuống nơi ít ai dự tính. Khảo sát SAP (qua CIO Dive): AI giúp khai mở insight và nâng chất lượng tương tác KH, nhưng không tạo tiết kiệm chi phí/thời gian như business case đặt ra. Sự lệch pha buộc lãnh đạo IT &amp; vận hành đánh giá lại chiến lược triển khai và quan hệ nhà cung cấp.</p>
+    <h3>ROI có thật, chỉ không nằm ở nơi được cấp ngân sách</h3>
+    <p>Với lãnh đạo từng duyệt ngân sách theo kỳ vọng giảm đầu người/chi phí, việc giá trị xuất hiện ở sinh insight &amp; gắn kết KH nghĩa là bộ chỉ số cần đổi trước kỳ ngân sách sau. AI tác nhân làm bài toán chi phí phức tạp hơn: hệ tự chủ có thể đẩy mức dùng &amp; chi phí nhanh hơn copilot; OpenAI (qua CIO Dive) nhấn mạnh CIO cần tầm nhìn rõ về nhu cầu, chi tiêu, rủi ro.</p>
+    <h3>An ninh mạng dùng AI vượt khung quản trị</h3>
+    <p>Đội bảo mật triển khai AI nhanh hơn chính sách theo kịp; số lỗ hổng từ code do AI sinh tăng nhanh hơn chu kỳ vá; Nhà Trắng lập đầu mối tổng hợp lỗ hổng để theo dõi có hệ thống hơn.</p>
+    <h3>Thâm hụt niềm tin mà mua sắm không thể bỏ qua</h3>
+    <p>Gần một nửa người dùng không tin nhà cung cấp AI (báo cáo Tether qua CIO Dive), dù mức dùng vẫn tăng — sinh shadow IT, áp dụng thiếu nhất quán, rủi ro dữ liệu. Minh bạch xử lý dữ liệu/hành vi mô hình/nhật ký kiểm toán là yêu cầu mua sắm tối thiểu.</p>
+    <h3>Việc cần làm (theo bài)</h3>
+    <p>Kiểm toán chỉ số ROI AI ngay; xây quản trị AI trước lần triển khai kế; thêm tiêu chí niềm tin &amp; minh bạch vào scorecard nhà cung cấp; đặt ngưỡng dùng &amp; cảnh báo chi phí riêng cho AI tác nhân.</p>
+  </section>
+
+  <!-- LƯỢC DỊCH 2 -->
+  <section class="dich" id="dich2">
+    <h2 class="head">📖 Lược dịch chi tiết — Morgan Stanley DevGen.AI (Entrepreneur/WSJ)</h2>
+    <div class="flag">Bản diễn đạt lại bằng tiếng Việt, bám sát bố cục bài gốc — không phải dịch nguyên văn. <a href="https://www.entrepreneur.com/business-news/morgan-stanley-builds-ai-tool-that-fixes-major-coding-issue/492697" target="_blank">Bài gốc</a></div>
+    <h3>Ý chính</h3>
+    <p>Công cụ AI dịch code ngôn ngữ cũ ra tiếng Anh thuần; lập trình viên dùng bản đặc tả đó viết lại sang ngôn ngữ mới. Đã giúp 15.000 lập trình viên tiết kiệm thời gian.</p>
+    <h3>Bối cảnh &amp; cách hoạt động</h3>
+    <p>Morgan Stanley tự xây công cụ nội bộ để chuyển code legacy sang ngôn ngữ hiện đại. DevGen.AI dựa trên GPT của OpenAI, ra mắt tháng 1 (theo WSJ), dịch ngôn ngữ cũ như Perl (1987) thành tiếng Anh thuần làm cơ sở viết lại sang Python.</p>
+    <h3>Con số</h3>
+    <p>Mike Pizzi (Giám đốc toàn cầu công nghệ &amp; vận hành) nói với WSJ: 5 tháng, 9 triệu dòng code, ~280.000 giờ tiết kiệm cho 15.000 lập trình viên.</p>
+    <h3>Vì sao tự xây</h3>
+    <p>Công cụ thương mại thiếu chuyên môn giải mã ngôn ngữ cũ, nhất là ngôn ngữ riêng công ty. "Tự xây đem lại năng lực mà một số sản phẩm thương mại không có… thấy cơ hội đi trước." Huấn luyện trên codebase của hãng, gồm ngôn ngữ tùy biến nội bộ.</p>
+    <h3>Giới hạn &amp; con người trong vòng lặp</h3>
+    <p>Về lý thuyết có thể viết lại từ ngôn ngữ cũ sang mới, nhưng chưa viết code mới hiệu quả/tốt như kỹ sư người. Vì thế giữ con người trong quy trình. Hãng sẽ không giảm đội kỹ sư vì công cụ, dù cắt 2.000/~80.000 nhân sự hồi tháng 3. Hãng cũng có ứng dụng AI khác (tóm tắt họp video, tra cứu kho nghiên cứu). CEO Ted Pick từng nói AI có thể giúp nhân viên tiết kiệm 10–15 giờ/tuần.</p>
+  </section>
+
+  <div class="refs" style="margin-top:26px">
+    <strong>Nguồn tham khảo toàn số:</strong><br>
+    [1] MarketScale — <a href="https://www.marketscale.com/industries/software-and-technology/enterprise-ai-is-generating-business-insights-but-not-saving-money-and-the-governance-gap-is-widening" target="_blank">Enterprise AI ROI lands in unexpected places in 2026</a> (27/07/2026)<br>
+    [2]–[4] CIO Dive — <a href="https://www.ciodive.com/news/keep-ai-costs-in-check-agentic-drives-usage/825476/" target="_blank">chi phí agentic</a>, <a href="https://www.ciodive.com/news/ai-adoption-cyber-defense-governance-gap/825462/" target="_blank">governance gap</a>, <a href="https://www.ciodive.com/news/ai-adoption-surges-as-trust-plummets/825247/" target="_blank">trust plummets</a><br>
+    [5] Entrepreneur (dẫn WSJ), Sherin Shibu — <a href="https://www.entrepreneur.com/business-news/morgan-stanley-builds-ai-tool-that-fixes-major-coding-issue/492697" target="_blank">Morgan Stanley DevGen.AI</a> (03/06/2025)<br>
+    Slashdot — <a href="https://developers.slashdot.org/story/25/06/04/1233253/morgan-stanley-says-its-ai-tool-processed-9-million-lines-of-legacy-code-this-year-and-saved-280000-developer-hours" target="_blank">9 million lines / 280,000 hours</a> (04/06/2025)<br>
+    [6] Devox Software — <a href="https://devoxsoftware.com/blog/the-2026-legacy-modernization-report-research-insights-and-strategic-roadmap/" target="_blank">The 2026 Legacy Modernization Report</a> (dùng cho khung xu hướng)
+  </div>
+
+  <div class="foot"><a href="/" style="color:#4338ca;text-decoration:none">← Về trang bìa lưu trữ</a></div>
+</div>
+</body>
+</html>
