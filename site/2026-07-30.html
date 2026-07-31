@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agentic AI migrate 687.600 dòng .NET & "AI có chủ đích" trong SaaS · 30/07/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.dich{background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;padding:16px 20px;margin-top:16px}
+.dich .flag{font-size:12.5px;color:#94a3b8;font-style:italic;margin-bottom:8px}
+.dich h3{font-size:16px;margin:14px 0 4px}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 30/07/2026</div>
+    <h1 class="title">Agentic AI migrate 687.600 dòng .NET &amp; "AI có chủ đích" trong SaaS</h1>
+    <div class="meta">30/07/2026 · Thời lượng đọc ~17 phút · Nguồn: AWS Customer Stories (cập nhật 18/06/2026); Business of Apps / Designli (17/02/2026)</div>
+  </header>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1">Experian × AWS Transform: agentic AI nâng cấp 7 ứng dụng .NET legacy</a></li>
+      <li><a href="#bai2">"AI có chủ đích, không phải AI tự động": SaaS founder thực sự làm gì với AI</a></li>
+      <li><a href="#gocnhin">Góc nhìn: số liệu marketing vs. con số công ty tự công bố</a></li>
+      <li><a href="#dich1">📖 Lược dịch — Experian tăng tốc hiện đại hóa .NET bằng agentic AI (AWS)</a></li>
+      <li><a href="#dich2">📖 Lược dịch — AI disruption 2026: SaaS founder thực sự làm gì (Business of Apps)</a></li>
+    </ol>
+  </nav>
+
+  <!-- BÀI 1 -->
+  <article class="card" id="bai1">
+    <span class="tag legacy">Hiện đại hóa legacy</span>
+    <h2 class="head">1 · Experian × AWS Transform: đội agentic AI nâng cấp 7 ứng dụng .NET Framework legacy</h2>
+    <p class="src">Nguồn: AWS Customer Stories — "How Experian Accelerates .NET Modernization Using Agentic AI" · cập nhật 18/06/2026 · <a href="https://aws.amazon.com/solutions/case-studies/experian-agenticai/" target="_blank">aws.amazon.com</a></p>
+
+    <div class="stat">
+      <div class="box"><div class="num">~40%</div><div class="lab">giảm công sức lập trình viên trên 7 dự án nâng cấp .NET <a href="https://aws.amazon.com/solutions/case-studies/experian-agenticai/" target="_blank">(AWS, 2026)</a></div></div>
+      <div class="box"><div class="num">687.600</div><div class="lab">dòng code được chuyển đổi tự động <a href="https://aws.amazon.com/solutions/case-studies/experian-agenticai/" target="_blank">(AWS, 2026)</a></div></div>
+      <div class="box"><div class="num">~300</div><div class="lab">ngày-công kỹ sư tiết kiệm trên 7 dự án <a href="https://aws.amazon.com/solutions/case-studies/experian-agenticai/" target="_blank">(AWS, 2026)</a></div></div>
+    </div>
+
+    <p>Experian Data Office — bộ phận sở hữu và quản lý toàn bộ dữ liệu tín dụng người tiêu dùng &amp; doanh nghiệp của Experian tại Anh &amp; Ireland — có 7 ứng dụng nội bộ chạy trên các bản .NET Framework cũ. Theo lời ông Anup Pancholi, Principal Director of Technology &amp; Software Engineering: <em>"Như nhiều ứng dụng legacy, chúng tốn kém để bảo trì, mất thời gian để cập nhật, và đang kìm hãm đổi mới. Nâng cấp code thủ công sẽ mất quá lâu."</em><sup><a href="https://aws.amazon.com/solutions/case-studies/experian-agenticai/" target="_blank">[1]</a></sup> Việc lập một chương trình migrate thủ công còn buộc phải rút người khỏi các dự án có tác động cao khác.<sup><a href="https://aws.amazon.com/solutions/case-studies/experian-agenticai/" target="_blank">[1]</a></sup></p>
+
+    <p>Đội này dùng <strong>AWS Transform</strong> — mà AWS mô tả là "dịch vụ agentic AI đầu tiên để hiện đại hóa ứng dụng .NET ở quy mô lớn" — để chuyển cả 7 ứng dụng sang <strong>.NET 8.0</strong>. Kết quả tự công bố: <em>"Chúng tôi đạt mức giảm khoảng 40% công sức lập trình viên trên 7 dự án nâng cấp .NET framework"</em>, với <strong>687.600 dòng code</strong> được chuyển đổi qua tự động hóa, tiết kiệm <strong>khoảng 300 ngày-công kỹ sư</strong>.<sup><a href="https://aws.amazon.com/solutions/case-studies/experian-agenticai/" target="_blank">[1]</a></sup> Họ còn dùng <strong>Amazon Q Developer Security Scan</strong> để dò lỗ hổng, và chuyển sang container bằng <strong>Amazon EKS</strong> để mở rộng tài nguyên theo nhu cầu.<sup><a href="https://aws.amazon.com/solutions/case-studies/experian-agenticai/" target="_blank">[1]</a></sup></p>
+
+    <p>Về cách vận hành: đội chạy nhiều job song song qua giao diện web của AWS Transform, có checkpoint tái xác thực cho các job chạy dài và năng lực agentic thích ứng theo thời gian thực; đồng thời năng lực tương tự cũng có trong IDE để lập trình viên xử lý những ứng dụng cần chú ý riêng.<sup><a href="https://aws.amazon.com/solutions/case-studies/experian-agenticai/" target="_blank">[1]</a></sup> Pancholi nhấn mạnh lợi ích: hiệu năng tốt hơn, tự động hóa triển khai cải thiện, kết quả nhất quán qua 7 lần nâng cấp — và quan trọng là <em>"gỡ bỏ được phần việc thủ công mà kỹ sư không có băng thông làm, để tập trung tạo giá trị cho doanh nghiệp"</em>.<sup><a href="https://aws.amazon.com/solutions/case-studies/experian-agenticai/" target="_blank">[1]</a></sup></p>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> Cảnh giác với con số marketing. Nhiều blog tổng hợp gán cho case này mức "80% tự động hóa" hoặc "giảm từ 15 xuống 8 sprint (47%)", nhưng bản case study chính chủ của Experian trên AWS chỉ nêu <strong>~40% giảm công sức</strong> và <strong>687.600 dòng chuyển đổi tự động</strong>. Khi trích số, luôn về tận nguồn gốc — đừng dừng ở snippet. Và giá trị lớn nhất của AI ở đây không phải "viết lại 100%" mà là <em>gánh phần việc lặp lại</em> để kỹ sư tập trung vào phần khó.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> AWS Customer Stories, "How Experian Accelerates .NET Modernization Using Agentic AI", cập nhật 18/06/2026 — <a href="https://aws.amazon.com/solutions/case-studies/experian-agenticai/" target="_blank">link</a>. Về công cụ: AWS Transform for .NET — <a href="https://aws.amazon.com/transform/windows/net/" target="_blank">trang sản phẩm</a> (AWS nói tăng tốc tới ~4x).</div>
+  </article>
+
+  <!-- BÀI 2 -->
+  <article class="card" id="bai2">
+    <span class="tag saas">AI trong SaaS</span>
+    <h2 class="head">2 · "AI có chủ đích, không phải AI tự động": các SaaS founder thực sự làm gì với AI</h2>
+    <p class="src">Nguồn: Business of Apps — Keith Shields (CEO Designli), "AI disruption in 2026: What SaaS founders are actually doing" · 17/02/2026 · khảo sát của Designli · <a href="https://www.businessofapps.com/insights/ai-disruption-in-2026-what-saas-founders-are-actually-doing/" target="_blank">businessofapps.com</a></p>
+
+    <p>Designli khảo sát các founder, product manager và operator ở nhiều ngành (y tế, marketing, sports tech, IoT, công cụ B2B, PaaS) để lập bản đồ cách đội SaaS thực sự nghĩ về AI — thay vì tô hồng hay cảnh báo. Phát hiện gốc: adoption <strong>không đồng đều</strong>, và nền tảng của founder định hình cách họ nghĩ về AI.<sup><a href="https://www.businessofapps.com/insights/ai-disruption-in-2026-what-saas-founders-are-actually-doing/" target="_blank">[2]</a></sup></p>
+
+    <div class="doslist">
+      <div>🛠️ <strong>Founder kỹ thuật</strong> lo về thực thi: AI tác động thế nào tới kiến trúc hiện có, chi phí tính toán &amp; bảo trì, khả năng tiếp cận và kiểm soát dữ liệu.</div>
+      <div>📈 <strong>Founder phi kỹ thuật</strong> lo về kết quả: AI tạo giá trị cho người dùng ở đâu, khác biệt hóa sản phẩm ra sao, và rủi ro độ tin cậy / xây nhầm tính năng.</div>
+    </div>
+
+    <p>Khi hỏi AI giúp ích nhất ở đâu, câu trả lời nghiêng về <em>ứng dụng thực dụng, tăng hiệu quả</em> hơn là tính năng AI "lấp lánh": tự động hóa nội bộ (billing, đối soát, quy trình thủ công, QA), workflow tăng năng suất (phân tích, tóm tắt, gắn nhãn nội dung), onboarding thích ứng &amp; gợi ý theo ngữ cảnh, và phân tích dự báo. Một nhận định đáng nhớ: <em>"AI không cần hướng ra khách hàng mới tạo được giá trị."</em><sup><a href="https://www.businessofapps.com/insights/ai-disruption-in-2026-what-saas-founders-are-actually-doing/" target="_blank">[2]</a></sup></p>
+
+    <p>Nỗi lo lớn nhất không phải "AI có hợp thời không" mà là rủi ro thực thi: xây nhầm thứ quá sớm, chi phí bảo trì/độ tin cậy khi scale, làm sản phẩm phức tạp thêm, và bảo mật/quyền riêng tư dữ liệu.<sup><a href="https://www.businessofapps.com/insights/ai-disruption-in-2026-what-saas-founders-are-actually-doing/" target="_blank">[2]</a></sup> Đáng chú ý, AI <em>hiếm khi</em> được nêu là yếu tố khác biệt hóa chính — các đội tập trung vào chuyên biệt hóa ngách, cải thiện workflow/UX, chất lượng dịch vụ và sự đơn giản.<sup><a href="https://www.businessofapps.com/insights/ai-disruption-in-2026-what-saas-founders-are-actually-doing/" target="_blank">[2]</a></sup></p>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> Bài viết đưa ra 4 tín hiệu "đã đến lúc" thêm AI — dùng làm checklist trước khi code: (1) có nhu cầu rõ / yêu cầu lặp lại từ người dùng; (2) use case gắn thẳng với kết quả đo được (tiết kiệm thời gian, giảm chi phí, tăng engagement); (3) dữ liệu sạch, đáng tin và có đường tích hợp rõ; (4) AI hỗ trợ một workflow đã có thay vì tạo workflow hoàn toàn mới.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> Business of Apps (partner post của Designli), Keith Shields, "AI disruption in 2026: What SaaS founders are actually doing", 17/02/2026 — <a href="https://www.businessofapps.com/insights/ai-disruption-in-2026-what-saas-founders-are-actually-doing/" target="_blank">link</a>. Lưu ý: đây là khảo sát định tính (không công bố cỡ mẫu &amp; số liệu %), do một agency phát triển sản phẩm thực hiện — đọc như "tiếng nói từ thực địa", không phải benchmark có kiểm định.</div>
+  </article>
+
+  <!-- GÓC NHÌN -->
+  <article class="card" id="gocnhin">
+    <span class="tag view">Góc nhìn</span>
+    <h2 class="head">3 · Cùng một sự kiện, hai loại con số — và vì sao phải về tận nguồn</h2>
+    <p>Hai bài hôm nay tình cờ minh họa một bài học chung về <em>chất lượng dẫn chứng</em>. Với case Experian, một loạt blog "thống kê 2026" thổi lên "80% tự động hóa" và "giảm 47% (từ 15 xuống 8 sprint)", trong khi trang case study chính chủ trên AWS chỉ ghi <strong>~40% giảm công sức</strong> và <strong>687.600 dòng chuyển đổi</strong>.<sup><a href="https://aws.amazon.com/solutions/case-studies/experian-agenticai/" target="_blank">[1]</a></sup> Với chủ đề SaaS, phần lớn "số ROI" trôi nổi trên mạng (5,8x, 171%, 80%…) đến từ các trang tổng hợp không nêu phương pháp; bài khảo sát của Designli thì trung thực là <em>định tính</em>, không gắn con số — và chính vì thế lại đáng tin ở phần định hướng.<sup><a href="https://www.businessofapps.com/insights/ai-disruption-in-2026-what-saas-founders-are-actually-doing/" target="_blank">[2]</a></sup></p>
+    <p><strong>2–3 việc nên làm tuần này:</strong></p>
+    <div class="doslist">
+      <div>• Nếu đang cân nhắc AWS Transform / công cụ agentic migrate tương tự: chọn 1 ứng dụng .NET (hoặc Java) cũ, chạy thử một job và đo <em>tự</em> mức giảm công sức của chính đội mình — đừng mượn con số của người khác.</div>
+      <div>• Lập "checklist 4 tín hiệu" của Designli thành tiêu chí bắt buộc trước khi duyệt bất kỳ tính năng AI nào vào roadmap quý tới.</div>
+      <div>• Khi ai đó trích một "thống kê AI ấn tượng", hỏi lại: nguồn gốc là báo cáo/công ty tự công bố hay blog tổng hợp? Chỉ đưa vào slide nếu về được tận trang gốc.</div>
+    </div>
+  </article>
+
+  <hr class="sep">
+
+  <!-- LƯỢC DỊCH 1 -->
+  <section class="dich" id="dich1">
+    <h2 class="head">📖 Lược dịch chi tiết — Experian tăng tốc hiện đại hóa .NET bằng agentic AI (AWS)</h2>
+    <div class="flag">Bản diễn đạt lại bằng tiếng Việt, bám sát bố cục bài gốc — không phải dịch nguyên văn. <a href="https://aws.amazon.com/solutions/case-studies/experian-agenticai/" target="_blank">Bài gốc</a></div>
+    <h3>Về Experian</h3>
+    <p>Experian là công ty dữ liệu &amp; công nghệ toàn cầu, hoạt động ở nhiều thị trường: dịch vụ tài chính, y tế, ô tô, tài chính nông nghiệp, bảo hiểm… kết hợp dữ liệu, phân tích và phần mềm. Experian Data Office là nền tảng cốt lõi của Experian UK, sở hữu và quản lý toàn bộ dữ liệu người tiêu dùng &amp; doanh nghiệp vùng Anh &amp; Ireland.</p>
+    <h3>Thách thức</h3>
+    <p>Data Office muốn đưa một tập ứng dụng và hạ tầng legacy lên cloud để tăng khả năng mở rộng và bền vững. Họ có 7 ứng dụng nội bộ chạy trên .NET Framework cũ. Nâng cấp thủ công tốn kém, mất thời gian, kìm hãm đổi mới và buộc phải rút người khỏi dự án khác. Việc hiện đại hóa còn khó vì có ứng dụng cần refactor, dựa vào triển khai thủ công, và có thư viện tùy biến phụ thuộc tích hợp với hệ thống như ServiceNow. Họ quyết định migrate sang AWS song song với nâng cấp môi trường .NET.</p>
+    <h3>Tiết kiệm ngày-công &amp; chuyển đổi code đáng kể</h3>
+    <p>Đội dùng AWS Transform — "dịch vụ agentic AI đầu tiên để hiện đại hóa ứng dụng .NET ở quy mô lớn" — để chuyển 7 ứng dụng sang .NET 8.0. Kết quả: giảm khoảng 40% công sức lập trình viên trên 7 dự án; dùng thêm Amazon Q Developer Security Scan để dò lỗ hổng; 687.600 dòng code được chuyển đổi qua tự động hóa. Ông Pancholi cho biết tiết kiệm khoảng 300 ngày-công kỹ sư trên 7 dự án, hỗ trợ một OKR then chốt là nhúng agentic AI &amp; tự động hóa vào các đội. Để chạy nhiều job song song ở quy mô lớn, họ dùng giao diện web của AWS Transform với checkpoint tái xác thực cho job chạy dài và năng lực agentic thích ứng thời gian thực; năng lực tương tự cũng có trong IDE. Họ chọn Amazon EKS để chuyển sang container, mở rộng tài nguyên theo nhu cầu và tăng cường bảo mật.</p>
+    <h3>Bài học &amp; dự án tương lai</h3>
+    <p>Việc tự động hóa 687.600 dòng giúp đội hiểu rõ giới hạn, phần việc thủ công còn lại, và tầm quan trọng của việc lập kế hoạch &amp; kiểm thử đúng cách. Dự án được đánh giá thành công đáng kể trong hiện đại hóa ứng dụng legacy, mang lại hiệu quả rõ và mở đường cho các sáng kiến chiến lược tiếp theo.</p>
+  </section>
+
+  <!-- LƯỢC DỊCH 2 -->
+  <section class="dich" id="dich2">
+    <h2 class="head">📖 Lược dịch chi tiết — AI disruption 2026: SaaS founder thực sự làm gì (Business of Apps)</h2>
+    <div class="flag">Bản diễn đạt lại bằng tiếng Việt, bám sát bố cục bài gốc — không phải dịch nguyên văn. <a href="https://www.businessofapps.com/insights/ai-disruption-in-2026-what-saas-founders-are-actually-doing/" target="_blank">Bài gốc</a></div>
+    <h3>Bối cảnh khảo sát</h3>
+    <p>Để hiểu cách các công ty SaaS xây sản phẩm với AI hôm nay, Designli khảo sát founder, product manager và operator ở nhiều ngành (y tế, marketing, sports tech, IoT, công cụ B2B, PaaS). Mục tiêu không phải tô hồng hay cảnh báo, mà lập bản đồ cách các đội đang học và thích ứng theo thời gian thực. Kết luận: đội SaaS đang tích cực nhúng AI vào sản phẩm và quy trình, nhưng adoption không đồng đều.</p>
+    <h3>Hai lăng kính: founder kỹ thuật vs. phi kỹ thuật</h3>
+    <p>Founder kỹ thuật tập trung vào thách thức triển khai: AI tác động tới kiến trúc hiện có, chi phí tính toán &amp; bảo trì, khả năng tiếp cận và kiểm soát dữ liệu. Founder phi kỹ thuật nhấn mạnh kết quả: AI tạo giá trị người dùng ở đâu, khác biệt hóa ra sao, lo ngại độ tin cậy hoặc xây nhầm tính năng. Đây không phải chia rẽ mà bổ sung cho nhau, cùng định hình cách ưu tiên AI trong roadmap.</p>
+    <h3>AI giúp nhất ở đâu</h3>
+    <p>Câu trả lời nghiêng về ứng dụng thực dụng, tăng hiệu quả hơn là tính năng thử nghiệm hào nhoáng: tự động hóa nội bộ &amp; hiệu quả vận hành (billing, đối soát, quy trình thủ công, QA); workflow tăng năng suất (phân tích, tóm tắt, gắn nhãn, giảm bước); onboarding thông minh &amp; gợi ý cá nhân hóa theo ngữ cảnh; phân tích dự báo &amp; nhận diện tín hiệu rủi ro/cơ hội sớm. Nhận định cốt lõi: AI không cần hướng ra khách hàng mới tạo được giá trị.</p>
+    <h3>Nỗi lo &amp; tín hiệu "đã đến lúc"</h3>
+    <p>Nỗi lo lớn: xây nhầm thứ quá sớm, chi phí bảo trì &amp; khả năng mở rộng, làm sản phẩm phức tạp thêm, bảo mật &amp; quyền riêng tư. Founder không kháng cự AI — họ chỉ thận trọng, muốn rõ về thời điểm, ROI và rủi ro thực thi. Tín hiệu để thêm AI: có nhu cầu/yêu cầu lặp lại rõ ràng; use case gắn với kết quả đo được; dữ liệu sạch, tin cậy và đường tích hợp rõ; AI hỗ trợ workflow đã có thay vì tạo cái mới.</p>
+    <h3>Ưu tiên tính năng &amp; khác biệt hóa</h3>
+    <p>Founder quyết định làm gì tiếp theo dựa trên phản hồi khách hàng, điểm đau workflow nội bộ, tác động doanh thu/retention và áp lực cạnh tranh. Xu hướng AI ảnh hưởng tới nhận thức nhưng hiếm khi tự nó quyết định. Khi prototype, họ ưu tiên tốc độ học hỏi, phù hợp tầm nhìn, UX rõ ràng và cân nhắc đạo đức; validate bằng dogfooding nội bộ, beta giới hạn và lặp công khai. Đáng chú ý, AI hiếm khi là yếu tố khác biệt hóa chính — các đội tập trung vào chuyên biệt hóa ngách, workflow/UX, chất lượng dịch vụ và sự đơn giản. Thông điệp: AI có chủ đích, không phải AI tự động — AI hiệu quả nhất thường lặng lẽ chạy nền, cải thiện workflow và tăng tốc ra quyết định, chứ không nhất thiết là "tính năng tiêu đề".</p>
+  </section>
+
+  <div class="refs" style="margin-top:26px">
+    <strong>Nguồn tham khảo toàn số:</strong><br>
+    [1] AWS Customer Stories — <a href="https://aws.amazon.com/solutions/case-studies/experian-agenticai/" target="_blank">How Experian Accelerates .NET Modernization Using Agentic AI</a> (cập nhật 18/06/2026)<br>
+    [2] Business of Apps / Designli, Keith Shields — <a href="https://www.businessofapps.com/insights/ai-disruption-in-2026-what-saas-founders-are-actually-doing/" target="_blank">AI disruption in 2026: What SaaS founders are actually doing</a> (17/02/2026)
+  </div>
+
+  <div class="foot"><a href="/" style="color:#4338ca;text-decoration:none">← Về trang bìa lưu trữ</a></div>
+</div>
+</body>
+</html>
