@@ -4,9 +4,9 @@ cd /d "%~dp0"
 
 rem ==========================================================
 rem   Dang ky Windows Task Scheduler:
-rem   Moi ngay 07:50 chay run-auto-deploy.bat -> phat hien so moi
+rem   Moi ngay 07:15 chay run-auto-deploy.bat -> phat hien so moi
 rem   trong site\ va tu deploy len Netlify.
-rem   (Cowork tao so luc 07:30, nen 07:50 la an toan.)
+rem   (Cowork tao so luc 07:00, nen 07:15 de day len Netlify.)
 rem
 rem   Chay file nay 1 lan. Neu bao "Access denied", bam chuot phai
 rem   -> "Run as administrator".
@@ -17,10 +17,10 @@ set "RUNNER=%~dp0run-auto-deploy.bat"
 
 echo Dang tao scheduled task: %TASKNAME%
 echo Chay: %RUNNER%
-echo Lich: hang ngay luc 07:50
+echo Lich: hang ngay luc 07:15
 echo.
 
-schtasks /Create /F /SC DAILY /ST 07:50 /TN "%TASKNAME%" /TR "\"%RUNNER%\"" /RL LIMITED
+schtasks /Create /F /SC DAILY /ST 07:15 /TN "%TASKNAME%" /TR "\"%RUNNER%\"" /RL LIMITED
 
 echo.
 if errorlevel 1 (

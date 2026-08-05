@@ -7,8 +7,8 @@ redirects = []
 [functions."*"]
 
 [build]
-publish = "D:\\0-AI\\0-Ban-tin"
-publishOrigin = "default"
+publish = "D:\\0-AI\\0-Ban-tin\\site"
+publishOrigin = "config"
 
 [build.environment]
 
