@@ -1,0 +1,12 @@
+# Cau hinh cho Cloudflare Worker (static assets only).
+# Lenh deploy cua Worker la "npx wrangler deploy" -> se doc file nay.
+# Nho: chi phuc vu thu muc site/ (trang bia + cac so), phuc vu tai ten mien goc.
+# => link tuyet doi /2026-08-07 va / deu dung; Cloudflare tu hieu URL khong duoi .html.
+
+name = "ban-tin-sang-saas"
+compatibility_date = "2026-08-05"
+
+[assets]
+directory = "./site/"
+# Tra ve 404 khi khong tim thay trang (thay vi phuc vu nham file khac)
+not_found_handling = "none"
