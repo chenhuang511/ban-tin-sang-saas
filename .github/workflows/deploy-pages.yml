@@ -1,0 +1,75 @@
+name: Deploy site to GitHub Pages
+
+# Chay khi co push vao main (script deploy-github.bat se push), hoac chay tay.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "site/**"
+      - ".github/workflows/deploy-pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Chi cho 1 lan deploy chay tai mot thoi diem
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Chuan bi thu muc public (fix link subpath + giu link khong .html)
+        env:
+          # GitHub Project Pages phuc vu tai /<ten-repo>/ nen link tuyet doi
+          # dang "/2026-08-07" phai them tien to nay. Neu doi ten repo, sua o day.
+          BASE: /ban-tin-sang-saas
+        run: |
+          set -e
+          rm -rf public
+          mkdir -p public
+          cp -r site/* public/
+
+          # 1) Them tien to BASE vao cac link tuyet doi (href="/..." va href='/...').
+          #    Link đầy đủ https://..., neo #..., va link //... khong bi dung toi.
+          find public -name '*.html' -print0 | xargs -0 sed -i \
+            -e "s#href=\"/\([^/]\)#href=\"$BASE/\1#g" \
+            -e "s#href='/\([^/]\)#href='$BASE/\1#g"
+
+          # 2) Voi moi so YYYY-MM-DD.html, tao them thu muc YYYY-MM-DD/index.html
+          #    de URL dang /2026-08-07 (khong duoi .html) van mo dung tren GitHub Pages.
+          for f in public/*.html; do
+            base="$(basename "$f" .html)"
+            if echo "$base" | grep -Eq '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'; then
+              mkdir -p "public/$base"
+              cp "$f" "public/$base/index.html"
+            fi
+          done
+
+          # Khong dung Jekyll xu ly
+          touch public/.nojekyll
+          echo "--- Noi dung public/ ---"
+          ls -la public
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

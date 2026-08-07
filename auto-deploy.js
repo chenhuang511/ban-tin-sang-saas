@@ -18,7 +18,10 @@ const ROOT  = __dirname;
 const SITE  = path.join(ROOT, 'site');
 const STATE = path.join(ROOT, '.deploy-state.json');
 const LOG   = path.join(ROOT, 'auto-deploy.log');
-const BAT   = path.join(ROOT, 'deploy-netlify.bat');
+
+// Deploy qua GitHub (push -> GitHub Pages Actions). Khong dung credit Netlify.
+// Muon quay lai Netlify: doi 'deploy-github.bat' thanh 'deploy-netlify.bat'.
+const BAT   = path.join(ROOT, 'deploy-github.bat');
 
 function log(msg) {
   const line = `[${new Date().toLocaleString('vi-VN')}] ${msg}`;
@@ -53,7 +56,7 @@ function saveState(sig, files) {
 }
 
 function runDeploy() {
-  log('Bat dau chay deploy-netlify.bat (AUTO)...');
+  log(`Bat dau chay ${path.basename(BAT)} (AUTO)...`);
   const r = spawnSync('cmd.exe', ['/c', BAT], {
     cwd: ROOT,
     env: { ...process.env, AUTO: '1' },

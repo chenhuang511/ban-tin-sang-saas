@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI migrate code được, nhưng ai xác nhận nghiệp vụ còn chạy? &amp; benchmark năng suất 2026 · 06/08/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.dich{background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;padding:16px 20px;margin-top:16px}
+.dich .flag{font-size:12.5px;color:#94a3b8;font-style:italic;margin-bottom:8px}
+.dich h3{font-size:16px;margin:14px 0 4px}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 06/08/2026</div>
+    <h1 class="title">AI migrate được code — nhưng ai xác nhận nghiệp vụ còn chạy? &amp; benchmark năng suất 2026</h1>
+    <div class="meta">06/08/2026 · Thời lượng đọc ~16 phút · Nguồn: Abstracta (11/06/2026); byteiota (18/04/2026)</div>
+  </header>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1">Abstracta: AI dịch code nhanh, nhưng "90% dự án là kiểm thử"</a></li>
+      <li><a href="#bai2">Benchmark năng suất AI 2026: nghịch lý PR &amp; đường cong J của dev kỳ cựu</a></li>
+      <li><a href="#gocnhin">Góc nhìn: nút thắt đã dời từ "viết code" sang "đọc &amp; xác minh code"</a></li>
+      <li><a href="#dich1">📖 Lược dịch — AI migrate code, ai xác nhận nghiệp vụ? (Abstracta)</a></li>
+      <li><a href="#dich2">📖 Lược dịch — Benchmark năng suất AI 2026 (byteiota)</a></li>
+    </ol>
+  </nav>
+
+  <!-- BÀI 1 -->
+  <article class="card" id="bai1">
+    <span class="tag legacy">Hiện đại hóa legacy</span>
+    <h2 class="head">1 · Abstracta: AI dịch được code cũ, nhưng rủi ro thật nằm ở khả năng xác minh nghiệp vụ</h2>
+    <p class="src">Nguồn: Abstracta — Federico Toledo, "AI Can Migrate Code. Who Validates That the Business Still Works?" · đăng 11/06/2026 · <a href="https://abstracta.us/blog/ai/ai-powered-legacy-modernization/" target="_blank">abstracta.us</a></p>
+
+    <div class="stat">
+      <div class="box"><div class="num">&gt;90%</div><div class="lab">tỷ trọng công sức dành cho kiểm thử trong một dự án migrate hệ lõi RPG có thật <a href="https://abstracta.us/blog/ai/ai-powered-legacy-modernization/" target="_blank">(Abstracta, 2026)</a></div></div>
+      <div class="box"><div class="num">1,5 năm</div><div class="lab">thời gian phỏng vấn + dựng lại logic + viết test, trong khi sửa code chỉ ~1,5 tháng <a href="https://abstracta.us/blog/ai/ai-powered-legacy-modernization/" target="_blank">(Abstracta, 2026)</a></div></div>
+      <div class="box"><div class="num">-13,2%</div><div class="lab">cú rớt cổ phiếu 1 ngày của IBM — Abstracta dẫn Reuters (24/02/2026) sau khi Anthropic nói AI có thể hiện đại hóa legacy <a href="https://abstracta.us/blog/ai/ai-powered-legacy-modernization/" target="_blank">(Abstracta dẫn Reuters)</a></div></div>
+    </div>
+
+    <p>Bài mở đầu bằng bối cảnh thị trường: tháng 2/2026, Anthropic ra "The Code Modernization Playbook" và một bài về hiện đại hóa COBOL bằng Claude Code, lập luận rằng agent AI có thể gánh các pha khám phá, phân tích, map phụ thuộc và lập kế hoạch migrate cho hệ thống từng bị coi là "quá phức tạp, quá rủi ro".<sup><a href="https://abstracta.us/blog/ai/ai-powered-legacy-modernization/" target="_blank">[1]</a></sup> Ngay tháng đó, Abstracta dẫn Reuters cho biết IBM hứng cú rớt cổ phiếu một ngày mạnh nhất kể từ năm 2000 — giảm 13,2%.<sup><a href="https://abstracta.us/blog/ai/ai-powered-legacy-modernization/" target="_blank">[1]</a></sup></p>
+
+    <p>Nhưng luận điểm cốt lõi của tác giả (Chief Quality Officer) đi ngược sự phấn khích: AI tăng tốc phần <em>hiểu</em> và <em>biến đổi</em> code, nhưng "khả năng xác nhận hành vi mới là thứ định nghĩa rủi ro thật của một cuộc migrate". Bài viện dẫn định nghĩa kinh điển của Michael Feathers — <em>legacy code là code không có test</em> — để nhấn: nếu không có test, không có observability, không có cách so sánh hành vi, thì ta phụ thuộc vào trực giác và trí nhớ.<sup><a href="https://abstracta.us/blog/ai/ai-powered-legacy-modernization/" target="_blank">[1]</a></sup></p>
+
+    <p>Câu chuyện minh họa: một hệ lõi viết bằng RPG cho chuỗi siêu thị ở Mỹ Latinh, với ràng buộc lịch sử là mã cửa hàng chỉ quản được tối đa 10 điểm bán. Nghe như một thay đổi nhỏ, nhưng dữ liệu đó len vào tài khoản, số dư, dòng tiền, giao dịch và các tiến trình hằng ngày. Nhóm mất <strong>một năm rưỡi</strong> phỏng vấn người nắm nghiệp vụ, tái dựng logic và viết test; phần sửa code chỉ mất khoảng một tháng rưỡi — nghĩa là <strong>hơn 90% dự án là kiểm thử</strong>.<sup><a href="https://abstracta.us/blog/ai/ai-powered-legacy-modernization/" target="_blank">[1]</a></sup></p>
+
+    <p>Chỗ AI thay đổi bài toán: với framework mã nguồn mở <strong>Tero</strong> (agent "trò chuyện với code"), đội có thể hỏi bằng ngôn ngữ tự nhiên — "điều gì xảy ra khi tính lãi nợ quá hạn?", "bảng nào được cập nhật khi xác nhận thao tác này?" — để dựng bản đồ luồng, phụ thuộc và quy tắc nghiệp vụ. Nhưng tác giả cảnh báo: test do model sinh ra có thể có assertion yếu, mock bịa, hardcode dữ liệu; và nút chặn lớn nhất thường không nằm ở code mà ở quyền truy cập môi trường, dữ liệu test thật và người hiểu hệ thống.<sup><a href="https://abstracta.us/blog/ai/ai-powered-legacy-modernization/" target="_blank">[1]</a></sup></p>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> Trước khi để AI viết lại hệ thống cũ, hãy đo <em>năng lực xác minh</em> của bạn: có test cho luồng tới hạn không, có observability không, có đường rollback thực tế không? Dùng "characterization testing" — chụp lại hành vi hệ cũ, chạy cùng kịch bản trên bản mới rồi so kết quả — để mỗi khác biệt đều được phân loại (lỗi mới / sửa có chủ đích / bug lịch sử lộ ra / quy tắc cần giữ). AI để hiểu nhanh; kiểm thử để chứng minh nghiệp vụ còn chạy.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> Abstracta, Federico Toledo — "AI Can Migrate Code. Who Validates That the Business Still Works?", 11/06/2026 — <a href="https://abstracta.us/blog/ai/ai-powered-legacy-modernization/" target="_blank">link</a>. (Số IBM -13,2% là Abstracta dẫn lại Reuters 24/02/2026, chưa fetch trực tiếp bài Reuters.)</div>
+  </article>
+
+  <!-- BÀI 2 -->
+  <article class="card" id="bai2">
+    <span class="tag saas">Quy trình sản xuất</span>
+    <h2 class="head">2 · Benchmark năng suất AI 2026: nghịch lý PR &amp; "đường cong J" của dev kỳ cựu</h2>
+    <p class="src">Nguồn: byteiota — "AI Coding Productivity: 2026 Benchmarks Show Real Impact" · đăng 18/04/2026 · dẫn lại LinearB, METR, Larridin, McKinsey, DX · <a href="https://byteiota.com/ai-coding-productivity-2026-benchmarks-show-real-impact/" target="_blank">byteiota.com</a></p>
+
+    <div class="stat">
+      <div class="box"><div class="num">4,6×</div><div class="lab">PR do AI sinh phải chờ review lâu hơn PR người viết — LinearB phân tích 8,1 triệu PR / 4.800 đội <a href="https://linearb.io/resources/software-engineering-benchmarks-report" target="_blank">(LinearB)</a></div></div>
+      <div class="box"><div class="num">-46%</div><div class="lab">thời gian cho tác vụ code lặp lại, nhưng chỉ &lt;10% với tác vụ độ phức tạp cao — McKinsey khảo sát 4.500 dev / 150 doanh nghiệp <a href="https://www.mckinsey.com/capabilities/tech-and-ai/our-insights/unleashing-developer-productivity-with-generative-ai" target="_blank">(McKinsey)</a></div></div>
+      <div class="box"><div class="num">37 điểm</div><div class="lab">độ đảo chiều của cùng nhóm dev kỳ cựu: từ -19% (chậm) sang +18% (nhanh) sau một năm học nghề — METR <a href="https://metr.org/blog/2026-02-24-uplift-update/" target="_blank">(METR)</a></div></div>
+    </div>
+
+    <p>Dù 84% dev đã dùng công cụ AI và 41% code hiện do AI sinh, mức tăng năng suất vẫn không đồng đều — thậm chí âm.<sup><a href="https://byteiota.com/ai-coding-productivity-2026-benchmarks-show-real-impact/" target="_blank">[2]</a></sup> LinearB (phân tích 8,1 triệu PR trên 4.800 đội) chỉ ra một nghịch lý: PR do AI sinh phải chờ review lâu gấp 4,6 lần PR người viết — nhưng một khi được cầm lên thì review nhanh gấp đôi. Nút thắt đã dịch từ <em>viết code</em> sang <em>đọc code</em>: PR do AI thường vượt 800 dòng, người review soi kỹ hơn vì thiếu tin cậy, và khối lượng PR tăng vọt làm nghẽn năng lực review.<sup><a href="https://byteiota.com/ai-coding-productivity-2026-benchmarks-show-real-impact/" target="_blank">[2]</a></sup></p>
+
+    <p>Về dev kỳ cựu, METR theo dấu cùng một nhóm từ đầu 2025 tới đầu 2026: nghiên cứu đầu cho thấy họ <strong>chậm đi 19%</strong> khi dùng AI; một năm sau, với công cụ tốt hơn và quy trình đã học được, chính họ <strong>nhanh hơn 18%</strong> — một cú đảo chiều 37 điểm cho thấy đường cong học nghề là có thật. Nhóm mới 57 dev trong bản cập nhật 2026 chỉ còn chậm 4% (khoảng tin cậy -15% đến +9%), tức đang tiến gần vùng trung tính.<sup><a href="https://byteiota.com/ai-coding-productivity-2026-benchmarks-show-real-impact/" target="_blank">[2]</a></sup> Ngược lại, junior nhanh hơn tới 39% vì chưa có thói quen code phải "gỡ bỏ".<sup><a href="https://byteiota.com/ai-coding-productivity-2026-benchmarks-show-real-impact/" target="_blank">[2]</a></sup></p>
+
+    <div class="doslist">
+      <div>✅ <strong>Đội "elite" làm gì:</strong> giữ &gt;80% weekly active AI toàn đội, tỷ trọng code AI 60–75%, PR cycle time dưới 8 giờ, code turnover dưới 1,3× so với người viết — đạt hệ số năng suất 1,8–2,0×.<sup><a href="https://byteiota.com/ai-coding-productivity-2026-benchmarks-show-real-impact/" target="_blank">[2]</a></sup></div>
+      <div>❌ <strong>Vẫn dễ hụt:</strong> để tỷ trọng code AI trôi quá 40% mà không có governance khiến chất lượng xuống; industry avg code turnover 2026 đang ở 1,8–2,5× (còn nhiều dư địa cải thiện).<sup><a href="https://byteiota.com/ai-coding-productivity-2026-benchmarks-show-real-impact/" target="_blank">[2]</a></sup></div>
+    </div>
+
+    <p>Bài nhấn: đo lường trở thành bắt buộc. Đội dùng khung đo kiểu FinOps có xác suất đạt/vượt kỳ vọng ROI cao gấp 2,5 lần; dev thường tin mình nhanh hơn 20% nhưng dữ liệu lại cho thấy chậm hơn khi tính cả thời gian review và code churn.<sup><a href="https://byteiota.com/ai-coding-productivity-2026-benchmarks-show-real-impact/" target="_blank">[2]</a></sup> Chỉ số DX Index (4 triệu điểm dữ liệu, 800 tổ chức) ước tính mỗi 1 điểm cải thiện tiết kiệm 13 phút/dev/tuần — cỡ 100.000 USD/năm cho đội 100 dev.<sup><a href="https://getdx.com/research/the-one-number-you-need-to-increase-roi-per-engineer/" target="_blank">[2]</a></sup></p>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> Đừng đo "tỷ lệ dùng AI" rồi tự khen. Tách riêng chỉ số AI vs người viết, đặt "quality gate" theo ngưỡng code turnover, thêm AI pre-review để cắt vòng lặp trước khi con người xem, và giữ tỷ trọng code AI ở vùng bền vững 25–40%. Với dev kỳ cựu: cho thời gian và đào tạo để vượt qua đáy đường cong J thay vì kỳ vọng nhanh ngay.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> byteiota, "AI Coding Productivity: 2026 Benchmarks Show Real Impact", 18/04/2026 — <a href="https://byteiota.com/ai-coding-productivity-2026-benchmarks-show-real-impact/" target="_blank">link</a>. Số liệu gốc: <a href="https://linearb.io/resources/software-engineering-benchmarks-report" target="_blank">LinearB</a>, <a href="https://metr.org/blog/2026-02-24-uplift-update/" target="_blank">METR</a>, <a href="https://larridin.com/developer-productivity-hub/developer-productivity-benchmarks-2026" target="_blank">Larridin</a>, <a href="https://www.mckinsey.com/capabilities/tech-and-ai/our-insights/unleashing-developer-productivity-with-generative-ai" target="_blank">McKinsey</a>.</div>
+  </article>
+
+  <!-- GÓC NHÌN -->
+  <article class="card" id="gocnhin">
+    <span class="tag view">Góc nhìn</span>
+    <h2 class="head">3 · Nút thắt đã dời từ "viết code" sang "đọc &amp; xác minh code"</h2>
+    <p>Hai bài hôm nay tuy khác chủ đề nhưng gặp nhau ở một điểm: AI đã giỏi <em>sinh</em> và <em>biến đổi</em> code — kể cả code RPG/COBOL nhiều chục năm — nên phần khó đọng lại đều nằm ở khâu <strong>xác minh</strong>. Ở migrate legacy, Abstracta gọi thẳng: "hơn 90% dự án là kiểm thử" và rủi ro thật là năng lực chứng minh nghiệp vụ còn chạy.<sup><a href="https://abstracta.us/blog/ai/ai-powered-legacy-modernization/" target="_blank">[1]</a></sup> Ở phát triển hằng ngày, byteiota cho thấy nút thắt dịch từ viết sang đọc: PR do AI sinh chờ review lâu 4,6× và senior thành "người đọc" nhiều hơn "người viết".<sup><a href="https://byteiota.com/ai-coding-productivity-2026-benchmarks-show-real-impact/" target="_blank">[2]</a></sup> Bài học chung: giá trị AI chỉ hiện thực khi có test, observability và thước đo — không phải khi sinh thêm nhiều code.</p>
+    <p><strong>2–3 việc nên làm tuần này:</strong></p>
+    <div class="doslist">
+      <div>• Chọn 1 module cũ sắp phải đụng tới và chạy "characterization test" (chụp input/output hiện tại) trước khi cho AI viết lại — để có mốc so sánh.</div>
+      <div>• Đo lại quy trình review: nếu PR do AI đang phình &gt;800 dòng, đặt trần diff-size và thử AI pre-review 60 giây trước khi người xem.</div>
+      <div>• Tách bảng chỉ số AI vs người viết (code turnover 30/90 ngày, PR cycle time) để biết tỷ trọng code AI của đội đang ở vùng bền vững hay đã vượt ngưỡng.</div>
+    </div>
+  </article>
+
+  <hr class="sep">
+
+  <!-- LƯỢC DỊCH 1 -->
+  <section class="dich" id="dich1">
+    <h2 class="head">📖 Lược dịch chi tiết — AI migrate code, ai xác nhận nghiệp vụ còn chạy? (Abstracta)</h2>
+    <div class="flag">Bản diễn đạt lại bằng tiếng Việt, bám sát bố cục bài gốc — không phải dịch nguyên văn. <a href="https://abstracta.us/blog/ai/ai-powered-legacy-modernization/" target="_blank">Bài gốc</a></div>
+    <h3>Bối cảnh thị trường</h3>
+    <p>Hiện đại hóa hệ thống cũ trở lại tâm điểm. Nhiều năm qua, doanh nghiệp biết phải làm nhưng ngại vì dự án kéo dài, tốn kém và rủi ro. AI thay đổi một phần phương trình: agent có thể đọc codebase lớn, tái dựng logic nghiệp vụ khi chuyển stack, sinh tài liệu, đề xuất kịch bản test, nhận diện phụ thuộc. Tháng 2/2026, Anthropic ra "The Code Modernization Playbook" và bài về COBOL với Claude Code; cùng tháng, Abstracta dẫn Reuters rằng IBM rớt 13,2% giá cổ phiếu trong một ngày — mạnh nhất kể từ 2000.</p>
+    <h3>Điều then chốt trước khi migrate</h3>
+    <p>Với hệ thống tới hạn, tổ chức cần biết: hành vi nào phải giữ, hành vi đó thể hiện ở đâu trong code hôm nay, và bằng chứng nào dùng để so với bản mới. Nghĩa là xác định quy tắc nghiệp vụ, luồng, dữ liệu, tích hợp, ngoại lệ, tiến trình batch, phân quyền, báo cáo; rồi định nghĩa test, trace, metric và tiêu chí chấp nhận. Năng lực quan sát–so sánh–xác minh này quyết định mức rủi ro có thể nhận ở mỗi giai đoạn.</p>
+    <h3>Code legacy vẫn nuôi doanh nghiệp thật</h3>
+    <p>Legacy không phải "phần mềm không ai muốn động tới" mà đang chạy mỗi ngày: xử lý giao dịch, tính lãi, chuyển tiền, quản kho — trong ngân hàng, bảo hiểm, bán lẻ, y tế, viễn thông. Chúng ổn định, tích hợp sâu, gói ghém vô số ngoại lệ tích lũy qua năm tháng và tri thức vận hành thường không được tài liệu hóa đầy đủ. Khó khăn xuất hiện khi phải thay đổi: lên cloud, đổi nền tảng hết hỗ trợ, giảm phụ thuộc nhà cung cấp, tích hợp kênh số mới.</p>
+    <h3>Phần khó là biết cái gì đã đổi</h3>
+    <p>Theo định nghĩa của Michael Feathers, legacy code là code không có test. Thiếu test/observability/cách so sánh hành vi thì phải dựa vào trực giác và trí nhớ. Mỗi khác biệt giữa hệ cũ và mới cần phân tích: có thể là lỗi mới, sửa có chủ đích, bug lịch sử lộ ra, hoặc quy tắc cần giữ.</p>
+    <h3>Câu chuyện siêu thị RPG</h3>
+    <p>Một hệ lõi RPG cho chuỗi siêu thị Mỹ Latinh có ràng buộc: mã cửa hàng chỉ quản tối đa 10 điểm bán. Khi công ty muốn mở rộng địa bàn, thay đổi tưởng nhỏ này lại xuyên qua tài khoản, số dư, dòng tiền, giao dịch. Tài liệu lỗi thời hoặc không tồn tại; nhiều module không ai giải thích nổi. Đội mất một năm rưỡi phỏng vấn, dựng lại logic và viết test; sửa code chỉ khoảng một tháng rưỡi — hơn 90% dự án là kiểm thử. Bài học: nhiều cuộc migrate bị hoãn hoặc đắt đỏ vì việc xác nhận thay đổi khó hơn việc viết thay đổi.</p>
+    <h3>AI thay đổi gì — và Tero</h3>
+    <p>AI cho tầm với lớn hơn để nghiên cứu hệ cũ trước khi sửa: điều hướng khối thông tin, nhận diện phụ thuộc, phát hiện quy tắc, biến tri thức rải rác thành đầu vào để đội xem. Với Tero — framework mã nguồn mở dựng agent làm việc theo ngữ cảnh — có thể hỏi bằng ngôn ngữ tự nhiên: tính lãi nợ quá hạn ra sao, bảng nào cập nhật khi xác nhận, API nào tham gia, dữ liệu được kiểm ở đâu. Câu trả lời là "giả thuyết làm việc" để đội điều tra và ưu tiên luồng tới hạn; con người vẫn ở trung tâm.</p>
+    <h3>Kiểm thử trong migrate nghĩa là gì</h3>
+    <p>Trọng tâm là chứng minh tương đương: bản mới phải giữ hành vi tới hạn của hệ cũ. "Characterization testing" là cách thực dụng — chụp cách hệ cũ hành xử, chạy cùng kịch bản trên bản mới, so kết quả; mọi khác biệt được phân loại. Xác thực ở hai lớp: (1) chức năng/nghiệp vụ — tài liệu hóa tiến trình, phỏng vấn người dùng, thiết kế test theo rủi ro; (2) kỹ thuật/bằng chứng — phân tích code, log, phụ thuộc, dữ liệu, khả năng tự động hóa.</p>
+    <h3>AI hỗ trợ nhưng không thay phán đoán</h3>
+    <p>Test do model sinh có thể có assertion yếu, mock bịa, hardcode dữ liệu, phủ đường không thực tế. Nút chặn lớn nhất thường là quyền truy cập môi trường, repo, license, dữ liệu test thật, và người hiểu hệ thống. Trước khi migrate, Abstracta đo "năng lực xác minh" qua nhiều chiều (test chức năng, tích hợp/hợp đồng API, regression liên tục, baseline hiệu năng, observability, lịch sử sự cố, khả năng rollback, tri thức sẵn có) rồi phân loại rủi ro từng phần. Phương pháp chia "slice" 6 pha: khám phá &amp; baseline → chiến lược migrate → xác thực hành vi → triển khai → cutover &amp; rollout → ổn định &amp; bàn giao. Kết luận: trong hệ tới hạn, trách nhiệm vẫn là của con người — dùng AI để tăng tốc, dùng quality engineering để chứng minh nghiệp vụ còn chạy đúng.</p>
+  </section>
+
+  <!-- LƯỢC DỊCH 2 -->
+  <section class="dich" id="dich2">
+    <h2 class="head">📖 Lược dịch chi tiết — Benchmark năng suất AI 2026 (byteiota)</h2>
+    <div class="flag">Bản diễn đạt lại bằng tiếng Việt, bám sát bố cục bài gốc — không phải dịch nguyên văn. <a href="https://byteiota.com/ai-coding-productivity-2026-benchmarks-show-real-impact/" target="_blank">Bài gốc</a></div>
+    <h3>Nghịch lý năng suất</h3>
+    <p>84% dev dùng công cụ AI, 41% code do AI sinh, nhưng mức tăng năng suất bấp bênh, có khi âm. LinearB (8,1 triệu PR, 4.800 đội) cho thấy PR do AI chờ review lâu gấp 4,6 lần — nghẽn ở khâu đọc chứ không phải viết. METR cho thấy dev kỳ cựu chậm 18% khi dùng AI, đi ngược cả cảm nhận lẫn kỳ vọng ngành.</p>
+    <h3>Vì sao PR do AI tạo nút thắt review</h3>
+    <p>Ba nguyên nhân: PR do AI thường vượt 800 dòng, tốn nhiều thời gian và tải nhận thức; người review soi kỹ hơn vì khoảng cách niềm tin, phải xác minh AI hiểu đúng ngữ cảnh; khối lượng PR tăng vọt làm quá tải năng lực review. Senior giờ đọc nhiều hơn viết, hàng đợi review thành điểm giới hạn của cả đội. Đội giỏi tối ưu chính quy trình review bằng AI pre-review trả phản hồi có cấu trúc trong 60 giây.</p>
+    <h3>Đội elite làm khác</h3>
+    <p>Đội top đạt hệ số 1,8–2,0× nhờ kết hợp tỷ lệ dùng cao + tối ưu quy trình + quality gate. Larridin 2026: elite giữ &gt;80% weekly active AI toàn đội, tỷ trọng code AI 60–75%, PR cycle time dưới 8 giờ, code turnover dưới 1,3× baseline người. Ngành hội tụ về CAT (Complexity-Adjusted Throughput): PR dễ 1 điểm, trung bình 3, khó 8; baseline ~8 điểm/kỹ sư/tuần, có AI đạt ~12; nhưng hệ số nén lại ở việc khó vì AI hiện hỗ trợ việc khó kém hơn việc dễ/trung bình.</p>
+    <h3>Code turnover là thước đo chất lượng</h3>
+    <p>Code turnover = % code đã merge bị revert/xóa/viết lại nhiều trong 30–90 ngày. Lành mạnh: dưới 15% ở 30 ngày, dưới 22% ở 90 ngày; tỷ lệ turnover AI/người nên trong 1,5×, nhưng industry avg 2026 đang 1,8–2,5×. Giữ tỷ trọng code AI 25–40% giúp tránh xuống chất lượng; đội có governance mạnh mới bền được ở 60–75%.</p>
+    <h3>Đường cong học nghề của dev kỳ cựu</h3>
+    <p>METR theo cùng nhóm dev kỳ cựu: nghiên cứu đầu -19% (chậm), một năm sau +18% (nhanh) — đảo chiều 37 điểm. Nhóm mới 57 dev chỉ còn -4% (khoảng tin cậy -15% đến +9%). Junior nhanh hơn 39% với Copilot; senior chỉ cải thiện 8–16% ban đầu vì phải "gỡ bỏ" thói quen cũ. Mẫu J-curve: tụt lúc mới, dần cải thiện khi thử nghiệm, tăng mạnh sau khi thành thạo.</p>
+    <h3>Độ phức tạp quyết định hiệu quả AI</h3>
+    <p>McKinsey (4.500 dev, 150 doanh nghiệp): AI giảm 46% thời gian cho tác vụ code lặp lại, nhưng dưới 10% với tác vụ phức tạp cao. AI mạnh ở boilerplate, dịch ngôn ngữ, sinh test, viết tài liệu, refactor đơn giản; yếu ở debug phức tạp, quyết định kiến trúc, framework lạ, refactor toàn hệ, tối ưu hiệu năng, code bảo mật.</p>
+    <h3>Đo lường thành bắt buộc</h3>
+    <p>Đội dùng khung đo kiểu FinOps có xác suất đạt/vượt ROI cao gấp 2,5 lần. Khoảng cách cảm nhận–thực tế: dev tin nhanh hơn 20% nhưng dữ liệu thường cho thấy chậm hơn khi tính review + churn. Elite theo 5 nhóm chỉ số: adoption, velocity, quality, process, ROI. DX Index (4 triệu điểm dữ liệu, 800 tổ chức): mỗi 1 điểm cải thiện tiết kiệm 13 phút/dev/tuần ≈ 100.000 USD/năm cho đội 100 dev. Thông điệp: không đo thì không cải thiện được.</p>
+  </section>
+
+  <div class="refs" style="margin-top:26px">
+    <strong>Nguồn tham khảo toàn số:</strong><br>
+    [1] Abstracta, Federico Toledo — <a href="https://abstracta.us/blog/ai/ai-powered-legacy-modernization/" target="_blank">AI Can Migrate Code. Who Validates That the Business Still Works?</a> (11/06/2026). Con số IBM -13,2% do Abstracta dẫn lại Reuters (24/02/2026).<br>
+    [2] byteiota — <a href="https://byteiota.com/ai-coding-productivity-2026-benchmarks-show-real-impact/" target="_blank">AI Coding Productivity: 2026 Benchmarks Show Real Impact</a> (18/04/2026), tổng hợp số liệu từ <a href="https://linearb.io/resources/software-engineering-benchmarks-report" target="_blank">LinearB</a>, <a href="https://metr.org/blog/2026-02-24-uplift-update/" target="_blank">METR</a>, <a href="https://larridin.com/developer-productivity-hub/developer-productivity-benchmarks-2026" target="_blank">Larridin</a>, <a href="https://www.mckinsey.com/capabilities/tech-and-ai/our-insights/unleashing-developer-productivity-with-generative-ai" target="_blank">McKinsey</a>, <a href="https://getdx.com/research/the-one-number-you-need-to-increase-roi-per-engineer/" target="_blank">DX</a>.
+  </div>
+
+  <div class="foot"><a href="/" style="color:#4338ca;text-decoration:none">← Về trang bìa lưu trữ</a></div>
+</div>
+</body>
+</html>

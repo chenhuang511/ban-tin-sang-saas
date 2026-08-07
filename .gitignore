@@ -1,0 +1,10 @@
+# Bi mat - KHONG bao gio push len GitHub
+netlify-token.txt
+
+# File trang thai / log chay ngam - khong can day len repo
+auto-deploy.log
+.deploy-state.json
+
+# Rac
+node_modules/
+*.tmp

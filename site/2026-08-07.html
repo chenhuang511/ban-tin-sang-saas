@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI vừa trả nợ kỹ thuật vừa tạo nợ mới: 110.000 lỗi sống sót & bài học "Ref-AI-ctoring" · 07/08/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.proc{background:#eff6ff;color:#1d4ed8}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.dich{background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;padding:16px 20px;margin-top:16px}
+.dich .flag{font-size:12.5px;color:#94a3b8;font-style:italic;margin-bottom:8px}
+.dich h3{font-size:16px;margin:14px 0 4px}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+table.mini{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px}
+table.mini th,table.mini td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left}
+table.mini th{background:#f3f4f6;font-weight:700}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 07/08/2026</div>
+    <h1 class="title">AI vừa trả nợ kỹ thuật vừa tạo nợ mới: "Ref-AI-ctoring" &amp; 110.000 lỗi còn sống trong repo thật</h1>
+    <div class="meta">07/08/2026 · Thời lượng đọc ~17 phút · Nguồn: Thoughtworks (18/06/2026); arXiv "Debt Behind the AI Boom" (03/2026)</div>
+  </header>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1">Thoughtworks: dùng AI xoá "1,5 năm rủi ro" của một thư viện chết trong chưa đầy 1 tháng</a></li>
+      <li><a href="#bai2">Nghiên cứu 304.362 commit AI: 24,2% lỗi còn sống, nợ tích lên 110.000</a></li>
+      <li><a href="#gocnhin">Góc nhìn: cùng một AI, trả nợ ở đầu này thì đẻ nợ ở đầu kia</a></li>
+      <li><a href="#dich1">📖 Lược dịch — Ref-AI-ctoring (Thoughtworks)</a></li>
+      <li><a href="#dich2">📖 Lược dịch — Debt Behind the AI Boom (arXiv)</a></li>
+    </ol>
+  </nav>
+
+  <!-- BÀI 1 -->
+  <article class="card" id="bai1">
+    <span class="tag legacy">Hiện đại hóa legacy</span>
+    <h2 class="head">1 · Thoughtworks: "Ref-AI-ctoring" — dùng AI để hiểu hệ cũ, gỡ một thư viện chết đang phá hệ thống</h2>
+    <p class="src">Nguồn: Thoughtworks Blog — Mario Fernández Pacheco, "Generative ref-AI-ctoring: Solving tech debt in the age of AI" · đăng 18/06/2026 · <a href="https://www.thoughtworks.com/insights/blog/generative-ai/generative-ai-refactoring" target="_blank">thoughtworks.com</a></p>
+
+    <div class="stat">
+      <div class="box"><div class="num">&lt; 1 tháng</div><div class="lab">gỡ xong phụ thuộc lỗi, xoá "1,5 năm rủi ro" tồn đọng <a href="https://www.thoughtworks.com/insights/blog/generative-ai/generative-ai-refactoring" target="_blank">(Thoughtworks, 2026)</a></div></div>
+      <div class="box"><div class="num">nhiều giờ/ngày</div><div class="lab">thời gian đội phải "chữa cháy" thủ công trước khi dùng AI <a href="https://www.thoughtworks.com/insights/blog/generative-ai/generative-ai-refactoring" target="_blank">(Thoughtworks, 2026)</a></div></div>
+      <div class="box"><div class="num">TDD</div><div class="lab">rào chắn duy nhất họ dựa vào để cho agent tự do đề xuất <a href="https://www.thoughtworks.com/insights/blog/generative-ai/generative-ai-refactoring" target="_blank">(Thoughtworks, 2026)</a></div></div>
+    </div>
+
+    <p>Tác giả — kỹ sư của Thoughtworks — kể một tình huống rất đời: một component bên thứ ba mà hệ thống của họ phụ thuộc <em>đột ngột bị ngừng bảo trì</em>. Chỉ vài tháng sau, nó bắt đầu tạo ra những lỗ hổng bảo mật nghiêm trọng; vì không thể thay hay cập nhật dễ dàng, đội bị kẹt trong "vòng lặp chữa cháy" — mỗi ngày mất nhiều giờ rà mối đe doạ, vá tạm và hoãn các bản cập nhật định kỳ.<sup><a href="https://www.thoughtworks.com/insights/blog/generative-ai/generative-ai-refactoring" target="_blank">[1]</a></sup></p>
+
+    <p>Thay vì chờ hỗ trợ từ bên ngoài, họ dùng agent AI như một "bàn phím phản biện thông minh": phân tích cách hệ thống tương tác với component hỏng, <strong>truy vết quan hệ phụ thuộc</strong> xuyên nhiều micro frontend, chỉ ra <strong>các hợp đồng module federation nào thực sự đang được dùng</strong>, và làm nổi bật những chỗ ghép nối (coupling) chặt hơn dự kiến. Việc bình thường tốn nhiều ngày lần mò code rút xuống còn một chu kỳ điều tra ngắn hơn hẳn.<sup><a href="https://www.thoughtworks.com/insights/blog/generative-ai/generative-ai-refactoring" target="_blank">[1]</a></sup></p>
+
+    <p>Điểm mấu chốt trong bài: agent <em>không</em> đưa ra kế hoạch migrate hoàn chỉnh — nó chỉ tăng tốc phần "hiểu hệ thống" và giúp cân nhắc nhiều phương án trước khi bỏ công sức thật. Với con người giữ vai trò quyết định kiến trúc và AI làm phần cơ học, đội tách được hệ thống khỏi phụ thuộc hỏng mà không phá tính năng đang chạy: "trong chưa đầy một tháng, chúng tôi xoá sạch một năm rưỡi rủi ro tồn đọng" và đưa hệ về trạng thái an toàn hoàn toàn.<sup><a href="https://www.thoughtworks.com/insights/blog/generative-ai/generative-ai-refactoring" target="_blank">[1]</a></sup></p>
+
+    <p>Rào chắn duy nhất họ dựa vào không phải prompt engineering hay framework điều phối agent, mà là <strong>TDD (phát triển hướng kiểm thử)</strong>: chừng nào bộ test còn xanh thì còn yên tâm để AI đề xuất thay đổi cài đặt, vì refactoring theo định nghĩa là đổi cách chạy chứ không đổi hành vi. Tác giả cũng thẳng thắn: thành công phụ thuộc vào <em>chuyên môn nghiệp vụ</em> nhiều hơn kỹ năng ra lệnh cho AI — nhiều tháng kinh nghiệm với micro frontend mới giúp họ đặt câu hỏi đúng và nhận ra gợi ý sai.<sup><a href="https://www.thoughtworks.com/insights/blog/generative-ai/generative-ai-refactoring" target="_blank">[1]</a></sup></p>
+
+    <table class="mini">
+      <tr><th>AI đã làm giúp</th><th>AI KHÔNG làm thay</th></tr>
+      <tr><td>Truy vết quan hệ phụ thuộc nhanh hơn</td><td>Định ra chiến lược kiến trúc</td></tr>
+      <tr><td>Phát hiện coupling ẩn giữa các module</td><td>Hiểu bối cảnh nghiệp vụ</td></tr>
+      <tr><td>Khám phá các hướng migrate thay thế</td><td>Đánh giá rủi ro tổ chức</td></tr>
+      <tr><td>Sinh các "ứng viên" refactor + kiểm chứng giả định</td><td>Phê duyệt thay đổi &amp; chịu trách nhiệm kết quả</td></tr>
+    </table>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> Giá trị lớn nhất của AI với hệ cũ (như đã lặp lại nhiều số) không phải "viết code nhanh hơn" mà là <em>hiểu hệ thống nhanh hơn</em>. Trước khi định viết lại một module đáng ngờ, hãy để AI dựng sơ đồ phụ thuộc và chỉ ra coupling ẩn — nhưng giữ một bộ test xanh làm rào chắn, và để con người quyết kiến trúc.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> Thoughtworks, Mario Fernández Pacheco, "Generative ref-AI-ctoring: Solving tech debt in the age of AI", 18/06/2026 — <a href="https://www.thoughtworks.com/insights/blog/generative-ai/generative-ai-refactoring" target="_blank">link</a></div>
+  </article>
+
+  <!-- BÀI 2 -->
+  <article class="card" id="bai2">
+    <span class="tag proc">Quy trình sản xuất</span>
+    <h2 class="head">2 · Nghiên cứu 304.362 commit AI trong repo thật: 24,2% lỗi còn sống, nợ tích lên hơn 110.000</h2>
+    <p class="src">Nguồn: arXiv — "Debt Behind the AI Boom: A Large-Scale Empirical Study of AI-Generated Code in the Wild" · bản v1, tháng 03/2026 · <a href="https://arxiv.org/abs/2603.28592v1" target="_blank">arxiv.org/abs/2603.28592</a></p>
+
+    <div class="stat">
+      <div class="box"><div class="num">304.362</div><div class="lab">commit do AI viết (đã xác thực) từ 6.275 repo GitHub, 5 công cụ <a href="https://arxiv.org/html/2603.28592v1" target="_blank">(arXiv, 2026)</a></div></div>
+      <div class="box"><div class="num">24,2%</div><div class="lab">lỗi do AI đưa vào vẫn còn sống ở bản mới nhất của repo <a href="https://arxiv.org/html/2603.28592v1" target="_blank">(arXiv, 2026)</a></div></div>
+      <div class="box"><div class="num">110.000+</div><div class="lab">lỗi tồn đọng tích lũy tới 02/2026 (từ vài trăm đầu 2025) <a href="https://arxiv.org/html/2603.28592v1" target="_blank">(arXiv, 2026)</a></div></div>
+    </div>
+
+    <p>Nhóm tác giả không dùng phòng lab: họ dựng một tập dữ liệu <strong>304.362 commit do AI viết</strong> (nhận diện qua metadata Git, không đoán bằng bộ phân loại) từ <strong>6.275 repo GitHub</strong>, trải trên năm trợ lý phổ biến — GitHub Copilot, Claude, Cursor, Gemini và Devin — rồi chạy phân tích tĩnh <em>trước và sau</em> mỗi commit để quy đúng lỗi nào AI đưa vào, và bám theo từng lỗi tới bản mới nhất (HEAD).<sup><a href="https://arxiv.org/html/2603.28592v1" target="_blank">[2]</a></sup></p>
+
+    <p>Kết quả: tổng cộng <strong>484.606 lỗi</strong> được phát hiện. Phần lớn là "mùi code" (code smell) — 431.850 lỗi, chiếm <strong>89,1%</strong>; lỗi lúc chạy (runtime bug) 5,8%; lỗi bảo mật 5,1%.<sup><a href="https://arxiv.org/html/2603.28592v1" target="_blank">[2]</a></sup> Hơn <strong>15% commit của mọi công cụ</strong> đưa vào ít nhất một lỗi, dao động từ 17,3% (Copilot) tới 28,7% (Gemini).<sup><a href="https://arxiv.org/html/2603.28592v1" target="_blank">[2]</a></sup></p>
+
+    <p>Bức tranh "tuổi thọ" của nợ mới là điểm đáng lo: <strong>24,2%</strong> lỗi do AI đưa vào vẫn tồn tại ở HEAD; và tổng lượng nợ chưa xử lý <em>tăng nhanh</em> — từ vài trăm lỗi đầu 2025 lên <strong>hơn 110.000 lỗi còn sống tính đến tháng 2/2026</strong>.<sup><a href="https://arxiv.org/html/2603.28592v1" target="_blank">[2]</a></sup> Lỗi bảo mật khó bị dọn nhất (tỷ lệ còn sống 41,1%), rồi tới runtime bug (30,3%) và code smell (22,7%).<sup><a href="https://arxiv.org/html/2603.28592v1" target="_blank">[2]</a></sup></p>
+
+    <p>Nhưng bài không một chiều. Xét "tác động ròng": với code smell, các commit AI <em>sửa nhiều hơn gây</em> (449.984 sửa so với 431.850 gây — ròng giảm 18.134). Ngược lại, với bug và lỗi bảo mật, AI <em>gây nhiều hơn sửa</em> — thậm chí đưa vào gần <strong>gấp đôi</strong> số lỗi bảo mật so với số nó vá.<sup><a href="https://arxiv.org/html/2603.28592v1" target="_blank">[2]</a></sup> Diễn giải của nhóm: AI giỏi dọn các vấn đề bảo trì lặp lại đơn giản, nhưng với bug và bảo mật — vốn đòi hiểu sâu logic và ngữ cảnh — nó tạo ra nhiều rắc rối hơn là gỡ.<sup><a href="https://arxiv.org/html/2603.28592v1" target="_blank">[2]</a></sup></p>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> "AI viết được code" và "code đó lành mạnh" là hai chuyện khác nhau. Nợ kỹ thuật do AI tạo ra <em>tan chậm</em>: kể cả sau 9 tháng vẫn còn tồn dư đáng kể, và lỗi bảo mật là loại dai dẳng nhất. Với code AI sinh, siết review/scan bảo mật là ưu tiên hơn là chỉ đếm dòng hay tốc độ.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> arXiv 2603.28592v1 — "Debt Behind the AI Boom: A Large-Scale Empirical Study of AI-Generated Code in the Wild" (03/2026) — <a href="https://arxiv.org/abs/2603.28592v1" target="_blank">trang tóm tắt</a> · <a href="https://arxiv.org/html/2603.28592v1" target="_blank">bản HTML</a></div>
+  </article>
+
+  <!-- GÓC NHÌN -->
+  <article class="card" id="gocnhin">
+    <span class="tag view">Góc nhìn</span>
+    <h2 class="head">3 · Cùng một AI: trả nợ ở đầu này, đẻ nợ ở đầu kia — khác nhau ở đâu?</h2>
+    <p>Đặt cạnh nhau, hai bài kể hai nửa của cùng một câu chuyện. Thoughtworks cho thấy AI <em>rất mạnh khi refactor có chủ đích</em>: đích đến đã rõ (giảm coupling, gỡ phụ thuộc, hiện đại hoá), con người định hướng, AI làm phần cơ học, TDD giữ hành vi không đổi — nhờ vậy xoá được "1,5 năm rủi ro" gọn ghẽ.<sup><a href="https://www.thoughtworks.com/insights/blog/generative-ai/generative-ai-refactoring" target="_blank">[1]</a></sup> Còn nghiên cứu arXiv soi mặt kia: khi AI <em>sinh code mới không rào chắn</em>, nó lặng lẽ để lại nợ, và 24,2% lỗi cứ thế sống trong repo.<sup><a href="https://arxiv.org/html/2603.28592v1" target="_blank">[2]</a></sup></p>
+    <p>Điểm chung nối hai bài rất nhất quán với các số trước của bản tin: <strong>throughput cá nhân tăng không tự thành chất lượng giao hàng</strong> nếu thiếu test, review và scan (đúng tinh thần "AI là loa phóng thanh" của DORA và cảnh báo code churn/turnover ở số 05–06/08). Sự khác biệt giữa "trả nợ" và "đẻ nợ" không nằm ở model, mà ở việc <em>có đích đến rõ ràng + rào chắn tự động + người chịu trách nhiệm hay không</em>.</p>
+    <p><strong>2–3 việc nên làm tuần này:</strong></p>
+    <div class="doslist">
+      <div>• Chọn 1 phụ thuộc/thư viện "đáng ngờ" (ít bảo trì, hay lỗi) và cho AI dựng sơ đồ phụ thuộc + chỉ ra coupling ẩn — trước khi bàn viết lại.</div>
+      <div>• Với code do AI sinh, thêm 1 cổng bắt buộc trong CI: quét bảo mật (SAST) + lint smell, đặc biệt chặn các mẫu hay gặp (bắt exception quá rộng, subprocess thiếu kiểm tra shell, request thiếu timeout).</div>
+      <div>• Nếu chưa có test bao quanh vùng định để AI đụng vào, viết characterization test trước khi cho agent refactor — biến TDD thành rào chắn như Thoughtworks làm.</div>
+    </div>
+  </article>
+
+  <hr class="sep">
+
+  <!-- LƯỢC DỊCH 1 -->
+  <section class="dich" id="dich1">
+    <h2 class="head">📖 Lược dịch chi tiết — Ref-AI-ctoring: giải nợ kỹ thuật thời AI (Thoughtworks)</h2>
+    <div class="flag">Bản diễn đạt lại bằng tiếng Việt, bám sát bố cục bài gốc — không phải dịch nguyên văn. <a href="https://www.thoughtworks.com/insights/blog/generative-ai/generative-ai-refactoring" target="_blank">Bài gốc</a></div>
+    <h3>Bối cảnh</h3>
+    <p>GenAI đã thành phần cố định của môi trường phát triển — hoàn thiện hàm, sinh test, hoặc làm agent tự viết code. Nhờ đó code ra nhanh chưa từng thấy, nhưng mỗi dòng đều kèm chi phí bảo trì và ràng buộc tương lai; khi tốc độ giao hàng tăng, nợ kỹ thuật cũng tích nhanh nếu đội không giỏi cải thiện hệ đang có tương xứng. Tác giả cho rằng use case giá trị nhất của AI không phải sinh code mới, mà là giúp <em>hiểu, hiện đại hoá và refactor</em> code đã có — ông gọi đó là "Ref-AI-ctoring".</p>
+    <h3>AI refactoring trong thực tế</h3>
+    <p>Một component bên thứ ba mà đội phụ thuộc bỗng ngừng được bảo trì. Vài tháng sau nó gây lỗ hổng bảo mật nghiêm trọng; không thể thay/cập nhật dễ, đội mắc kẹt trong vòng chữa cháy: mỗi ngày mất nhiều giờ rà đe doạ, vá tạm, hoãn cập nhật. Thay vì chờ, họ dùng agent AI để phân tích cách hệ tương tác với component hỏng, từ đó lên "đường thoát" an toàn trong vài ngày thay vì nhiều tuần. Cụ thể, agent giúp truy vết phụ thuộc xuyên nhiều micro frontend, nhận diện hợp đồng module federation nào đang thật sự dùng, và chỉ ra coupling cao hơn dự kiến. Điều quan trọng: agent không đưa kế hoạch migrate hoàn chỉnh — nó tăng tốc phần hiểu hệ và giúp cân nhắc phương án trước khi bỏ công. Kết quả: trong chưa đầy một tháng, đội tách được hệ khỏi phụ thuộc hỏng mà không phá tính năng, "xoá sạch một năm rưỡi rủi ro" và đưa hệ về an toàn.</p>
+    <h3>AI như "máy tăng tốc giả thuyết"</h3>
+    <p>AI rút ngắn mạnh thời gian điều tra và kiểm chứng giả thuyết: việc lẽ ra tốn nhiều ngày lần theo phụ thuộc module federation trở thành quá trình hợp tác nhanh hơn giữa kỹ sư và công cụ. Nhưng giả thuyết được xác nhận nhờ phán đoán kỹ thuật, kiểm thử và triển khai — không phải vì AI gợi ý. Thành công dựa vào chuyên môn nghiệp vụ nhiều hơn kỹ năng ra prompt; con người vẫn phải định nghĩa vấn đề, rà soát thay đổi, đánh giá rủi ro và quyết kiến trúc.</p>
+    <h3>TDD làm rào chắn cho agent</h3>
+    <p>Giữa nhiều phương pháp "kìm cương" AI (prompt, đặc tả, framework điều phối), thứ duy nhất đội dựa vào là TDD: test cho một định nghĩa hành vi chấp nhận được ở dạng chạy được; còn test xanh thì còn cho AI đề xuất thay đổi mà chắc chức năng quan trọng vẫn nguyên. Refactoring và TDD bổ trợ tự nhiên: refactor đổi cài đặt chứ không đổi hành vi mà test mô tả.</p>
+    <h3>Vì sao refactor hợp với AI</h3>
+    <p>Làm mới (greenfield) buộc quyết định kiến trúc trong bất định; refactor thì thường đã biết đích (giảm coupling, dễ đọc, bớt trùng lặp, hiện đại hoá phụ thuộc). Vì đích rõ hơn đường đi, AI đặc biệt hiệu quả: kỹ sư định trạng thái đích, AI lo phần cơ học. Bài học lớn nhất không phải AI viết code nhanh hơn, mà AI giúp <em>hiểu hệ đang có</em> nhanh hơn — có thể là năng lực giá trị hơn với đội đang vật lộn với phụ thuộc legacy, độ phức tạp kiến trúc và nợ kỹ thuật.</p>
+  </section>
+
+  <!-- LƯỢC DỊCH 2 -->
+  <section class="dich" id="dich2">
+    <h2 class="head">📖 Lược dịch chi tiết — Debt Behind the AI Boom (arXiv)</h2>
+    <div class="flag">Bản diễn đạt lại bằng tiếng Việt, bám sát bố cục bài gốc — không phải dịch nguyên văn. <a href="https://arxiv.org/html/2603.28592v1" target="_blank">Bài gốc (HTML)</a></div>
+    <h3>Vấn đề &amp; cách làm</h3>
+    <p>AI coding đã thành "trang bị chuẩn" (theo Stack Overflow 2025, 84% lập trình viên chuyên nghiệp đang/định dùng; Google và Microsoft công bố 2025 rằng AI viết hơn 20% code mới của họ). Nhưng ta biết rất ít về tác động thật lên chất lượng và bảo trì <em>sau khi</em> code AI vào repo sản xuất. Nhóm xây tập dữ liệu 304.362 commit do AI viết (xác thực bằng metadata Git) từ 6.275 repo GitHub, phủ 5 công cụ: GitHub Copilot, Claude, Cursor, Gemini, Devin. Với mỗi commit, họ chạy phân tích tĩnh trước/sau để quy đúng code smell, bug và lỗi bảo mật AI đưa vào; rồi bám theo từng lỗi tới HEAD để xem còn sống hay đã sửa.</p>
+    <h3>RQ1 — Loại nợ AI tạo ra</h3>
+    <p>Tổng 484.606 lỗi trên 3.841 repo (61,2%) và 26.564 commit. Phân bố: code smell 431.850 (89,1%), runtime bug 28.149 (5,8%), lỗi bảo mật 24.607 (5,1%). Mẫu smell hay gặp nhất là "bắt exception quá rộng"; bug hay gặp là "biến/tham chiếu chưa định nghĩa"; lỗi bảo mật hay gặp là "subprocess thiếu kiểm tra shell". Code smell áp đảo.</p>
+    <h3>RQ2 — So sánh giữa các công cụ</h3>
+    <p>Hơn 15% commit của <em>mỗi</em> công cụ đưa vào ít nhất một lỗi, dao động 17,3% (Copilot) đến 28,7% (Gemini). Mẫu chung: tỷ lệ code smell cao hơn hẳn bug và bảo mật ở cả năm công cụ. Kết luận: mẫu nợ khác nhau giữa các công cụ nhưng xu hướng nhất quán, và nợ kỹ thuật là vấn đề phổ biến, dai dẳng trong code AI.</p>
+    <h3>RQ3 — Vòng đời của nợ</h3>
+    <p>Tác động ròng "trái chiều": với code smell, AI sửa nhiều hơn gây (449.984 vs 431.850, ròng −18.134); nhưng với bug và bảo mật, AI gây nhiều hơn sửa — riêng lỗi bảo mật đưa vào gần gấp đôi số vá. Về tuổi thọ: 24,2% lỗi vẫn sống ở HEAD (≈37,25 lỗi/100 commit); lỗi bảo mật khó dọn nhất (41,1%), rồi bug (30,3%), smell (22,7%). Tổng nợ tồn tăng nhanh: từ vài trăm đầu 2025 lên hơn 110.000 tới tháng 2/2026. Nợ có được dọn dần nhưng chậm — kể cả sau 9 tháng vẫn còn tồn dư đáng kể (ví dụ: một bug ở firecrawl mất 42 ngày mới sửa; một lỗi thiếu timeout trong requests do Devin thêm từ 12/2024 tới nay vẫn còn). Thông điệp: AI giúp dọn các vấn đề bảo trì lặp lại, nhưng với bug và bảo mật đòi hiểu sâu ngữ cảnh thì gây hại nhiều hơn giúp — cần review và scan chủ động.</p>
+  </section>
+
+  <div class="refs" style="margin-top:26px">
+    <strong>Nguồn tham khảo toàn số:</strong><br>
+    [1] Thoughtworks — Mario Fernández Pacheco, <a href="https://www.thoughtworks.com/insights/blog/generative-ai/generative-ai-refactoring" target="_blank">Generative ref-AI-ctoring: Solving tech debt in the age of AI</a> (18/06/2026)<br>
+    [2] arXiv 2603.28592v1 — <a href="https://arxiv.org/abs/2603.28592v1" target="_blank">Debt Behind the AI Boom: A Large-Scale Empirical Study of AI-Generated Code in the Wild</a> (03/2026); <a href="https://arxiv.org/html/2603.28592v1" target="_blank">bản HTML đầy đủ</a>
+  </div>
+
+  <div class="foot"><a href="/" style="color:#4338ca;text-decoration:none">← Về trang bìa lưu trữ</a></div>
+</div>
+</body>
+</html>
