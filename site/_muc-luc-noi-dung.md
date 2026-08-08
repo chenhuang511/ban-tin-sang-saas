@@ -8,27 +8,33 @@
 > 2. Trước khi giải thích một thuật ngữ: xem phần **C. Từ điển thuật ngữ** — nếu đã giải thích ở số trước thì chỉ nhắc gọn/nối link, không giải thích lại dài dòng.
 > 3. Sau khi viết xong: thêm 1 khối vào phần **B. Mục lục theo số** và cập nhật phần A + C nếu có nguồn/thuật ngữ mới (dùng mẫu ở cuối file).
 >
-> _Cập nhật lần cuối: 07/08/2026 — 15 số (24/07 → 07/08/2026)._
+> _Cập nhật lần cuối: 08/08/2026 — 16 số (24/07 → 08/08/2026)._
 
 ---
 
 ## A. Danh sách nguồn / thực thể ĐÃ DÙNG (tránh lặp)
 
 ### Domain nguồn đã trích dẫn (đừng lặp cùng một bài)
-abstracta.us · arxiv.org (2603.28592 "Debt Behind the AI Boom") · aws.amazon.com · bcg.com · blogs.cisco.com · businessofapps.com · byteiota.com · ciodive.com · clonedesk.ai · cloud.google.com (DORA) · cnbc.com · devblogs.microsoft.com · devoxsoftware.com · dora.dev · entrepreneur.com · faros.ai · forrester.com · fungies.io · gartner.com · getdx.com / newsletter.getdx.com · getmacha.com · gleap.io · kyndryl.com · larridin.com · linearb.io · marketscale.com · mckinsey.com · metr.org · mlq.ai · natlawreview.com · opsera.ai · plandek.com · prnewswire.com · qrvey.com · research.google · sfailabs.com · slashdot.org · sourcegraph.com · technode.global · thenewstack.io · thoughtworks.com · writer.com · zylo.com
+abstracta.us · arxiv.org (2603.28592 "Debt Behind the AI Boom") · aws.amazon.com · bcg.com · businesswire.com (CrewAI) · lorikeetcx.ai · gartner.com (dự báo 80%/2029) · blogs.cisco.com · businessofapps.com · byteiota.com · ciodive.com · clonedesk.ai · cloud.google.com (DORA) · cnbc.com · devblogs.microsoft.com · devoxsoftware.com · dora.dev · entrepreneur.com · faros.ai · forrester.com · fungies.io · gartner.com · getdx.com / newsletter.getdx.com · getmacha.com · gleap.io · kyndryl.com · larridin.com · linearb.io · marketscale.com · mckinsey.com · metr.org · mlq.ai · natlawreview.com · opsera.ai · plandek.com · prnewswire.com · qrvey.com · research.google · sfailabs.com · slashdot.org · sourcegraph.com · technode.global · thenewstack.io · thoughtworks.com · writer.com · zylo.com
 
 ### Công ty / báo cáo / case study đã khai thác (KHÔNG viết lại trừ khi có số liệu mới)
 - **Case hiện đại hóa/legacy:** Bankdata × Microsoft (COBOL→Java Quarkus); Experian × AWS (687.600 dòng .NET, agentic); Toyota × AWS (rời mainframe 1979); Google "Accelerating code migrations with AI" (74%); Sourcegraph legacy guide; Kyndryl State of Mainframe Modernization 2025; Devox 2026 Legacy Modernization Report; Abstracta (RPG siêu thị, "90% là kiểm thử").
-- **AI trong SaaS / adoption / ROI:** Notion ($500M ARR, AI agent); WRITER × Workplace Intelligence (5× / 29% ROI); The New Stack "Hype→ROI" (Leo Goldfarb); Designli/Business of Apps (khảo sát SaaS founders); Zylo 2026 SaaS Management Index (108%); Qrvey; SFAI Labs; Fungies.io; Gleap (feature adoption); Intercom Fin (76%→45–53%, qua Macha/CloneDesk).
+- **AI trong SaaS / adoption / ROI:** Notion ($500M ARR, AI agent); WRITER × Workplace Intelligence (5× / 29% ROI); The New Stack "Hype→ROI" (Leo Goldfarb); Designli/Business of Apps (khảo sát SaaS founders); Zylo 2026 SaaS Management Index (108%); Qrvey; SFAI Labs; Fungies.io; Gleap (feature adoption); Intercom Fin (76%→45–53%, qua Macha/CloneDesk); CrewAI 2026 State of Agentic AI (khảo sát 500 lãnh đạo); Lorikeet (benchmark tỷ lệ giải quyết CSKH 2026).
 - **Năng suất dev / DevOps / benchmark:** DORA 2025 (Google Cloud); METR (uplift study, J-curve); Microsoft arXiv (Claude Code + Copilot CLI, +24% PR); Faros AI Engineering Report 2026 (sự cố +243%); Opsera AI Coding Impact Benchmark; Plandek; byteiota/LinearB/Larridin/McKinsey/DX (benchmark 2026); arXiv "Debt Behind the AI Boom" (304.362 commit AI/6.275 repo, 24,2% lỗi còn sống).
 - **Refactor/tech-debt bằng AI:** Thoughtworks "Ref-AI-ctoring" (Mario Fernández Pacheco — case gỡ thư viện chết, TDD làm guardrail, "1,5 năm rủi ro" gỡ trong <1 tháng).
 
 ### Số liệu "đầu bài" đã dùng (đừng lặp làm điểm nhấn chính)
-304.362 commit AI/6.275 repo · 24,2% lỗi AI còn sống ở HEAD · 110.000+ lỗi tồn tới 02/2026 · code smell 89,1% · bảo mật khó dọn nhất 41,1% (arXiv Debt) · "1,5 năm rủi ro"/<1 tháng (Thoughtworks) · 70M+ dòng COBOL (Bankdata) · 687.600 dòng .NET / 47% (Experian) · 74% code migrate (Google) · 108% chi SaaS AI-native (Zylo) · 5× năng suất & 29% ROI (WRITER) · $500M ARR (Notion) · +24% PR (Microsoft) · sự cố +243% (Faros) · 76%→45–53% (Intercom Fin) · 4,6× chờ review + J-curve -19%→+18% (byteiota/LinearB/METR) · -46% việc lặp/<10% việc khó (McKinsey) · "90% là kiểm thử" + IBM -13,2% (Abstracta).
+304.362 commit AI/6.275 repo · 24,2% lỗi AI còn sống ở HEAD · 110.000+ lỗi tồn tới 02/2026 · code smell 89,1% · bảo mật khó dọn nhất 41,1% (arXiv Debt) · "1,5 năm rủi ro"/<1 tháng (Thoughtworks) · CrewAI: 65% dùng agent/100% mở rộng/31% quy trình tự động/ROI xếp chót 2%/bảo mật 34% · Lorikeet: resolution thật 30–50%→50–70%→70–85%, deflection≠resolution chênh ~30 điểm %, ticket người 1,25–4 USD vs AI ~1 USD, Gartner 80%/2029 · 70M+ dòng COBOL (Bankdata) · 687.600 dòng .NET / 47% (Experian) · 74% code migrate (Google) · 108% chi SaaS AI-native (Zylo) · 5× năng suất & 29% ROI (WRITER) · $500M ARR (Notion) · +24% PR (Microsoft) · sự cố +243% (Faros) · 76%→45–53% (Intercom Fin) · 4,6× chờ review + J-curve -19%→+18% (byteiota/LinearB/METR) · -46% việc lặp/<10% việc khó (McKinsey) · "90% là kiểm thử" + IBM -13,2% (Abstracta).
 
 ---
 
 ## B. Mục lục theo số (mới → cũ)
+
+### 08/08/2026 — 100% doanh nghiệp mở rộng agentic AI, nhưng "tỷ lệ giải quyết" dễ đọc sai nhất
+- **Chủ đề:** AI trong SaaS · Xu hướng & công cụ
+- **Nguồn:** CrewAI "2026 State of Agentic AI" (qua Business Wire, 11/02/2026, businesswire.com) · Lorikeet "Resolution Rate Benchmarks 2026" (17/06/2026, lorikeetcx.ai) · Gartner (dự báo 05/03/2025, dẫn lại)
+- **Số chính:** CrewAI khảo sát 500 lãnh đạo (dn >100tr USD, 5.000+ nhân viên, 7 khu vực); 65% đã dùng agent; 81% đã/đang mở rộng; 100% sẽ mở rộng; 74% coi production là ưu tiên/mệnh lệnh; 75% tác động cao tới tiết kiệm thời gian; 31% quy trình tự động, +33% kỳ vọng; tiêu chí chọn nền tảng: bảo mật 34% > tích hợp 30% > tin cậy 24% > ROI 2% (chót); rào cản: dữ liệu 35%/nhân lực 33%; 57% xây trên open-source. Lorikeet: deflection≠containment≠resolution (chênh >30 điểm %); khoảng thật 30–50%→50–70%→70–85%; 90%+ đáng ngờ; ticket người 1,25–4 USD vs AI ~1 USD; Gartner 80% vấn đề CSKH tự xử lý vào 2029 (từ double-digit thấp 2024).
+- **Thực thể:** CrewAI/João Moura (dùng bởi 60% Fortune 500 US), Lorikeet, Gartner, Fin by Intercom/Decagon/Sierra/Zendesk AI (bảng định vị), Bank of America Erica (bối cảnh).
 
 ### 07/08/2026 — AI vừa trả nợ kỹ thuật vừa tạo nợ mới: "Ref-AI-ctoring" & 110.000 lỗi còn sống
 - **Chủ đề:** Hiện đại hóa legacy · Quy trình sản xuất
@@ -118,6 +124,8 @@ abstracta.us · arxiv.org (2603.28592 "Debt Behind the AI Boom") · aws.amazon.c
 - **Micro frontend / module federation:** kiến trúc chia frontend thành mảnh triển khai độc lập; "hợp đồng" module federation quy định phần nào được chia sẻ/dùng. _07/08._
 - **Characterization testing:** chụp lại hành vi hệ cũ (input/output) rồi so với bản mới để phát hiện khác biệt khi migrate. _06/08._
 - **Agentic AI / AI agent:** nhiều agent chuyên biệt phối hợp (phân tích, map phụ thuộc, sinh code) thay vì một prompt đơn. _28/07, 30/07._
+- **Deflection / Containment / Resolution rate:** 3 con số hay bị gọi nhầm là "tỷ lệ giải quyết" — deflection = hội thoại không có người chạm (tính cả khách bỏ cuộc); containment = ở lại kênh AI; resolution = vấn đề được giải quyết end-to-end có xác minh. Chênh nhau >30 điểm %. _08/08._
+- **Action-taking (khả năng hành động):** agent xâu chuỗi nhiều lệnh gọi công cụ (xác minh→kiểm tra→thực hiện→xác nhận) thay vì chỉ tra cứu-trả lời; đòn bẩy lớn nhất kéo tỷ lệ giải quyết lên. _08/08._
 - **MCP (Model Context Protocol):** lớp chuẩn để AI gọi công cụ/API theo ngữ cảnh. _28/07._
 - **Semantic Kernel / Quarkus:** khung điều phối agent của Microsoft / framework Java microservice (đích migrate COBOL). _28/07._
 - **DORA & change failure rate:** bộ chỉ số giao hàng (throughput + độ ổn định); CFR = tỷ lệ thay đổi gây lỗi. _28/07, 02/08, 05/08._
