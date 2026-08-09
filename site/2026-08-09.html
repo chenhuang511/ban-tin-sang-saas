@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>"Discovery is not migration" &amp; vì sao SaaS AI-native tăng trưởng 4× · 09/08/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.dich{background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;padding:16px 20px;margin-top:16px}
+.dich .flag{font-size:12.5px;color:#94a3b8;font-style:italic;margin-bottom:8px}
+.dich h3{font-size:16px;margin:14px 0 4px}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 09/08/2026</div>
+    <h1 class="title">"Discovery is not migration": AI hiểu code cũ giỏi, migrate thì chưa — &amp; vì sao SaaS AI-native bỏ xa phần còn lại</h1>
+    <div class="meta">09/08/2026 · Thời lượng đọc ~17 phút · Nguồn: Open Mainframe Project (22/07/2026); Userpilot — Emergence Capital Beyond Benchmarks (22/07/2026)</div>
+  </header>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1">"Discovery is not migration": ranh giới AI làm được và chưa làm được ở mainframe</a></li>
+      <li><a href="#bai2">SaaS AI-native tăng trưởng 4×, giữ chân +21%: khác biệt "bolt-on" vs "built-in"</a></li>
+      <li><a href="#gocnhin">Góc nhìn: cùng một bài học "hiểu trước, hành động sau" ở hai đầu phổ</a></li>
+      <li><a href="#dich1">📖 Lược dịch — Discovery Is Not Migration (Open Mainframe Project)</a></li>
+      <li><a href="#dich2">📖 Lược dịch — AI in SaaS 2026 (Userpilot)</a></li>
+    </ol>
+  </nav>
+
+  <!-- BÀI 1 -->
+  <article class="card" id="bai1">
+    <span class="tag legacy">Hiện đại hóa legacy</span>
+    <h2 class="head">1 · "Discovery is not migration": nơi AI thật sự đứng trong hiện đại hóa mainframe</h2>
+    <p class="src">Nguồn: Open Mainframe Project (Linux Foundation) — Ramana Sree K V, "Summer Mentorship 2026: Discovery Is Not Migration Where AI Actually Stands for Mainframe Modernization" · đăng 22/07/2026 · <a href="https://openmainframeproject.org/blog/summer-mentorship-2026-discovery-is-not-migration-where-ai-actually-stands-for-mainframe-modernization/" target="_blank">openmainframeproject.org</a></p>
+
+    <div class="stat">
+      <div class="box"><div class="num">&gt;70%</div><div class="lab">dự án "rời mainframe" khởi động 2026 được Gartner dự báo sẽ KHÔNG đạt lợi ích kỳ vọng <a href="https://openmainframeproject.org/blog/summer-mentorship-2026-discovery-is-not-migration-where-ai-actually-stands-for-mainframe-modernization/" target="_blank">(OMP, 2026)</a></div></div>
+      <div class="box"><div class="num">02/2026</div><div class="lab">cổ phiếu IBM giảm mạnh vài ngày sau một tuyên bố của vendor rằng AI "tăng tốc mạnh" hiện đại hóa COBOL <a href="https://openmainframeproject.org/blog/summer-mentorship-2026-discovery-is-not-migration-where-ai-actually-stands-for-mainframe-modernization/" target="_blank">(OMP, 2026)</a></div></div>
+      <div class="box"><div class="num">2 lớp</div><div class="lab">Gartner tách "modernize tại chỗ" vs "platform exit" — AI có giá trị phòng thủ được hơn ở vế đầu <a href="https://openmainframeproject.org/blog/summer-mentorship-2026-discovery-is-not-migration-where-ai-actually-stands-for-mainframe-modernization/" target="_blank">(OMP, 2026)</a></div></div>
+    </div>
+
+    <p>Đây không phải một case "AI migrate thành công X triệu dòng" như các số trước — mà là một bài nghiên cứu <em>đặt lại câu hỏi</em>. Tác giả (mentee trong chương trình Summer Mentorship 2026 của Open Mainframe Project, thuộc Linux Foundation) mở đầu bằng hai tín hiệu trái chiều chỉ cách nhau vài tháng: tháng 2/2026, cổ phiếu IBM tụt mạnh ngay sau khi một vendor tuyên bố AI có thể tăng tốc mạnh việc hiện đại hóa COBOL; tới tháng 4, Gartner công bố dự báo <strong>hơn 70% dự án "exit" mainframe khởi động trong 2026 sẽ không đạt lợi ích kỳ vọng</strong>, phần lớn vì tổ chức <em>đánh giá quá cao</em> khả năng thực tế của AI tạo sinh.<sup><a href="https://openmainframeproject.org/blog/summer-mentorship-2026-discovery-is-not-migration-where-ai-actually-stands-for-mainframe-modernization/" target="_blank">[1]</a></sup></p>
+
+    <p>Luận điểm trung tâm nằm ngay ở tiêu đề: <strong>"discovery" (khám phá/hiểu code) không phải là "migration" (di trú)</strong>. Bài viết chỉ ra rằng chính IBM cũng thiết kế công cụ của mình theo đúng ranh giới đó — watsonx Code Assistant for Z được xây quanh việc <em>khám phá, lập tài liệu và giải thích</em> ứng dụng COBOL hiện có trước, còn refactor và chuyển đổi code đến sau. "Cách sắp thứ tự vòng đời đó tự nó là một điểm dữ liệu": vendor có mọi động cơ để bán mạnh khâu migrate, nhưng lại đặt discovery lên đầu.<sup><a href="https://openmainframeproject.org/blog/summer-mentorship-2026-discovery-is-not-migration-where-ai-actually-stands-for-mainframe-modernization/" target="_blank">[1]</a></sup></p>
+
+    <p>Đáng chú ý, bài dẫn một tín hiệu "thẳng thắn hiếm có từ một vendor có mọi lý do để nói quá": Rocket Software cảnh báo rằng một cuộc viết lại COBOL→Java do AI hỗ trợ có thể tạo ra code "giống hệt về mặt chức năng nhưng tự thân không giá trị hơn", và hãng này chuyển nhiều đầu tư AI gần đây sang chẩn đoán vận hành thay vì chuyển đổi code hàng loạt.<sup><a href="https://openmainframeproject.org/blog/summer-mentorship-2026-discovery-is-not-migration-where-ai-actually-stands-for-mainframe-modernization/" target="_blank">[1]</a></sup></p>
+
+    <p>Ba áp lực hội tụ khiến thời điểm này khác các lần trước: <strong>(1) lực lượng lao động</strong> — kỹ sư COBOL/PL/I/Assembler nghỉ hưu nhanh hơn tốc độ thay thế, và phần lớn tri thức nằm trong đầu họ, mã hóa trong các edge case và luật nghiệp vụ chưa từng được ghi lại; <strong>(2) chính các ứng dụng</strong> — chạy lõi ngân hàng, bồi thường bảo hiểm, trả lương, trợ cấp chính phủ, đặt chỗ hàng không, nơi một thay đổi hành vi tinh vi khi migrate là rủi ro vận hành/tài chính (Gartner gọi là bản chất "too-big-to-fail"); <strong>(3) chính khoảnh khắc AI</strong> — AI tạo sinh mạnh ở đọc-và-giải-thích code, đến đúng lúc tổ chức lo mất người, "một sự khớp tự nhiên cũng chính là lý do dễ bị bán quá lời".<sup><a href="https://openmainframeproject.org/blog/summer-mentorship-2026-discovery-is-not-migration-where-ai-actually-stands-for-mainframe-modernization/" target="_blank">[1]</a></sup></p>
+
+    <p>Câu hỏi "AI sẽ thay COBOL chứ?" bị tác giả gọi thẳng là <em>sai</em> — nó ép một câu trả lời có/không cho một công nghệ rõ ràng mạnh ở vài khâu và yếu ở khâu khác. Câu hỏi đúng hẹp và khó hơn: <strong>"ở chính xác chỗ nào trong chuỗi dài từ code cũ tới hệ thống hiện đại, AI tạo ra giá trị sống sót được sau khi va chạm với production?"</strong> Bản white paper của dự án dự kiến ra tháng 8/2026, dựa trên phỏng vấn thực tiễn hơn là so sánh thông cáo báo chí.<sup><a href="https://openmainframeproject.org/blog/summer-mentorship-2026-discovery-is-not-migration-where-ai-actually-stands-for-mainframe-modernization/" target="_blank">[1]</a></sup></p>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> Đừng gộp "AI giải thích được code này" với "AI migrate an toàn được code này" — khoảng cách giữa hai mệnh đề đó, nếu không soi kỹ, chính là nơi dự án đổ. Với hệ legacy, hãy tách hai giai đoạn: dùng AI cho <em>discovery</em> (trích luật nghiệp vụ, sinh tài liệu, dựng sơ đồ) và xem đó là khoản thắng chắc; còn <em>migration/chuyển ngôn ngữ</em> thì để con người giữ quyền quyết và kiểm chứng nghiệp vụ. Ưu tiên "modernize tại chỗ" trước "platform exit" nếu muốn giá trị phòng thủ được.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> Open Mainframe Project (Linux Foundation), Ramana Sree K V, "Summer Mentorship 2026: Discovery Is Not Migration…", 22/07/2026 — <a href="https://openmainframeproject.org/blog/summer-mentorship-2026-discovery-is-not-migration-where-ai-actually-stands-for-mainframe-modernization/" target="_blank">link</a>. (Bài dẫn lại phân tích của Gartner về mainframe exit &amp; watsonx Code Assistant for Z; các con số là theo trích dẫn trong bài, chưa mở báo cáo gốc Gartner.)</div>
+  </article>
+
+  <!-- BÀI 2 -->
+  <article class="card" id="bai2">
+    <span class="tag saas">AI trong SaaS</span>
+    <h2 class="head">2 · SaaS AI-native tăng trưởng 4× &amp; giữ chân +21%: khác biệt "bolt-on" vs "built-in"</h2>
+    <p class="src">Nguồn: Userpilot — Yazan Sehwail, "AI in SaaS in 2026: Why AI-Native Companies Are Pulling Away" · đăng 22/07/2026 · dẫn Emergence Capital "Beyond Benchmarks" (500+ công ty SaaS B2B) · <a href="https://userpilot.com/blog/ai-in-saas/" target="_blank">userpilot.com</a></p>
+
+    <div class="stat">
+      <div class="box"><div class="num">4×</div><div class="lab">tốc độ tăng trưởng của SaaS AI-native so với phần còn lại <a href="https://www.emcap.com/beyond-benchmarks-2025" target="_blank">(Emergence Capital, qua Userpilot)</a></div></div>
+      <div class="box"><div class="num">+21%</div><div class="lab">tỷ lệ giữ chân khách cao hơn ở nhóm AI-native <a href="https://www.emcap.com/beyond-benchmarks-2025" target="_blank">(Emergence Capital, qua Userpilot)</a></div></div>
+      <div class="box"><div class="num">58% → 67%</div><div class="lab">tỷ trọng tăng trưởng đến từ expansion revenue sau mốc 50tr USD → sau 100tr USD ARR <a href="https://userpilot.com/blog/ai-in-saas/" target="_blank">(Userpilot, 2026)</a></div></div>
+    </div>
+
+    <p>Điểm đắt của bài không phải "hãy thêm AI" mà là <strong>khoảng cách đang giãn ra</strong> giữa hai loại sản phẩm. Trích một khảo sát của Emergence Capital ("Beyond Benchmarks", dữ liệu từ hơn 500 công ty SaaS B2B), tác giả nêu: các công ty <strong>SaaS AI-native tăng trưởng nhanh gấp 4 lần và giữ chân khách cao hơn 21%</strong> so với phần còn lại.<sup><a href="https://userpilot.com/blog/ai-in-saas/" target="_blank">[2]</a></sup> Nhóm nghiên cứu lập luận đây "không chỉ là giữ chân tốt hơn — mà là một dạng phòng thủ mới: mỗi lần khách tương tác lại làm dày thêm hào" — vì "AI xuất sắc đòi hỏi đầu tư bền bỉ, đáng kể", và công ty coi AI như một tính năng thay vì năng lực lõi "sẽ bị đầu tư vượt và đổi mới vượt".<sup><a href="https://userpilot.com/blog/ai-in-saas/" target="_blank">[2]</a></sup></p>
+
+    <p>Bài phân biệt hai thế hệ: <strong>AI 1.0 "bolt-on"</strong> — chatbot trả lời khi người dùng gặp vấn đề, vẫn cần người sửa; <strong>AI 2.0 "built-in"</strong> — sống bên trong luồng công việc, <em>tự phát hiện</em> vấn đề rồi <em>tự xử lý</em> trước khi con người phải vào cuộc, để người chuyển từ "ra lệnh cho agent" sang "đánh giá việc agent đã làm".<sup><a href="https://userpilot.com/blog/ai-in-saas/" target="_blank">[2]</a></sup> Bối cảnh thị trường: Gartner dự báo 40% ứng dụng doanh nghiệp sẽ có AI agent theo tác vụ vào 2026 (từ &lt;5% năm 2025); Deloitte dự báo tới 75% công ty đầu tư vào agentic AI.<sup><a href="https://userpilot.com/blog/ai-in-saas/" target="_blank">[2]</a></sup></p>
+
+    <p>Đáng lưu ý là một góc phản biện ngay trong bài: nhà sáng lập RateGain Bhanu Chopra ví AI với cơn hoảng loạn "cloud sẽ nuốt SaaS" một thập kỷ trước — <em>"AI là hạ tầng, dịch vụ tiện ích… Hạ tầng tạo điều kiện cho giá trị, nó không tự chuyển giao giá trị"</em>, giống như cloud rốt cuộc trở thành nền móng để SaaS bùng nổ bên trên chứ không thay thế phần mềm doanh nghiệp.<sup><a href="https://userpilot.com/blog/ai-in-saas/" target="_blank">[2]</a></sup> Trước khi xây, bài đề xuất 4 câu hỏi: (1) vấn đề kinh doanh cốt lõi là gì; (2) dữ liệu có đủ sạch để nuôi dự đoán không; (3) ai chịu trách nhiệm khi AI sai; (4) vòng phản hồi nào sẽ làm AI thông minh hơn.<sup><a href="https://userpilot.com/blog/ai-in-saas/" target="_blank">[2]</a></sup></p>
+
+    <div class="doslist">
+      <div>✅ <strong>Nên làm:</strong> nhúng AI vào đúng luồng (onboarding cá nhân hóa theo hành vi, dự đoán churn/expansion, đọc phản hồi bằng NLP theo tuần); coi AI là năng lực lõi được đầu tư bền bỉ, có vòng phản hồi để tốt lên theo thời gian.</div>
+      <div>❌ <strong>Nên tránh:</strong> "gắn thêm" một chatbot AI cho có (bolt-on) tách rời workflow; xây AI khi dữ liệu chưa sạch hoặc không ai chịu trách nhiệm cho đầu ra sai.</div>
+    </div>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> Con số 4× / +21% là của <em>Emergence Capital dẫn qua Userpilot</em> (một vendor có lợi ích) — hãy đọc như định hướng, đừng dùng như chân lý. Nhưng khung "bolt-on vs built-in" rất dùng được: thử chấm mỗi tính năng AI của bạn — nó chỉ <em>trả lời</em> câu hỏi, hay thật sự <em>phát hiện và xử lý</em> vấn đề trong luồng? Nếu chỉ là lớp chat dán bên ngoài, đó là điểm nên nâng cấp trước tiên.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> Userpilot, Yazan Sehwail, "AI in SaaS in 2026: Why AI-Native Companies Are Pulling Away", 22/07/2026 — <a href="https://userpilot.com/blog/ai-in-saas/" target="_blank">link</a>. Số liệu 4×/+21% trích Emergence Capital "Beyond Benchmarks" — <a href="https://www.emcap.com/beyond-benchmarks-2025" target="_blank">emcap.com</a> (theo dẫn trong bài Userpilot).</div>
+  </article>
+
+  <!-- GÓC NHÌN -->
+  <article class="card" id="gocnhin">
+    <span class="tag view">Góc nhìn</span>
+    <h2 class="head">3 · Cùng một bài học "hiểu trước, hành động sau" ở hai đầu phổ phần mềm</h2>
+    <p>Hai bài hôm nay tưởng xa nhau — một bên là mainframe COBOL 40 năm, một bên là SaaS AI-native mới toanh — nhưng chạm cùng một sợi chỉ. Ở phía legacy, ranh giới thắng/thua là "discovery ≠ migration": AI giỏi <em>hiểu</em> code cũ, còn <em>hành động</em> (chuyển đổi, giữ đúng nghiệp vụ) vẫn cần người kiểm chứng.<sup><a href="https://openmainframeproject.org/blog/summer-mentorship-2026-discovery-is-not-migration-where-ai-actually-stands-for-mainframe-modernization/" target="_blank">[1]</a></sup> Ở phía SaaS, khoảng cách "bolt-on vs built-in" cũng chính là khoảng cách giữa AI <em>trả lời</em> và AI <em>hành động trong luồng</em>.<sup><a href="https://userpilot.com/blog/ai-in-saas/" target="_blank">[2]</a></sup> Cả hai đều cảnh báo cùng một cái bẫy: nhầm "AI hiểu/nói được" với "AI làm được an toàn".</p>
+    <p>Điều này nối tiếp mạch các số gần đây — từ "76% giải quyết" của bot hạ còn 45–53% khi ra thật (số 05/08), tới "deflection ≠ resolution" (số 08/08): giá trị AI chỉ hiện thực khi có guardrail, thước đo đúng và con người ở đúng chỗ.</p>
+    <p><strong>2–3 việc nên làm tuần này:</strong></p>
+    <div class="doslist">
+      <div>• Với 1 hệ legacy đang cân nhắc: tách rõ ngân sách/nhân sự cho pha <em>discovery</em> (trích luật nghiệp vụ + tài liệu) khỏi pha <em>migration</em> — và nghiệm thu discovery như một kết quả độc lập, không đợi migrate xong.</div>
+      <div>• Kiểm kê các tính năng AI trong sản phẩm SaaS của bạn: chấm mỗi tính năng theo thang "bolt-on ↔ built-in"; chọn 1 cái đang chỉ "trả lời" để nâng lên "phát hiện + xử lý trong luồng".</div>
+      <div>• Trước mọi tính năng AI mới: viết ra ai chịu trách nhiệm khi AI sai + vòng phản hồi làm nó tốt lên — trước khi viết dòng code đầu tiên.</div>
+    </div>
+  </article>
+
+  <hr class="sep">
+
+  <!-- LƯỢC DỊCH 1 -->
+  <section class="dich" id="dich1">
+    <h2 class="head">📖 Lược dịch chi tiết — Discovery Is Not Migration (Open Mainframe Project)</h2>
+    <div class="flag">Bản diễn đạt lại bằng tiếng Việt, bám sát bố cục bài gốc — không phải dịch nguyên văn. <a href="https://openmainframeproject.org/blog/summer-mentorship-2026-discovery-is-not-migration-where-ai-actually-stands-for-mainframe-modernization/" target="_blank">Bài gốc</a></div>
+    <h3>Hai tường thuật trái chiều</h3>
+    <p>Tháng 2/2026, cổ phiếu IBM sụt mạnh chỉ vài ngày sau một tuyên bố của vendor rằng AI có thể tăng tốc mạnh việc hiện đại hóa COBOL. Tới tháng 4, Gartner dự báo hơn 70% dự án rời mainframe khởi động 2026 sẽ không đạt lợi ích, chủ yếu vì tổ chức đánh giá quá cao AI tạo sinh. Một bên coi AI là đột phá đã chờ ba thập kỷ; bên kia thấy lại mẫu hình quen thuộc: công nghệ hữu ích bị áp dụng sai chỗ, bị áp lực nhà đầu tư và marketing thổi phồng. Cả hai phe đều có người nghiêm túc và không thiếu bằng chứng — nên "phe nào đúng" lại là câu hỏi sai để bắt đầu.</p>
+    <h3>Vì sao rủi ro cao hơn vẻ ngoài</h3>
+    <p>Ba áp lực hội tụ: (1) đội ngũ COBOL/PL/I/Assembler nghỉ hưu nhanh, tri thức nằm trong đầu người, chưa được ghi lại; (2) đây là hệ lõi — ngân hàng, bảo hiểm, trả lương, trợ cấp, hàng không — nơi thay đổi hành vi nhỏ khi migrate là rủi ro lớn ("too-big-to-fail" theo Gartner); (3) AI tạo sinh mạnh ở đọc/giải thích code, đến đúng lúc tổ chức lo mất người — khớp tự nhiên nhưng dễ bị bán quá lời. Thêm chiều chi phí: dự án quy mô này là cam kết nhiều năm, thường 8–9 chữ số cho estate lớn; một dự án âm thầm chết sau hai năm không chỉ phí tiền mà còn "đốt" ý chí thử lại, có khi cả một thập kỷ.</p>
+    <h3>Hai quan điểm, đều có bằng chứng thật</h3>
+    <p>Phe lạc quan: IBM watsonx Code Assistant for Z được xây quanh việc khám phá, lập tài liệu, giải thích ứng dụng COBOL <em>trước</em>, refactor/chuyển đổi đến sau — cách sắp vòng đời đó tự nó là điểm dữ liệu. Rocket Software thẳng thắn hiếm có: cảnh báo bản viết lại COBOL→Java do AI có thể "giống hệt chức năng nhưng không giá trị hơn", và dồn đầu tư sang chẩn đoán vận hành. Điểm chung: AI ngày càng giỏi phân tích code cũ, phát hiện luật nghiệp vụ ẩn, sinh tài liệu, giúp đội hiểu chương trình <em>làm gì</em> trước khi quyết định làm gì với nó. Phe hoài nghi (Gartner): vạch rõ ranh giới giữa cái AI giỏi hôm nay (hiểu code, discovery, tài liệu, một số tác vụ vận hành) và cái còn khó (tự động chuyển đổi ngôn ngữ/nền tảng, giữ đúng ngữ nghĩa nghiệp vụ) — nhiều dự án exit gộp nhầm "AI giải thích được" với "AI migrate an toàn được", và đó là nơi họ thất bại. Gartner cũng tách "modernize tại chỗ" khỏi "platform exit": AI hiện có giá trị phòng thủ được hơn ở vế đầu.</p>
+    <h3>Về nghiên cứu này &amp; câu hỏi đáng hỏi</h3>
+    <p>Dự án thuộc Summer Mentorship 2026 của Open Mainframe Project (mentee Ramana Sree K V, mentor Misty Decker), tên "Role of AI in Mainframe Application Modernization". Phương pháp: rà soát tài liệu/analyst để mài sắc câu hỏi; phỏng vấn trực tiếp người đã chạy dự án modernize/exit và đánh giá công cụ AI trên hệ production; phân tích chi phí–lợi ích từ dữ liệu dự án thật thay vì dự phóng vendor. Câu hỏi "AI thay COBOL chứ?" là sai; câu hỏi đúng: <em>ở chính xác chỗ nào trong chuỗi từ code cũ tới hệ hiện đại, AI tạo giá trị sống sót sau va chạm production?</em> White paper dự kiến tháng 8/2026 — không nói AI sẽ cứu hay giết mainframe, mà chỉ ra chính xác nhất có thể: giá trị thật nằm ở đâu.</p>
+  </section>
+
+  <!-- LƯỢC DỊCH 2 -->
+  <section class="dich" id="dich2">
+    <h2 class="head">📖 Lược dịch chi tiết — AI in SaaS 2026: Why AI-Native Companies Are Pulling Away (Userpilot)</h2>
+    <div class="flag">Bản diễn đạt lại bằng tiếng Việt, bám sát bố cục bài gốc — không phải dịch nguyên văn. <a href="https://userpilot.com/blog/ai-in-saas/" target="_blank">Bài gốc</a></div>
+    <h3>Vì sao nhóm AI-native bỏ xa</h3>
+    <p>AI trong SaaS không còn là lớp "dán thêm" để làm marketing. Khoảng cách giữa sản phẩm có AI agent/analytics native và sản phẩm chỉ gắn thêm đang giãn ra từng ngày. Theo báo cáo "Beyond Benchmarks" của Emergence Capital (dữ liệu từ 500+ công ty SaaS B2B), nhóm AI-native tăng trưởng nhanh gấp 4 lần và giữ chân khách cao hơn 21%. Báo cáo cũng ghi: expansion revenue chiếm 58% tăng trưởng sau mốc 50 triệu USD ARR, lên 67% sau 100 triệu USD; 74% phần mềm nay bán qua kênh ảo và 50% giao dịch có bước đánh giá AI. Nhóm nghiên cứu nhấn: đây là "một dạng phòng thủ mới" — mỗi tương tác khách làm dày hào; công ty coi AI như tính năng thay vì năng lực lõi sẽ bị đầu tư vượt, đổi mới vượt.</p>
+    <h3>Bolt-on vs built-in</h3>
+    <p>AI 1.0 (bolt-on): chatbot trả lời khi người dùng gặp vấn đề, vẫn dựa vào người để sửa. AI 2.0 (built-in): nằm trong workflow, tự phát hiện vấn đề và tự xử lý trước khi con người phải vào cuộc — con người chuyển từ ra lệnh sang đánh giá kết quả. Nhà sáng lập RateGain Bhanu Chopra phản biện nỗi lo "AI giết SaaS" bằng phép so với cloud một thập kỷ trước: AI là hạ tầng/tiện ích, "hạ tầng tạo điều kiện cho giá trị chứ không tự chuyển giao giá trị"; như cloud rốt cuộc thành nền móng để SaaS bùng nổ bên trên.</p>
+    <h3>Cách nhúng AI (6 ví dụ) &amp; câu hỏi trước khi xây</h3>
+    <p>Sáu hướng nhúng: (1) onboarding &amp; activation cá nhân hóa theo hành vi, chọn đường ngắn nhất tới giá trị; (2) analytics dự đoán churn/expansion sớm; (3) phân tích cảm xúc phản hồi bằng NLP, bắt friction ngay tuần đầu; (4) chatbot học từ mỗi tương tác thay vì kịch bản có sẵn; (5) agentic workflow — agent tự hoàn tất tác vụ (ví dụ MCP server kéo dữ liệu về một câu trả lời); (6) sinh nội dung &amp; bản địa hóa. Bối cảnh: Gartner dự báo 40% app doanh nghiệp có AI agent theo tác vụ vào 2026 (từ &lt;5% năm 2025); Deloitte 75% công ty đầu tư agentic AI; Airfocus: 92% PM tin AI có tác động lâu dài nhưng 21% nói thiếu kiến thức/kỹ năng cản trở. Bốn câu hỏi trước khi xây: vấn đề kinh doanh cốt lõi? dữ liệu đủ sạch để dự đoán? ai chịu trách nhiệm khi AI sai? vòng phản hồi nào làm AI thông minh hơn? Kết: sản phẩm nới rộng khoảng cách không phải nơi ship nhiều tính năng AI nhất, mà nơi xác định đúng vấn đề cốt lõi và làm AI thành phần native của sản phẩm.</p>
+  </section>
+
+  <div class="refs" style="margin-top:26px">
+    <strong>Nguồn tham khảo toàn số:</strong><br>
+    [1] Open Mainframe Project (Linux Foundation), Ramana Sree K V — <a href="https://openmainframeproject.org/blog/summer-mentorship-2026-discovery-is-not-migration-where-ai-actually-stands-for-mainframe-modernization/" target="_blank">Summer Mentorship 2026: Discovery Is Not Migration Where AI Actually Stands for Mainframe Modernization</a> (22/07/2026)<br>
+    [2] Userpilot, Yazan Sehwail — <a href="https://userpilot.com/blog/ai-in-saas/" target="_blank">AI in SaaS in 2026: Why AI-Native Companies Are Pulling Away</a> (22/07/2026); số liệu 4×/+21% trích <a href="https://www.emcap.com/beyond-benchmarks-2025" target="_blank">Emergence Capital "Beyond Benchmarks"</a>
+  </div>
+
+  <div class="foot"><a href="/" style="color:#4338ca;text-decoration:none">← Về trang bìa lưu trữ</a></div>
+</div>
+</body>
+</html>
