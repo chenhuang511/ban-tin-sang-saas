@@ -8,14 +8,14 @@
 > 2. Trước khi giải thích một thuật ngữ: xem phần **C. Từ điển thuật ngữ** — nếu đã giải thích ở số trước thì chỉ nhắc gọn/nối link, không giải thích lại dài dòng.
 > 3. Sau khi viết xong: thêm 1 khối vào phần **B. Mục lục theo số** và cập nhật phần A + C nếu có nguồn/thuật ngữ mới (dùng mẫu ở cuối file).
 >
-> _Cập nhật lần cuối: 09/08/2026 — 17 số (24/07 → 09/08/2026)._
+> _Cập nhật lần cuối: 09/08/2026 — 18 số (24/07 → 09/08/2026; gồm 1 số song song 09/08 chuyên đề An toàn thông tin)._
 
 ---
 
 ## A. Danh sách nguồn / thực thể ĐÃ DÙNG (tránh lặp)
 
 ### Domain nguồn đã trích dẫn (đừng lặp cùng một bài)
-abstracta.us · arxiv.org (2603.28592 "Debt Behind the AI Boom") · aws.amazon.com · bcg.com · businesswire.com (CrewAI) · lorikeetcx.ai · gartner.com (dự báo 80%/2029) · openmainframeproject.org · userpilot.com · emcap.com (Emergence Capital) · blogs.cisco.com · businessofapps.com · byteiota.com · ciodive.com · clonedesk.ai · cloud.google.com (DORA) · cnbc.com · devblogs.microsoft.com · devoxsoftware.com · dora.dev · entrepreneur.com · faros.ai · forrester.com · fungies.io · gartner.com · getdx.com / newsletter.getdx.com · getmacha.com · gleap.io · kyndryl.com · larridin.com · linearb.io · marketscale.com · mckinsey.com · metr.org · mlq.ai · natlawreview.com · opsera.ai · plandek.com · prnewswire.com · qrvey.com · research.google · sfailabs.com · slashdot.org · sourcegraph.com · technode.global · thenewstack.io · thoughtworks.com · writer.com · zylo.com
+abstracta.us · arxiv.org (2603.28592 "Debt Behind the AI Boom") · aws.amazon.com · bcg.com · businesswire.com (CrewAI) · lorikeetcx.ai · gartner.com (dự báo 80%/2029) · openmainframeproject.org · userpilot.com · emcap.com (Emergence Capital) · datadoghq.com (State of DevSecOps 2026) · scytale.ai (SOC 2) · blogs.cisco.com · businessofapps.com · byteiota.com · ciodive.com · clonedesk.ai · cloud.google.com (DORA) · cnbc.com · devblogs.microsoft.com · devoxsoftware.com · dora.dev · entrepreneur.com · faros.ai · forrester.com · fungies.io · gartner.com · getdx.com / newsletter.getdx.com · getmacha.com · gleap.io · kyndryl.com · larridin.com · linearb.io · marketscale.com · mckinsey.com · metr.org · mlq.ai · natlawreview.com · opsera.ai · plandek.com · prnewswire.com · qrvey.com · research.google · sfailabs.com · slashdot.org · sourcegraph.com · technode.global · thenewstack.io · thoughtworks.com · writer.com · zylo.com
 
 ### Công ty / báo cáo / case study đã khai thác (KHÔNG viết lại trừ khi có số liệu mới)
 - **Case hiện đại hóa/legacy:** Bankdata × Microsoft (COBOL→Java Quarkus); Experian × AWS (687.600 dòng .NET, agentic); Toyota × AWS (rời mainframe 1979); Google "Accelerating code migrations with AI" (74%); Sourcegraph legacy guide; Kyndryl State of Mainframe Modernization 2025; Devox 2026 Legacy Modernization Report; Abstracta (RPG siêu thị, "90% là kiểm thử"); Open Mainframe Project "Discovery Is Not Migration" (Gartner >70% exit fail, IBM watsonx Code Assistant for Z, Rocket Software candor).
@@ -35,6 +35,13 @@ abstracta.us · arxiv.org (2603.28592 "Debt Behind the AI Boom") · aws.amazon.c
 - **Nguồn:** Open Mainframe Project — Ramana Sree K V, "Discovery Is Not Migration…" (22/07/2026, openmainframeproject.org) · Userpilot — Yazan Sehwail, "AI in SaaS in 2026: Why AI-Native Companies Are Pulling Away" (22/07/2026, userpilot.com), dẫn Emergence Capital "Beyond Benchmarks"
 - **Số chính:** Gartner dự báo >70% dự án mainframe exit khởi động 2026 sẽ không đạt lợi ích; cổ phiếu IBM giảm 02/2026 sau tuyên bố AI tăng tốc COBOL; Gartner tách "modernize tại chỗ" vs "platform exit" (AI phòng thủ tốt hơn ở vế đầu); watsonx Code Assistant for Z đặt discovery trước conversion; Rocket Software: viết lại COBOL→Java bằng AI "giống hệt chức năng nhưng không giá trị hơn". Emergence Capital (500+ SaaS B2B): AI-native tăng trưởng 4× & giữ chân +21%; expansion revenue 58% (sau 50tr ARR) → 67% (sau 100tr ARR); 74% phần mềm bán ảo, 50% giao dịch có đánh giá AI; Gartner 40% app doanh nghiệp có agent theo tác vụ vào 2026 (từ <5%/2025); Deloitte 75% đầu tư agentic AI; Airfocus 92% PM tin AI tác động lâu dài, 21% thiếu kỹ năng.
 - **Thực thể:** Open Mainframe Project/Linux Foundation, Ramana Sree K V, Misty Decker, Gartner (mainframe exit), IBM watsonx Code Assistant for Z, Rocket Software, Userpilot/Yazan Sehwail (agent Lia), Emergence Capital "Beyond Benchmarks", RateGain/Bhanu Chopra, Deloitte, Airfocus, Hotjar/Mixpanel/Zendesk (bối cảnh).
+
+### 09/08/2026 (SỐ SONG SONG) — Chuyên đề An toàn thông tin cho startup SaaS: 87% chạy lỗ hổng đã biết & con đường SOC 2
+- **Chủ đề:** An toàn thông tin (chủ đề #4 mới) · AI trong SaaS
+- **Nguồn:** Datadog "State of DevSecOps Report 2026" (26/02/2026, datadoghq.com — telemetry hàng chục nghìn app) · Scytale "How Much Does SOC 2 Compliance Cost in 2026?" (cập nhật 25/03/2026, scytale.ai — nhà cung cấp tự động hóa tuân thủ, số liệu chi phí là ước tính)
+- **Số chính:** Datadog: 87% có ≥1 lỗ hổng khai thác được đang chạy; 42% dùng thư viện hết bảo trì; EOL language 50% vs 31%; dependency trễ 278 ngày (+63 so năm trước); 50% cập nhật lib trong 24h; chỉ 4% ghim GitHub Actions theo hash; chỉ 18% "critical" còn critical sau ngữ cảnh runtime. Scytale: audit SOC 2 $12k–$70k; đào tạo ~$2,5k, chính sách ~$8k, đánh giá rủi ro ~$2k, tư vấn ~$15k; tự động hóa tiết kiệm ~$25k/300+ giờ; 5 tiêu chí TSC (Security bắt buộc); Type II nghiêm/tốn hơn Type I.
+- **Thực thể:** Datadog/Andrew Krug, Scytale/Meiran Galis, GitHub Actions (supply chain), AICPA SOC 2 (Type I/II, TSC).
+- **Ghi chú:** file `2026-08-09-baomat.html` (phục vụ tại /2026-08-09-baomat), số thứ 2 cùng ngày 09/08 — KHÔNG đè số chính.
 
 ### 08/08/2026 — 100% doanh nghiệp mở rộng agentic AI, nhưng "tỷ lệ giải quyết" dễ đọc sai nhất
 - **Chủ đề:** AI trong SaaS · Xu hướng & công cụ
@@ -132,6 +139,9 @@ abstracta.us · arxiv.org (2603.28592 "Debt Behind the AI Boom") · aws.amazon.c
 - **Agentic AI / AI agent:** nhiều agent chuyên biệt phối hợp (phân tích, map phụ thuộc, sinh code) thay vì một prompt đơn. _28/07, 30/07._
 - **Deflection / Containment / Resolution rate:** 3 con số hay bị gọi nhầm là "tỷ lệ giải quyết" — deflection = hội thoại không có người chạm (tính cả khách bỏ cuộc); containment = ở lại kênh AI; resolution = vấn đề được giải quyết end-to-end có xác minh. Chênh nhau >30 điểm %. _08/08._
 - **Action-taking (khả năng hành động):** agent xâu chuỗi nhiều lệnh gọi công cụ (xác minh→kiểm tra→thực hiện→xác nhận) thay vì chỉ tra cứu-trả lời; đòn bẩy lớn nhất kéo tỷ lệ giải quyết lên. _08/08._
+- **DevSecOps / shift-left:** đưa bảo mật vào sớm trong vòng đời phát triển (SAST/DAST/SCA, secret scanning) thay vì kiểm ở cuối. _09/08 (song song)._
+- **Supply-chain security (bảo mật chuỗi cung ứng):** rủi ro từ thư viện/CI/CD bên thứ ba; giảm bằng ghim (pin) dependency & GitHub Actions theo commit hash, tránh dùng bản EOL. _09/08 (song song)._
+- **SOC 2 (Type I/II, TSC):** chứng nhận về QUY TRÌNH bảo mật; Type I chụp một thời điểm, Type II kiểm vận hành qua thời gian; 5 tiêu chí Trust Services (Security bắt buộc). Là điều kiện bán hàng B2B chứ không đảm bảo "không có lỗ hổng". _09/08 (song song)._
 - **MCP (Model Context Protocol):** lớp chuẩn để AI gọi công cụ/API theo ngữ cảnh. _28/07._
 - **Discovery vs Migration:** "discovery" = AI đọc/hiểu/lập tài liệu/trích luật nghiệp vụ code cũ (AI giỏi); "migration" = chuyển đổi ngôn ngữ/nền tảng giữ đúng ngữ nghĩa nghiệp vụ (AI còn yếu, cần người kiểm chứng). Nhầm hai thứ này là nơi dự án exit đổ. _09/08._
 - **Bolt-on vs Built-in AI (AI 1.0 vs 2.0):** bolt-on = chatbot dán ngoài, chỉ trả lời, vẫn cần người sửa; built-in = AI sống trong workflow, tự phát hiện + tự xử lý trước khi người vào cuộc. _09/08._
