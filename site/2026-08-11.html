@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>"Nợ xác minh" của code AI &amp; ai ghép được đội hiện đại hóa COBOL · 11/08/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.tag.proc{background:#eff6ff;color:#1d4ed8}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.dich{background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;padding:16px 20px;margin-top:16px}
+.dich .flag{font-size:12.5px;color:#94a3b8;font-style:italic;margin-bottom:8px}
+.dich h3{font-size:16px;margin:14px 0 4px}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 11/08/2026</div>
+    <h1 class="title">"Nợ xác minh" của code AI &amp; ai ghép được đội hiện đại hóa COBOL</h1>
+    <div class="meta">11/08/2026 · Thời lượng đọc ~17 phút · Nguồn: Sonar State of Code Developer Survey 2026 (08/01/2026); Futurum — Mitch Ashley (26/02/2026)</div>
+  </header>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1">Khảo sát Sonar: điểm nghẽn đã dời từ "viết code" sang "xác minh code"</a></li>
+      <li><a href="#bai2">IBM vs Anthropic: cuộc tranh cãi COBOL và câu hỏi "chọn công cụ" bị đặt sai chỗ</a></li>
+      <li><a href="#gocnhin">Góc nhìn: cùng một nút thắt — xác minh — nhìn từ hai đầu ống kính</a></li>
+      <li><a href="#dich1">📖 Lược dịch — Khảo sát thực trạng code AI (Sonar)</a></li>
+      <li><a href="#dich2">📖 Lược dịch — Tale of the Tape COBOL (Futurum)</a></li>
+    </ol>
+  </nav>
+
+  <!-- BÀI 1 -->
+  <article class="card" id="bai1">
+    <span class="tag proc">Quy trình sản xuất</span>
+    <h2 class="head">1 · Sonar khảo sát 1.100+ lập trình viên: điểm nghẽn đã dời từ "viết code" sang "xác minh code"</h2>
+    <p class="src">Nguồn: Sonar (SonarSource) — "State of Code Developer Survey report: The current reality of AI coding", Anirban Chatterjee · đăng 08/01/2026 · <a href="https://www.sonarsource.com/blog/state-of-code-developer-survey-report-the-current-reality-of-ai-coding/" target="_blank">sonarsource.com</a> · và thông cáo báo chí cùng ngày <a href="https://www.sonarsource.com/company/press-releases/sonar-data-reveals-critical-verification-gap-in-ai-coding/" target="_blank">(Verification Gap)</a></p>
+
+    <div class="stat">
+      <div class="box"><div class="num">42% → 65%</div><div class="lab">tỷ lệ code do AI viết/hỗ trợ hôm nay, dự kiến đạt 65% vào 2027 <a href="https://www.sonarsource.com/company/press-releases/sonar-data-reveals-critical-verification-gap-in-ai-coding/" target="_blank">(Sonar, 2026)</a></div></div>
+      <div class="box"><div class="num">96% vs 48%</div><div class="lab">96% không hoàn toàn tin code AI đúng chức năng, nhưng chỉ 48% luôn kiểm tra trước khi commit <a href="https://www.sonarsource.com/company/press-releases/sonar-data-reveals-critical-verification-gap-in-ai-coding/" target="_blank">(Sonar, 2026)</a></div></div>
+      <div class="box"><div class="num">38%</div><div class="lab">nói review code AI tốn công hơn review code của đồng nghiệp là người <a href="https://www.sonarsource.com/blog/state-of-code-developer-survey-report-the-current-reality-of-ai-coding/" target="_blank">(Sonar, 2026)</a></div></div>
+    </div>
+
+    <p>Sonar — hãng đứng sau SonarQube, phân tích hơn 750 tỷ dòng code mỗi ngày và được 7 triệu+ lập trình viên dùng — khảo sát hơn 1.100 lập trình viên chuyên nghiệp toàn cầu để đo "thực trạng" thay vì "lời quảng cáo" về AI coding.<sup><a href="https://www.sonarsource.com/blog/state-of-code-developer-survey-report-the-current-reality-of-ai-coding/" target="_blank">[1]</a></sup> Kết quả lớn nhất: AI đã thành thói quen hằng ngày (72% người từng thử AI nay dùng mỗi ngày), chiếm 42% code được commit và được dự báo lên ~65% vào 2027.<sup><a href="https://www.sonarsource.com/company/press-releases/sonar-data-reveals-critical-verification-gap-in-ai-coding/" target="_blank">[1]</a></sup> Nhưng làn sóng đó không tự động biến thành năng suất — nó tạo một nút thắt mới ở khâu <strong>xác minh (verification)</strong>.</p>
+
+    <p>Đây là chỗ Sonar gọi là "khoảng trống xác minh": 96% lập trình viên nói họ <em>không</em> hoàn toàn tin code do AI sinh là đúng chức năng, nhưng chỉ 48% khẳng định luôn kiểm tra code AI trước khi commit.<sup><a href="https://www.sonarsource.com/company/press-releases/sonar-data-reveals-critical-verification-gap-in-ai-coding/" target="_blank">[2]</a></sup> Khoảng cách giữa "không tin" và "vẫn không kiểm" chính là thứ mà CTO của AWS Werner Vogels gọi là <strong>"verification debt" (nợ xác minh)</strong> — theo cách trích của Sonar.<sup><a href="https://www.sonarsource.com/company/press-releases/sonar-data-reveals-critical-verification-gap-in-ai-coding/" target="_blank">[2]</a></sup> Gánh nặng này không nhỏ: 38% nói review code AI tốn công hơn review code của người, và tổng "toil work" (việc lặt vặt gây mệt) vẫn đứng yên ở mức ~24% tuần làm việc bất kể dùng AI nhiều hay ít.<sup><a href="https://www.sonarsource.com/company/press-releases/sonar-data-reveals-critical-verification-gap-in-ai-coding/" target="_blank">[2]</a></sup></p>
+
+    <p>Bức tranh còn nhiều sắc: mỗi đội trung bình xoay xở với 4 công cụ AI coding khác nhau, 64% đã bắt đầu dùng agent AI tự chủ.<sup><a href="https://www.sonarsource.com/company/press-releases/sonar-data-reveals-critical-verification-gap-in-ai-coding/" target="_blank">[2]</a></sup> Về quản trị, 35% thừa nhận truy cập công cụ AI qua tài khoản cá nhân thay vì tài khoản công ty phê duyệt — một điểm mù cho đội bảo mật/tuân thủ (chính là hiện tượng "shadow AI" đã bàn ở số 10/08).<sup><a href="https://www.sonarsource.com/company/press-releases/sonar-data-reveals-critical-verification-gap-in-ai-coding/" target="_blank">[2]</a></sup> Tác động lên nợ kỹ thuật cũng hai mặt: 93% thấy tác động tích cực (tài liệu tốt hơn 57%, độ phủ test tốt hơn 53%), nhưng 88% cũng nêu mặt xấu — code "trông đúng mà không chạy đúng" (53%) hoặc thừa/trùng lặp (40%).<sup><a href="https://www.sonarsource.com/company/press-releases/sonar-data-reveals-critical-verification-gap-in-ai-coding/" target="_blank">[2]</a></sup></p>
+
+    <p>Đáng chú ý là khoảng cách giữa "dùng nhiều" và "thấy hiệu quả": 90% dùng AI để viết code mới nhưng chỉ 55% chấm nó "rất/cực hiệu quả" ở việc đó; 72% dùng để refactor nhưng chỉ 43% thấy thực sự hiệu quả.<sup><a href="https://www.sonarsource.com/blog/state-of-code-developer-survey-report-the-current-reality-of-ai-coding/" target="_blank">[1]</a></sup> AI tỏa sáng ở nơi có sẵn ngữ cảnh hoặc sinh khuôn mẫu: viết tài liệu (74% hiệu quả), giải thích/hiểu code có sẵn (66%), sinh test (59%).<sup><a href="https://www.sonarsource.com/blog/state-of-code-developer-survey-report-the-current-reality-of-ai-coding/" target="_blank">[1]</a></sup> Sonar cũng nói người dùng SonarQube ít gặp sự cố do code AI hơn 44% so với người không dùng — con số này đến từ chính nhà cung cấp công cụ xác minh, nên đọc như lập luận bán hàng có cơ sở dữ liệu, không phải kết luận trung lập.<sup><a href="https://www.sonarsource.com/blog/state-of-code-developer-survey-report-the-current-reality-of-ai-coding/" target="_blank">[1]</a></sup></p>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> Nếu AI đã viết ~40% code của đội bạn, đòn bẩy năng suất tiếp theo <em>không</em> nằm ở "sinh nhanh hơn" mà ở "xác minh rẻ hơn". Đặt một cổng kiểm bắt buộc (test + phân tích tĩnh + review) vào đúng luồng commit, và coi tỷ lệ "luôn kiểm code AI" là một chỉ số đội cần nâng — vì 96% ngờ vực mà chỉ 48% kiểm là công thức để nợ xác minh tích lũy âm thầm.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> Sonar Blog, "State of Code Developer Survey report: The current reality of AI coding" (08/01/2026) — <a href="https://www.sonarsource.com/blog/state-of-code-developer-survey-report-the-current-reality-of-ai-coding/" target="_blank">link</a>; Sonar Press Release, "Sonar Data Reveals Critical Verification Gap in AI Coding" (08/01/2026) — <a href="https://www.sonarsource.com/company/press-releases/sonar-data-reveals-critical-verification-gap-in-ai-coding/" target="_blank">link</a></div>
+  </article>
+
+  <!-- BÀI 2 -->
+  <article class="card" id="bai2">
+    <span class="tag legacy">Hiện đại hóa legacy</span>
+    <h2 class="head">2 · IBM vs Anthropic: cuộc tranh cãi COBOL và câu hỏi "chọn công cụ nào" bị đặt sai chỗ</h2>
+    <p class="src">Nguồn: The Futurum Group — Mitch Ashley, "IBM vs. Anthropic: A Tale of the COBOL Modernization Tape" · đăng 26/02/2026 · <a href="https://futurumgroup.com/insights/ibm-vs-anthropic-a-tale-of-the-cobol-modernization-tape/" target="_blank">futurumgroup.com</a></p>
+
+    <div class="stat">
+      <div class="box"><div class="num">-13% / -27%</div><div class="lab">cổ phiếu IBM rơi 13% ngày 23/02 (mạnh nhất kể từ 10/2000), giảm 27% cả tháng 2 <a href="https://futurumgroup.com/insights/ibm-vs-anthropic-a-tale-of-the-cobol-modernization-tape/" target="_blank">(Futurum, 2026)</a></div></div>
+      <div class="box"><div class="num">4 lớp mô hình</div><div class="lab">Project Bob định tuyến Claude, Mistral, Llama và mô hình IBM theo độ chính xác/độ trễ/chi phí <a href="https://futurumgroup.com/insights/ibm-vs-anthropic-a-tale-of-the-cobol-modernization-tape/" target="_blank">(Futurum, 2026)</a></div></div>
+      <div class="box"><div class="num">6 ngôn ngữ</div><div class="lab">Bob thay watsonx Code Assistant for i: COBOL, RPG, CL, SQL, Java, Python <a href="https://futurumgroup.com/insights/ibm-vs-anthropic-a-tale-of-the-cobol-modernization-tape/" target="_blank">(Futurum, 2026)</a></div></div>
+    </div>
+
+    <p>Ngày 23/02/2026, Anthropic đăng một bài kỹ thuật định vị Claude Code cho hiện đại hóa COBOL — nhắm vào chính các pha discovery, phân tích và lập tài liệu vốn làm cho việc di trú legacy đắt đỏ.<sup><a href="https://futurumgroup.com/insights/ibm-vs-anthropic-a-tale-of-the-cobol-modernization-tape/" target="_blank">[3]</a></sup> Phản ứng thị trường tức thì: cổ phiếu IBM rơi 13% trong ngày (cú giảm một ngày mạnh nhất kể từ tháng 10/2000), cả tháng 2 mất 27%; Accenture và Cognizant cũng giảm vì lo ngại mảng modernization legacy của họ đối mặt cùng rủi ro bị "phá vỡ".<sup><a href="https://futurumgroup.com/insights/ibm-vs-anthropic-a-tale-of-the-cobol-modernization-tape/" target="_blank">[3]</a></sup> IBM đáp lại ngay trong ngày với lập luận: vấn đề không phải ngôn ngữ COBOL mà là <strong>nền tảng IBM Z</strong> — dịch code chỉ nắm được rất ít độ phức tạp thật, phần giá trị nằm ở hàng chục năm tích hợp phần cứng–phần mềm mà việc dịch code không mang đi được.<sup><a href="https://futurumgroup.com/insights/ibm-vs-anthropic-a-tale-of-the-cobol-modernization-tape/" target="_blank">[3]</a></sup></p>
+
+    <p>Nhà phân tích Mitch Ashley (Futurum, nguyên CIO/CTO) chốt luận điểm cốt lõi: cả bài của Anthropic lẫn Project Bob của IBM đều chỉ chạm <em>một pha</em> — lớp phân tích và biến đổi code — trong một chương trình còn động tới chiến lược nghiệp vụ, kiến trúc kỹ thuật, di trú dữ liệu, xác nhận tương đương hành vi, kiểm thử, observability, quản trị, kỹ năng tổ chức và quản lý thay đổi cùng lúc. Chọn đúng công cụ AI cho pha discovery mà bỏ qua các chiều còn lại "chỉ tạo ra việc phát hiện nhanh hơn một dự án vẫn sẽ thất bại".<sup><a href="https://futurumgroup.com/insights/ibm-vs-anthropic-a-tale-of-the-cobol-modernization-tape/" target="_blank">[3]</a></sup> Đây là nơi phần "migration ≠ discovery" (đã bàn số 09/08) gặp một rào chắn cụ thể hơn: <strong>tương đương hành vi (behavioral equivalence)</strong> — dùng regression test, "golden dataset" và chạy song song để chứng minh hệ mới khớp hành vi hệ cũ ở đúng chỗ quan trọng, không chỉ ở các ca test đã biết. Với ngành bị quản lý chặt, các ca biên tích tụ hàng chục năm mã hóa logic pháp lý/nghiệp vụ không tồn tại ở đâu khác.<sup><a href="https://futurumgroup.com/insights/ibm-vs-anthropic-a-tale-of-the-cobol-modernization-tape/" target="_blank">[3]</a></sup></p>
+
+    <p>Về công cụ, Futurum cho rằng cách của IBM "mạnh về mặt cấu trúc hơn cho chương trình cấp doanh nghiệp": Project Bob là IDE dựa trên VS Code, kiến trúc đa mô hình định tuyến Claude, Mistral, Llama của Meta và mô hình riêng của IBM theo độ chính xác/độ trễ/chi phí; CTO IBM i Steve Will xác nhận Bob thay watsonx Code Assistant for i, phủ COBOL for i, RPG, CL, SQL, Java, Python ngay khi ra mắt, và nhúng sẵn ngữ cảnh tuân thủ FedRAMP/HIPAA/PCI cùng quét bảo mật nội tuyến trong IDE.<sup><a href="https://futurumgroup.com/insights/ibm-vs-anthropic-a-tale-of-the-cobol-modernization-tape/" target="_blank">[3]</a></sup> Đổi lại, Claude Code cho đội phát triển tiếp cận trực tiếp một mô hình mạnh không qua trung gian, rút ngắn tiến độ cho đội đã sẵn sàng tự dựng lớp quản trị, kiểm thử và xác minh của mình.<sup><a href="https://futurumgroup.com/insights/ibm-vs-anthropic-a-tale-of-the-cobol-modernization-tape/" target="_blank">[3]</a></sup> Kết luận của bài không phải "Claude Code đấu Project Bob" mà là "ai ghép được đội tốt nhất cho modernization" — và câu trả lời tốt nhất có thể là một đội IBM <em>cộng</em> Claude.<sup><a href="https://futurumgroup.com/insights/ibm-vs-anthropic-a-tale-of-the-cobol-modernization-tape/" target="_blank">[3]</a></sup></p>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> Nếu bạn đứng trước một hệ legacy, đừng để lựa chọn công cụ (Claude Code, Project Bob, Amazon Q, Copilot…) trở thành quyết định "chịu tải" đầu tiên. Hãy chốt trước tiêu chí thành công nghiệp vụ, đánh giá toàn bộ estate kỹ thuật (giữ/refactor/replatform/replace phần nào), và định hình chiến lược tương đương hành vi + di trú dữ liệu — rồi mới chọn công cụ. Với ngành bị quản lý, "test xanh" chưa chứng minh gì nếu bạn chưa chứng minh được hành vi cũ vốn đã đúng.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> The Futurum Group, Mitch Ashley — "IBM vs. Anthropic: A Tale of the COBOL Modernization Tape" (26/02/2026) — <a href="https://futurumgroup.com/insights/ibm-vs-anthropic-a-tale-of-the-cobol-modernization-tape/" target="_blank">link</a>. Bài dẫn hai bài gốc: Anthropic "How AI helps break the cost barrier to COBOL modernization" (23/02/2026) và IBM "Lost in Translation" (23/02/2026).</div>
+  </article>
+
+  <!-- GÓC NHÌN -->
+  <article class="card" id="gocnhin">
+    <span class="tag view">Góc nhìn</span>
+    <h2 class="head">3 · Cùng một nút thắt — xác minh — nhìn từ hai đầu ống kính</h2>
+    <p>Hai bài hôm nay tưởng khác nhau (một về năng suất dev, một về hiện đại hóa mainframe) nhưng gặp nhau ở đúng một chỗ: giá trị của AI bị chặn lại ở khâu <em>xác minh</em>, chứ không phải khâu sinh ra. Sonar đo điều đó ở cấp dòng code: viết thì nhanh, nhưng phải trả lại thời gian ở review/debug/validate, và "nợ xác minh" tích lũy khi 96% ngờ vực mà chưa tới một nửa thực sự kiểm.<sup><a href="https://www.sonarsource.com/company/press-releases/sonar-data-reveals-critical-verification-gap-in-ai-coding/" target="_blank">[2]</a></sup> Futurum đo điều đó ở cấp hệ thống: AI nén được pha discovery từ hàng tháng xuống hàng ngày, nhưng "tương đương hành vi" — thứ quyết định một cuộc migrate ngành ngân hàng/chính phủ thành hay bại — vẫn là khoảng trống chưa hãng nào lấp.<sup><a href="https://futurumgroup.com/insights/ibm-vs-anthropic-a-tale-of-the-cobol-modernization-tape/" target="_blank">[3]</a></sup></p>
+    <p>Nói cách khác, cả hai câu chuyện đều xác nhận cùng một luật: khi phần "tạo ra" rẻ đi nhờ AI, lợi thế cạnh tranh dịch chuyển sang phần "chứng minh nó đúng". Đội nào biến xác minh thành tự động, rẻ và bắt buộc sẽ hưởng phần lớn ROI; đội nào để nó thủ công và tùy hứng sẽ trả bằng sự cố và nợ ẩn.</p>
+    <p><strong>2–3 việc nên làm tuần này:</strong></p>
+    <div class="doslist">
+      <div>• Đo ngay "tỷ lệ luôn kiểm code AI" của đội (test + phân tích tĩnh chạy trên mọi PR do AI sinh) và đặt mục tiêu kéo nó về gần 100% cho code chạm nghiệp vụ.</div>
+      <div>• Rà "shadow AI": ai đang dùng công cụ AI qua tài khoản cá nhân? Chuẩn hóa về tài khoản công ty để bảo mật/tuân thủ có tầm nhìn (35% là con số đáng giật mình).</div>
+      <div>• Nếu có hệ legacy trong tầm ngắm: viết ra chiến lược tương đương hành vi (golden dataset + chạy song song) <em>trước</em> khi so sánh công cụ AI để di trú.</div>
+    </div>
+  </article>
+
+  <hr class="sep">
+
+  <!-- LƯỢC DỊCH 1 -->
+  <section class="dich" id="dich1">
+    <h2 class="head">📖 Lược dịch chi tiết — Khảo sát thực trạng code AI (Sonar)</h2>
+    <div class="flag">Bản diễn đạt lại bằng tiếng Việt, bám sát bố cục bài gốc — không phải dịch nguyên văn. <a href="https://www.sonarsource.com/blog/state-of-code-developer-survey-report-the-current-reality-of-ai-coding/" target="_blank">Bài gốc</a> · <a href="https://www.sonarsource.com/company/press-releases/sonar-data-reveals-critical-verification-gap-in-ai-coding/" target="_blank">Thông cáo</a></div>
+    <h3>Vì sao khảo sát</h3>
+    <p>Sonar phân tích hơn 750 tỷ dòng code mỗi ngày, thấy được xu hướng trong bản thân code; nhưng để hiểu thực trạng phát triển phần mềm thì cần nghe người viết. Vì thế họ khảo sát hơn 1.100 lập trình viên chuyên nghiệp, cố ý vượt qua "lời quảng cáo" để đọc thực tế: hiệu quả, bực bội và các luồng làm việc mới đang thực sự hình thành.</p>
+    <h3>AI đã thành thói quen hằng ngày</h3>
+    <p>Thời "thử AI cuối tuần" đã qua: 72% người từng dùng công cụ AI nay dùng mỗi ngày. Trung bình 42% code họ commit là do AI sinh hoặc hỗ trợ, và họ dự báo tỷ lệ này tăng hơn một nửa nữa vào 2027 (lên ~65%). AI đã len vào mọi lớp: 88% dùng cho prototype/PoC, 83% cho phần mềm nội bộ không tới hạn, 73% cho ứng dụng hướng khách hàng, 58% cho dịch vụ trọng yếu/nhiệm vụ.</p>
+    <h3>Khoảng cách giữa "dùng" và "hiệu quả"</h3>
+    <p>Dùng nhiều không có nghĩa hiệu quả cao. Ca dùng phổ biến nhất là viết code mới (90% dùng) nhưng chỉ 55% chấm "rất/cực hiệu quả"; refactor có 72% dùng nhưng chỉ 43% thấy hiệu quả cao. AI mạnh nhất ở nơi có sẵn ngữ cảnh hoặc sinh khuôn mẫu: viết tài liệu (74%), giải thích/hiểu code cũ (66%), sinh test (59%). Lập trình viên thực dụng: xem AI là "người giải thích" và "người dựng mẫu" giỏi, nhưng vẫn thấy khoảng trống ở refactor và bảo trì hệ trọng yếu nếu thiếu giám sát chặt.</p>
+    <h3>Khoảng trống xác minh (điểm nghẽn mới)</h3>
+    <p>Đây là phát hiện then chốt của thông cáo: mỗi đội trung bình xoay xở 4 công cụ AI, 64% đã dùng agent tự chủ; nhưng tự động hóa không xóa được "toil work" — vẫn ~24% tuần làm việc. Thời gian tiết kiệm khi soạn code nay được tái đầu tư vào review và debug đầu ra AI. 96% nói không hoàn toàn tin code AI đúng chức năng, nhưng chỉ 48% luôn kiểm trước khi commit — tạo ra thứ CTO AWS Werner Vogels gọi là "nợ xác minh". 38% thấy review code AI tốn công hơn review code người. Cách làm đang lên: "vibe, then verify" — sinh nhanh rồi kiểm kỹ.</p>
+    <h3>Quản trị, kinh nghiệm và nợ kỹ thuật</h3>
+    <p>35% truy cập công cụ AI qua tài khoản cá nhân, tạo điểm mù cho bảo mật/tuân thủ. Lập trình viên junior báo mức tăng năng suất cao nhất từ AI (40%) nhưng cũng dễ thấy review code AI vất vả hơn so với đồng nghiệp kỳ cựu. Về nợ kỹ thuật, AI là con dao hai lưỡi: 93% thấy tác động tích cực (tài liệu 57%, độ phủ test 53%), nhưng 88% nêu mặt xấu — code trông đúng mà không tin cậy (53%), hoặc thừa/trùng lặp (40%).</p>
+    <h3>Kết luận của Sonar</h3>
+    <p>CEO Tariq Shaukat: giá trị không còn định bằng tốc độ viết code mà bằng sự tự tin khi triển khai; muốn khai thác hết tiềm năng AI phải đóng khoảng trống niềm tin giữa "xuất ra" và "đưa vào chạy". Sonar (đương nhiên) định vị mình là lớp xác minh đó, và nêu người dùng SonarQube ít gặp sự cố do code AI hơn 44% — đọc như lập luận có dữ liệu từ nhà cung cấp, không phải kết luận trung lập.</p>
+  </section>
+
+  <!-- LƯỢC DỊCH 2 -->
+  <section class="dich" id="dich2">
+    <h2 class="head">📖 Lược dịch chi tiết — Tale of the Tape COBOL (Futurum)</h2>
+    <div class="flag">Bản diễn đạt lại bằng tiếng Việt, bám sát bố cục bài gốc — không phải dịch nguyên văn. <a href="https://futurumgroup.com/insights/ibm-vs-anthropic-a-tale-of-the-cobol-modernization-tape/" target="_blank">Bài gốc</a></div>
+    <h3>Tin</h3>
+    <p>Bài blog ngày 23/02/2026 của Anthropic lập luận AI làm thay đổi kinh tế của việc hiện đại hóa COBOL bằng cách tự động hóa các pha vốn khiến nó đắt: Claude Code đọc toàn bộ codebase COBOL, map phụ thuộc, xác định điểm vào chương trình, truy vết đường thực thi, phát hiện những liên kết ngầm qua cấu trúc dữ liệu chia sẻ và thao tác file mà công cụ phân tích tĩnh bỏ sót; tự sinh tài liệu luồng xử lý; rồi đánh giá rủi ro, chỉ ra module gắn kết cao, thành phần cô lập dễ migrate sớm, và vùng nợ kỹ thuật.</p>
+    <h3>Phản ứng thị trường</h3>
+    <p>Cổ phiếu IBM rơi 13% ngay ngày 23/02 — cú giảm một ngày mạnh nhất kể từ 10/2000 — và mất 27% trong tháng 2; Accenture, Cognizant cũng giảm. IBM đáp trả cùng ngày: thách thức không nằm ở ngôn ngữ COBOL mà ở nền tảng IBM Z; dịch code nắm được gần như không có độ phức tạp thật, giá trị đến từ hàng chục năm tích hợp phần cứng–phần mềm.</p>
+    <h3>Modernization thật sự đòi hỏi gì</h3>
+    <p>Con đường hiện đại hóa đầy dự án thất bại, và COBOL còn nhiều hơn mức trung bình. Chúng hỏng theo những cách đoán trước được: mục tiêu nghiệp vụ định nghĩa quá lỏng ("rời mainframe" không phải tiêu chí thành công); bỏ qua đánh giá kỹ thuật sâu và tưởng một chiến lược hợp mọi thành phần, trong khi câu trả lời gần như luôn là giữ một phần, refactor một phần, replatform một phần, replace một phần; đánh giá thấp di trú và tích hợp dữ liệu (mất/hỏng dữ liệu, đứt giao diện là rủi ro cao nhất). Chỗ ngành bị quản lý "đâm tường" là tương đương hành vi: cần regression test, golden dataset, chạy song song để xác nhận hệ mới khớp hệ cũ ở đúng chỗ quan trọng, không chỉ ở ca test đã biết. Observability (feature flag, metric, khả năng rollback) phải có <em>trước</em> khi đổi, và không thể thiếu những người hiểu hệ cũ ở lại suốt chương trình.</p>
+    <h3>AI đứng ở đâu</h3>
+    <p>Trên nền đó, Claude Code và Project Bob giải quyết một lát cắt thật và có giá trị — discovery, map phụ thuộc, phát hiện liên kết ngầm, tài liệu luồng, phân tầng rủi ro ban đầu — vốn khó và đắt ở quy mô lớn; nén từ hàng tháng xuống hàng ngày làm đổi kinh tế chương trình đáng kể. Futurum cho rằng cách của IBM mạnh hơn về cấu trúc cho doanh nghiệp: Project Bob định tuyến nhiều mô hình (Claude, Mistral, Llama, mô hình IBM) theo độ chính xác/độ trễ/chi phí; CTO IBM i Steve Will xác nhận (tại TechXchange 2025) Bob thay watsonx Code Assistant for i, phủ COBOL for i, RPG, CL, SQL, Java, Python, "nhanh hơn nhiều so với cách cũ", và nhúng ngữ cảnh tuân thủ FedRAMP/HIPAA/PCI cùng quét bảo mật nội tuyến.</p>
+    <h3>Tale of the Tape</h3>
+    <p>Trình tự đúng: định tiêu chí thành công nghiệp vụ, đánh giá toàn bộ estate, quyết giữ/refactor/replatform/replace, lập chiến lược tương đương hành vi và di trú dữ liệu — <em>trước</em> khi quyết chọn công cụ. Áp AI vào việc kiến trúc chương trình đó có thể cho ROI cao hơn áp AI vào việc viết lại code đơn thuần. Claude Code hợp đội đã sẵn sàng tự dựng lớp quản trị/kiểm thử; IBM mang kinh nghiệm chương trình quy mô lớn, chiều sâu vận hành với tổ chức bị quản lý chặt, hệ sinh thái đối tác và mô hình riêng nhúng trong nền tảng. Kết: không phải "Claude Code đấu Project Bob", mà là ai ghép được đội tốt nhất — có thể là IBM cộng Claude.</p>
+    <h3>Điều cần theo dõi</h3>
+    <p>Mốc ra mắt chính thức (GA) của Project Bob là "chịu tải" cho vị thế IBM (đang tech preview, có waitlist); công cụ chứng minh được tương đương hành vi giữa COBOL cũ và code mới, có triển khai tham chiếu ở ngân hàng/chính phủ, sẽ đổi cả cuộc chơi tuân thủ; cách các nhà tích hợp lớn (Accenture, Capgemini) phản ứng; và việc Amazon Q Developer, GitHub Copilot đầu tư vào modernization với lợi thế phân phối sẵn trong toolchain.</p>
+  </section>
+
+  <div class="refs" style="margin-top:26px">
+    <strong>Nguồn tham khảo toàn số:</strong><br>
+    [1] Sonar Blog — <a href="https://www.sonarsource.com/blog/state-of-code-developer-survey-report-the-current-reality-of-ai-coding/" target="_blank">State of Code Developer Survey report: The current reality of AI coding</a> (08/01/2026)<br>
+    [2] Sonar Press Release — <a href="https://www.sonarsource.com/company/press-releases/sonar-data-reveals-critical-verification-gap-in-ai-coding/" target="_blank">Sonar Data Reveals Critical "Verification Gap" in AI Coding: 96% Don't Fully Trust Output, Yet Only 48% Verify It</a> (08/01/2026)<br>
+    [3] The Futurum Group, Mitch Ashley — <a href="https://futurumgroup.com/insights/ibm-vs-anthropic-a-tale-of-the-cobol-modernization-tape/" target="_blank">IBM vs. Anthropic: A Tale of the COBOL Modernization Tape</a> (26/02/2026)
+  </div>
+
+  <div class="foot"><a href="/" style="color:#4338ca;text-decoration:none">← Về trang bìa lưu trữ</a></div>
+</div>
+</body>
+</html>
