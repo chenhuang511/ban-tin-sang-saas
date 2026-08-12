@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chi phí ẩn của tính năng AI &amp; code AI viết ra vẫn 44% dính lỗ hổng · 12/08/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.dich{background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;padding:16px 20px;margin-top:16px}
+.dich .flag{font-size:12.5px;color:#94a3b8;font-style:italic;margin-bottom:8px}
+.dich h3{font-size:16px;margin:14px 0 4px}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 12/08/2026</div>
+    <h1 class="title">Chi phí ẩn của tính năng AI &amp; code AI viết ra vẫn 44% dính lỗ hổng</h1>
+    <div class="meta">12/08/2026 · Thời lượng đọc ~17 phút · Nguồn: F1Studioz (07/08/2026); Veracode 2026 GenAI Code Security Report (28/07/2026)</div>
+  </header>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1">Chi phí ẩn của tính năng AI: vì sao "thêm AI" ≠ "thêm giá trị"</a></li>
+      <li><a href="#bai2">Veracode 2026: 44% tác vụ code AI vẫn đẻ ra lỗ hổng, cú pháp đúng nhưng bảo mật thì không</a></li>
+      <li><a href="#gocnhin">Góc nhìn: cùng một chữ "xác minh" — ở UI và ở đường ống bảo mật</a></li>
+      <li><a href="#dich1">📖 Lược dịch — Chi phí UX ẩn của tính năng AI (F1Studioz)</a></li>
+      <li><a href="#dich2">📖 Lược dịch — Cú pháp đã xong, bảo mật thì chưa (Veracode)</a></li>
+    </ol>
+  </nav>
+
+  <!-- BÀI 1 -->
+  <article class="card" id="bai1">
+    <span class="tag saas">AI trong SaaS</span>
+    <h2 class="head">1 · Chi phí ẩn của tính năng AI: vì sao "thêm AI" không đồng nghĩa với "thêm giá trị"</h2>
+    <p class="src">Nguồn: F1Studioz — Sukashish Kaur, "The Hidden UX Cost of AI Features: What US SaaS Companies Are Learning in 2026" · đăng 07/08/2026 · <a href="https://f1studioz.com/blog/the-hidden-ux-cost-of-ai-features/" target="_blank">f1studioz.com</a></p>
+
+    <div class="stat">
+      <div class="box"><div class="num">95%</div><div class="lab">pilot GenAI doanh nghiệp không tạo tác động P&amp;L đo được trong 6 tháng (MIT NANDA, dẫn qua F1Studioz) <a href="https://f1studioz.com/blog/the-hidden-ux-cost-of-ai-features/" target="_blank">(F1Studioz, 2026)</a></div></div>
+      <div class="box"><div class="num">51%</div><div class="lab">tổ chức dùng AI gặp ≥1 hậu quả tiêu cực; sai sót là lỗi bị nêu nhiều nhất (McKinsey, dẫn qua F1Studioz) <a href="https://f1studioz.com/blog/the-hidden-ux-cost-of-ai-features/" target="_blank">(F1Studioz, 2026)</a></div></div>
+      <div class="box"><div class="num">&gt;40%</div><div class="lab">dự án agentic AI dự kiến bị hủy trước 2027 (Gartner, dẫn qua F1Studioz) <a href="https://f1studioz.com/blog/the-hidden-ux-cost-of-ai-features/" target="_blank">(F1Studioz, 2026)</a></div></div>
+    </div>
+
+    <p>Bài của công ty UX F1Studioz mở đầu bằng một quan sát quen thuộc: mọi buổi review lộ trình sản phẩm SaaS năm 2026 đều có đâu đó một slide về tính năng AI vừa ra mắt, với con số adoption "lặng lẽ nhỏ hơn kỳ vọng". Tác giả lập luận đây không phải lỗi của mô hình, mà là lỗi của giả định phía sau — rằng <em>thêm năng lực AI cũng chính là thêm giá trị cho khách hàng</em>.<sup><a href="https://f1studioz.com/blog/the-hidden-ux-cost-of-ai-features/" target="_blank">[1]</a></sup></p>
+
+    <p>Bài viện dẫn một loạt nghiên cứu để chỉ ra khoảng cách giữa "capability" và "adoption": khảo sát MIT NANDA ("GenAI Divide", dựa trên phỏng vấn hơn 50 lãnh đạo và khoảng 300 triển khai công khai) nói phần lớn pilot GenAI doanh nghiệp <em>chững lại không có tác động tài chính đo được</em> — con số được nêu là 95% không tạo tác động P&amp;L trong 6 tháng; nhóm thành công (thiểu số) tập trung ở các use case back-office, gắn vào quy trình cụ thể. McKinsey ("State of AI Trust 2026") cho biết 51% tổ chức gặp ít nhất một hậu quả tiêu cực, phổ biến nhất là <em>sai sót/thiếu chính xác</em>. Còn Gartner được dẫn là dự báo hơn 40% dự án agentic AI bị loại bỏ trước 2027, trong khi chi tiêu AI toàn cầu 2026 tiến gần 2.600 tỷ USD — nghĩa là khoảng cách "chi ra" và "giá trị thu về" là con số cỡ hội đồng quản trị.<sup><a href="https://f1studioz.com/blog/the-hidden-ux-cost-of-ai-features/" target="_blank">[1]</a></sup> <em>(Các số này là do F1Studioz tổng hợp và dẫn nguồn cấp một; bản tin trích lại theo đúng bài, không kiểm từng báo cáo gốc.)</em></p>
+
+    <p>Phần đắt giá nhất là bốn lý do khiến người dùng <strong>bỏ qua</strong> tính năng AI — và không lý do nào là lỗi mô hình: (1) <strong>"thuế xác minh"</strong> — mỗi output không hoàn toàn tin được đều buộc thêm một bước kiểm tra, nếu tính năng không có đường dẫn nguồn/chỉ báo độ tin cậy thì người dùng lặng lẽ né và quay về làm tay; (2) <strong>chi phí chuyển ngữ cảnh</strong> — một chatbot dán bên hông sản phẩm hay bắt người dùng chép dữ liệu ra rồi dán vào prompt, tức là thêm bước chứ không bớt; (3) <strong>ranh giới năng lực mù mờ</strong> — một câu trả lời bịa được viết bằng đúng giọng tự tin như câu đúng, chỉ cần "cháy" một lần là niềm tin vào cả tính năng sụp; (4) <strong>không thấy tiến bộ theo thời gian</strong> — công cụ không giữ được phản hồi/không thích nghi sẽ bị coi là đồ trưng bày sau vài lần dùng.<sup><a href="https://f1studioz.com/blog/the-hidden-ux-cost-of-ai-features/" target="_blank">[1]</a></sup></p>
+
+    <div class="doslist">
+      <div>✅ <strong>Điều nhóm làm tốt đang làm:</strong> neo AI vào một quy trình hẹp, tần suất cao trước khi mở rộng (MIT: công cụ gắn quy trình thành công gấp ~2 lần loại "trợ lý chung"); thiết kế cho xác minh chứ không tin mù (dẫn nguồn/chỉ báo độ tin cậy); coi onboarding riêng cho tính năng AI là một kỷ luật; đo tác động ở mức <em>quy trình</em> (task xong nhanh hơn không) chứ không đo cú click nút AI; xây vòng phản hồi mà mô hình học được thật.</div>
+      <div>❌ <strong>Sai lầm hay lặp:</strong> dẫn dắt bằng mô hình thay vì quy trình; không có đường xây niềm tin từ từ; coi ảo giác là "vấn đề mô hình" thay vì vấn đề thiết kế; không có suy giảm êm khi AI sai; miễn kiểm thử khả dụng vì "AI thì khác"; tối ưu cho buổi demo thay vì lần dùng thứ mười.</div>
+    </div>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> Trước khi build một tính năng AI, hãy trả lời được: nó thay/tăng tốc <em>đúng tác vụ nào</em> trong quy trình thật của người dùng; khi AI sai thì người dùng có biết không; và nó bớt bước hay thêm bước? Nếu câu trả lời cho "khi sai thì người dùng có biết" là "không", đó là khoảng trống thiết kế phải bịt <em>trước</em> khi ra mắt. Và đo bằng "task có xong nhanh hơn nhờ AI không", đừng đo bằng "có bấm nút AI không".</div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> F1Studioz, Sukashish Kaur — "The Hidden UX Cost of AI Features" (07/08/2026) — <a href="https://f1studioz.com/blog/the-hidden-ux-cost-of-ai-features/" target="_blank">link</a>. Bài dẫn lại MIT NANDA "GenAI Divide", McKinsey "State of AI Trust 2026", Gartner, Stanford HAI "2026 AI Index", NN/g.</div>
+  </article>
+
+  <!-- BÀI 2 -->
+  <article class="card" id="bai2">
+    <span class="tag view">An toàn thông tin</span>
+    <h2 class="head">2 · Veracode 2026: cú pháp gần như đã xong, nhưng 44% tác vụ code AI vẫn đẻ ra lỗ hổng</h2>
+    <p class="src">Nguồn: Veracode — Natalie Tischler, "2026 GenAI Code Security Report: AI Is Writing More of Your Code but Security Hasn't Caught Up" · đăng 28/07/2026 · <a href="https://www.veracode.com/blog/2026-genai-code-security-report-ai-risk/" target="_blank">veracode.com</a></p>
+
+    <div class="stat">
+      <div class="box"><div class="num">44%</div><div class="lab">tác vụ sinh code bằng AI tạo ra lỗ hổng bảo mật có thể khai thác trong thử nghiệm <a href="https://www.veracode.com/blog/2026-genai-code-security-report-ai-risk/" target="_blank">(Veracode, 2026)</a></div></div>
+      <div class="box"><div class="num">56%</div><div class="lab">tỷ lệ vượt bài kiểm bảo mật trung bình qua các mô hình — gần như đứng yên so với 55% báo cáo trước <a href="https://www.veracode.com/blog/2026-genai-code-security-report-ai-risk/" target="_blank">(Veracode, 2026)</a></div></div>
+      <div class="box"><div class="num">~100%</div><div class="lab">code sinh ra đúng cú pháp — "cú pháp đã được giải quyết", nhưng bảo mật thì không theo cùng đường cong <a href="https://www.veracode.com/blog/2026-genai-code-security-report-ai-risk/" target="_blank">(Veracode, 2026)</a></div></div>
+    </div>
+
+    <p>Bối cảnh: ở các tổ chức đã dùng công cụ AI coding, AI hiện viết <em>khoảng một nửa</em> lượng code commit.<sup><a href="https://www.veracode.com/blog/2026-genai-code-security-report-ai-risk/" target="_blank">[2]</a></sup> Trên nền đó, phát hiện lõi của báo cáo Veracode là <strong>chức năng và bảo mật là hai chuyện tách rời</strong>: mô hình hiện đại sinh code đúng cú pháp gần 100%, nhưng qua tất cả ngôn ngữ, loại CWE, tác vụ và mô hình được kiểm, tỷ lệ vượt bài bảo mật trung bình chỉ 56% — tức khoảng 44% tác vụ cho ra code có lỗ hổng đã biết.<sup><a href="https://www.veracode.com/blog/2026-genai-code-security-report-ai-risk/" target="_blank">[2]</a></sup> Điểm đáng lo là con số này gần như không nhích so với 55% ở báo cáo đầu tiên, trong khi lượng code AI đổ vào pipeline thì tăng vọt — nên đây trở thành <em>bài toán quy mô</em>, không còn là rủi ro lý thuyết.<sup><a href="https://www.veracode.com/blog/2026-genai-code-security-report-ai-risk/" target="_blank">[2]</a></sup></p>
+
+    <p>Chọn mô hình giờ là một quyết định bảo mật. GPT-5.5 dẫn đầu ảnh chụp hiện tại ở 68%, còn hơn nửa số mô hình được kiểm nằm ở 50–53%.<sup><a href="https://www.veracode.com/blog/2026-genai-code-security-report-ai-risk/" target="_blank">[2]</a></sup> Vài giả định phổ biến bị bác: mô hình chuyên code trung bình 51% so với mô hình đa dụng 52% (chuyên viết code nhanh không viết an toàn hơn); mô hình có suy luận nhỉnh hơn — 56% so với 51% — nhưng vẫn hỏng gần 44% tác vụ; kích cỡ mô hình gần như không đổi bức tranh (lớn 53%, vừa và nhỏ đều 51%).<sup><a href="https://www.veracode.com/blog/2026-genai-code-security-report-ai-risk/" target="_blank">[2]</a></sup> Ngay cả mô hình tốt nhất vẫn hỏng gần 1/3 tác vụ bảo mật — tức chọn model tốt hơn giảm được tải, chứ không xóa được rủi ro.</p>
+
+    <p>Hiệu năng chênh lệch dữ dội theo <em>loại</em> lỗ hổng, và đó là bản đồ cho biết khâu xác minh cần dồn vào đâu: mô hình làm khá tốt với SQL injection (đạt trung bình 83%) và thuật toán mã hóa (87%), nhưng rơi thẳng ở cross-site scripting (XSS, chỉ 15%) và log injection (12%).<sup><a href="https://www.veracode.com/blog/2026-genai-code-security-report-ai-risk/" target="_blank">[2]</a></sup> Những lỗ hổng phụ thuộc luồng dữ liệu và ngữ cảnh ứng dụng — như XSS — chính là nơi output thô của mô hình dễ sai nhất.</p>
+
+    <p>Vì sao đáng quan tâm ngay: báo cáo Verizon DBIR 2026 (được Veracode dẫn) nói lỗ hổng phần mềm nay là <em>cửa vào vi phạm số một, chiếm 31%</em>, vượt cả thông tin đăng nhập bị đánh cắp; còn "2026 State of Software Security" của chính Veracode cho thấy nợ bảo mật ảnh hưởng 82% tổ chức, nợ bảo mật nghiêm trọng 60%, và lỗ hổng rủi ro cao tăng 36% so với năm trước.<sup><a href="https://www.veracode.com/blog/2026-genai-code-security-report-ai-risk/" target="_blank">[2]</a></sup> Ghép lại: không chỉ nhiều code AI hơn, mà là <em>nhiều code dễ tổn thương hơn</em> đổ vào môi trường vốn đã gánh quá nhiều nợ chưa xử.</p>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> Với startup SaaS để agent/dev sinh code bằng AI, hãy coi bảo mật code AI là một kỷ luật bốn phần: (1) đưa tiêu chí bảo mật vào lúc <em>chọn model</em>, không chỉ giá/tốc độ; (2) xác minh ngay trong luồng viết code (SAST/DAST/SCA chạy khi code sinh ra, trước khi vào production); (3) ưu tiên vá nơi rủi ro cao nhất — với code AI, nghĩa là siết review mạnh vào XSS/log injection hơn là SQLi; (4) quản trị việc dùng AI như một đầu vào phần mềm thật (model nào, dùng ở đâu, kiểm ra sao).</div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> Veracode, Natalie Tischler — "2026 GenAI Code Security Report…" (28/07/2026) — <a href="https://www.veracode.com/blog/2026-genai-code-security-report-ai-risk/" target="_blank">link</a>. Trong bài dẫn Verizon DBIR 2026 và Veracode "2026 State of Software Security".</div>
+  </article>
+
+  <!-- GÓC NHÌN -->
+  <article class="card" id="gocnhin">
+    <span class="tag view">Góc nhìn</span>
+    <h2 class="head">3 · Cùng một chữ "xác minh" — ở giao diện người dùng và ở đường ống bảo mật</h2>
+    <p>Hai bài hôm nay nhìn hai đầu khác nhau của cùng một sản phẩm SaaS, nhưng chạm cùng một nút thắt. Ở phía <em>người dùng cuối</em>, F1Studioz gọi rào cản adoption lớn nhất là "thuế xác minh": người ta né tính năng AI khi không có cách kiểm nhanh output đúng hay sai.<sup><a href="https://f1studioz.com/blog/the-hidden-ux-cost-of-ai-features/" target="_blank">[1]</a></sup> Ở phía <em>người viết phần mềm</em>, Veracode cho thấy code AI trông đúng (cú pháp ~100%) nhưng gần một nửa tác vụ vẫn giấu lỗ hổng — nên giá trị chỉ hiện thực khi có xác minh trong luồng.<sup><a href="https://www.veracode.com/blog/2026-genai-code-security-report-ai-risk/" target="_blank">[2]</a></sup> Đây đúng là mặt kia của "nợ xác minh" mà số 11/08 đã bàn: AI làm phần "sinh ra" rẻ đi, chi phí dồn sang phần "chứng minh nó đúng" — dù là đúng với người dùng hay đúng với kẻ tấn công.</p>
+    <p><strong>2–3 việc nên làm tuần này:</strong></p>
+    <div class="doslist">
+      <div>• Với mỗi tính năng AI đang ấp ủ, viết ra 1 câu: "khi AI trả lời sai, người dùng nhận ra bằng cách nào?" — nếu chưa có câu trả lời, thêm chỉ báo độ tin cậy/nguồn trước khi ship.</div>
+      <div>• Nếu đội đang để AI sinh nhiều code: bật (hoặc siết) SAST/SCA chạy tự động trong CI, và ưu tiên rule cho XSS &amp; injection — đúng những lỗ hổng mô hình yếu nhất theo Veracode.</div>
+      <div>• Đổi thước đo tính năng AI từ "tỷ lệ bấm nút AI" sang "tác vụ có xong nhanh hơn / ít qua lại hơn không" trong 2 chu kỳ dùng đầu.</div>
+    </div>
+  </article>
+
+  <hr class="sep">
+
+  <!-- LƯỢC DỊCH 1 -->
+  <section class="dich" id="dich1">
+    <h2 class="head">📖 Lược dịch chi tiết — Chi phí UX ẩn của tính năng AI (F1Studioz)</h2>
+    <div class="flag">Bản diễn đạt lại bằng tiếng Việt, bám sát bố cục bài gốc — không phải dịch nguyên văn. <a href="https://f1studioz.com/blog/the-hidden-ux-cost-of-ai-features/" target="_blank">Bài gốc</a></div>
+    <h3>Khoảng cách giữa "hype AI" và "adoption AI"</h3>
+    <p>Hỏi bất kỳ nhà sáng lập SaaS Mỹ nào rằng sản phẩm của họ có AI chưa, câu trả lời là có. Hỏi tiếp khách hàng có dùng theo cách đã dời được các chỉ số quan trọng (retention, expansion revenue, time-to-value) không, giọng bắt đầu nhỏ lại. Khoảng cách này lặp lại nhất quán giữa các ngành, và không phụ thuộc mô hình mạnh đến đâu. Stanford HAI 2026 gọi đó là "biên giới lởm chởm" — AI đạt điểm vàng ở benchmark suy luận nhưng lại hỏng ở việc con người thấy tầm thường (như đọc đồng hồ kim). Bản năng "ship nhanh tính năng AI vì đối thủ đang làm" là dễ hiểu, nhưng nhanh-ra-tính-năng không bằng nhanh-ra-giá-trị.</p>
+    <h3>Hype AI so với thực tế kinh doanh</h3>
+    <p>Nghiên cứu "GenAI Divide" của MIT (phỏng vấn hơn 50 lãnh đạo, phân tích ~300 triển khai công khai) thấy đa số pilot GenAI doanh nghiệp chững lại không có tác động tài chính; thiểu số thành công tập trung ở use case back-office, gắn quy trình cụ thể. Yếu tố phân định không phải chất lượng mô hình, mà là công cụ có được gắn vào quy trình thật với vòng phản hồi để cải thiện hay chỉ là tính năng đứng riêng dán lên trên. Gartner cho rằng hơn 40% dự án agentic AI sẽ bị dẹp trước 2027 — không phải vì agent không làm được việc, mà vì kỷ luật tổ chức để định nghĩa/điều phối/tích hợp đi sau tốc độ triển khai. Gartner cũng ước tính chi tiêu AI toàn cầu gần 2.600 tỷ USD năm 2026. Trở ngại nằm ở khả dụng, niềm tin, khớp quy trình và quản lý thay đổi — một bài toán UX khoác ngân sách công nghệ.</p>
+    <h3>Vì sao người dùng bỏ qua tính năng AI</h3>
+    <p>Phần lớn tính năng AI bị bỏ không phải vì không chạy, mà vì dùng nó tốn của người dùng thứ mà giao diện chưa tính tới. <strong>Thuế xác minh:</strong> mỗi output không tin hoàn toàn đều cần một bước kiểm; NN/g thấy người dùng luôn đòi cách kiểm chứng (link nguồn, chỉ báo độ tin cậy, giải thích) trước khi dựa vào output; thiếu đường đó, họ quay về làm tay vì làm tay ít nhất có sự chắc chắn. <strong>Chi phí chuyển ngữ cảnh:</strong> chatbot dán bên hông bắt người dùng nhắc lại ngữ cảnh sản phẩm đã có; nếu phải chép dữ liệu ra rồi dán vào ô prompt thì tính năng đã thêm bước. <strong>Ranh giới năng lực mù mờ:</strong> Jakob Nielsen nhấn rằng câu bịa được viết với đúng giọng tự tin như câu đúng — cháy một lần là sập niềm tin cả tính năng, và rất chậm hồi. <strong>Không thấy cải thiện:</strong> công cụ không giữ được phản hồi/không thích nghi sẽ bị coi là đồ trưng bày sau vài lần dùng.</p>
+    <h3>Các chi phí UX ẩn khi triển khai AI kém</h3>
+    <p>Ngoài adoption thấp: tải nhận thức tăng mà không kèm giá trị (mỗi bề mặt AI mới là một điểm quyết định thêm); xói mòn niềm tin vào phần còn lại của sản phẩm (một tính năng AI thiếu tin cậy làm giảm cả cảm nhận độ tin cậy tổng thể — AvePoint 2026: đa số doanh nghiệp gặp ≥1 sự cố bảo mật/độ tin cậy liên quan AI năm qua); gánh nặng hỗ trợ và onboarding (lỗi AI khó tái hiện/giải thích hơn bug thường); thoái lui về khả năng tiếp cận (giao diện hội thoại/sinh nội dung tái tạo vấn đề accessibility mà UI form đã giải); và rủi ro tuân thủ (tính năng AI không giải thích được lý lẽ là tài sản pháp lý rủi ro, làm nghẽn mua sắm).</p>
+    <h3>Sáu sai lầm UX hay lặp &amp; điều gì đang hiệu quả</h3>
+    <p>Sai lầm: dẫn dắt bằng mô hình thay vì quy trình; không có đường xây niềm tin từng bước (thiếu chỉ báo độ tin cậy, trích nguồn, "cho xem cách làm"); coi ảo giác là vấn đề mô hình chứ không phải vấn đề thiết kế (thiếu human-in-the-loop, ngôn ngữ bất định, đường sửa dễ); không suy giảm êm khi thất bại; miễn kiểm thử khả dụng vì "AI thì khác"; tối ưu cho demo thay vì lần dùng thứ mười. Điều hiệu quả: neo AI vào một quy trình hẹp, hiểu rõ trước khi mở rộng (MIT: công cụ gắn quy trình thành công gấp ~2 lần loại chung chung); thiết kế cho xác minh; coi onboarding AI là kỷ luật riêng; đo ở mức quy trình chứ không đo cú click; xây vòng phản hồi mô hình học được thật.</p>
+    <h3>Ví dụ doanh nghiệp &amp; khung quyết định</h3>
+    <p>Mẫu số chung của các sản phẩm adoption bền (GitHub Copilot neo vào một tác vụ tần suất cao; Notion AI nhúng ngay trong bề mặt người dùng đang làm; Salesforce Einstein/Agentforce đầu tư giải thích &amp; nhật ký kiểm toán; Adobe Firefly minh bạch dữ liệu huấn luyện; Stripe chạy nền, chỉ giải thích khi cần): không phải AI hiện diện nhiều nhất, mà là AI được neo chặt vào tác vụ thật, để lý lẽ đọc được khi quan trọng, và để <em>quy trình</em> — không phải sự mới lạ của công nghệ — mang giá trị. Trước khi build, bài đưa 6 câu hỏi (tác vụ cụ thể là gì; có đường xác minh không; khi AI sai người dùng có biết không; bớt hay thêm bước; có tự giải thích cho người ít kỹ thuật không; có kế hoạch đo tác động ở mức quy trình không) và một ma trận quyết định "nên build / nên hoãn".</p>
+  </section>
+
+  <!-- LƯỢC DỊCH 2 -->
+  <section class="dich" id="dich2">
+    <h2 class="head">📖 Lược dịch chi tiết — Cú pháp đã xong, bảo mật thì chưa (Veracode)</h2>
+    <div class="flag">Bản diễn đạt lại bằng tiếng Việt, bám sát bố cục bài gốc — không phải dịch nguyên văn. <a href="https://www.veracode.com/blog/2026-genai-code-security-report-ai-risk/" target="_blank">Bài gốc</a></div>
+    <h3>Vấn đề</h3>
+    <p>AI coding đã qua giai đoạn thử nghiệm; với nhiều đội, nó là cách phần mềm được viết mỗi ngày. Ở các tổ chức đã dùng, AI viết khoảng một nửa lượng code commit. Câu hỏi thật không còn là AI có viết được code không, mà là chương trình bảo mật có theo kịp khối lượng, tốc độ và độ biến thiên của thứ AI sinh ra — và báo cáo 2026 nói: vẫn chưa.</p>
+    <h3>Phát hiện lõi: cú pháp đã được giải quyết, bảo mật thì không</h3>
+    <p>Chức năng và bảo mật là hai chuyện tách rời. Mô hình hiện đại sinh code đúng cú pháp gần 100%, nhưng qua tất cả ngôn ngữ, CWE, tác vụ và mô hình được kiểm, tỷ lệ vượt bài bảo mật trung bình vẫn là 56% — khoảng 44% tác vụ cho ra code có lỗ hổng đã biết. Cú pháp trôi chảy tạo tự tin giả: code biên dịch được, chạy được, trông sạch vẫn có thể đưa điểm yếu khai thác được vào production.</p>
+    <h3>Vì sao quan trọng lúc này</h3>
+    <p>Verizon DBIR 2026: lỗ hổng phần mềm nay là cửa vào vi phạm số một, chiếm 31%, vượt thông tin đăng nhập bị đánh cắp. "2026 State of Software Security" của Veracode: nợ bảo mật ảnh hưởng 82% tổ chức, nợ nghiêm trọng 60%, lỗ hổng rủi ro cao tăng 36% so năm trước. Ghép lại: nhiều code AI dễ tổn thương hơn đổ vào môi trường vốn đã gánh quá nhiều rủi ro chưa xử. Vì thế "bật đèn xanh an toàn" quan trọng hơn "cấm tiệt".</p>
+    <h3>Chọn mô hình đã thành quyết định bảo mật</h3>
+    <p>Trung bình phẳng nhưng phân bố thì không đều: GPT-5.5 dẫn đầu 68%, hơn nửa số mô hình ở 50–53%. Mô hình chuyên code trung bình 51% so với đa dụng 52% — chuyên viết nhanh không viết an toàn hơn. Mô hình suy luận nhỉnh hơn (56% vs 51%) nhưng vẫn hỏng ~44%. Kích cỡ gần như không đổi (lớn 53%, vừa/nhỏ 51%). Ngay cả model tốt nhất vẫn hỏng gần 1/3 tác vụ — chọn model tốt giảm tải, không xóa rủi ro.</p>
+    <h3>Lỗ hổng tồn đọng ở đâu = xác minh cần mạnh ở đó</h3>
+    <p>Hiệu năng chênh dữ dội theo loại: SQL injection đạt trung bình 83%, thuật toán mã hóa 87%; nhưng cross-site scripting chỉ 15%, log injection 12%. Vài loại lỗi dễ thành khuôn mẫu để mô hình học; loại khác phụ thuộc luồng dữ liệu, ngữ cảnh ứng dụng, cách input người dùng đi qua hệ thống — đó là nơi output thô dễ sai và cần review mạnh nhất. Bảo mật code AI không phải một bài toán kiểm soát đồng nhất, mà là bài toán ưu tiên.</p>
+    <h3>Thế nào là "mở rộng an toàn"</h3>
+    <p>Bốn năng lực: (1) chọn model có tính đến bảo mật, không chỉ giá/tốc độ/sở thích dev; (2) xác minh code ngay trong luồng viết, trước khi tới production — AI viết càng nhanh, kiểm-trong-luồng càng quan trọng; (3) dồn vá vào nơi rủi ro cao nhất, cần visibility hợp nhất để ưu tiên lỗ hổng khai thác được; (4) quản trị AI coding như một đầu vào phần mềm thật (model nào, dùng ở đâu, output kiểm ra sao, theo dõi theo thời gian). Giai đoạn tiếp theo của bảo mật code AI là <em>vận hành</em>, không phải trầm trồ công nghệ.</p>
+  </section>
+
+  <div class="refs" style="margin-top:26px">
+    <strong>Nguồn tham khảo toàn số:</strong><br>
+    [1] F1Studioz, Sukashish Kaur — <a href="https://f1studioz.com/blog/the-hidden-ux-cost-of-ai-features/" target="_blank">The Hidden UX Cost of AI Features: What US SaaS Companies Are Learning in 2026</a> (07/08/2026). Bài tổng hợp, dẫn MIT NANDA "GenAI Divide", McKinsey "State of AI Trust 2026", Gartner, Stanford HAI "2026 AI Index", NN/g, AvePoint "State of AI 2026".<br>
+    [2] Veracode, Natalie Tischler — <a href="https://www.veracode.com/blog/2026-genai-code-security-report-ai-risk/" target="_blank">2026 GenAI Code Security Report: AI Is Writing More of Your Code but Security Hasn't Caught Up</a> (28/07/2026). Dẫn thêm Verizon DBIR 2026 và Veracode "2026 State of Software Security".
+  </div>
+
+  <div class="foot"><a href="/" style="color:#4338ca;text-decoration:none">← Về trang bìa lưu trữ</a></div>
+</div>
+</body>
+</html>
