@@ -34,10 +34,17 @@ if errorlevel 1 (
   exit /b 1
 )
 
-rem --- 2b. Don index.lock ket (neu lan truoc bi treo) ---
+rem --- 2b. Don cac lock ket (neu lan truoc bi treo / commit tu moi truong khac) ---
 if exist ".git\index.lock" (
   echo [CANH BAO] Phat hien .git\index.lock ket — dang xoa de tiep tuc.
   del /f /q ".git\index.lock" >nul 2>nul
+)
+if exist ".git\HEAD.lock" (
+  echo [CANH BAO] Phat hien .git\HEAD.lock ket — dang xoa de tiep tuc.
+  del /f /q ".git\HEAD.lock" >nul 2>nul
+)
+if exist ".git\objects\maintenance.lock" (
+  del /f /q ".git\objects\maintenance.lock" >nul 2>nul
 )
 
 rem --- 3. Stage tat ca (netlify-token.txt / log / state da bi .gitignore chan) ---
