@@ -1,27 +1,35 @@
 // ==========================================================
 //  auto-deploy.js
-//  Phat hien so bai moi (hoac thay doi) trong site\ roi tu chay
-//  deploy-netlify.bat de day len Netlify. Chay ngam (khong bam phim).
+//  Phat hien MOI thay doi can dua len web (dua tren GIT, khong chi
+//  nhin file so) roi tu chay deploy-github.bat de commit + push.
+//
+//  Vi sao dua tren git: ban cu chi tinh "chu ky" tu cac file
+//  YYYY-MM-DD.html nen sua rieng index.html / _muc-luc / bat ky file
+//  nao khac se KHONG kich hoat deploy -> trang bia bi lo so moi.
+//  Nay: co bat ky thay doi chua commit HOAC commit chua push -> deploy.
 //
 //  Cach dung:
 //    node auto-deploy.js            (chay 1 lan, dung cho Task Scheduler)
-//    node auto-deploy.js --watch    (theo doi lien tuc, deploy khi co file moi)
+//    node auto-deploy.js --watch    (theo doi lien tuc, deploy khi co thay doi)
 //
-//  Trang thai luu o .deploy-state.json ; log o auto-deploy.log
+//  Log o auto-deploy.log ; khoa chong dung o .deploy.lock
 // ==========================================================
 
 const fs = require('fs');
 const path = require('path');
 const { spawnSync } = require('child_process');
 
-const ROOT  = __dirname;
-const SITE  = path.join(ROOT, 'site');
+const ROOT = __dirname;
+const SITE = path.join(ROOT, 'site');
+const LOG  = path.join(ROOT, 'auto-deploy.log');
+const LOCK = path.join(ROOT, '.deploy.lock');
 const STATE = path.join(ROOT, '.deploy-state.json');
-const LOG   = path.join(ROOT, 'auto-deploy.log');
 
-// Deploy qua GitHub (push -> GitHub Pages Actions). Khong dung credit Netlify.
+// Deploy qua GitHub (push -> GitHub Pages Actions + Cloudflare tu build lai).
 // Muon quay lai Netlify: doi 'deploy-github.bat' thanh 'deploy-netlify.bat'.
-const BAT   = path.join(ROOT, 'deploy-github.bat');
+const BAT = path.join(ROOT, 'deploy-github.bat');
+
+const LOCK_STALE_MS = 10 * 60 * 1000; // khoa cu hon 10 phut coi nhu ket -> bo qua
 
 function log(msg) {
   const line = `[${new Date().toLocaleString('vi-VN')}] ${msg}`;
@@ -29,30 +37,47 @@ function log(msg) {
   try { fs.appendFileSync(LOG, line + '\n'); } catch (_) {}
 }
 
-// Chi lay cac file so dang YYYY-MM-DD.html (khong tinh index.html)
-function issueFiles() {
-  if (!fs.existsSync(SITE)) return [];
-  return fs.readdirSync(SITE)
-    .filter(f => /^\d{4}-\d{2}-\d{2}\.html$/.test(f))
-    .sort();
+// Chay 1 lenh git, tra ve { code, out }
+function git(args) {
+  const r = spawnSync('git', args, { cwd: ROOT, encoding: 'utf8' });
+  return { code: r.status, out: (r.stdout || '').trim(), err: (r.stderr || '').trim() };
 }
 
-// Chu ky = ten + kich thuoc + mtime cua tung so (bat ca truong hop sua noi dung)
-function signature(files) {
-  return files.map(f => {
-    const st = fs.statSync(path.join(SITE, f));
-    return `${f}:${st.size}:${Math.floor(st.mtimeMs)}`;
-  }).join('|');
+// Co viec de deploy khong?
+//   1) Co file thay doi chua commit (git status --porcelain, bo qua file .gitignore)
+//   2) HOAC local di truoc origin/main (commit chua push — tu chua lanh lan truoc push loi)
+function pendingWork() {
+  const st = git(['status', '--porcelain']);
+  if (st.code !== 0) { log('Khong chay duoc "git status" — bo qua lan nay.'); return { work: false, reason: 'git-error' }; }
+  const dirty = st.out.length > 0;
+
+  const ahead = git(['rev-list', '--count', 'origin/main..HEAD']);
+  const nAhead = ahead.code === 0 ? parseInt(ahead.out || '0', 10) || 0 : 0;
+
+  if (dirty) return { work: true, reason: 'co thay doi chua commit', dirty, nAhead };
+  if (nAhead > 0) return { work: true, reason: `${nAhead} commit chua push`, dirty, nAhead };
+  return { work: false, reason: 'repo sach & da day len', dirty, nAhead };
 }
 
-function loadState() {
-  try { return JSON.parse(fs.readFileSync(STATE, 'utf8')); }
-  catch (_) { return { sig: '', files: [] }; }
+// Khoa chong watch + scheduler chay dong thoi (tung gay index.lock ket)
+function acquireLock() {
+  try {
+    if (fs.existsSync(LOCK)) {
+      const age = Date.now() - fs.statSync(LOCK).mtimeMs;
+      if (age < LOCK_STALE_MS) return false;      // dang co tien trinh khac chay
+      log('Khoa cu (>10 phut) — coi nhu ket, ghi de.');
+    }
+    fs.writeFileSync(LOCK, `${process.pid} @ ${new Date().toISOString()}`);
+    return true;
+  } catch (_) { return true; } // khong khoa duoc thi cu chay, khong chan
 }
+function releaseLock() { try { fs.unlinkSync(LOCK); } catch (_) {} }
 
-function saveState(sig, files) {
-  fs.writeFileSync(STATE, JSON.stringify(
-    { sig, files, deployedAt: new Date().toISOString() }, null, 2));
+function saveState(info) {
+  try {
+    fs.writeFileSync(STATE, JSON.stringify(
+      { ...info, deployedAt: new Date().toISOString() }, null, 2));
+  } catch (_) {}
 }
 
 function runDeploy() {
@@ -66,37 +91,40 @@ function runDeploy() {
 }
 
 function checkOnce() {
-  const files = issueFiles();
-  if (files.length === 0) { log('Khong co so nao trong site\\ — bo qua.'); return; }
+  const p = pendingWork();
+  if (!p.work) { log(`Khong co gi de deploy (${p.reason}).`); return; }
 
-  const sig = signature(files);
-  const state = loadState();
-  const known = new Set(state.files || []);
-  const newOnes = files.filter(f => !known.has(f));
+  if (!acquireLock()) { log('Dang co tien trinh deploy khac chay (co khoa) — bo qua lan nay.'); return; }
 
-  if (sig === state.sig) {
-    log(`Khong co thay doi (${files.length} so). Khong deploy.`);
-    return;
-  }
+  try {
+    log(`Phat hien viec can deploy: ${p.reason}.`);
+    const ok = runDeploy();
 
-  log(`Phat hien thay doi. So moi: ${newOnes.length ? newOnes.join(', ') : '(chi cap nhat noi dung)'}. Tong ${files.length} so.`);
-  if (runDeploy()) {
-    saveState(sig, files);
-    log('Deploy THANH CONG, da cap nhat trang thai.');
-  } else {
-    log('Deploy THAT BAI — giu nguyen trang thai de lan sau thu lai.');
-    process.exitCode = 1;
+    // Xac nhan da day len THAT SU: local khong con di truoc origin
+    const after = git(['rev-list', '--count', 'origin/main..HEAD']);
+    const stillAhead = after.code === 0 ? parseInt(after.out || '0', 10) || 0 : -1;
+
+    if (ok && stillAhead === 0) {
+      saveState({ status: 'ok', reason: p.reason });
+      log('Deploy THANH CONG — da push, local khop origin.');
+    } else {
+      saveState({ status: 'fail', reason: p.reason, stillAhead });
+      log(`Deploy CHUA XONG (batOk=${ok}, con ${stillAhead} commit chua push) — se thu lai lan sau.`);
+      process.exitCode = 1;
+    }
+  } finally {
+    releaseLock();
   }
 }
 
 function watch() {
-  log('Che do --watch: dang theo doi thu muc site\\ ...');
+  log('Che do --watch: theo doi site\\ (deploy khi co bat ky thay doi noi dung).');
   checkOnce();
   let timer = null;
-  fs.watch(SITE, { persistent: true }, () => {
-    clearTimeout(timer);
-    timer = setTimeout(checkOnce, 5000); // gom thay doi trong 5s roi kiem tra
-  });
+  const kick = () => { clearTimeout(timer); timer = setTimeout(checkOnce, 5000); };
+  fs.watch(SITE, { persistent: true, recursive: false }, kick);
+  // Luoi an toan: quet lai moi 10 phut phong khi watch bo lo su kien (mang/OneDrive)
+  setInterval(checkOnce, 10 * 60 * 1000);
 }
 
 if (process.argv.includes('--watch')) watch();

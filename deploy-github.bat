@@ -43,21 +43,30 @@ if exist ".git\index.lock" (
 rem --- 3. Stage tat ca (netlify-token.txt / log / state da bi .gitignore chan) ---
 git add -A
 
-rem --- 4. Neu khong co gi thay doi thi thoi ---
+rem --- 4. Co gi staged thi commit; khong thi VAN tiep tuc de push commit ton dong ---
 git diff --cached --quiet
-if not errorlevel 1 (
-  echo Khong co thay doi de commit. Bo qua.
+if errorlevel 1 (
+  rem errorlevel 1 = CO thay doi staged -> commit
+  git commit -m "auto: cap nhat ban tin (%date% %time%)"
+  if errorlevel 1 (
+    echo [LOI] Commit that bai.
+    if not defined AUTO pause
+    exit /b 1
+  )
+) else (
+  echo Khong co thay doi moi de commit — kiem tra commit chua push...
+)
+
+rem --- 5. Neu local KHONG di truoc origin thi khong can push ---
+set "AHEAD="
+for /f %%i in ('git rev-list --count origin/main..HEAD 2^>nul') do set "AHEAD=%%i"
+if not defined AHEAD set "AHEAD=0"
+if "%AHEAD%"=="0" (
+  echo Khong co commit nao chua push. Bo qua.
   if not defined AUTO pause
   exit /b 0
 )
-
-rem --- 5. Commit ---
-git commit -m "auto: cap nhat ban tin (%date% %time%)"
-if errorlevel 1 (
-  echo [LOI] Commit that bai.
-  if not defined AUTO pause
-  exit /b 1
-)
+echo Co %AHEAD% commit chua push.
 
 rem --- 6. Push len nhanh hien tai (mac dinh main) ---
 echo Dang push len GitHub...

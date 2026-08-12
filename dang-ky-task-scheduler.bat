@@ -4,7 +4,7 @@ cd /d "%~dp0"
 
 rem ==========================================================
 rem   Dang ky Windows Task Scheduler:
-rem   Bat dau 07:15, LAP LAI moi 60 phut trong 14 tieng (toi ~21:15)
+rem   Bat dau 07:15, LAP LAI moi 20 phut trong 14 tieng (toi ~21:15)
 rem   chay run-auto-deploy.bat -> phat hien so moi trong site\ va deploy.
 rem
 rem   VI SAO LAP LAI: Cowork bat dau tao so luc 07:10 nhung viec tao
@@ -22,10 +22,10 @@ set "RUNNER=%~dp0run-auto-deploy.bat"
 
 echo Dang tao scheduled task: %TASKNAME%
 echo Chay: %RUNNER%
-echo Lich: bat dau 07:15, lap lai moi 60 phut trong 14 tieng
+echo Lich: bat dau 07:15, lap lai moi 20 phut trong 14 tieng
 echo.
 
-schtasks /Create /F /SC DAILY /ST 07:15 /RI 60 /DU 14:00 /TN "%TASKNAME%" /TR "\"%RUNNER%\"" /RL LIMITED
+schtasks /Create /F /SC DAILY /ST 07:15 /RI 20 /DU 14:00 /TN "%TASKNAME%" /TR "\"%RUNNER%\"" /RL LIMITED
 
 echo.
 if errorlevel 1 (
