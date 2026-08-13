@@ -30,6 +30,7 @@ const STATE = path.join(ROOT, '.deploy-state.json');
 const BAT = path.join(ROOT, 'deploy-github.bat');
 
 const LOCK_STALE_MS = 10 * 60 * 1000; // khoa cu hon 10 phut coi nhu ket -> bo qua
+const QUIET_MS = 4 * 60 * 1000;       // neu site/ vua sua trong 4 phut qua -> coi nhu Cowork DANG viet dở, doi lan sau moi deploy (tranh push nham trang bia nua voi)
 
 function log(msg) {
   const line = `[${new Date().toLocaleString('vi-VN')}] ${msg}`;
@@ -73,6 +74,19 @@ function acquireLock() {
 }
 function releaseLock() { try { fs.unlinkSync(LOCK); } catch (_) {} }
 
+// File site/ moi nhat vua duoc sua cach day bao lau (ms)? Dung de tranh
+// deploy khi Cowork con dang viet do (race tung khien index.html bi push nua voi).
+function msSinceNewestSiteChange() {
+  try {
+    let newest = 0;
+    for (const name of fs.readdirSync(SITE)) {
+      const m = fs.statSync(path.join(SITE, name)).mtimeMs;
+      if (m > newest) newest = m;
+    }
+    return newest ? Date.now() - newest : Infinity;
+  } catch (_) { return Infinity; }
+}
+
 function saveState(info) {
   try {
     fs.writeFileSync(STATE, JSON.stringify(
@@ -93,6 +107,12 @@ function runDeploy() {
 function checkOnce() {
   const p = pendingWork();
   if (!p.work) { log(`Khong co gi de deploy (${p.reason}).`); return; }
+
+  const quietFor = msSinceNewestSiteChange();
+  if (quietFor < QUIET_MS) {
+    log(`site/ vua sua ${Math.round(quietFor/1000)}s truoc (< ${QUIET_MS/1000}s) — co the Cowork dang viet do, doi lan sau moi deploy.`);
+    return;
+  }
 
   if (!acquireLock()) { log('Dang co tien trinh deploy khac chay (co khoa) — bo qua lan nay.'); return; }
 
