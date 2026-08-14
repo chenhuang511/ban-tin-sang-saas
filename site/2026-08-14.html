@@ -187,23 +187,7 @@ hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
     <div class="mech"><b>Cơ chế chung của cả hai:</b> "khoảng trống kích hoạt" có hai phần — phần <em>ma sát</em> (gỡ được) và phần <em>lọc</em> (người không phù hợp). Sai lầm phổ biến là đổ toàn lực vào tối ưu onboarding (giảm ma sát của <em>lộ trình bạn vạch</em>) trong khi bug thật nằm ở chỗ sự kiện kích hoạt <em>đòi điều kiện tiên quyết ngoài tầm người dùng ngày đầu</em>. Không tối ưu content nào cứu nổi lỗi cấu trúc đó — chỉ đổi bản thân sự kiện kích hoạt mới cứu.</div>
 
     <h3 class="sub">Cách tìm "sự kiện kích hoạt" của chính sản phẩm bạn</h3>
-    <p>Bài đưa một công thức 4 bước; phần dưới là cách cụ-thể-hóa thành một truy vấn phân tích (minh họa):</p>
-    <div class="code"><span class="c">-- Ý tưởng: trong cohort 90 ngày, hành vi phiên-đầu nào</span>
-<span class="c">-- tách mạnh nhất nhóm CÒN Ở LẠI khỏi nhóm ĐÃ RỜI?</span>
-<span class="k">WITH</span> first_session <span class="k">AS</span> (
-  <span class="k">SELECT</span> user_id, event_name
-  <span class="k">FROM</span> events
-  <span class="k">WHERE</span> session_index = 1
-)
-<span class="k">SELECT</span> event_name,
-  <span class="g">AVG(retained_d90)</span> <span class="k">AS</span> retain_if_did,      <span class="c">-- làm hành vi này thì giữ chân bao nhiêu %</span>
-  <span class="g">COUNT(*)</span>            <span class="k">AS</span> n
-<span class="k">FROM</span> first_session <span class="k">JOIN</span> retention <span class="k">USING</span> (user_id)
-<span class="k">GROUP BY</span> event_name
-<span class="k">ORDER BY</span> retain_if_did <span class="k">DESC</span>;
-<span class="c">-- Sự kiện đứng đầu (vd "first_report_created") + phổ biến đủ lớn</span>
-<span class="c">-- = ứng viên "sự kiện kích hoạt". Rồi hỏi: nó có đòi dữ liệu/tích hợp ngoài không?</span></div>
-    <div class="editnote">Truy vấn trên là minh họa của biên tập để cụ-thể-hóa bước "xác định sự kiện kích hoạt" mà ProductQuant mô tả — không phải mã trong bài gốc.</div>
+    <p>Công thức 4 bước của bài, nói gọn: lấy cohort 90 ngày, so hành vi <em>phiên đầu tiên</em> của nhóm còn ở lại với nhóm đã rời, tìm hành vi tách hai nhóm mạnh nhất <em>và</em> đủ phổ biến — đó là ứng viên "sự kiện kích hoạt". Rồi hỏi câu quyết định: sự kiện đó có đòi dữ liệu/tích hợp bên ngoài mà ngày đầu người dùng chưa có không? Nếu có, đó là lỗi cấu trúc cần dời — chính xác như hai case ở trên.</p>
 
     <div class="takeaway">💡 <strong>Rút ra cho bạn — theo quy mô đội:</strong></div>
     <div class="scale">
