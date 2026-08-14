@@ -110,22 +110,7 @@ hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
     <p>Độ phủ giám sát trung bình chỉ 52% và gần như đứng yên so 12/2025 (46,96%), trong khi tổng đàn nhân đôi — nên <em>số agent không được canh đang tăng tuyệt đối</em>. Chỉ 9,5% tổ chức giám sát &gt;81% số agent.<sup><a href="https://www.gravitee.io/state-of-ai-agent-security" target="_blank">[1]</a></sup> Nghịch lý: niềm tin vào khả năng "thấy được" agent tăng 82,6% → 91,8% dù độ phủ thật bất động.<sup><a href="https://www.gravitee.io/state-of-ai-agent-security" target="_blank">[1]</a></sup></p>
     <div class="mech"><b>Cơ chế — "giám sát một agent" tối thiểu gồm:</b> (1) <b>Danh tính riêng</b> — agent có credential của chính nó, không dùng chung service account, để log truy được về đúng agent; (2) <b>Phạm vi tối thiểu</b> — chỉ cấp đúng scope cần (đọc bảng X, không phải toàn DB); (3) <b>Audit trail</b> — ghi lại mỗi lần agent gọi tool/API, đủ để truy khi có sự cố; (4) <b>Kill switch</b> — một cách tắt/thu hồi quyền tức thì mà không phải deploy lại. Thiếu bất kỳ cái nào thì agent đó tính là "không giám sát" — dù dashboard vẫn xanh.</div>
 
-    <p>Vì đa số agent hiện thừa hưởng credential dùng chung, khi một cái bị chiếm quyền (qua prompt injection chẳng hạn) bạn không biết <em>cái nào</em> đã rò dữ liệu, và không tắt được một cái mà không tắt cả cụm. Ví dụ minh họa một "phạm vi tối thiểu" trông thế nào so với cách làm phổ biến hiện nay:</p>
-    <div class="code"><span class="c"># ❌ Cách phổ biến: agent xài chung khóa dịch vụ, full quyền</span>
-<span class="k">agent</span>: support-summarizer
-<span class="k">credential</span>: <span class="r">SHARED_SERVICE_ACCOUNT</span>   <span class="c"># dùng lại ở 12 agent khác</span>
-<span class="k">scope</span>: <span class="r">db:*  ·  net:*  ·  secrets:read</span>
-
-<span class="c"># ✅ Phạm vi tối thiểu + danh tính riêng + có đường tắt</span>
-<span class="k">agent</span>: support-summarizer
-<span class="k">credential</span>: <span class="g">agent://support-summarizer</span>   <span class="c"># danh tính của riêng nó</span>
-<span class="k">scope</span>:
-  - <span class="g">db:tickets:read</span>                 <span class="c"># chỉ đọc, chỉ 1 bảng</span>
-  - <span class="g">net:api.slack.com:post</span>        <span class="c"># chỉ được gọi 1 đích ra ngoài</span>
-<span class="k">deny</span>: <span class="g">secrets:*  ·  db:write</span>
-<span class="k">revoke</span>: <span class="g">POST /agents/support-summarizer/pause</span>  <span class="c"># kill switch</span>
-<span class="k">audit</span>: <span class="g">on  (log mọi tool-call + payload hash)</span></div>
-    <div class="editnote">Ví dụ cấu hình ở trên là minh họa của biên tập (không phải cú pháp của một sản phẩm cụ thể), để làm rõ khái niệm "phạm vi tối thiểu" mà báo cáo Gravitee nói tới.</div>
+    <p>Vì đa số agent hiện thừa hưởng credential dùng chung, khi một cái bị chiếm quyền (qua prompt injection chẳng hạn) bạn không biết <em>cái nào</em> đã rò dữ liệu, và không tắt được một cái mà không tắt cả cụm. "Phạm vi tối thiểu" trong thực tế nghĩa là: thay vì cấp một agent quyền <em>đọc toàn bộ DB + gọi ra mọi đích Internet</em>, chỉ cấp đúng những gì nó cần — ví dụ agent tóm tắt ticket chỉ được <em>đọc một bảng ticket</em> và <em>gọi một đích ra ngoài duy nhất</em> (Slack), cấm ghi và cấm đọc secret, kèm một endpoint để tạm dừng nó tức thì.</p>
 
     <h3 class="sub">Con số 3: 85% không có ai chịu trách nhiệm — sáu mẫu sự cố quy về ai sở hữu cái gì</h3>
     <p>Chỉ 7,2% tổ chức có cá nhân được nêu tên chịu trách nhiệm cho hành vi agent; 54% đã gặp/nghi sự cố trong 12 tháng (34,9% xác nhận; viễn thông 67,3%, tài chính 54,7%).<sup><a href="https://www.gravitee.io/state-of-ai-agent-security" target="_blank">[1]</a></sup> Không kiểm soát trước-triển-khai nào được dùng bởi tới 40% tổ chức — cao nhất chỉ là "có người chịu trách nhiệm" (37,8%) và "rà soát IT/CISO" (35%).<sup><a href="https://www.gravitee.io/state-of-ai-agent-security" target="_blank">[1]</a></sup> Báo cáo chắt ra <strong>sáu mẫu hỏng</strong>; điều hữu ích là mỗi mẫu ứng với một biện pháp phòng cụ thể:</p>
