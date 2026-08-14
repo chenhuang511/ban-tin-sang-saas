@@ -8,7 +8,7 @@
 > 2. Trước khi giải thích một thuật ngữ: xem phần **C. Từ điển thuật ngữ** — nếu đã giải thích ở số trước thì chỉ nhắc gọn/nối link, không giải thích lại dài dòng.
 > 3. Sau khi viết xong: thêm 1 khối vào phần **B. Mục lục theo số** và cập nhật phần A + C nếu có nguồn/thuật ngữ mới (dùng mẫu ở cuối file).
 >
-> _Cập nhật lần cuối: 13/08/2026 — 22 số (24/07 → 13/08/2026; gồm 1 số song song 09/08 chuyên đề An toàn thông tin)._
+> _Cập nhật lần cuối: 14/08/2026 — 23 số (24/07 → 14/08/2026; gồm 1 số song song 09/08 chuyên đề An toàn thông tin)._
 
 ---
 
