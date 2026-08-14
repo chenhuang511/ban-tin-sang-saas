@@ -27,6 +27,7 @@ h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;lette
 .tag.legacy{background:#ecfdf5;color:#047857}
 .tag.view{background:#fff7ed;color:#c2410c}
 .card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
 .src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
 .src a{color:#2563eb;text-decoration:none}
 .stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
@@ -39,6 +40,20 @@ sup a{color:#2563eb;text-decoration:none;font-weight:600}
 .takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
 .doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
 .doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.code{background:#0f172a;color:#e2e8f0;border-radius:10px;padding:14px 16px;margin:14px 0;font-family:"SF Mono",Menlo,Consolas,monospace;font-size:12.5px;line-height:1.55;overflow-x:auto;white-space:pre}
+.code .c{color:#7c93b3}
+.code .k{color:#7dd3fc}
+.code .g{color:#86efac}
+.code .r{color:#fca5a5}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
 .refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
 .refs a{color:#2563eb;text-decoration:none}
 .dich{background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;padding:16px 20px;margin-top:16px}
@@ -55,16 +70,18 @@ hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
 <div class="backbar"><a href="/">← Về trang bìa</a></div>
 <div class="wrap">
   <header class="masthead">
-    <div class="kicker">Bản tin sáng · Số 14/08/2026</div>
+    <div class="kicker">Bản tin sáng · Số 14/08/2026 · bản chi tiết</div>
     <h1 class="title">Agent AI nhân đôi trong doanh nghiệp nhưng 48% chạy không giám sát &amp; vì sao AI/ML là ngành có tỷ lệ kích hoạt cao nhất SaaS</h1>
-    <div class="meta">14/08/2026 · Thời lượng đọc ~17 phút · Nguồn: Gravitee State of AI Agent Security 2026 (04/2026); ProductQuant — SaaS Activation Benchmarks 2026 (15/04/2026)</div>
+    <div class="meta">14/08/2026 · Thời lượng đọc ~22 phút · Nguồn: Gravitee State of AI Agent Security 2026 (04/2026); ProductQuant — SaaS Activation Benchmarks 2026 (15/04/2026)</div>
   </header>
+
+  <div class="editnote">Ghi chú biên tập: số này được viết ở dạng "đậm cơ chế" — mỗi con số cố gắng kèm một tầng <em>nghĩa là gì / làm thế nào</em>. Các đoạn có nhãn <b style="color:#1e40af">Cơ chế</b> và các ví dụ mã/cấu hình là phần <strong>biên tập tổng hợp từ thực hành phổ biến</strong> để minh họa, KHÔNG phải trích từ báo cáo gốc; mọi con số vẫn dẫn nguồn nội dòng.</div>
 
   <nav class="toc">
     <h2>Trong số này</h2>
     <ol>
-      <li><a href="#bai1">Gravitee: agent AI nhân đôi trong 4 tháng, 48% chạy không được giám sát</a></li>
-      <li><a href="#bai2">Tỷ lệ kích hoạt SaaS 2026: chênh 10,9× giữa các ngành, AI/ML dẫn đầu</a></li>
+      <li><a href="#bai1">Gravitee: agent AI nhân đôi trong 4 tháng, 48% chạy không giám sát — và "giám sát" thật ra là gì</a></li>
+      <li><a href="#bai2">Tỷ lệ kích hoạt SaaS 2026: chênh 10,9× — mổ xẻ 2 case tăng kích hoạt bằng cơ chế nào</a></li>
       <li><a href="#gocnhin">Góc nhìn: khi tốc độ vượt quyền kiểm soát — bảo mật lẫn kích hoạt cùng một bài học</a></li>
       <li><a href="#dich1">📖 Lược dịch — State of AI Agent Security 2026 (Gravitee)</a></li>
       <li><a href="#dich2">📖 Lược dịch — SaaS Activation Benchmarks 2026 (ProductQuant)</a></li>
@@ -74,48 +91,94 @@ hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
   <!-- BÀI 1 -->
   <article class="card" id="bai1">
     <span class="tag view">An toàn thông tin</span>
-    <h2 class="head">1 · Gravitee: đội quân agent AI trong doanh nghiệp nhân đôi trong 4 tháng, nhưng 48% chạy không ai giám sát</h2>
-    <p class="src">Nguồn: Gravitee — Jorge Ruiz, "The State of AI Agent Security 2026" · khảo sát 750 lãnh đạo công nghệ Anh &amp; Mỹ, cập nhật 04/2026 (đợt 2, so với 12/2025) · <a href="https://www.gravitee.io/state-of-ai-agent-security" target="_blank">gravitee.io</a></p>
+    <h2 class="head">1 · Đội quân agent AI nhân đôi trong 4 tháng, nhưng 48% chạy không ai giám sát — và "giám sát" thật ra nghĩa là gì</h2>
+    <p class="src">Nguồn: Gravitee — Jorge Ruiz, "The State of AI Agent Security 2026" · khảo sát 750 lãnh đạo công nghệ Anh &amp; Mỹ, cập nhật 04/2026 (đợt 2, so với 12/2025) · báo cáo nhà cung cấp tự công bố · <a href="https://www.gravitee.io/state-of-ai-agent-security" target="_blank">gravitee.io</a></p>
 
     <div class="stat">
-      <div class="box"><div class="num">~2×</div><div class="lab">quy mô đội agent nhân đôi trong một quý (trung bình ~37 agent 12/2025 → nhóm phổ biến 76–100 agent 04/2026) <a href="https://www.gravitee.io/state-of-ai-agent-security" target="_blank">(Gravitee, 2026)</a></div></div>
-      <div class="box"><div class="num">48%</div><div class="lab">agent AI đang chạy trong production mà không được giám sát/quản trị (độ phủ giám sát trung bình 52%) <a href="https://www.gravitee.io/state-of-ai-agent-security" target="_blank">(Gravitee, 2026)</a></div></div>
-      <div class="box"><div class="num">54%</div><div class="lab">tổ chức đã gặp hoặc nghi ngờ có sự cố bảo mật/quyền riêng tư liên quan agent AI trong 12 tháng qua <a href="https://www.gravitee.io/state-of-ai-agent-security" target="_blank">(Gravitee, 2026)</a></div></div>
+      <div class="box"><div class="num">~2×</div><div class="lab">quy mô đội agent nhân đôi trong một quý (TB ~37 agent 12/2025 → nhóm phổ biến 76–100 agent 04/2026) <a href="https://www.gravitee.io/state-of-ai-agent-security" target="_blank">(Gravitee, 2026)</a></div></div>
+      <div class="box"><div class="num">48%</div><div class="lab">agent production chạy không được giám sát/quản trị (độ phủ giám sát TB 52%) <a href="https://www.gravitee.io/state-of-ai-agent-security" target="_blank">(Gravitee, 2026)</a></div></div>
+      <div class="box"><div class="num">7,2%</div><div class="lab">tổ chức có một cá nhân được nêu tên chịu trách nhiệm cho hành vi agent (85% không có gì chính thức) <a href="https://www.gravitee.io/state-of-ai-agent-security" target="_blank">(Gravitee, 2026)</a></div></div>
     </div>
 
-    <p>Gravitee — hãng làm nền tảng quản trị API/agent — khảo sát 750 CIO, CTO, VP kỹ thuật và trưởng bộ phận nền tảng tại Anh và Mỹ (tài chính, y tế, viễn thông, sản xuất, du lịch &amp; vận tải). Đây là đợt khảo sát thứ hai; đối chiếu với đợt 12/2025 cho ra một thông điệp gọn: <em>"tốt hơn trên giấy tờ, rủi ro hơn trong thực tế".</em><sup><a href="https://www.gravitee.io/state-of-ai-agent-security" target="_blank">[1]</a></sup> Lưu ý đây là báo cáo do một nhà cung cấp giải pháp tự công bố (self-reported), nên các con số phản ánh nhận thức người trả lời và có lợi ích thương mại của Gravitee.</p>
+    <p>Gravitee khảo sát 750 CIO/CTO/VP kỹ thuật tại Anh và Mỹ (tài chính, y tế, viễn thông, sản xuất, du lịch &amp; vận tải), đợt thứ hai sau 12/2025. Lưu ý ngay: đây là báo cáo do một hãng bán nền tảng quản trị agent tự công bố, nên số phản ánh <em>nhận thức</em> người trả lời và có lợi ích thương mại. Nhưng ba con số dưới đây đáng dừng lại vì chúng chỉ ra một khoảng cách cấu trúc, không chỉ là marketing.</p>
 
-    <p>Điểm gây choáng nhất là tốc độ: nhóm triển khai phổ biến nhảy từ khoảng 26–50 agent (12/2025) lên 76–100 agent (04/2026), và gần 38% tổ chức nói đã có hơn 100 agent đang chạy.<sup><a href="https://www.gravitee.io/state-of-ai-agent-security" target="_blank">[1]</a></sup> 81,7% dự định triển khai thêm agent trong 12 tháng tới. Gravitee dẫn dự báo Gartner 2026 rằng đến 2028, một doanh nghiệp Fortune 500 trung bình sẽ dùng <strong>hơn 150.000 agent</strong>, so với dưới 15 vào năm 2025.<sup><a href="https://www.gravitee.io/state-of-ai-agent-security" target="_blank">[1]</a></sup></p>
+    <h3 class="sub">Con số 1: "nhân đôi trong một quý" nghĩa là quản trị luôn chạy sau một nhịp</h3>
+    <p>Nhóm triển khai phổ biến nhảy từ 26–50 agent (12/2025) lên 76–100 (04/2026), gần 38% tổ chức đã có &gt;100 agent.<sup><a href="https://www.gravitee.io/state-of-ai-agent-security" target="_blank">[1]</a></sup> Gravitee dẫn Gartner 2026: Fortune 500 trung bình sẽ dùng &gt;150.000 agent vào 2028 (từ &lt;15 năm 2025).<sup><a href="https://www.gravitee.io/state-of-ai-agent-security" target="_blank">[1]</a></sup></p>
+    <div class="mech"><b>Cơ chế — vì sao đây là vấn đề, không chỉ là con số đẹp:</b> agent không sinh ra tập trung. Chúng mọc lên rải rác — một cron gọi LLM ở service A, một MCP tool ở repo B, một "trợ lý" nhúng trong SaaS bên thứ ba. Mỗi cái tự tạo một đường ra Internet và một khóa truy cập. Khi số lượng nhân đôi mỗi quý mà việc kiểm kê vẫn thủ công, bạn không thể vẽ nổi danh sách "đang có bao nhiêu agent, mỗi cái chạm được dữ liệu nào". Không có danh sách thì không có gì để giám sát — đó là gốc của con số 48% ở dưới.</div>
 
-    <p>Nhưng quản trị không theo kịp. Độ phủ giám sát trung bình hầu như đứng yên (46,96% ở 12/2025 → ~52% ở 04/2026) trong khi tổng đàn agent nhân đôi — nghĩa là <em>số agent không được giám sát tuyệt đối đang tăng lên</em>.<sup><a href="https://www.gravitee.io/state-of-ai-agent-security" target="_blank">[1]</a></sup> Chỉ 19,7% tổ chức khẳng định mọi agent đều được bảo mật &amp; quản trị đầy đủ trước khi lên production; 8/10 tổ chức đưa agent vào production mà thiếu kiểm soát đầy đủ. Đáng chú ý: <strong>không một biện pháp kiểm soát trước-triển-khai nào được dùng bởi tới 40% tổ chức</strong> — cao nhất chỉ là "có người chịu trách nhiệm cụ thể" (37,8%) và "được IT/CISO rà soát bảo mật" (35%).<sup><a href="https://www.gravitee.io/state-of-ai-agent-security" target="_blank">[1]</a></sup></p>
+    <h3 class="sub">Con số 2: 48% "không giám sát" — giám sát cụ thể là bốn thứ</h3>
+    <p>Độ phủ giám sát trung bình chỉ 52% và gần như đứng yên so 12/2025 (46,96%), trong khi tổng đàn nhân đôi — nên <em>số agent không được canh đang tăng tuyệt đối</em>. Chỉ 9,5% tổ chức giám sát &gt;81% số agent.<sup><a href="https://www.gravitee.io/state-of-ai-agent-security" target="_blank">[1]</a></sup> Nghịch lý: niềm tin vào khả năng "thấy được" agent tăng 82,6% → 91,8% dù độ phủ thật bất động.<sup><a href="https://www.gravitee.io/state-of-ai-agent-security" target="_blank">[1]</a></sup></p>
+    <div class="mech"><b>Cơ chế — "giám sát một agent" tối thiểu gồm:</b> (1) <b>Danh tính riêng</b> — agent có credential của chính nó, không dùng chung service account, để log truy được về đúng agent; (2) <b>Phạm vi tối thiểu</b> — chỉ cấp đúng scope cần (đọc bảng X, không phải toàn DB); (3) <b>Audit trail</b> — ghi lại mỗi lần agent gọi tool/API, đủ để truy khi có sự cố; (4) <b>Kill switch</b> — một cách tắt/thu hồi quyền tức thì mà không phải deploy lại. Thiếu bất kỳ cái nào thì agent đó tính là "không giám sát" — dù dashboard vẫn xanh.</div>
 
-    <p>Song song là "khủng hoảng trách nhiệm": 85% tổ chức không có cơ chế quy trách nhiệm chính thức cho hành vi của agent; chỉ 7,2% có một cá nhân được nêu tên chịu trách nhiệm.<sup><a href="https://www.gravitee.io/state-of-ai-agent-security" target="_blank">[1]</a></sup> Trong khi đó niềm tin lại tăng ngược chiều với thực tế: mức tự tin vào khả năng thấy được (visibility) tăng từ 82,6% lên 91,8% dù độ phủ giám sát gần như bất động — Gravitee gọi đây là "khoảng cách tự-tin–thực-tế đang nới rộng", tiền đề kinh điển của một sự cố lớn.<sup><a href="https://www.gravitee.io/state-of-ai-agent-security" target="_blank">[1]</a></sup></p>
+    <p>Vì đa số agent hiện thừa hưởng credential dùng chung, khi một cái bị chiếm quyền (qua prompt injection chẳng hạn) bạn không biết <em>cái nào</em> đã rò dữ liệu, và không tắt được một cái mà không tắt cả cụm. Ví dụ minh họa một "phạm vi tối thiểu" trông thế nào so với cách làm phổ biến hiện nay:</p>
+    <div class="code"><span class="c"># ❌ Cách phổ biến: agent xài chung khóa dịch vụ, full quyền</span>
+<span class="k">agent</span>: support-summarizer
+<span class="k">credential</span>: <span class="r">SHARED_SERVICE_ACCOUNT</span>   <span class="c"># dùng lại ở 12 agent khác</span>
+<span class="k">scope</span>: <span class="r">db:*  ·  net:*  ·  secrets:read</span>
 
-    <p>Về nguyên nhân, báo cáo chắt lọc <strong>sáu mẫu sự cố</strong> từ hơn 200 câu trả lời tự luận: (1) quyền hạn quá mức/over-privileged (mẫu bị nhắc nhiều nhất, thường do dùng chung service account); (2) vi phạm lưu trữ &amp; quyền riêng tư dữ liệu; (3) prompt injection và thao túng đối kháng — chuyển rõ rệt từ "lỗi vô ý" (12/2025) sang <em>tấn công có chủ đích</em> (jailbreak, indirect injection qua website độc, mã độc chèn qua gợi ý code) ở 04/2026; (4) shadow AI/triển khai ngoài tầm IT; (5) opacity của nhà cung cấp bên thứ ba; và (6) mẫu mới — <em>agent đưa ra output sai gây hại vận hành/tuân thủ</em> (tư vấn thuốc sai, chấm điểm rủi ro bằng dữ liệu lỗi thời).<sup><a href="https://www.gravitee.io/state-of-ai-agent-security" target="_blank">[1]</a></sup></p>
+<span class="c"># ✅ Phạm vi tối thiểu + danh tính riêng + có đường tắt</span>
+<span class="k">agent</span>: support-summarizer
+<span class="k">credential</span>: <span class="g">agent://support-summarizer</span>   <span class="c"># danh tính của riêng nó</span>
+<span class="k">scope</span>:
+  - <span class="g">db:tickets:read</span>                 <span class="c"># chỉ đọc, chỉ 1 bảng</span>
+  - <span class="g">net:api.slack.com:post</span>        <span class="c"># chỉ được gọi 1 đích ra ngoài</span>
+<span class="k">deny</span>: <span class="g">secrets:*  ·  db:write</span>
+<span class="k">revoke</span>: <span class="g">POST /agents/support-summarizer/pause</span>  <span class="c"># kill switch</span>
+<span class="k">audit</span>: <span class="g">on  (log mọi tool-call + payload hash)</span></div>
+    <div class="editnote">Ví dụ cấu hình ở trên là minh họa của biên tập (không phải cú pháp của một sản phẩm cụ thể), để làm rõ khái niệm "phạm vi tối thiểu" mà báo cáo Gravitee nói tới.</div>
 
-    <p>Áp lực tốc độ được thừa nhận thẳng: 81% cảm thấy sức ép phải triển khai agent nhanh dù chưa hoàn tất bảo mật, mạnh nhất ở công ty nhỏ (86,2% ở nhóm 250–999 nhân viên). Nghịch lý là 79,7% vẫn tin "có thể vừa nhanh vừa không đánh đổi bảo mật" — một kỳ vọng, Gravitee lưu ý, đọc ra "khát vọng hơn là bằng chứng" khi đặt cạnh kiểm soát mỏng và tỷ lệ sự cố tăng.<sup><a href="https://www.gravitee.io/state-of-ai-agent-security" target="_blank">[1]</a></sup></p>
+    <h3 class="sub">Con số 3: 85% không có ai chịu trách nhiệm — sáu mẫu sự cố quy về ai sở hữu cái gì</h3>
+    <p>Chỉ 7,2% tổ chức có cá nhân được nêu tên chịu trách nhiệm cho hành vi agent; 54% đã gặp/nghi sự cố trong 12 tháng (34,9% xác nhận; viễn thông 67,3%, tài chính 54,7%).<sup><a href="https://www.gravitee.io/state-of-ai-agent-security" target="_blank">[1]</a></sup> Không kiểm soát trước-triển-khai nào được dùng bởi tới 40% tổ chức — cao nhất chỉ là "có người chịu trách nhiệm" (37,8%) và "rà soát IT/CISO" (35%).<sup><a href="https://www.gravitee.io/state-of-ai-agent-security" target="_blank">[1]</a></sup> Báo cáo chắt ra <strong>sáu mẫu hỏng</strong>; điều hữu ích là mỗi mẫu ứng với một biện pháp phòng cụ thể:</p>
+    <table class="tbl">
+      <tr><th>Mẫu sự cố (Gravitee)</th><th>Biện pháp phòng tương ứng (biên tập)</th></tr>
+      <tr><td>Quyền quá mức / over-privileged (mẫu bị nhắc nhiều nhất)</td><td>Phạm vi tối thiểu + danh tính riêng cho từng agent (xem ví dụ trên)</td></tr>
+      <tr><td>Vi phạm lưu trữ &amp; quyền riêng tư dữ liệu</td><td>Chính sách retention rõ; không log payload nhạy cảm; mã hóa</td></tr>
+      <tr><td>Prompt injection (đang chuyển từ vô ý sang tấn công có chủ đích)</td><td>"Rule of Two" của Meta / tránh "lethal trifecta" — agent không đồng thời có dữ liệu riêng + nội dung ngoài + đường ra Internet</td></tr>
+      <tr><td>Shadow AI (triển khai ngoài tầm IT)</td><td>Kiểm kê định kỳ + gateway bắt buộc cho mọi lời gọi LLM</td></tr>
+      <tr><td>Opacity của nhà cung cấp bên thứ ba</td><td>Điều khoản data residency/notice; rà log khi vendor đổi hành vi</td></tr>
+      <tr><td>Output sai gây hại vận hành (mẫu mới 04/2026)</td><td>Human-in-the-loop ở quyết định hệ trọng; validate output trước khi tác động</td></tr>
+    </table>
+    <p class="src" style="margin-top:2px">Cột phải là tổng hợp thực hành phổ biến (Meta "Agents Rule of Two", Simon Willison "lethal trifecta" — đã bàn ở số 10/08), không phải khuyến nghị nguyên văn của Gravitee.</p>
 
-    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> Với một startup SaaS, bài học rẻ nhất từ báo cáo này là <em>đừng để số agent vượt số quyền kiểm soát</em>. Trước khi bật một agent lên production, chốt tối thiểu ba thứ mà đa số tổ chức đang thiếu: (a) một cá nhân được nêu tên chịu trách nhiệm, (b) phạm vi truy cập tối thiểu riêng cho agent đó (không dùng chung service account), và (c) một đường "tắt van" — quy trình tài liệu hóa để tạm dừng/thu hồi quyền tức thì. Coi agent như một "người dùng" có danh tính và audit trail riêng, không phải một script ẩn danh.</div>
+    <div class="takeaway">💡 <strong>Rút ra cho bạn — theo quy mô đội:</strong></div>
+    <div class="scale">
+      <div class="col small">
+        <h4>Đội nhỏ / startup &lt; 10 người</h4>
+        <ul>
+          <li>Làm một bảng kiểm kê agent trên Sheet: mỗi dòng = 1 agent, cột <em>chủ sở hữu / chạm dữ liệu nào / gọi ra đâu / tắt bằng cách nào</em>.</li>
+          <li>Nếu một agent vừa đọc dữ liệu khách vừa nhận nội dung từ ngoài (email, web) vừa gửi ra Internet → tách bớt một trong ba (Rule of Two).</li>
+          <li>Chưa cần gateway đắt tiền; cần nhất là <em>một người</em> ký tên chịu trách nhiệm mỗi agent.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Đội có sản phẩm production</h4>
+        <ul>
+          <li>Bắt buộc mọi lời gọi LLM đi qua một điểm (proxy/gateway) để có audit trail tập trung — biến "48% không giám sát" thành đo được.</li>
+          <li>Cấp credential riêng cho từng agent; bỏ service account dùng chung.</li>
+          <li>Chuẩn hóa "kill switch" thành một endpoint, và diễn tập thu hồi quyền như diễn tập cháy nổ.</li>
+        </ul>
+      </div>
+    </div>
 
-    <div class="refs"><strong>Nguồn tham khảo:</strong> Gravitee, Jorge Ruiz, "The State of AI Agent Security 2026" (cập nhật 04/2026, n=750) — <a href="https://www.gravitee.io/state-of-ai-agent-security" target="_blank">trang báo cáo</a> · <a href="https://www.gravitee.io/hubfs/State%20of%20AI%20Security%20Report%20V2%20F.pdf" target="_blank">bản PDF</a></div>
+    <div class="refs"><strong>Nguồn tham khảo:</strong> Gravitee, Jorge Ruiz, "The State of AI Agent Security 2026" (cập nhật 04/2026, n=750) — <a href="https://www.gravitee.io/state-of-ai-agent-security" target="_blank">trang báo cáo</a> · <a href="https://www.gravitee.io/hubfs/State%20of%20AI%20Security%20Report%20V2%20F.pdf" target="_blank">PDF</a>. Khung "Rule of Two"/"lethal trifecta": xem số <a href="/2026-08-10" target="_blank">10/08</a>.</div>
   </article>
 
   <!-- BÀI 2 -->
   <article class="card" id="bai2">
     <span class="tag saas">AI trong SaaS</span>
-    <h2 class="head">2 · Tỷ lệ kích hoạt SaaS 2026: chênh 10,9× giữa các ngành — AI/ML dẫn đầu 54,8%, FinTech chót bảng 5,0%</h2>
-    <p class="src">Nguồn: ProductQuant — Jake McMahon, "What Are the SaaS Activation Benchmarks by Industry in 2026?" · đăng 15/04/2026 · <a href="https://productquant.dev/blog/saas-activation-benchmarks-by-industry-2026/" target="_blank">productquant.dev</a> (dẫn dữ liệu Userpilot 2025, Jimo, Appcues, Amplitude)</p>
+    <h2 class="head">2 · Tỷ lệ kích hoạt SaaS 2026 chênh 10,9× — và cơ chế thật đằng sau 2 case tăng kích hoạt</h2>
+    <p class="src">Nguồn: ProductQuant — Jake McMahon, "What Are the SaaS Activation Benchmarks by Industry in 2026?" · đăng 15/04/2026 · <a href="https://productquant.dev/blog/saas-activation-benchmarks-by-industry-2026/" target="_blank">productquant.dev</a> (dẫn Userpilot 2025, Jimo, Appcues, Amplitude)</p>
 
     <div class="stat">
-      <div class="box"><div class="num">10,9×</div><div class="lab">chênh lệch tỷ lệ kích hoạt giữa ngành cao nhất (AI/ML 54,8%) và thấp nhất (FinTech &amp; Bảo hiểm 5,0%); trung vị chung 37,5% <a href="https://productquant.dev/blog/saas-activation-benchmarks-by-industry-2026/" target="_blank">(ProductQuant, 2026)</a></div></div>
-      <div class="box"><div class="num">17,6%</div><div class="lab">tỷ lệ kích hoạt tụt đáy ở nhóm doanh thu 10–50 triệu USD — "thung lũng tử thần" khi độ phức tạp onboarding vượt năng lực đội <a href="https://productquant.dev/blog/saas-activation-benchmarks-by-industry-2026/" target="_blank">(ProductQuant, 2026)</a></div></div>
-      <div class="box"><div class="num">+34%</div><div class="lab">mức tăng MRR trong 12 tháng khi cải thiện kích hoạt 25% (mô hình Appcues) <a href="https://productquant.dev/blog/saas-activation-benchmarks-by-industry-2026/" target="_blank">(ProductQuant, 2026)</a></div></div>
+      <div class="box"><div class="num">54,8% ↔ 5,0%</div><div class="lab">kích hoạt AI/ML (đỉnh) vs FinTech &amp; Bảo hiểm (đáy) — chênh 10,9×; trung vị chung 37,5% <a href="https://productquant.dev/blog/saas-activation-benchmarks-by-industry-2026/" target="_blank">(ProductQuant, 2026)</a></div></div>
+      <div class="box"><div class="num">19,2% vs 37,5%</div><div class="lab">chỉ 19,2% hoàn tất checklist onboarding nhưng 37,5% vẫn kích hoạt → hoàn tất onboarding ≠ kích hoạt <a href="https://productquant.dev/blog/saas-activation-benchmarks-by-industry-2026/" target="_blank">(ProductQuant, 2026)</a></div></div>
+      <div class="box"><div class="num">+34%</div><div class="lab">MRR/12 tháng khi cải thiện kích hoạt 25% (mô hình Appcues) <a href="https://productquant.dev/blog/saas-activation-benchmarks-by-industry-2026/" target="_blank">(ProductQuant, 2026)</a></div></div>
     </div>
 
-    <p>Đây là bài dạng benchmark do một hãng tư vấn tăng trưởng SaaS tổng hợp, dẫn lại số liệu cấp một (Userpilot khảo sát 547 công ty SaaS năm 2025, cùng Jimo, Appcues, Amplitude). Luận điểm mở: trung vị kích hoạt toàn ngành là 37,5% <em>nhưng con số đó vô nghĩa nếu không có bối cảnh</em> — vì khoảng cách giữa ngành đỉnh (AI/ML 54,8%) và ngành đáy (FinTech &amp; Bảo hiểm 5,0%) lên tới 10,9 lần.<sup><a href="https://productquant.dev/blog/saas-activation-benchmarks-by-industry-2026/" target="_blank">[2]</a></sup> Một tỷ lệ kích hoạt "thảm họa" với app tiện ích lại là "đỉnh cao" với nền tảng doanh nghiệp phức tạp.</p>
+    <p>Bài benchmark của một hãng tư vấn tăng trưởng, dẫn lại số liệu cấp một (Userpilot khảo sát 547 công ty SaaS 2025, cùng Jimo/Appcues/Amplitude). Luận điểm mở: trung vị 37,5% là <em>vô nghĩa nếu thiếu bối cảnh</em> vì đỉnh–đáy chênh 10,9×.<sup><a href="https://productquant.dev/blog/saas-activation-benchmarks-by-industry-2026/" target="_blank">[2]</a></sup></p>
 
     <table class="tbl">
-      <tr><th>Ngành</th><th>Tỷ lệ kích hoạt</th><th>Giữ chân tháng 1</th><th>Thời gian tới giá trị</th></tr>
+      <tr><th>Ngành</th><th>Kích hoạt</th><th>Giữ chân tháng 1</th><th>Thời gian tới giá trị</th></tr>
       <tr><td>AI &amp; ML</td><td>54,8%</td><td>53,6%</td><td>1 ngày 17h</td></tr>
       <tr><td>CRM &amp; Sales</td><td>42,6%</td><td>52,5%</td><td>1 ngày 4h</td></tr>
       <tr><td>MarTech</td><td>24,0%</td><td>44,7%</td><td>1 ngày 20h</td></tr>
@@ -124,35 +187,73 @@ hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
       <tr><td>FinTech &amp; Bảo hiểm</td><td>5,0%</td><td>57,6%</td><td>1 ngày 17h</td></tr>
     </table>
 
-    <p>Bài chỉ ra hai cạm bẫy khi "so nhầm nhóm": công ty sản phẩm đơn giản nhìn trung vị 37,5% rồi tự khen "trung bình" trong khi lẽ ra phải nhắm 50%+; còn công ty sản phẩm phức tạp thì tự thấy "hỏng" dù 20% kích hoạt của họ đã là mạnh.<sup><a href="https://productquant.dev/blog/saas-activation-benchmarks-by-industry-2026/" target="_blank">[2]</a></sup> Một dữ liệu đắt: giữ chân tháng 1 trung bình chỉ 46,9% — hơn nửa số người đăng ký rời đi trước khi thành người dùng thường xuyên.<sup><a href="https://productquant.dev/blog/saas-activation-benchmarks-by-industry-2026/" target="_blank">[2]</a></sup></p>
+    <h3 class="sub">Vì sao AI/ML dẫn đầu, và vì sao đó là cảnh báo chứ không phải lời khen</h3>
+    <div class="mech"><b>Cơ chế:</b> AI/ML kích hoạt cao (54,8%) một phần vì sản phẩm loại này giao "khoảnh khắc aha" ngay trong phiên đầu — gõ một prompt, thấy kết quả. Nhưng để ý cột thời-gian-tới-giá-trị: AI/ML mất <em>1 ngày 17h</em>, chậm hơn CRM (1 ngày 4h). Nghĩa là kích hoạt cao đến từ <em>kỳ vọng người dùng</em> ("tôi đến đây để nhận giá trị trong vài phút") chứ không phải sản phẩm dễ hơn. Hệ quả cho bạn: nếu gắn một tính năng AI mà nó <em>thêm</em> một bước cấu hình/xác minh, bạn đang phản bội chính kỳ vọng đã kéo người dùng tới — và đẩy sự kiện kích hoạt ra xa.</div>
 
-    <p>"Nghịch lý FinTech" đáng suy nghĩ: ngành này kích hoạt thấp nhất (5,0%) nhưng giữ chân tháng 1 cao nhất (57,6%) — ai đã kích hoạt thì cực trung thành vì chi phí chuyển đổi và giá trị đều cao. Hàm ý: FinTech nên dồn lực <em>chuyển hóa</em> người đã kích hoạt thay vì cố kích hoạt thêm.<sup><a href="https://productquant.dev/blog/saas-activation-benchmarks-by-industry-2026/" target="_blank">[2]</a></sup> Đối lập là mô hình go-to-market: bán qua sales (SLG) kích hoạt cao hơn (41,6% vs 34,6% của product-led) nhờ rep dắt tay, nhưng product-led thắng ở giữ chân (48,4% vs 39,1%) vì người tự kích hoạt gắn bó hơn.<sup><a href="https://productquant.dev/blog/saas-activation-benchmarks-by-industry-2026/" target="_blank">[2]</a></sup></p>
+    <p>"Nghịch lý FinTech" minh họa vì sao không được đọc kích hoạt tách rời giữ chân: ngành này kích hoạt thấp nhất (5,0%) nhưng giữ chân tháng 1 cao nhất (57,6%) — ai đã qua cửa thì cực trung thành vì chi phí chuyển đổi cao. Hàm ý ngược đời: FinTech nên dồn lực <em>chuyển hóa</em> người đã kích hoạt thay vì cố kích hoạt thêm.<sup><a href="https://productquant.dev/blog/saas-activation-benchmarks-by-industry-2026/" target="_blank">[2]</a></sup> Tương tự, sales-led kích hoạt cao hơn (41,6% vs 34,6% của product-led) nhờ rep dắt tay, nhưng product-led thắng giữ chân (48,4% vs 39,1%).<sup><a href="https://productquant.dev/blog/saas-activation-benchmarks-by-industry-2026/" target="_blank">[2]</a></sup></p>
 
-    <p>Thông điệp trung tâm — và cũng là chỗ liên quan trực tiếp tới tính năng AI: <strong>hoàn tất onboarding không đồng nghĩa với kích hoạt</strong>. Chỉ 19,2% người dùng hoàn tất checklist onboarding, nhưng 37,5% vẫn đạt kích hoạt — họ tìm ra giá trị theo cách của họ, ngoài lộ trình bạn vạch.<sup><a href="https://productquant.dev/blog/saas-activation-benchmarks-by-industry-2026/" target="_blank">[2]</a></sup> Nghiên cứu Jimo được dẫn còn gắt hơn: 80% hoàn tất onboarding vẫn có thể đi kèm chỉ 22% kích hoạt.<sup><a href="https://productquant.dev/blog/saas-activation-benchmarks-by-industry-2026/" target="_blank">[2]</a></sup> Người dùng đã kích hoạt giữ chân 60%+ ở mốc 90 ngày, so với dưới 25% ở người chưa kích hoạt.<sup><a href="https://productquant.dev/blog/saas-activation-benchmarks-by-industry-2026/" target="_blank">[2]</a></sup></p>
-
-    <p>Khung hành động: (1) xác định "sự kiện kích hoạt" thật — mốc hành vi tách rõ nhất giữa nhóm giữ chân và nhóm rời bỏ ở cohort 90 ngày; (2) đo "khoảng trống kích hoạt" gồm phần ma sát (gỡ được) và phần lọc (người không phù hợp); (3) đặt mục tiêu theo đúng phân khúc — ví dụ công ty PLG 5–10 triệu USD nên nhắm 34,6% chứ không phải 37,5%; (4) rút ngắn thời gian-tới-giá-trị bằng template, dữ liệu demo dựng sẵn, hướng dẫn ngay tại sự kiện kích hoạt.<sup><a href="https://productquant.dev/blog/saas-activation-benchmarks-by-industry-2026/" target="_blank">[2]</a></sup> Bài phân sản phẩm theo mô hình tiện ích: <em>Quick-Utility</em> (giá trị trong một phiên, mục tiêu 50–65% / dưới 2 giờ) vs <em>Slow-Utility</em> (cần dữ liệu/tích hợp, mục tiêu 15–30% / 7–21 ngày).<sup><a href="https://productquant.dev/blog/saas-activation-benchmarks-by-industry-2026/" target="_blank">[2]</a></sup></p>
+    <h3 class="sub">Mổ xẻ 2 case: kích hoạt tăng nhờ đổi ĐÚNG một thứ — "sự kiện kích hoạt"</h3>
+    <p>Đây là phần cụ thể nhất của bài gốc. Cả hai case đều không "tối ưu onboarding" — họ <em>dời sự kiện kích hoạt</em> ra khỏi các điều kiện cần dữ liệu/tích hợp bên ngoài:</p>
 
     <div class="doslist">
-      <div>✅ <strong>Nên làm:</strong> tìm sự kiện kích hoạt bằng phân tích cohort 90 ngày; đặt benchmark theo phân khúc/GTM/độ phức tạp; dời sự kiện kích hoạt ra khỏi các điều kiện cần dữ liệu/tích hợp bên ngoài (ví dụ cho tạo "báo cáo đầu tiên" bằng template thay vì đòi kết nối 4 nguồn dữ liệu).</div>
-      <div>❌ <strong>Nên tránh:</strong> so mình với trung vị chung 37,5%; coi hoàn tất onboarding là kích hoạt; ép người dùng qua checklist thay vì gỡ chướng ngại tới khoảnh khắc giá trị đầu tiên.</div>
+      <div><strong>Case Scale Insights (nền tảng BI, mid-market):</strong> vấn đề — người dùng phải cấu hình 4+ nguồn dữ liệu trước khi thấy dashboard đầu tiên; sự kiện kích hoạt cũ ("tạo báo cáo tùy chỉnh đầu tiên") đòi dữ liệu mà ngày đầu người dùng chưa có. Sửa — dựng template sẵn giao giá trị <em>trước</em> khi kết nối dữ liệu, cho một dashboard demo dựng sẵn, và đổi sự kiện kích hoạt sang "chọn template đầu tiên". Kết quả: hoàn tất onboarding 38% → <strong>63,25%</strong>, tiết kiệm 5–20 giờ/tuần hỗ trợ thủ công.<sup><a href="https://productquant.dev/blog/saas-activation-benchmarks-by-industry-2026/" target="_blank">[2]</a></sup></div>
+      <div><strong>Case nền tảng biểu mẫu y tế:</strong> người dùng đạt mốc "tạo biểu mẫu đầu tiên" trong phiên đầu giữ chân gấp <strong>2,3×</strong> nhóm không đạt — nhưng onboarding lại bắt cấu hình tích hợp <em>trước</em> khi được tạo biểu mẫu. Sửa — cho tạo biểu mẫu đầu tiên ngay bằng template, dời cấu hình tích hợp ra <em>sau</em> (kích bằng prompt ngữ cảnh, không phải yêu cầu đầu vào). Kết quả: churn giảm <strong>23%</strong>.<sup><a href="https://productquant.dev/blog/saas-activation-benchmarks-by-industry-2026/" target="_blank">[2]</a></sup></div>
+    </div>
+    <div class="mech"><b>Cơ chế chung của cả hai:</b> "khoảng trống kích hoạt" có hai phần — phần <em>ma sát</em> (gỡ được) và phần <em>lọc</em> (người không phù hợp). Sai lầm phổ biến là đổ toàn lực vào tối ưu onboarding (giảm ma sát của <em>lộ trình bạn vạch</em>) trong khi bug thật nằm ở chỗ sự kiện kích hoạt <em>đòi điều kiện tiên quyết ngoài tầm người dùng ngày đầu</em>. Không tối ưu content nào cứu nổi lỗi cấu trúc đó — chỉ đổi bản thân sự kiện kích hoạt mới cứu.</div>
+
+    <h3 class="sub">Cách tìm "sự kiện kích hoạt" của chính sản phẩm bạn</h3>
+    <p>Bài đưa một công thức 4 bước; phần dưới là cách cụ-thể-hóa thành một truy vấn phân tích (minh họa):</p>
+    <div class="code"><span class="c">-- Ý tưởng: trong cohort 90 ngày, hành vi phiên-đầu nào</span>
+<span class="c">-- tách mạnh nhất nhóm CÒN Ở LẠI khỏi nhóm ĐÃ RỜI?</span>
+<span class="k">WITH</span> first_session <span class="k">AS</span> (
+  <span class="k">SELECT</span> user_id, event_name
+  <span class="k">FROM</span> events
+  <span class="k">WHERE</span> session_index = 1
+)
+<span class="k">SELECT</span> event_name,
+  <span class="g">AVG(retained_d90)</span> <span class="k">AS</span> retain_if_did,      <span class="c">-- làm hành vi này thì giữ chân bao nhiêu %</span>
+  <span class="g">COUNT(*)</span>            <span class="k">AS</span> n
+<span class="k">FROM</span> first_session <span class="k">JOIN</span> retention <span class="k">USING</span> (user_id)
+<span class="k">GROUP BY</span> event_name
+<span class="k">ORDER BY</span> retain_if_did <span class="k">DESC</span>;
+<span class="c">-- Sự kiện đứng đầu (vd "first_report_created") + phổ biến đủ lớn</span>
+<span class="c">-- = ứng viên "sự kiện kích hoạt". Rồi hỏi: nó có đòi dữ liệu/tích hợp ngoài không?</span></div>
+    <div class="editnote">Truy vấn trên là minh họa của biên tập để cụ-thể-hóa bước "xác định sự kiện kích hoạt" mà ProductQuant mô tả — không phải mã trong bài gốc.</div>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn — theo quy mô đội:</strong></div>
+    <div class="scale">
+      <div class="col small">
+        <h4>Đội nhỏ / chưa có phân tích cohort</h4>
+        <ul>
+          <li>Chọn 10 khách còn dùng sau 60 ngày và 10 khách đã rời; nhìn tay xem hành vi phiên-đầu nào nhóm ở lại có mà nhóm rời không.</li>
+          <li>Nếu "khoảnh khắc giá trị" đầu tiên đòi kết nối dữ liệu/mời team → dựng một template/dữ liệu demo để giao giá trị <em>trước</em>.</li>
+          <li>Đừng so mình với trung vị 37,5%; so với ngành &amp; độ phức tạp của bạn.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Đội có sản phẩm &amp; công cụ analytics</h4>
+        <ul>
+          <li>Chạy truy vấn kiểu trên để tìm sự kiện kích hoạt định lượng; đặt mục tiêu theo phân khúc (PLG 5–10tr USD nhắm 34,6% chứ không 37,5%).</li>
+          <li>Với mỗi tính năng AI: đo nó dời thời-gian-tới-giá-trị lên hay xuống, trước khi ship.</li>
+          <li>Tách "kích hoạt có trợ giúp" (có sales) khỏi "tự kích hoạt" để biết onboarding có tự đứng được không.</li>
+        </ul>
+      </div>
     </div>
 
-    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> Nếu bạn đang gắn một tính năng AI vào sản phẩm, hãy hỏi: nó có kéo được "sự kiện kích hoạt" đến sớm hơn không? AI/ML là ngành kích hoạt cao nhất (54,8%) một phần vì người dùng đến với kỳ vọng "nhận giá trị trong vài phút, không phải vài ngày". Bài học ProductQuant nối thẳng với "chi phí ẩn của tính năng AI" ở số 12/08: một tính năng AI chỉ đáng thêm nếu nó rút ngắn thời-gian-tới-giá-trị — còn nếu nó thêm một bước xác minh/cấu hình thì nó đẩy sự kiện kích hoạt <em>ra xa</em>.</div>
-
-    <div class="refs"><strong>Nguồn tham khảo:</strong> ProductQuant, Jake McMahon, "What Are the SaaS Activation Benchmarks by Industry in 2026?" (15/04/2026) — <a href="https://productquant.dev/blog/saas-activation-benchmarks-by-industry-2026/" target="_blank">link</a>. Dữ liệu gốc: <a href="https://userpilot.com/saas-product-metrics/" target="_blank">Userpilot 2025</a>, Jimo, Appcues, Amplitude.</div>
+    <div class="refs"><strong>Nguồn tham khảo:</strong> ProductQuant, Jake McMahon, "What Are the SaaS Activation Benchmarks by Industry in 2026?" (15/04/2026) — <a href="https://productquant.dev/blog/saas-activation-benchmarks-by-industry-2026/" target="_blank">link</a>. Dữ liệu gốc: <a href="https://userpilot.com/saas-product-metrics/" target="_blank">Userpilot 2025</a>, Jimo, Appcues, Amplitude. Liên hệ "chi phí ẩn của tính năng AI": số <a href="/2026-08-12" target="_blank">12/08</a>.</div>
   </article>
 
   <!-- GÓC NHÌN -->
   <article class="card" id="gocnhin">
     <span class="tag view">Góc nhìn</span>
     <h2 class="head">3 · Khi tốc độ vượt quyền kiểm soát: bảo mật agent và kích hoạt SaaS là cùng một bài học đo lường</h2>
-    <p>Hai bài hôm nay nhìn qua tưởng rời nhau — một về bảo mật hạ tầng agent, một về chỉ số tăng trưởng sản phẩm — nhưng chung một sợi chỉ: <strong>một con số dễ nhìn đang che một khoảng trống thật</strong>. Ở Gravitee, "niềm tin vào visibility" tăng lên 91,8% trong khi độ phủ giám sát thật đứng yên 52% — tổ chức thoải mái hơn với một rủi ro họ chưa thực sự giảm.<sup><a href="https://www.gravitee.io/state-of-ai-agent-security" target="_blank">[1]</a></sup> Ở ProductQuant, "hoàn tất onboarding" 80% có thể đi cùng kích hoạt thật chỉ 22% — đội sản phẩm ăn mừng một chỉ số quy trình trong khi giá trị thật chưa chạm tới người dùng.<sup><a href="https://productquant.dev/blog/saas-activation-benchmarks-by-industry-2026/" target="_blank">[2]</a></sup></p>
-    <p>Với người làm SaaS, cả hai đều nói: hãy chọn <em>đúng thứ để đo</em> và gắn trách nhiệm cho nó. Agent cần một chủ sở hữu được nêu tên và một sự kiện giám sát; tính năng cần một sự kiện kích hoạt và một chỉ số kinh doanh. Cả hai đều hỏng khi tổ chức thay "đo kết quả" bằng "đo hoạt động" — số agent triển khai, tỷ lệ hoàn tất checklist — những con số tăng đẹp mà không chứng minh điều quan trọng.</p>
-    <p><strong>2–3 việc nên làm tuần này:</strong></p>
+    <p>Hai bài hôm nay chung một sợi chỉ: <strong>một con số dễ nhìn đang che một khoảng trống thật</strong>. Ở Gravitee, "niềm tin vào visibility" tăng lên 91,8% trong khi độ phủ giám sát thật đứng yên 52%.<sup><a href="https://www.gravitee.io/state-of-ai-agent-security" target="_blank">[1]</a></sup> Ở ProductQuant, "hoàn tất onboarding" 80% có thể đi cùng kích hoạt thật chỉ 22%.<sup><a href="https://productquant.dev/blog/saas-activation-benchmarks-by-industry-2026/" target="_blank">[2]</a></sup> Cả hai đều là bẫy "đo hoạt động thay vì đo kết quả": số agent triển khai và tỷ lệ hoàn tất checklist đều tăng đẹp mà không chứng minh điều quan trọng (agent có an toàn không / người dùng có nhận giá trị không).</p>
+    <p>Cách chữa giống nhau đến bất ngờ: <em>chọn đúng một sự kiện để đo, và gắn một người sở hữu nó</em>. Agent cần một sự kiện giám sát (mỗi tool-call) + một chủ sở hữu được nêu tên. Tính năng cần một sự kiện kích hoạt + một chỉ số kinh doanh. Thứ giết cả hai là để chỉ số quy trình (đã triển khai / đã hoàn tất) thế chỗ chỉ số kết quả.</p>
+    <p><strong>3 việc nên làm tuần này:</strong></p>
     <div class="doslist">
-      <div>• Liệt kê mọi agent/tự động hóa AI đang chạy trong sản phẩm; với mỗi cái ghi 1 chủ sở hữu, phạm vi truy cập, và cách tắt khẩn cấp. Nếu chưa có đủ 3 thứ đó → đó là nợ bảo mật cần đóng trước.</div>
-      <div>• Chạy một phân tích cohort 90 ngày để tìm "sự kiện kích hoạt" thật của sản phẩm, thay vì mặc định coi hoàn tất onboarding là kích hoạt.</div>
-      <div>• Với mỗi tính năng AI đang ấp ủ, viết ra: nó rút ngắn hay kéo dài thời-gian-tới-giá-trị? Nó có thêm bước xác minh nào cho người dùng không? Nếu có, thiết kế lại trước khi ship.</div>
+      <div>• Lập bảng kiểm kê mọi agent/tự động hóa AI đang chạy; mỗi cái ghi chủ sở hữu, phạm vi truy cập, cách tắt khẩn. Thiếu đủ 3 → đóng trước khi làm việc khác.</div>
+      <div>• Chạy phân tích cohort 90 ngày tìm "sự kiện kích hoạt" thật; ngừng coi hoàn tất onboarding là kích hoạt.</div>
+      <div>• Với mỗi tính năng AI đang ấp ủ, viết một dòng: nó rút ngắn hay kéo dài thời-gian-tới-giá-trị? Có thêm bước xác minh cho người dùng không? Nếu có → thiết kế lại trước khi ship.</div>
     </div>
   </article>
 
@@ -163,19 +264,19 @@ hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
     <h2 class="head">📖 Lược dịch chi tiết — The State of AI Agent Security 2026 (Gravitee)</h2>
     <div class="flag">Bản diễn đạt lại bằng tiếng Việt, bám sát bố cục &amp; số liệu bài gốc — không phải dịch nguyên văn. <a href="https://www.gravitee.io/state-of-ai-agent-security" target="_blank">Bài gốc</a></div>
     <h3>Tóm tắt điều hành</h3>
-    <p>Đội agent AI đã nhân đôi kể từ 12/2025. Niềm tin vào bảo mật tăng, nhưng độ phủ giám sát, cơ chế trách nhiệm và kiểm soát trước-triển-khai gần như bất động. Tổ chức đang trở nên thoải mái hơn với một rủi ro họ chưa thực sự giảm. Báo cáo kết hợp khảo sát 750 lãnh đạo (04/2026) với kết quả 12/2025. Vấn đề không phải nhận thức mà là thực thi: thiếu mô hình danh tính nhất quán, thực thi tập trung, quyền sở hữu rõ ràng và khả năng thấy liên tục.</p>
+    <p>Đội agent AI đã nhân đôi kể từ 12/2025. Niềm tin vào bảo mật tăng, nhưng độ phủ giám sát, cơ chế trách nhiệm và kiểm soát trước-triển-khai gần như bất động — tổ chức thoải mái hơn với một rủi ro chưa thực sự giảm. Báo cáo kết hợp khảo sát 750 lãnh đạo (04/2026) với 12/2025. Vấn đề là thực thi, không phải nhận thức: thiếu mô hình danh tính nhất quán, thực thi tập trung, quyền sở hữu rõ, khả năng thấy liên tục.</p>
     <h3>Phát hiện 1 — Quy mô triển khai</h3>
-    <p>Khảo sát 12/2025 cho trung bình ~37 agent/tổ chức. Đến 04/2026 phân bố dịch mạnh: gần 38% tổ chức đã có hơn 100 agent. 81,7% dự định triển khai thêm trong 12 tháng (28% "nhiều hơn đáng kể"); du lịch &amp; vận tải dẫn đầu ý định mở rộng (90%), y tế thận trọng nhất. Gravitee dẫn Gartner 2026: Fortune 500 trung bình sẽ có hơn 150.000 agent vào 2028 (từ dưới 15 năm 2025).</p>
+    <p>12/2025 trung bình ~37 agent/tổ chức; đến 04/2026 gần 38% tổ chức đã có &gt;100 agent. 81,7% dự định triển khai thêm (28% "nhiều hơn đáng kể"); du lịch &amp; vận tải dẫn đầu ý định mở rộng (90%), y tế thận trọng nhất. Dẫn Gartner 2026: Fortune 500 trung bình &gt;150.000 agent vào 2028 (từ &lt;15 năm 2025).</p>
     <h3>Phát hiện 2 — Khoảng trống giám sát</h3>
-    <p>Chỉ 9,5% tổ chức giám sát &amp; bảo mật hơn 81% số agent. Độ phủ giám sát trung bình 52%, nghĩa là 48% agent production chạy không được bảo vệ. Mean này gần như không đổi so 12/2025 (46,96%), trong khi tổng đàn nhân đôi — nên số agent không giám sát tuyệt đối đang tăng. Nghịch lý niềm tin: tự tin vào visibility tăng 82,6% → 91,8% trong bốn tháng.</p>
+    <p>Chỉ 9,5% giám sát &gt;81% số agent. Độ phủ trung bình 52% → 48% agent production chạy không được bảo vệ. Mean gần như không đổi so 12/2025 (46,96%) dù tổng đàn nhân đôi. Nghịch lý niềm tin: tự tin vào visibility 82,6% → 91,8% trong bốn tháng.</p>
     <h3>Phát hiện 3 — Quản trị trước triển khai</h3>
-    <p>Chỉ 19,7% nói "tất cả" agent được bảo mật &amp; quản trị đầy đủ trước khi lên production; 59,1% nói "phần lớn". Không kiểm soát nào được dùng bởi tới 40% tổ chức: người chịu trách nhiệm 37,8%, rà soát IT/CISO 35%, quy trình tạm dừng/thu hồi 34,1%, kế hoạch xử lý dữ liệu nhạy cảm 33%, kiểm soát truy cập riêng cho agent 32%, phạm vi truy cập được định nghĩa 30,5%.</p>
-    <h3>Phát hiện 4 — Sự cố bảo mật &amp; sáu mẫu hỏng</h3>
-    <p>54% đã gặp/nghi có sự cố trong 12 tháng (34,9% xác nhận); viễn thông (67,3%) và tài chính (54,7%) dẫn đầu. Con số xác nhận giảm so 12/2025 (59,3%) có thể do dưới-báo-cáo/không phát hiện được chứ không phải an toàn hơn. Sáu mẫu: (1) quyền quá mức; (2) vi phạm lưu trữ/quyền riêng tư; (3) prompt injection &amp; thao túng đối kháng (tăng mạnh, chuyển từ vô ý sang có chủ đích); (4) shadow AI; (5) opacity bên thứ ba; (6) output sai gây hại vận hành (mẫu mới 04/2026).</p>
+    <p>Chỉ 19,7% nói "tất cả" agent được bảo mật &amp; quản trị đầy đủ trước production; 59,1% nói "phần lớn". Không kiểm soát nào được dùng bởi tới 40%: người chịu trách nhiệm 37,8%, rà soát IT/CISO 35%, quy trình tạm dừng/thu hồi 34,1%, kế hoạch xử lý dữ liệu nhạy cảm 33%, kiểm soát truy cập riêng cho agent 32%, phạm vi truy cập được định nghĩa 30,5%.</p>
+    <h3>Phát hiện 4 — Sự cố &amp; sáu mẫu hỏng</h3>
+    <p>54% đã gặp/nghi sự cố trong 12 tháng (34,9% xác nhận); viễn thông 67,3%, tài chính 54,7%. Con số xác nhận giảm so 12/2025 (59,3%) có thể do dưới-báo-cáo chứ không phải an toàn hơn. Sáu mẫu: quyền quá mức; vi phạm lưu trữ/quyền riêng tư; prompt injection &amp; thao túng đối kháng (tăng mạnh, từ vô ý sang có chủ đích); shadow AI; opacity bên thứ ba; output sai gây hại vận hành (mẫu mới 04/2026).</p>
     <h3>Phát hiện 5–9</h3>
-    <p>Trách nhiệm: 85% không có trách nhiệm chính thức, chỉ 7,2% có cá nhân được nêu tên. Tốc độ vs bảo mật: 81% cảm thấy sức ép triển khai nhanh, mạnh nhất ở công ty nhỏ; 79,7% tin có thể nhanh mà không đánh đổi bảo mật. Quy định: chỉ 39,5% tin quy định hiện đủ. Agent như "người dùng": 91,2% "phần nào sẵn sàng" quản agent như một loại danh tính riêng, nhưng chỉ 30,4% "rất sẵn sàng" — chính khoảng cách giữa hai mức này là nơi rủi ro chưa được xử lý.</p>
+    <p>Trách nhiệm: 85% không có cơ chế chính thức, chỉ 7,2% có cá nhân nêu tên. Tốc độ vs bảo mật: 81% cảm thấy sức ép triển khai nhanh (mạnh nhất ở công ty nhỏ); 79,7% tin nhanh mà không đánh đổi bảo mật. Quy định: chỉ 39,5% tin quy định đủ. Agent như "người dùng": 91,2% "phần nào sẵn sàng" quản agent như danh tính riêng, nhưng chỉ 30,4% "rất sẵn sàng".</p>
     <h3>Kết luận</h3>
-    <p>Bảo mật agent AI là bài toán thực thi, không phải nhận thức. Bốn thứ còn thiếu: mô hình danh tính nhất quán (agent là chủ thể xác thực, không phải credential dùng chung); thực thi tập trung ở lớp gateway; quyền sở hữu rõ ràng trước khi agent lên production; khả năng thấy liên tục thay vì audit định kỳ.</p>
+    <p>Bảo mật agent là bài toán thực thi. Bốn thứ còn thiếu: mô hình danh tính nhất quán (agent là chủ thể xác thực, không phải credential dùng chung); thực thi tập trung ở lớp gateway; quyền sở hữu rõ trước khi lên production; khả năng thấy liên tục thay vì audit định kỳ.</p>
   </section>
 
   <!-- LƯỢC DỊCH 2 -->
@@ -183,22 +284,23 @@ hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
     <h2 class="head">📖 Lược dịch chi tiết — SaaS Activation Benchmarks 2026 (ProductQuant)</h2>
     <div class="flag">Bản diễn đạt lại bằng tiếng Việt, bám sát bố cục &amp; số liệu bài gốc — không phải dịch nguyên văn. <a href="https://productquant.dev/blog/saas-activation-benchmarks-by-industry-2026/" target="_blank">Bài gốc</a></div>
     <h3>Vấn đề benchmark</h3>
-    <p>Phần lớn công ty SaaS không biết tỷ lệ kích hoạt của mình; số biết thì hiếm khi biết con số đó tốt hay xấu cho bối cảnh cụ thể. Trung vị chung 37,5% (Userpilot 2025, 547 công ty) trông dùng được, nhưng khoảng cách giữa vực đỉnh (AI/ML 54,8%) và đáy (FinTech &amp; Bảo hiểm 5,0%) là 10,9×. So nhầm cohort dẫn tới hai kiểu sai: tự khen "trung bình", hoặc tự thấy "hỏng". Năm 2026 vấn đề càng gắt: giữ chân tháng 1 trung bình 46,9%; công cụ AI-native, workflow CLI-first đã huấn luyện người mua kỹ thuật kỳ vọng giá trị trong vài phút.</p>
+    <p>Phần lớn công ty SaaS không biết tỷ lệ kích hoạt của mình; số biết thì hiếm khi biết nó tốt hay xấu cho bối cảnh. Trung vị chung 37,5% (Userpilot 2025, 547 công ty) trông dùng được, nhưng đỉnh (AI/ML 54,8%) so đáy (FinTech &amp; Bảo hiểm 5,0%) chênh 10,9×. So nhầm cohort dẫn tới hai kiểu sai: tự khen "trung bình", hoặc tự thấy "hỏng". Giữ chân tháng 1 trung bình chỉ 46,9%; công cụ AI-native, workflow CLI-first đã huấn luyện người mua kỹ thuật kỳ vọng giá trị trong vài phút.</p>
     <h3>Khung benchmark theo phân khúc</h3>
-    <p>Ba biến quyết định benchmark: phân khúc doanh thu, mô hình go-to-market, độ phức tạp sản phẩm. Theo doanh thu: 1–5tr USD kích hoạt 41,6%; 5–10tr 36,9%; 10–50tr tụt còn 17,6% ("thung lũng tử thần" khi onboarding phức tạp nhanh hơn năng lực đội); 50tr+ hồi phục 43,1%. Theo GTM: sales-led kích hoạt 41,6%/giữ chân tháng 1 39,1%; product-led 34,6%/48,4% — SLG lợi kích hoạt nhờ người dắt tay, PLG lợi giữ chân nhờ người tự kích hoạt gắn bó hơn. Theo ngành: xem bảng trong bài chính (AI/ML 54,8% đỉnh, FinTech 5,0% đáy nhưng giữ chân 57,6%).</p>
+    <p>Ba biến quyết định: phân khúc doanh thu, mô hình GTM, độ phức tạp sản phẩm. Theo doanh thu: 1–5tr USD kích hoạt 41,6%; 5–10tr 36,9%; 10–50tr tụt còn 17,6% ("thung lũng tử thần" khi onboarding phức tạp nhanh hơn năng lực đội); 50tr+ hồi phục 43,1%. Theo GTM: sales-led 41,6%/giữ chân 39,1%; product-led 34,6%/48,4%. Theo ngành: AI/ML 54,8% đỉnh; FinTech 5,0% đáy nhưng giữ chân 57,6%.</p>
     <h3>Mô hình tiện ích ProductQuant</h3>
-    <p>Quick-Utility (Canva, Calendly, Loom): giá trị trong một phiên, mục tiêu kích hoạt 50–65%, thời gian tới kích hoạt dưới 2 giờ. Slow-Utility (CRM, ERP, analytics): cần dữ liệu/cấu hình/tích hợp, mục tiêu 15–30%, 7–21 ngày. Tỷ lệ kích hoạt không đo chất lượng sản phẩm — nó đo khoảng cách giữa độ phức tạp và thời gian bạn cho người dùng để vượt qua.</p>
+    <p>Quick-Utility (Canva, Calendly, Loom): giá trị trong một phiên, mục tiêu 50–65%/dưới 2 giờ. Slow-Utility (CRM, ERP, analytics): cần dữ liệu/cấu hình/tích hợp, mục tiêu 15–30%/7–21 ngày. Tỷ lệ kích hoạt không đo chất lượng sản phẩm — nó đo khoảng cách giữa độ phức tạp và thời gian bạn cho người dùng.</p>
     <h3>Kích hoạt &amp; giữ chân</h3>
-    <p>Người đã kích hoạt giữ chân 60%+ ở 90 ngày; chưa kích hoạt dưới 25%. Người khựng lại ở "dặm đầu tiên" có xác suất rời bỏ trước chu kỳ thanh toán đầu tiên gấp 2× (Contentsquare). Cải thiện kích hoạt 25% dồn tích thành +34% MRR trong 12 tháng (Appcues) — tác động lớn hơn cải thiện tương đương ở acquisition/retention/referral. Khác biệt onboarding–kích hoạt: chỉ 19,2% hoàn tất checklist onboarding nhưng 37,5% đạt kích hoạt; Jimo thấy 80% hoàn tất onboarding vẫn có thể đi cùng 22% kích hoạt.</p>
-    <h3>Làm gì với benchmark</h3>
-    <p>Bước 1: xác định sự kiện kích hoạt (mốc hành vi tách nhóm giữ chân khỏi nhóm rời ở cohort 90 ngày). Bước 2: đo khoảng trống kích hoạt = phần ma sát (gỡ được) + phần lọc (người không phù hợp). Bước 3: đặt mục tiêu theo phân khúc cụ thể. Bước 4: dựng lộ trình rút ngắn thời-gian-tới-giá-trị, ưu tiên tác động cao/chi phí thấp (thư viện template, dữ liệu demo dựng sẵn, hướng dẫn tại sự kiện kích hoạt). Hai case: Scale Insights (BI) nâng hoàn tất onboarding 38% → 63,25% bằng cách dời sự kiện kích hoạt sang "chọn template đầu tiên"; nền tảng biểu mẫu y tế giảm churn 23% bằng cách cho tạo biểu mẫu đầu tiên ngay lập tức và dời cấu hình tích hợp ra sau.</p>
-    <p><em>Lưu ý nguồn:</em> đây là bài do hãng tư vấn tăng trưởng ProductQuant tổng hợp, một số con số dẫn lại từ khảo sát bên thứ ba (Userpilot 2025, Jimo, Appcues, Amplitude, OpenView) và hai case study là của chính ProductQuant.</p>
+    <p>Người đã kích hoạt giữ chân 60%+ ở 90 ngày; chưa kích hoạt dưới 25%. Người khựng ở "dặm đầu" rời bỏ trước chu kỳ thanh toán đầu gấp 2× (Contentsquare). Cải thiện kích hoạt 25% dồn thành +34% MRR/12 tháng (Appcues). Onboarding≠kích hoạt: chỉ 19,2% hoàn tất checklist nhưng 37,5% kích hoạt; Jimo thấy 80% onboarding vẫn có thể 22% kích hoạt.</p>
+    <h3>Làm gì với benchmark (4 bước) &amp; 2 case</h3>
+    <p>Bước 1: xác định sự kiện kích hoạt (mốc tách nhóm giữ chân khỏi nhóm rời ở cohort 90 ngày). Bước 2: đo khoảng trống kích hoạt = ma sát (gỡ được) + lọc (người không phù hợp). Bước 3: đặt mục tiêu theo phân khúc. Bước 4: dựng lộ trình rút ngắn thời-gian-tới-giá-trị, ưu tiên tác động cao/chi phí thấp (template, dữ liệu demo, hướng dẫn tại sự kiện kích hoạt). Case Scale Insights: onboarding 38% → 63,25% nhờ dời sự kiện kích hoạt sang "chọn template đầu tiên". Case biểu mẫu y tế: người đạt "tạo biểu mẫu đầu tiên" giữ chân 2,3×; dời cấu hình tích hợp ra sau → churn −23%.</p>
+    <p><em>Lưu ý nguồn:</em> bài do hãng tư vấn ProductQuant tổng hợp; một số con số dẫn lại từ bên thứ ba (Userpilot 2025, Jimo, Appcues, Amplitude, Contentsquare, OpenView) và hai case là của chính ProductQuant.</p>
   </section>
 
   <div class="refs" style="margin-top:26px">
     <strong>Nguồn tham khảo toàn số:</strong><br>
     [1] Gravitee — Jorge Ruiz, <a href="https://www.gravitee.io/state-of-ai-agent-security" target="_blank">The State of AI Agent Security 2026</a> (khảo sát 750 lãnh đạo, cập nhật 04/2026) · <a href="https://www.gravitee.io/hubfs/State%20of%20AI%20Security%20Report%20V2%20F.pdf" target="_blank">PDF báo cáo</a><br>
-    [2] ProductQuant — Jake McMahon, <a href="https://productquant.dev/blog/saas-activation-benchmarks-by-industry-2026/" target="_blank">What Are the SaaS Activation Benchmarks by Industry in 2026?</a> (15/04/2026); dữ liệu gốc <a href="https://userpilot.com/saas-product-metrics/" target="_blank">Userpilot 2025</a>, Jimo, Appcues, Amplitude, OpenView
+    [2] ProductQuant — Jake McMahon, <a href="https://productquant.dev/blog/saas-activation-benchmarks-by-industry-2026/" target="_blank">What Are the SaaS Activation Benchmarks by Industry in 2026?</a> (15/04/2026); dữ liệu gốc <a href="https://userpilot.com/saas-product-metrics/" target="_blank">Userpilot 2025</a>, Jimo, Appcues, Amplitude, OpenView<br>
+    <em>Các đoạn "Cơ chế", bảng ánh xạ mẫu-sự-cố, và các ví dụ mã/cấu hình là phần biên tập tổng hợp minh họa, không trích nguyên văn từ nguồn.</em>
   </div>
 
   <div class="foot"><a href="/" style="color:#4338ca;text-decoration:none">← Về trang bìa lưu trữ</a></div>
