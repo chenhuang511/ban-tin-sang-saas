@@ -87,6 +87,29 @@ function msSinceNewestSiteChange() {
   } catch (_) { return Infinity; }
 }
 
+// An toan chong "commit chi co file so, thieu index.html":
+// Neu co file so site/YYYY-MM-DD*.html dang thay doi/chua theo doi MA
+// slug cua no chua xuat hien trong index.html (working tree) -> coi nhu
+// Cowork CHUA cap nhat trang bia xong -> hoan deploy, KHONG day file so
+// len truoc. Ap dung du index.html duoc sua truoc hay sau file so.
+function issueMissingFromIndex() {
+  const st = git(['status', '--porcelain']);
+  if (st.code !== 0) return null;
+  const slugs = [];
+  for (const line of st.out.split('\n')) {
+    const p = line.slice(3).trim();                 // bo cot trang thai "XY "
+    const m = p.match(/^site\/(\d{4}-\d{2}-\d{2}[^\/]*)\.html$/);
+    if (m && !/index/.test(m[1])) slugs.push(m[1]);
+  }
+  if (slugs.length === 0) return null;              // khong co file so moi -> khong can chan
+  let idx = '';
+  try { idx = fs.readFileSync(path.join(SITE, 'index.html'), 'utf8'); } catch (_) { return null; }
+  for (const slug of slugs) {
+    if (!idx.includes('/' + slug)) return slug;     // trang bia chua tro toi so nay
+  }
+  return null;
+}
+
 function saveState(info) {
   try {
     fs.writeFileSync(STATE, JSON.stringify(
@@ -111,6 +134,13 @@ function checkOnce() {
   const quietFor = msSinceNewestSiteChange();
   if (quietFor < QUIET_MS) {
     log(`site/ vua sua ${Math.round(quietFor/1000)}s truoc (< ${QUIET_MS/1000}s) — co the Cowork dang viet do, doi lan sau moi deploy.`);
+    return;
+  }
+
+  // Chan rieng: co file so moi nhung index.html chua tro toi no -> doi.
+  const missing = issueMissingFromIndex();
+  if (missing) {
+    log(`File so ${missing}.html da co nhung index.html CHUA liet ke — hoan deploy de tranh day so moi thieu trang bia (se thu lai lan sau).`);
     return;
   }
 

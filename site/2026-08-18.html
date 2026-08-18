@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>"Sửa vòng lặp, không sửa code": Anthropic port 1 triệu dòng Bun từ Zig sang Rust trong 11 ngày · 18/08/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.dich{background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;padding:16px 20px;margin-top:16px}
+.dich .flag{font-size:12.5px;color:#94a3b8;font-style:italic;margin-bottom:8px}
+.dich h3{font-size:16px;margin:14px 0 4px}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 18/08/2026</div>
+    <h1 class="title">"Sửa vòng lặp, đừng sửa code": Anthropic port 1 triệu dòng Bun từ Zig sang Rust trong 11 ngày</h1>
+    <div class="meta">18/08/2026 · Thời lượng đọc ~20 phút · Nguồn: Claude by Anthropic (16/07/2026); Bun Blog — Jarred Sumner (08/07/2026)</div>
+  </header>
+
+  <div class="editnote">Ghi chú minh bạch biên tập: mọi con số trong số này đều dẫn nguồn nội dòng từ hai bài gốc (Anthropic &amp; Bun) đã được mở và xác minh khi biên soạn. Các khối "Cơ chế", bảng so sánh và mục "Rút ra cho bạn" là phần tổng hợp/suy luận của biên tập từ thực hành phổ biến — <strong>không trích nguyên văn từ nguồn</strong>; không có số nào được bịa để lấp chỗ.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1">Anthropic: quy trình 6 bước cho di trú code quy mô lớn — và cú port Bun triệu dòng</a></li>
+      <li><a href="#gocnhin">Góc nhìn: đây là "bờ vực" của công nghệ, không phải công thức bấm nút</a></li>
+      <li><a href="#dich1">📖 Lược dịch — Anthropic chạy di trú code quy mô lớn thế nào (Claude Blog)</a></li>
+      <li><a href="#dich2">📖 Lược dịch — Viết lại Bun bằng Rust (Bun Blog)</a></li>
+    </ol>
+  </nav>
+
+  <!-- BÀI 1 -->
+  <article class="card" id="bai1">
+    <span class="tag legacy">Hiện đại hóa &amp; di trú hệ thống</span>
+    <h2 class="head">1 · "Bạn không sửa code — bạn sửa cái vòng lặp đã sinh ra code": quy trình 6 bước &amp; cú port Bun 1 triệu dòng</h2>
+    <p class="src">Nguồn cấp một: Claude by Anthropic — "How Anthropic runs large-scale code migrations with Claude Code" · 16/07/2026 · <a href="https://claude.com/blog/ai-code-migration" target="_blank">claude.com/blog</a> · &amp; Bun Blog — Jarred Sumner, "Rewriting Bun in Rust" · 08/07/2026 · <a href="https://bun.com/blog/bun-in-rust" target="_blank">bun.com/blog</a></p>
+
+    <div class="stat">
+      <div class="box"><div class="num">~1,0 triệu</div><div class="lab">dòng Rust được sinh ra (diff cuối +1.009.272) trong <strong>11 ngày</strong> (3→14/5) <a href="https://bun.com/blog/bun-in-rust" target="_blank">(Bun, 2026)</a></div></div>
+      <div class="box"><div class="num">~$165.000</div><div class="lab">chi phí ở giá API: 5,9 tỷ token input chưa cache + 690 triệu token output + 72 tỷ token cache-read <a href="https://claude.com/blog/ai-code-migration" target="_blank">(Anthropic, 2026)</a></div></div>
+      <div class="box"><div class="num">64 Claude</div><div class="lab">chạy song song suốt 11 ngày qua "dynamic workflows"; đỉnh 695 commit/giờ, 6.778 commit <a href="https://bun.com/blog/bun-in-rust" target="_blank">(Bun, 2026)</a></div></div>
+    </div>
+
+    <p>Trong nhiều năm, "di trú code" — chuyển một codebase production sang ngôn ngữ hoặc nền tảng khác — là loại dự án nhiều-năm mà hầu như không ai muốn khởi động: bạn phải nuôi song song hai codebase hàng quý tới hàng năm, và nếu kết quả chỉ đạt "90% tương đương" thì bạn còn khổ hơn lúc bắt đầu.<sup><a href="https://claude.com/blog/ai-code-migration" target="_blank">[1]</a></sup> Trong <em>một tháng</em> gần đây, các kỹ sư ở Anthropic đã di trú 10 gói code (từ vài chục đến vài trăm nghìn dòng mỗi gói) bằng Claude Fable 5, Claude Opus 4.8 và cơ chế "dynamic workflows" của Claude Code.<sup><a href="https://claude.com/blog/ai-code-migration" target="_blank">[1]</a></sup> Bài viết của Anthropic rút ra một quy trình 6 bước, và luận điểm cốt lõi gói gọn trong một câu: <strong>bạn không đi sửa từng file code — bạn sửa cái vòng lặp (loop) đã sinh ra code đó.</strong><sup><a href="https://claude.com/blog/ai-code-migration" target="_blank">[1]</a></sup></p>
+
+    <p>Ví dụ nổi bật nhất là Bun — runtime/toolkit JavaScript đang có hơn 10 triệu lượt tải mỗi tháng và được dùng nhiều bên trong chính Claude Code. Đồng sáng lập Bun (đồng thời là Member of Technical Staff ở Anthropic) Jarred Sumner đã dùng Claude Code để viết lại Bun từ Zig sang Rust: khoảng một triệu dòng được sinh ra trong <strong>chưa đầy hai tuần</strong>, <strong>100% bộ test hiện có của Bun pass trên CI trước khi merge</strong>; 19 hồi quy (regression) lộ ra sau merge và tất cả đã được sửa; bản Rust được ship ngay trong Claude Code hồi tháng 6.<sup><a href="https://claude.com/blog/ai-code-migration" target="_blank">[1]</a></sup> Một ví dụ thứ hai: Mike Krieger (đồng dẫn dắt Anthropic Labs) đã di trú một codebase Python sang <strong>165.000 dòng TypeScript trong một cuối tuần</strong> — với hàng trăm agent, 8 "cổng pha" (phase gate), 3 vòng review đối kháng và một bước kiểm tra "tương đương" cuối cùng so đầu ra từng lệnh với bản Python gốc.<sup><a href="https://claude.com/blog/ai-code-migration" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao "sửa loop" chứ không "sửa code"?</b> Khi một agent dịch sai theo cùng một kiểu ở hàng trăm file, đi vá từng file là công cốc: bug sẽ tái sinh ở file tiếp theo. Cách làm ở đây coi <em>bộ quy tắc dịch</em> (rulebook) là nguồn sự thật: mỗi khi reviewer bắt được một lỗi lặp, bạn thêm <em>một câu</em> vào rulebook rồi sinh lại đúng lô file mà quy tắc đó chạm tới — code không bao giờ bị "vá tay". Nói cách khác, con người dành sức cho <b>quy tắc và mẫu lỗi</b>, còn từng thất bại lẻ là việc của "fixer agent". <span style="color:#6b7280">(diễn giải của biên tập, không trích nguyên văn)</span></div>
+
+    <h3 class="sub">Kinh tế của một cuộc di trú đã thay đổi</h3>
+    <p>Điều khiến những dự án "để dành mãi" này bỗng đáng làm là bài toán chi phí và rủi ro đã lật ngược. Một cuộc di trú triệu dòng từng ngốn 3–4 triệu USD nhân lực kỹ sư trải trên một dự án bốn năm; giờ nó vẫn tốn "hàng chục đến hàng trăm nghìn USD trở lên", nhưng đã ở một bậc khác.<sup><a href="https://claude.com/blog/ai-code-migration" target="_blank">[1]</a></sup> Cụ thể, cú port Bun tiêu 5,9 tỷ token input chưa cache và 690 triệu token output — khoảng <strong>165.000 USD</strong> ở giá API.<sup><a href="https://claude.com/blog/ai-code-migration" target="_blank">[1]</a></sup> Bản thân Jarred ước tính làm tay sẽ cần "3 kỹ sư nắm trọn ngữ cảnh codebase làm khoảng một năm" — và trong năm đó không thể cải thiện tương thích Node.js, sửa bug, vá bảo mật hay làm tính năng mới; nên thực tế "phương án thay thế là không làm gì cả và cứ tiếp tục sửa bug mãi mãi".<sup><a href="https://bun.com/blog/bun-in-rust" target="_blank">[2]</a></sup></p>
+
+    <p>Quan trọng hơn con số: rủi ro nghề nghiệp của loại "siêu dự án" này đã tan. Trước đây bạn có thể nuôi hai codebase song song hàng quý và nhận về 90% tương đương. Giờ, theo Anthropic, <strong>kịch bản tệ nhất là xóa nhánh và thử lại</strong> — nên lý do để bắt đầu không còn phải mang tính sống-còn nữa: "một năm toàn vá bug rò rỉ bộ nhớ trong changelog, hoặc một nút thắt kinh niên" đã đủ để biện minh.<sup><a href="https://claude.com/blog/ai-code-migration" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao di trú lại là "đất diễn" của model mạnh?</b> Anthropic nêu năm đặc điểm khiến bài toán này hợp với agent: (1) <b>công việc song song</b> — hàng nghìn đơn vị độc lập (file, crate) chạy đồng thời; (2) <b>ngữ cảnh rõ ràng</b> — code cũ chính là bản đặc tả tốt nhất; (3) <b>có trọng tài sẵn</b> — bộ test cho model "mài" vào một sự thật khách quan suốt nhiều ngày mà không cần người phân xử; (4) <b>hàng đợi tự viết</b> — mỗi lần compiler/test fail là một việc tiếp theo cho agent; (5) <b>nhất quán &amp; xử lý ca biên</b> — mỗi khi gặp ca lạ, cách sửa trở thành một quy tắc mà mọi agent sau đều tuân theo, nên "trôi dạt" không có chỗ nấp.<sup><a href="https://claude.com/blog/ai-code-migration" target="_blank">[1]</a></sup></div>
+
+    <h3 class="sub">Điều kiện tiên quyết: phải có một "trọng tài" đáng tin trước đã</h3>
+    <p>Trước khi bắt đầu, bạn cần một <em>judge</em> (trọng tài) — nếu không, sẽ không có điều kiện dừng lẫn thước đo thành công.<sup><a href="https://claude.com/blog/ai-code-migration" target="_blank">[1]</a></sup> Trọng tài phải đánh giá được cả code gốc lẫn code đích trên cùng một mặt bằng, vì bộ test viết cho ngôn ngữ cũ thường phụ thuộc vào các hàm nội bộ sẽ không tồn tại ở ngôn ngữ mới. Anthropic khuyến nghị: dùng Claude phân loại test nào diễn đạt được bằng lời gọi bên ngoài và test nào bám vào nội bộ; viết lại phần test hướng-ngoài thành các khẳng định chạy được trên cả hai bản; rồi <strong>validate chính trọng tài</strong> — chạy nó trên code gốc để chắc nó pass, rồi chạy trên code cố tình làm hỏng để chắc nó fail. "Một trọng tài không bắt được lỗi thì không phải trọng tài".<sup><a href="https://claude.com/blog/ai-code-migration" target="_blank">[1]</a></sup> Với dự án Python→TypeScript, Mike không có sẵn bộ test đó, nên anh dựng một "parity harness" gồm bảy kịch bản đời thực và coi mọi thay đổi hành vi là một bug phải sửa.<sup><a href="https://claude.com/blog/ai-code-migration" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — "verification mechanical, review adversarial".</b> Hai trụ cột của cả hai case: <em>xác minh phải máy móc</em> (để compiler, diff, test-suite làm trọng tài — không để model tự chấm mình), và <em>review phải đối kháng</em> — mỗi diff được một Claude thứ hai, ở một cửa sổ ngữ cảnh riêng, chỉ nhận diff và bị yêu cầu "tìm chỗ nó sai" (không thấy suy luận của người viết). Nếu hai reviewer bất đồng, một agent thứ ba phân xử.<sup><a href="https://bun.com/blog/bun-in-rust" target="_blank">[2]</a></sup> Review đối kháng tốn token hơn nhưng cho phép chạy tác vụ dài — và thường đáng.<sup><a href="https://claude.com/blog/ai-code-migration" target="_blank">[1]</a></sup></div>
+
+    <h3 class="sub">Sáu bước, tóm tắt bằng lời (không có dòng code nào)</h3>
+    <p><strong>Bước 1 — Dựng rulebook, bản đồ phụ thuộc và "sổ lỗ hổng".</strong> Trước hết quyết định kiến trúc: giữ nguyên cấu trúc cũ (như Jarred) hay thiết kế lại (như Mike). Nếu giữ nguyên, rulebook chủ yếu là các bảng tra cứu dịch kiểu dữ liệu và thành ngữ giữa hai ngôn ngữ; nếu thiết kế lại, rulebook là một tài liệu thiết kế.<sup><a href="https://claude.com/blog/ai-code-migration" target="_blank">[1]</a></sup> "Sổ lỗ hổng" (gap inventory) ghi lại những chỗ ngôn ngữ mới đòi hỏi khác hẳn — ví dụ Zig quản lý bộ nhớ thủ công còn Rust có quyền sở hữu/tự giải phóng; hay Python không cần khai báo hợp đồng kiểu còn TypeScript thì bắt buộc phải viết ra hợp đồng trước khi biên dịch được. Thứ tự quan trọng: rulebook có trước, sổ lỗ hổng định nghĩa bởi những gì mặc định của rulebook không phủ.<sup><a href="https://claude.com/blog/ai-code-migration" target="_blank">[1]</a></sup></p>
+
+    <p><strong>Bước 2 — Kéo căng bộ quy tắc ("shakedown cruise").</strong> Một cuộc di trú mini để thử: Jarred cho một agent dịch ba file theo rulebook, một agent khác dịch ba file "như một kỹ sư Rust kỳ cựu", và một agent thứ ba dùng phần khác biệt giữa hai bản để đẻ ra quy tắc mới. Ở bước này anh bắt được hai vấn đề nghiêm trọng mà nếu để lọt sẽ nhân bản khắp 1.448 file. Kết thúc bước: <em>vứt bỏ mọi file đã dịch</em> — mục tiêu là tinh chỉnh quy tắc, không phải lấy tiến độ.<sup><a href="https://claude.com/blog/ai-code-migration" target="_blank">[1]</a></sup></p>
+
+    <p><strong>Bước 3 — Dịch tất cả.</strong> Từ đây trở đi là cùng một kiến trúc vòng lặp đa agent: dịch → review → sửa. Bạn có thể đẩy phần "dịch" số lượng lớn cho model nhỏ hơn và giữ reviewer ở model lớn — Mike dùng Claude Sonnet khi bung 12 sub-agent cho phần chính. Hàng đợi phải máy móc: một script quyết định "xong" bằng cách kiểm tra file đã tồn tại trên đĩa hay chưa, nhờ vậy tiến trình <em>khôi phục được</em> nếu gián đoạn. Điểm thiết kế đáng chú ý: compiler đặt ở đâu — Mike chạy trình biên dịch TypeScript trong mỗi vòng (vài giây/đơn vị); Jarred cấm compiler khỏi vòng lặp và đẩy sang bước sau vì cargo mất hàng phút.<sup><a href="https://claude.com/blog/ai-code-migration" target="_blank">[1]</a></sup></p>
+
+    <p><strong>Bước 4, 5, 6 — Biên dịch, chạy, khớp hành vi.</strong> Ba bước dùng chung kiến trúc vòng lặp và cần ít phán xét của người dần: danh sách lỗi của compiler, các lần crash từ smoke test, và các test fail lần lượt trở thành "nguồn sự thật máy móc" để các "fixer agent" gom theo nguyên nhân gốc rồi dọn song song. Ở bước cuối, một "build daemon" là tiến trình <em>duy nhất</em> được phép build lại binary — nó gộp các bản vá, build một lần, chạy lại các test bị ảnh hưởng rồi trả kết quả về, để chuỗi thao tác đắt nhất không bị nhiều agent kích hoạt độc lập. Và khi cùng một lỗi lặp qua nhiều test, cách sửa dịch ngược lên thượng nguồn: sửa quy tắc đã sinh ra bug rồi tái sinh đúng những file quy tắc đó chạm.<sup><a href="https://claude.com/blog/ai-code-migration" target="_blank">[1]</a></sup> Mike còn đi thêm một bước: để Claude tự thiết kế bộ test đầu-cuối và chạy tự động qua đêm, sửa những gì hỏng và chạy lại bốn đêm liên tiếp — bắt được cả những lỗi nhỏ mà không kịch bản nào đoán trước.<sup><a href="https://claude.com/blog/ai-code-migration" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — "advisory pattern": đừng dùng model to nhất cho mọi việc.</b> Token dồn vào các vòng lặp, nên thiết kế vòng lặp có chủ đích: model nhỏ gánh phần "bung song song" khối lượng lớn (implementer), còn model lớn nhất để dành cho <em>reviewer</em> và cho <em>bất cứ thứ gì viết ra quy tắc mà các agent khác sẽ tuân theo</em>. Cả Jarred và Mike đều dùng Fable cho các bước then chốt theo kiểu "cố vấn" pha trộn nhiều lớp model để tối ưu token.<sup><a href="https://claude.com/blog/ai-code-migration" target="_blank">[1]</a></sup> Đây là lý do 72 tỷ token là <em>cache-read</em> — ngữ cảnh dùng lại nhiều lần, giá rẻ hơn hẳn token input tươi.<sup><a href="https://bun.com/blog/bun-in-rust" target="_blank">[2]</a></sup></div>
+
+    <h3 class="sub">Kết quả đo được — và cái giá phải sòng phẳng</h3>
+    <p>Bản Rust của Bun giờ đã ở production, nhưng mọi cuộc di trú đều có đánh đổi. Khoảng <strong>4% code Rust nằm trong khối "unsafe"</strong> (~13.000 từ khóa <code>unsafe</code> trên ~27.000 dòng, phần lớn là thao tác con trỏ một dòng ở ranh giới C/C++; 78% các khối đó chỉ một dòng).<sup><a href="https://bun.com/blog/bun-in-rust" target="_blank">[2]</a></sup> Đổi lại, codebase mới tốt hơn một cách đo được: mọi rò rỉ bộ nhớ mà công cụ của đội phát hiện được đều đã sửa — một benchmark chạy 2.000 lần build lặp lại giảm bộ nhớ từ <strong>6.745 MB xuống 609 MB</strong>; binary nhỏ hơn <strong>19%</strong> trên Linux và Windows; và tối ưu chéo ngôn ngữ giúp nhanh hơn <strong>2–5%</strong> trên phục vụ HTTP và các tác vụ đời thực như <code>next build</code> và <code>tsc</code>.<sup><a href="https://claude.com/blog/ai-code-migration" target="_blank">[1]</a></sup> Bun v1.4 cũng sửa 128 bug tái hiện được ở v1.3.14.<sup><a href="https://bun.com/blog/bun-in-rust" target="_blank">[2]</a></sup></p>
+
+    <p>Về "nét bút thật" của quá trình: dữ liệu commit của Jarred cho thấy ở đỉnh Claude viết khoảng 1.300 dòng code/phút, mỗi dòng đều qua hai reviewer đối kháng riêng biệt và một vòng sửa trước khi commit — "và tuyệt đối chưa dòng nào chạy được" tại thời điểm viết ra.<sup><a href="https://bun.com/blog/bun-in-rust" target="_blank">[2]</a></sup> 11 ngày, 6.778 commit, đỉnh 695 commit trong một giờ.<sup><a href="https://bun.com/blog/bun-in-rust" target="_blank">[2]</a></sup> Anthropic cũng công bố một "migration starter kit" mã nguồn mở — nhưng nhấn mạnh đó là mẫu tổng quát, <em>không phải</em> chính cấu hình mà các cú port này đã chạy.<sup><a href="https://claude.com/blog/ai-code-migration" target="_blank">[1]</a></sup></p>
+
+    <h3 class="sub">Cũ vs mới: bài toán di trú đã dịch chuyển ra sao</h3>
+    <table class="tbl">
+      <tr><th>Chiều</th><th>Cách làm cũ (thủ công)</th><th>Cách làm agent (theo 2 bài gốc)</th></tr>
+      <tr><td>Thời gian</td><td>Dự án nhiều năm (ước ~1 năm cho 3 kỹ sư với triệu dòng)<sup><a href="https://bun.com/blog/bun-in-rust" target="_blank">[2]</a></sup></td><td>11 ngày (Bun), một cuối tuần (Mike 165k dòng)<sup><a href="https://claude.com/blog/ai-code-migration" target="_blank">[1]</a></sup></td></tr>
+      <tr><td>Chi phí</td><td>~3–4 triệu USD nhân lực/4 năm (mức cũ)<sup><a href="https://claude.com/blog/ai-code-migration" target="_blank">[1]</a></sup></td><td>~165.000 USD token API (Bun)<sup><a href="https://claude.com/blog/ai-code-migration" target="_blank">[1]</a></sup></td></tr>
+      <tr><td>Rủi ro khi hỏng</td><td>Nuôi 2 codebase hàng quý/năm, có thể chỉ đạt 90% tương đương<sup><a href="https://claude.com/blog/ai-code-migration" target="_blank">[1]</a></sup></td><td>"Tệ nhất là xóa nhánh, thử lại"<sup><a href="https://claude.com/blog/ai-code-migration" target="_blank">[1]</a></sup></td></tr>
+      <tr><td>Điều kiện dừng</td><td>Đánh giá thủ công, chủ quan</td><td>Trọng tài máy móc: 100% test cũ pass trên CI / parity harness<sup><a href="https://claude.com/blog/ai-code-migration" target="_blank">[1]</a></sup></td></tr>
+      <tr><td>Nơi con người bỏ sức</td><td>Dịch từng file</td><td>Rulebook + bước kéo căng quy tắc; sau đó chủ yếu là "hàng đợi tự cháy"<sup><a href="https://claude.com/blog/ai-code-migration" target="_blank">[1]</a></sup></td></tr>
+    </table>
+    <div class="editnote">Bảng trên do biên tập tổng hợp để đối chiếu; các ô đều gắn dẫn chứng nội dòng, không trích nguyên văn thành câu từ nguồn.</div>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> Thành bại của một cuộc di trú bằng AI được quyết định <em>trước khi</em> dịch dòng đầu tiên — ở chỗ bạn có dựng nổi một "trọng tài" chạy được trên cả code cũ lẫn code mới hay không. Không có trọng tài (bộ test hoặc parity harness) thì không có điều kiện dừng, và bạn sẽ không bao giờ biết agent "xong" hay chỉ "trông như xong". Nếu codebase của bạn thiếu test, việc số một không phải là chọn model — mà là nhờ Claude dựng bộ trọng tài, lấy chính code cũ làm chuẩn sự thật.</div>
+
+    <div class="scale">
+      <div class="col small">
+        <h4>Đội nhỏ / startup (&lt;10 người)</h4>
+        <ul>
+          <li>Đừng bắt đầu bằng triệu dòng. Chọn <em>một</em> module hay dịch vụ có nút thắt kinh niên (rò rỉ bộ nhớ, build chậm) để "kéo căng quy tắc" trước.</li>
+          <li>Trước tiên nhờ Claude phân loại test hiện có và dựng một "parity harness" gồm 5–7 kịch bản đời thực — coi mọi thay đổi hành vi là bug.</li>
+          <li>Dùng model nhỏ cho phần dịch số lượng lớn, để dành model mạnh cho reviewer; theo dõi token vì chi phí dồn vào vòng lặp.</li>
+          <li>Tận dụng "starter kit" mã nguồn mở của Anthropic làm khung, nhưng đừng chạy nguyên xi.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Đội đã có sản phẩm production</h4>
+        <ul>
+          <li>Chuẩn hóa "build daemon": chỉ một tiến trình được phép build/deploy lại, để nhiều agent không kích hoạt thao tác đắt độc lập.</li>
+          <li>Đưa review đối kháng thành mặc định: reviewer ở ngữ cảnh riêng, tranh chấp đẩy lên agent thứ ba; log lại quy tắc mà mỗi phát hiện viện dẫn.</li>
+          <li>Tính lại "bài toán để dành": một dự án di trú từng bị hoãn vì quá đắt/rủi ro nay có thể chỉ tốn hàng chục–trăm nghìn USD token và một tuần.</li>
+          <li>Lập kế hoạch cho hồi quy sau merge (Bun có 19) và cho nợ "unsafe/đường tắt" cần refactor dần về idiomatic.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> Anthropic, "How Anthropic runs large-scale code migrations with Claude Code", 16/07/2026 — <a href="https://claude.com/blog/ai-code-migration" target="_blank">link</a>; Bun, Jarred Sumner, "Rewriting Bun in Rust", 08/07/2026 — <a href="https://bun.com/blog/bun-in-rust" target="_blank">link</a>; Migration starter kit — <a href="https://github.com/anthropics/code-migration-kit-with-claude-code" target="_blank">github.com/anthropics</a>.</div>
+  </article>
+
+  <!-- GÓC NHÌN -->
+  <article class="card" id="gocnhin">
+    <span class="tag view">Góc nhìn</span>
+    <h2 class="head">2 · Đây là "bờ vực" của công nghệ hôm nay — không phải công thức bấm nút</h2>
+    <p>Con số 11 ngày dễ bị đọc thành "AI đã tự động hóa di trú". Chính hai bài gốc lại cẩn trọng hơn thế. Jarred nói thẳng: "đây là bờ vực của những gì khả thi hôm nay", làm được nhờ một bản <em>pre-release</em> của Claude Fable 5 và cơ chế dynamic workflows giữ 64 Claude chạy 11 ngày — "nếu không tôi đã phải tự viết harness".<sup><a href="https://bun.com/blog/bun-in-rust" target="_blank">[2]</a></sup> Và suốt 11 ngày đó, anh <em>ngồi giám sát</em>: đọc tay đầu ra các workflow để bắt lỗi và liên tục nhắc Claude sửa chính vòng lặp.<sup><a href="https://bun.com/blog/bun-in-rust" target="_blank">[2]</a></sup> Anthropic mở đầu phần thực hành bằng câu "đừng làm theo hướng dẫn này một cách mù quáng — mỗi cuộc di trú một khác".<sup><a href="https://claude.com/blog/ai-code-migration" target="_blank">[1]</a></sup></p>
+
+    <p>Đặt cạnh các số trước của bản tin, bức tranh khớp lại: Abstracta từng nhấn "&gt;90% dự án di trú là kiểm thử, không phải viết code" — đúng tinh thần "phải có trọng tài trước đã" ở đây. LegacyCodeBench (số 13/08) đo được AI "hiểu" COBOL tới đâu nhưng cảnh báo hiểu ≠ migrate an toàn. Và "nợ xác minh" của Sonar (số 11/08) là mặt trái nếu bỏ trọng tài máy móc. Điểm mới mà cú port Bun bổ sung: khi <em>xác minh là máy móc và review là đối kháng</em>, quy mô "triệu dòng" không còn là rào cản kỹ thuật — rào cản dịch sang <strong>chất lượng của trọng tài, kỷ luật vòng lặp và ngân sách token</strong>.</p>
+    <div class="editnote">Đoạn liên hệ với các số trước là tổng hợp biên tập, không phải tuyên bố từ hai nguồn gốc.</div>
+
+    <p><strong>2–3 việc nên làm tuần này:</strong></p>
+    <div class="doslist">
+      <div>✅ Chọn <strong>một</strong> hệ thống bạn đang "chịu đựng" (build chậm, rò rỉ bộ nhớ, ngôn ngữ/nền tảng đang teo) và hỏi Claude: "cuộc di trú cho nó trông thế nào?" — chỉ để định cỡ, chưa cam kết.</div>
+      <div>✅ Kiểm kê bộ test hiện có: phân loại test nào chạy được từ bên ngoài, test nào bám nội bộ; nếu quá mỏng, phác một "parity harness" 5–7 kịch bản đời thực trước khi nghĩ tới dịch.</div>
+      <div>✅ Nếu đã dùng agent viết code, tách bạch vai trò: model nhỏ để "bung" số lượng lớn, model mạnh làm reviewer đối kháng ở ngữ cảnh riêng; và đặt <em>một</em> tiến trình build/deploy duy nhất.</div>
+    </div>
+  </article>
+
+  <hr class="sep">
+
+  <!-- LƯỢC DỊCH 1 -->
+  <article class="card" id="dich1">
+    <span class="tag legacy">📖 Lược dịch chi tiết</span>
+    <h2 class="head">Lược dịch — "Anthropic chạy di trú code quy mô lớn thế nào" (Claude by Anthropic)</h2>
+    <div class="dich">
+      <div class="flag">Bản diễn đạt lại bằng tiếng Việt, bám ý và số liệu theo bố cục bài gốc — KHÔNG phải dịch nguyên văn, không sao chép nguyên khối. Bản gốc: <a href="https://claude.com/blog/ai-code-migration" target="_blank">claude.com/blog/ai-code-migration</a> (16/07/2026).</div>
+
+      <h3>Mở đầu</h3>
+      <p>Di trú code — port một codebase production sang ngôn ngữ mới — cho tới gần đây là dự án nhiều năm. Trong một tháng qua, các kỹ sư Anthropic đã di trú 10 gói code (vài chục đến vài trăm nghìn dòng) bằng Claude Fable 5, Claude Opus 4.8 và dynamic workflows. Bài viết chọn hai ví dụ. Jarred Sumner (đồng sáng lập Bun) port Bun từ Zig sang Rust: ~1 triệu dòng trong dưới hai tuần, 100% bộ test hiện có pass trên CI trước khi merge, 19 hồi quy lộ ra sau merge đều đã sửa, bản Rust ship trong tháng 6. Mike Krieger (đồng dẫn dắt Anthropic Labs) port Python sang 165.000 dòng TypeScript trong một cuối tuần với hàng trăm agent, 8 cổng pha, 3 vòng review đối kháng và một bước kiểm tra tương đương so đầu ra từng lệnh với bản Python. Ý cốt lõi: bạn không sửa code — bạn sửa cái vòng lặp đã sinh ra nó.</p>
+
+      <h3>Di trú bằng AI là gì</h3>
+      <p>Là dùng agent để port codebase: thay vì dịch tay từng file, kỹ sư viết quy tắc dịch và vòng lặp xác minh; agent dịch, biên dịch, test cho tới khi hành vi code mới khớp code cũ — nén dự án nhiều năm thành vài tuần.</p>
+
+      <h3>Vì sao và khi nào nên đổi ngôn ngữ</h3>
+      <p>Người ta di trú khi bối cảnh đã đổi: một đánh đổi đã biết trở nên bó buộc, một cách tốt hơn xuất hiện, hoặc hệ sinh thái cũ đang co lại. Jarred chọn Zig ban đầu vì nó cho hiệu năng cấp C với sự đơn giản triệt để — hợp với một founder đơn độc viết Bun trong một năm ở căn hộ chật tại Oakland thời tiền-LLM. Đến 2026, Bun đạt hơn 10 triệu lượt tải/tháng và được dùng nhiều trong Claude Code. Kinh tế đã đổi: di trú triệu dòng không còn ngốn 3–4 triệu USD/4 năm, nhưng vẫn tốn hàng chục đến hàng trăm nghìn USD — cú Bun tiêu 5,9 tỷ token input chưa cache và 690 triệu token output, ~165.000 USD ở giá API; phần chính của Mike là 27 triệu token. Rủi ro nghề nghiệp cũng tan: xưa nuôi hai codebase song song để rồi được 90% tương đương; nay tệ nhất là xóa nhánh làm lại. Lý do bắt đầu không cần mang tính sống-còn — một năm vá bug bộ nhớ, hay một nút thắt kinh niên, đã đủ. Với Mike, chính bước biên dịch là động cơ: công cụ nội bộ ship dưới dạng một binary; với chuỗi công cụ Python, tạo binary mất ~8 phút/nền tảng, tổng ~30 phút chờ qua ma trận build mỗi lần release. Sau khi port, cùng thao tác biên dịch chỉ mất ~2 giây, binary khởi động nhanh gấp 6 lần, và đội bỏ được một pipeline triển khai riêng.</p>
+
+      <h3>Vì sao AI đổi được bài toán</h3>
+      <p>Fable 5 là model mạnh nhất, sẵn dùng phổ thông; Fable và Opus 4.8 đặc biệt giỏi ủy thác, điều hướng và xác minh nhiều luồng song song bằng sub-agent, đồng thời tìm nhiều đường tới mục tiêu. Di trú lớn hợp với các model này vì: công việc song song (hàng nghìn đơn vị độc lập); ngữ cảnh rõ (code cũ là bản đặc tả tốt); có trọng tài sẵn (bộ test để model "mài" vào sự thật khách quan mà không cần người phân xử); hàng đợi tự viết (compiler/test fail thành việc tiếp theo); và đòi hỏi nhất quán, xử lý ca biên (mỗi ca lạ thành một quy tắc cho mọi agent sau). Cả Mike và Jarred dùng Fable ở các bước then chốt theo "advisory pattern" — pha trộn nhiều lớp model để tối ưu token.</p>
+
+      <h3>Điều kiện tiên quyết: trọng tài</h3>
+      <p>Phải có trọng tài mạnh, nếu không sẽ thiếu điều kiện dừng và thước đo. Trọng tài phải đánh giá code gốc và code đích trên cùng mặt bằng; test viết cho ngôn ngữ cũ thường phụ thuộc hàm nội bộ sẽ không port. Cách dựng: (1) phân loại test hiện có bằng Claude — cái nào diễn đạt được bằng lời gọi ngoài, cái nào bám nội bộ; (2) viết lại test hướng-ngoài thành khẳng định chạy được trên cả hai bản, dùng agent đối kháng kiểm tra bản viết lại không làm yếu khẳng định; (3) validate trọng tài — chạy trên code gốc để pass, rồi trên code cố tình hỏng để fail. Jarred có bộ test lớn viết bằng ngôn ngữ thứ ba (TypeScript) — hiếm gặp; Mike dựng parity harness bảy kịch bản đời thực và coi mọi thay đổi hành vi là bug. Mike chạy toàn bộ di trú đầu-cuối, chỉnh quy tắc và workflow theo kết quả rồi chạy lại, vứt output mỗi lần cho tới lần thứ ba.</p>
+
+      <h3>Sáu bước</h3>
+      <p><strong>Bước 1 — Rulebook, bản đồ phụ thuộc, sổ lỗ hổng.</strong> Quyết định kiến trúc trước: giữ cấu trúc (Jarred, rulebook là bảng tra cứu) hay thiết kế lại (Mike, rulebook là tài liệu thiết kế). Jarred lập chính sách cho từng vùng mơ hồ bằng cách trò chuyện với Claude, và dùng 8 sub-agent chuyên soi 8 nhóm lỗi thường gặp theo trực giác của anh. Bản đồ phụ thuộc để chia luồng song song — với ngôn ngữ như C/C++/Python phải tự dò. Sổ lỗ hổng ghi tri thức ngầm: Zig→Rust là quản lý bộ nhớ thủ công; Python→TypeScript là hợp đồng/giao diện. Thứ tự: rulebook trước, sổ lỗ hổng là phần rulebook không phủ, hai thứ được kiểm chung.</p>
+      <p><strong>Bước 2 — Kéo căng quy tắc.</strong> Một mini-migration làm "chuyến chạy thử". Jarred: một agent dịch ba file theo rulebook, một agent dịch "như kỹ sư Rust kỳ cựu", một agent dùng diff để đẻ quy tắc mới — bắt hai lỗi nghiêm trọng trước khi chúng nhân khắp 1.448 file. Chỉ áp dụng cho di trú giữ cấu trúc; với thiết kế lại (Mike) thì tấn công thẳng tài liệu thiết kế bằng reviewer đối kháng rồi validate bằng một lần chạy đầu-cuối dùng-một-lần. Dù sao cũng vứt bỏ file đã dịch — mục tiêu là tinh chỉnh quy tắc.</p>
+      <p><strong>Bước 3 — Dịch tất cả.</strong> Cùng kiến trúc vòng lặp đa agent: dịch, review, sửa. Đẩy phần dịch cho model nhỏ, giữ reviewer ở model lớn (Mike dùng Sonnet cho 12 sub-agent). Hàng đợi máy móc: script kiểm tra file đã tồn tại trên đĩa để biết "xong", nên khôi phục được. Việc translator không chắc thì gắn cờ TODO để xử ở bước 4. Hai reviewer đối kháng ở ngữ cảnh riêng, bất đồng đẩy lên agent thứ ba; lỗi lặp thì thêm một câu vào rulebook rồi sinh lại lô — không vá tay. Quyết định vị trí compiler: Mike chạy trong mỗi vòng, Jarred đẩy sang bước sau.</p>
+      <p><strong>Bước 4, 5, 6 — Biên dịch, chạy, khớp hành vi.</strong> Bước 4 có thể tan vào bước 3. Jarred chạy compiler một lần trên toàn workspace bằng script điều phối; "fixer agent" dọn danh sách lỗi song song với review đối kháng; ví dụ anh gặp hàng nghìn lỗi module Rust sau khi sửa vòng lặp import mà Zig dung thứ, và sửa vòng lặp bằng cách mã hóa logic phân loại phụ thuộc nào nên xóa/di chuyển/tái cấu trúc. Bước 5 lấy crash từ smoke test làm nguồn sự thật, gom theo nguyên nhân gốc. Bước 6 so hành vi hai bản: shard rồi chạy bộ test (từ bước tiên quyết); "fixer agent" đối chiếu test fail trên cả hai bản; một "build daemon" là tiến trình duy nhất được build lại binary — gộp vá, build một lần, chạy lại test ảnh hưởng, trả kết quả về. Mike (không có bộ test port) cho Claude viết script chạy 7 kịch bản đời thực trên cả hai bản và diff kết quả; mỗi kịch bản fail có một fixer riêng cho tới khi cả bảy pass; rồi để Claude tự thiết kế bộ test đầu-cuối chạy tự động bốn đêm liên tiếp. Bài học: thiếu bộ test không chặn bước này — nếu không thừa hưởng được trọng tài, hãy để Claude dựng một cái; code gốc là chuẩn sự thật.</p>
+
+      <h3>Thực hành tốt &amp; kết quả</h3>
+      <p>Vài nguyên tắc bền qua mọi dự án: đừng làm theo hướng dẫn một cách mù quáng (mỗi di trú một khác, hãy lên kế hoạch cùng Claude trước); đừng chăm chăm vào từng thất bại lẻ (đó là việc của fixer agent — hãy để ý các mẫu); review đối kháng, xác minh máy móc (để compiler/diff/test làm trọng tài); đừng dùng model to nhất cho mọi việc (token dồn vào vòng lặp — model nhỏ cho phần bung số lượng lớn, model lớn cho reviewer và cho thứ viết ra quy tắc); dồn giờ công của người về đầu (rulebook và bước kéo căng tốn công nhất, phần sau chủ yếu là hàng đợi tự cháy); hàng đợi phải máy móc và khôi phục được ("xong" nghĩa là file đã có trên đĩa). Kết quả Bun: ~4% code Rust trong khối unsafe (phần lớn thao tác con trỏ một dòng ở ranh giới C/C++); nhưng codebase mới tốt hơn đo được — mọi rò rỉ bộ nhớ phát hiện được đã sửa (benchmark 2.000 lần build giảm từ 6.745 MB xuống 609 MB), binary nhỏ hơn 19% trên Linux/Windows, nhanh hơn 2–5% trên phục vụ HTTP và tác vụ đời thực. Thông điệp khép lại: hãy tính lại bài toán di trú đã hoãn lâu — chọn codebase bạn đang chịu đựng và hỏi Claude quy trình cho nó trông thế nào.</p>
+    </div>
+  </article>
+
+  <!-- LƯỢC DỊCH 2 -->
+  <article class="card" id="dich2">
+    <span class="tag legacy">📖 Lược dịch chi tiết</span>
+    <h2 class="head">Lược dịch — "Viết lại Bun bằng Rust" (Bun Blog, Jarred Sumner)</h2>
+    <div class="dich">
+      <div class="flag">Bản diễn đạt lại bằng tiếng Việt, bám ý và số liệu theo bố cục bài gốc — KHÔNG phải dịch nguyên văn, không sao chép nguyên khối. Bản gốc: <a href="https://bun.com/blog/bun-in-rust" target="_blank">bun.com/blog/bun-in-rust</a> (08/07/2026).</div>
+
+      <h3>Vì sao viết lại</h3>
+      <p>Danh sách bug của Bun khiến Jarred mệt mỏi, "đi ngủ mà lo về crash". Gốc rễ nằm ở việc trộn bộ nhớ do garbage collector quản lý với bộ nhớ quản lý thủ công — một nhu cầu hiếm nên gần như không ngôn ngữ nào thiết kế cho nó. Anh không đổ lỗi cho Zig (người dùng Zig khác không gặp các bug này) và luôn biết ơn Zig vì đã đưa Bun đi xa. Nhưng JavaScript là ngôn ngữ có GC, còn Zig như C thì không tự quản bộ nhớ và không có constructor/destructor — mọi dọn dẹp phải viết tay ở từng call site bằng <em>defer</em>, rất dễ quên (rò rỉ) hoặc chạy hai lần (double-free). Với Bun, việc xử lý đúng vòng đời của giá trị GC và giá trị quản lý thủ công là nguồn bất ổn định chính — chủ yếu là rò rỉ bộ nhớ nhỏ, đôi khi là crash.</p>
+
+      <h3>Quy trình 11 ngày</h3>
+      <p>Anh viết lại Bun bằng khoảng 50 dynamic workflow trong Claude Code, chạy liên tục suốt 11 ngày. Phần lớn thời gian đó (và cả sau đấy), anh giám sát các workflow — đọc tay đầu ra để bắt vấn đề và nhắc Claude chỉnh vòng lặp. Nhờ song song hóa và công chuẩn bị, ở đỉnh Claude viết ~1.300 dòng/phút; mỗi dòng qua hai reviewer đối kháng riêng (cũng là Claude) và một vòng sửa trước khi commit — và chưa dòng nào chạy được lúc đó. Biểu đồ commit theo giờ: 6.502 commit trên nhánh port (không tính merge), đỉnh 695 commit/giờ, tốc độ đỉnh 58 commit trong một phút. Giai đoạn "phase D" (ngày 6/5): cargo check ghi ~16.000 lỗi ra file, gom theo crate; workflow chia cho 64 Claude — 16 vòng lặp trên 4 worktree, mỗi vòng một Claude sửa, hai Claude review, một Claude áp bản vá. Cần cô lập mạnh hơn "làm ơn": họ dùng systemd-run (cgroups) giới hạn bộ nhớ/CPU và tách pid namespace — máy vẫn hết đĩa và crash vài lần.</p>
+
+      <h3>Chi phí, model, và fuzzing</h3>
+      <p>Trước khi merge: 5,9 tỷ token input chưa cache, 690 triệu token output, 72 tỷ token cache-read — ~165.000 USD ở giá API. Làm tay, Jarred nghĩ sẽ cần 3 kỹ sư nắm trọn ngữ cảnh làm khoảng một năm, thời gian đó không thể cải thiện tương thích Node.js, sửa bug, vá bảo mật hay làm tính năng mới — nên thực tế phương án thay thế là "không làm gì và cứ sửa bug mãi". Đây là bờ vực của cái khả thi hôm nay: anh dùng bản pre-release của Claude Fable 5 (lớp Mythos); dynamic workflows của Claude Code giữ 64 Claude chạy 11 ngày. Họ cũng thêm fuzzing 24/7 dẫn hướng theo coverage cho mọi parser của Bun (JS, TS, JSX, CSS, JSON5, JSONC, TOML, YAML, Markdown, INI, Bun Shell, semver, .patch, màu CSS); fuzzer tự gửi bug cho Claude mở PR tái hiện &amp; sửa, người review — tới nay đã chạy parser 100 tỷ lần, dẫn tới ~15 PR.</p>
+
+      <h3>Unsafe, hồi quy, và kết quả</h3>
+      <p>Hiện ~4% code Rust của Bun nằm trong khối unsafe (~13.000 từ khóa unsafe trên ~27.000 dòng / ~780.000 dòng), 78% là một dòng — một con trỏ từ C++ hoặc một lời gọi vào thư viện C; con số này sẽ giảm khi refactor từ "port trung thành từ Zig" sang Rust idiomatic, nhưng vì vẫn dùng thư viện C/C++ như JavaScriptCore nên sẽ luôn nhiều unsafe hơn dự án Rust thuần. Trọng tâm là ổn định, nhưng không thể ship thay đổi lớn cỡ này mà không có hồi quy: 19 hồi quy đã biết, mỗi cái đều đã sửa — phần lớn đến từ code giống hệt về cú pháp nhưng khác ngữ nghĩa giữa hai ngôn ngữ. Bun v1.4.0 sửa 128 bug tái hiện được ở v1.3.14. Về bộ nhớ: Rust có <em>Drop</em> tự gọi khi giá trị ra khỏi phạm vi, thay cho <em>defer</em> phải thêm ở từng call site trong Zig — Drop sửa nhiều rò rỉ liên quan đường dẫn file trong code xử lý lỗi. Họ cải thiện tích hợp LeakSanitizer để theo dõi mọi cấp phát bộ nhớ native; ví dụ mỗi lần Bun.build() trong tiến trình từng rò vài megabyte (văn bản nguồn đã parse và bảng ký hiệu AST sống lâu hơn build của nó). Bảng minh họa: sau 2.000 lần build, v1.3.14 dùng 6.745 MB còn v1.4.0 chỉ 609 MB. Một người dùng (Alexey Orlenko) kể đã gặp rò rỉ bộ nhớ và connection pool không hồi phục sau khi VM bị tạm dừng/khôi phục; khi bản Rust xuất hiện, họ test lại đúng các chế độ hỏng đó và "nó xử lý hoàn hảo". Kết: với 1 kỹ sư dùng Fable và giám sát sát Claude Code, họ đi từ khởi đầu tới 100% test pass trên mọi nền tảng trong 11 ngày; công cụ đi kèm (borrow checker, Miri trong CI, LeakSanitizer, fuzzing parser 24/7) cho đội cách cải thiện ổn định một cách hệ thống về sau.</p>
+    </div>
+  </article>
+
+  <div class="foot">Bản tin sáng · Số 18/08/2026 · Tổng hợp từ nguồn công khai, đã mở &amp; xác minh, dẫn nguồn nội dòng. Các khối "Cơ chế", bảng so sánh và khuyến nghị là biên tập tổng hợp, không trích nguyên văn.</div>
+</div>
+</body>
+</html>
