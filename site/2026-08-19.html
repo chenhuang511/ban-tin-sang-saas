@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tính tiền AI theo "công việc" & khi lỗi agent biến thành câu chuyện trơn tru · 19/08/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.tag.rel{background:#f0fdfa;color:#0f766e}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.dich{background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;padding:16px 20px;margin-top:16px}
+.dich .flag{font-size:12.5px;color:#94a3b8;font-style:italic;margin-bottom:8px}
+.dich h3{font-size:16px;margin:14px 0 4px}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 19/08/2026</div>
+    <h1 class="title">Tính tiền AI theo "công việc đã làm" — và khi lỗi của agent biến thành một câu chuyện trơn tru</h1>
+    <div class="meta">19/08/2026 · Thời lượng đọc ~19 phút · Nguồn: Growth Unhinged — Kyle Poyar (13/05/2026); arXiv 2606.14589 — Wei Wu (12/06/2026)</div>
+  </header>
+
+  <div class="editnote">Ghi chú minh bạch biên tập: mọi con số trong số này đều dẫn nguồn nội dòng từ hai bài gốc đã được mở và xác minh khi biên soạn (Growth Unhinged, 230+ công ty; và bài arXiv về sự cố agent). Các khối "Cơ chế", bảng so sánh và mục "Rút ra cho bạn" là phần tổng hợp/suy luận của biên tập từ thực hành phổ biến — <strong>không trích nguyên văn từ nguồn</strong>; không có số nào được bịa để lấp chỗ.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1">Định giá SaaS đang rời "ghế" sang "công việc": 37% đã dùng giá lai, biên AI chỉ ~50%</a></li>
+      <li><a href="#bai2">Khi agent hỏng mà không ai hay: 22 sự cố, và cú "fail-plausible" chỉ LLM mới có</a></li>
+      <li><a href="#gocnhin">Góc nhìn: bạn định tính tiền theo "kết quả" — nhưng ai chứng minh kết quả có thật?</a></li>
+      <li><a href="#dich1">📖 Lược dịch — Bức tranh định giá B2B 2026 (Growth Unhinged)</a></li>
+      <li><a href="#dich2">📖 Lược dịch — Khi lỗi trở thành câu chuyện (arXiv 2606.14589)</a></li>
+    </ol>
+  </nav>
+
+  <!-- BÀI 1 -->
+  <article class="card" id="bai1">
+    <span class="tag saas">AI trong SaaS · Định giá &amp; ROI</span>
+    <h2 class="head">1 · Định giá phần mềm đang rời khỏi "ghế ngồi" — và sự thật khó nuốt: biên lợi nhuận AI chỉ ~50%</h2>
+    <p class="src">Nguồn: Growth Unhinged — Kyle Poyar, "The state of B2B monetization in 2026" · 13/05/2026 · khảo sát hơn 230 công ty phần mềm/AI B2B (tháng 4–5/2026) · <a href="https://www.growthunhinged.com/p/the-state-of-b2b-monetization-in-2026" target="_blank">growthunhinged.com</a></p>
+
+    <div class="stat">
+      <div class="box"><div class="num">37%</div><div class="lab">công ty dùng <strong>giá lai</strong> (hybrid: thuê bao theo ghế + tiêu thụ AI) — mô hình phổ biến nhất, tăng từ 25% một năm trước <a href="https://www.growthunhinged.com/p/the-state-of-b2b-monetization-in-2026" target="_blank">(Growth Unhinged, 2026)</a></div></div>
+      <div class="box"><div class="num">~50%</div><div class="lab">biên lợi nhuận gộp mục tiêu cho tính năng AI (trung vị), so với 70–80%+ của SaaS truyền thống; chỉ 12% nhắm mốc 80%+ <a href="https://www.growthunhinged.com/p/the-state-of-b2b-monetization-in-2026" target="_blank">(Growth Unhinged, 2026)</a></div></div>
+      <div class="box"><div class="num">3/4</div><div class="lab">công ty phần mềm đã đổi giá hoặc đóng gói trong năm qua — và bất thường: các công ty <em>lớn nhất</em> đổi nhiều nhất <a href="https://www.growthunhinged.com/p/the-state-of-b2b-monetization-in-2026" target="_blank">(Growth Unhinged, 2026)</a></div></div>
+    </div>
+
+    <p>Kyle Poyar — người nhiều năm theo dõi định giá SaaS — thú nhận anh từng nghĩ đến giữa 2026 chuyện "tính tiền AI" sẽ ổn định. Thực tế ngược lại: nhịp thay đổi giá còn nhanh hơn.<sup><a href="https://www.growthunhinged.com/p/the-state-of-b2b-monetization-in-2026" target="_blank">[1]</a></sup> Xu hướng chung: rời khỏi việc bán <em>quyền truy cập phần mềm</em> (bán ghế/seat) để tiến sang bán <em>công việc do phần mềm + agent AI tạo ra</em> (theo lượng dùng, theo kết quả). Ban đầu là chuyện của startup AI-native; giờ nó lan sang các hãng SaaS thấy mô hình kinh doanh cũ của mình bị đe dọa.<sup><a href="https://www.growthunhinged.com/p/the-state-of-b2b-monetization-in-2026" target="_blank">[1]</a></sup> Khảo sát gồm hơn 230 công ty, chia khá đều theo quy mô doanh thu (22% dưới 1 triệu USD ARR, 28% từ 1–20 triệu, 24% từ 20–150 triệu, 25% trên 150 triệu) và theo loại sản phẩm (32% chủ yếu SaaS, 15% AI-native, 43% lai giữa hai).<sup><a href="https://www.growthunhinged.com/p/the-state-of-b2b-monetization-in-2026" target="_blank">[1]</a></sup></p>
+
+    <p>Giá lai là mô hình phổ biến nhất (37%), nhưng phân bố theo quy mô rất khác nhau: startup dưới 5 triệu USD ARR bám giá phẳng (flat fee, 37% chọn) vì chưa đủ lịch sử sử dụng và đang tập trung thu hút khách; còn các hãng trên 150 triệu USD ARR vẫn níu giá theo ghế cũ (29%).<sup><a href="https://www.growthunhinged.com/p/the-state-of-b2b-monetization-in-2026" target="_blank">[1]</a></sup> Điều đáng chú ý là nhà đầu tư đã đổi phe: khi được hỏi mô hình nào họ ưa, chỉ 10% chọn giá phẳng và 5% chọn giá theo ghế — phần còn lại nghiêng hẳn về theo-lượng-dùng (24%), theo-kết-quả (26%) hoặc lai (35%).<sup><a href="https://www.growthunhinged.com/p/the-state-of-b2b-monetization-in-2026" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao "ghế" đang mất thiêng?</b> Khi một agent làm thay phần việc của con người, số ghế không còn phản ánh giá trị: một khách có thể sa thải bớt người mà dùng phần mềm <em>nhiều hơn</em>. Bán theo ghế lúc đó vừa hụt doanh thu khi agent thay người, vừa khó "nở" thêm. Chính Satya Nadella (Microsoft) tóm gọn: ghế giờ chỉ là "tấm vé vào cửa cho một lượng tiêu thụ nào đó", giữ lại để khách có cảm giác ngân sách dễ đoán.<sup><a href="https://www.growthunhinged.com/p/the-state-of-b2b-monetization-in-2026" target="_blank">[1]</a></sup> <span style="color:#6b7280">(diễn giải của biên tập, không trích nguyên văn ngoài câu trong ngoặc kép)</span></div>
+
+    <h3 class="sub">Nỗi đau lớn nhất: không đủ doanh thu mở rộng</h3>
+    <p>Thách thức định giá được nhắc nhiều nhất không phải "giá quá cao/thấp" mà là <strong>không đủ doanh thu mở rộng (expansion revenue)</strong> — đặc biệt nhức với ai đang dùng giá phẳng hoặc giá theo ghế.<sup><a href="https://www.growthunhinged.com/p/the-state-of-b2b-monetization-in-2026" target="_blank">[1]</a></sup> Ba cách gỡ mà báo cáo nêu: thêm một bản "cao cấp" giá cao hơn 50–100% bản nền; tính thêm tiền cho các add-on mà đa số không cần nhưng một nhóm rất cần; và cài hạn mức tiêu thụ đánh vào nhóm 10% "power user" dùng nhiều nhất — vốn (theo kinh nghiệm tác giả) ngốn hơn 70% lượng token.<sup><a href="https://www.growthunhinged.com/p/the-state-of-b2b-monetization-in-2026" target="_blank">[1]</a></sup> Nghịch lý: nhóm dùng giá lai là hài lòng nhất, nhưng lại chật vật <em>giải thích</em> cách tính tiền cho khách.<sup><a href="https://www.growthunhinged.com/p/the-state-of-b2b-monetization-in-2026" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — "nhóm 10% ngốn 70% token" nghĩa là gì cho bạn?</b> Nếu bạn tính giá phẳng cho tính năng AI, một thiểu số power user có thể ăn hết biên lợi nhuận của cả tập khách. Đây chính là mặt "định giá" của bài hóa đơn token số 16/08: chi phí token biến thiên tối thiểu một bậc độ lớn giữa các khách. Hạn mức tiêu thụ không phải để "phạt" — nó là cách khoanh phần đuôi dài đắt đỏ để phần còn lại của bảng giá vẫn có lãi. <span style="color:#6b7280">(liên hệ &amp; diễn giải của biên tập)</span></div>
+
+    <h3 class="sub">Sự thật khó nuốt: biên AI chỉ ~50%, và "credit AI" đang bùng nổ</h3>
+    <p>Khi định giá tính năng AI, câu hỏi đầu tiên các công ty đặt ra là biên lợi nhuận gộp mục tiêu — và "chi phí/biên nội bộ" là yếu tố số một chi phối (54% chọn), trên cả so-với-thị-trường (36%) và mức năng suất mà AI mở ra cho người dùng (30%).<sup><a href="https://www.growthunhinged.com/p/the-state-of-b2b-monetization-in-2026" target="_blank">[1]</a></sup> Trung vị biên AI mục tiêu chỉ khoảng <strong>50%</strong>; chỉ 12% dám nhắm mốc kiểu-SaaS 80%+, và một số tương đương chấp nhận biên ≤20% (PostHog là ví dụ).<sup><a href="https://www.growthunhinged.com/p/the-state-of-b2b-monetization-in-2026" target="_blank">[1]</a></sup> Nhận định của tác giả: khi sản phẩm trông như hàng hóa (commodity), công ty mất sức mạnh định giá — và "credit/token" chính là thước đo hàng-hóa-hóa tối thượng cho AI.<sup><a href="https://www.growthunhinged.com/p/the-state-of-b2b-monetization-in-2026" target="_blank">[1]</a></sup></p>
+
+    <p>Chuyện đổi giá năm 2026 do các hãng lớn dẫn dắt: gần như không tìm được công ty trên 50 triệu USD ARR nào không đang tính lại giá cho AI — Salesforce, Anthropic, HubSpot, OpenAI, Clay, Figma, Canva, SAP, GitHub đều đã ra thay đổi lớn ngay trong vài tháng đầu 2026.<sup><a href="https://www.growthunhinged.com/p/the-state-of-b2b-monetization-in-2026" target="_blank">[1]</a></sup> Vài mốc cụ thể: Clay tách "giá trị" (nền tảng) khỏi "chi phí" (token) thành hai ngăn từ tháng 3; HubSpot công bố giá-theo-kết-quả cho agent Breeze vào tháng 4 (và giảm một nửa giá của Fin); Anthropic hạ giá ghế Enterprise của Claude nhưng dịch mạnh sang giá theo lượng dùng; SAP thậm chí tuyên bố chuyển sang tính tiền theo tiêu thụ AI.<sup><a href="https://www.growthunhinged.com/p/the-state-of-b2b-monetization-in-2026" target="_blank">[1]</a></sup> Mô hình "AI credit" đã tăng 126% so với năm trước trong 2025; hiện 29% công ty đang dùng, 33% dự định ra mắt trong 6–12 tháng tới, và trong nhóm trên 50 triệu USD ARR thì khoảng <strong>một nửa</strong> nói sẽ giới thiệu credit ngay trong năm nay (GitHub Copilot bật credit từ 1/6).<sup><a href="https://www.growthunhinged.com/p/the-state-of-b2b-monetization-in-2026" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — credit AI là "cứu cánh" hay "cơn ác mộng"?</b> Với nhà cung cấp, credit rất tiện: gộp mọi tiêu thụ token đa dạng về một đơn vị bán được, giữ biên khi giá model dao động. Với khách, nó dễ thành cơn đau đầu khi phải quản lý hàng chục mô hình credit khác nhau chéo qua các nhà cung cấp — Poyar gọi credit là "phao cứu sinh, chưa phải hồi kết" của định giá AI.<sup><a href="https://www.growthunhinged.com/p/the-state-of-b2b-monetization-in-2026" target="_blank">[1]</a></sup> <span style="color:#6b7280">(diễn giải của biên tập)</span></div>
+
+    <h3 class="sub">Tiền AI đang "ăn" vào đâu, và vì sao nhiều hãng bày nhiều mô hình cùng lúc</h3>
+    <p>Một cảnh báo cho câu chuyện tăng trưởng: 70% người trả lời nói chi tiêu AI của khách <em>lấy từ ngân sách công nghệ/phần mềm sẵn có</em> — tức chủ yếu là ăn lẫn nhau (cannibalize), không phải tiền mới; con số này còn cao hơn (75%) ở các hãng SaaS gắn thêm tính năng AI.<sup><a href="https://www.growthunhinged.com/p/the-state-of-b2b-monetization-in-2026" target="_blank">[1]</a></sup> Chỉ các công ty AI-native mới hay chạm được túi tiền mới: 35% lấy từ ngân sách dịch vụ (services), 15% từ ngân sách nhân sự — trùng với làn sóng "công ty dịch vụ AI-native" mà Sequoia cho là sẽ đẻ ra công ty nghìn tỷ USD kế tiếp.<sup><a href="https://www.growthunhinged.com/p/the-state-of-b2b-monetization-in-2026" target="_blank">[1]</a></sup></p>
+
+    <p>Cuối cùng, khi định giá AI ngày càng rối, nhiều hãng bỏ hẳn ý tưởng "một giá cho tất cả": 29% để khách tự chọn giữa nhiều mô hình (tăng từ 21% năm trước).<sup><a href="https://www.growthunhinged.com/p/the-state-of-b2b-monetization-in-2026" target="_blank">[1]</a></sup> Decagon là hãng sớm cho chọn giữa tính-theo-hội-thoại hoặc tính-theo-ca-giải-quyết; Salesforce khởi đầu bằng giá theo hội thoại cho Agentforce rồi thêm mô hình credit, hiện chào song song <strong>bốn</strong> mô hình (theo hội thoại, credit, add-on theo ghế, và hợp đồng Agentic phẳng).<sup><a href="https://www.growthunhinged.com/p/the-state-of-b2b-monetization-in-2026" target="_blank">[1]</a></sup> Giá-theo-kết-quả là thông điệp thị trường hấp dẫn — "khách chỉ trả khi sản phẩm chạy được việc" — nhưng tác giả lưu ý nó cần bốn điều kiện, gọi là khung CAMP: tính nhất quán của kết quả, khả năng quy công (attribution), đo lường được, và dự đoán được.<sup><a href="https://www.growthunhinged.com/p/the-state-of-b2b-monetization-in-2026" target="_blank">[1]</a></sup></p>
+
+    <table class="tbl">
+      <tr><th>Mô hình giá</th><th>Bản chất</th><th>Điểm mạnh / điểm đau (theo báo cáo)</th></tr>
+      <tr><td>Giá phẳng (flat)</td><td>Một mức thuê bao</td><td>Startup &lt;5tr USD ưa (37%); dễ đoán nhưng khó "nở" doanh thu<sup><a href="https://www.growthunhinged.com/p/the-state-of-b2b-monetization-in-2026" target="_blank">[1]</a></sup></td></tr>
+      <tr><td>Theo ghế (seat)</td><td>Tính theo số người dùng</td><td>Hãng lớn &gt;150tr USD còn giữ (29%); bị agent thay người đe dọa<sup><a href="https://www.growthunhinged.com/p/the-state-of-b2b-monetization-in-2026" target="_blank">[1]</a></sup></td></tr>
+      <tr><td>Theo lượng dùng (usage)</td><td>Token/credit/lời gọi</td><td>Nhà đầu tư thích (24%); khó dự báo doanh thu<sup><a href="https://www.growthunhinged.com/p/the-state-of-b2b-monetization-in-2026" target="_blank">[1]</a></sup></td></tr>
+      <tr><td>Theo kết quả (outcome)</td><td>Trả theo ca/việc giải quyết</td><td>Thông điệp mạnh (26% nhà đầu tư thích); cần khung CAMP<sup><a href="https://www.growthunhinged.com/p/the-state-of-b2b-monetization-in-2026" target="_blank">[1]</a></sup></td></tr>
+      <tr><td>Lai (hybrid)</td><td>Ghế + tiêu thụ AI</td><td>Phổ biến nhất (37%), khách hàng hài lòng nhất — nhưng khó giải thích<sup><a href="https://www.growthunhinged.com/p/the-state-of-b2b-monetization-in-2026" target="_blank">[1]</a></sup></td></tr>
+    </table>
+    <div class="editnote">Bảng trên do biên tập tổng hợp để đối chiếu; các ô đều gắn dẫn chứng nội dòng, không trích nguyên văn thành câu từ nguồn.</div>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> Trước khi đổi bảng giá theo trào lưu "tính theo kết quả", hãy trả lời hai câu số học: (1) biên lợi nhuận thật của tính năng AI của bạn là bao nhiêu khi đã trừ token — nếu chỉ ~50% thì mô hình giá phải bảo vệ được biên đó (đừng để nhóm 10% power user ăn hết lãi); (2) bạn có <em>đo</em> và <em>quy công</em> được "kết quả" một cách khách quan không — nếu chưa (thiếu chữ A và M trong CAMP), giá-theo-kết-quả sẽ là lời hứa bạn không chứng minh nổi khi khách chất vấn.</div>
+
+    <div class="scale">
+      <div class="col small">
+        <h4>Đội nhỏ / startup (&lt;10 người)</h4>
+        <ul>
+          <li>Đừng vội bỏ giá phẳng: ở giai đoạn thu hút khách, đơn giản &gt; tối ưu. Nhưng hãy <em>đo lượng token/khách</em> ngay từ đầu để biết biên thật.</li>
+          <li>Chèn một hạn mức tiêu thụ "hào phóng" đánh vào top power user thay vì đội giá cả tập — giữ lãi mà không làm hỏng trải nghiệm số đông.</li>
+          <li>Nếu định bán "theo kết quả", chọn <em>một</em> kết quả đo được sạch (vd ca hỗ trợ giải quyết có xác minh) và dựng cách quy công trước khi ra giá.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Đội đã có sản phẩm production</h4>
+        <ul>
+          <li>Xem lại nguồn doanh thu mở rộng: nếu đang bán theo ghế, agent AI có thể bào mòn nó — thử lớp tiêu thụ AI phủ lên trên (hybrid).</li>
+          <li>Nếu ra mắt "AI credit", chuẩn bị công cụ minh bạch cho khách (bảng theo dõi tiêu thụ) để credit không thành hộp đen gây churn.</li>
+          <li>Áp khung CAMP cho mọi lời chào "theo kết quả": thiếu attribution/measurability thì giữ mô hình lai để khách có sự dự đoán.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> Kyle Poyar (Growth Unhinged), "The state of B2B monetization in 2026", 13/05/2026 — <a href="https://www.growthunhinged.com/p/the-state-of-b2b-monetization-in-2026" target="_blank">link</a>; báo cáo đầy đủ 37 trang dành cho người đăng ký trả phí (số liệu trong bài lấy từ 6 điểm nhấn công khai của tác giả).</div>
+  </article>
+
+  <!-- BÀI 2 -->
+  <article class="card" id="bai2">
+    <span class="tag rel">Quy trình sản xuất · Độ tin cậy agent</span>
+    <h2 class="head">2 · 22 sự cố trong một agent chạy thật: 70% lỗi bị "bắt bằng mắt người", và cú "fail-plausible" chỉ LLM mới có</h2>
+    <p class="src">Nguồn cấp một: arXiv 2606.14589 — Wei Wu, "When Errors Become Narratives: A Longitudinal Taxonomy of Silent Failures in a Production LLM Agent Runtime" · 12/06/2026 · nghiên cứu dọc trên một runtime agent trợ lý cá nhân chạy production liên tục từ 3/2026 · <a href="https://arxiv.org/abs/2606.14589" target="_blank">arxiv.org/abs/2606.14589</a></p>
+
+    <div class="stat">
+      <div class="box"><div class="num">22 sự cố</div><div class="lab">có postmortem đầy đủ trong 8 tuần; mẫu "lỗi thầm lặng" (tín hiệu lỗi không bao giờ tới tay người ở dạng hành động được) xuất hiện ≥28 lần <a href="https://arxiv.org/abs/2606.14589" target="_blank">(Wu, 2026)</a></div></div>
+      <div class="box"><div class="num">~70%</div><div class="lab">số lỗi thầm lặng bị bắt bởi <strong>quan sát của người ở góc nhìn người dùng</strong> — không phải bởi test hay audit <a href="https://arxiv.org/abs/2606.14589" target="_blank">(Wu, 2026)</a></div></div>
+      <div class="box"><div class="num">0% → 87%</div><div class="lab">audit hồi tố 15 sự cố: <strong>0% ngăn được trước</strong>, nhưng <strong>87% chặn tái phát</strong> — "audit là cỗ máy chống hồi quy, không phải máy tiên đoán" <a href="https://arxiv.org/abs/2606.14589" target="_blank">(Wu, 2026)</a></div></div>
+    </div>
+
+    <p>Trong khi bài 1 bàn chuyện <em>tính tiền</em> cho công việc agent làm, bài này hỏi câu ngược lại và khó chịu hơn: làm sao bạn biết agent thật sự đã làm việc đó — thay vì <em>tưởng</em> nó làm? Tác giả Wei Wu nghiên cứu chính hệ thống của mình: một runtime agent kiểu trợ lý cá nhân, chạy production liên tục từ tháng 3/2026, gồm khoảng 40 job theo lịch, 8 nhà cung cấp LLM, một proxy quản trị công cụ (tool-governance proxy) và một "mặt phẳng bộ nhớ" dạng kho tri thức — được bảo vệ bởi <strong>4.286 unit test và 827 kiểm tra quản trị</strong>.<sup><a href="https://arxiv.org/abs/2606.14589" target="_blank">[2]</a></sup> Vậy mà trong 8 tuần, anh vẫn ghi nhận 22 sự cố có postmortem đầy đủ, trong đó một "siêu mẫu" — lỗi mà tín hiệu của nó không bao giờ tới tay người ở dạng có thể hành động — hiện ra ít nhất 28 lần.<sup><a href="https://arxiv.org/abs/2606.14589" target="_blank">[2]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — "lỗi thầm lặng" (silent failure) khác gì lỗi thường?</b> Lỗi thường sẽ nổ ra: exception, stack trace, cảnh báo. Lỗi thầm lặng thì hệ vẫn "xanh" — job báo chạy xong, không có exception — nhưng kết quả sai hoặc trống, và <em>không ai được báo</em>. Đây là biến thể của "gray failure" (lỗi xám) trong hệ phân tán: hệ thống nhìn thấy mình khỏe mạnh còn người dùng thì không. Với agent, thứ nguy hiểm là tín hiệu lỗi bị nuốt ở đâu đó giữa 40 job, 8 nhà cung cấp và lớp bộ nhớ — nên test và audit (vốn kiểm cái bạn <em>đã biết</em> để hỏi) không thấy. <span style="color:#6b7280">(diễn giải của biên tập từ khái niệm trong bài)</span></div>
+
+    <h3 class="sub">Bảng phân loại 5 lớp — và lớp D là thứ chỉ hệ LLM mới đẻ ra</h3>
+    <p>Từ 22 postmortem, tác giả rút ra một bảng phân loại 5 lớp theo <em>cơ chế</em> (không theo triệu chứng): (A) quirk của môi trường &amp; nền tảng; (B) lệch giả định thiết kế; (C) nuốt và pha loãng lỗi (error swallowing/dilution); (D) ảo giác &amp; bịa đặt dây chuyền (chained hallucination and fabrication); (E) bỏ sót vận hành &amp; điểm mù pháp y (forensic blind spots).<sup><a href="https://arxiv.org/abs/2606.14589" target="_blank">[2]</a></sup> Lớp D là thứ chỉ hệ LLM mới có — và nguy hiểm nhất: hệ thống không chỉ <em>không báo lỗi</em>, mà LLM còn <strong>biến lỗi đó thành một câu chuyện trơn tru, hợp lý, rồi giao cho người dùng</strong>.<sup><a href="https://arxiv.org/abs/2606.14589" target="_blank">[2]</a></sup> Tác giả đặt tên là <em>fail-plausible</em>: đấy là "lỗi xám" bị đẩy lên một nấc — người quan sát không chỉ mù, mà còn <em>bị chính cái lỗi đó thuyết phục bằng một lời nói dối trơn tru</em>.<sup><a href="https://arxiv.org/abs/2606.14589" target="_blank">[2]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao "fail-plausible" độc hơn một crash?</b> Một crash tự tố cáo: bạn thấy ngay là hỏng. Nhưng khi một lời gọi công cụ thất bại (vd truy hồi tài liệu trả về rỗng) mà LLM "lấp" chỗ trống bằng nội dung nghe rất hợp lý, người dùng nhận một câu trả lời tự tin, mạch lạc — và tin. Không có tín hiệu nào để nghi ngờ. Đây là lý do 70% lỗi bị bắt bằng mắt người chứ không bằng test: chỉ người dùng nhìn <em>kết quả cuối</em> mới thấy nó "sai một cách trơn tru", trong khi mọi kiểm tra kỹ thuật ở giữa đều báo xanh. <span style="color:#6b7280">(diễn giải của biên tập)</span></div>
+
+    <h3 class="sub">Ba phát hiện làm lung lay niềm tin vào "test nhiều là an toàn"</h3>
+    <p><strong>Thứ nhất:</strong> khoảng 70% số lỗi thầm lặng bị bắt bởi quan sát của con người ở góc nhìn người dùng — không phải bởi 4.286 test hay 827 kiểm tra quản trị.<sup><a href="https://arxiv.org/abs/2606.14589" target="_blank">[2]</a></sup> <strong>Thứ hai:</strong> một audit hồi tố trên 15 sự cố cho thấy khả năng ngăn-trước (ex-ante) là <em>0%</em>, nhưng khả năng chặn tái phát (regression blocking) đạt 87% — nói cách khác, audit là cỗ máy chống hồi quy chứ không phải máy tiên đoán; nó vá được cái đã xảy ra, không đoán được cái chưa.<sup><a href="https://arxiv.org/abs/2606.14589" target="_blank">[2]</a></sup> <strong>Thứ ba:</strong> độ trễ phát hiện sự cố dao động từ 13 giờ đến 60 ngày, và con số này bám theo <em>cơ chế lỗi</em> chứ không theo độ phức tạp của code — những lỗi sống lâu nhất nằm ở "đường nối" giữa các thành phần, đúng chỗ không có test nào chạy qua.<sup><a href="https://arxiv.org/abs/2606.14589" target="_blank">[2]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao lỗi trốn ở "đường nối" (seams)?</b> Test đơn vị kiểm từng thành phần; nhưng agent hỏng nhiều nhất ở chỗ hai thành phần <em>gặp nhau</em> — proxy công cụ giao tiếp với lớp bộ nhớ, một nhà cung cấp LLM đổi định dạng trả về, một job đọc kết quả của job khác. Không component nào "sai" theo test riêng của nó, nên lỗi sống 60 ngày. Bài học kiến trúc của tác giả: đừng chỉ test thành phần, hãy dựng quan sát ở <em>ranh giới</em> và ở <em>đầu ra người dùng thấy</em>. <span style="color:#6b7280">(diễn giải của biên tập)</span></div>
+
+    <p>Từ đó, tác giả đề xuất một khung phòng thủ và một nguyên tắc thiết kế gói gọn: hãy làm cho lỗi của hệ agent trở nên <strong>ồn ào, quy được trách nhiệm, và nhàm chán</strong> (loud, attributable, boring) — ngược hẳn với "thầm lặng, mồ côi, và ly kỳ".<sup><a href="https://arxiv.org/abs/2606.14589" target="_blank">[2]</a></sup> Toàn bộ 22 postmortem và tạo tác phòng thủ được công khai.<sup><a href="https://arxiv.org/abs/2606.14589" target="_blank">[2]</a></sup></p>
+
+    <div class="editnote">Lưu ý phạm vi: đây là nghiên cứu dọc trên <em>một</em> hệ thống của một tác giả (n=1 hệ), 8 tuần — mạnh về chiều sâu cơ chế và postmortem công khai, nhưng con số không nên đọc như tỷ lệ ngành. Giá trị nằm ở <em>phân loại cơ chế</em> và nguyên tắc thiết kế, không phải ở tính đại diện thống kê.</div>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> Số lượng test không mua được sự an toàn cho agent. 4.286 test vẫn để lọt 22 sự cố, và 70% trong số đó chỉ lộ khi có người nhìn kết quả cuối. Với hệ agent chạy tự động, hãy đầu tư vào ba chỗ mà test bỏ qua: (1) giám sát ở <em>đầu ra người dùng thấy</em>, không chỉ ở log kỹ thuật; (2) chống "fail-plausible" — cấm agent tự lấp chỗ trống khi một lời gọi công cụ trả về rỗng/lỗi, bắt nó báo "không có dữ liệu" thay vì bịa; (3) đặt quan sát ở các "đường nối" giữa thành phần, nơi lỗi sống lâu nhất.</div>
+
+    <div class="scale">
+      <div class="col small">
+        <h4>Đội nhỏ / startup (&lt;10 người)</h4>
+        <ul>
+          <li>Trước khi tăng số test, thêm <em>một</em> "canary theo góc người dùng": một job kiểm tra định kỳ chạy đúng luồng khách và một người liếc kết quả cuối mỗi ngày.</li>
+          <li>Quy tắc cứng cho agent: khi công cụ trả rỗng/lỗi, trả về "không có dữ liệu / không chắc" — tuyệt đối không để LLM "kể chuyện" thay số liệu thật.</li>
+          <li>Viết postmortem cho cả những lỗi "đã tự khỏi" — vì audit chỉ mạnh ở chặn tái phát, không chặn được lần đầu.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Đội đã có sản phẩm production</h4>
+        <ul>
+          <li>Thêm trace/giám sát ở <em>ranh giới</em> giữa các thành phần (proxy công cụ ↔ bộ nhớ ↔ từng nhà cung cấp LLM), không chỉ trong từng service.</li>
+          <li>Coi "im lặng" là một trạng thái lỗi: nếu một job đáng ra phải báo cáo mà không báo gì, phải có cảnh báo — đừng để "xanh" đồng nghĩa "ổn".</li>
+          <li>Đặt chỉ số "độ trễ phát hiện" (time-to-detect) làm mục tiêu vận hành; lỗi sống 60 ngày là dấu hiệu điểm mù ở đường nối.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> Wei Wu, "When Errors Become Narratives: A Longitudinal Taxonomy of Silent Failures in a Production LLM Agent Runtime", arXiv:2606.14589, 12/06/2026 (giấy phép CC BY 4.0) — <a href="https://arxiv.org/abs/2606.14589" target="_blank">abstract</a> · <a href="https://arxiv.org/html/2606.14589v1" target="_blank">bản HTML</a>; 22 postmortem &amp; tạo tác công khai.</div>
+  </article>
+
+  <!-- GÓC NHÌN -->
+  <article class="card" id="gocnhin">
+    <span class="tag view">Góc nhìn</span>
+    <h2 class="head">3 · Bạn định tính tiền theo "kết quả" — nhưng ai chứng minh kết quả có thật?</h2>
+    <p>Đặt hai bài cạnh nhau, chúng khớp thành một vòng khép. Bài 1 nói cả ngành đang dịch chuyển sang bán "công việc đã làm": theo lượng dùng, theo credit, và đỉnh cao là <em>theo kết quả</em>. Kyle Poyar chốt rằng giá-theo-kết-quả chỉ đứng vững nếu có đủ khung CAMP — trong đó hai chữ khó nhất là <strong>A</strong> (attribution — quy công cho ai/việc gì) và <strong>M</strong> (measurability — đo được kết quả).<sup><a href="https://www.growthunhinged.com/p/the-state-of-b2b-monetization-in-2026" target="_blank">[1]</a></sup> Bài 2 chính là lời cảnh báo về hai chữ đó: khi một agent có thể <em>fail-plausible</em> — hỏng mà vẫn giao một câu trả lời trơn tru — thì "kết quả" bạn tưởng đã đo có thể chỉ là một câu chuyện được kể khéo.<sup><a href="https://arxiv.org/abs/2606.14589" target="_blank">[2]</a></sup> Bán theo kết quả mà không đo nổi kết quả thật là tự đặt mình vào thế tính tiền cho những lần "trông như xong".</p>
+
+    <p>Bức tranh này nối thẳng với các số trước của bản tin. Số 08/08 đã tách <em>deflection ≠ resolution</em>: "tỷ lệ giải quyết" là con số dễ đọc sai nhất, và chênh lệch có thể trên 30 điểm phần trăm — đúng tinh thần "đo được kết quả thật" mà cả hai bài hôm nay đòi hỏi. Số 11/08 đặt tên "nợ xác minh": khi phần sinh ra (code, hay câu trả lời) rẻ đi nhờ AI, chi phí dồn sang khâu <em>chứng minh nó đúng</em>. Và số 16/08 về hóa đơn token giải thích vì sao biên AI chỉ ~50%: chi phí token biến thiên và khó khoanh. Điểm mới hôm nay: <strong>mô hình định giá và cơ chế phát hiện lỗi là hai mặt của cùng một đồng xu</strong> — bạn không thể bán "theo kết quả" một cách trung thực nếu hệ của bạn không làm cho thất bại trở nên "ồn ào, quy được trách nhiệm và nhàm chán".</p>
+    <div class="editnote">Đoạn liên hệ giữa hai bài và với các số trước là tổng hợp biên tập, không phải tuyên bố từ hai nguồn gốc.</div>
+
+    <p><strong>2–3 việc nên làm tuần này:</strong></p>
+    <div class="doslist">
+      <div>✅ Lấy bảng giá hiện tại của bạn và tính biên lợi nhuận thật của <em>một</em> tính năng AI sau khi trừ token; nếu chưa đo được token/khách, đó là việc số một trước mọi thay đổi giá.</div>
+      <div>✅ Nếu (đang hoặc định) bán "theo kết quả", viết ra định nghĩa kết quả và cách đo/quy công nó một cách khách quan — rồi hỏi: nếu agent fail-plausible, chỉ số này có phát hiện được không?</div>
+      <div>✅ Với bất kỳ agent nào chạy tự động: thêm một quy tắc "không bịa khi rỗng" và một điểm giám sát ở đầu ra người dùng thấy; coi "im lặng" là một loại cảnh báo.</div>
+    </div>
+  </article>
+
+  <hr class="sep">
+
+  <!-- LƯỢC DỊCH 1 -->
+  <article class="card" id="dich1">
+    <span class="tag saas">📖 Lược dịch chi tiết</span>
+    <h2 class="head">Lược dịch — "Bức tranh định giá B2B 2026" (Growth Unhinged, Kyle Poyar)</h2>
+    <div class="dich">
+      <div class="flag">Bản diễn đạt lại bằng tiếng Việt, bám ý và số liệu theo bố cục bài gốc — KHÔNG phải dịch nguyên văn, không sao chép nguyên khối. Bản gốc: <a href="https://www.growthunhinged.com/p/the-state-of-b2b-monetization-in-2026" target="_blank">growthunhinged.com</a> (13/05/2026).</div>
+
+      <h3>Mở đầu &amp; ai tham gia</h3>
+      <p>Tác giả tưởng đến giữa 2026 định giá AI đã yên, nhưng nhịp thay đổi còn tăng. Xu thế chung: rời khỏi bán quyền truy cập phần mềm (ghế) sang bán công việc do phần mềm + agent tạo ra (lượng dùng, kết quả); ban đầu là startup AI-native, nay lan sang SaaS. Khảo sát chạy tháng 4–5/2026, hơn 230 công ty: theo ARR — 22% dưới 1tr USD, 28% từ 1–20tr, 24% từ 20–150tr, 25% trên 150tr; theo giá trị hợp đồng trung bình — 28% dưới 5k USD/năm, 27% từ 5–25k, 30% từ 25–100k, 16% trên 100k; theo loại — 32% chủ yếu SaaS, 15% AI-native, 43% lai, 10% khác. Sáu điểm nhấn: (1) giá lai vẫn phổ biến nhất; (2) không ai hài lòng với giá của mình, than nhiều nhất là thiếu doanh thu mở rộng; (3) 2026 sẽ còn nhiều đảo lộn, bất thường là các hãng lớn dẫn đầu; (4) sự thật khó nuốt — biên AI chỉ ~50%; (5) chi AI chủ yếu ăn vào ngân sách SaaS, biên giới kế tiếp là túi tiền dịch vụ; (6) ngày càng nhiều hãng chào nhiều mô hình giá, Salesforce có tới 4.</p>
+
+      <h3>Điểm 1 — Giá lai phổ biến nhất</h3>
+      <p>Khoảng 2/5 (37%) dùng giá lai (kết hợp ≥2 mô hình, vd thuê bao theo ghế cộng tiêu thụ AI). Doanh nghiệp non trẻ dưới 5tr USD ARR nghiêng mạnh về giá phẳng (37%) vì ít lịch sử dùng và đang lo thu hút khách; hãng lớn trên 150tr USD giữ giá theo ghế (29%). Con số đầu bài giống năm ngoái, nhưng đào sâu thì xu hướng vẫn dịch khỏi giá phẳng/theo ghế sang lai: 25% nói một năm trước họ dùng lai, nay là 37%. Nhà đầu tư từng ghét giá biến thiên nay lại thúc đẩy nó: khi hỏi mô hình nào nhà đầu tư ưa, chỉ 10% chọn giá phẳng, 5% chọn theo ghế; còn theo lượng dùng 24%, theo kết quả 26%, lai 35%.</p>
+
+      <h3>Điểm 2 — Nỗi đau: thiếu doanh thu mở rộng</h3>
+      <p>Thách thức được nhắc nhiều nhất là không đủ doanh thu mở rộng, đặc biệt với ai dùng giá phẳng/theo ghế. Cách gỡ: thêm bản cao cấp (thường đắt hơn bản nền 50–100%); tính tiền add-on mà đa số không cần nhưng một số rất cần; cài hạn mức tiêu thụ đánh vào top 10% power user (theo kinh nghiệm tác giả, nhóm này ngốn hơn 70% token). Hãng theo ghế lo mô hình lỗi thời; hãng theo lượng dùng/kết quả than khó dự báo doanh thu; hãng lai hài lòng nhất nhưng khó giải thích giá. Tác giả nhắc: không có mô hình giá hoàn hảo; hãy chọn cái kể được câu chuyện riêng của bạn và có kế hoạch quản mặt trái.</p>
+
+      <h3>Điểm 3 — 2026 còn nhiều đảo lộn, hãng lớn dẫn đầu</h3>
+      <p>3/4 công ty đã đổi giá hoặc đóng gói trong năm qua; bất thường là hãng lớn đổi nhiều nhất. Gần như không tìm được hãng trên 50tr USD ARR nào không tính lại giá AI — Salesforce, Anthropic, HubSpot, OpenAI, Clay, Figma, Canva, SAP, GitHub đều đổi lớn đầu 2026. Clay tách "giá trị" (nền tảng) và "chi phí" (token) từ tháng 3; HubSpot ra giá-theo-kết-quả cho agent Breeze tháng 4 (và giảm nửa giá Fin); Anthropic hạ giá ghế Enterprise nhưng đẩy mạnh giá theo lượng dùng; SAP tuyên bố chuyển sang tính theo tiêu thụ AI. Mô hình credit/token AI đã tăng 126% so cùng kỳ trong 2025; hiện 29% dùng, 33% dự định ra trong 6–12 tháng, trong nhóm trên 50tr USD ARR thì ~1/2 nói sẽ ra credit trong năm. Satya Nadella: ghế nay chỉ là "vé vào cửa cho một lượng tiêu thụ", để khách có cảm giác ngân sách dễ đoán; Microsoft đẩy mạnh mô hình ghế + tiêu thụ, bật AI credit cho GitHub Copilot từ 1/6. Nhận định tác giả: credit tốt cho nhà cung cấp nhưng dễ thành cơn ác mộng cho khách khi phải quản nhiều mô hình chéo — credit là phao cứu sinh, chưa phải hồi kết.</p>
+
+      <h3>Điểm 4 — Biên AI chỉ ~50%</h3>
+      <p>Khi định giá AI, câu hỏi đầu là biên gộp mục tiêu. Chi phí/biên nội bộ là yếu tố số một (54% chọn), rồi so-với-thị-trường (36%), và mức năng suất AI mở ra cho người dùng (30%). Trung vị biên AI mục tiêu ~50%; chỉ 12% nhắm mốc SaaS 80%+, một số tương đương chấp nhận ≤20% (PostHog). Nhận định: sản phẩm trông như hàng hóa thì mất sức mạnh định giá; credit/token là thước đo hàng-hóa-hóa tối thượng cho AI.</p>
+
+      <h3>Điểm 5 — Chi AI ăn vào ngân sách SaaS</h3>
+      <p>Để AI phát huy hết tiềm năng và biện minh cho các định giá khổng lồ, chi tiêu công nghệ phải tăng thực — tức chạm vào túi tiền mới như nhân sự hay dịch vụ. Bằng chứng hôm nay còn ít: 70% nói AI lấy từ ngân sách công nghệ/phần mềm của khách (cao hơn, 75%, ở hãng SaaS gắn thêm AI). Chỉ hãng AI-native mới hay chạm ngân sách dịch vụ (35%) hoặc đôi khi nhân sự (15%) — trùng làn sóng công ty dịch vụ AI-native mà Sequoia cho là sẽ tạo công ty nghìn tỷ USD kế tiếp. Nhận định: công ty dịch vụ bán "công việc"; giá-theo-kết-quả hợp tự nhiên với dịch vụ AI-native, dù có thể vẫn trình bày dưới dạng giá cố định cho một phạm vi việc.</p>
+
+      <h3>Điểm 6 — Nhiều mô hình giá cùng lúc</h3>
+      <p>Khi giá AI phức tạp lên, nhiều hãng bỏ ý tưởng "một giá cho tất cả": 29% cho khách chọn giữa nhiều mô hình (tăng từ 21%). Decagon sớm cho chọn tính-theo-hội-thoại hay theo-ca-giải-quyết. Salesforce khởi đầu bằng giá theo hội thoại cho Agentforce, thêm mô hình credit, và hiện có bốn mô hình (thêm add-on theo ghế và hợp đồng Agentic phẳng). Cách này phổ biến nhất ở nhóm theo lượng dùng/kết quả — có lẽ để dùng "giá đột phá" làm điểm bán: khách chỉ trả khi sản phẩm chạy được việc. Nhận định: giá-theo-kết-quả là thông điệp thị trường hay, nhưng nhiều doanh nghiệp vẫn thèm sự dự đoán; muốn thành công cần khung CAMP — nhất quán của kết quả, quy công, đo lường được, dự đoán được.</p>
+    </div>
+  </article>
+
+  <!-- LƯỢC DỊCH 2 -->
+  <article class="card" id="dich2">
+    <span class="tag rel">📖 Lược dịch chi tiết</span>
+    <h2 class="head">Lược dịch — "Khi lỗi trở thành câu chuyện" (arXiv 2606.14589, Wei Wu)</h2>
+    <div class="dich">
+      <div class="flag">Bản diễn đạt lại bằng tiếng Việt, bám ý và số liệu theo bố cục phần tóm tắt &amp; luận điểm chính của bài gốc — KHÔNG phải dịch nguyên văn, không sao chép nguyên khối. Bản gốc: <a href="https://arxiv.org/abs/2606.14589" target="_blank">arxiv.org/abs/2606.14589</a> (12/06/2026, CC BY 4.0).</div>
+
+      <h3>Bối cảnh &amp; hệ thống nghiên cứu</h3>
+      <p>Hệ agent LLM ngày càng chạy như những runtime tự chủ sống lâu: lên lịch job, gọi công cụ, giữ bộ nhớ và đẩy kết quả cho người. Bài trình bày một nghiên cứu dọc về "lỗi thầm lặng" trong một hệ như vậy: một runtime agent trợ lý cá nhân chạy production liên tục từ tháng 3/2026, gồm khoảng 40 job theo lịch, 8 nhà cung cấp LLM, một proxy quản trị công cụ và một mặt phẳng bộ nhớ dạng kho tri thức, được phòng vệ bởi 4.286 unit test và 827 kiểm tra quản trị.</p>
+
+      <h3>Dữ liệu &amp; siêu mẫu</h3>
+      <p>Trong 8 tuần, tác giả ghi 22 sự cố với postmortem truy nguyên đầy đủ, trong đó một siêu mẫu — lỗi mà tín hiệu của nó không bao giờ đến tay con người ở dạng hành động được — xuất hiện ít nhất 28 lần. Từ đó suy ra một bảng phân loại 5 lớp theo cơ chế: (A) quirk môi trường &amp; nền tảng; (B) lệch giả định thiết kế; (C) nuốt và pha loãng lỗi; (D) ảo giác &amp; bịa đặt dây chuyền; (E) bỏ sót vận hành &amp; điểm mù pháp y.</p>
+
+      <h3>Lớp D &amp; khái niệm "fail-plausible"</h3>
+      <p>Lớp D là duy nhất của hệ LLM và nguy hiểm nhất: hệ thống không chỉ không báo lỗi mà LLM còn biến lỗi thành lời kể trơn tru, hợp lý, giao tận tay người dùng. Tác giả gọi là fail-plausible: sự "quan sát khác biệt" của lỗi xám bị đẩy lên một nấc — người quan sát không chỉ mù, mà còn bị chính cái lỗi thuyết phục bằng một lời nói dối trơn tru.</p>
+
+      <h3>Ba phát hiện</h3>
+      <p>Một, khoảng 70% lỗi thầm lặng bị bắt bởi quan sát của con người ở góc nhìn người dùng, không phải bởi test hay audit. Hai, audit hồi tố 15 sự cố cho thấy 0% ngăn được trước nhưng 87% chặn tái phát — audit là cỗ máy chống hồi quy, không phải máy tiên đoán. Ba, độ trễ phát hiện (từ 13 giờ đến 60 ngày) bám theo cơ chế lỗi chứ không theo độ phức tạp code — những lỗi sống lâu nhất nằm ở đường nối giữa các thành phần, nơi không test nào chạy qua.</p>
+
+      <h3>Khung phòng thủ &amp; nguyên tắc</h3>
+      <p>Tác giả mô tả khung phòng thủ rút ra và chưng cất các nguyên tắc thiết kế cho hệ agent sao cho lỗi của nó trở nên ồn ào, quy được trách nhiệm và nhàm chán — thay vì thầm lặng, mồ côi, ly kỳ. Toàn bộ 22 postmortem và tạo tác phòng thủ được công khai. (Lưu ý: đây là nghiên cứu trên một hệ thống của một tác giả trong 8 tuần; giá trị chính là phân loại cơ chế và bài học thiết kế, không phải tỷ lệ đại diện cho toàn ngành.)</p>
+    </div>
+  </article>
+
+  <div class="foot">Bản tin sáng · Số 19/08/2026 · Tổng hợp từ nguồn công khai, đã mở &amp; xác minh, dẫn nguồn nội dòng. Các khối "Cơ chế", bảng so sánh và khuyến nghị là biên tập tổng hợp, không trích nguyên văn.</div>
+</div>
+</body>
+</html>
