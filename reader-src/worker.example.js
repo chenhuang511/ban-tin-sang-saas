@@ -9,7 +9,7 @@
  * Nếu bạn ĐÃ có Worker riêng: chỉ cần bê 2 khối đánh dấu [THÊM] vào worker đó.
  * Mẫu dưới dùng binding ASSETS làm ví dụ phục vụ tĩnh.
  * ==========================================================================*/
-import { handleApi } from "./worker-api.js";
+import { handleApi } from "../worker-api.js";
 
 // [THÊM] Chèn reader.js trước </body> của mọi response HTML.
 function injectReader(response) {

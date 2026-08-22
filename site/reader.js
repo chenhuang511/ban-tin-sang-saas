@@ -377,11 +377,97 @@
     function refresh() { btn.innerHTML = (isFav() ? "♥ Đã thích" : "♡ Yêu thích"); btn.classList.toggle("on", isFav()); btn.title = (isFav() ? "Bỏ khỏi mục yêu thích" : "Thêm vào mục yêu thích để đọc lại / chia sẻ"); }
     btn.addEventListener("click", function () { setFav(!isFav()); refresh(); });
     backbar.appendChild(btn);
+    // nút Chia sẻ
+    var sh = document.createElement("button");
+    sh.id = "uh-share"; sh.type = "button"; sh.textContent = "🔗 Chia sẻ";
+    sh.title = "Copy link kèm các đoạn bạn đã tô để gửi cho người khác";
+    sh.addEventListener("click", doShare);
+    backbar.appendChild(sh);
     // link tới Bộ sưu tập
     var col = document.createElement("a");
     col.href = "/bo-suu-tap"; col.id = "uh-collink"; col.textContent = "🔖 Bộ sưu tập";
     backbar.appendChild(col);
     refresh();
+  }
+
+  // ---- Chia sẻ highlight qua URL ------------------------------------------
+  function b64EncodeUnicode(str) { return btoa(unescape(encodeURIComponent(str))); }
+  function b64DecodeUnicode(str) { return decodeURIComponent(escape(atob(str))); }
+
+  function buildShareUrl() {
+    var base = location.origin + location.pathname;
+    var hs = getHighlights().map(function (h) { return { q: h.quote, p: h.prefix, s: h.suffix, a: h.anchorId, c: h.color }; });
+    if (!hs.length) return base;
+    return base + "?hl=" + encodeURIComponent(b64EncodeUnicode(JSON.stringify(hs)));
+  }
+  function copyText(txt) {
+    if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(txt);
+    return new Promise(function (res, rej) {
+      try { var ta = document.createElement("textarea"); ta.value = txt; ta.style.position = "fixed"; ta.style.opacity = "0"; document.body.appendChild(ta); ta.select(); document.execCommand("copy"); ta.remove(); res(); }
+      catch (e) { rej(e); }
+    });
+  }
+  function doShare() {
+    var url = buildShareUrl(), n = getHighlights().length;
+    var msg = n ? ("Đã copy link kèm " + n + " đoạn tô") : "Đã copy link trang";
+    if (navigator.share) {
+      navigator.share({ title: document.title, url: url }).catch(function () { copyText(url).then(function () { toast(msg); }); });
+    } else {
+      copyText(url).then(function () { toast(msg); }).catch(function () { prompt("Copy link chia sẻ:", url); });
+    }
+  }
+  function toast(m) {
+    var t = document.createElement("div"); t.className = "uh-toast"; t.textContent = m;
+    document.body.appendChild(t);
+    setTimeout(function () { t.style.opacity = "0"; }, 1600);
+    setTimeout(function () { t.remove(); }, 2100);
+  }
+
+  // Hiển thị highlight được CHIA SẺ (từ tham số ?hl=) — chỉ để xem, không tự lưu
+  var sharedData = null;
+  function paintShared(range, color) {
+    textNodesInRange(range).forEach(function (seg) {
+      var r = document.createRange(); r.setStart(seg.node, seg.start); r.setEnd(seg.node, seg.end);
+      var mark = document.createElement("mark"); mark.className = "uh-shared"; mark.style.background = colorBg(color);
+      try { r.surroundContents(mark); } catch (e) {}
+    });
+  }
+  function unpaintShared() {
+    document.querySelectorAll("mark.uh-shared").forEach(function (m) {
+      var p = m.parentNode; while (m.firstChild) p.insertBefore(m.firstChild, m); p.removeChild(m); p.normalize();
+    });
+  }
+  function stripHl() { try { history.replaceState(null, "", location.pathname); } catch (e) {} }
+  function renderShared() {
+    var m = /[?&]hl=([^&]+)/.exec(location.search); if (!m) return;
+    var arr; try { arr = JSON.parse(b64DecodeUnicode(decodeURIComponent(m[1]))); } catch (e) { return; }
+    if (!Array.isArray(arr) || !arr.length) return;
+    var painted = 0;
+    arr.forEach(function (o) {
+      var range = restoreRange({ quote: o.q, prefix: o.p, suffix: o.s, anchorId: o.a, color: o.c });
+      if (range) { paintShared(range, o.c); painted++; }
+    });
+    if (painted) { sharedData = arr; showSharedBanner(painted); }
+  }
+  function showSharedBanner(n) {
+    var b = document.createElement("div"); b.id = "uh-sharebanner";
+    b.innerHTML = '<span>🔗 ' + n + ' đoạn được chia sẻ với bạn</span>' +
+      '<button class="uh-save">Lưu vào của tôi</button><button class="uh-hide">Ẩn</button>';
+    document.body.appendChild(b);
+    b.querySelector(".uh-save").addEventListener("click", saveShared);
+    b.querySelector(".uh-hide").addEventListener("click", function () { unpaintShared(); b.remove(); stripHl(); });
+  }
+  function saveShared() {
+    if (!sharedData) return;
+    unpaintShared();     // dọn marks chia sẻ trước khi tô lại thành của mình
+    sharedData.forEach(function (o) {
+      var h = { id: uid(), page: PAGE, quote: o.q, prefix: o.p, suffix: o.s, anchorId: o.a, color: o.c || "y", note: "", createdAt: Date.now(), dirty: true, deleted: false };
+      var range = restoreRange(h); if (range) { paint(range, h); putHighlight(h); }
+    });
+    var b = document.getElementById("uh-sharebanner"); if (b) b.remove();
+    stripHl();
+    if (apiAvailable) pushDirty();
+    toast("Đã lưu vào highlight của bạn");
   }
 
   // ---- Tiện ích ------------------------------------------------------------
@@ -406,6 +492,13 @@
       + '#uh-auth .uh-who{max-width:190px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}'
       + '#uh-auth .uh-logout{background:#374151;border-radius:14px;padding:3px 10px;font-size:12px}'
       + '#uh-auth .uh-login{font-weight:600}'
+      + '#uh-share{margin-left:8px;font-size:13px;background:#ecfeff;color:#0e7490;border:1px solid #a5f3fc;border-radius:20px;padding:6px 14px;cursor:pointer}'
+      + 'mark.uh-shared{padding:0;border-radius:2px;box-shadow:inset 0 -2px 0 rgba(0,0,0,.28)}'
+      + '.uh-toast{position:fixed;left:50%;bottom:70px;transform:translateX(-50%);z-index:10000;background:#111;color:#fff;font-size:13px;padding:9px 16px;border-radius:20px;box-shadow:0 4px 14px rgba(0,0,0,.3);transition:opacity .4s}'
+      + '#uh-sharebanner{position:fixed;left:50%;top:12px;transform:translateX(-50%);z-index:10000;display:flex;align-items:center;gap:10px;background:#0e7490;color:#fff;font-size:13px;padding:8px 12px;border-radius:12px;box-shadow:0 4px 14px rgba(0,0,0,.28);max-width:92vw;flex-wrap:wrap;justify-content:center}'
+      + '#uh-sharebanner button{border:none;border-radius:14px;padding:4px 11px;font-size:12px;cursor:pointer}'
+      + '#uh-sharebanner .uh-save{background:#fff;color:#0e7490;font-weight:600}'
+      + '#uh-sharebanner .uh-hide{background:rgba(255,255,255,.22);color:#fff}'
       + 'mark.uh{padding:0}';
     var st = document.createElement("style");
     st.textContent = css;
@@ -436,6 +529,7 @@
     injectCSS();
     mountFavButton();
     renderAll();          // tô ngay từ local
+    renderShared();       // hiện các đoạn được chia sẻ qua ?hl= (nếu có)
     sync().then(function () {
       renderAll();        // tô thêm phần kéo từ server (nếu có)
       mountAuthBar();     // hiện email + đăng xuất, hoặc nút đăng nhập

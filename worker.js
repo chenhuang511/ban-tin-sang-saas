@@ -8,7 +8,7 @@
  *
  * Deploy:  cd D:\0-AI\0-Ban-tin  &&  npx wrangler deploy
  * ==========================================================================*/
-import { handleApi } from "./site/reader/worker-api.js";
+import { handleApi } from "./worker-api.js";
 
 function injectReader(response) {
   const ct = response.headers.get("content-type") || "";

@@ -15,7 +15,7 @@ local-first, mọi thứ vẫn hoạt động và lưu trong trình duyệt.
 import http.server, socketserver, os, re, sys
 
 PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 8000
-SITE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # thư mục site/ (cha của reader/)
+SITE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'site')  # thư mục site/ (cha của reader/)
 os.chdir(SITE)
 
 PRETTY = re.compile(r"^/(\d{4}-\d{2}-\d{2}(?:-[a-z]+)?|bo-suu-tap)$")

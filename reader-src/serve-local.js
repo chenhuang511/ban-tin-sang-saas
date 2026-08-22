@@ -11,7 +11,7 @@ const fs = require("fs");
 const path = require("path");
 
 const PORT = parseInt(process.argv[2], 10) || 8000;
-const SITE = path.resolve(__dirname, ".."); // thu muc site/ (cha cua reader/)
+const SITE = path.resolve(__dirname, "../site"); // thu muc site/ (cha cua reader/)
 
 const TYPES = {
   ".html": "text/html; charset=utf-8",

@@ -29,8 +29,8 @@ Yêu cầu: tài khoản Cloudflare + `npm i -g wrangler` + `wrangler login`.
 1. **Tạo D1 và áp schema**
    ```bash
    wrangler d1 create bantin-reader          # copy database_id in ra
-   # dán database_id vào reader/wrangler.toml
-   wrangler d1 execute bantin-reader --file=./reader/schema.sql
+   # dán database_id vào wrangler.toml gốc (production) và reader-src/wrangler.toml (dev)
+   wrangler d1 execute bantin-reader --file=reader-src/schema.sql
    ```
 
 2. **Deploy Worker** (gộp handleApi vào worker hiện có, hoặc dùng worker.example.js)
@@ -60,10 +60,10 @@ Gợi ý: thêm dòng này vào bước sinh số trong quy trình bản tin đ�
 |------|---------|
 | `reader.js` (ở gốc site) | Frontend: bôi/tô/ghi chú/favourite, local-first + sync |
 | `bo-suu-tap.html` (ở gốc site) | Trang gom mọi highlight + số đã lưu |
-| `reader/schema.sql` | Bảng D1 |
-| `reader/worker-api.js` | Xử lý `/api/*` |
-| `reader/worker.example.js` | Mẫu tích hợp vào Worker |
-| `reader/wrangler.toml` | Cấu hình D1 binding |
+| `reader-src/schema.sql` | Bảng D1 |
+| `worker-api.js` (gốc repo) | Xử lý `/api/*` |
+| `reader-src/worker.example.js` | Mẫu tích hợp vào Worker |
+| `reader-src/wrangler.toml` (dev) · `wrangler.toml` gốc (production) | Cấu hình D1 binding |
 
 ## Ghi chú bảo mật / giới hạn
 

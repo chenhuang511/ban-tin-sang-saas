@@ -6,9 +6,9 @@ main = "worker.example.js"           # đường dẫn tương đối với file
 compatibility_date = "2026-08-01"
 
 # Static assets: phục vụ cả site để test full-stack bằng `wrangler dev`.
-# directory = ".." nghĩa là thư mục site/ (cha của reader/).
+# directory = "../site" nghĩa là thư mục site/ (cha của reader/).
 [assets]
-directory = ".."
+directory = "../site"
 binding = "ASSETS"
 
 [[d1_databases]]
