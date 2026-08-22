@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Netlify "khai tử" giá theo ghế vì người dùng SaaS giờ có thể là một AI agent &amp; vì sao tỷ lệ dùng tính năng rơi từ 20% xuống 6% · 22/08/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.dich{background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;padding:16px 20px;margin-top:16px}
+.dich .flag{font-size:12.5px;color:#94a3b8;font-style:italic;margin-bottom:8px}
+.dich h3{font-size:16px;margin:14px 0 4px}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 22/08/2026 · bản chi tiết</div>
+    <h1 class="title">Netlify "khai tử" giá theo ghế vì người dùng SaaS giờ có thể là một AI agent &amp; vì sao tỷ trọng tính năng được dùng rơi từ 20% xuống 6%</h1>
+    <div class="meta">22/08/2026 · Thời lượng đọc ~19 phút · Nguồn: Netlify — Mathias Biilmann (14 &amp; 22/04/2026); Userpilot — James Mitchinson, The Agent-First Playbook (15/05/2026, cập nhật 13/08/2026)</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: số này viết ở dạng "đậm cơ chế" — mỗi con số cố gắng kèm một tầng <em>nghĩa là gì / làm thế nào</em>. Các đoạn nhãn <b style="color:#1e40af">Cơ chế</b>, bảng ánh xạ, và khuyến nghị theo quy mô đội là phần <strong>biên tập tổng hợp từ thực hành phổ biến</strong>, KHÔNG trích nguyên văn từ nguồn; mọi con số vẫn dẫn nguồn nội dòng. Cả hai nguồn hôm nay đều là bên có lợi ích thương mại (Netlify bán nền tảng deploy; Userpilot bán công cụ product adoption) — số phản ánh quan sát của họ, đã ghi chú caveat tại chỗ.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1">Netlify bỏ giá theo ghế: $20/tháng không giới hạn, vì "ai cũng — kể cả agent — dựng được phần mềm"</a></li>
+      <li><a href="#bai2">Tỷ trọng tính năng được dùng rơi 20% → 6%: một tầng người dùng mới không ai đang đo</a></li>
+      <li><a href="#gocnhin">Góc nhìn: khi "người dùng" có thể là một agent, cả cách tính tiền lẫn cách đo adoption đều phải xây lại</a></li>
+      <li><a href="#dich1">📖 Lược dịch — The end of seats / Netlify for Agents (Netlify)</a></li>
+      <li><a href="#dich2">📖 Lược dịch — The Agent-First Playbook (Userpilot)</a></li>
+    </ol>
+  </nav>
+
+  <!-- BÀI 1 -->
+  <article class="card" id="bai1">
+    <span class="tag saas">AI trong SaaS</span>
+    <h2 class="head">1 · Netlify bỏ hẳn giá theo ghế: $20/tháng không giới hạn — vì "người dùng" giờ có thể là một AI agent</h2>
+    <p class="src">Nguồn: Netlify — Mathias Biilmann (đồng sáng lập &amp; CEO), "The end of seats: pricing Netlify for 3 billion builders" (14/04/2026) &amp; "Netlify for Agents" (22/04/2026) · bài công bố cấp một trên blog công ty · <a href="https://www.netlify.com/blog/pricing-netlify-for-3-billion-builders/" target="_blank">netlify.com/blog</a></p>
+
+    <div class="stat">
+      <div class="box"><div class="num">65%</div><div class="lab">trong ~40.000 người đăng ký Netlify mỗi ngày là người <em>mới</em> với phát triển web (từ CMO đến nhà vật lý trị liệu) <a href="https://www.netlify.com/blog/pricing-netlify-for-3-billion-builders/" target="_blank">(Netlify, 14/04/2026)</a></div></div>
+      <div class="box"><div class="num">$20/tháng · ∞ ghế</div><div class="lab">Pro bỏ hẳn giá theo ghế (trước: $20/ghế + $20/mỗi contributor); gộp mọi thứ vào 5 đồng hồ đo credit <a href="https://www.netlify.com/blog/pricing-netlify-for-3-billion-builders/" target="_blank">(Netlify, 14/04/2026)</a></div></div>
+      <div class="box"><div class="num">netlify.ai</div><div class="lab">website đầu tiên của Netlify xây riêng cho agent — <em>không</em> cho người — để agent tự onboard &amp; deploy <a href="https://www.netlify.com/blog/netlify-for-agents/" target="_blank">(Netlify, 22/04/2026)</a></div></div>
+    </div>
+
+    <p>Ngày 14/04/2026, Netlify — nền tảng deploy web dùng bởi hàng triệu lập trình viên front-end — làm một việc bất thường: bỏ hẳn mô hình tính tiền theo ghế. Gói Pro trước đây $20 cho một ghế, mỗi ghế hoặc mỗi contributor Git thêm $20/tháng; nay <strong>$20/tháng cho không giới hạn ghế</strong>.<sup><a href="https://www.netlify.com/blog/pricing-netlify-for-3-billion-builders/" target="_blank">[1]</a></sup> CEO Mathias Biilmann gọi đây là "một bước đổi mô hình", và nói thẳng lý do trong đoạn kết: <em>"Giá theo ghế hợp lý khi phần mềm do một nhúm lập trình viên viết. Nó bớt hợp lý đi rất nhiều khi bất kỳ ai — gồm bất kỳ AI agent nào — cũng dựng được phần mềm."</em><sup><a href="https://www.netlify.com/blog/pricing-netlify-for-3-billion-builders/" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao "ghế" hết đo được giá trị:</b> giá theo ghế ngầm giả định mỗi người dùng là một con người trả tiền, ngồi trước một bàn phím, và số người ≈ giá trị công ty rút ra. Khi coding agent dựng và deploy app thay con người, hai giả định đó vỡ: (1) "người dùng" tạo tài khoản có thể là một agent chạy 24/7 — không mua "ghế"; (2) một người có thể điều phối chục agent cùng lúc — tính theo đầu người thì hoặc bạn chặn họ mở rộng, hoặc bạn bỏ lỡ giá trị. Netlify chọn cách khác: bỏ ghế, tính theo <em>tiêu thụ hạ tầng thực</em>. Còn 5 đồng hồ đo: bandwidth, compute, web requests, AI inference, và số lần deploy production.<sup><a href="https://www.netlify.com/blog/pricing-netlify-for-3-billion-builders/" target="_blank">[1]</a></sup></div>
+
+    <h3 class="sub">Đây không phải chiêu marketing: 98% khách trả bằng hoặc ít hơn</h3>
+    <p>Netlify tinh chỉnh các đồng hồ đo để, theo mô hình của họ, <strong>98% khách hàng có hóa đơn tháng giữ nguyên hoặc giảm</strong>; với 2% dùng bandwidth/compute nặng, họ nói sẽ liên hệ trực tiếp "không bất ngờ".<sup><a href="https://www.netlify.com/blog/pricing-netlify-for-3-billion-builders/" target="_blank">[1]</a></sup> Cụ thể: bandwidth từ 10 → 20 credit/GB, compute 5 → 10 credit/GB-giờ, web request 3 → 2 credit/10k, form submission giờ miễn phí; gói credit thêm giá $10 cho 1.500 credit (≈ $0,13/GB bandwidth, $0,07/GB-giờ compute).<sup><a href="https://www.netlify.com/blog/pricing-netlify-for-3-billion-builders/" target="_blank">[1]</a></sup> Netlify nói họ "đánh đổi doanh thu ghế ngắn hạn" để gắn thành công của mình với khách, ngay sau "quý tốt nhất lịch sử công ty".<sup><a href="https://www.netlify.com/blog/pricing-netlify-for-3-billion-builders/" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao bỏ ghế lại là nước cờ tăng trưởng, không phải giảm giá:</b> khi ghế miễn phí, rào cản để mời "cả đội" — gồm những người không phải lập trình viên — về 0. Netlify quan sát chính mình: đội People, Finance, GTM, và support đều <em>tự dựng công cụ nội bộ</em> (dashboard, app, agent quản lý hành trình khách), và họ nói đã <em>thay cả một loạt SaaS mua ngoài bằng giải pháp tự làm</em>.<sup><a href="https://www.netlify.com/blog/pricing-netlify-for-3-billion-builders/" target="_blank">[1]</a></sup> Đó là toàn bộ ván cược: nếu ai cũng dựng được phần mềm, thị trường của bạn nhảy từ "lập trình viên trong một công ty" sang "gần như mọi người". 65% trong 40.000 lượt đăng ký/ngày là người mới với dev web chính là bằng chứng thị trường đó đang tới.</div>
+
+    <h3 class="sub">AX — "Agent Experience": khi agent là một tầng người dùng cần được onboard</h3>
+    <p>Tám ngày sau, 22/04, Netlify ra <strong>netlify.ai</strong> — mà Biilmann mô tả là "website đầu tiên xây cho agent, không cho người".<sup><a href="https://www.netlify.com/blog/netlify-for-agents/" target="_blank">[2]</a></sup> Đây là điểm vào sản phẩm dành riêng cho agent: một agent có thể "đọc" netlify.ai để học Netlify hoạt động ra sao, lấy đúng ngữ cảnh, rồi bắt đầu dựng/deploy với ít bước hơn. Biilmann đóng khung khái niệm <strong>AX (Agent Experience)</strong> — "trải nghiệm một AI agent có khi dùng sản phẩm thay mặt con người" — từ một essay ông viết 01/2025, và lập luận rằng agent tự chủ "rất có thể là tầng người dùng quan trọng nhất" của nhiều công ty.<sup><a href="https://www.netlify.com/blog/netlify-for-agents/" target="_blank">[2]</a></sup> Ông nêu đã xuất hiện sản phẩm xây <em>riêng cho agent</em> như Agent Mail hay Moltbook, và "các công ty nhìn xa đang tuyển đội AX / chuyên gia AX".<sup><a href="https://www.netlify.com/blog/netlify-for-agents/" target="_blank">[2]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — AX khác DX ở đâu:</b> DX (developer experience) tối ưu cho con người đọc tài liệu, nhớ, thử-sai. AX tối ưu cho một agent: nó không "nhớ" giữa các phiên, không lướt được UI đồ họa, và cần ngữ cảnh ở dạng máy nạp được (văn bản có cấu trúc, endpoint mô tả rõ, ít bước xác thực). Một trang landing đẹp cho người có thể là bức tường với agent; ngược lại một trang "chỉ toàn text + hướng dẫn từng lệnh" lại là onboarding lý tưởng cho agent. Đó là vì sao Netlify tách hẳn netlify.ai thay vì nhét agent vào flow onboarding cũ — hai đối tượng, hai trải nghiệm.</div>
+
+    <p class="editnote" style="font-style:normal">Caveat độ chính xác: hai bài gốc của Netlify <strong>không</strong> nêu con số kiểu "phần lớn lượt đăng ký là agent". Số cấp một xác minh được là "65% của 40.000 lượt/ngày là người mới với dev web, nhiều người kề cận đội phát triển — từ CMO đến nhà vật lý trị liệu". Nhận định "đa số signup Netlify giờ là agent" xuất hiện ở bài Userpilot (bài 2) dẫn Kyle Poyar, không phải từ Netlify — nên ở đây chỉ ghi lại như một <em>tuyên bố phía Userpilot</em>, chưa được Netlify định lượng công khai.</p>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn — theo quy mô đội:</strong></div>
+    <div class="scale">
+      <div class="col small">
+        <h4>Đội nhỏ / startup SaaS &lt; 10 người</h4>
+        <ul>
+          <li>Hỏi thẳng: nếu bỏ giá theo ghế, ai sẽ mời thêm cả đội vào? Ghế thường là thứ <em>kìm</em> lan tỏa nội bộ nhiều hơn là nguồn thu chính.</li>
+          <li>Trước khi lo AX phức tạp, làm một trang <code>/llms.txt</code> hoặc trang tài liệu thuần text để agent nạp được ngữ cảnh sản phẩm bạn — chi phí gần bằng 0.</li>
+          <li>Đo xem có bao nhiêu lượt đăng ký đến từ người "mới toanh" với nghề của bạn; nếu tăng, thiết kế onboarding cho họ chứ không cho chuyên gia.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Đội có sản phẩm production</h4>
+        <ul>
+          <li>Rà mô hình giá theo ghế: phần doanh thu nào thực sự đến từ "đầu người" vs từ tiêu thụ? Netlify chấp nhận mất thu ghế ngắn hạn để đổi lấy độ phủ.</li>
+          <li>Nếu mở API/MCP cho agent, coi đó là một <em>bề mặt onboarding</em> riêng: agent cần ngữ cảnh máy-nạp-được và ít bước xác thực, không phải tour UI.</li>
+          <li>Gắn đo lường vào 4–5 đồng hồ tiêu thụ minh bạch thay vì phí ẩn — người mua (và agent) đều ghét bất ngờ hóa đơn.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> [1] Netlify — Mathias Biilmann, <a href="https://www.netlify.com/blog/pricing-netlify-for-3-billion-builders/" target="_blank">The end of seats: pricing Netlify for 3 billion builders</a> (14/04/2026) · [2] <a href="https://www.netlify.com/blog/netlify-for-agents/" target="_blank">Netlify for Agents</a> (22/04/2026). Bối cảnh "ghế → kết quả": xem số <a href="/2026-08-19" target="_blank">19/08</a>.</div>
+  </article>
+
+  <!-- BÀI 2 -->
+  <article class="card" id="bai2">
+    <span class="tag saas">AI trong SaaS</span>
+    <h2 class="head">2 · "12 tính năng ship quý trước, 3 được dùng": tỷ trọng tính năng được dùng rơi 20% → 6% — và một tầng người dùng mới không ai đang đo</h2>
+    <p class="src">Nguồn: Userpilot — James Mitchinson, "How to Improve SaaS Product Adoption in 2026: The Agent-First Playbook" · đăng 15/05/2026, cập nhật 13/08/2026 · bài của hãng công cụ product adoption (có lợi ích thương mại) · <a href="https://userpilot.com/blog/product-adoption-saas/" target="_blank">userpilot.com/blog</a></p>
+
+    <div class="stat">
+      <div class="box"><div class="num">20% → 6%</div><div class="lab">tỷ trọng trung bình tính năng SaaS thực sự được dùng, giảm từ ~20% vài năm trước xuống 6% <a href="https://userpilot.com/blog/product-adoption-saas/" target="_blank">(Userpilot, 2026)</a></div></div>
+      <div class="box"><div class="num">7–9 vs 1–2</div><div class="lab">số tính năng ship mỗi quý hiện nay (CEO Yazan Sehwail) so với "một hai" trước khi AI viết code <a href="https://userpilot.com/blog/product-adoption-saas/" target="_blank">(Userpilot, 2026)</a></div></div>
+      <div class="box"><div class="num">~40%</div><div class="lab">phần mềm SaaS mua về hoàn toàn không được dùng (DN trung bình 130 app, DN lớn 400+) — BetterCloud <a href="https://userpilot.com/blog/product-adoption-saas/" target="_blank">(Userpilot dẫn BetterCloud)</a></div></div>
+    </div>
+
+    <p>Bài mở bằng một hình ảnh quen thuộc với mọi product manager: sáng thứ Hai mở dashboard, quý trước ship 12 tính năng, đúng 3 cái được dùng, phần còn lại "nằm trong UI như đồ nội thất không ai để ý đã được giao tới".<sup><a href="https://userpilot.com/blog/product-adoption-saas/" target="_blank">[3]</a></sup> Con số khiến tác giả — James Mitchinson của Userpilot, người điều hành chương trình nghiên cứu State of SaaS của hãng — "mất ngủ" năm nay là <strong>6%</strong>: tỷ trọng trung bình tính năng SaaS thực sự được dùng, giảm từ khoảng 20% vài năm trước.<sup><a href="https://userpilot.com/blog/product-adoption-saas/" target="_blank">[3]</a></sup> Lưu ý: Userpilot bán chính công cụ đo và thúc đẩy adoption, nên bài vừa là chẩn đoán vừa là quảng cáo (họ chốt bằng sản phẩm riêng: Lia, MCP Server, Agent Analytics). Nhưng cơ chế họ mô tả đáng mổ xẻ.</p>
+
+    <h3 class="sub">Cơ chế 1: tốc độ ship vượt sự chú ý của con người — phép chia không khoan nhượng</h3>
+    <p>CEO Userpilot Yazan Sehwail nói thẳng về cú dịch: <em>"Trước đây mỗi quý bạn ra một hai tính năng, giờ ra 7, 8, 9. Product team càng khó theo dõi từng cái, hiểu usage từng cái, và đặt giả thuyết cho từng cái."</em><sup><a href="https://userpilot.com/blog/product-adoption-saas/" target="_blank">[3]</a></sup></p>
+    <div class="mech"><b>Cơ chế:</b> tỷ lệ dùng-mỗi-tính-năng không rơi vì người dùng lười đi. Nó rơi vì AI đã viết code thật, throughput kỹ thuật gấp ~4×, còn người dùng vẫn có đúng 24 giờ/ngày. Nếu bạn ship gấp 4 mà tổng thời gian chú ý của người dùng không đổi, adoption trung bình mỗi tính năng <em>tự chia cho 4</em>. Cộng thêm bối cảnh: doanh nghiệp trung bình giờ chạy 130 app SaaS, doanh nghiệp lớn hơn 400, và theo BetterCloud ~40% số app đó hoàn toàn không được dùng.<sup><a href="https://userpilot.com/blog/product-adoption-saas/" target="_blank">[3]</a></sup> Đây không phải bài toán "khám phá tính năng" mà bạn tooltip là xong — mà là "không con người nào còn đủ chú ý cho phần lớn phần mềm họ mua".</div>
+
+    <h3 class="sub">Cơ chế 2: một tầng người dùng mới không ai đang đo — AI agent</h3>
+    <p>Luận điểm trung tâm: người dùng không biến mất, mà xuất hiện một <em>lớp người dùng mới</em> chưa được đo — các AI agent hành động thay con người. Bài dẫn Kyle Poyar (Growth Unhinged): prospect ngày càng ở trong "answer engine" AI nhiều hơn ở website bạn, và mua-không-nhấp (zero-click) sẽ đến trước với công cụ lập trình viên và SaaS hàng hóa hóa.<sup><a href="https://userpilot.com/blog/product-adoption-saas/" target="_blank">[3]</a></sup> Chính ở đây bài dẫn một nhận định về Netlify — "đa số lượt đăng ký Netlify giờ là agent, không phải người" — nhưng đây là <em>khẳng định của phía Userpilot/Poyar</em>, không phải số Netlify tự công bố (Netlify chỉ nêu 65% signup là người mới với dev web — xem bài 1).<sup><a href="https://userpilot.com/blog/product-adoption-saas/" target="_blank">[3]</a></sup></p>
+    <p>Wes Bush (ProductLed) đặt tên ba thời kỳ: <strong>PLG 1.0 (do người dẫn) → PLG 2.0 (agentic) → PLG 3.0 (headless)</strong>; adoption cũng theo ba thời kỳ tương ứng: do-người → lai người-agent → agent-first.<sup><a href="https://userpilot.com/blog/product-adoption-saas/" target="_blank">[3]</a></sup> Định nghĩa mới của "adoption" theo bài: không còn là tỷ trọng <em>con người</em> đạt điểm kích hoạt và ở lại, mà là tỷ trọng <em>người dùng (cả người lẫn agent)</em> nhận được kết quả sản phẩm hứa hẹn.<sup><a href="https://userpilot.com/blog/product-adoption-saas/" target="_blank">[3]</a></sup></p>
+
+    <table class="tbl">
+      <tr><th>Thời kỳ</th><th>Adoption đo bằng gì</th><th>"Hào" cạnh tranh nằm ở đâu</th></tr>
+      <tr><td>PLG 1.0 — do người dẫn (đã qua)</td><td>Time-to-value, tỷ lệ kích hoạt, tỷ lệ dùng tính năng — của con người</td><td>UI sạch, có quan điểm; onboarding cá nhân hóa</td></tr>
+      <tr><td>PLG 2.0 — lai (nơi bạn đang đứng)</td><td>Vẫn đo người + thêm "output đầu tiên thành công của agent" làm mốc kích hoạt mới</td><td>Có MCP server/API để agent dùng được không cần người nhấp; có "trung tâm điều khiển agent" trong sản phẩm</td></tr>
+      <tr><td>PLG 3.0 — agent-first (kế tiếp)</td><td>Tỷ lệ thực thi tác vụ &amp; chất lượng kết quả, không phải số nhấp chuột</td><td>Ngữ cảnh độc quyền: workflow lĩnh vực, dữ liệu có cấu trúc, telemetry đánh giá để agent cho kết quả tốt nhất nhanh nhất</td></tr>
+    </table>
+    <p class="src" style="margin-top:2px">Bảng lược từ khung ba thời kỳ của bài gốc (Wes Bush / Userpilot); diễn đạt lại, không trích nguyên văn.</p>
+
+    <h3 class="sub">Cơ chế 3: nhiều "10% adoption" là ảo — vì đo nhầm mẫu số</h3>
+    <div class="mech"><b>Cơ chế:</b> bài chỉ ra một lỗi đo phổ biến khiến tình hình trông tệ hơn thực tế: hầu hết con số "10% adoption" là 10% của <em>tổng</em> người dùng, chứ không phải 10% của người <em>đủ điều kiện</em> dùng tính năng đó (đúng gói, đúng vai trò, đã bật). Chỉ cần định nghĩa lại theo tập đủ-điều-kiện, con số "thường tăng gấp ba".<sup><a href="https://userpilot.com/blog/product-adoption-saas/" target="_blank">[3]</a></sup> Bài học: trước khi kết luận "tính năng chết", hãy sửa mẫu số — rồi mới hỏi "là do sản phẩm hay do onboarding?" (câu này bài nói một PM có công cụ tốt phải trả lời được <em>trong một ngày</em>).</div>
+    <p>Checklist "sẵn sàng adoption 2026" của bài gồm 5 câu hỏi tự kiểm, đáng lấy làm khung: (1) bạn có biết tỷ lệ dùng tính năng <em>thật</em>, chia theo ai đủ điều kiện dùng? (2) một CSM có phân biệt được khách "im vì hài lòng" với "im vì đã bỏ cuộc"? — ticket, login, DAU đều nói dối, chỉ hành vi + session replay là thật; (3) một agent có dùng được sản phẩm bạn <em>đầu-cuối</em> qua MCP/API mà không cần người trong vòng lặp? (4) nếu một tính năng không được dùng, PM chẩn đoán "sản phẩm hay onboarding" trong một ngày được không? (5) bạn đã có định nghĩa "kích hoạt" cho agent chưa?<sup><a href="https://userpilot.com/blog/product-adoption-saas/" target="_blank">[3]</a></sup></p>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn — theo quy mô đội:</strong></div>
+    <div class="scale">
+      <div class="col small">
+        <h4>Đội nhỏ / mới có sản phẩm</h4>
+        <ul>
+          <li>Đừng đua ship 9 tính năng/quý vì AI cho phép; mỗi tính năng thêm là một mẫu số mới chia nhỏ sự chú ý. Ship ít, đo dùng thật.</li>
+          <li>Tính lại adoption trên tập <em>đủ điều kiện</em>, không phải tổng user — có thể bức tranh không tệ như dashboard nói.</li>
+          <li>Thử ngay câu hỏi (3): giao sản phẩm cho một agent (Claude/Codex) làm một tác vụ thật đầu-cuối. Chỗ nó vấp chính là backlog AX của bạn.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Đội có sản phẩm production</h4>
+        <ul>
+          <li>Bổ sung một định nghĩa kích hoạt cho agent ("output đầu tiên thành công qua API/MCP"), song song với kích hoạt của người.</li>
+          <li>Tách chỉ số theo <em>loại người dùng</em>: người vs agent — chúng có hành vi, thời-gian-tới-giá-trị và điểm bỏ cuộc khác nhau.</li>
+          <li>Coi "ngữ cảnh độc quyền" (workflow, dữ liệu có cấu trúc, telemetry) là hào mới thay UI: đó là thứ khiến agent chọn sản phẩm bạn.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> [3] Userpilot — James Mitchinson, <a href="https://userpilot.com/blog/product-adoption-saas/" target="_blank">How to Improve SaaS Product Adoption in 2026: The Agent-First Playbook</a> (15/05/2026, cập nhật 13/08/2026); dẫn Kyle Poyar (Growth Unhinged), Wes Bush (ProductLed), BetterCloud. Bối cảnh "chi phí ẩn của tính năng AI": số <a href="/2026-08-12" target="_blank">12/08</a>; "hoàn tất onboarding ≠ kích hoạt": số <a href="/2026-08-14" target="_blank">14/08</a>.</div>
+  </article>
+
+  <!-- GÓC NHÌN -->
+  <article class="card" id="gocnhin">
+    <span class="tag view">Góc nhìn</span>
+    <h2 class="head">3 · Khi "người dùng" có thể là một agent, cả cách tính tiền lẫn cách đo adoption đều phải xây lại</h2>
+    <p>Hai bài hôm nay là hai mặt của cùng một dịch chuyển: <strong>đối tượng dùng SaaS không còn chỉ là một con người trước bàn phím</strong>. Netlify thấy điều đó ở <em>cửa vào</em> — nên bỏ giá theo ghế và dựng một cửa onboarding riêng cho agent. Userpilot thấy điều đó ở <em>bên trong</em> — nên nói adoption phải định nghĩa lại quanh "kết quả người dùng (người hoặc agent) nhận được", không phải số nhấp chuột.</p>
+    <p>Điểm chung sâu hơn: cả hai thước đo cũ đều bám vào con người. Giá theo ghế đếm <em>đầu người</em>; adoption cổ điển đếm <em>hành vi nhấp chuột của người</em>. Khi một agent có thể là người mở tài khoản, là người "dùng" tính năng, thậm chí là người mua (zero-click), cả hai thước đo bắt đầu nói dối. Lời giải mà cả hai công ty hướng tới trùng nhau đến bất ngờ, và nối thẳng với số <a href="/2026-08-19" target="_blank">19/08</a> (định giá rời "ghế" sang "công việc/kết quả"): <em>chuyển đơn vị đo từ "ai" sang "cái gì được hoàn thành"</em> — tính tiền theo tiêu thụ/kết quả, đo adoption theo tác vụ thực thi thành công.</p>
+    <p>Một cảnh báo tỉnh táo: cả hai nguồn đều bán thứ họ đang cổ vũ (Netlify bán deploy theo tiêu thụ; Userpilot bán công cụ đo adoption + sản phẩm agent). "Đa số signup là agent" vẫn là khẳng định chưa được định lượng công khai. Nhưng ngay cả khi trừ đi phần cường điệu, hướng đi vẫn rõ: nếu ngày mai một phần người dùng của bạn là agent, thì mô hình giá đếm-ghế và dashboard đếm-nhấp của hôm nay sẽ đo sai cả doanh thu lẫn sức khỏe sản phẩm.</p>
+    <p><strong>3 việc nên làm tuần này:</strong></p>
+    <div class="doslist">
+      <div>• Lấy một tính năng bạn nghĩ "adoption thấp" và tính lại trên tập người <em>đủ điều kiện</em> dùng nó; ghi lại con số trước/sau. Rất có thể mẫu số sai chứ không phải tính năng chết.</div>
+      <div>• Giao sản phẩm của bạn cho một coding agent làm một tác vụ thật đầu-cuối (qua API/MCP hoặc chỉ với tài liệu hiện có). Chỗ nó vấp = danh sách việc AX đầu tiên của bạn.</div>
+      <div>• Rà mô hình giá: bao nhiêu % doanh thu thực sự đến từ "đếm đầu người"? Nếu ghế đang kìm lan tỏa nội bộ hơn là tạo thu, thử kịch bản bỏ ghế như Netlify (giữ đo theo tiêu thụ minh bạch).</div>
+    </div>
+  </article>
+
+  <hr class="sep">
+
+  <!-- LƯỢC DỊCH 1 -->
+  <section class="dich" id="dich1">
+    <h2 class="head">📖 Lược dịch chi tiết — "The end of seats" &amp; "Netlify for Agents" (Netlify)</h2>
+    <div class="flag">Bản diễn đạt lại bằng tiếng Việt, bám sát bố cục &amp; số liệu bài gốc — không phải dịch nguyên văn. <a href="https://www.netlify.com/blog/pricing-netlify-for-3-billion-builders/" target="_blank">Bài 1</a> · <a href="https://www.netlify.com/blog/netlify-for-agents/" target="_blank">Bài 2</a></div>
+    <h3>Bỏ giá theo ghế (14/04/2026)</h3>
+    <p>Netlify bỏ giá theo ghế. Gói Pro trước $20/ghế, mỗi ghế hoặc contributor Git thêm $20/tháng; từ nay Pro $20/tháng không giới hạn ghế. Đây là bước đổi mô hình, phản ánh ván cược về cách phần mềm sẽ được viết trong tương lai, và mở rộng khả năng tiếp cận để mọi đội dựng phần mềm không rào cản.</p>
+    <h3>Điều chỉnh đồng hồ đo</h3>
+    <p>Họ điều chỉnh các meter để 98% khách có hóa đơn giữ nguyên hoặc giảm: bandwidth 10 → 20 credit/GB, compute 5 → 10 credit/GB-giờ, web request 3 → 2 credit/10k, form submission miễn phí. Gói credit thêm $10 cho 1.500 credit → bandwidth $0,13/GB, compute $0,07/GB-giờ, web request $0,01/10k. Giá cố tình đơn giản, dễ đoán, không phí ẩn cho cache read/write, biến đổi ảnh, origin bandwidth hay function invocation. Chỉ còn 5 meter minh bạch: Bandwidth, Compute, Web requests, AI inference, Production deploys — và không còn giá theo ghế. Khách trên gói Pro cũ (trước khi có giá theo credit) không bị đổi gì. Với 2% khách dùng bandwidth/compute nặng vượt phần tiết kiệm từ bỏ ghế, Netlify sẽ liên hệ trực tiếp. Đây là quý tốt nhất lịch sử công ty, và họ chọn đánh đổi doanh thu ghế ngắn hạn để gắn thành công của mình với khách.</p>
+    <h3>"3 tỷ lập trình viên"</h3>
+    <p>Coding agent AI đã phá rào cản lớn nhất để dựng phần mềm web: bất kỳ ai trong ~3 tỷ người đang online và đủ thạo để dùng bảng tính giờ cũng dựng được phần mềm cho web. Điều này đổi nghĩa "một đội builder" và biến Netlify từ công cụ cho một nhóm nhỏ lập trình viên tận tụy thành thứ liên quan đến gần như mọi người. Netlify thấy điều này ở chính mình: đội People tự dựng công cụ nội bộ; Finance dựng dashboard và app; đội GTM dựng agent quản lý hành trình khách; support dựng agent và phần mềm hỗ trợ riêng; họ đã thay cả một loạt SaaS mua ngoài bằng giải pháp tự làm. Và ở người dùng mới: 65% trong 40.000 người đăng ký mỗi ngày là người mới với phát triển web, nhiều người kề cận đội dev — từ CMO tới nhà vật lý trị liệu. Giá theo ghế hợp lý khi phần mềm do một nhúm lập trình viên viết; bớt hợp lý khi bất kỳ ai, gồm bất kỳ agent nào, cũng dựng được phần mềm.</p>
+    <h3>Netlify for Agents (22/04/2026)</h3>
+    <p>Netlify ra netlify.ai — website đầu tiên xây cho agent, không cho người. Đây là điểm vào sản phẩm thuần cho agent: một agent dùng netlify.ai để học Netlify hoạt động ra sao, lấy đúng ngữ cảnh, rồi bắt đầu dựng/deploy web app với ít bước cấu hình hơn. Biilmann nhắc essay "AX và vì sao Agent Experience quan trọng" ông viết 01/2025 khi phần lớn người còn gắn AI với chatbot; nay ngày càng nhiều công ty nhận ra agent tự chủ sẽ là một tầng người dùng mới, rất có thể là tầng quan trọng nhất. AX (Agent Experience) là trải nghiệm một AI agent có khi dùng sản phẩm thay mặt con người. Đã xuất hiện sản phẩm xây riêng cho agent như Agent Mail, Moltbook; các công ty nhìn xa đang tuyển đội/chuyên gia AX. Netlify nói sẽ tinh chỉnh AX như đã tinh chỉnh DX suốt một thập kỷ.</p>
+  </section>
+
+  <!-- LƯỢC DỊCH 2 -->
+  <section class="dich" id="dich2">
+    <h2 class="head">📖 Lược dịch chi tiết — The Agent-First Playbook (Userpilot)</h2>
+    <div class="flag">Bản diễn đạt lại bằng tiếng Việt, bám sát bố cục &amp; số liệu bài gốc — không phải dịch nguyên văn. <a href="https://userpilot.com/blog/product-adoption-saas/" target="_blank">Bài gốc</a></div>
+    <h3>Vấn đề: adoption đang gặp rắc rối, phần lớn đội vờ như không</h3>
+    <p>Hình dung một PM sáng thứ Hai mở dashboard: quý trước ship 12 tính năng, 3 cái được dùng, phần còn lại nằm trong UI như đồ nội thất không ai để ý. Con số ám ảnh năm nay là 6% — tỷ trọng trung bình tính năng SaaS thực sự được dùng, giảm từ ~20% vài năm trước. Velocity kỹ thuật gấp ba, sự chú ý của con người thì không, và cách cải thiện adoption 2026 không còn giống 2022.</p>
+    <h3>Hai việc xảy ra song song</h3>
+    <p>Thứ nhất, AI bắt đầu viết code production thật. CEO Yazan Sehwail: trước ra một hai tính năng mỗi quý, giờ ra 7, 8, 9 — càng khó theo dõi usage và đặt giả thuyết cho từng cái. Ship gấp 4 mà người dùng vẫn 24 giờ/tuần thì adoption mỗi tính năng chia cho 4; phép toán không khoan nhượng. Thứ hai, doanh nghiệp trung bình chạy 130 app SaaS, doanh nghiệp lớn hơn 400; theo BetterCloud ~40% số đó hoàn toàn không dùng — không phải bài toán khám phá, mà là "không ai còn chú ý cho phần lớn phần mềm đã mua".</p>
+    <h3>Tầng người dùng mới: AI agent</h3>
+    <p>Người dùng không biến mất; xuất hiện một lớp mới chưa ai đo — agent hành động thay con người. Kyle Poyar (Growth Unhinged): prospect ở trong answer engine AI nhiều hơn ở website bạn; mua-không-nhấp sẽ đến trước với công cụ lập trình viên và SaaS hàng hóa hóa; và họ không chỉ mua mà còn dùng — theo Poyar, đa số signup Netlify giờ là agent (lưu ý: đây là khẳng định phía Userpilot/Poyar, không phải số Netlify tự công bố). Wes Bush (ProductLed): PLG 1.0 (do người) → 2.0 (agentic) → 3.0 (headless); adoption theo ba thời kỳ: do-người → lai → agent-first. Định nghĩa mới: adoption là tỷ trọng người dùng (người và agent) nhận được kết quả sản phẩm hứa hẹn. Hào mới không phải UI mà là độ sâu ngữ cảnh (dữ liệu, workflow, ý định có cấu trúc) bạn trao cho agent dùng sản phẩm thay người dùng.</p>
+    <h3>Chiến lược từng thời kỳ &amp; checklist sẵn sàng</h3>
+    <p>PLG 1.0: dựng UI sạch có quan điểm, cá nhân hóa onboarding theo use case người chọn khi đăng ký, đo time-to-value/kích hoạt/tỷ lệ dùng tính năng, giảm ma sát bằng tooltip/checklist/resource center. PLG 2.0 (nơi bạn đang đứng): giữ mọi thứ cho người + thêm MCP server/API để agent dùng không cần người nhấp + thêm "trung tâm điều khiển agent" trong sản phẩm để người thấy agent đã làm gì và vì sao + định nghĩa lại kích hoạt là "output agent thành công đầu tiên" thay vì độ dài phiên — "gấp đôi việc, đó là cái giá của việc đi sớm". PLG 3.0 (kế tiếp): giao diện sống ở nơi người dùng ở (Slack, CRM, Cloud Cowork) chứ không trong sản phẩm bạn; adoption đo bằng tỷ lệ thực thi tác vụ và chất lượng kết quả; hào là ngữ cảnh độc quyền; kênh acquisition gồm answer engine LLM và chợ agentic. Checklist 5 câu: biết tỷ lệ dùng tính năng thật theo tập đủ-điều-kiện (đa số "10%" là 10% tổng user, không phải 10% người đủ điều kiện — sửa lại thường gấp ba); phân biệt "im vì hài lòng" với "im vì bỏ cuộc" (ticket/login/DAU đều nói dối); agent có dùng được sản phẩm đầu-cuối qua MCP/API không; PM có chẩn đoán "sản phẩm hay onboarding" trong một ngày không; đã có định nghĩa kích hoạt cho agent chưa.</p>
+    <h3>Tactic cho người vẫn còn giá trị</h3>
+    <p>Onboarding theo ngữ cảnh, in-app messaging (tooltip, walkthrough, changelog — tốt cho người, vô dụng với agent), thu thập feedback, self-serve vẫn cho lift cao nhất với người. Userpilot kể chuyện nội bộ về Workflows (điều phối onboarding đa kênh): trước mỗi chiến dịch phải xin segment thủ công từ đội khác, giờ tự tạo một segment thời gian thực dùng cho mọi kênh, không cần ticket kỹ thuật. <em>Lưu ý nguồn:</em> bài do Userpilot — hãng bán công cụ product adoption — viết; phần cuối gắn sản phẩm riêng (Lia, MCP Server, Agent Analytics).</p>
+  </section>
+
+  <div class="refs" style="margin-top:26px">
+    <strong>Nguồn tham khảo toàn số:</strong><br>
+    [1] Netlify — Mathias Biilmann, <a href="https://www.netlify.com/blog/pricing-netlify-for-3-billion-builders/" target="_blank">The end of seats: pricing Netlify for 3 billion builders</a> (14/04/2026)<br>
+    [2] Netlify — Mathias Biilmann, <a href="https://www.netlify.com/blog/netlify-for-agents/" target="_blank">Netlify for Agents</a> (22/04/2026)<br>
+    [3] Userpilot — James Mitchinson, <a href="https://userpilot.com/blog/product-adoption-saas/" target="_blank">How to Improve SaaS Product Adoption in 2026: The Agent-First Playbook</a> (15/05/2026, cập nhật 13/08/2026); dẫn Kyle Poyar (Growth Unhinged), Wes Bush (ProductLed), BetterCloud<br>
+    <em>Các đoạn "Cơ chế", bảng ba-thời-kỳ và khuyến nghị theo quy mô đội là phần biên tập tổng hợp minh họa, không trích nguyên văn từ nguồn. Cả hai nguồn có lợi ích thương mại; số phản ánh quan sát của họ.</em>
+  </div>
+
+  <div class="foot"><a href="/" style="color:#4338ca;text-decoration:none">← Về trang bìa lưu trữ</a></div>
+</div>
+</body>
+</html>
