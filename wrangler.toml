@@ -4,9 +4,18 @@
 # => link tuyet doi /2026-08-07 va / deu dung; Cloudflare tu hieu URL khong duoi .html.
 
 name = "ban-tin-sang-saas"
+main = "worker.js"                 # NÂNG: assets-only -> assets + script nhỏ (/api + chèn reader.js)
 compatibility_date = "2026-08-05"
 
 [assets]
 directory = "./site/"
+binding = "ASSETS"                 # để worker.js gọi env.ASSETS.fetch()
 # Tra ve 404 khi khong tim thay trang (thay vi phuc vu nham file khac)
 not_found_handling = "none"
+run_worker_first = true            # worker chạy trước để chèn reader.js vào mọi trang HTML
+
+# D1: nơi lưu highlight + favourite (đã tạo bằng: wrangler d1 create bantin-reader)
+[[d1_databases]]
+binding = "DB"
+database_name = "bantin-reader"
+database_id = "db855b51-fc04-4ea8-8c19-f7f3ec3505df"
