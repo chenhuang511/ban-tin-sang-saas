@@ -348,7 +348,9 @@
     popover.id = "uh-pop";
     popover.innerHTML =
       (h && h.note ? '<div class="uh-pop-note">📝 ' + escapeHtml(h.note) + "</div>" : "") +
-      '<button class="uh-del">🗑 Xoá highlight</button>';
+      '<div class="uh-pop-actions">' +
+      (h ? '<button class="uh-share1">🔗 Chia sẻ</button>' : "") +
+      '<button class="uh-del">🗑 Xoá</button></div>';
     document.body.appendChild(popover);
     var rect = mark.getBoundingClientRect();
     popover.style.top = window.scrollY + rect.bottom + 6 + "px";
@@ -357,6 +359,8 @@
       unpaint(id); removeHighlightLocal(id); removePopover();
       if (apiAvailable) pushDirty();
     });
+    var sb = popover.querySelector(".uh-share1");
+    if (sb) sb.addEventListener("click", function () { shareOne(h); removePopover(); });
   }
   function removePopover() { if (popover) { popover.remove(); popover = null; } }
 
@@ -394,11 +398,21 @@
   function b64EncodeUnicode(str) { return btoa(unescape(encodeURIComponent(str))); }
   function b64DecodeUnicode(str) { return decodeURIComponent(escape(atob(str))); }
 
-  function buildShareUrl() {
+  function shareUrlFor(list) {
     var base = location.origin + location.pathname;
-    var hs = getHighlights().map(function (h) { return { q: h.quote, p: h.prefix, s: h.suffix, a: h.anchorId, c: h.color }; });
+    var hs = (list || []).map(function (h) { return { q: h.quote, p: h.prefix, s: h.suffix, a: h.anchorId, c: h.color }; });
     if (!hs.length) return base;
     return base + "?hl=" + encodeURIComponent(b64EncodeUnicode(JSON.stringify(hs)));
+  }
+  function buildShareUrl() { return shareUrlFor(getHighlights()); }
+  function shareOne(h) {
+    if (!h) return;
+    var url = shareUrlFor([h]);
+    if (navigator.share) {
+      navigator.share({ title: document.title, url: url }).catch(function () { copyText(url).then(function () { toast("Đã copy link đoạn này"); }); });
+    } else {
+      copyText(url).then(function () { toast("Đã copy link đoạn này"); }).catch(function () { prompt("Copy link đoạn này:", url); });
+    }
   }
   function copyText(txt) {
     if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(txt);
@@ -447,7 +461,11 @@
       var range = restoreRange({ quote: o.q, prefix: o.p, suffix: o.s, anchorId: o.a, color: o.c });
       if (range) { paintShared(range, o.c); painted++; }
     });
-    if (painted) { sharedData = arr; showSharedBanner(painted); }
+    if (painted) {
+      sharedData = arr; showSharedBanner(painted);
+      var first = document.querySelector("mark.uh-shared");
+      if (first) setTimeout(function () { first.scrollIntoView({ behavior: "smooth", block: "center" }); }, 120);
+    }
   }
   function showSharedBanner(n) {
     var b = document.createElement("div"); b.id = "uh-sharebanner";
@@ -483,7 +501,9 @@
       + '#uh-toolbar .uh-note{background:#333;color:#fff;border:none;border-radius:6px;padding:2px 7px;cursor:pointer;font-size:14px}'
       + '#uh-pop{position:absolute;z-index:9999;background:#fff;border:1px solid #e5e7eb;border-radius:10px;box-shadow:0 4px 14px rgba(0,0,0,.18);padding:8px 10px;font-size:13px;max-width:260px}'
       + '#uh-pop .uh-pop-note{margin-bottom:6px;color:#374151}'
+      + '#uh-pop .uh-pop-actions{display:flex;gap:8px}'
       + '#uh-pop .uh-del{background:#fef2f2;color:#b91c1c;border:1px solid #fecaca;border-radius:7px;padding:4px 10px;cursor:pointer;font-size:13px}'
+      + '#uh-pop .uh-share1{background:#ecfeff;color:#0e7490;border:1px solid #a5f3fc;border-radius:7px;padding:4px 10px;cursor:pointer;font-size:13px}'
       + '#uh-fav{margin-left:8px;font-size:13px;background:#fff1f2;color:#e11d48;border:1px solid #fecdd3;border-radius:20px;padding:6px 14px;cursor:pointer}'
       + '#uh-fav.on{background:#e11d48;color:#fff;border-color:#e11d48}'
       + '#uh-collink{margin-left:8px;font-size:13px;background:#eef2ff;color:#4338ca;border-radius:20px;padding:6px 14px;text-decoration:none}'
