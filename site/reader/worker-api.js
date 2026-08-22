@@ -38,6 +38,18 @@ export async function handleApi(request, env) {
   const path = url.pathname.replace(/^\/api/, "");
   const email = getEmail(request, env);
 
+  // Điểm chạm đăng nhập: vì /api/* bị Cloudflare Access chặn, mở URL này sẽ kích hoạt
+  // trang đăng nhập Google; sau khi đăng nhập, Access cho qua và ta redirect về `next`.
+  if (path === "/login") {
+    const next = url.searchParams.get("next") || "/";
+    const dest = (next.startsWith("/") && !next.startsWith("//")) ? next : "/";
+    return Response.redirect(new URL(dest, url.origin).toString(), 302);
+  }
+  // Đăng xuất (tiện dụng): xoá phiên Access rồi về trang chủ.
+  if (path === "/logout") {
+    return Response.redirect(new URL("/cdn-cgi/access/logout", url.origin).toString(), 302);
+  }
+
   if (!email) return json({ error: "unauthenticated" }, 401);
   if (!env.DB) return json({ error: "no_database_binding" }, 500);
 

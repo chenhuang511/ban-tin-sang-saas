@@ -17,6 +17,14 @@ async function handleApi(request, env) {
   const url = new URL(request.url);
   const path = url.pathname.replace(/^\/api/, "");
   const email = getEmail(request, env);
+  if (path === "/login") {
+    const next = url.searchParams.get("next") || "/";
+    const dest = next.startsWith("/") && !next.startsWith("//") ? next : "/";
+    return Response.redirect(new URL(dest, url.origin).toString(), 302);
+  }
+  if (path === "/logout") {
+    return Response.redirect(new URL("/cdn-cgi/access/logout", url.origin).toString(), 302);
+  }
   if (!email) return json({ error: "unauthenticated" }, 401);
   if (!env.DB) return json({ error: "no_database_binding" }, 500);
   try {

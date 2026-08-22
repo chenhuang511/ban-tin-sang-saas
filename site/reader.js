@@ -401,6 +401,11 @@
       + '#uh-fav{margin-left:8px;font-size:13px;background:#fff1f2;color:#e11d48;border:1px solid #fecdd3;border-radius:20px;padding:6px 14px;cursor:pointer}'
       + '#uh-fav.on{background:#e11d48;color:#fff;border-color:#e11d48}'
       + '#uh-collink{margin-left:8px;font-size:13px;background:#eef2ff;color:#4338ca;border-radius:20px;padding:6px 14px;text-decoration:none}'
+      + '#uh-auth{position:fixed;right:14px;bottom:14px;z-index:9998;display:flex;align-items:center;gap:9px;font-size:13px;background:#111;color:#fff;border-radius:22px;padding:8px 14px;box-shadow:0 4px 14px rgba(0,0,0,.28)}'
+      + '#uh-auth a{color:#fff;text-decoration:none}'
+      + '#uh-auth .uh-who{max-width:190px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}'
+      + '#uh-auth .uh-logout{background:#374151;border-radius:14px;padding:3px 10px;font-size:12px}'
+      + '#uh-auth .uh-login{font-weight:600}'
       + 'mark.uh{padding:0}';
     var st = document.createElement("style");
     st.textContent = css;
@@ -408,12 +413,32 @@
   }
 
   // ---- Khởi động -----------------------------------------------------------
+  // Thanh trạng thái nổi: đã đăng nhập → hiện email + nút Đăng xuất; chưa → nút Đăng nhập.
+  function mountAuthBar() {
+    var ex = document.getElementById("uh-auth");
+    if (ex) ex.remove();
+    var wrap = document.createElement("div");
+    wrap.id = "uh-auth";
+    if (apiAvailable) {
+      var email = localStorage.getItem(LS_EMAIL) || "";
+      wrap.innerHTML =
+        '<span class="uh-who" title="' + escapeHtml(email) + '">👤 ' + escapeHtml(email || "đã đăng nhập") + '</span>' +
+        '<a class="uh-logout" href="' + API_BASE + '/logout">Đăng xuất</a>';
+    } else {
+      wrap.innerHTML =
+        '<a class="uh-login" href="' + API_BASE + '/login?next=' + encodeURIComponent(location.pathname + location.search) + '"' +
+        ' title="Đăng nhập Google để lưu highlight & yêu thích trên mọi thiết bị">🔐 Đăng nhập để đồng bộ</a>';
+    }
+    document.body.appendChild(wrap);
+  }
+
   function init() {
     injectCSS();
     mountFavButton();
     renderAll();          // tô ngay từ local
     sync().then(function () {
       renderAll();        // tô thêm phần kéo từ server (nếu có)
+      mountAuthBar();     // hiện email + đăng xuất, hoặc nút đăng nhập
     });
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);

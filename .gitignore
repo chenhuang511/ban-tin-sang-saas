@@ -8,3 +8,7 @@ auto-deploy.log
 # Rac
 node_modules/
 *.tmp
+
+# Wrangler build cache / state local (khong day len repo)
+.wrangler/
+site/reader/.wrangler/

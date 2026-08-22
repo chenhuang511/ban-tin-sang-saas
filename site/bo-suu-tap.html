@@ -20,7 +20,9 @@ h2.sec{font-size:16px;text-transform:uppercase;letter-spacing:.08em;color:#6b728
 .favgrid{display:flex;flex-wrap:wrap;gap:10px}
 .favcard{display:block;background:#fff;border:1px solid #eee;border-radius:12px;padding:14px 16px;text-decoration:none;color:inherit;min-width:200px;flex:1;box-shadow:0 1px 3px rgba(0,0,0,.05)}
 .favcard .d{font-size:12px;font-weight:700;color:#e11d48;letter-spacing:.05em}
-.favcard .t{font-size:14px;margin-top:4px;color:#1a1a2e}
+.favcard .t{font-size:14px;margin-top:4px;color:#1a1a2e;line-height:1.35;font-weight:600}
+.favcard .ftags{margin-top:8px;display:flex;flex-wrap:wrap;gap:5px}
+.favcard .ftags span{font-size:11px;background:#f0eefb;color:#5b34c4;border-radius:20px;padding:2px 9px}
 .hlgroup{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:14px 18px;margin:12px 0}
 .hlgroup h3{margin:0 0 8px;font-size:15px}
 .hlgroup h3 a{color:#4338ca;text-decoration:none}
@@ -71,6 +73,23 @@ h2.sec{font-size:16px;text-transform:uppercase;letter-spacing:.08em;color:#6b728
     return {favs:favs, hls:hls, source:"local"};
   }
 
+  // Bản đồ page -> {href,title,tags} lấy từ trang bìa
+  var META={};
+  function fmtDate(p){var m=/^(\d{4})-(\d{2})-(\d{2})/.exec(p||"");return m?(m[3]+"/"+m[2]+"/"+m[1]):(p||"");}
+  function metaOf(p){return META[p]||{href:"/"+p,title:p,tags:[]};}
+  function loadMeta(){
+    return fetch("/").then(function(r){return r.text();}).then(function(html){
+      var doc=new DOMParser().parseFromString(html,"text/html");var map={};
+      [].forEach.call(doc.querySelectorAll(".edcard"),function(a){
+        var href=a.getAttribute("href")||"";var p=href.replace(/^\//,"").replace(/\.html$/,"");
+        var h2=a.querySelector("h2");
+        var tags=[].map.call(a.querySelectorAll(".tag"),function(t){return t.textContent.trim();});
+        map[p]={href:href||("/"+p),title:h2?h2.textContent.trim():p,tags:tags};
+      });
+      return map;
+    }).catch(function(){return {};});
+  }
+
   function render(data){
     // favourites
     var favEl = document.getElementById("favs");
@@ -78,7 +97,11 @@ h2.sec{font-size:16px;text-transform:uppercase;letter-spacing:.08em;color:#6b728
     else{
       data.favs.sort(function(a,b){return (b.created_at||0)-(a.created_at||0);});
       favEl.innerHTML = data.favs.map(function(f){
-        return '<a class="favcard" href="/'+esc(f.page)+'"><div class="d">'+esc(f.page)+'</div><div class="t">Mở số này →</div></a>';
+        var m=metaOf(f.page);
+        return '<a class="favcard" href="'+esc(m.href)+'"><div class="d">❤ '+esc(fmtDate(f.page))+'</div>'+
+               '<div class="t">'+esc(m.title)+'</div>'+
+               (m.tags.length?'<div class="ftags">'+m.tags.map(function(t){return '<span>'+esc(t)+'</span>';}).join("")+'</div>':'')+
+               '</a>';
       }).join("");
     }
     // highlights grouped by page
@@ -92,11 +115,15 @@ h2.sec{font-size:16px;text-transform:uppercase;letter-spacing:.08em;color:#6b728
         return '<div class="hlitem '+colorClass(h.color)+'"><div class="q">“'+esc(h.quote)+'”</div>'+
                (h.note?'<div class="n">📝 '+esc(h.note)+'</div>':'')+'</div>';
       }).join("");
-      return '<div class="hlgroup"><h3><a href="/'+esc(p)+'">'+esc(p)+'</a> · '+byPage[p].length+' đoạn</h3>'+items+'</div>';
+      var m=metaOf(p);
+      return '<div class="hlgroup"><h3><a href="'+esc(m.href)+'">'+esc(fmtDate(p))+' — '+esc(m.title)+'</a> · '+byPage[p].length+' đoạn</h3>'+items+'</div>';
     }).join("");
   }
 
   function boot(){
+    loadMeta().then(function(m){ META=m; boot2(); });
+  }
+  function boot2(){
     var R = window.BTSReader;
     var statusEl = document.getElementById("status");
     // Thử server trước; nếu không có, dùng local.
