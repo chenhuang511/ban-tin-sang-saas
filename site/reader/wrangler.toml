@@ -2,19 +2,20 @@
 # Gộp phần [[d1_databases]] vào wrangler.toml hiện có của bạn (nếu đã có Worker).
 
 name = "bantin-site"
-main = "reader/worker.example.js"    # hoặc worker hiện tại của bạn
+main = "worker.example.js"           # đường dẫn tương đối với file wrangler.toml này (trong reader/)
 compatibility_date = "2026-08-01"
 
-# Static assets (nếu phục vụ site qua Worker). Bỏ nếu bạn dùng GitHub Pages riêng.
-# [assets]
-# directory = "."
-# binding = "ASSETS"
+# Static assets: phục vụ cả site để test full-stack bằng `wrangler dev`.
+# directory = ".." nghĩa là thư mục site/ (cha của reader/).
+[assets]
+directory = ".."
+binding = "ASSETS"
 
 [[d1_databases]]
 binding = "DB"                       # -> env.DB trong worker-api.js
 database_name = "bantin-reader"
 database_id = "db855b51-fc04-4ea8-8c19-f7f3ec3505df"   # lấy từ: wrangler d1 create bantin-reader
 
-# Dev cục bộ (KHÔNG dùng cho production — production lấy email từ Cloudflare Access):
-# [vars]
-# DEV_EMAIL = "ban@example.com"
+# Dev cục bộ (CHỈ dùng khi `wrangler dev` — production BỎ dòng này, lấy email từ Cloudflare Access):
+[vars]
+DEV_EMAIL = "hoangtd.ptd@gmail.com"
