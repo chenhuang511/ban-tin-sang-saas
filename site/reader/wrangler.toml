@@ -13,7 +13,7 @@ compatibility_date = "2026-08-01"
 [[d1_databases]]
 binding = "DB"                       # -> env.DB trong worker-api.js
 database_name = "bantin-reader"
-database_id = "PASTE_D1_DATABASE_ID_HERE"   # lấy từ: wrangler d1 create bantin-reader
+database_id = "db855b51-fc04-4ea8-8c19-f7f3ec3505df"   # lấy từ: wrangler d1 create bantin-reader
 
 # Dev cục bộ (KHÔNG dùng cho production — production lấy email từ Cloudflare Access):
 # [vars]
