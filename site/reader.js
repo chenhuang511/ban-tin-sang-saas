@@ -13,6 +13,9 @@
 (function () {
   "use strict";
 
+  if (window.__btsReaderLoaded) return;   // chống nạp trùng (nếu vừa có <script> vừa được Worker chèn)
+  window.__btsReaderLoaded = true;
+
   var API_BASE = "/api";          // Worker route; đổi nếu deploy khác origin
   var COLORS = [
     { key: "y", name: "Vàng",  bg: "#fef08a" },
@@ -371,7 +374,7 @@
     if (!backbar || PAGE === "index" || PAGE === "bo-suu-tap") return;
     var btn = document.createElement("button");
     btn.id = "uh-fav";
-    function refresh() { btn.innerHTML = (isFav() ? "★ Đã lưu" : "☆ Lưu số này"); btn.classList.toggle("on", isFav()); }
+    function refresh() { btn.innerHTML = (isFav() ? "♥ Đã thích" : "♡ Yêu thích"); btn.classList.toggle("on", isFav()); btn.title = (isFav() ? "Bỏ khỏi mục yêu thích" : "Thêm vào mục yêu thích để đọc lại / chia sẻ"); }
     btn.addEventListener("click", function () { setFav(!isFav()); refresh(); });
     backbar.appendChild(btn);
     // link tới Bộ sưu tập
@@ -395,8 +398,8 @@
       + '#uh-pop{position:absolute;z-index:9999;background:#fff;border:1px solid #e5e7eb;border-radius:10px;box-shadow:0 4px 14px rgba(0,0,0,.18);padding:8px 10px;font-size:13px;max-width:260px}'
       + '#uh-pop .uh-pop-note{margin-bottom:6px;color:#374151}'
       + '#uh-pop .uh-del{background:#fef2f2;color:#b91c1c;border:1px solid #fecaca;border-radius:7px;padding:4px 10px;cursor:pointer;font-size:13px}'
-      + '#uh-fav{margin-left:8px;font-size:13px;background:#fff7ed;color:#c2410c;border:1px solid #fed7aa;border-radius:20px;padding:6px 14px;cursor:pointer}'
-      + '#uh-fav.on{background:#c2410c;color:#fff;border-color:#c2410c}'
+      + '#uh-fav{margin-left:8px;font-size:13px;background:#fff1f2;color:#e11d48;border:1px solid #fecdd3;border-radius:20px;padding:6px 14px;cursor:pointer}'
+      + '#uh-fav.on{background:#e11d48;color:#fff;border-color:#e11d48}'
       + '#uh-collink{margin-left:8px;font-size:13px;background:#eef2ff;color:#4338ca;border-radius:20px;padding:6px 14px;text-decoration:none}'
       + 'mark.uh{padding:0}';
     var st = document.createElement("style");

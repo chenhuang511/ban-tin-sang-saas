@@ -19,7 +19,7 @@ h1{font-size:28px;margin:6px 0 6px;font-weight:800;letter-spacing:-.02em}
 h2.sec{font-size:16px;text-transform:uppercase;letter-spacing:.08em;color:#6b7280;margin:28px 0 12px;border-bottom:1px solid #e5e7eb;padding-bottom:6px}
 .favgrid{display:flex;flex-wrap:wrap;gap:10px}
 .favcard{display:block;background:#fff;border:1px solid #eee;border-radius:12px;padding:14px 16px;text-decoration:none;color:inherit;min-width:200px;flex:1;box-shadow:0 1px 3px rgba(0,0,0,.05)}
-.favcard .d{font-size:12px;font-weight:700;color:#c2410c;letter-spacing:.05em}
+.favcard .d{font-size:12px;font-weight:700;color:#e11d48;letter-spacing:.05em}
 .favcard .t{font-size:14px;margin-top:4px;color:#1a1a2e}
 .hlgroup{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:14px 18px;margin:12px 0}
 .hlgroup h3{margin:0 0 8px;font-size:15px}
@@ -38,12 +38,12 @@ h2.sec{font-size:16px;text-transform:uppercase;letter-spacing:.08em;color:#6b728
   <header class="masthead">
     <div class="kicker">Bản tin sáng · Cá nhân</div>
     <h1>🔖 Bộ sưu tập của bạn</h1>
-    <div class="meta">Số đã lưu &amp; các đoạn bạn đã bôi — đồng bộ dài hạn qua tài khoản.</div>
+    <div class="meta">Số yêu thích &amp; các đoạn bạn đã bôi — đồng bộ dài hạn qua tài khoản.</div>
   </header>
 
   <div class="status" id="status">Đang tải…</div>
 
-  <h2 class="sec">★ Số đã lưu</h2>
+  <h2 class="sec">♥ Số yêu thích</h2>
   <div class="favgrid" id="favs"></div>
 
   <h2 class="sec">✎ Highlight theo số</h2>
@@ -74,7 +74,7 @@ h2.sec{font-size:16px;text-transform:uppercase;letter-spacing:.08em;color:#6b728
   function render(data){
     // favourites
     var favEl = document.getElementById("favs");
-    if(!data.favs.length){ favEl.innerHTML='<div class="empty">Chưa lưu số nào. Mở một số và bấm “☆ Lưu số này”.</div>'; }
+    if(!data.favs.length){ favEl.innerHTML='<div class="empty">Chưa có số yêu thích nào. Mở một số và bấm “♡ Yêu thích”.</div>'; }
     else{
       data.favs.sort(function(a,b){return (b.created_at||0)-(a.created_at||0);});
       favEl.innerHTML = data.favs.map(function(f){
