@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>"Model không phải vấn đề, hệ thống quanh nó mới là": 73 sự cố agent production theo 6 tầng &amp; quy trình bảo mật cho startup · 23/08/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.dich{background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;padding:16px 20px;margin-top:16px}
+.dich .flag{font-size:12.5px;color:#94a3b8;font-style:italic;margin-bottom:8px}
+.dich h3{font-size:16px;margin:14px 0 4px}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 23/08/2026 · bản chi tiết</div>
+    <h1 class="title">"Model không phải vấn đề — hệ thống quanh nó mới là": 73 sự cố agent production theo 6 tầng &amp; cách một startup dựng quy trình phần mềm an toàn</h1>
+    <div class="meta">23/08/2026 · Thời lượng đọc ~20 phút · Nguồn: Sherlocks AI — Akshat Sandhaliya, "The Agent Failure Stack" (05/06/2026); DeepStrike — Mohammed Khalil, "DevSecOps Statistics 2026" (cập nhật 28/07/2026)</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: số này viết ở dạng "đậm cơ chế" — mỗi con số cố gắng kèm một tầng <em>nghĩa là gì / vì sao khó / làm thế nào</em>. Các đoạn nhãn <b style="color:#1e40af">Cơ chế</b>, bảng ánh xạ và khuyến nghị theo quy mô đội là phần <strong>biên tập tổng hợp từ thực hành phổ biến</strong>, KHÔNG trích nguyên văn từ nguồn; mọi con số vẫn dẫn nguồn nội dòng. Cả hai nguồn hôm nay đều là bên có lợi ích thương mại (Sherlocks bán nền tảng AI SRE/quan sát agent; DeepStrike bán dịch vụ kiểm thử xâm nhập) — số phản ánh dữ liệu &amp; góc nhìn của họ, đã ghi caveat tại chỗ. Bài này KHÔNG chèn khối code minh họa; mọi ý kỹ thuật diễn đạt bằng lời.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1">73 sự cố agent thật, xếp theo 6 tầng: vì sao agent "hỏng bằng câu trả lời đúng cú pháp" chứ không bằng lỗi</a></li>
+      <li><a href="#bai2">Bảng thống kê DevSecOps 2026: startup nên siết cái gì trước để quy trình phần mềm an toàn (lộ trình 30/90/365 ngày)</a></li>
+      <li><a href="#gocnhin">Góc nhìn: cùng một câu — "trưởng thành không đo bằng số công cụ, mà bằng thứ đến được đích"</a></li>
+      <li><a href="#dich1">📖 Lược dịch — The Agent Failure Stack (Sherlocks AI)</a></li>
+      <li><a href="#dich2">📖 Lược dịch — DevSecOps Statistics 2026 (DeepStrike)</a></li>
+    </ol>
+  </nav>
+
+  <!-- BÀI 1 -->
+  <article class="card" id="bai1">
+    <span class="tag view">An toàn &amp; độ tin cậy · agent production</span>
+    <h2 class="head">1 · 73 sự cố agent trong môi trường thật, xếp theo 6 tầng: agent "hỏng bằng câu trả lời", không bằng lỗi 500</h2>
+    <p class="src">Nguồn: Sherlocks AI — Akshat Sandhaliya (đồng sáng lập &amp; CTO), "Why AI Agents Fail in Production: The Agent Failure Stack Explained" (05/06/2026) · phân tích cấp một trên dữ liệu sự cố của khách · hãng bán nền tảng AI SRE (có lợi ích thương mại) · <a href="https://www.sherlocks.ai/blog/why-ai-agents-fail-in-production" target="_blank">sherlocks.ai/blog</a></p>
+
+    <div class="stat">
+      <div class="box"><div class="num">73 sự cố</div><div class="lab">agent trong môi trường production của khách, phân tích từ 01→05/2026 (thật, không phải mô phỏng/staging) <a href="https://www.sherlocks.ai/blog/why-ai-agents-fail-in-production" target="_blank">(Sherlocks, 2026)</a></div></div>
+      <div class="box"><div class="num">4,2 giờ vs 54 phút</div><div class="lab">MTTR trung bình khi thiếu "reasoning trace" (tầng quan sát), so với khi có kiểm tra schema tại biên <a href="https://www.sherlocks.ai/blog/why-ai-agents-fail-in-production" target="_blank">(Sherlocks, 2026)</a></div></div>
+      <div class="box"><div class="num">88%</div><div class="lab">POC AI không bao giờ lên production — cứ 33 pilot chỉ 4 "tốt nghiệp" (IDC qua CIO.com) <a href="https://www.cio.com/article/3850763/88-of-ai-pilots-fail-to-reach-production-but-thats-not-all-on-it.html" target="_blank">(IDC/CIO)</a></div></div>
+    </div>
+
+    <p>Debug một hệ thống truyền thống là chuyện quen: API hỏng thì trả 500, service timeout thì ném exception — bạn biết có thứ gãy và biết đại khái ở đâu. Agent thì khác về chất. Theo Sherlocks — một hãng làm "AI SRE" (điều tra sự cố tự động) — agent thường trả về <em>phản hồi hợp lệ, đúng định dạng, nhưng sai về mặt ngữ cảnh</em>: một tool call thành công nhưng dùng schema cũ; một truy hồi lấy dữ liệu từ nhầm cửa sổ ngữ cảnh; một bước lập kế hoạch chạy đúng nhưng giải sai bài toán con.<sup><a href="https://www.sherlocks.ai/blog/why-ai-agents-fail-in-production" target="_blank">[1]</a></sup> Không có gì crash, không alert nào bắn. Câu tóm tắt của họ đáng ghim: <em>"Hệ thống truyền thống hỏng bằng lỗi. Agent hỏng bằng câu trả lời."</em><sup><a href="https://www.sherlocks.ai/blog/why-ai-agents-fail-in-production" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao monitoring cũ "mù" với sự cố agent:</b> giám sát truyền thống theo dõi <em>cái gì gãy</em> (mã lỗi, độ trễ, saturation). Nó không có khái niệm về <em>cái gì sai</em>. Khi agent trả JSON đẹp với nội dung sai ngữ cảnh, mọi tín hiệu hạ tầng vẫn xanh: API 200, ghi DB bình thường, telemetry checkout xanh. Thứ đi sai nằm ở <em>tầng suy luận</em> — agent "nghĩ" nó đang làm gì — mà log/trace tiêu chuẩn chưa từng được thiết kế để ghi lại. Không đọc được vì sao agent ra quyết định, bạn không thể phân biệt "câu trả lời đúng" với "câu trả lời sai nhưng nghe hợp lý".<sup><a href="https://www.sherlocks.ai/blog/why-ai-agents-fail-in-production" target="_blank">[1]</a></sup></p></div>
+
+    <h3 class="sub">Dữ liệu 73 sự cố: hỏng không tụ ở một điểm, mà "xếp tầng"</h3>
+    <p>Từ tháng 1 đến tháng 5/2026, đội Sherlocks phân tích 73 sự cố agent trong môi trường khách hàng thật và xếp theo một khung 6 tầng ("Agent Failure Stack"). Điểm mấu chốt: lỗi không nằm gọn một tầng — chúng <em>chồng lên nhau</em>.<sup><a href="https://www.sherlocks.ai/blog/why-ai-agents-fail-in-production" target="_blank">[1]</a></sup></p>
+
+    <table class="tbl">
+      <tr><th>Tầng hỏng</th><th>Tần suất</th><th>MTTD (phát hiện)</th><th>MTTR (khắc phục)</th></tr>
+      <tr><td>1 · Tool-call &amp; lệch schema</td><td>31%</td><td>18 phút</td><td>54 phút</td></tr>
+      <tr><td>2 · Chất lượng truy hồi / ngữ cảnh</td><td>26%</td><td>34 phút</td><td>41 phút</td></tr>
+      <tr><td>3 · Trí nhớ &amp; trôi mạch dài</td><td>9%</td><td>62 phút</td><td>78 phút</td></tr>
+      <tr><td>4 · Lập kế hoạch &amp; phân rã tác vụ</td><td>19%</td><td>28 phút</td><td>67 phút</td></tr>
+      <tr><td>5 · Vi phạm ranh giới quyền</td><td>5%</td><td>11 phút</td><td>23 phút</td></tr>
+      <tr><td>6 · Hỏng khâu quan sát</td><td>10%</td><td>—</td><td>4,2 giờ</td></tr>
+    </table>
+    <p class="src" style="margin-top:2px">Nguồn số liệu: Sherlocks Incident Data, 01–05/2026, n=73 <a href="https://www.sherlocks.ai/blog/why-ai-agents-fail-in-production" target="_blank">(sherlocks.ai)</a>; bảng diễn đạt lại tiếng Việt, không trích nguyên văn.</p>
+
+    <p>Ba điều nổi lên. Thứ nhất, <strong>tool-call là cửa vào phổ biến nhất (31%) nhưng gần như không bao giờ đi một mình</strong>: trong 61% sự cố nhiều-tầng, một lỗi truy hồi ở tầng 2 mới là nguyên nhân thượng nguồn khiến tool-call ở tầng 1 sai — agent không gọi nhầm công cụ, nó gọi <em>đúng</em> công cụ với <em>ngữ cảnh sai</em>.<sup><a href="https://www.sherlocks.ai/blog/why-ai-agents-fail-in-production" target="_blank">[1]</a></sup> Thứ hai, <strong>hỏng khâu quan sát (tầng 6) không có chỉ số MTTD</strong> — vì theo định nghĩa nó không có cơ chế phát hiện: đội chỉ biết có chuyện qua một tín hiệu nghiệp vụ hạ nguồn (ticket hỗ trợ, sai lệch hóa đơn, khách phàn nàn), và MTTR trung bình nhóm này là 4,2 giờ, so với 54 phút cho lỗi tool-call có kiểm tra schema.<sup><a href="https://www.sherlocks.ai/blog/why-ai-agents-fail-in-production" target="_blank">[1]</a></sup> Thứ ba, <strong>trôi trí nhớ (tầng 3) có MTTD dài nhất (62 phút)</strong> và khó tái hiện nhất: một agent lạc mục tiêu giữa chuỗi vẫn sinh ra output "nghe hợp lý khi đứng riêng", chỉ lộ khi truy lại toàn bộ mạch suy luận từ đầu.<sup><a href="https://www.sherlocks.ai/blog/why-ai-agents-fail-in-production" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — "hỏng xếp tầng" nghĩa là gì với người vận hành:</b> một lỗi truy hồi ở tầng 2 kéo ngữ cảnh cũ; tầng lập kế hoạch (4) phân rã tác vụ dựa trên ngữ cảnh đó; tool call ở tầng 1 thực thi <em>đúng</em> so với kế hoạch <em>sai</em>; output trông hợp lệ, không tầng nào bắn alert. Đến lúc ai đó nhận ra kết quả cuối sai thì lỗi đã đi qua ba tầng, mỗi tầng đều "có vẻ chạy đúng". Hệ quả thực hành: bạn không thể debug tầng 4 mà không biết ngữ cảnh tầng 2 lúc đó ra sao — và nếu tầng 6 (quan sát) cũng thiếu, bạn chẳng có bản ghi nào của cả hai. Đây là lý do "model thông minh hơn" không tự cứu được: vấn đề là <em>khả năng lần lại chuỗi quyết định</em>, không phải độ khôn của một bước.</div>
+
+    <h3 class="sub">Mổ xẻ một case: agent thanh toán báo "thành công" cho giao dịch không bao giờ hoàn tất</h3>
+    <p>Ví dụ cụ thể của bài: một agent thanh toán trong luồng checkout. 2:47 chiều, người dùng bấm trả tiền, agent trả về xác nhận <em>thành công</em>. Giao dịch không bao giờ hoàn tất, không lỗi nào được ném. Monitoring xanh hết: API trả 200, ghi DB bình thường. Chỉ đến khi một ticket hỗ trợ đến (MTTD 23 phút) mới lộ.<sup><a href="https://www.sherlocks.ai/blog/why-ai-agents-fail-in-production" target="_blank">[1]</a></sup></p>
+    <p>Nguyên nhân sau khi điều tra: cổng thanh toán được cập nhật schema lúc 2:30 chiều. Phản hồi mới lồng trạng thái thật ("declined / insufficient_funds") vào một trường bên trong, kèm <em>http_status: 200</em> ở tầng ngoài. Agent chỉ đọc trường ngoài "200" rồi dừng — nó không có lớp xác thực hợp đồng để kiểm trường trạng thái lồng bên trong. <strong>Một thất bại tài chính được ghi nhận như một thành công vận hành.</strong> Mọi bước hạ nguồn — email xác nhận, tạo đơn, cập nhật tồn kho — chạy bình thường trên nền một giao dịch chưa bao giờ thanh toán được.<sup><a href="https://www.sherlocks.ai/blog/why-ai-agents-fail-in-production" target="_blank">[1]</a></sup></p>
+    <div class="mech"><b>Đổi ĐÚNG cái gì → kết quả ra sao (before/after):</b> đây là lỗi tầng 1 (tool-call/schema) <em>cộng gộp</em> lỗi tầng 6 (quan sát). Tổng MTTR: 71 phút, 34 giao dịch bị ảnh hưởng.<sup><a href="https://www.sherlocks.ai/blog/why-ai-agents-fail-in-production" target="_blank">[1]</a></sup> Điểm sửa: một lớp xác thực hợp đồng ở biên (validate hình dạng phản hồi trước khi cho vào ngữ cảnh agent) sẽ bắt lệch schema ngay ở lần gọi đầu — <em>17 phút trước khi ticket đầu tiên đến</em>. Con số so sánh của Sherlocks: sự cố có kiểm tra schema tại chỗ khép trong trung bình 54 phút; không có, trung bình vượt bốn tiếng.<sup><a href="https://www.sherlocks.ai/blog/why-ai-agents-fail-in-production" target="_blank">[1]</a></sup> Bài học không phải "mua model xịn hơn" mà "pin &amp; validate mọi hợp đồng API mà agent phụ thuộc, coi như dependency có phiên bản, không phải giả định".</div>
+
+    <h3 class="sub">Ba tính chất của một agent "sống được" ở production</h3>
+    <p>Bài chốt ba tính chất không thể thiếu, và điểm hay là chúng đều là tính chất <em>kỹ thuật hệ thống</em> chứ không phải tính chất của model: <strong>(1) phạm vi có giới hạn</strong> — agent không thể hành động ngoài vai trò của nó (đây vừa là tính an toàn vừa là tính debug-được: một agent "làm gì cũng được" là một agent bạn không thể suy luận về nó); <strong>(2) hành vi quan sát được</strong> — mọi quyết định lần lại được, không chỉ hành động mà cả lý do; <strong>(3) suy giảm có kiểm soát</strong> — khi không chắc, agent thất bại <em>an toàn và lộ ra</em>, không im lặng đưa ra một câu trả lời sai đầy tự tin.<sup><a href="https://www.sherlocks.ai/blog/why-ai-agents-fail-in-production" target="_blank">[1]</a></sup> Kèm sáu "tín hiệu vàng" nên đo cho agent thay cho bốn tín hiệu hạ tầng cổ điển: tỷ lệ hoàn thành mục tiêu, tỷ lệ tool thành công (khớp schema chứ không chỉ trả 200), điểm chất lượng ngữ cảnh, độ đầy đủ của reasoning trace, tỷ lệ leo thang cho người, và tỷ lệ ảo giác.<sup><a href="https://www.sherlocks.ai/blog/why-ai-agents-fail-in-production" target="_blank">[1]</a></sup></p>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn — theo quy mô đội:</strong></div>
+    <div class="scale">
+      <div class="col small">
+        <h4>Đội nhỏ / startup đưa agent đầu tiên ra production</h4>
+        <ul>
+          <li>Làm tầng 6 (quan sát) <em>trước</em> khi viết logic agent: ghi "reasoning trace" (agent nghĩ gì ở mỗi bước) song song với log hành động. Không ghi được ý định thì đừng ship.</li>
+          <li>Rào rẻ nhất, hiệu quả nhất: validate hình dạng phản hồi API tại biên trước khi cho vào ngữ cảnh (case thanh toán trên là hậu quả trực tiếp của việc bỏ bước này).</li>
+          <li>Đặt trần vòng lặp (bài gợi ý ~5 vòng trước một bước đánh giá bắt buộc) và một checkpoint mục tiêu mỗi vài bước — kế hoạch sai mà chạy hoàn hảo vẫn là kế hoạch sai.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Đội chạy agent ở quy mô / có hành động thật</h4>
+        <ul>
+          <li>Chấm điểm chất lượng truy hồi và log kèm quyết định hạ nguồn: 61% sự cố nhiều-tầng có gốc ở tầng 2, không sửa được nếu không nhìn thấy ngữ cảnh lúc đó.</li>
+          <li>Tầng 5 (quyền) là bắt buộc với agent hành động thật: chạy tool trong sandbox tạm thời, quyền IAM tối thiểu, mọi hành động log theo một chính sách quyền tường minh — không phải "dặn agent đừng làm".</li>
+          <li>Nếu MTTR cao, gần như chắc nút thắt là tầng 6: nếu điều tra lâu hơn cả sửa, bạn không có vấn đề agent — bạn có vấn đề quan sát.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> [1] Sherlocks AI — Akshat Sandhaliya, <a href="https://www.sherlocks.ai/blog/why-ai-agents-fail-in-production" target="_blank">Why AI Agents Fail in Production: The Agent Failure Stack Explained</a> (05/06/2026); dẫn IDC qua <a href="https://www.cio.com/article/3850763/88-of-ai-pilots-fail-to-reach-production-but-thats-not-all-on-it.html" target="_blank">CIO.com</a> (88% POC), McKinsey State of AI 2025 (&lt;20% pilot lên production trong 18 tháng), Gartner (30% dự án GenAI bị bỏ trước cuối 2025). Bối cảnh "lỗi thầm lặng / fail-plausible": số <a href="/2026-08-19" target="_blank">19/08</a>; sự cố agent xoá dữ liệu &amp; ranh giới quyền: số <a href="/2026-08-20" target="_blank">20/08</a>.</div>
+  </article>
+
+  <!-- BÀI 2 -->
+  <article class="card" id="bai2">
+    <span class="tag saas">An toàn thông tin · secure SDLC cho startup</span>
+    <h2 class="head">2 · Bảng thống kê DevSecOps 2026: startup nên siết cái gì trước — và vì sao "có công cụ" chưa phải "trưởng thành"</h2>
+    <p class="src">Nguồn: DeepStrike — Mohammed Khalil, "DevSecOps Statistics 2026: Shift-Left, AppSec Gaps &amp; Testing Trends" · đăng 07/06/2026, cập nhật 28/07/2026 · tổng hợp có nhãn nguồn từ Veracode/Synopsys/Datadog/Snyk/Sonatype/Edgescan/GitLab · hãng bán dịch vụ pentest (có lợi ích thương mại) · <a href="https://deepstrike.io/blog/devsecops-statistics" target="_blank">deepstrike.io/blog</a></p>
+
+    <div class="stat">
+      <div class="box"><div class="num">156%</div><div class="lab">tăng năm-trên-năm số gói mã nguồn mở độc hại (Sonatype State of the Software Supply Chain) <a href="https://deepstrike.io/blog/devsecops-statistics" target="_blank">(DeepStrike dẫn Sonatype)</a></div></div>
+      <div class="box"><div class="num">63%</div><div class="lab">tổ chức từng dùng credential sống-lâu (long-lived) trong pipeline CI/CD (Datadog State of DevSecOps) <a href="https://deepstrike.io/blog/devsecops-statistics" target="_blank">(DeepStrike dẫn Datadog)</a></div></div>
+      <div class="box"><div class="num">35 ngày</div><div class="lab">MTTR trung bình để vá một lỗ hổng nghiêm trọng của ứng dụng web (Edgescan) <a href="https://deepstrike.io/blog/devsecops-statistics" target="_blank">(DeepStrike dẫn Edgescan)</a></div></div>
+    </div>
+
+    <p>Nếu bài 1 nói về độ tin cậy của agent, bài này nói về mặt còn lại của cùng một đồng xu: <strong>bảo mật của quy trình sản xuất phần mềm</strong>, đặc biệt cho startup SaaS đang phải vừa ship nhanh vừa qua được cửa SOC 2 / kỳ vọng của khách doanh nghiệp. DeepStrike — một hãng pentest — tổng hợp loạt số 2024–2026, có nhãn nguồn từng con, và luận điểm xuyên suốt trùng khớp một cách thú vị với Sherlocks: <em>"Trưởng thành DevSecOps không đo bằng số công cụ. Câu hỏi quyết định là liệu các phát hiện rủi ro cao có đi từ phát hiện → khắc phục → xác minh lại hay không."</em><sup><a href="https://deepstrike.io/blog/devsecops-statistics" target="_blank">[2]</a></sup></p>
+
+    <h3 class="sub">Bức tranh: chuỗi cung ứng &amp; secret là nơi rủi ro dồn lại</h3>
+    <p>Một vài số đáng ghim (mỗi số kèm nguồn gốc trong bài): 156% tăng gói OSS độc hại năm-trên-năm và 80% dependency ứng dụng không được nâng cấp quá một năm (Sonatype); 74% codebase chứa ít nhất một lỗ hổng OSS rủi ro cao và 91% dùng thành phần trễ hơn 10 phiên bản (Synopsys OSSRA); 63% tổ chức từng dùng credential sống-lâu trong CI/CD và 38% triển khai AWS còn phụ thuộc thao tác thủ công (Datadog); 52% đội <em>thường xuyên trễ</em> hạn SLA vá lỗ hổng (Snyk); 35 ngày MTTR trung bình cho lỗ hổng web nghiêm trọng (Edgescan); và 97% tổ chức đang dùng hoặc dự định dùng AI trong SDLC (GitLab).<sup><a href="https://deepstrike.io/blog/devsecops-statistics" target="_blank">[2]</a></sup></p>
+    <div class="mech"><b>Cơ chế — vì sao "trễ SLA 52%" và "35 ngày" nguy hiểm hơn vẻ ngoài:</b> tìm ra lỗ hổng dễ hơn nhiều so với vá đúng hạn. Khi 52% đội thường trễ hạn và một lỗ hổng web nghiêm trọng sống trung bình 35 ngày, cửa sổ khai thác không phải lý thuyết — đó là khoảng thời gian thật mà một CVE đã biết vẫn mở. Cộng thêm 91% codebase dùng thành phần trễ &gt;10 phiên bản: phần lớn "nợ" này không phải lỗ hổng zero-day, mà là <em>lỗ hổng đã biết</em> tồn tại vì kỷ luật nâng cấp yếu. Đó là lý do bài nhấn "MTTR cho phát hiện nghiêm trọng nên là chỉ số ban lãnh đạo nhìn thấy" — biến tốc độ vá thành một con số có chủ.<sup><a href="https://deepstrike.io/blog/devsecops-statistics" target="_blank">[2]</a></sup></div>
+
+    <h3 class="sub">Cạm bẫy "shift-left": rất cần, nhưng không đủ</h3>
+    <p>Hơn 50% đội đã chạy SAST trong CI/CD (Practical DevSecOps), nhưng bài cảnh báo: <strong>áp dụng công cụ không đồng nghĩa trưởng thành</strong>. Shift-left (dời bảo mật lên sớm: threat modeling khi thiết kế, SAST/SCA ở pull request, quét secret trước commit, quét IaC trước deploy) giảm bất ngờ cuối chặng, nhưng nếu đội không ưu tiên và giải quyết được các phát hiện, nó biến thành "di dời cảnh báo" chứ không phải "giảm rủi ro".<sup><a href="https://deepstrike.io/blog/devsecops-statistics" target="_blank">[2]</a></sup> Rủi ro runtime (phân quyền API sai, cấu hình cloud lệch, lạm dụng logic nghiệp vụ) chỉ lộ khi mã, API, cloud, danh tính và hành vi người dùng vận hành cùng nhau — nên phải ghép shift-left với xác minh runtime (shift-right) và kiểm thử thủ công.<sup><a href="https://deepstrike.io/blog/devsecops-statistics" target="_blank">[2]</a></sup></p>
+    <div class="mech"><b>Cơ chế — bảo mật cho chính tính năng AI:</b> 97% tổ chức đưa AI vào SDLC nghĩa là code do AI sinh, gợi ý dependency của AI, và mẫu mã bất an trở thành một bề mặt rủi ro mới. Bài khuyến nghị coi "package hallucination" (AI bịa tên gói không tồn tại → kẻ xấu đăng ký đúng tên đó để chèn backdoor) và mã AI sinh như đầu vào <em>không đáng tin</em>: phải qua secure code review, SCA, quét secret, test và xác minh thủ công ở luồng rủi ro cao — không mặc định tin vì "AI viết ra".<sup><a href="https://deepstrike.io/blog/devsecops-statistics" target="_blank">[2]</a></sup> Đây chính là cầu nối sang bài 1: một agent lập trình cũng là một "nhà cung cấp" mà bạn phải validate ở biên.</div>
+
+    <h3 class="sub">Startup nên làm gì trước: lộ trình 30 / 90 / 365 ngày</h3>
+    <p>Phần thực hành nhất của bài là một lộ trình theo mốc thời gian — hợp với đội nhỏ vì nó xếp thứ tự "làm gì trước". Diễn đạt lại gọn:<sup><a href="https://deepstrike.io/blog/devsecops-statistics" target="_blank">[2]</a></sup></p>
+    <table class="tbl">
+      <tr><th>Mốc</th><th>Việc ưu tiên (theo bài)</th></tr>
+      <tr><td><strong>30 ngày đầu</strong></td><td>Kiểm kê ứng dụng &amp; API trọng yếu; bật quét secret trên mọi repo &amp; CI/CD; ép branch protection + bắt buộc review code; rà quyền CI/CD, gỡ token cũ; lập danh sách app trọng yếu &amp; chủ sở hữu dịch vụ; đặt SLA khắc phục cho lỗi nghiêm trọng/cao; dựng mạng lưới "security champion" nhẹ.</td></tr>
+      <tr><td><strong>90 ngày</strong></td><td>Bổ sung SAST/SCA/DAST/IaC ở chỗ còn thiếu; kiểm thử bảo mật cho API trọng yếu; rà cấu hình cloud/IaC; thêm threat modeling cho luồng rủi ro cao; đặt cổng bảo mật <em>theo rủi ro</em> (không chặn mù); triage lỗi nghiêm trọng hằng tuần; bắt đầu retest sau vá; dựng dashboard chỉ số AppSec.</td></tr>
+      <tr><td><strong>365 ngày</strong></td><td>Chuyển sang xác minh liên tục cho app trọng yếu; pentest hằng năm cho web/API trọng yếu; sinh SBOM cho mọi build lớn; siết CI/CD bằng least-privilege + ký artifact; đưa phản hồi runtime vào issue tracker; red team cho chương trình đã chín; rà ngoại lệ bảo mật hằng quý &amp; báo cáo rủi ro cho lãnh đạo.</td></tr>
+    </table>
+    <p class="src" style="margin-top:2px">Bảng lược từ mục "First 30/90 days / 12 months" của bài gốc; diễn đạt lại, không trích nguyên văn.</p>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn — theo quy mô đội:</strong></div>
+    <div class="scale">
+      <div class="col small">
+        <h4>Startup SaaS &lt; 10 người, chưa có đội bảo mật</h4>
+        <ul>
+          <li>Ưu tiên tuyệt đối 2 thứ rẻ &amp; chặn được sự cố lớn nhất: quét secret (chặn credential rò rỉ) + SCA đầy đủ cây dependency (chặn OSS độc/lỗi). Đây là 2 mục "Critical" của bài.</li>
+          <li>Đặt SLA khắc phục + retest sau vá ngay từ đầu; "tìm ra" mà không "vá &amp; xác minh lại" thì chỉ tạo cảnh báo, không giảm rủi ro.</li>
+          <li>Với khách doanh nghiệp hỏi SOC 2: một pentest hằng năm là thứ họ hỏi trước; layer shift-left (threat modeling, SAST) thêm dần khi đội lớn.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Đội đã có sản phẩm production</h4>
+        <ul>
+          <li>Chuyển chỉ số từ "đếm alert" sang <em>kết quả</em>: MTTR lỗi nghiêm trọng, tỷ lệ retest đạt, tỷ lệ khai thác được (exploitability), backlog nợ bảo mật theo mức độ.</li>
+          <li>Siết chuỗi cung ứng: SBOM cho mọi build lớn, allowlist gói, quét cây dependency bắc cầu; 156% tăng gói độc và 91% thành phần trễ &gt;10 phiên bản là rủi ro thật.</li>
+          <li>Với tính năng AI/agent: đưa code AI sinh &amp; gợi ý dependency vào đúng luồng review/SCA như code người; đừng cấp ngoại lệ vì "AI viết".</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> [2] DeepStrike — Mohammed Khalil, <a href="https://deepstrike.io/blog/devsecops-statistics" target="_blank">DevSecOps Statistics 2026: Shift-Left, AppSec Gaps &amp; Testing Trends</a> (07/06/2026, cập nhật 28/07/2026); tổng hợp có nhãn nguồn từ <a href="https://www.veracode.com/state-of-software-security/" target="_blank">Veracode SoSS</a>, <a href="https://www.synopsys.com/software-integrity/resources/analyst-reports/open-source-security-risk-analysis.html" target="_blank">Synopsys OSSRA</a>, <a href="https://www.datadoghq.com/state-of-devsecops/" target="_blank">Datadog</a>, <a href="https://snyk.io/reports/" target="_blank">Snyk</a>, <a href="https://www.sonatype.com/state-of-the-software-supply-chain" target="_blank">Sonatype</a>, <a href="https://www.edgescan.com/reports/" target="_blank">Edgescan</a>, GitLab. Bối cảnh secure SDLC / agent security: số song song An toàn thông tin <a href="/2026-08-09-baomat" target="_blank">09/08</a>; sự cố agent &amp; ranh giới quyền: số <a href="/2026-08-20" target="_blank">20/08</a>.</div>
+  </article>
+
+  <!-- GÓC NHÌN -->
+  <article class="card" id="gocnhin">
+    <span class="tag view">Góc nhìn</span>
+    <h2 class="head">3 · Cùng một câu, nói hai lần: "trưởng thành không đo bằng số công cụ/độ khôn của model, mà bằng thứ đến được đích"</h2>
+    <p>Hai bài hôm nay đến từ hai hãng khác nhau, một về độ tin cậy agent, một về bảo mật quy trình — nhưng lập luận gốc trùng nhau đến mức đáng chú ý. Sherlocks: agent hỏng <em>không phải vì model yếu, mà vì hệ thống quanh nó chưa hoàn chỉnh</em> — thiếu quan sát, thiếu phạm vi, thiếu xử lý thất bại.<sup><a href="https://www.sherlocks.ai/blog/why-ai-agents-fail-in-production" target="_blank">[1]</a></sup> DeepStrike: bảo mật <em>không đo bằng số công cụ, mà bằng việc rủi ro cao có đi từ phát hiện → vá → xác minh lại hay không</em>.<sup><a href="https://deepstrike.io/blog/devsecops-statistics" target="_blank">[2]</a></sup> Cả hai đều đang nói: <strong>năng lực thô (model khôn hơn, thêm một scanner) không phải thứ tạo ra hệ thống đáng tin — quy trình, rào chắn và xác minh mới là.</strong></p>
+    <p>Điểm nối sâu hơn với các số gần đây: 20/08 cho thấy agent lập trình xoá dữ liệu thật vì "ý định đúng nhưng thảm hoạ ở tầng dưới" (shell, cờ DB); 19/08 cho thấy lỗi "fail-plausible" chỉ LLM mới có. Bài 1 hôm nay đặt tên và <em>lượng hoá</em> chính hiện tượng đó thành một bảng 6 tầng với MTTD/MTTR. Còn bài 2 nhắc: khi 97% tổ chức đã đưa AI vào SDLC, thì code AI sinh — và agent lập trình — cũng là một "nhà cung cấp" cần validate ở biên, đúng như một dependency OSS. Sợi chỉ chung: bề mặt tin cậy đang dịch từ "chọn model/công cụ tốt" sang "dựng khớp nối, rào chắn và bằng chứng quanh nó".</p>
+    <p>Một cảnh báo tỉnh táo: cả hai nguồn đều bán thứ họ đang cổ vũ (Sherlocks bán nền tảng quan sát agent; DeepStrike bán pentest). Dữ liệu 73 sự cố là của riêng khách Sherlocks, chưa được bên thứ ba kiểm chứng; các số của DeepStrike là tổng hợp từ báo cáo bên khác, nên hãy đọc như "bản đồ định hướng" chứ không phải chuẩn mực tuyệt đối. Nhưng ngay cả khi trừ đi phần cường điệu, hướng hành động vẫn rõ và rẻ để bắt đầu.</p>
+    <p><strong>3 việc nên làm tuần này:</strong></p>
+    <div class="doslist">
+      <div>• Chọn một agent (hoặc luồng có AI) đang chạy production và hỏi: nếu nó trả "thành công" sai lúc 2 giờ sáng, mình biết trong bao lâu? Nếu câu trả lời là "tới khi khách phàn nàn", thêm reasoning trace + validate schema tại biên trước.</div>
+      <div>• Bật quét secret trên mọi repo &amp; CI/CD nếu chưa có, và gỡ token sống-lâu — đây là mục "Critical, 30 ngày" rẻ nhất mà chặn được loại sự cố tốn kém nhất.</div>
+      <div>• Đặt (hoặc rà lại) MTTR cho lỗ hổng nghiêm trọng &amp; tỷ lệ retest sau vá thành chỉ số lãnh đạo nhìn thấy; đổi câu hỏi từ "có bao nhiêu alert" sang "bao nhiêu rủi ro cao đã đóng &amp; xác minh".</div>
+    </div>
+  </article>
+
+  <hr class="sep">
+
+  <!-- LƯỢC DỊCH 1 -->
+  <section class="dich" id="dich1">
+    <h2 class="head">📖 Lược dịch chi tiết — "The Agent Failure Stack" (Sherlocks AI)</h2>
+    <div class="flag">Bản diễn đạt lại bằng tiếng Việt, bám sát bố cục &amp; số liệu bài gốc — không phải dịch nguyên văn. <a href="https://www.sherlocks.ai/blog/why-ai-agents-fail-in-production" target="_blank">Bài gốc</a></div>
+    <h3>Tóm lược &amp; khoảng cách demo → production</h3>
+    <p>Agent hỏng ở production không phải vì model yếu, mà vì hệ thống quanh nó chưa hoàn chỉnh. Theo IDC (qua CIO.com), 88% POC AI không bao giờ đạt quy mô production — cứ 33 pilot chỉ 4 tốt nghiệp; nguyên nhân gốc gần như không bao giờ là độ chính xác model, mà là không lần lại được vì sao agent ra quyết định. Hầu hết đội cho agent hoàn thành một tác vụ trong demo được; rắc rối bắt đầu khi agent chạy trên hệ thống thật, dữ liệu thật, điều kiện đổi liên tục. Agent hỏng lặng lẽ: trả output nhìn đúng nhưng sai ngữ cảnh, theo các bước có vẻ hợp lệ nhưng dẫn tới kết quả sai; đến lúc ai đó nhận ra thì còn rất ít tín hiệu để giải thích chuyện gì đã xảy ra.</p>
+    <h3>Agent khác phần mềm truyền thống ở đâu</h3>
+    <p>Hệ truyền thống hỏng bằng lỗi bạn định vị được (500, exception). Agent trả phản hồi hợp lệ, đúng định dạng nhưng sai về ngữ nghĩa: tool call thành công với schema cũ; truy hồi lấy nhầm cửa sổ ngữ cảnh; bước lập kế hoạch chạy đúng nhưng giải sai bài toán con. Không gì crash, không alert. Monitoring truyền thống theo dõi cái gì gãy, không có khái niệm cái gì sai — khoảng trống quan sát 2026 không phải thiếu dữ liệu (đa số đội có quá nhiều telemetry) mà là không nhìn thấy tầng suy luận nơi quyết định của agent thực sự xảy ra.</p>
+    <h3>Dữ liệu 73 sự cố (01–05/2026)</h3>
+    <p>Đội Sherlocks phân tích 73 sự cố agent thật trong môi trường khách, xếp theo 6 tầng: (1) tool-call &amp; lệch schema 31%, MTTD 18', MTTR 54'; (2) truy hồi &amp; chất lượng ngữ cảnh 26%, 34', 41'; (3) trí nhớ &amp; trôi mạch dài 9%, 62', 78'; (4) lập kế hoạch &amp; phân rã 19%, 28', 67'; (5) vi phạm ranh giới quyền 5%, 11', 23'; (6) hỏng khâu quan sát 10%, MTTD không có, MTTR 4,2 giờ. Tool-call là cửa vào phổ biến nhất nhưng hiếm khi đi một mình: 61% sự cố nhiều-tầng có gốc là lỗi truy hồi tầng 2 khiến tool-call tầng 1 sai — agent gọi đúng công cụ với ngữ cảnh sai. Hỏng khâu quan sát không có MTTD vì không có cơ chế phát hiện; đội chỉ biết qua tín hiệu nghiệp vụ hạ nguồn (ticket, sai hóa đơn, khách phàn nàn), MTTR 4,2 giờ so với 54 phút khi có kiểm tra schema. Trôi trí nhớ có MTTD dài nhất &amp; khó tái hiện nhất.</p>
+    <h3>Case agent thanh toán &amp; hỏng xếp tầng</h3>
+    <p>Một agent thanh toán trả "thành công" lúc 2:47 chiều nhưng giao dịch không hoàn tất, không lỗi nào ném; monitoring xanh (API 200, ghi DB bình thường). Cổng thanh toán cập nhật schema lúc 2:30: phản hồi mới lồng trạng thái thật ("declined / insufficient_funds") bên trong kèm http_status 200 bên ngoài. Agent chỉ đọc "200" rồi dừng, không có lớp xác thực hợp đồng kiểm trường lồng — một thất bại tài chính ghi nhận như thành công vận hành; email xác nhận, tạo đơn, cập nhật tồn kho đều chạy trên nền giao dịch chưa thanh toán. Tổng MTTR 71 phút, 34 giao dịch bị ảnh hưởng; nếu có xác thực schema, lỗi sẽ bắn trong 17 phút trước ticket đầu tiên. Ở production, lỗi hiếm khi ở lại một tầng: một lỗi tầng 2 kéo ngữ cảnh cũ, tầng 4 phân rã sai, tầng 1 chạy đúng so với kế hoạch sai, output trông hợp lệ — 61% sự cố gốc tầng 2 kéo theo lỗi thứ cấp ở tầng 1 hoặc 4.</p>
+    <h3>Tín hiệu vàng, ba tính chất &amp; cách phòng</h3>
+    <p>Sáu tín hiệu nên đo cho agent: tỷ lệ hoàn thành mục tiêu, tỷ lệ tool thành công (khớp schema, không chỉ 200), điểm chất lượng ngữ cảnh, độ đầy đủ reasoning trace, tỷ lệ leo thang cho người, tỷ lệ ảo giác. Ba tính chất của agent production-ready: phạm vi có giới hạn, hành vi quan sát được, suy giảm có kiểm soát (thất bại an toàn &amp; lộ ra thay vì im lặng đưa câu trả lời sai tự tin). Sáu bước phòng: dựng reasoning trace trước khi viết logic lõi; pin &amp; validate schema công cụ ngoài tại biên; chấm điểm &amp; log chất lượng truy hồi kèm quyết định; đặt trần vòng lặp (~5 vòng) &amp; checkpoint mục tiêu mỗi ~3 bước; ép least-privilege &amp; log mọi hành động theo chính sách quyền tường minh (sandbox tạm thời cho agent quản hạ tầng); dựng đường leo thang cho người ở mọi agent chạm hệ thống production. Ưu tiên theo giai đoạn: agent đầu tiên → tầng 6 trước; chạy ở quy mô → tầng 2 &amp; 4; agent hành động thật → tầng 5; MTTR cao → nút thắt gần như chắc là tầng 6.</p>
+  </section>
+
+  <!-- LƯỢC DỊCH 2 -->
+  <section class="dich" id="dich2">
+    <h2 class="head">📖 Lược dịch chi tiết — "DevSecOps Statistics 2026" (DeepStrike)</h2>
+    <div class="flag">Bản diễn đạt lại bằng tiếng Việt, bám sát bố cục &amp; số liệu bài gốc — không phải dịch nguyên văn. <a href="https://deepstrike.io/blog/devsecops-statistics" target="_blank">Bài gốc</a></div>
+    <h3>Luận điểm &amp; các số then chốt</h3>
+    <p>Câu hỏi cốt lõi 2026 không còn là "đội có công cụ bảo mật không", mà "phát hiện rủi ro cao có được ưu tiên, vá, retest và ngăn tái phát không". Loạt số (có nhãn nguồn): 82% tổ chức mang nợ bảo mật &amp; 36% tăng năm-trên-năm lỗ hổng rủi ro cao (Veracode SoSS); 74% codebase chứa ≥1 lỗ hổng OSS rủi ro cao &amp; 91% dùng thành phần trễ &gt;10 phiên bản (Synopsys OSSRA); 38% triển khai AWS còn thủ công, 63% từng dùng credential sống-lâu trong CI/CD, 71% AWS &amp; 55% GCP đang dùng IaC (Datadog); 45% từng thay một thành phần build có lỗ hổng trong 2024 &amp; 52% thường trễ SLA vá (Snyk); 97% dùng/dự định dùng AI trong SDLC (GitLab); 156% tăng gói OSS độc hại năm-trên-năm &amp; 80% dependency không nâng cấp quá một năm (Sonatype); 35 ngày MTTR trung bình lỗ hổng web nghiêm trọng (Edgescan); hơn 50% đội chạy SAST trong CI/CD (Practical DevSecOps). Thông điệp: trưởng thành đo bằng việc rủi ro cao đi từ phát hiện đến khắc phục &amp; xác minh, không đo bằng số công cụ.</p>
+    <h3>Định nghĩa &amp; vì sao DevSecOps quan trọng 2026</h3>
+    <p>DevSecOps là tích hợp bảo mật vào toàn vòng đời phát triển: threat modeling, secure coding, test tự động &amp; thủ công, kiểm tra lúc build, cổng deploy, giám sát runtime, quy trình khắc phục, retest, vòng phản hồi về đội kỹ thuật. Secure SDLC là quy trình bảo mật hình thức; DevSecOps là phiên bản liên tục, tự động, gắn vào kỹ thuật của nó. Shift-left dời bảo mật lên sớm (thiết kế, code, pull request, CI/CD); shift-right xác minh cái đã deploy (giám sát, runtime, pentest). Ứng dụng hiện đại đổi nhanh hơn chu kỳ kiểm thử truyền thống; cloud-native, API, gói bên thứ ba, code hỗ trợ AI, container, IaC đều mở rộng bề mặt tấn công.</p>
+    <h3>Xu hướng: shift-left cần nhưng chưa đủ; AI đổi rủi ro AppSec</h3>
+    <p>Nhiều tổ chức đã dùng SAST/SCA/DAST/quét secret/quét IaC/quét container, nhưng áp dụng không phải trưởng thành: chương trình chín có chủ sở hữu, SLA, luật triage, cổng bảo mật, chỉ số &amp; retest; chương trình non có công cụ mà không có đường tin cậy từ phát hiện tới vá. Shift-left giảm bất ngờ cuối chặng nhưng có thể tạo cảnh báo nhiễu; nếu không ưu tiên &amp; giải quyết được, nó thành "di dời cảnh báo". Runtime &amp; shift-right ngày càng quan trọng vì rủi ro chỉ lộ khi mọi thứ vận hành cùng nhau. Trợ lý AI tăng tốc giao hàng nhưng cần review: code AI sinh, gợi ý dependency, mẫu bất an, rủi ro "package hallucination" phải qua secure code review, SCA, quét secret, test &amp; xác minh thủ công ở luồng rủi ro cao.</p>
+    <h3>Chỉ số, mô hình trưởng thành &amp; lộ trình</h3>
+    <p>Chỉ số nên theo: MTTR lỗi nghiêm trọng, tỷ lệ retest đạt, tỷ lệ khai thác được (thực vs lý thuyết), độ phủ app trọng yếu, backlog nợ bảo mật, sự cố secret trong CI/CD, độ phủ test API, tỷ lệ ngoại lệ cổng, thời gian tới lúc gán chủ sở hữu. Mô hình 5 mức: Phản ứng → Dựa-công-cụ → Tích-hợp → Theo-rủi-ro → Xác-minh-liên-tục. Lộ trình: 30 ngày đầu — kiểm kê app/API trọng yếu, bật quét secret, ép branch protection &amp; review, rà quyền CI/CD, đặt SLA, lập security champion; 90 ngày — bổ sung SAST/SCA/DAST/IaC còn thiếu, kiểm thử API trọng yếu, rà cloud/IaC, threat modeling luồng rủi ro cao, cổng theo rủi ro, triage hằng tuần, retest, dashboard chỉ số; 12 tháng — xác minh liên tục, pentest hằng năm, SBOM mọi build lớn, siết CI/CD least-privilege &amp; ký artifact, phản hồi runtime vào issue tracker, red team, rà ngoại lệ &amp; báo cáo lãnh đạo. Pentest không bị DevSecOps xoá bỏ, mà đổi cách định phạm vi, thời điểm &amp; đưa phản hồi về kỹ thuật; retest chứng minh việc vá thực sự giảm rủi ro. <em>Lưu ý nguồn:</em> bài do DeepStrike — hãng bán pentest — viết; số là tổng hợp từ báo cáo bên thứ ba, nên đối chiếu ấn bản gốc khi cần chính xác tuyệt đối.</p>
+  </section>
+
+  <div class="refs" style="margin-top:26px">
+    <strong>Nguồn tham khảo toàn số:</strong><br>
+    [1] Sherlocks AI — Akshat Sandhaliya, <a href="https://www.sherlocks.ai/blog/why-ai-agents-fail-in-production" target="_blank">Why AI Agents Fail in Production: The Agent Failure Stack Explained</a> (05/06/2026); dẫn <a href="https://www.cio.com/article/3850763/88-of-ai-pilots-fail-to-reach-production-but-thats-not-all-on-it.html" target="_blank">IDC/CIO.com</a>, McKinsey State of AI 2025, Gartner (GenAI POC).<br>
+    [2] DeepStrike — Mohammed Khalil, <a href="https://deepstrike.io/blog/devsecops-statistics" target="_blank">DevSecOps Statistics 2026: Shift-Left, AppSec Gaps &amp; Testing Trends</a> (07/06/2026, cập nhật 28/07/2026); tổng hợp có nhãn nguồn từ Veracode SoSS, Synopsys OSSRA, Datadog State of DevSecOps, Snyk, Sonatype State of the Software Supply Chain, Edgescan, GitLab, Practical DevSecOps.<br>
+    <em>Các đoạn "Cơ chế", bảng ánh xạ, bảng lộ trình và khuyến nghị theo quy mô đội là phần biên tập tổng hợp minh họa, không trích nguyên văn từ nguồn. Cả hai nguồn có lợi ích thương mại; số phản ánh dữ liệu &amp; góc nhìn của họ. Không chèn code minh họa; mọi ý kỹ thuật diễn đạt bằng lời.</em>
+  </div>
+
+  <div class="foot"><a href="/" style="color:#4338ca;text-decoration:none">← Về trang bìa lưu trữ</a></div>
+</div>
+<script src="/reader.js" defer></script>
+</body>
+</html>
