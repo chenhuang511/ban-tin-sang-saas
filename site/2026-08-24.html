@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Một refactor AI 4 giờ đẻ ra 127 bug &amp; "khảo cổ codebase" — hiểu trước, đổi sau · 24/08/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.dich{background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;padding:16px 20px;margin-top:16px}
+.dich .flag{font-size:12.5px;color:#94a3b8;font-style:italic;margin-bottom:8px}
+.dich h3{font-size:16px;margin:14px 0 4px}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 24/08/2026 · bản chi tiết</div>
+    <h1 class="title">Một refactor AI "4 giờ" đẻ ra 127 bug production &amp; "khảo cổ codebase": hiểu trước, đổi sau</h1>
+    <div class="meta">24/08/2026 · Thời lượng đọc ~20 phút · Nguồn: Devrim Ozcay — "I Let AI Refactor Our Legacy Codebase. It Created 127 New Bugs" (12/02/2026); Hugo Teijiz — "How to Understand a Legacy Codebase Using AI Before Changing it" (freeCodeCamp, 21/08/2026)</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: số này viết ở dạng "đậm cơ chế" — mỗi con số/nhận định điểm nhấn kèm một tầng <em>nghĩa là gì / vì sao khó / làm thế nào</em>. Các đoạn nhãn <b style="color:#1e40af">Cơ chế</b>, các bảng ánh xạ và khuyến nghị theo quy mô đội là phần <strong>biên tập tổng hợp từ thực hành phổ biến</strong> để minh họa, <strong>không trích nguyên văn</strong> từ nguồn; mọi con số vẫn dẫn nguồn nội dòng. Bài 1 là bài kể chuyện cá nhân của một kỹ sư (Medium/Dev Genius, 02/2026, tác giả có bán sản phẩm riêng) — đọc như một case cảnh báo, không phải báo cáo có kiểm chứng độc lập; các con số là do tác giả tự thuật.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1">Case cảnh báo: refactor AI "4 giờ" trên service thanh toán → 127 bug, 3 tuần khôi phục</a></li>
+      <li><a href="#bai2">"Khảo cổ codebase": dùng AI để HIỂU code cũ trước khi đổi — quy trình 10 bước</a></li>
+      <li><a href="#gocnhin">Góc nhìn: hai bài, một luận điểm — code xấu thường là code đúng</a></li>
+      <li><a href="#dich1">📖 Lược dịch — "127 New Bugs" (Devrim Ozcay)</a></li>
+      <li><a href="#dich2">📖 Lược dịch — "Understand a Legacy Codebase Using AI Before Changing it" (Hugo Teijiz)</a></li>
+    </ol>
+  </nav>
+
+  <!-- BÀI 1 -->
+  <article class="card" id="bai1">
+    <span class="tag legacy">Hiện đại hóa legacy</span>
+    <h2 class="head">1 · "Claude nói 4 giờ, PM nói 3 tháng — tôi tin AI": một refactor tự động đẻ ra 127 bug trên service xử lý 2,4 triệu USD/ngày</h2>
+    <p class="src">Nguồn: Devrim Ozcay (Backend Engineer), "I Let AI Refactor Our Legacy Codebase. It Created 127 New Bugs." · đăng 12/02/2026 trên Dev Genius/Medium · bài kể chuyện cá nhân, tác giả có sản phẩm thương mại riêng · <a href="https://blog.devgenius.io/i-let-ai-refactor-our-legacy-codebase-it-created-127-new-bugs-344b56bc0a62" target="_blank">blog.devgenius.io</a></p>
+
+    <div class="stat">
+      <div class="box"><div class="num">4 giờ → 3 tuần</div><div class="lab">refactor AI mất 4 giờ, nhưng gỡ hậu quả mất 3 tuần (revert toàn bộ) <a href="https://blog.devgenius.io/i-let-ai-refactor-our-legacy-codebase-it-created-127-new-bugs-344b56bc0a62" target="_blank">(Ozcay, 2026)</a></div></div>
+      <div class="box"><div class="num">127</div><div class="lab">bug ghi nhận trong production sau khi refactor 10.247 dòng Java (test coverage ban đầu: 0%) <a href="https://blog.devgenius.io/i-let-ai-refactor-our-legacy-codebase-it-created-127-new-bugs-344b56bc0a62" target="_blank">(Ozcay, 2026)</a></div></div>
+      <div class="box"><div class="num">~124.000 USD</div><div class="lab">tổng thiệt hại tự thuật: 76.800 (480 giờ kỹ sư) + 47.000 (thanh toán lỗi phải hoàn) <a href="https://blog.devgenius.io/i-let-ai-refactor-our-legacy-codebase-it-created-127-new-bugs-344b56bc0a62" target="_blank">(Ozcay, 2026)</a></div></div>
+    </div>
+
+    <p>Đây là một bài kể chuyện cá nhân (không phải báo cáo có kiểm chứng độc lập), nhưng nó đáng đọc vì mô tả rất cụ thể <em>kiểu</em> hỏng mà một refactor "toàn bộ file bằng AI" gây ra — và các con số phân rã bug rơi đúng vào những chỗ mà bài 2 hôm nay cảnh báo. Bối cảnh: một service xử lý thanh toán, 10.247 dòng Java viết năm 2018, lập trình viên gốc đã nghỉ hết, tài liệu chỉ là "TODO: Document this later", test coverage 0% — nhưng vẫn chạy mỗi ngày, xử lý 2,4 triệu USD giao dịch.<sup><a href="https://blog.devgenius.io/i-let-ai-refactor-our-legacy-codebase-it-created-127-new-bugs-344b56bc0a62" target="_blank">[1]</a></sup></p>
+
+    <p>Tác giả yêu cầu Claude Code refactor cả service. Trong 4 giờ nó chuyển chuỗi if-else lồng nhau thành strategy pattern, tách 47 "god method" thành hàm nhỏ, đổi tên biến (<em>d, tmp, x</em> → tên mô tả), thêm type safety, gỡ code trùng, thêm comment. "Test đã pass — toàn bộ 0 test."<sup><a href="https://blog.devgenius.io/i-let-ai-refactor-our-legacy-codebase-it-created-127-new-bugs-344b56bc0a62" target="_blank">[1]</a></sup> Deploy lên staging 4:47 chiều thứ Sáu. Sáng thứ Hai: mọi thanh toán fail. Số bug tăng dần 11 (trưa thứ Hai) → 34 (thứ Ba) → 89 (thứ Tư) → 127 (thứ Sáu), kết thúc bằng revert toàn bộ.<sup><a href="https://blog.devgenius.io/i-let-ai-refactor-our-legacy-codebase-it-created-127-new-bugs-344b56bc0a62" target="_blank">[1]</a></sup></p>
+
+    <h3 class="sub">127 bug rơi vào đâu — và vì sao AI dễ mắc đúng bốn chỗ này</h3>
+    <p>Phần giá trị nhất của bài là phân rã bug theo nguyên nhân. Không phải "AI viết sai cú pháp" — cú pháp đúng hết. Lỗi nằm ở chỗ AI không biết <em>vì sao</em> code cũ được viết như vậy:</p>
+    <table class="tbl">
+      <tr><th>Nhóm nguyên nhân</th><th>Số bug</th><th>Ví dụ tự thuật trong bài</th></tr>
+      <tr><td>Thiếu ngữ cảnh nghiệp vụ (missing context)</td><td>47</td><td>Gỡ điều kiện <em>amount &lt; 999.999</em> vì tưởng là giới hạn tùy tiện — thực ra đó là trần giao dịch của cổng thanh toán; giao dịch &gt;1 triệu USD bắt đầu fail âm thầm</td></tr>
+      <tr><td>Race condition (đồng bộ luồng)</td><td>31</td><td>Code cũ "xấu nhưng thread-safe" (khối synchronized); bản refactor "đẹp nhưng vỡ" — mất khối đồng bộ → thanh toán trùng khi tải cao</td></tr>
+      <tr><td>Xử lý null (defensive null-check)</td><td>28</td><td>Gỡ chuỗi null-check "thừa" vì "chắc không null được" — nhưng đây là Java, và chúng null trong ca biên ở production</td></tr>
+      <tr><td>Hiểu sai logic nghiệp vụ</td><td>21</td><td>"Sửa" một bug thuế cũ (coi mọi nước ngoài US/CA là miễn thuế) — nhưng production đã chạy 2 năm, kế toán &amp; khai thuế đã xây quanh hành vi đó</td></tr>
+    </table>
+
+    <div class="mech"><b>Cơ chế — vì sao "test pass" không cứu được:</b> ba trong bốn nhóm trên <em>không thể</em> bị bắt bởi test đơn vị thông thường. Race condition chỉ lộ dưới tải đồng thời (unit test chạy tuần tự). Null-check ca biên chỉ nổ với dữ liệu production hiếm gặp. Logic thuế "sai mà đúng" thì… đúng theo mọi test viết từ chính code mới. Và ở đây coverage vốn là 0% — nên "test pass" nghĩa là "không có test nào tồn tại để fail". Bài kết luận: nếu có bộ test đặc tả hành vi cũ, sẽ bắt được <b>89%</b> số bug trước khi deploy.<sup><a href="https://blog.devgenius.io/i-let-ai-refactor-our-legacy-codebase-it-created-127-new-bugs-344b56bc0a62" target="_blank">[1]</a></sup> Nhưng viết test cho legacy đòi hiểu hành vi, mà hiểu hành vi đòi tài liệu — legacy thì không có → cái vòng luẩn quẩn khiến người ta muốn "nhảy cóc" bằng AI.</div>
+
+    <h3 class="sub">Mổ xẻ: đổi ĐÚNG cái gì thì hỏng ra sao (before/after)</h3>
+    <p>Đáng chú ý là gần như không bug nào là "ảo giác" theo nghĩa AI bịa hàm không tồn tại. Ý định của AI đều <em>hợp lý</em>: gỡ giới hạn trông tùy tiện, làm sạch null-check trông thừa, hợp nhất bảng thuế trông rời rạc, đặt tên biến cho dễ đọc. Thảm họa nằm ở <em>tri thức ngầm</em> mà code cũ mã hóa nhưng không nói ra:</p>
+    <div class="doslist">
+      <div><strong>Trần 999.999:</strong> before — chặn ở <em>amount &lt; 999.999</em> vì trên mức đó cổng thanh toán dùng endpoint &amp; luồng khác. After — AI gỡ "giới hạn tùy tiện" → giao dịch lớn fail lặng. Cái AI thiếu: một <em>hợp đồng ngầm với hệ thống ngoài</em>.</div>
+      <div><strong>Khối synchronized:</strong> before — tên biến xấu nhưng bọc đồng bộ đúng. After — tên biến đẹp, mất synchronized → nạp thẻ hai lần dưới tải. Cái AI thiếu: <em>ngữ nghĩa đồng thời</em> không đọc được từ một hàm đơn lẻ.</div>
+      <div><strong>Bảng thuế:</strong> before — <em>if country == US/CA thì 8%, else 0%</em> (một "bug" thật). After — bảng tra <em>getOrDefault(country, 0.0)</em> gọn hơn, nhưng phá 2 năm giả định tài chính. Cái AI thiếu: <em>một "bug" đã chạy đủ lâu để trở thành đặc tả</em>.</div>
+    </div>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn — theo quy mô đội:</strong></div>
+    <div class="scale">
+      <div class="col small">
+        <h4>Đội nhỏ / startup &lt; 10 người</h4>
+        <ul>
+          <li>Với hệ có tiền/chịu tải (thanh toán, đặt hàng, tồn kho): <em>cấm</em> "refactor cả file bằng AI" khi coverage = 0. Viết test đặc tả hành vi hiện tại trước — kể cả hành vi trông "sai".</li>
+          <li>Dùng AI để <em>giải thích</em> và <em>viết test</em>, chưa vội để nó viết lại. Đổi một hàm/lần, chạy test, quan sát 24h, rồi tiếp.</li>
+          <li>Coi mỗi hằng số lạ (như 999.999) là "có lý do tới khi chứng minh ngược lại".</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Đội đã có sản phẩm production</h4>
+        <ul>
+          <li>Thêm "characterization test" (test chụp lại hành vi cũ) làm cổng bắt buộc trước mọi migration — đây là "trọng tài" mà các case di trú AI thành công (Bun, Google) đều đặt lên đầu (số <a href="/2026-08-18" target="_blank">18/08</a>).</li>
+          <li>Chạy shadow/canary dưới <em>tải thật</em>: race condition &amp; null ca biên không lộ ở staging tuần tự.</li>
+          <li>Bắt review con người ở phần <em>logic nghiệp vụ</em> (không chỉ review thẩm mỹ code): hỏi "quy tắc này ai sở hữu?" trước khi đổi.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> Devrim Ozcay, "I Let AI Refactor Our Legacy Codebase. It Created 127 New Bugs." (12/02/2026) — <a href="https://blog.devgenius.io/i-let-ai-refactor-our-legacy-codebase-it-created-127-new-bugs-344b56bc0a62" target="_blank">bài gốc</a>. Về "trọng tài/parity harness" trong di trú AI: số <a href="/2026-08-18" target="_blank">18/08</a> (Bun Zig→Rust) &amp; <a href="/2026-08-06" target="_blank">06/08</a> (Abstracta "90% là kiểm thử").</div>
+  </article>
+
+  <!-- BÀI 2 -->
+  <article class="card" id="bai2">
+    <span class="tag legacy">Hiện đại hóa legacy</span>
+    <h2 class="head">2 · "Khảo cổ codebase": cách dùng AI để HIỂU code cũ <em>trước</em> khi đổi — và vì sao "câu hỏi" mới là output giá trị nhất của AI</h2>
+    <p class="src">Nguồn: Hugo Teijiz (Fractional CTO, sáng lập OrkestCloud &amp; Collabai, 25+ năm), "How to Understand a Legacy Codebase Using AI Before Changing it" · freeCodeCamp, 21/08/2026 · bài hướng dẫn thực hành cấp một · <a href="https://www.freecodecamp.org/news/understand-a-legacy-codebase-with-ai/" target="_blank">freecodecamp.org</a></p>
+
+    <div class="stat">
+      <div class="box"><div class="num">Điều tra ≠ giải pháp</div><div class="lab">nguyên tắc lõi: đặt AI vào chế độ "điều tra viên", cấm nó đề xuất refactor cho tới khi hiểu xong <a href="https://www.freecodecamp.org/news/understand-a-legacy-codebase-with-ai/" target="_blank">(Teijiz, 2026)</a></div></div>
+      <div class="box"><div class="num">10 bước</div><div class="lab">quy trình "khảo cổ codebase": lập bản đồ → chọn 1 năng lực → truy vết → tách rule/hạ tầng → tìm side effect → hợp đồng ngầm → phụ thuộc → ghi cái chưa hiểu → đối chứng → mới lên kế hoạch <a href="https://www.freecodecamp.org/news/understand-a-legacy-codebase-with-ai/" target="_blank">(Teijiz, 2026)</a></div></div>
+      <div class="box"><div class="num">"building is cheap"</div><div class="lab">châm ngôn tác giả: xây thì rẻ, quyết định sai mới đắt — nên bỏ 1 giờ đầu để hiểu <a href="https://www.freecodecamp.org/news/understand-a-legacy-codebase-with-ai/" target="_blank">(Teijiz, 2026)</a></div></div>
+    </div>
+
+    <p>Nếu bài 1 là "chuyện gì xảy ra khi bỏ qua bước hiểu", bài 2 (đăng 21/08, mới 3 ngày) là quy trình để <em>không</em> lặp lại nó. Luận điểm mở đầu trùng khớp đến kỳ lạ với bài 1: "code có thể xấu mà vẫn chứa tri thức quan trọng. Một điều kiện lạ có thể mã hóa một ngoại lệ nghiệp vụ. Một phép tính trùng lặp có thể tồn tại vì hai quy trình <em>trông</em> giống nhau thật ra không giống nhau. Một cột DB tên tệ vẫn có thể là một phần của hợp đồng bên ngoài."<sup><a href="https://www.freecodecamp.org/news/understand-a-legacy-codebase-with-ai/" target="_blank">[2]</a></sup> AI làm code dễ đọc hơn — nhưng cũng làm nó dễ bị <em>đổi trước khi hiểu</em> hơn.</p>
+
+    <h3 class="sub">Ý tưởng cốt lõi: đặt AI ở chế độ "điều tra", không phải "giải pháp"</h3>
+    <p>Thay vì "Refactor hàm này theo clean architecture", tác giả mở bằng "Phân tích hàm này mà <em>không</em> đổi gì — liệt kê: quy tắc nghiệp vụ rõ ràng; quy tắc <em>có vẻ</em> là nghiệp vụ cần xác nhận; side effect; phụ thuộc ngoài; chuyển trạng thái; giá trị 'ma thuật' (magic value); giả định không chứng minh được từ riêng file này. <em>Chưa</em> đề xuất refactor."<sup><a href="https://www.freecodecamp.org/news/understand-a-legacy-codebase-with-ai/" target="_blank">[2]</a></sup></p>
+    <div class="mech"><b>Cơ chế — vì sao câu lệnh đã chứa sẵn giải pháp là nguy hiểm:</b> khi bạn hỏi "chuyển monolith này thành microservices" hay "làm sạch code xấu", bạn đã <em>quyết định trước</em> (microservices, rewrite) khi chưa biết hệ thống thực sự cần gì. AI, vốn thiên về làm hài lòng yêu cầu, sẽ nhiệt tình thực thi cái quyết định sai đó. Ngược lại, ép AI trả lời "tôi <em>không</em> xác định được vì sao điều kiện này tồn tại từ code hiện có" là bắt nó chỉ ra chỗ nó <em>không nên</em> giả vờ biết — đúng chỗ chính bài 1 vấp (AI "tự tin" gỡ trần 999.999).</div>
+
+    <h3 class="sub">Bốn thứ AI hay bỏ sót — mỗi thứ là một loại bug ở bài 1</h3>
+    <p>Bài liệt kê những "mỏ bẫy" mà một điều tra bài bản sẽ lộ ra. Đối chiếu với 127 bug ở bài 1, chúng khớp gần như một-một:</p>
+    <table class="tbl">
+      <tr><th>Thứ cần điều tra (Teijiz)</th><th>Nếu bỏ sót → bug kiểu (đối chiếu bài 1)</th></tr>
+      <tr><td><b>Side effect &amp; tính bất biến (idempotency):</b> một hàm <em>updateCustomer()</em> có thể ghi DB, xóa cache, phát event, gửi mail, ghi audit — hỏi rõ cái nào đồng bộ/bất đồng bộ, có retry an toàn không</td><td>Race condition / nạp thẻ hai lần (31 bug)</td></tr>
+      <tr><td><b>Hợp đồng ngầm (implicit contract):</b> một trường trả về dạng chuỗi "100.00" có thể bị một hệ ngoài phụ thuộc; đổi thành số 100 trông "sạch hơn" nhưng phá client</td><td>Trần 999.999 / hợp đồng với cổng thanh toán (nhóm 47 bug)</td></tr>
+      <tr><td><b>Điểm vào thật (entry points):</b> cùng một Order có thể được tạo từ HTTP, job định kỳ, queue, script, webhook — không chỉ controller</td><td>Logic chạy ngoài đường "chính" bị bỏ quên</td></tr>
+      <tr><td><b>Magic value &amp; quy tắc trùng nghĩa:</b> hai đoạn tính giảm giá trông giống có thể là <em>hai</em> domain tiến hóa độc lập — "giống" không có nghĩa "phải gộp"</td><td>Gộp bảng thuế phá 2 năm giả định (21 bug)</td></tr>
+    </table>
+
+    <h3 class="sub">Bước quan trọng nhất: ghi lại cái mình CHƯA hiểu</h3>
+    <p>Tác giả nhấn mạnh việc giữ một danh sách "câu hỏi mở" tường minh — ví dụ "Vì sao ngưỡng tín dụng doanh nghiệp là 50.000?", "Sự kiện ORDER_APPROVAL có bị hệ ngoài tiêu thụ không?", "Quy trình nào chuyển đơn từ PENDING sang APPROVED?".<sup><a href="https://www.freecodecamp.org/news/understand-a-legacy-codebase-with-ai/" target="_blank">[2]</a></sup> Và bạn có thể yêu cầu AI <em>sinh ra</em> danh sách này thay vì trả lời nó: "liệt kê các câu hỏi không thể trả lời an toàn từ repo — đừng trả lời chúng."</p>
+    <div class="mech"><b>Cơ chế — "sự không chắc chắn là thông tin":</b> ta quen đánh giá công cụ AI bằng lượng code nó sinh ra. Với legacy, giá trị lớn nhất lại là một câu như "hai phép tính giảm giá này trông giống nhau, nhưng hành vi khác nhau ở đơn hàng giá trị 0" — nó chỉ cho kỹ sư biết <em>chỗ cần đào</em>. Một câu trả lời tự tin nhưng sai thì nguy hiểm hơn nhiều một câu "tôi không chắc". Vì thế, khi làm việc với legacy, hãy coi câu "tôi không xác định được" là một kết quả <em>tốt</em>, không phải thất bại.</div>
+
+    <h3 class="sub">Không tin AI một mình: đối chứng với năm nguồn sự thật</h3>
+    <p>Bài đưa một nguyên tắc thực dụng: mọi phát hiện quan trọng của AI phải có nguồn chứng thứ hai. Cụ thể — (1) <em>tìm kiếm repo</em> (AI nói hàm chỉ gọi một chỗ thì grep lại); (2) <em>test cũ</em> (thường lộ giả định code không nói); (3) <em>schema DB</em> (nullable, khóa ngoại, cột legacy, ràng buộc); (4) <em>log &amp; telemetry</em> production (một đường tưởng "chết" có thể vẫn chạy); (5) <em>lịch sử Git</em> — commit đưa vào một điều kiện lạ thường kèm lý do (dùng <em>git log</em> theo chuỗi, <em>git blame</em>).<sup><a href="https://www.freecodecamp.org/news/understand-a-legacy-codebase-with-ai/" target="_blank">[2]</a></sup> AI tăng tốc điều tra, không thay thế nó — và không thể "chế tạo lịch sử đã mất".</p>
+
+    <p>Đầu ra cuối cùng không phải là kiến trúc đích (AI không quyết cái đó), mà là một <em>kế hoạch di trú</em> tường minh: cái gì phải bảo toàn (giá, response API, payload thanh toán, schema event), cái gì được refactor (ranh giới ứng viên), cái gì <em>khóa lại</em> cho tới khi hiểu (ví dụ ngữ nghĩa retry của reservation).<sup><a href="https://www.freecodecamp.org/news/understand-a-legacy-codebase-with-ai/" target="_blank">[2]</a></sup></p>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn — theo quy mô đội:</strong></div>
+    <div class="scale">
+      <div class="col small">
+        <h4>Đội nhỏ / mới nhận codebase cũ</h4>
+        <ul>
+          <li>Trước khi gõ "refactor", dành 1 phiên cho "khảo cổ": bảo AI lập bản đồ repo &amp; <em>trích dẫn file làm bằng chứng</em> cho mỗi kết luận (không có bằng chứng thì đánh dấu "chưa chắc").</li>
+          <li>Chọn <em>một</em> năng lực (vd "tạo đơn hàng"), truy vết đầu-cuối, liệt kê side effect &amp; hợp đồng ngầm.</li>
+          <li>Giữ một file "câu hỏi mở"; món nào chưa trả lời được thì <em>chưa</em> đụng.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Đội đang lên kế hoạch migrate</h4>
+        <ul>
+          <li>Bắt buộc mọi phát hiện của AI phải qua ≥1 trong 5 nguồn đối chứng (grep / test / schema / log / git) trước khi vào kế hoạch.</li>
+          <li>Chia kế hoạch thành 3 rổ: <em>bảo toàn</em> (hành vi/hợp đồng), <em>refactor được</em>, <em>khóa lại đến khi hiểu</em> — rổ thứ ba là hàng rào chống lặp lại bài 1.</li>
+          <li>Nối "khảo cổ" (hiểu) với "trọng tài" (characterization test) thành hai cổng nối tiếp trước khi để agent viết lại (xem số <a href="/2026-08-18" target="_blank">18/08</a>).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> Hugo Teijiz, "How to Understand a Legacy Codebase Using AI Before Changing it" (freeCodeCamp, 21/08/2026) — <a href="https://www.freecodecamp.org/news/understand-a-legacy-codebase-with-ai/" target="_blank">bài gốc</a>. Về thước đo "AI hiểu code cũ đến đâu": số <a href="/2026-08-13" target="_blank">13/08</a> (LegacyCodeBench). Về "hiểu trước khi hiện đại hóa": số <a href="/2026-08-03" target="_blank">03/08</a> (Sourcegraph) &amp; <a href="/2026-08-09" target="_blank">09/08</a> ("Discovery is not migration").</div>
+  </article>
+
+  <!-- GÓC NHÌN -->
+  <article class="card" id="gocnhin">
+    <span class="tag view">Góc nhìn</span>
+    <h2 class="head">3 · Hai bài, một luận điểm: "code xấu thường là code đúng" — và AI đảo ngược thứ tự an toàn</h2>
+    <p>Ghép hai bài lại, ta có một vòng khép kín. Bài 1 là <em>hậu quả</em> của việc để AI đổi trước khi hiểu; bài 2 là <em>phương pháp</em> để hiểu trước khi đổi. Cả hai gặp nhau ở một câu: legacy xấu <em>vì có lý do</em>. Điều kiện lạ lúc 3 giờ sáng vá một sự cố. Null-check "thừa" chặn một ca biên xảy ra mỗi năm một lần. Hằng số kỳ quặc phản ánh một quy tắc nghiệp vụ không ai ghi lại. "AI thấy code xấu; con người thấy vết sẹo trận mạc."<sup><a href="https://blog.devgenius.io/i-let-ai-refactor-our-legacy-codebase-it-created-127-new-bugs-344b56bc0a62" target="_blank">[1]</a></sup></p>
+    <p>Điều AI thay đổi không phải là <em>khả năng</em> hiểu code — nó hiểu rất nhanh — mà là <em>chi phí</em> của việc đổi code. Khi đổi trở nên gần như miễn phí, cám dỗ bỏ qua bước hiểu tăng vọt. Nghịch lý: chính vì AI khiến "đổi" rẻ đi, bước "hiểu" lại trở nên <em>đắt giá tương đối</em> hơn — nó là thứ duy nhất còn phân biệt "kỹ thuật" với "thí nghiệm trên production". Như bài 2 chốt: "đổi code bạn hiểu là kỹ thuật; đổi code bạn không hiểu là thí nghiệm — và production là nơi đắt nhất để chạy thí nghiệm đó."<sup><a href="https://www.freecodecamp.org/news/understand-a-legacy-codebase-with-ai/" target="_blank">[2]</a></sup></p>
+    <p>Lưu ý cân bằng: đừng đọc số này thành "AI vô dụng với legacy". Các số trước của bản tin cho thấy điều ngược lại khi có <em>trọng tài</em> và <em>phạm vi</em> đúng — Bun port 1 triệu dòng trong 11 ngày với parity harness (số <a href="/2026-08-18" target="_blank">18/08</a>), Experian tự động hóa 687.600 dòng .NET (số <a href="/2026-07-30" target="_blank">30/07</a>). Khác biệt không phải "dùng AI hay không", mà là <em>có đặt bước hiểu + bộ test đặc tả trước khi để AI viết lại hay không</em>.</p>
+    <p><strong>3 việc nên làm tuần này:</strong></p>
+    <div class="doslist">
+      <div>• Chọn service quan trọng nhất chưa có test đặc tả hành vi; viết bộ characterization test tối thiểu (kể cả cho hành vi trông "sai") <em>trước</em> mọi ý định refactor bằng AI.</div>
+      <div>• Với codebase cũ sắp đụng: chạy một phiên "khảo cổ" — bảo AI liệt kê side effect, hợp đồng ngầm, magic value &amp; <em>câu hỏi mở</em>, kèm trích dẫn file làm bằng chứng.</div>
+      <div>• Đặt luật đội: mọi phát hiện của AI về code cũ phải đối chứng ≥1 nguồn (grep / test / schema / log / git) trước khi hành động; "AI nói vậy" không phải bằng chứng.</div>
+    </div>
+  </article>
+
+  <hr class="sep">
+
+  <!-- LƯỢC DỊCH 1 -->
+  <section class="dich" id="dich1">
+    <h2 class="head">📖 Lược dịch chi tiết — "I Let AI Refactor Our Legacy Codebase. It Created 127 New Bugs." (Devrim Ozcay)</h2>
+    <div class="flag">Bản diễn đạt lại bằng tiếng Việt, bám sát bố cục &amp; số liệu bài gốc — không phải dịch nguyên văn. Bài là hồi ức cá nhân của tác giả (tự thuật, chưa kiểm chứng độc lập). <a href="https://blog.devgenius.io/i-let-ai-refactor-our-legacy-codebase-it-created-127-new-bugs-344b56bc0a62" target="_blank">Bài gốc</a></div>
+    <h3>Con quái vật legacy</h3>
+    <p>Service xử lý thanh toán: 10.247 dòng Java viết 2018. Đội gốc đã tản mát (một người lên quản lý, hai người nghỉ, một sang đối thủ). Tài liệu chỉ có ba README lỗi thời và một trang Confluence ghi "TODO: Document this later". Test coverage: 0%. Nhưng nó chạy mỗi ngày, xử lý 2,4 triệu USD giao dịch. Rồi đội quyết định hiện đại hóa.</p>
+    <h3>Vì sao thử AI</h3>
+    <p>Vấn đề: không ai muốn đụng vào code này; mỗi lần thêm tính năng lại "đắp" thêm ra ngoài như căn nhà cơi nới không bản vẽ. Lời chào mời: "AI giờ hiểu được legacy — cứ để Claude refactor an toàn." Tác giả đã xem demo AI đọc cả codebase, đề xuất refactor sạch, giữ nguyên hành vi. Một chiều thứ Sáu, anh hỏi Claude Code: "Refactor giúp service thanh toán này được không?" Câu trả lời đầy tự tin: "Được. Tôi sẽ hiện đại hóa, tăng khả năng đọc, và giữ mọi hành vi hiện có." Chính sự tự tin đó lẽ ra phải khiến anh cảnh giác.</p>
+    <h3>Refactor (4 giờ)</h3>
+    <p>Claude làm nhanh: chuyển if-else lồng nhau thành strategy pattern; tách 47 "god method"; đổi tên biến từ <em>d, tmp, x</em> sang tên mô tả; thêm type safety; gỡ code trùng; thêm comment giải thích logic. Trông chuyên nghiệp, sạch, hiện đại. "Test pass — toàn bộ 0 test." Anh review thấy "hợp lý", commit "Refactor payment service for maintainability", deploy staging 4:47 chiều thứ Sáu, về nhà thấy làm việc năng suất.</p>
+    <h3>Sáng thứ Hai</h3>
+    <p>8:23: "Staging hỏng. Không xử lý được thanh toán." Log: NullPointerException tại dòng 847 — trong code Claude viết. Nguyên nhân: một hàm được tách ra giả định một trường luôn được khởi tạo; code cũ có thứ tự khởi tạo tinh vi mà Claude bỏ sót. Sửa, deploy. 8:45: lỗi khác — IllegalStateException "Payment already processed" (race condition dưới tải). Sửa, deploy. 9:12: "Người dùng bị tính phí hai lần" (xử lý idempotency key đổi). Đến trưa: 11 bug. Thứ Ba: 34. Thứ Tư: 89. Thứ Sáu: 127 bug ghi nhận, rollback, revert toàn bộ. Refactor 4 giờ tốn 3 tuần để gỡ.</p>
+    <h3>Claude sai ở đâu</h3>
+    <p>Thiếu ngữ cảnh (47 bug): gỡ điều kiện <em>amount &gt; 0 &amp;&amp; amount &lt; 999.999</em> vì tưởng là giới hạn tùy tiện — thực ra cổng thanh toán có trần 999.999, trên mức đó là endpoint/luồng khác; giao dịch &gt;1 triệu USD fail lặng. Race condition (31 bug): code cũ bọc khối synchronized (xấu nhưng an toàn luồng), bản refactor "đẹp" làm mất đồng bộ → thanh toán trùng dưới tải. Xử lý null (28 bug): gỡ chuỗi null-check "phòng thủ" với giả định "không thể null" — nhưng đây là Java, chúng null trong ca biên production. Hiểu sai nghiệp vụ (21 bug): "sửa" một bug thuế cũ (mọi nước ngoài US/CA miễn thuế) thành bảng tra sạch hơn — nhưng production đã chạy 2 năm, tài chính đã khai thuế quanh hành vi đó; "bản sửa" phá vỡ 2 năm giả định.</p>
+    <h3>Chi phí thật</h3>
+    <p>Trực tiếp: 3 tuần × 4 kỹ sư = 480 giờ; năng suất mất ~76.800 USD (giá pha trộn 160 USD/giờ). Gián tiếp: thanh toán fail ở staging phải hoàn 47.000 USD; 847 ticket hỗ trợ; niềm tin tổn hại "không đo được". Việc lẽ ra nên làm: viết test trước; refactor từng bước; để người review logic nghiệp vụ; test dưới tải production.</p>
+    <h3>Bài học về AI &amp; legacy</h3>
+    <p>AI giỏi: biến đổi cú pháp, định dạng, đặt tên biến, nhận diện mẫu. AI hỏng thảm: hiểu ngữ cảnh nghiệp vụ, giữ hành vi tinh vi, nhận ra "bug cố ý" (không phải bug), an toàn luồng &amp; race condition, ca biên đặc thù domain. "Sự thật phũ phàng: legacy là legacy vì có lý do." Quy trình mới của đội: (1) test trước, luôn luôn — kể cả với hành vi kỳ lạ; (2) refactor từng bước nhỏ (một hàm/lần, chạy test, deploy staging, theo dõi 24h); (3) AI là trợ lý chứ không phải agent tự chủ — dùng để "giải thích code này làm gì", "gợi ý tên biến", "viết test cho hàm này", <em>không</em> dùng để "refactor cả file"/"hiện đại hóa cả repo"; (4) giả định mỗi dòng tồn tại có lý do. Thứ lẽ ra cứu họ: test coverage — sẽ bắt 89% số bug trước khi deploy. Nhưng viết test cho legacy khó và chán, nên người ta muốn nhảy cóc bằng AI — mà AI không viết test nổi nếu không hiểu hành vi, không hiểu hành vi nếu không có tài liệu: vòng luẩn quẩn. Kết: "Refactor đẹp nhất tôi từng thấy đẻ ra 127 bug. Code xấu nhất tôi từng bảo trì xử lý 2,4 triệu USD/ngày suốt 2 năm không một sự cố. Đôi khi xấu là đúng." Cuối cùng họ vẫn refactor service đó — mất 3 tháng, thủ công, có test, không AI, không bug.</p>
+    <p><em>Lưu ý nguồn:</em> đây là bài blog cá nhân trên Medium/Dev Genius; các con số do tác giả tự thuật, không có kiểm chứng độc lập; tác giả có bán sản phẩm liên quan (toolkit, waitlist) ở cuối bài — nên đọc như case cảnh báo minh họa, đối chiếu với kinh nghiệm của chính bạn.</p>
+  </section>
+
+  <!-- LƯỢC DỊCH 2 -->
+  <section class="dich" id="dich2">
+    <h2 class="head">📖 Lược dịch chi tiết — "How to Understand a Legacy Codebase Using AI Before Changing it" (Hugo Teijiz)</h2>
+    <div class="flag">Bản diễn đạt lại bằng tiếng Việt, bám sát bố cục &amp; ý bài gốc — không phải dịch nguyên văn. <a href="https://www.freecodecamp.org/news/understand-a-legacy-codebase-with-ai/" target="_blank">Bài gốc</a></div>
+    <h3>Vì sao hiểu phải đến trước refactor</h3>
+    <p>Bản năng đầu tiên khi nhận một codebase cũ là muốn đổi nó ngay: mở một class 1.500 dòng, thấy DB call trộn với quy tắc nghiệp vụ, cấu hình rải rác, hàm không ai dám đụng, comment nhắc tới hệ thống đã biến mất. Rồi AI mời "giải thích cả file này" — và bạn hỏi "refactor giúp". Nhưng thường là quá sớm. Code có thể xấu mà vẫn chứa tri thức: một điều kiện lạ mã hóa ngoại lệ nghiệp vụ; một phép tính trùng vì hai quy trình <em>trông</em> giống thật ra khác; một cột DB tên tệ vẫn là hợp đồng bên ngoài; một hàm không ai hiểu có thể là thứ duy nhất chặn một sự cố từ 8 năm trước tái diễn. Việc nên làm <em>trước</em> refactor: "khảo cổ codebase".</p>
+    <h3>Bắt đầu từ repo, không phải class; tìm điểm vào thật</h3>
+    <p>Đừng đọc từng file; hãy hiểu <em>hình dạng</em> ứng dụng. Cấu trúc thư mục là <em>bằng chứng</em>, không phải sự thật (thư mục "services" có thể chứa cả hạ tầng lẫn tiện ích; "utils" có thể giấu nửa logic nghiệp vụ). Bảo AI liệt kê điểm vào, module chính, công nghệ DB, tích hợp ngoài, xử lý nền, tác vụ định kỳ, xác thực, nguồn cấu hình, test — và <em>trích dẫn file</em> cho mỗi kết luận, đánh dấu chỗ chưa chắc. Legacy thường có nhiều điểm vào ngoài HTTP: job định kỳ, consumer queue, trigger DB, script CLI, import file, webhook, hay một app khác gọi thẳng DB. Nếu chỉ phân tích controller, bạn bỏ sót nửa hệ thống.</p>
+    <h3>Truy vết một năng lực nghiệp vụ; tách rule khỏi hạ tầng</h3>
+    <p>Chọn <em>một</em> workflow thật (vd "tạo đơn hàng") và truy vết từ điểm vào tới khi mọi side effect hoàn tất — mỗi bước ghi file, hàm, input/output, thay đổi trạng thái, lời gọi ngoài, hành vi lỗi. Sau đó phân loại từng trách nhiệm trong hàm: quy tắc nghiệp vụ / điều phối / lưu trữ / cache / messaging / logging / validation / <em>chưa rõ</em>. Danh mục "chưa rõ" quan trọng — đừng ép mọi dòng vào một lý thuyết kiến trúc sạch.</p>
+    <h3>Tìm side effect ẩn &amp; hợp đồng ngầm</h3>
+    <p>Side effect là nguồn rủi ro di trú lớn nhất: một hàm <em>updateCustomer()</em> có thể ghi DB, xóa cache, phát event, gửi mail, cập nhật analytics, ghi audit, lên lịch job khác. Nếu refactor mà chỉ giữ giá trị trả về, bạn có thể phá hành vi production mà trình biên dịch không báo. Với mỗi side effect, hỏi: đồng bộ hay bất đồng bộ? lỗi có lan không? có retry được không? có idempotent không? (Ví dụ kinh điển: <em>chargeCard()</em> rồi <em>markOrderAsPaid()</em> — nếu crash giữa hai dòng và retry, có tính phí hai lần không?) Hợp đồng ngầm: không phải hợp đồng nào cũng khai báo bằng interface — response API, event, cấu trúc DB, export CSV, tên file, biến môi trường, thông điệp lỗi, payload queue, body webhook đều có thể bị hệ ngoài phụ thuộc. Đổi trường "100.00" (chuỗi) thành 100 (số) trông "sạch" nhưng phá client.</p>
+    <h3>Tìm quy tắc trùng nghĩa; lập bản đồ phụ thuộc; ghi cái chưa hiểu</h3>
+    <p>Code trùng dễ phát hiện; <em>nghĩa</em> trùng thì khó — hai đoạn giảm giá (một dùng "PREMIUM", một dùng "GOLD") có thể là cùng một quy tắc, hoặc không. AI hữu ích để <em>gợi ý ứng viên</em>, nhưng đừng để nó biến "giống" thành "phải gộp" khi thiếu bằng chứng. Lập bản đồ phụ thuộc mức module chỉ từ import/constructor/lời gọi/cấu hình thật (không suy từ tên); kết hợp công cụ phân tích tĩnh để <em>chứng minh</em> phụ thuộc tồn tại, còn AI để <em>giải thích</em> vì sao chúng quan trọng. Quan trọng nhất: giữ một danh sách "câu hỏi mở" tường minh, và có thể bảo AI <em>sinh</em> danh sách đó ("liệt kê câu hỏi không trả lời an toàn được từ repo — đừng trả lời").</p>
+    <h3>Đối chứng phát hiện của AI với hệ thống</h3>
+    <p>Mọi phát hiện quan trọng cần nguồn chứng thứ hai: tìm kiếm repo (grep lại lời khẳng định của AI); test cũ (lộ giả định); schema DB (nullable, khóa ngoại, mặc định, cột legacy, ràng buộc, giá trị trạng thái); log &amp; telemetry (đường "tưởng chết" có thể còn chạy); lịch sử Git (<em>git log</em> theo chuỗi, <em>git blame</em> — commit đưa vào điều kiện lạ thường kèm lý do). AI tăng tốc, không thay thế điều tra.</p>
+    <h3>Biến hiểu biết thành kế hoạch di trú</h3>
+    <p>Chỉ khi hiểu một năng lực, mới quyết định. Đầu ra là ba rổ tường minh: <em>bảo toàn trước</em> (hành vi giá, response API, payload thanh toán, schema event); <em>ứng viên refactor</em> (chính sách giá, gateway tồn kho, publisher thanh toán, dịch vụ thông báo); <em>khóa lại đến khi hiểu</em> (ngữ nghĩa retry của reservation, consumer của event). AI <em>không</em> quyết kiến trúc đích — nó chỉ làm kiến trúc hiện tại đủ quan sát để bạn quyết.</p>
+    <h3>Quy trình 10 bước &amp; điều không nên hỏi AI đầu tiên</h3>
+    <p>Rút gọn: (1) lập bản đồ repo; (2) chọn một năng lực cụ thể; (3) truy vết đầu-cuối; (4) trích quy tắc nghiệp vụ (rõ / có vẻ / hạ tầng / chưa rõ); (5) tìm side effect; (6) phát hiện hợp đồng; (7) lập bản đồ phụ thuộc; (8) ghi cái chưa hiểu; (9) đối chứng (grep/test/schema/log/git); (10) chỉ khi đó mới lên kế hoạch đổi. Điều <em>không</em> nên hỏi đầu tiên: "viết lại theo Clean Architecture", "chuyển monolith thành microservices", "hiện đại hóa cả repo", "tìm hết code xấu" — vì các câu này đã chứa sẵn giải pháp trước khi biết hệ thống cần gì. Thứ tự tốt hơn: cái gì đang tồn tại → vì sao tồn tại → hành vi nào quan trọng → cái gì chưa chắc → cái gì nên đổi.</p>
+    <h3>Output giá trị nhất của AI đôi khi là một câu hỏi</h3>
+    <p>Với legacy, đánh giá AI bằng "sinh bao nhiêu code" là bỏ sót giá trị. Một output như "tôi không xác định được vì sao điều kiện này tồn tại" hay "event này có vẻ không có consumer trong repo, nhưng không loại trừ consumer bên ngoài" là phát hiện hữu ích — nó chỉ chỗ cần đào. Câu trả lời tự tin nhưng sai nguy hiểm hơn nhiều. "Với legacy, sự không chắc chắn là thông tin — hãy đối xử với nó như vậy." Kết: AI giúp <em>tìm bằng chứng</em>, không <em>chế tạo lịch sử đã mất</em>; hãy dùng nó như điều tra viên trước khi dùng như thợ biến đổi. "Đổi code bạn hiểu là kỹ thuật; đổi code bạn không hiểu là thí nghiệm — và production là nơi đắt nhất để chạy thí nghiệm đó."</p>
+  </section>
+
+  <div class="refs" style="margin-top:26px">
+    <strong>Nguồn tham khảo toàn số:</strong><br>
+    [1] Devrim Ozcay, <a href="https://blog.devgenius.io/i-let-ai-refactor-our-legacy-codebase-it-created-127-new-bugs-344b56bc0a62" target="_blank">"I Let AI Refactor Our Legacy Codebase. It Created 127 New Bugs."</a> (Dev Genius/Medium, 12/02/2026) — bài kể chuyện cá nhân, số liệu tự thuật.<br>
+    [2] Hugo Teijiz, <a href="https://www.freecodecamp.org/news/understand-a-legacy-codebase-with-ai/" target="_blank">"How to Understand a Legacy Codebase Using AI Before Changing it"</a> (freeCodeCamp, 21/08/2026).<br>
+    Liên hệ số cũ: di trú AI có "trọng tài" — <a href="/2026-08-18" target="_blank">18/08</a> (Bun Zig→Rust) · thước đo AI hiểu code cũ — <a href="/2026-08-13" target="_blank">13/08</a> (LegacyCodeBench) · "hiểu trước khi hiện đại hóa" — <a href="/2026-08-03" target="_blank">03/08</a> (Sourcegraph), <a href="/2026-08-09" target="_blank">09/08</a> (Open Mainframe) · kiểm thử là rào chắn — <a href="/2026-08-06" target="_blank">06/08</a> (Abstracta).<br>
+    <em>Các đoạn "Cơ chế", bảng ánh xạ và khuyến nghị theo quy mô đội là phần biên tập tổng hợp minh họa, không trích nguyên văn từ nguồn.</em>
+  </div>
+
+  <div class="foot"><a href="/" style="color:#4338ca;text-decoration:none">← Về trang bìa lưu trữ</a></div>
+</div>
+</body>
+</html>
