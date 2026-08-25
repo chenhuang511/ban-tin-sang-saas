@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI tự chấm điểm chính mình: đo "giờ-người tương đương" mỗi phiên agent (r=0,74) &amp; bảo hành $10 triệu nếu AI không đáng tiền · 25/08/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.dich{background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;padding:16px 20px;margin-top:16px}
+.dich .flag{font-size:12.5px;color:#94a3b8;font-style:italic;margin-bottom:8px}
+.dich h3{font-size:16px;margin:14px 0 4px}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 25/08/2026 · bản chi tiết</div>
+    <h1 class="title">AI tự chấm điểm chính mình: đo "giờ-người tương đương" mỗi phiên agent (r=0,74) &amp; dám bảo hành $10 triệu nếu AI không đáng tiền</h1>
+    <div class="meta">25/08/2026 · Thời lượng đọc ~20 phút · Nguồn: Cognition — "Estimating the Productivity of an Autonomous AI Software Engineer" &amp; "AI Productivity Guarantee" (cùng 04/06/2026)</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: số này viết ở dạng "đậm cơ chế" — mỗi con số cố kèm một tầng <em>nghĩa là gì / vì sao khó / làm thế nào</em>. Các đoạn có nhãn <b style="color:#1e40af">Cơ chế</b>, bảng ánh xạ và khuyến nghị theo quy mô đội là phần <strong>biên tập tổng hợp từ thực hành phổ biến</strong> để minh họa, KHÔNG trích nguyên văn từ nguồn; mọi con số vẫn dẫn nguồn nội dòng. Hai bài nguồn công bố 04/06/2026 (không thuộc "7 ngày gần nhất") nhưng chủ đề — <em>đo giá trị thật của AI</em> — chưa từng làm ở các số trước và nối thẳng vào tranh luận "đo hoạt động vs đo kết quả" (số 21/08, 16/08).</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1">Cognition dựng "máy đo năng suất AI": mỗi phiên Devin đáng bao nhiêu giờ-người? (r=0,74)</a></li>
+      <li><a href="#bai2">Đặt tiền vào lời hứa: "Bảo hành năng suất" tới $10 triệu nếu AI giao ít giá trị hơn khách trả</a></li>
+      <li><a href="#gocnhin">Góc nhìn: vì sao "giờ-người tương đương" là số đúng để cãi nhau — và các bẫy của nó</a></li>
+      <li><a href="#dich1">📖 Lược dịch — Estimating the Productivity of an Autonomous AI Software Engineer</a></li>
+      <li><a href="#dich2">📖 Lược dịch — AI should earn its keep: Introducing the AI Productivity Guarantee</a></li>
+    </ol>
+  </nav>
+
+  <!-- BÀI 1 -->
+  <article class="card" id="bai1">
+    <span class="tag view">Quy trình &amp; đo lường AI</span>
+    <h2 class="head">1 · Cognition dựng "máy đo năng suất AI": mỗi phiên Devin đáng bao nhiêu giờ-người?</h2>
+    <p class="src">Nguồn: Cognition (đội làm Devin) — "Estimating the Productivity of an Autonomous AI Software Engineer" · 04/06/2026 · bài kỹ thuật cấp một (có phương pháp, dữ liệu, đánh giá) · <a href="https://cognition.com/blog/ai-productivity" target="_blank">cognition.com/blog/ai-productivity</a>. Lưu ý: hãng bán agent lập trình, có lợi ích thương mại — đọc phần "threats to validity" cùng phần kết quả.</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">r=0,74</div><div class="lab">tương quan log giữa ước lượng của AI và giờ-người do kỹ sư tự báo, trên 233 phiên giữ-lại (r²=0,54; p&lt;10⁻⁵) <a href="https://cognition.com/blog/ai-productivity" target="_blank">(Cognition, 2026)</a></div></div>
+      <div class="box"><div class="num">258 / 126</div><div class="lab">phiên làm dữ liệu chuẩn / số kỹ sư ở nhiều khách doanh nghiệp, thu qua phỏng vấn + khảo sát <a href="https://cognition.com/blog/ai-productivity" target="_blank">(Cognition, 2026)</a></div></div>
+      <div class="box"><div class="num">1,4×</div><div class="lab">tổng giờ kỹ sư tự báo vẫn cao gấp 1,4× tổng ước lượng đã hiệu chỉnh của model → cố tình báo thấp cho an toàn <a href="https://cognition.com/blog/ai-productivity" target="_blank">(Cognition, 2026)</a></div></div>
+    </div>
+
+    <p>Sáu tháng trước, mọi CTO lo đội mình <em>chưa xài đủ token</em>. Xu hướng đó đã đảo chiều: token và chi AI tăng vọt, giờ câu hỏi là <em>đo sản lượng thật thế nào</em>, vì không phải token nào cũng tạo giá trị.<sup><a href="https://cognition.com/blog/ai-productivity" target="_blank">[1]</a></sup> Cognition chọn giải một bài con cụ thể: mỗi phiên làm việc của Devin (agent lập trình tự chủ) <em>đáng bao nhiêu giờ của một kỹ sư người</em>. Một agent đọc lại toàn bộ phiên đã hoàn thành, trước hết phân loại phiên có tạo ra output hữu ích không, rồi ước lượng một kỹ sư người sẽ mất bao lâu để làm ra đúng phần việc đó. Họ gọi kết quả là "giờ-người tương đương", và tự nhận đây là <em>hệ thống tự động đầu tiên đo năng suất kỹ thuật của AI ngay trong môi trường production</em>.<sup><a href="https://cognition.com/blog/ai-productivity" target="_blank">[1]</a></sup></p>
+
+    <h3 class="sub">Vì sao chọn "giờ-người", không phải dòng code hay đô-la</h3>
+    <p>Bài mở đầu bằng chuyện chọn thước đo — và đây là phần đáng học nhất. Có hai thái cực đều sai. Đầu này là <em>đô-la trực tiếp</em> (doanh thu do tính năng đẻ ra, chi phí né được nhờ bug đã sửa): đúng lý tưởng nhưng bất khả thi, ngay cả một kỹ sư cũng không biết tuần rồi mình tạo ra bao nhiêu đô-la giá trị.<sup><a href="https://cognition.com/blog/ai-productivity" target="_blank">[1]</a></sup> Đầu kia là <em>hoạt động thô</em> (dòng code, commit, PR, token): dễ đếm nhưng không tương ứng với công sức — một refactor máy móc chạm hàng nghìn dòng trong một buổi chiều, còn một bug hai dòng có thể ngốn nhiều giờ điều tra.<sup><a href="https://cognition.com/blog/ai-productivity" target="_blank">[1]</a></sup></p>
+    <div class="mech"><b>Cơ chế — vì sao "giờ" là điểm giữa đúng:</b> tổ chức vốn đã định giá công việc kỹ thuật bằng thời gian (lương, giá thầu đều tính theo giờ). "Giờ" chuẩn hóa được giữa các công ty, độc lập bối cảnh kinh doanh, và quy ra đô-la qua đơn giá kỹ sư. Nói cách khác, nó là đơn vị lãnh đạo <em>đã</em> dùng để cân nhắc đầu tư — nên là ngôn ngữ chung tốt hơn "số dòng code" (mà ai cũng biết là vô nghĩa) hay "đô-la giá trị" (mà không ai đo nổi). Bài học rút cho bạn: nếu đang báo cáo AI bằng token tiêu thụ hay số PR, bạn đang đo cái dễ đếm chứ không phải cái quan trọng.</div>
+
+    <h3 class="sub">Bước bị bỏ quên: lọc ra phiên "không hữu ích" trước khi cộng</h3>
+    <p>Không phải phiên nào cũng ra việc. Với phiên có PR, luật đơn giản: nếu có bất kỳ PR nào được merge thì tính, nếu tất cả bị đóng thì bỏ — hơi thiệt (PR đóng vẫn có thể có ích) nhưng cố ý nghiêng về phía dè dặt. Với phiên <em>không có PR</em>, họ dựng một bộ phân loại loại bỏ khoảng <strong>1–20% phiên tùy khách</strong>: bỏ phiên agent thiếu quyền truy cập, phiên agent hỏi lại mà người dùng không trả lời, phiên không đẩy việc đi được. Nhưng giữ lại các phiên không-code mà vẫn có giá trị thật: dò dependency chết, quét lỗ hổng bảo mật, review một PR, chạy truy vấn phân tích, phân loại bug.<sup><a href="https://cognition.com/blog/ai-productivity" target="_blank">[1]</a></sup></p>
+    <div class="mech"><b>Cơ chế — vì sao bước lọc quyết định độ tin cậy:</b> nếu cộng cả những phiên "agent loay hoay rồi bỏ" vào tổng, con số năng suất sẽ phồng lên giả tạo — đúng kiểu marketing mà ai cũng nghi ngờ. Bằng cách loại phiên vô ích <em>trước</em> khi tính, phân phối dữ liệu đánh giá tiến gần dân số production đã lọc, thay vì lưu lượng thô. Đây cũng là lý do nhiều "báo cáo năng suất AI" khác không đáng tin: chúng đếm mọi phiên như nhau.</div>
+
+    <h3 class="sub">Cỗ máy ước lượng: bốn nguyên tắc "chấm điểm đường-đi-của-người, không phải của agent"</h3>
+    <p>Sau khi lọc, một "agent ước lượng" nhận context tối đa (tin nhắn người dùng, PR nếu có, toàn bộ vết thực thi của agent, và bối cảnh codebase từ DeepWiki), rồi đưa ra số giờ. Họ để riêng 25 phiên làm tập phát triển để dò lỗi và tinh chỉnh, đúc ra bốn nguyên tắc thiết kế — tất cả đều nghiêng về <em>báo thấp</em>:<sup><a href="https://cognition.com/blog/ai-productivity" target="_blank">[1]</a></sup></p>
+    <div class="doslist">
+      <div><strong>1. Suy luận theo đường đi của con người, không phải của agent.</strong> Agent hay đi vòng, phục hồi sau lỗi môi trường, đẻ ra báo cáo tóm tắt mà một kỹ sư đơn lẻ không làm. Bộ ước lượng bỏ qua các khúc retry/setup/sản phẩm phụ đó, chỉ tính con đường một người sẽ đi tới cùng output.</div>
+      <div><strong>2. Chỉ tính phần người dùng chưa nghĩ hộ.</strong> Cùng một output nhưng công sức khác nhau tùy người dùng đã "dọn đường" bao nhiêu. Nếu người dùng đến với báo cáo bug mà không kèm cách sửa → tính cả thời gian truy vết; nếu đến kèm kế hoạch triển khai → chỉ tính thời gian code.</div>
+      <div><strong>3. Tính đến độ quen codebase.</strong> Cùng một việc có thể mất vài phút hoặc cả ngày tùy kỹ sư quen code đến đâu. Người dùng nói đây là lợi thế rõ nhất của Devin: việc trong codebase lạ/legacy vốn ngốn cả ngày "làm quen" thì agent giao nhanh. Khi không có tín hiệu, model giả định độ quen "trung bình".</div>
+      <div><strong>4. Giả định người tham chiếu đã có chuyên môn.</strong> Agent giúp người ta làm việc vượt chuyên môn (một kỹ sư backend giao được cả việc frontend/khoa học dữ liệu). Tính công đó vào sẽ thổi phồng số, nên họ dè dặt giả định kỹ sư tham chiếu <em>đã</em> thạo — điều này <em>báo thấp</em> ở nhiều ca lẽ ra người phải học ngôn ngữ/framework mới.</div>
+    </div>
+
+    <h3 class="sub">Kết quả: từng số thì "ồn", nhưng tổng thì hội tụ</h3>
+    <p>Trên tập giữ-lại 233 phiên, bộ ước lượng đạt tương quan log r=0,74 (r²=0,54), có ý nghĩa thống kê rất mạnh (F(1,231)=279,9; p&lt;10⁻⁵). Khoảng 50% phiên rơi trong khoảng gấp/chia 2 lần số thật; sai số 2–3× ở từng phiên là chuyện thường — nhưng vì sai số gần như <em>không lệch</em> và độc lập nhau, chúng triệt tiêu khi số phiên tăng, và tổng hội tụ về con số kỹ sư tự báo.<sup><a href="https://cognition.com/blog/ai-productivity" target="_blank">[1]</a></sup></p>
+    <div class="mech"><b>Cơ chế — "r=0,74" và "r² log" nghĩa là gì:</b> r là hệ số tương quan (0 = không liên hệ, 1 = khớp hoàn hảo); "log" nghĩa là họ đo tương quan trên thang logarit của số giờ, hợp lý vì thời gian trải từ vài phút tới nhiều ngày. r²=0,54 nghĩa là model giải thích được ~54% biến thiên. Điểm mấu chốt không phải "đoán đúng từng phiên" (nó không) mà là <em>không thiên lệch có hệ thống</em> — nên dùng để cộng dồn cho cả một đội thì đáng tin, còn dùng để chấm điểm một kỹ sư đơn lẻ thì không. Đây chính là ranh giới nên nhớ nếu ai đó định lấy loại số này đi đánh giá nhân sự.</div>
+    <p>Họ cũng chân thật về nguồn "ồn": phân nửa bất đồng còn lại nằm <em>giữa</em> các người dùng chứ không phải trong các phiên của cùng một người (ICC=0,58) — người ta ước lượng khác nhau và làm việc nhanh chậm khác nhau.<sup><a href="https://cognition.com/blog/ai-productivity" target="_blank">[1]</a></sup> Model thô ban đầu luôn báo thấp, nên họ hiệu chỉnh bằng hồi quy log (xấp xỉ một hằng số nhân ~2,08). Ngay cả sau hiệu chỉnh, tổng giờ người tự báo vẫn cao gấp <strong>1,4×</strong> tổng ước lượng của model — một khoảng chênh <em>được kỳ vọng</em> về mặt toán học, và họ cố ý báo con số thấp này thay vì chỉnh thêm, để nghiêng về "dè dặt".<sup><a href="https://cognition.com/blog/ai-productivity" target="_blank">[1]</a></sup></p>
+
+    <h3 class="sub">Bằng chứng phụ: "số dòng code" là proxy yếu — tín hiệu nằm ngoài diff</h3>
+    <p>Để biết tín hiệu đến từ đâu, họ thử hai bộ dự đoán đơn giản hơn. Chỉ dùng <em>tổng số dòng thay đổi</em> cho kết quả tệ (R²log=0,27), xác nhận khối lượng code là proxy yếu cho công sức.<sup><a href="https://cognition.com/blog/ai-productivity" target="_blank">[1]</a></sup> Dùng riêng vết các lệnh sửa của agent thì tốt hơn nhưng vẫn thua bộ đầy đủ — chứng tỏ phần lớn công sức nằm ở <em>điều tra, chẩn đoán, dựng môi trường, cân nhắc đánh đổi</em> và các output không-code, những thứ hiện trong vết phiên nhưng không hiện trong diff cuối.<sup><a href="https://cognition.com/blog/ai-productivity" target="_blank">[1]</a></sup></p>
+
+    <h3 class="sub">So với METR và Anthropic: cùng hướng, khác độ mịn dữ liệu</h3>
+    <table class="tbl">
+      <tr><th>Nghiên cứu</th><th>Dữ liệu</th><th>r (log)</th><th>Ghi chú</th></tr>
+      <tr><td>Cognition 2026</td><td>233 phiên giữ-lại, nhiều khách doanh nghiệp, có toàn vết phiên</td><td><strong>0,74</strong></td><td>Dữ liệu mịn nhất (cả trace)</td></tr>
+      <tr><td>METR 2026</td><td>34 phiên / 7 nhân sự METR, từ transcript Claude Code nén</td><td>0,83</td><td>r cao hơn nhưng mẫu hẹp, đồng nhất</td></tr>
+      <tr><td>Anthropic 2026</td><td>1.000 ticket Jira OSS, chỉ tiêu đề + mô tả</td><td>0,46</td><td>Người thật cũng chỉ đạt 0,67</td></tr>
+    </table>
+    <p>Cognition lập luận r của họ (0,74) vượt Anthropic (0,46) vì có dữ liệu mỗi phiên chi tiết hơn nhiều (Anthropic chỉ có tiêu đề + mô tả ticket); còn r của METR cao hơn (0,83) có thể vì mẫu hẹp và đồng nhất (7 nhân sự nội bộ).<sup><a href="https://cognition.com/blog/ai-productivity" target="_blank">[1]</a></sup> Điểm chung ba nghiên cứu: dùng LLM để ước lượng công sức là <em>khả thi</em> — và càng nhiều ngữ cảnh, càng chính xác.</p>
+
+    <h3 class="sub">Bốn "mối đe dọa tính hợp lệ" họ tự nêu</h3>
+    <p>Phần này quan trọng ngang kết quả, vì nó vẽ ranh giới nên tin số này tới đâu: (a) <em>Ground truth tự báo</em> — người dùng biết mình đang nói chuyện với Cognition, có thể thiên lệch; (b) <em>Lấy mẫu</em> — người tự nguyện trả lời có thể là nhóm gắn bó hơn, và "phiên đại diện" có thể bỏ sót phiên thất bại; (c) <em>Giờ không phải giá trị kinh doanh</em> — đo được năng lực kỹ thuật, không đo được năng lực đó có dùng vào việc giá trị cao không (một giờ sửa bug production khác hẳn một giờ cho dự án bị hủy); (d) <em>Giờ không tính chất lượng</em> — nếu agent cấy một bug tinh vi tốn nhiều giờ gỡ sau này thì uplift thực âm; bộ lọc PR-merged chặn được lỗi rõ nhất, không chặn được lỗi phát hiện sau khi merge.<sup><a href="https://cognition.com/blog/ai-productivity" target="_blank">[1]</a></sup></p>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn — theo quy mô đội:</strong></div>
+    <div class="scale">
+      <div class="col small">
+        <h4>Đội nhỏ / startup &lt; 10 người</h4>
+        <ul>
+          <li>Chưa cần dựng bộ ước lượng bằng LLM. Dùng thủ công cách của họ: mỗi tuần lấy ~10 phiên AI đại diện, hỏi người làm "nếu không có AI, việc này mất mấy giờ?" — cộng lại là ước lượng đủ dùng.</li>
+          <li>Nghiêng về <em>báo thấp</em>: chỉ tính phần AI thực sự làm hộ (người dùng chưa nghĩ sẵn), bỏ các phiên loay hoay không ra PR.</li>
+          <li>Ngừng báo cáo "đã xài bao nhiêu token / viết bao nhiêu dòng" cho sếp; đổi sang "giờ-người tiết kiệm" quy ra tiền lương.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Đội có sản phẩm production</h4>
+        <ul>
+          <li>Nếu tự động hóa việc đo: cấp cho bộ ước lượng cả <em>vết phiên</em> (không chỉ diff) — bài chứng minh diff là proxy yếu (R²=0,27).</li>
+          <li>Dùng số ở mức <em>tổng hợp cho đội</em>, tuyệt đối không chấm điểm cá nhân — sai số 2–3×/phiên chỉ triệt tiêu khi cộng nhiều.</li>
+          <li>Ghép "giờ tiết kiệm" với một lớp chất lượng (tỷ lệ PR bị revert, defect sau merge) để "giờ" không che mất nợ kỹ thuật — đúng mối đe dọa (d) họ tự nêu.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> Cognition, "Estimating the Productivity of an Autonomous AI Software Engineer" (04/06/2026) — <a href="https://cognition.com/blog/ai-productivity" target="_blank">bài gốc</a>. Nghiên cứu đối chiếu: <a href="https://metr.org/notes/2026-02-17-exploratory-transcript-analysis-for-estimating-time-savings-from-coding-agents" target="_blank">METR (17/02/2026)</a>, <a href="https://www.anthropic.com/research/estimating-productivity-gains" target="_blank">Anthropic (2026)</a>. Liên hệ tranh luận "đo hoạt động vs kết quả": số <a href="/2026-08-21" target="_blank">21/08</a>; hóa đơn token/FinOps: số <a href="/2026-08-16" target="_blank">16/08</a>.</div>
+  </article>
+
+  <!-- BÀI 2 -->
+  <article class="card" id="bai2">
+    <span class="tag saas">AI trong SaaS · định giá theo kết quả</span>
+    <h2 class="head">2 · Đặt tiền vào lời hứa: "Bảo hành năng suất" tới $10 triệu nếu AI giao ít giá trị hơn khách trả</h2>
+    <p class="src">Nguồn: Cognition — Scott Wu (đồng sáng lập &amp; CEO), "AI should earn its keep: Introducing the AI Productivity Guarantee" · 04/06/2026 · thông báo sản phẩm cấp một · <a href="https://cognition.com/blog/ai-guarantee" target="_blank">cognition.com/blog/ai-guarantee</a></p>
+
+    <div class="stat">
+      <div class="box"><div class="num">tới $10M</div><div class="lab">mức Cognition cam kết tài trợ usage cho khách doanh nghiệp nếu Devin giao ít giá trị kỹ thuật hơn số khách trả <a href="https://cognition.com/blog/ai-guarantee" target="_blank">(Cognition, 2026)</a></div></div>
+      <div class="box"><div class="num">giờ → $</div><div class="lab">giờ kỹ thuật quy ra đô-la bằng một đơn giá toàn cầu chuẩn, đối chiếu với mức tiêu thụ thực gần cuối hợp đồng năm <a href="https://cognition.com/blog/ai-guarantee" target="_blank">(Cognition, 2026)</a></div></div>
+      <div class="box"><div class="num">usage → kết quả</div><div class="lab">luận điểm cốt lõi: ngành phải chuyển từ tối đa hóa chỉ số sử dụng sang tối đa hóa kết quả <a href="https://cognition.com/blog/ai-guarantee" target="_blank">(Cognition, 2026)</a></div></div>
+    </div>
+
+    <p>Bài 1 là phương pháp; bài 2 là canh bạc thương mại đặt lên trên phương pháp đó. Scott Wu mở bằng chẩn đoán: công ty đang chi cho AI nhiều hơn bao giờ hết nhưng phần lớn <em>không nói được mình nhận lại gì</em> — dashboard đầy chỉ số hoạt động (token tiêu thụ, dòng code sinh ra) mà không cái nào trả lời câu "doanh nghiệp thực sự lấy ra được bao nhiêu giá trị".<sup><a href="https://cognition.com/blog/ai-guarantee" target="_blank">[2]</a></sup> Kết luận của ông: ngành cần chuyển từ tối đa hóa chỉ số sử dụng sang tối đa hóa kết quả, và <em>nhà cung cấp AI phải là bên đưa ra chuẩn đó</em>.<sup><a href="https://cognition.com/blog/ai-guarantee" target="_blank">[2]</a></sup></p>
+
+    <h3 class="sub">Cơ chế bảo hành: giá trị đo được đối chiếu tiêu thụ thực</h3>
+    <p>Cách vận hành gói "AI Productivity Guarantee": dùng chính bộ ước lượng ở bài 1 để tính giờ-người hữu ích Devin giao trong suốt hợp đồng, quy ra đô-la bằng một đơn giá toàn cầu chuẩn, rồi <em>gần cuối hợp đồng năm</em> đối chiếu với số tiền khách thực sự đã tiêu. Nếu giá trị hụt so với chi phí, Cognition cấp credit bù — tối đa $10 triệu.<sup><a href="https://cognition.com/blog/ai-guarantee" target="_blank">[2]</a></sup></p>
+    <div class="mech"><b>Cơ chế — vì sao đây là bước đi bất thường (và họ dám làm):</b> một cam kết tài chính kiểu này chỉ khả thi khi bộ ước lượng <em>cố ý báo thấp</em> — nhớ con số 1,4× ở bài 1: giờ người tự báo vẫn cao hơn ước lượng model. Nghĩa là "giá trị" mà bảo hành dùng để so đã bị kéo xuống mức dè dặt, nên rủi ro phải bồi thường thấp hơn nhìn qua. Cộng thêm mô hình vận hành: Devin độc lập model (chọn model phù hợp từng việc để tối ưu giá/hiệu năng), có kiểm soát chi tiêu chi tiết, và đội Cognition cắm trực tiếp vào tài khoản khách (chọn dự án giá trị cao, pair-programming, workshop dùng agent). Bảo hành vừa là cam kết niềm tin, vừa là đòn bẩy bán hàng: nó dịch chuyển gánh nặng "chứng minh ROI" từ khách sang nhà cung cấp.</div>
+
+    <h3 class="sub">Ranh giới họ tự vạch: "đây là baseline, không thay thế ROI"</h3>
+    <p>Điểm đáng khen về minh bạch: Wu nói rõ hệ thống này <em>ước lượng sản lượng kỹ thuật</em> (giờ hữu ích), chứ không thay thế việc đo ROI thật — vốn cần bối cảnh sâu về giá trị kinh doanh của từng việc. Cognition nói đội khách-hàng của họ vẫn làm việc trực tiếp với doanh nghiệp để hiểu tác động ROI đầy đủ; bộ ước lượng chỉ cung cấp một <em>đường nền</em> đo sản lượng.<sup><a href="https://cognition.com/blog/ai-guarantee" target="_blank">[2]</a></sup></p>
+    <div class="mech"><b>Cơ chế — vì sao khoảng cách "sản lượng ≠ ROI" là chỗ cần cẩn thận nhất:</b> "giờ tiết kiệm" chỉ thành tiền thật nếu số giờ đó được tái đầu tư vào việc có giá trị. Nếu AI tiết kiệm 1.000 giờ nhưng đội dùng số giờ đó cho dự án bị hủy, ROI thực bằng không — dù "bảo hành năng suất" vẫn coi là đạt. Đây là lý do một gói bảo hành kiểu này giải quyết được câu hỏi "AI có làm ra việc không?" nhưng <em>không</em> giải quyết "việc đó có đáng làm không?" — câu sau vẫn là của bạn.</div>
+
+    <h3 class="sub">Đặt trong dòng chảy định giá "ghế → kết quả"</h3>
+    <p>Nước cờ này khớp một xu hướng bản tin đã theo: định giá phần mềm đang rời "ghế" sang "công việc/kết quả" (số 19/08, khảo sát Kyle Poyar cho thấy nhà đầu tư ưa giá theo kết quả 26% và giá lai 37%). Một "bảo hành năng suất" là hình thức cực đoan của định giá theo kết quả: thay vì tính tiền theo lượng dùng, nhà cung cấp <em>đảm bảo một mức kết quả tối thiểu</em> hoặc tự trả. Nó cũng là phản ứng trực tiếp với nỗi lo "hóa đơn token" (số 16/08) và "năng suất phẳng ~10% dù ai cũng dùng AI" (số 21/08): khi khách bắt đầu hỏi "tôi trả nhiều thế để được gì", người bán nào dám gắn tiền vào câu trả lời sẽ có lợi thế.</p>
+    <div class="editnote">Đoạn liên hệ định giá và các số cũ là biên tập tổng hợp, không trích nguyên văn từ bài Cognition; số của Kyle Poyar thuộc số 19/08 (đã dẫn nguồn ở số đó).</div>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn — theo quy mô đội:</strong></div>
+    <div class="scale">
+      <div class="col small">
+        <h4>Đội nhỏ / đang mua công cụ AI</h4>
+        <ul>
+          <li>Khi nhà cung cấp chào "bảo hành năng suất/ROI", hỏi ngay: <em>giá trị đo bằng gì, ai đo, đối chiếu với chi phí nào, và khi hụt thì bù ra sao</em> — nếu mù mờ thì đó là marketing.</li>
+          <li>Tự đặt một "đường nền": trước khi mua, ghi lại vài việc điển hình mất bao lâu làm tay; sau 1 quý so lại. Đó là ROI rẻ tiền nhất bạn có.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Đội đang bán phần mềm/tính năng AI</h4>
+        <ul>
+          <li>Cân nhắc chào một cam kết kết quả <em>có giới hạn</em> (một phân khúc, một use case) — nhưng chỉ khi bạn có cách đo dè dặt, báo thấp, như Cognition.</li>
+          <li>Tách rõ với khách: bạn bảo hành <em>sản lượng</em> (giờ/việc) hay <em>kết quả kinh doanh</em> (doanh thu/chi phí)? Đừng để khách hiểu nhầm cái thứ nhất là cái thứ hai.</li>
+          <li>Định giá theo kết quả chỉ bền nếu chi phí biên AI của bạn thấp hơn giá trị bảo hành; đo biên trước khi hứa.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> Cognition, Scott Wu, "AI should earn its keep: Introducing the AI Productivity Guarantee" (04/06/2026) — <a href="https://cognition.com/blog/ai-guarantee" target="_blank">bài gốc</a>. Phương pháp đo: <a href="https://cognition.com/blog/ai-productivity" target="_blank">bài 1</a>. Định giá "ghế → kết quả": số <a href="/2026-08-19" target="_blank">19/08</a>.</div>
+  </article>
+
+  <!-- GÓC NHÌN -->
+  <article class="card" id="gocnhin">
+    <span class="tag view">Góc nhìn</span>
+    <h2 class="head">3 · Vì sao "giờ-người tương đương" là số đúng để cãi nhau — và các bẫy của nó</h2>
+    <p>Hai bài hôm nay là cùng một câu chuyện ở hai tầng: một <em>phương pháp</em> đo giá trị AI, và một <em>cam kết tài chính</em> đặt lên trên phương pháp ấy. Điều đáng chú ý không phải con số r=0,74, mà là <strong>lựa chọn đơn vị đo</strong>. Trong nhiều số vừa qua, sợi chỉ lặp đi lặp lại là "đo hoạt động thay vì đo kết quả": token, dòng code, PR, ghế — đều tăng đẹp mà không chứng minh giá trị (số 21/08 gọi đây là "năng suất AI che khuất khủng hoảng năng lực"; số 16/08 là "hóa đơn token đã tới"). "Giờ-người tương đương" là nỗ lực nghiêm túc đầu tiên đặt một đơn vị <em>ở giữa</em> hoạt động thô và đô-la — đủ cụ thể để cộng dồn, đủ trung lập để lãnh đạo tin.</p>
+    <p>Nhưng chính bài gốc dạy ta cách hoài nghi nó. Ba lằn ranh cần khắc: (1) <em>Chỉ dùng ở mức tổng hợp</em> — sai số 2–3× mỗi phiên biến nó thành công cụ nguy hiểm nếu dùng để xếp hạng cá nhân; (2) <em>Giờ không phải giá trị kinh doanh</em> — tiết kiệm giờ mà đổ vào việc vô ích thì ROI vẫn bằng không; (3) <em>Giờ không tính chất lượng</em> — nếu không ghép một lớp đo defect/revert, "giờ tiết kiệm" có thể đang giấu nợ kỹ thuật (đúng bài học của số 24/08 về refactor AI đẻ 127 bug). Một con số tốt vẫn có thể bị lạm dụng; giá trị của bộ ước lượng này nằm ở chỗ nó <em>tự khai</em> mình sai ở đâu.</p>
+    <p>Còn "bảo hành $10 triệu" là tín hiệu thị trường đáng theo dõi: nó đẩy gánh nặng chứng minh ROI từ người mua sang người bán. Nếu xu hướng này lan ra, câu hỏi mua sắm AI sẽ đổi từ "công cụ này mạnh cỡ nào" sang "anh dám bảo hành kết quả gì". Đó là một kỷ luật lành mạnh cho cả ngành — miễn là ta không lẫn "bảo hành sản lượng" với "bảo hành giá trị".</p>
+    <p><strong>3 việc nên làm tuần này:</strong></p>
+    <div class="doslist">
+      <div>• Chọn một đơn vị đo AI ở mức đội (gợi ý: giờ-người tương đương quy ra lương) và ngừng báo cáo token/dòng code cho lãnh đạo.</div>
+      <div>• Lấy 10 phiên AI tuần rồi, hỏi người làm "không có AI thì mất mấy giờ?", cộng lại — có ngay một đường nền dè dặt, báo thấp.</div>
+      <div>• Ghép số "giờ tiết kiệm" với một chỉ số chất lượng (PR bị revert / defect sau merge) để giờ tiết kiệm không che nợ kỹ thuật.</div>
+    </div>
+  </article>
+
+  <hr class="sep">
+
+  <!-- LƯỢC DỊCH 1 -->
+  <section class="dich" id="dich1">
+    <h2 class="head">📖 Lược dịch chi tiết — Estimating the Productivity of an Autonomous AI Software Engineer (Cognition)</h2>
+    <div class="flag">Bản diễn đạt lại bằng tiếng Việt, bám sát bố cục &amp; số liệu bài gốc — không phải dịch nguyên văn. <a href="https://cognition.com/blog/ai-productivity" target="_blank">Bài gốc</a></div>
+    <h3>Mở đầu</h3>
+    <p>Sáu tháng trước, mối lo của CTO là đội chưa dùng đủ token; nay token và chi AI tăng vọt, mối lo đổi thành đo sản lượng thật. Không phải token nào cũng tạo giá trị: có phiên tiết kiệm giờ và đẩy nhanh dự án, có phiên phí vào session vô dụng và prompt tồi. Ở quy mô hàng nghìn phiên/hàng tỷ token thì đo giá trị bằng tay là bất khả thi — nên Cognition tự động hóa bằng AI. Họ tập trung vào một bài con: mỗi phiên Devin đáng bao nhiêu giờ-người. Một agent đọc mỗi phiên đã hoàn thành, phân loại có ra output hữu ích không, rồi ước lượng thời gian một kỹ sư người sẽ mất để làm ra cùng phần việc; kiểm chứng bằng cách hỏi chính các kỹ sư. Hệ thống đang chạy với khách hàng — theo họ biết, là hệ tự động đầu tiên đo năng suất kỹ thuật AI trong production.</p>
+    <h3>Chọn thước đo</h3>
+    <p>Lý tưởng là đo đô-la trực tiếp, nhưng đây là vấn đề chưa giải được: kỹ sư cũng không biết PR tuần rồi tạo bao nhiêu đô-la. Đầu kia là hoạt động thô (dòng code, commit, PR, token) — dễ đếm nhưng không ứng với công sức; nhiều việc giá trị (phân loại bug, chạy truy vấn, review) không ra dòng code nào. Điểm giữa: giờ kỹ thuật của con người. Giờ vốn là cách tổ chức định giá công việc (lương, giá thầu), chuẩn hóa được, độc lập bối cảnh, quy ra đô-la qua đơn giá. Nhưng không phải giờ nào cũng như nhau — nếu mọi PR của phiên đều bị đóng thì phiên đó ít giá trị; nên họ phải thêm bộ phân loại "phiên có thật sự hữu ích không".</p>
+    <h3>Thu thập dữ liệu</h3>
+    <p>Dữ liệu chuẩn gồm 258 phiên từ 126 người dùng ở nhiều khách doanh nghiệp, thu qua phỏng vấn trực tiếp và khảo sát; người dùng ước lượng mỗi phiên sẽ mất bao lâu nếu không có Devin. Mỗi phiên có vết thực thi đầy đủ (yêu cầu người dùng, mọi hành động, code kết quả, bối cảnh codebase) — mức chi tiết khó có từ khảo sát, chỉ số hoạt động hay benchmark OSS.</p>
+    <h3>Lọc phiên hữu ích</h3>
+    <p>Với phiên có PR: nếu có PR merged thì tính, không thì bỏ (hơi thiệt nhưng dè dặt). Với phiên không PR: bộ phân loại loại 1–20% tùy khách (bỏ phiên thiếu quyền, phiên hỏi mà không ai trả lời, phiên không đẩy việc), nhưng giữ phiên không-code có ích (dò dependency chết, quét lỗ hổng, review PR, truy vấn phân tích, phân loại bug).</p>
+    <h3>Dựng bộ ước lượng</h3>
+    <p>Agent ước lượng nhận context tối đa (tin nhắn người dùng, PR nếu có, toàn vết agent, bối cảnh từ DeepWiki); 25 phiên để riêng làm tập phát triển. Bốn nguyên tắc: (1) suy luận theo đường đi của người, không của agent — bỏ retry, setup, artifact thừa; (2) chỉ tính phần người dùng chưa nghĩ hộ (có kế hoạch sẵn thì chỉ tính code, chỉ có báo cáo bug thì tính cả truy vết); (3) tính độ quen codebase — lợi thế rõ nhất của agent là việc trong code lạ/legacy; khi không có tín hiệu, giả định độ quen trung bình; (4) giả định người tham chiếu đã có chuyên môn (dè dặt, dẫn tới báo thấp).</p>
+    <h3>Đánh giá</h3>
+    <p>Trên 233 phiên giữ-lại: r log = 0,74; r² log = 0,54; F(1,231)=279,9; p&lt;10⁻⁵. ~50% phiên trong khoảng gấp/chia 2; sai số 2–3× mỗi phiên là thường nhưng gần như không lệch và độc lập → triệt tiêu khi cộng. Phân nửa bất đồng nằm giữa người dùng (ICC=0,58). Model thô báo thấp → hiệu chỉnh hồi quy log h = 2,28 × m^0,923 (xấp xỉ hằng số nhân 2,08). Sau hiệu chỉnh, tổng giờ người tự báo vẫn 1,4× tổng model — chênh kỳ vọng về toán học khi cộng ước lượng không lệch trong không gian tuyến tính; họ báo con số thấp này như một ước tính dè dặt có chủ đích. Bộ dự đoán chỉ-dùng-số-dòng cho R² log = 0,27 (yếu); chỉ-dùng-vết-lệnh-sửa tốt hơn nhưng vẫn thua bộ đầy đủ — tín hiệu nằm ngoài diff (điều tra, chẩn đoán, setup, cân nhắc, output không-code). Phần hồi quy dòng tính trên 129/170 phiên có dữ liệu diff.</p>
+    <h3>So với nghiên cứu trước</h3>
+    <p>METR (2026) dùng GPT-4o + GPT-5 ước lượng từ transcript Claude Code nén, 34 phiên/7 nhân sự, r log = 0,83. Anthropic (2026) ước lượng thời lượng 1.000 ticket Jira OSS chỉ với tiêu đề + mô tả, r log = 0,46 (người thật đạt 0,67). Cognition (0,74) vượt Anthropic nhờ dữ liệu mỗi phiên mịn hơn; cả ba xác nhận dùng LLM ước lượng công sức là khả thi.</p>
+    <h3>Mối đe dọa tính hợp lệ</h3>
+    <p>(a) Ground truth tự báo, người dùng biết đang nói với Cognition → có thể thiên lệch; (b) lấy mẫu thiên về người gắn bó, có thể thiếu phiên thất bại (nhưng đã lọc phiên vô ích trước khi cộng nên phân phối đánh giá gần dân số production đã lọc); (c) giờ không phải giá trị kinh doanh (không tính second-order như giải phóng kỹ sư cho việc đòn bẩy cao hơn); (d) giờ không tính chất lượng — bug tinh vi phát hiện sau merge làm uplift thực âm; bộ lọc PR-merged không bắt được.</p>
+    <h3>Kết luận</h3>
+    <p>Một hệ đo sản lượng kỹ thuật của agent tự chủ, tính bằng giờ-người tương đương; kiểm chứng trên 126 người dùng ở tám triển khai, r log = 0,74. Từng ước lượng ồn nhưng gần như không lệch; cộng dồn thì hội tụ về con số kỹ sư báo. Hệ được hiệu chỉnh để báo thấp thay vì báo cao, và đang dùng với khách hàng Devin.</p>
+  </section>
+
+  <!-- LƯỢC DỊCH 2 -->
+  <section class="dich" id="dich2">
+    <h2 class="head">📖 Lược dịch chi tiết — AI should earn its keep: Introducing the AI Productivity Guarantee (Scott Wu, Cognition)</h2>
+    <div class="flag">Bản diễn đạt lại bằng tiếng Việt, bám sát bố cục &amp; số liệu bài gốc — không phải dịch nguyên văn. <a href="https://cognition.com/blog/ai-guarantee" target="_blank">Bài gốc</a></div>
+    <h3>Vấn đề</h3>
+    <p>Công ty chi cho AI nhiều hơn bao giờ hết nhưng phần lớn không nói được nhận lại gì. Dashboard chỉ hiện chỉ số hoạt động — token tiêu thụ, dòng code sinh ra — không cái nào trả lời câu quan trọng: doanh nghiệp thực sự lấy ra bao nhiêu giá trị? Ngành cần chuyển từ tối đa hóa chỉ số sử dụng sang tối đa hóa kết quả, và hiện chưa có chuẩn tốt để đo điều đó. Nhà cung cấp AI nên là bên đưa ra chuẩn.</p>
+    <h3>Cách hoạt động</h3>
+    <p>Một agent đọc mỗi phiên Devin đã hoàn thành và ước lượng hai điều: phiên có ra output hữu ích không; nếu có, một kỹ sư người sẽ mất bao lâu làm ra cùng việc. Đo bằng giờ hữu ích vì số dòng code không ứng với công sức (bug hệ trọng có thể là bản vá hai dòng). Agent ước lượng có prompt của người dùng, PR nếu có, mọi hành động Devin làm, và bối cảnh từ DeepWiki. Nếu phiên có PR không merge hoặc bị phân loại là vô ích thì coi như không hữu ích. Dữ liệu ước lượng thời gian của con người được thu từ người dùng ở khách doanh nghiệp để kiểm chứng.</p>
+    <h3>Kiểm chứng &amp; giới hạn</h3>
+    <p>Họ hỏi người dùng ở nhiều khách doanh nghiệp: việc Devin làm sẽ mất bao lâu nếu làm tay? Không ước lượng đơn lẻ nào hoàn hảo, nhưng qua nhiều việc với độ phức tạp khác nhau, cao thấp bù nhau. Kết quả là ước lượng năng suất kỹ thuật từ agent — giờ hữu ích. Nó không thay thế việc đo ROI, vốn cần bối cảnh sâu về giá trị kinh doanh mỗi việc. Đội khách-hàng của Cognition hợp tác trực tiếp với doanh nghiệp để hiểu tác động ROI đầy đủ; bộ ước lượng cung cấp một đường nền bằng cách đo sản lượng. Họ dự định tiếp tục lặp và công bố những gì học được.</p>
+    <h3>Gói Bảo hành năng suất</h3>
+    <p>Cognition tự tin đặt cam kết tài chính vào năng suất Devin trong triển khai doanh nghiệp, nhờ: Devin độc lập model (chọn model đúng từng việc, tối ưu giá/hiệu năng); có kiểm soát chi tiêu tinh và hướng người dùng tới prompt hiệu quả; đội cắm trực tiếp vào tài khoản khách (chọn dự án giá trị cao, pair-programming trên backlog, workshop quản lý đội agent, đo kết quả). Giờ kỹ thuật quy ra đô-la bằng đơn giá toàn cầu chuẩn, đối chiếu với mức tiêu thụ thực gần cuối hợp đồng năm; nếu giá trị hụt, họ cấp credit tới $10 triệu. Thông điệp: mọi nhà cung cấp AI nên nói được khách nhận gì cho số tiền bỏ ra, và họ mong ngành đi theo hướng này.</p>
+  </section>
+
+  <div class="refs" style="margin-top:26px">
+    <strong>Nguồn tham khảo toàn số:</strong><br>
+    [1] Cognition, <a href="https://cognition.com/blog/ai-productivity" target="_blank">Estimating the Productivity of an Autonomous AI Software Engineer</a> (04/06/2026) · đối chiếu <a href="https://metr.org/notes/2026-02-17-exploratory-transcript-analysis-for-estimating-time-savings-from-coding-agents" target="_blank">METR (17/02/2026)</a> &amp; <a href="https://www.anthropic.com/research/estimating-productivity-gains" target="_blank">Anthropic (2026)</a><br>
+    [2] Cognition — Scott Wu, <a href="https://cognition.com/blog/ai-guarantee" target="_blank">AI should earn its keep: Introducing the AI Productivity Guarantee</a> (04/06/2026)<br>
+    <em>Các đoạn "Cơ chế", bảng so sánh và khuyến nghị theo quy mô đội là phần biên tập tổng hợp minh họa, không trích nguyên văn từ nguồn; mọi con số dẫn nguồn nội dòng.</em>
+  </div>
+
+  <div class="foot"><a href="/" style="color:#4338ca;text-decoration:none">← Về trang bìa lưu trữ</a></div>
+</div>
+</body>
+</html>
