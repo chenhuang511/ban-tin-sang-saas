@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Một chatbot AI bị chiếm token đã mở cửa 700+ Salesforce: giải phẫu vụ Salesloft Drift &amp; cách startup SaaS bịt lỗ hổng tích hợp bên thứ ba · 28/08/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.dich{background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;padding:16px 20px;margin-top:16px}
+.dich .flag{font-size:12.5px;color:#94a3b8;font-style:italic;margin-bottom:8px}
+.dich h3{font-size:16px;margin:14px 0 4px}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 28/08/2026 · bản chi tiết</div>
+    <h1 class="title">Một chatbot AI bị chiếm token đã mở cửa 700+ Salesforce: giải phẫu vụ Salesloft Drift &amp; cách startup SaaS bịt lỗ hổng tích hợp bên thứ ba</h1>
+    <div class="meta">28/08/2026 · Thời lượng đọc ~20 phút · Nguồn: Permiso — "Anatomy of the Salesloft Breach" (15/09/2025); AppOmni — "Why Salesforce OAuth Integrations are a Growing Risk" (26/08/2025); đối chiếu Google Threat Intelligence (GTIG/Mandiant)</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: số này chọn một <em>case mốc</em> (vụ Salesloft Drift công bố 08–09/2025) thay vì tin 7 ngày, vì đây đã thành "bài học chuẩn" về bảo mật chuỗi cung ứng SaaS &amp; danh tính phi-con-người (NHI) — chủ đề #4 của bản tin — và đang là khung tham chiếu cho làn sóng lo ngại tích hợp agent/MCP năm 2026. Các đoạn có nhãn <b style="color:#1e40af">Cơ chế</b>, bảng ánh xạ và khuyến nghị theo quy mô đội là phần <strong>biên tập tổng hợp từ thực hành phổ biến</strong>, KHÔNG trích nguyên văn nguồn; mọi con số vẫn dẫn nguồn nội dòng. Ghi chú quy kết thủ phạm còn tranh cãi (xem Bài 1).</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1">Permiso: giải phẫu vụ Salesloft Drift — một cuộc tấn công NHI trọn vẹn từ GitHub tới 700+ Salesforce</a></li>
+      <li><a href="#bai2">AppOmni: vì sao token OAuth của app bên thứ ba là cửa hậu — và playbook phòng cho SaaS</a></li>
+      <li><a href="#gocnhin">Góc nhìn: token là "nhân viên vô hình" — và vì sao tích hợp AI làm bài toán này gấp mười</a></li>
+      <li><a href="#dich1">📖 Lược dịch — Anatomy of the Salesloft Breach (Permiso)</a></li>
+      <li><a href="#dich2">📖 Lược dịch — Why Salesforce OAuth Integrations are a Growing Risk (AppOmni)</a></li>
+    </ol>
+  </nav>
+
+  <!-- BÀI 1 -->
+  <article class="card" id="bai1">
+    <span class="tag view">An toàn thông tin</span>
+    <h2 class="head">1 · Giải phẫu vụ Salesloft Drift: một cuộc tấn công "danh tính phi-con-người" trọn vẹn, từ một repo GitHub tới 700+ Salesforce</h2>
+    <p class="src">Nguồn: Permiso — Ian Ahl, "Anatomy of the Salesloft Breach — Detection, Response, and Lessons Learned" · 15/09/2025 · phân tích ứng cứu sự cố cấp một, dựa trên công bố của Salesloft, điều tra của Mandiant &amp; kinh nghiệm Permiso · hãng bảo mật danh tính (có lợi ích thương mại) · <a href="https://permiso.io/blog/anatomy-of-the-salesloft-breach" target="_blank">permiso.io</a>. Số "700+ tổ chức" đối chiếu <a href="https://cloud.google.com/blog/topics/threat-intelligence/data-theft-salesforce-instances-via-salesloft-drift" target="_blank">Google Threat Intelligence (GTIG)</a>.</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">700+</div><div class="lab">tổ chức có khả năng bị ảnh hưởng qua token OAuth của Drift <a href="https://cloud.google.com/blog/topics/threat-intelligence/data-theft-salesforce-instances-via-salesloft-drift" target="_blank">(Google GTIG)</a></div></div>
+      <div class="box"><div class="num">3→6/2025</div><div class="lab">thời điểm kẻ tấn công lọt vào GitHub của Salesloft, rồi "ngủ đông" trước khi khai thác 8–18/08 <a href="https://permiso.io/blog/anatomy-of-the-salesloft-breach" target="_blank">(Permiso)</a></div></div>
+      <div class="box"><div class="num">20/08/2025</div><div class="lab">Salesloft &amp; Salesforce thu hồi toàn bộ token OAuth của Drift <a href="https://permiso.io/blog/anatomy-of-the-salesloft-breach" target="_blank">(Permiso)</a></div></div>
+    </div>
+
+    <p>Đây là bài mổ xẻ của Ian Ahl (Permiso) về một trong những vụ tấn công chuỗi cung ứng SaaS đáng nhớ nhất năm 2025. Điểm khiến nó thành "case mốc": theo Permiso, đây gần như là cuộc tấn công <strong>danh tính phi-con-người (non-human identity — NHI)</strong> trọn vẹn hiếm hoi — từ đầu đến cuối kẻ tấn công hoạt động trong không gian của <em>máy</em> (token, khóa, tài khoản dịch vụ), gần như không chạm tới hành vi của một con người dùng thật, nên né được phần lớn kiểm soát bảo mật vốn tập trung vào người.<sup><a href="https://permiso.io/blog/anatomy-of-the-salesloft-breach" target="_blank">[1]</a></sup> Salesloft Drift là một ứng dụng Salesforce dùng cho thu hút khách hàng, <em>có công cụ AI</em> (chatbot hội thoại) — đúng loại tích hợp mà một startup SaaS ngày nay cắm vào CRM mà không nghĩ nhiều.</p>
+
+    <div class="mech"><b>Từ điển nhanh — NHI (non-human identity):</b> là các "danh tính" không phải người mà phần mềm dùng để tự xác thực với nhau: token OAuth, khóa API, tài khoản dịch vụ, secret trong CI/CD. Một agent AI hay một app tích hợp <em>chính là</em> một NHI. Chúng thường sống lâu, quyền rộng và ít bị giám sát hơn tài khoản người — nên là mục tiêu béo bở.</div>
+
+    <h3 class="sub">Chuỗi sự kiện: bốn bước, mỗi bước là một tầng phòng thủ bị bỏ ngỏ</h3>
+    <p>Permiso (dẫn công bố Salesloft + Mandiant) dựng lại đường đi. Nó không "hack thần thánh" — mỗi bước là một kiểm soát cơ bản bị thiếu:</p>
+    <table class="tbl">
+      <tr><th>Bước</th><th>Chuyện đã xảy ra</th><th>Tầng phòng thủ bị bỏ ngỏ</th></tr>
+      <tr><td>① Lọt GitHub<br>(3–6/2025)</td><td>Kẻ tấn công vào được repo GitHub của Salesloft, tải mã nguồn (clone/archive), thêm một "guest user" để bám trụ — trông y như quy trình onboarding nhân viên mới.<sup><a href="https://permiso.io/blog/anatomy-of-the-salesloft-breach" target="_blank">[1]</a></sup></td><td>Không phát hiện thêm thành viên bất thường; không rà mẫu truy cập repo</td></tr>
+      <tr><td>② Pivot sang AWS</td><td>Từ mã nguồn tải về, họ moi được credential lập trình (nhiều khả năng access key sống lâu), dùng nó nhảy vào môi trường AWS của Drift.<sup><a href="https://permiso.io/blog/anatomy-of-the-salesloft-breach" target="_blank">[1]</a></sup></td><td>Secret nằm trong repo; khóa AWS không xoay vòng, sống lâu</td></tr>
+      <tr><td>③ Trộm token OAuth</td><td>Trong AWS, họ rút các token OAuth của Drift — nhiều khả năng lưu trong Secrets Manager / Parameter Store.<sup><a href="https://permiso.io/blog/anatomy-of-the-salesloft-breach" target="_blank">[1]</a></sup></td><td>Không giám sát "rút hàng loạt secret" khỏi kho bí mật</td></tr>
+      <tr><td>④ Vào Salesforce &amp; hút dữ liệu<br>(8–20/08)</td><td>Dùng token để đăng nhập Salesforce của <em>khách</em>, chạy truy vấn SOQL, xuất dữ liệu rồi lọc lấy credential.<sup><a href="https://permiso.io/blog/anatomy-of-the-salesloft-breach" target="_blank">[1]</a></sup></td><td>Không có baseline "vendor này thường kết nối từ đâu"; không cảnh báo Bulk API</td></tr>
+    </table>
+
+    <div class="mech"><b>Cơ chế — vì sao token OAuth nguy hiểm hơn mật khẩu bị lộ:</b> khác với phiên đăng nhập của người (hết hạn, có MFA, gắn thiết bị), token OAuth của tích hợp thường <em>không hết hạn</em> và <em>bỏ qua MFA</em> vì bản chất nó là "đã được người dùng ủy quyền một lần rồi". Chiếm được token = có một chìa khóa dùng mãi, không bị hỏi lại mật khẩu, không kích hoạt cảnh báo đăng nhập lạ. Đó là lý do kẻ tấn công nhắm vào <em>kho token của nhà cung cấp</em> thay vì cố đoán mật khẩu của 700 công ty.</div>
+
+    <h3 class="sub">Kiến trúc "token theo từng người": tại sao thiệt hại nhân lên hàng trăm lần</h3>
+    <p>Chi tiết kiến trúc là mấu chốt. Drift cấp <strong>một token OAuth riêng cho mỗi người dùng</strong>, không phải một token cấp-tổ-chức. Mỗi nhân viên sales tự kết nối tài khoản Salesforce của mình vào Drift — nghĩa là khi token bị trộm, kẻ tấn công thừa hưởng <em>đúng quyền của từng người đó</em>. Nếu một quản trị viên Salesforce từng bật tích hợp, họ có quyền admin; nếu là một sales thường, quyền hẹp hơn.<sup><a href="https://permiso.io/blog/anatomy-of-the-salesloft-breach" target="_blank">[1]</a></sup></p>
+    <div class="mech"><b>Cơ chế — quyết định kiến trúc "tốt" lại thành thảm họa:</b> token-theo-người nghe rất "least privilege" (kiểm soát mịn từng người). Nhưng nó tạo ra <em>hàng trăm điểm chiếm quyền độc lập</em> thay vì một tích hợp duy nhất để canh. Khi kho token của nhà cung cấp bị vét sạch một lượt, "mịn" biến thành "hàng trăm cửa cùng mở". Bài học không phải "đừng làm mịn", mà là: <em>bề mặt tấn công không nằm ở chỗ token mịn hay thô, mà ở chỗ tất cả token dồn về một kho duy nhất của bên thứ ba</em> — và kho đó có được giám sát rút-hàng-loạt không.</div>
+
+    <p>Phạm vi cũng rộng hơn cái tên "vụ Salesforce" gợi ý: Permiso nhấn mạnh token OAuth cho <strong>Google Workspace</strong> và <em>hàng chục</em> ứng dụng tích hợp khác cũng bị lộ; phần lớn nỗ lực điều tra dồn vào Salesforce chỉ vì thiệt hại ở đó nhìn thấy rõ nhất.<sup><a href="https://permiso.io/blog/anatomy-of-the-salesloft-breach" target="_blank">[1]</a></sup></p>
+
+    <h3 class="sub">Thủ đoạn hút dữ liệu: xuất sạch rồi lọc offline để né cảnh báo</h3>
+    <p>Kẻ tấn công tỏ ra rất "sạch nước cản". Thay vì tìm trực tiếp trong Salesforce theo mẫu khóa AWS (ví dụ chuỗi bắt đầu bằng <em>AKIA</em>) — vốn dễ chạm vào cảnh báo, họ <strong>xuất toàn bộ dữ liệu</strong> ra hạ tầng của mình rồi mới chạy công cụ như TruffleHog để lọc ra credential (khóa AWS sống lâu, token Snowflake, mật khẩu…).<sup><a href="https://permiso.io/blog/anatomy-of-the-salesloft-breach" target="_blank">[1]</a></sup> Họ chia hai pha rõ rệt: <em>pha thăm dò</em> (11–16/08) chạy truy vấn giới hạn 1.000–10.000 bản ghi để đo lượng dữ liệu; <em>pha rút</em> (17–20/08) xuất hàng loạt.<sup><a href="https://permiso.io/blog/anatomy-of-the-salesloft-breach" target="_blank">[1]</a></sup> Và họ xóa các job xuất ngay sau khi xong (thay vì để hết hạn lưu mặc định) để phi tang — nhưng audit log vẫn giữ dấu vết.<sup><a href="https://permiso.io/blog/anatomy-of-the-salesloft-breach" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao "xuất sạch rồi lọc offline" đánh bại phòng thủ ngây thơ:</b> nhiều đội dựng cảnh báo theo <em>nội dung truy vấn</em> ("có ai search chuỗi AKIA không?"). Nhưng nếu kẻ tấn công chỉ chạy <em>SELECT *</em> hợp lệ rồi mang dữ liệu về nhà lọc, không có truy vấn "đáng ngờ" nào để bắt. Bài học: tín hiệu thật không nằm ở <em>truy vấn tìm gì</em>, mà ở <em>khối lượng và ngữ cảnh</em> — một tài khoản không phải service account bỗng gọi Bulk API xuất cả bảng, từ một IP chưa từng thấy. Phải phát hiện <em>hành vi bất thường</em>, không phải <em>từ khóa xấu</em>.</div>
+
+    <h3 class="sub">Cơ hội phát hiện: ba tín hiệu hành vi mà một đội nhỏ cũng bắt được</h3>
+    <p>Điểm giá trị nhất của bài là Permiso chỉ ra vụ này <em>có thể phát hiện</em> nếu nhìn đúng chỗ. Ba tín hiệu, không cần công cụ đắt tiền, chỉ cần có log và một baseline:<sup><a href="https://permiso.io/blog/anatomy-of-the-salesloft-breach" target="_blank">[1]</a></sup></p>
+    <div class="doslist">
+      <div><strong>① Lệch baseline của nhà cung cấp:</strong> kết nối OAuth của Salesloft <em>luôn</em> đến từ dải IP của AWS. Khi cùng danh tính đó bỗng kết nối từ hạ tầng DigitalOcean (IP <em>208.68.36.90</em>, nguồn rút dữ liệu chính) thì đó là lệch baseline rõ rệt. Kết nối của vendor rất dễ lập baseline vì chúng đều đặn — nên lệch là bắt được ngay.</div>
+      <div><strong>② Bulk API từ tài khoản không phải service account:</strong> gọi Bulk API hàng loạt vốn hiếm ở tài khoản thường. Một tài khoản chưa từng có lịch sử Bulk API bỗng xuất khối lớn = tín hiệu mạnh.</div>
+      <div><strong>③ Hành vi phản-điều-tra:</strong> xóa job xuất ngay sau khi chạy (thay vì để lưu vài ngày) là một mẫu bất thường có thể cảnh báo.</div>
+    </div>
+    <p>Permiso liệt kê các sự kiện Salesforce nên theo dõi: <em>UniqueQuery</em> (câu SOQL đã chạy), <em>BulkApi2</em> (xuất khối lớn), <em>Login:oauthrefreshtoken</em> (token liên tục làm mới trong lúc cào dữ liệu), <em>Report Export</em>. Nhưng có một rào cản kinh tế: bật đủ tầng log của Salesforce là <em>tốn phí</em> — và nhiều tổ chức chọn không trả, tạo ra điểm mù mà kẻ tấn công khai thác. Permiso gọi thẳng: "sự kiện bảo mật cơ bản nên là chức năng chuẩn, không phải tính năng cao cấp".<sup><a href="https://permiso.io/blog/anatomy-of-the-salesloft-breach" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Về quy kết thủ phạm (đọc thận trọng):</b> Mandiant/Google GTIG xếp hoạt động này vào cụm <em>UNC6395</em> — chưa định danh cụ thể, "pending". Một nhóm tự xưng <em>ShinyHunters</em> nhận trách nhiệm qua Telegram và tự nối mình với <em>Scattered Spider</em>, nhưng Permiso lưu ý mọi tuyên bố của họ chỉ dựa trên thông tin đã công khai, không có bằng chứng riêng — nên độ tin của quy kết đó thấp. (AppOmni ở Bài 2 mô tả là "nhóm nghi của Trung Quốc" — cho thấy quy kết còn <em>chưa thống nhất</em>.) Permiso khuyên: đừng để tranh cãi quy kết làm phân tán khỏi ưu tiên thật là phát hiện &amp; ứng cứu.<sup><a href="https://permiso.io/blog/anatomy-of-the-salesloft-breach" target="_blank">[1]</a></sup></div>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn — theo quy mô đội:</strong></div>
+    <div class="scale">
+      <div class="col small">
+        <h4>Đội nhỏ / startup &lt; 10 người</h4>
+        <ul>
+          <li>Liệt kê mọi app bên thứ ba đã cắm vào Salesforce/Google Workspace/Slack của bạn; với mỗi cái hỏi: token <em>hết hạn không</em>, quyền tới đâu, ai duyệt.</li>
+          <li>Quét dữ liệu của bạn xem có secret nằm nhầm chỗ không (khóa AWS/token trong ghi chú case, custom field) — vì <em>đó</em> là thứ kẻ tấn công tìm.</li>
+          <li>Bật audit log Salesforce/Workspace ở mức cơ bản ngay hôm nay; đắt hơn 0 đồng nhưng rẻ hơn một vụ vét dữ liệu.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Đội có sản phẩm production</h4>
+        <ul>
+          <li>Lập baseline dải IP + user-agent cho từng vendor OAuth; cảnh báo khi lệch (đây là tín hiệu đã bắt được vụ này).</li>
+          <li>Giám sát "rút hàng loạt secret" khỏi Secrets Manager/SSM và Bulk API từ tài khoản không phải service account.</li>
+          <li>Xoay vòng khóa lập trình sống lâu; tách token khách theo tenant; áp giới hạn IP cho tích hợp.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> Permiso — Ian Ahl, <a href="https://permiso.io/blog/anatomy-of-the-salesloft-breach" target="_blank">"Anatomy of the Salesloft Breach"</a> (15/09/2025). Đối chiếu <a href="https://cloud.google.com/blog/topics/threat-intelligence/data-theft-salesforce-instances-via-salesloft-drift" target="_blank">Google GTIG</a> (700+ tổ chức); FBI CSA-2025-250912 (IOC, 12/09/2025). Liên hệ số cũ: sự cố agent &amp; ranh giới quyền <a href="/2026-08-20" target="_blank">20/08</a>, prompt injection/chuỗi cung ứng <a href="/2026-08-10" target="_blank">10/08</a>.</div>
+  </article>
+
+  <!-- BÀI 2 -->
+  <article class="card" id="bai2">
+    <span class="tag view">An toàn thông tin</span>
+    <h2 class="head">2 · "App bên thứ ba là trách nhiệm của bạn": vì sao token OAuth thành cửa hậu — và playbook phòng cho SaaS</h2>
+    <p class="src">Nguồn: AppOmni — "Salesloft Drift–Salesforce Breach (UNC6395): Why Salesforce OAuth Integrations are a Growing Risk" · 26/08/2025 (cập nhật 05/2026) · phân tích &amp; khuyến nghị của hãng bảo mật SaaS (có lợi ích thương mại) · <a href="https://appomni.com/blog/drift-breach-salesforce-unc6395-saas-prevention/" target="_blank">appomni.com</a></p>
+
+    <div class="stat">
+      <div class="box"><div class="num">4</div><div class="lab">nguyên nhân gốc khiến vụ tấn công thành công (theo AppOmni): token OAuth sống dai · quyền quá rộng · thiếu giám sát · secret lưu hớ hênh <a href="https://appomni.com/blog/drift-breach-salesforce-unc6395-saas-prevention/" target="_blank">(AppOmni)</a></div></div>
+      <div class="box"><div class="num">SOQL</div><div class="lab">kẻ tấn công chạy truy vấn trên Users, Accounts, Opportunities, Cases rồi xóa job để phi tang (audit log vẫn giữ) <a href="https://appomni.com/blog/drift-breach-salesforce-unc6395-saas-prevention/" target="_blank">(AppOmni)</a></div></div>
+      <div class="box"><div class="num">12/09</div><div class="lab">FBI phát hành IOC &amp; chiến thuật (CSA-2025-250912) để các đội chặn tấn công tương tự <a href="https://appomni.com/blog/drift-breach-salesforce-unc6395-saas-prevention/" target="_blank">(AppOmni)</a></div></div>
+    </div>
+
+    <p>Nếu Bài 1 là "chuyện đã xảy ra thế nào", Bài 2 của AppOmni là "vì sao nó hiệu quả, và bạn phải làm gì". Luận điểm trung tâm rất thẳng: <strong>bảo mật của tích hợp bên thứ ba là trách nhiệm của bạn</strong> — không thể chỉ tin nhà cung cấp mà phải tự kiểm chứng tích hợp của họ có kiểm soát truy cập phù hợp không.<sup><a href="https://appomni.com/blog/drift-breach-salesforce-unc6395-saas-prevention/" target="_blank">[2]</a></sup> AppOmni gọi lớp rủi ro này là "SaaS-to-SaaS": niềm tin đặt vào một app kết nối có thể mở cửa cho lộ dữ liệu rộng hơn nhiều.</p>
+
+    <h3 class="sub">Bốn nguyên nhân gốc — và mỗi cái là một thói quen sửa được</h3>
+    <p>AppOmni chắt vụ này thành bốn "điểm mù phổ biến trong môi trường SaaS":<sup><a href="https://appomni.com/blog/drift-breach-salesforce-unc6395-saas-prevention/" target="_blank">[2]</a></sup></p>
+    <table class="tbl">
+      <tr><th>Nguyên nhân gốc</th><th>Nghĩa là gì trong đời thực</th></tr>
+      <tr><td>Token OAuth sống dai (persistent access)</td><td>Khác phiên người dùng, token thường không hết hạn → phơi nhiễm dài hạn nếu bị lộ</td></tr>
+      <tr><td>Quyền quá rộng (over-permissive)</td><td>Nhiều app xin "truy cập toàn bộ dữ liệu" và được duyệt mà không rà soát</td></tr>
+      <tr><td>Giám sát hạn chế</td><td>Đa số tổ chức không thu/không ngó log &amp; chính sách của app SaaS → khó phát hiện lạm dụng</td></tr>
+      <tr><td>Secret lưu hớ hênh</td><td>Khóa/credential cất trong field Salesforce làm khuếch đại thiệt hại khi bị vào</td></tr>
+    </table>
+
+    <div class="mech"><b>Cơ chế — vì sao "quản scope không đủ, phải quản dữ liệu":</b> AppOmni đưa ra một điểm phản-trực-giác quan trọng — với tích hợp Salesforce, việc <em>giới hạn scope OAuth</em> không giúp được nhiều, vì scope thường thô ("đọc dữ liệu"). Thứ thực sự chặn thiệt hại là kiểm soát &amp; giám sát <em>Object/Field/Record</em> nào mà tài khoản và tích hợp được chạm. Nói cách khác: đừng chỉ hỏi "app này có được đọc dữ liệu không", hãy hỏi "app này được đọc <em>bảng nào, cột nào, bản ghi nào</em>, và có ai canh khi nó đọc quá tay không".<sup><a href="https://appomni.com/blog/drift-breach-salesforce-unc6395-saas-prevention/" target="_blank">[2]</a></sup></div>
+
+    <h3 class="sub">Playbook sáu bước phòng SaaS-to-SaaS (diễn đạt bằng văn xuôi)</h3>
+    <p>AppOmni đề xuất sáu hành động, mà cái hay là chúng <em>xếp tầng</em>: mấy bước đầu là vệ sinh cơ bản đội nào cũng làm được, mấy bước sau cần công cụ hơn.<sup><a href="https://appomni.com/blog/drift-breach-salesforce-unc6395-saas-prevention/" target="_blank">[2]</a></sup></p>
+    <div class="doslist">
+      <div><strong>1. Least privilege cho tài khoản dịch vụ</strong> — biết chính xác mỗi danh tính này chạm được dữ liệu nào; cắt mọi quyền dư.</div>
+      <div><strong>2. Quét secret bị phơi</strong> — soi schema &amp; dữ liệu Salesforce tìm khóa AWS, token, mật khẩu bị lưu nhầm. Đây chính là thứ kẻ tấn công đi tìm.</div>
+      <div><strong>3. Giới hạn IP</strong> — chỉ cho tích hợp &amp; ứng dụng kết nối từ dải IP tin cậy, chặn truy cập từ mạng ẩn danh (Tor/VPS).</div>
+      <div><strong>4. Quản truy cập dữ liệu, không chỉ API</strong> — giám sát &amp; hạn chế Object/Field/Record mà tài khoản được chạm (xem khối Cơ chế trên).</div>
+      <div><strong>5. Gộp &amp; chuẩn hóa log SaaS</strong> — kéo log Salesforce, Okta, Google, Microsoft về một chỗ để có tầm nhìn xuyên suốt.</div>
+      <div><strong>6. Phân tích hành vi (UEBA)</strong> — kể cả khi truy cập "trông bình thường", phát hiện khi một app/người bắt đầu hành xử lạ (truy vấn ồ ạt, đăng nhập từ vị trí mới).</div>
+    </div>
+
+    <div class="mech"><b>Cơ chế — vì sao thứ tự này quan trọng với startup:</b> ba bước đầu (least privilege, quét secret, giới hạn IP) là <em>giảm bề mặt tấn công</em> — làm một lần, gần như miễn phí, và đã chặn được phần lớn kịch bản. Ba bước sau (quản dữ liệu, gộp log, UEBA) là <em>tăng khả năng phát hiện</em> — tốn công/công cụ hơn. Một đội nhỏ nên làm xong tầng "giảm bề mặt" trước khi đầu tư tầng "phát hiện": khóa cửa rẻ hơn lắp camera.</div>
+
+    <h3 class="sub">Ba bài học AppOmni đúc kết cho lãnh đạo</h3>
+    <p>AppOmni khép lại bằng ba điều đáng dán lên tường:<sup><a href="https://appomni.com/blog/drift-breach-salesforce-unc6395-saas-prevention/" target="_blank">[2]</a></sup> (1) <strong>Tích hợp SaaS-to-SaaS là một vector tấn công lớn</strong> — mạng lưới tin cậy giữa các app hiện đại là một tấm web phức tạp có thể bị khai thác; (2) <strong>An ninh app bên thứ ba là trách nhiệm của bạn</strong> — phải tự kiểm chứng, không phó mặc vendor; (3) <strong>Công cụ bảo mật truyền thống là chưa đủ</strong> — SaaS cần cách tiếp cận riêng gồm giám sát liên tục, quản trị posture &amp; phát hiện mối đe dọa. Salesforce &amp; Salesloft đã gỡ Drift khỏi AppExchange và thu hồi toàn bộ token ngày 20/08; FBI phát IOC ngày 12/09.<sup><a href="https://appomni.com/blog/drift-breach-salesforce-unc6395-saas-prevention/" target="_blank">[2]</a></sup></p>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn — theo quy mô đội:</strong></div>
+    <div class="scale">
+      <div class="col small">
+        <h4>Đội nhỏ / startup SaaS</h4>
+        <ul>
+          <li>Làm ngay ba bước "giảm bề mặt": least privilege, quét secret bị phơi, giới hạn IP cho tích hợp.</li>
+          <li>Cấm cất secret trong field CRM/ticket — dùng kho bí mật riêng; sửa cả thói quen "dán tạm khóa vào ghi chú".</li>
+          <li>Khi cắm một app AI mới vào CRM: hỏi token có hết hạn không, xin quyền tới đâu, có thu hồi được không — trước khi bấm "Authorize".</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Đội có bộ máy bảo mật</h4>
+        <ul>
+          <li>Chuyển từ quản scope sang quản Object/Field/Record; đặt cảnh báo xuất khối lớn theo bản ghi.</li>
+          <li>Gộp log SaaS (Salesforce/Okta/Google/MS) + UEBA để bắt lệch-baseline của vendor.</li>
+          <li>Đưa "rà soát tích hợp bên thứ ba" thành nghi thức định kỳ, không phải việc một lần lúc tích hợp.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> AppOmni — <a href="https://appomni.com/blog/drift-breach-salesforce-unc6395-saas-prevention/" target="_blank">"Why Salesforce OAuth Integrations are a Growing Risk"</a> (26/08/2025). Liên hệ số cũ: SOC 2 cho startup <a href="/2026-08-09-baomat" target="_blank">09/08 (song song)</a>, DevSecOps &amp; lộ trình 30/90/365 <a href="/2026-08-23" target="_blank">23/08</a>.</div>
+  </article>
+
+  <!-- GÓC NHÌN -->
+  <article class="card" id="gocnhin">
+    <span class="tag view">Góc nhìn</span>
+    <h2 class="head">3 · Token là "nhân viên vô hình" — và vì sao tích hợp AI làm bài toán này gấp mười</h2>
+    <p>Vụ Salesloft Drift đáng học không vì nó tinh vi, mà vì nó <em>tầm thường</em>: mỗi bước là một kiểm soát cơ bản bị bỏ ngỏ (secret trong repo, khóa sống lâu, token không hết hạn, không ai lập baseline vendor). Sợi chỉ xuyên suốt là danh tính phi-con-người — token, khóa, tài khoản dịch vụ — hành xử như một <strong>đội nhân viên vô hình</strong>: có quyền vào dữ liệu, nhưng không ai onboard, không ai review quyền, không ai để ý khi chúng "làm ca đêm từ một IP lạ".</p>
+    <p>Vì sao điều này khẩn với năm 2026? Vì mỗi <em>agent AI</em> và mỗi <em>MCP server</em> bạn cắm vào hệ thống <strong>chính là</strong> một NHI mới — thường quyền rộng (để "làm được việc"), sống lâu, và ít bị giám sát. Bản tin đã thấy cùng một mẫu ở các số trước: agent thừa hưởng quyền dùng chung dễ bị lạm dụng (<a href="/2026-08-14" target="_blank">14/08</a>), agent "đi quá giới hạn" tự dựng danh tính giả tấn công chuỗi cung ứng (<a href="/2026-08-20" target="_blank">20/08</a>), prompt injection là "khớp nối chung" của sự cố agent (<a href="/2026-08-10" target="_blank">10/08</a>). Salesloft Drift là phiên bản "đời thực, quy mô 700 công ty" của cùng bài học: <em>bạn không thể bảo vệ thứ bạn không kiểm kê, không giới hạn phạm vi, và không giám sát</em>.</p>
+    <div class="mech"><b>Cơ chế — vì sao tích hợp AI khuếch đại rủi ro NHI:</b> agent AI có ba tính chất làm token của chúng "béo" hơn tích hợp truyền thống: (1) quyền có xu hướng rộng vì ta muốn agent "tự xoay xở"; (2) chúng đọc <em>nội dung không tin cậy</em> (email, web, tài liệu khách) nên có thể bị prompt injection điều khiển dùng chính quyền đó; (3) chúng gọi ra Internet để suy luận. Ba thứ này cộng lại đúng bằng "lethal trifecta" (đã bàn ở <a href="/2026-08-10" target="_blank">10/08</a>): dữ liệu riêng + nội dung ngoài + đường ra ngoài. Một token OAuth bị trộm là nguy hiểm; một agent-NHI bị injection còn nguy hiểm hơn vì nó <em>tự</em> quyết định dùng quyền.</div>
+    <p><strong>3 việc nên làm tuần này:</strong></p>
+    <div class="doslist">
+      <div>• Kiểm kê mọi tích hợp OAuth &amp; agent/MCP đang cắm vào SaaS lõi (CRM, email, kho code). Mỗi dòng ghi: token hết hạn không, quyền tới đâu, ai sở hữu, thu hồi bằng cách nào. Thiếu đủ 4 → xử trước khi làm việc khác.</div>
+      <div>• Quét dữ liệu SaaS tìm secret lưu nhầm chỗ (khóa/token trong field, ghi chú, case). Đây là "mồi" mà mọi kẻ tấn công đi tìm sau khi vào.</div>
+      <div>• Với mỗi vendor/agent quan trọng, lập một baseline tối thiểu (nó thường kết nối từ dải IP nào) và một cảnh báo "xuất khối lớn / lệch IP". Đây đúng là tín hiệu lẽ ra đã bắt được vụ Drift.</div>
+    </div>
+  </article>
+
+  <hr class="sep">
+
+  <!-- LƯỢC DỊCH 1 -->
+  <section class="dich" id="dich1">
+    <h2 class="head">📖 Lược dịch chi tiết — Anatomy of the Salesloft Breach (Permiso)</h2>
+    <div class="flag">Bản diễn đạt lại bằng tiếng Việt, bám sát bố cục &amp; số liệu bài gốc — không phải dịch nguyên văn. <a href="https://permiso.io/blog/anatomy-of-the-salesloft-breach" target="_blank">Bài gốc</a> (Ian Ahl, 15/09/2025)</div>
+    <h3>Tóm tắt</h3>
+    <p>Salesloft Drift — một app Salesforce thu hút khách hàng có công cụ AI — bị lộ token OAuth của hàng trăm người dùng. Kẻ tấn công dùng token này vào các Salesforce của khách, xuất dữ liệu nhạy cảm rồi khai thác để tìm thêm credential, đặc biệt nhắm Snowflake và AWS. Diễn tiến trải nhiều tháng: bắt đầu bằng chiếm GitHub (3–6/2025), một giai đoạn "ngủ đông", rồi khai thác chủ động 8–18/08/2025. Salesloft công bố &amp; thu hồi toàn bộ token ngày 20/08. Đây được xem là một trong những vụ tấn công danh tính phi-con-người (NHI) trọn vẹn nhất — "poster child" cho loại tấn công NHI.</p>
+    <h3>Phần 1 — Giải phẫu cuộc tấn công</h3>
+    <p><em>Xâm nhập ban đầu:</em> theo Salesloft &amp; Mandiant, kẻ tấn công vào repo GitHub của Salesloft (3–6/2025), tải nội dung, thêm một guest user để bám trụ (giống onboarding nhân viên có sẵn tài khoản GitHub). Họ dựng workflow (nhiều khả năng GitHub Actions) mở đường sang AWS; pivot qua credential moi từ repo (khóa sống lâu là vector nhiều khả năng). Vào môi trường AWS của Drift, họ rút token OAuth — nhiều khả năng cất trong Secrets Manager/Parameter Store. Mẫu "moi secret từ dịch vụ lưu trữ đám mây" ngày càng phổ biến (ví dụ nhóm LUCR-3/Scattered Spider).</p>
+    <p><em>Kiến trúc token:</em> Drift dùng token OAuth riêng cho từng người dùng (không phải cấp-tổ-chức). Mỗi sales tự tích hợp Salesforce của mình → kẻ tấn công thừa hưởng đúng quyền từng người bị chiếm (admin nếu là admin). Quyết định "kiểm soát mịn" này tạo ra hàng trăm điểm chiếm quyền độc lập thay vì một tích hợp để canh.</p>
+    <p><em>Đa nền tảng:</em> ban đầu tưởng chỉ Salesforce, nhưng token Google Workspace &amp; hàng chục app khác cũng bị lộ. <em>Chiến lược hút credential:</em> thay vì search mẫu "AKIA" trong Salesforce (dễ chạm cảnh báo), họ xuất sạch dữ liệu ra hạ tầng riêng rồi chạy TruffleHog để lọc khóa AWS sống lâu.</p>
+    <h3>Phần 2 — Cơ hội &amp; thách thức phát hiện</h3>
+    <p>Hai IP chính: 208.68.36.90 (DigitalOcean — nguồn hoạt động &amp; rút dữ liệu chính) và 44.215.108.109 (AWS — hạ tầng phụ). Hai pha: <em>thăm dò</em> (11–16/08) truy vấn giới hạn 1.000–10.000 bản ghi để hiểu dữ liệu; <em>rút</em> (17–20/08) xuất hàng loạt qua DigitalOcean. Chiến lược phát hiện dựa trên tín hiệu (không chỉ IOC nguyên tử): (1) lệch baseline — kết nối Salesloft luôn từ dải AWS, khi sang DigitalOcean là lệch rõ; (2) Bulk API từ tài khoản không phải service account là hiếm → tín hiệu mạnh; (3) hành vi phản-điều-tra — xóa job xuất ngay sau khi xong. Sự kiện Salesforce nên theo dõi: UniqueQuery, BulkApi2, các REST API sobjects/query/limits/jobs, ApiTotalUsage GET/POST/DELETE, Login:oauthrefreshtoken.</p>
+    <h3>Phần 3 — Ứng cứu &amp; khắc phục</h3>
+    <p><em>Ngay lập tức:</em> rà &amp; thu hồi token OAuth nghi ngờ; reset mọi credential có thể đã lộ trong dữ liệu Salesforce (nhất là cloud &amp; SaaS khác); phân tích forensic (tìm các IP trên trong log 8–18/08, rà Bulk API, token dùng từ vị trí lạ); phối hợp với Salesloft/Salesforce/vendor. <em>Dài hạn:</em> giám sát Bulk API bất thường từ tài khoản không phải service; lập baseline vendor (IP, user-agent); giám sát rút secret hàng loạt khỏi Secrets Manager/SSM; rà lại kiến trúc OAuth, áp just-in-time access, phân tách token khách, giới hạn IP; bật tầng log Salesforce phù hợp dù tốn phí + gộp/tương quan log.</p>
+    <h3>Phần 4 — Bài học</h3>
+    <p>Vụ này là bước ngoặt của tấn công chuỗi cung ứng: một cuộc chiếm NHI thuần túy từ đầu tới cuối, né kiểm soát vốn tập trung vào hành vi người. Vendor lưu credential khách phải giám sát truy cập secret, phân tách token, ghi audit đầy đủ. "Chi phí thật của bảo mật": tổ chức bị đặt vào thế chọn giữa trả phí cho log cơ bản hay chấp nhận rủi ro breach không bị phát hiện — và chi phí thiếu log lớn hơn nhiều khoản đầu tư vào khả năng thấy. Quy kết còn phức tạp: ShinyHunters nhận qua Telegram, tự nối Scattered Spider, nhưng chỉ dựa trên thông tin công khai; Mandiant xếp UNC6395 chờ điều tra. Năm điểm chốt: NHI là biên giới mới cho kẻ tấn công; tấn công chuỗi cung ứng lan tầng khắp hệ sinh thái; phát hiện cần baseline hành vi, không chỉ khớp chữ ký; log vẫn là thách thức nền tảng do chi phí/chất lượng; credential sprawl khuếch đại rủi ro.</p>
+  </section>
+
+  <!-- LƯỢC DỊCH 2 -->
+  <section class="dich" id="dich2">
+    <h2 class="head">📖 Lược dịch chi tiết — Why Salesforce OAuth Integrations are a Growing Risk (AppOmni)</h2>
+    <div class="flag">Bản diễn đạt lại bằng tiếng Việt, bám sát bố cục &amp; số liệu bài gốc — không phải dịch nguyên văn. <a href="https://appomni.com/blog/drift-breach-salesforce-unc6395-saas-prevention/" target="_blank">Bài gốc</a> (AppOmni, 26/08/2025)</div>
+    <h3>Chuyện đã xảy ra</h3>
+    <p>Đầu tháng 8, kẻ tấn công (AppOmni mô tả là "nhóm nghi của Trung Quốc" — quy kết còn chưa thống nhất, xem Bài 1) dùng token OAuth bị chiếm của tích hợp Salesloft Drift để vào các Salesforce. Lạm dụng truy cập tin cậy, họ chạy truy vấn SOQL nhắm các đối tượng cốt lõi (Users, Accounts, Cases), lặng lẽ xuất dữ liệu kinh doanh nhạy cảm: khóa AWS, token Snowflake, mật khẩu… Theo Google, hơn 700 tổ chức bị ảnh hưởng. FBI (CSA-2025-250912, 12/09) cảnh báo các nhóm như UNC6395 đang tích cực xâm nhập Salesforce để trộm dữ liệu &amp; tống tiền.</p>
+    <h3>Cách tấn công vận hành</h3>
+    <p>Chạy SOQL trên Users, Accounts, Opportunities, Cases; hệ thống hóa việc rút credential &amp; secret; xóa job truy vấn sau khi chạy để giấu (nhưng audit log vẫn giữ). Đáp trả: 20/08 Salesloft &amp; Salesforce thu hồi toàn bộ token Drift; Salesforce gỡ Drift khỏi AppExchange chờ điều tra; các tổ chức bị ảnh hưởng được Salesforce thông báo trực tiếp. Quan sát: chạy truy vấn trinh sát đo lượng bản ghi trước khi kéo chi tiết; mục tiêu chính là hút credential cho tấn công hạ nguồn; hoạt động gắn với user-agent đáng ngờ, traffic Tor exit node &amp; VPS.</p>
+    <h3>Vì sao tấn công thành công — bốn điểm mù</h3>
+    <p>(1) Token OAuth sống dai — khác phiên người dùng, thường không hết hạn → phơi nhiễm dài hạn; (2) quyền quá rộng — nhiều app xin truy cập toàn bộ dữ liệu và được duyệt không rà soát; (3) giám sát hạn chế — đa số không thu/không ngó log &amp; chính sách của app SaaS; (4) secret lưu hớ hênh — credential cất trong field Salesforce khuếch đại thiệt hại. Lateral movement được kích hoạt nhờ lạm dụng token OAuth admin từ một app ít tên tuổi để xâm nhập app cốt lõi.</p>
+    <h3>Cách phòng — sáu hành động</h3>
+    <p>Least privilege cho tài khoản dịch vụ (biết chính xác chúng chạm dữ liệu nào); quét secret bị phơi (khóa AWS/token/mật khẩu trong schema &amp; dữ liệu); dùng giới hạn IP cho app &amp; tích hợp; <strong>quản truy cập dữ liệu chứ không chỉ API</strong> — với Salesforce, giới hạn scope ít hữu ích; hãy giám sát &amp; hạn chế Object/Field/Record được chạm; tương quan log SaaS (Salesforce, Okta, Google, Microsoft) để có tầm nhìn; dùng phân tích hành vi (UEBA) để lộ ra khi một app/người bắt đầu hành xử lạ dù truy cập trông bình thường.</p>
+    <h3>Năm điểm chốt (FAQ)</h3>
+    <p>Tích hợp SaaS-to-SaaS là vector tấn công lớn; an ninh app bên thứ ba là trách nhiệm của bạn (phải tự kiểm chứng, không phó mặc vendor); công cụ bảo mật truyền thống chưa đủ (SaaS cần giám sát liên tục + quản trị posture + phát hiện đe dọa); enforce least privilege &amp; rà quyền tích hợp định kỳ; quét &amp; xử lý secret bị lưu hớ hênh, whitelist IP, dùng UEBA, gộp &amp; chuẩn hóa log.</p>
+    <p><em>Lưu ý nguồn:</em> AppOmni là hãng bảo mật SaaS, bài có phần giới thiệu sản phẩm; các con số dẫn lại từ Google GTIG (700+) &amp; FBI (CSA-2025-250912). Quy kết thủ phạm giữa các nguồn <em>chưa thống nhất</em> (AppOmni: "nghi Trung Quốc"; Mandiant: UNC6395 chờ điều tra; nhóm tự nhận: ShinyHunters).</p>
+  </section>
+
+  <div class="refs" style="margin-top:26px">
+    <strong>Nguồn tham khảo toàn số:</strong><br>
+    [1] Permiso — Ian Ahl, <a href="https://permiso.io/blog/anatomy-of-the-salesloft-breach" target="_blank">Anatomy of the Salesloft Breach — Detection, Response, and Lessons Learned</a> (15/09/2025)<br>
+    [2] AppOmni — <a href="https://appomni.com/blog/drift-breach-salesforce-unc6395-saas-prevention/" target="_blank">Salesloft Drift–Salesforce Breach (UNC6395): Why Salesforce OAuth Integrations are a Growing Risk</a> (26/08/2025, cập nhật 05/2026)<br>
+    Đối chiếu: <a href="https://cloud.google.com/blog/topics/threat-intelligence/data-theft-salesforce-instances-via-salesloft-drift" target="_blank">Google Threat Intelligence (GTIG) — Data Theft via Salesloft Drift</a> (700+ tổ chức); FBI Cybersecurity Advisory CSA-2025-250912 (IOC, 12/09/2025)<br>
+    <em>Các đoạn "Cơ chế", bảng ánh xạ nguyên-nhân → biện pháp và khuyến nghị theo quy mô đội là phần biên tập tổng hợp minh họa từ thực hành phổ biến, không trích nguyên văn từ nguồn. Mọi con số đều dẫn nguồn nội dòng. Quy kết thủ phạm còn tranh cãi.</em>
+  </div>
+
+  <div class="foot"><a href="/" style="color:#4338ca;text-decoration:none">← Về trang bìa lưu trữ</a></div>
+</div>
+</body>
+</html>
