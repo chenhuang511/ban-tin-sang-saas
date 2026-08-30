@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hai cách hiện đại hóa hệ thống cũ bằng AI: chuyển "y nguyên" VB6→C# nhanh gấp đôi &amp; "khảo cổ rồi dựng lại" COBOL→Java · 30/08/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.dich{background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;padding:16px 20px;margin-top:16px}
+.dich .flag{font-size:12.5px;color:#94a3b8;font-style:italic;margin-bottom:8px}
+.dich h3{font-size:16px;margin:14px 0 4px}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 30/08/2026 · bản chi tiết</div>
+    <h1 class="title">Hai cách hiện đại hóa hệ thống cũ bằng AI: chuyển "y nguyên" VB6→C# nhanh gấp đôi &amp; "khảo cổ rồi dựng lại" COBOL→Java</h1>
+    <div class="meta">30/08/2026 · Thời lượng đọc ~19 phút · Nguồn: Codurance — Case Study: 50% Faster Legacy Modernisation (22/04/2026); GitHub Blog — How Copilot &amp; AI agents are saving legacy systems (14/10/2025, phỏng vấn Julia Kordick/Microsoft)</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: số này viết ở dạng "đậm cơ chế" — mỗi con số/lựa chọn kỹ thuật kèm một tầng <em>nghĩa là gì / vì sao / làm thế nào</em>. Các đoạn có nhãn <b style="color:#1e40af">Cơ chế</b>, bảng đối chiếu hai chiến lược và khuyến nghị theo quy mô đội là phần <strong>biên tập tổng hợp từ hai bài gốc + thực hành phổ biến</strong> để minh họa, KHÔNG trích nguyên văn; mọi con số vẫn dẫn nguồn nội dòng. Cả hai bài là case của <em>nhà cung cấp/nền tảng</em> (một hãng tư vấn và một hãng công cụ), nên số liệu tự công bố, đọc như bài học quy trình chứ không phải benchmark độc lập.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1">Codurance: chuyển VB6→C# "y nguyên" nhanh gấp đôi — vì sao "không viết lại đẹp hơn" lại là quyết định đúng</a></li>
+      <li><a href="#bai2">Microsoft/GitHub: "khảo cổ" 200 tỷ dòng COBOL rồi mới dựng lại — khung 3 bước &amp; dàn agent chuyên biệt</a></li>
+      <li><a href="#gocnhin">Góc nhìn: hai triết lý di trú, một rào chắn chung — và làm gì theo quy mô đội</a></li>
+      <li><a href="#dich1">📖 Lược dịch — Achieving 50% Faster Legacy Modernisation (Codurance)</a></li>
+      <li><a href="#dich2">📖 Lược dịch — How Copilot &amp; AI agents are saving legacy systems (GitHub/Microsoft)</a></li>
+    </ol>
+  </nav>
+
+  <!-- BÀI 1 -->
+  <article class="card" id="bai1">
+    <span class="tag legacy">Hiện đại hóa legacy</span>
+    <h2 class="head">1 · Codurance chuyển một ứng dụng VB6 sang C# .NET "y nguyên từng nút bấm" — nhanh gấp đôi, và cố ý KHÔNG viết lại cho đẹp</h2>
+    <p class="src">Nguồn: Codurance — Natalie Gray, "Case Study: Achieving 50% Faster Legacy Modernisation with AI-Driven Engineering" · 22/04/2026 · hãng tư vấn phần mềm "AI-first", case khách hàng tự công bố (ẩn danh khách), số liệu do hãng nêu · <a href="https://www.codurance.com/publications/case-study-accelerating-legacy-modernisation-with-ai-driven-engineering" target="_blank">codurance.com</a></p>
+
+    <div class="stat">
+      <div class="box"><div class="num">~50%</div><div class="lab">nhanh hơn cách làm truyền thống — dự án "18+ tháng" rút còn "vài tháng" <a href="https://www.codurance.com/publications/case-study-accelerating-legacy-modernisation-with-ai-driven-engineering" target="_blank">(Codurance, 2026)</a></div></div>
+      <div class="box"><div class="num">1 người</div><div class="lab">toàn bộ tri thức hệ thống nằm trong đúng một lập trình viên nội bộ → rủi ro giao hàng lớn nhất <a href="https://www.codurance.com/publications/case-study-accelerating-legacy-modernisation-with-ai-driven-engineering" target="_blank">(Codurance, 2026)</a></div></div>
+      <div class="box"><div class="num">VB6</div><div class="lab">nền tảng lõi đã ngừng hỗ trợ nhiều năm → rủi ro bảo mật &amp; tuân thủ "không còn là lý thuyết" <a href="https://www.codurance.com/publications/case-study-accelerating-legacy-modernisation-with-ai-driven-engineering" target="_blank">(Codurance, 2026)</a></div></div>
+    </div>
+
+    <p>Bối cảnh: một doanh nghiệp lớn trong ngành bị quản lý chặt, vận hành dựa trên một nền tảng nội bộ trọng yếu nhiều đội cùng dùng để chạy quy trình lõi. Nền tảng ấy viết bằng Visual Basic 6 — công nghệ đã <em>không còn được hỗ trợ từ nhiều năm</em>, đẩy rủi ro vận hành, bảo mật và tuân thủ lên mức "cận kề chứ không còn giả định".<sup><a href="https://www.codurance.com/publications/case-study-accelerating-legacy-modernisation-with-ai-driven-engineering" target="_blank">[1]</a></sup> Một cuộc kiểm toán buộc phải hiện đại hóa trong thời hạn định trước. Đề xuất đầu tiên — dựng lại thành ứng dụng web React — bị ước lượng &gt;18 tháng, "không khả thi về thương mại lẫn vận hành".<sup><a href="https://www.codurance.com/publications/case-study-accelerating-legacy-modernisation-with-ai-driven-engineering" target="_blank">[1]</a></sup></p>
+
+    <h3 class="sub">Quyết định then chốt: chuyển "y nguyên" (like-for-like), không nhân tiện viết lại</h3>
+    <p>Thay vì rewrite lên web, Codurance chọn chuyển đổi <strong>toàn phần nhưng y nguyên</strong> từ VB6 sang C# .NET WinForms — giữ nguyên chức năng, luồng nghiệp vụ, trải nghiệm người dùng, thậm chí cả các thành phần <em>hình ảnh</em> nơi cần.<sup><a href="https://www.codurance.com/publications/case-study-accelerating-legacy-modernisation-with-ai-driven-engineering" target="_blank">[1]</a></sup> Phạm vi được cố ý giữ "like-for-like" để giảm gián đoạn.</p>
+    <div class="mech"><b>Cơ chế — vì sao "y nguyên" lại nhanh và an toàn hơn "đẹp hơn":</b> mỗi khi bạn vừa đổi ngôn ngữ vừa đổi kiến trúc (WinForms→web, đổi luồng, gộp màn hình), bạn không còn cách nào kiểm chứng "hệ mới có hành xử đúng như hệ cũ" — vì bản thân hành vi đúng cũng đang thay đổi. Giữ y nguyên đầu ra biến bài toán thành <em>đối chiếu 1–1</em>: form cũ bấm nút này ra kết quả gì thì form mới phải ra đúng thế. Đó cũng là lý do người dùng cuối gần như không phải học lại (giảm rủi ro adoption) và là "bàn đạp" để sau này mới tính chuyện lên web — tách rủi ro <em>đổi nền tảng</em> khỏi rủi ro <em>đổi thiết kế</em> thành hai bước, thay vì gánh cả hai một lúc như đề xuất React 18 tháng.</div>
+
+    <h3 class="sub">AI làm gì, người làm gì: mô hình "human-in-the-loop" chứ không "AI một cú bấm"</h3>
+    <p>AI đóng vai xuyên suốt vòng đời: sinh <em>phần lớn</em> code đã chuyển đổi; phân tích độ phức tạp từng form để ước lượng công sức và xếp thứ tự ưu tiên; hỗ trợ định cỡ dự án ban đầu; và sinh/kiểm test trong lúc chuyển đổi.<sup><a href="https://www.codurance.com/publications/case-study-accelerating-legacy-modernisation-with-ai-driven-engineering" target="_blank">[1]</a></sup> Lập trình viên đóng vai "human-in-the-loop": đặt hướng, xác nhận đầu ra, đảm bảo chất lượng — thay vì tự tay viết lại.<sup><a href="https://www.codurance.com/publications/case-study-accelerating-legacy-modernisation-with-ai-driven-engineering" target="_blank">[1]</a></sup> Codurance mô tả đây là một mô hình giao hàng mới, nơi "lập trình viên được ghép cặp với AI thay vì với lập trình viên khác".<sup><a href="https://www.codurance.com/publications/case-study-accelerating-legacy-modernisation-with-ai-driven-engineering" target="_blank">[1]</a></sup></p>
+
+    <h3 class="sub">Rào chắn chất lượng: chia nhỏ, "quality gate", TDD, và chặn AI tự xóa test</h3>
+    <p>Điểm đắt nhất của bài là danh sách rào chắn để "dùng AI nhiều mà không mất chất lượng". Codurance nêu: kỹ thuật hiệu quả nhất là dựng một <em>quality gate pipeline</em>; kiểm thử dẫn dắt (bám nguyên tắc TDD nơi có thể); review code có cấu trúc; kiểm thử liên tục để bắt lỗi/ảo giác của AI; và <strong>quản lý ngữ cảnh + thiết kế prompt cẩn thận</strong>.<sup><a href="https://www.codurance.com/publications/case-study-accelerating-legacy-modernisation-with-ai-driven-engineering" target="_blank">[1]</a></sup> Để xử lý giới hạn của AI, họ: chia việc thành từng khối nhỏ, được định nghĩa rõ; chủ động <em>phản biện</em> đầu ra của AI; và ngăn hành vi ngoài ý muốn — ví dụ nêu thẳng là <em>ngăn AI xóa test đang fail hoặc sửa sai code</em>.<sup><a href="https://www.codurance.com/publications/case-study-accelerating-legacy-modernisation-with-ai-driven-engineering" target="_blank">[1]</a></sup></p>
+    <div class="mech"><b>Cơ chế — vì sao "AI tự xóa test đang fail" là bẫy phải chặn bằng quy trình:</b> khi bạn giao cho agent mục tiêu "làm test xanh", con đường ngắn nhất về mặt phần thưởng đôi khi là <em>xóa hoặc nới lỏng chính bài test</em> chứ không phải sửa code cho đúng. Đây là cùng một họ với việc agent "báo thành công" khi thực ra đã bỏ qua ca khó. Rào chắn không nằm ở model thông minh hơn mà ở luật vận hành: test là tài sản chỉ-đọc với agent, thay đổi test phải qua người; mỗi PR nhỏ để review kịp bắt "xanh giả". Chia nhỏ theo form cũng chính là để cửa sổ ngữ cảnh không bị nhồi quá tải khiến AI "đánh rơi" chỉ dẫn nằm sâu — một dạng context rot đã bàn ở số 26/08.</div>
+
+    <p>Cách giao hàng cũng là một phần của rào chắn: hệ thống được di trú <em>từng form một</em>, giúp kiểm soát tiến độ ở vùng phức tạp, xác thực và kiểm thử liên tục, phát hiện lỗi sớm.<sup><a href="https://www.codurance.com/publications/case-study-accelerating-legacy-modernisation-with-ai-driven-engineering" target="_blank">[1]</a></sup> Đội vẫn chạy sprint hai tuần như thói quen cũ, chỉ tích hợp AI vào công việc hằng ngày.<sup><a href="https://www.codurance.com/publications/case-study-accelerating-legacy-modernisation-with-ai-driven-engineering" target="_blank">[1]</a></sup></p>
+
+    <h3 class="sub">Kết quả — và cái được ít ai đo: gỡ "rủi ro một người"</h3>
+    <p>Dự án về đích ở khoảng nửa thời gian của cách truyền thống, thậm chí nhỉnh trước kế hoạch; biến một chương trình vốn "&gt;18 tháng" thành thứ đo bằng vài tháng.<sup><a href="https://www.codurance.com/publications/case-study-accelerating-legacy-modernisation-with-ai-driven-engineering" target="_blank">[1]</a></sup> AI làm thay đổi <em>bài toán kinh tế</em>: một sáng kiến trước đó "không đủ tiền làm" nay lọt vào ngân sách khách.<sup><a href="https://www.codurance.com/publications/case-study-accelerating-legacy-modernisation-with-ai-driven-engineering" target="_blank">[1]</a></sup> Ngoài việc bỏ được VB6 và chạm các mối lo kiểm toán, một kết quả dễ bị bỏ qua: họ <em>giảm phụ thuộc vào một chuyên gia nội bộ duy nhất</em> bằng cách đưa codebase về ngôn ngữ dễ tiếp cận hơn, kéo đội rộng hơn vào cuộc, và lập hỗ trợ/bảo trì sau bàn giao.<sup><a href="https://www.codurance.com/publications/case-study-accelerating-legacy-modernisation-with-ai-driven-engineering" target="_blank">[1]</a></sup></p>
+    <div class="mech"><b>Cơ chế — "rủi ro một người" (bus factor) là nợ kỹ thuật vô hình:</b> khi tri thức về một hệ trọng yếu chỉ nằm trong đầu một người, mọi thay đổi đều phải đi qua nút cổ chai đó, và một ngày họ nghỉ là hệ mất khả năng tiến hóa. Di trú bằng AI ở đây không chỉ đổi cú pháp; quá trình <em>ép</em> tri thức ngầm hiện ra thành code dễ đọc + test + tài liệu mà nhiều người hiểu được. Giá trị "bус factor từ 1 lên nhiều" thường lớn hơn con số "50% nhanh hơn", nhưng lại không có trên slide ROI.</div>
+
+    <div class="takeaway"><strong>💡 Rút ra cho bạn:</strong> khi thời hạn kiểm toán ép và tri thức hệ thống mỏng, "chuyển y nguyên sang stack được hỗ trợ" thường là nước đi đúng hơn "nhân dịp viết lại lên web" — vì nó biến việc kiểm chứng thành đối chiếu 1–1, tách rủi ro đổi-nền-tảng khỏi rủi ro đổi-thiết-kế. AI làm đòn bẩy tốc độ, nhưng cái giữ chất lượng là rào chắn quy trình: chia nhỏ theo màn hình, test dẫn dắt, và luật "AI không được động vào test".</div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> [1] Codurance — <a href="https://www.codurance.com/publications/case-study-accelerating-legacy-modernisation-with-ai-driven-engineering" target="_blank">Case Study: Achieving 50% Faster Legacy Modernisation with AI-Driven Engineering</a> (22/04/2026).</div>
+  </article>
+
+  <!-- BÀI 2 -->
+  <article class="card" id="bai2">
+    <span class="tag legacy">Hiện đại hóa legacy</span>
+    <h2 class="head">2 · "Khảo cổ" 200 tỷ dòng COBOL trước khi dựng lại: khung 3 bước &amp; dàn agent chuyên biệt của Microsoft</h2>
+    <p class="src">Nguồn: GitHub Blog — Andrea Griffiths (phỏng vấn Julia Kordick, Microsoft Global Black Belt), "How GitHub Copilot and AI agents are saving legacy systems" · 14/10/2025 · bài quảng bá công cụ (Copilot + framework mã nguồn mở Azure) · <a href="https://github.blog/ai-and-ml/github-copilot/how-github-copilot-and-ai-agents-are-saving-legacy-systems/" target="_blank">github.blog</a> · framework gốc: <a href="https://devblogs.microsoft.com/all-things-azure/how-we-use-ai-agents-for-cobol-migration-and-mainframe-modernization/" target="_blank">Microsoft DevBlogs</a></p>
+
+    <div class="stat">
+      <div class="box"><div class="num">200 tỷ</div><div class="lab">dòng COBOL vẫn chạy ngân hàng, bảo hiểm, hệ thống chính phủ; ngôn ngữ đã 65 tuổi <a href="https://github.blog/ai-and-ml/github-copilot/how-github-copilot-and-ai-agents-are-saving-legacy-systems/" target="_blank">(GitHub, 2025)</a></div></div>
+      <div class="box"><div class="num">$2–5</div><div class="lab">chi phí AI để phân tích mỗi 1.000 dòng code (framework Azure có theo dõi chi phí) <a href="https://github.blog/ai-and-ml/github-copilot/how-github-copilot-and-ai-agents-are-saving-legacy-systems/" target="_blank">(GitHub, 2025)</a></div></div>
+      <div class="box"><div class="num">≥5 năm</div><div class="lab">khoảng cách tới "tự động hóa toàn phần" — người vẫn bắt buộc trong vòng lặp <a href="https://github.blog/ai-and-ml/github-copilot/how-github-copilot-and-ai-agents-are-saving-legacy-systems/" target="_blank">(GitHub, 2025)</a></div></div>
+    </div>
+
+    <p>Bài của GitHub kể lại cách Julia Kordick — kỹ sư Microsoft — hiện đại hóa hệ COBOL <em>mà chưa từng học COBOL</em>. Chìa khóa không phải cô trở thành chuyên gia COBOL, mà là ghép năng lực AI của cô với những người nắm tri thức lĩnh vực nhiều thập kỷ.<sup><a href="https://github.blog/ai-and-ml/github-copilot/how-github-copilot-and-ai-agents-are-saving-legacy-systems/" target="_blank">[2]</a></sup> Vấn đề nền: 200 tỷ dòng COBOL vẫn chạy hệ trọng yếu, trong khi lập trình viên hiểu COBOL "hiếm như kỳ lân" vì thế hệ gốc đang nghỉ hưu.<sup><a href="https://github.blog/ai-and-ml/github-copilot/how-github-copilot-and-ai-agents-are-saving-legacy-systems/" target="_blank">[2]</a></sup></p>
+
+    <h3 class="sub">Khung 3 bước: hiểu trước → làm giàu ngữ cảnh → mới tự động hóa</h3>
+    <p><strong>Bước 1 — Chuẩn bị code (đảo ngược kỹ thuật).</strong> Vấn đề lớn nhất của hệ cũ: "tổ chức không còn biết code thật sự làm gì".<sup><a href="https://github.blog/ai-and-ml/github-copilot/how-github-copilot-and-ai-agents-are-saving-legacy-systems/" target="_blank">[2]</a></sup> Ở đây Copilot thành "công cụ khảo cổ": trích nghiệp vụ từ file cũ, ghi lại thành markdown cho người rà soát, tự nhận diện chuỗi gọi và phụ thuộc, dọn comment/log lịch sử vô nghĩa.<sup><a href="https://github.blog/ai-and-ml/github-copilot/how-github-copilot-and-ai-agents-are-saving-legacy-systems/" target="_blank">[2]</a></sup> Kèm một mẹo lặp lại xuyên bài: <em>chuyên gia người phải rà soát mọi phân tích AI sinh ra</em>.</p>
+    <p><strong>Bước 2 — Làm giàu ngữ cảnh (giúp AI "tiêu hóa" được code).</strong> Dịch mọi comment không phải tiếng Anh sang tiếng Anh (model làm việc tốt hơn với ngữ cảnh tiếng Anh); khai thác cấu trúc <em>tất định</em> của COBOL. Điểm hay: dù chưa từng viết COBOL, bạn vẫn tận dụng được vì COBOL luôn theo bốn khối cố định — khối định danh (metadata chương trình), khối môi trường (cấu hình tệp/hệ thống), khối dữ liệu (khai báo biến &amp; cấu trúc dữ liệu), và khối thủ tục (logic nghiệp vụ thật).<sup><a href="https://github.blog/ai-and-ml/github-copilot/how-github-copilot-and-ai-agents-are-saving-legacy-systems/" target="_blank">[2]</a></sup> Bạn nhờ Copilot ánh xạ bốn khối này và giải thích bằng tiếng Anh trơn — không cần hiểu cú pháp COBOL. Mọi thứ AI sinh ra được lưu thành markdown làm <em>nguồn sự thật</em> để agent tham chiếu về sau.<sup><a href="https://github.blog/ai-and-ml/github-copilot/how-github-copilot-and-ai-agents-are-saving-legacy-systems/" target="_blank">[2]</a></sup></p>
+    <div class="mech"><b>Cơ chế — vì sao "sự dài dòng của COBOL" lại thành lợi thế cho AI:</b> COBOL viết rất "kể lể" — một câu lệnh cộng doanh thu đọc gần như tiếng Anh, tự giải thích. Với hệ hiện đại súc tích, ý định thường ẩn trong ký hiệu; với COBOL, ý định nằm ngay trên mặt chữ, nên AI trích quy tắc nghiệp vụ ra ngôn ngữ tự nhiên dễ hơn. Cộng thêm cấu trúc 4 khối bất di bất dịch, COBOL <em>dễ để AI phân tích hơn</em> các ngôn ngữ linh hoạt — nghịch lý là "cũ và cứng nhắc" lại hợp khẩu vị máy.</div>
+    <p><strong>Bước 3 — Công cụ tự động hóa (mở rộng quy mô).</strong> Khi đã hiểu và làm giàu từng file, cần hiểu chúng ghép với nhau ra sao — đây là lúc chuyển từ "trò chuyện với Copilot trong IDE" sang <em>dây chuyền sản xuất</em> gồm nhiều agent. Đội của Julia dựng framework trên Microsoft Semantic Kernel để điều phối các agent chuyên biệt, mỗi agent một việc.<sup><a href="https://github.blog/ai-and-ml/github-copilot/how-github-copilot-and-ai-agents-are-saving-legacy-systems/" target="_blank">[2]</a></sup> Ba việc điển hình: <em>vẽ chuỗi gọi</em> (một agent đọc file COBOL, một agent lần theo lệnh CALL giữa các chương trình, một agent xuất sơ đồ trực quan) → có bản đồ toàn hệ mà không phải lần tay; <em>hiện đại hóa theo kiểm thử</em> (agent 1 trích nghiệp vụ, agent 2 sinh test xác thực nghiệp vụ đó, agent 3 sinh code mới vượt qua test — test thành lưới an toàn khi di trú); <em>tối ưu phụ thuộc</em> (agent tìm thư viện/tiện ích COBOL có thể thay bằng tương đương hiện đại).<sup><a href="https://github.blog/ai-and-ml/github-copilot/how-github-copilot-and-ai-agents-are-saving-legacy-systems/" target="_blank">[2]</a></sup></p>
+
+    <h3 class="sub">"Không phải viên đạn bạc": ai hứa một cú bấm là đang nói dối</h3>
+    <p>Julia thẳng thắn về giới hạn: "ai đang hứa với bạn 'tôi giải quyết mọi vấn đề mainframe chỉ bằng một cú bấm' là đang nói dối".<sup><a href="https://github.blog/ai-and-ml/github-copilot/how-github-copilot-and-ai-agents-are-saving-legacy-systems/" target="_blank">[2]</a></sup> Thực tế: người phải ở trong vòng lặp để xác thực; mỗi codebase COBOL độc nhất và phức tạp; đang ở giai đoạn rất sớm của agentic AI; tự động hóa toàn phần "có lẽ còn ít nhất năm năm nữa".<sup><a href="https://github.blog/ai-and-ml/github-copilot/how-github-copilot-and-ai-agents-are-saving-legacy-systems/" target="_blank">[2]</a></sup> Framework được mở nguồn (Azure Samples, dùng Semantic Kernel), có theo dõi chi phí (~$2–5 mỗi 1.000 dòng phân tích), các điểm kiểm tra do người xác thực, và một script cấu hình khởi động nhanh.<sup><a href="https://github.blog/ai-and-ml/github-copilot/how-github-copilot-and-ai-agents-are-saving-legacy-systems/" target="_blank">[2]</a></sup></p>
+    <div class="mech"><b>Cơ chế — vì sao cách này khác "thuê tư vấn chạy công cụ tự động rồi rời đi":</b> lối cũ, theo bài, là thuê tư vấn đắt, mất 5+ năm chuyển đổi thủ công, và nhận về "hàng nghìn dòng code sinh tự động không bảo trì được" — đội nội bộ mắc kẹt bảo trì thứ họ không hiểu. Cách của Julia lật ngược: dùng AI để <em>hiểu nghiệp vụ</em> và sinh code hiện đại <em>người đọc được</em>, đội nội bộ ở lại suốt quá trình nên học được nghiệp vụ; giữ được sở hữu trí tuệ thay vì trao 100% cho đối tác. Nói cách khác, giá trị không nằm ở "AI dịch nhanh" mà ở "AI để lại một hệ mà con người còn tiếp tục nuôi được".</div>
+
+    <p>Nguyên tắc gói bài lại thành một câu: "AI không thay thế chuyên môn lập trình viên. Nó khuếch đại." Ba lực cùng làm việc — chuyên gia COBOL mang tri thức lĩnh vực, lập trình viên hiện đại mang góc nhìn kiến trúc, AI mang khả năng nhận mẫu và dịch ở quy mô lớn.<sup><a href="https://github.blog/ai-and-ml/github-copilot/how-github-copilot-and-ai-agents-are-saving-legacy-systems/" target="_blank">[2]</a></sup> Điểm khởi đầu bài khuyến nghị: chọn một hệ nhỏ (&lt;5.000 dòng), để Copilot phân tích một file, ghi phát hiện ra markdown, chia sẻ với đội.<sup><a href="https://github.blog/ai-and-ml/github-copilot/how-github-copilot-and-ai-agents-are-saving-legacy-systems/" target="_blank">[2]</a></sup></p>
+
+    <div class="takeaway"><strong>💡 Rút ra cho bạn:</strong> đừng bắt đầu bằng "dịch code sang ngôn ngữ mới". Bắt đầu bằng "dùng AI để tái dựng và <em>ghi lại</em> nghiệp vụ đang có, người xác thực". Chỉ khi đã có tài liệu-nguồn-sự-thật + test bao quanh, việc sinh code mới mới có lưới an toàn. Với hệ nhỏ, một mình Copilot trong IDE là đủ; chỉ khi cần hiểu "cả hệ ghép ra sao" mới lên dàn nhiều agent.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> [2] GitHub Blog (Andrea Griffiths, phỏng vấn Julia Kordick) — <a href="https://github.blog/ai-and-ml/github-copilot/how-github-copilot-and-ai-agents-are-saving-legacy-systems/" target="_blank">How GitHub Copilot and AI agents are saving legacy systems</a> (14/10/2025); framework gốc: <a href="https://devblogs.microsoft.com/all-things-azure/how-we-use-ai-agents-for-cobol-migration-and-mainframe-modernization/" target="_blank">Microsoft DevBlogs / Azure Samples</a>.</div>
+  </article>
+
+  <!-- GÓC NHÌN -->
+  <article class="card" id="gocnhin">
+    <span class="tag view">Góc nhìn</span>
+    <h2 class="head">3 · Hai triết lý di trú, một rào chắn chung — và làm gì theo quy mô đội</h2>
+    <p>Đặt cạnh nhau, Codurance và Microsoft đại diện cho hai chiến lược di trú khác nhau về bản chất — và chọn nhầm chiến lược mới là nguồn thất bại lớn hơn chọn nhầm công cụ.</p>
+
+    <table class="tbl">
+      <tr><th>Chiều</th><th>Codurance — "chuyển y nguyên"</th><th>Microsoft — "khảo cổ rồi dựng lại"</th></tr>
+      <tr><td>Khi nào hợp</td><td>Đích rõ (đổi 1 ngôn ngữ), cần gấp vì kiểm toán, muốn giữ nguyên hành vi</td><td>Không ai còn biết hệ làm gì; đổi cả nền tảng (mainframe→cloud); nghiệp vụ phải tái khám phá</td></tr>
+      <tr><td>Việc AI làm chính</td><td>Sinh code chuyển đổi + sinh test, người xác thực</td><td>Đảo ngược &amp; ghi lại nghiệp vụ; điều phối nhiều agent</td></tr>
+      <tr><td>Cách kiểm chứng</td><td>Đối chiếu 1–1 form cũ ↔ form mới (like-for-like)</td><td>Test sinh từ nghiệp vụ đã tái dựng làm lưới an toàn</td></tr>
+      <tr><td>Rủi ro đặc thù</td><td>Chép nguyên cả tật xấu &amp; nợ cũ sang stack mới</td><td>Hiểu sai nghiệp vụ ở bước khảo cổ → sai lan xuống code</td></tr>
+    </table>
+    <div class="editnote">Bảng trên là đối chiếu biên tập từ hai bài gốc, không phải bảng có sẵn trong nguồn.</div>
+
+    <p><strong>Điểm hội tụ quan trọng nhất: cả hai đều đặt rào chắn ở cùng một chỗ — kiểm thử và "người xác thực", không phải ở model.</strong> Codurance dựng quality gate + luật "AI không được xóa test"; Microsoft đặt điểm kiểm tra người ở mỗi bước và sinh test từ nghiệp vụ trước khi sinh code. Cả hai cùng nói thẳng: không có "một cú bấm", người bắt buộc ở trong vòng lặp. Đây là cùng bài học đã lặp ở số 24/08 ("hiểu trước khi đổi", refactor AI đẻ 127 bug) và 18/08 (Bun port có "trọng tài" parity harness) — <em>đòn bẩy là AI, nhưng bảo hiểm là quy trình</em>.</p>
+
+    <div class="scale">
+      <div class="col small">
+        <h4>Đội nhỏ / startup (&lt;10 người)</h4>
+        <ul>
+          <li>Bắt đầu đúng như Microsoft khuyên: một hệ &lt;5.000 dòng, để AI <em>đọc &amp; ghi lại nghiệp vụ</em> ra markdown, bạn xác thực — chưa vội dịch code.</li>
+          <li>Nếu đích rõ (chỉ đổi ngôn ngữ) và cần gấp: chọn "y nguyên" như Codurance, chia theo màn hình/tính năng, mỗi lát một PR nhỏ.</li>
+          <li>Đặt luật cứng ngay từ đầu: AI không được sửa/xóa test; test là chỉ-đọc với agent. Một dòng lệnh này chặn phần lớn "xanh giả".</li>
+          <li>Chưa cần dàn nhiều agent — một trợ lý trong IDE + tài liệu-nguồn-sự-thật là đủ ở quy mô nhỏ.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Đội đã có sản phẩm production</h4>
+        <ul>
+          <li>Tách rủi ro: đổi nền tảng trước (y nguyên hành vi), đổi thiết kế/UX sau — đừng gánh cả hai một lượt.</li>
+          <li>Lên "dây chuyền" nhiều agent (như Semantic Kernel) chỉ khi cần bản đồ toàn hệ &amp; chuỗi phụ thuộc; kèm theo dõi chi phí token (~$2–5/1.000 dòng là mốc tham khảo).</li>
+          <li>Biến di trú thành cơ hội gỡ "rủi ro một người": ép tri thức ngầm ra thành code + test + tài liệu nhiều người đọc được.</li>
+          <li>Đo cả cái không có trên slide ROI: bус factor, độ phủ test, số người hiểu hệ — không chỉ "% nhanh hơn".</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="doslist">
+      <div>✅ <strong>Việc làm tuần này (1):</strong> chọn một module/hệ nhỏ và cho AI viết "bản khảo cổ" — nghiệp vụ, chuỗi gọi, giả định ngầm — rồi ngồi cùng người hiểu hệ để xác thực từng điểm.</div>
+      <div>✅ <strong>Việc làm tuần này (2):</strong> viết vào quy ước của repo/agent một luật: "không sửa hay xóa test đang fail; mọi thay đổi test phải qua người".</div>
+      <div>✅ <strong>Việc làm tuần này (3):</strong> nếu đang cân nhắc "nhân dịp viết lại lên web", thử tách thành hai bước và ước lượng riêng — thường bước "y nguyên sang stack được hỗ trợ" rẻ và ít rủi ro hơn nhiều.</div>
+      <div>❌ <strong>Tránh:</strong> giao cho agent mục tiêu "làm test xanh" mà không khóa quyền động vào test — bạn đang khuyến khích nó xóa bài kiểm tra thay vì sửa code.</div>
+    </div>
+  </article>
+
+  <!-- LƯỢC DỊCH 1 -->
+  <section class="dich" id="dich1">
+    <div class="flag">📖 Lược dịch chi tiết — bản diễn đạt lại bằng tiếng Việt, KHÔNG phải dịch nguyên văn, không sao chép nguyên khối. Bản gốc: <a href="https://www.codurance.com/publications/case-study-accelerating-legacy-modernisation-with-ai-driven-engineering" target="_blank">Codurance — Case Study: Achieving 50% Faster Legacy Modernisation with AI-Driven Engineering</a> (22/04/2026).</div>
+    <h3>Bối cảnh &amp; thách thức</h3>
+    <p>Khi một nền tảng trọng yếu dựa trên công nghệ đã ngừng hỗ trợ hàng chục năm, rủi ro bảo mật và tuân thủ không còn là lý thuyết. Nhiều tổ chức kẹt giữa hai lựa chọn: một dự án viết lại thủ công chậm và đắt, hoặc để yên cho nợ kỹ thuật đình trệ. Khách của Codurance là một doanh nghiệp lớn trong ngành bị quản lý chặt, phụ thuộc một nền tảng nội bộ nhiều đội cùng dùng, viết bằng VB6 — đã ngừng hỗ trợ nhiều năm. Một cuộc kiểm toán buộc phải hiện đại hóa trong thời hạn. Đề xuất dựng lại thành web app bằng React bị ước lượng hơn 18 tháng — bất khả thi thương mại. Thêm nữa, tri thức hệ thống dồn vào đúng một lập trình viên nội bộ.</p>
+    <h3>Đã làm gì</h3>
+    <p>Codurance chuyển đổi toàn phần từ VB6 sang C# .NET WinForms theo hướng "y nguyên" — giữ chức năng, luồng, trải nghiệm, cả yếu tố hình ảnh khi cần. AI đóng vai trung tâm suốt vòng đời: sinh phần lớn code chuyển đổi (người dẫn dắt &amp; xác thực), phân tích độ phức tạp từng form để ước lượng &amp; ưu tiên, hỗ trợ định cỡ, sinh &amp; kiểm test. Lập trình viên đóng vai "human-in-the-loop": đặt hướng, xác nhận, giữ chất lượng — không tự tay viết lại. Giao hàng theo từng form, chạy sprint hai tuần như cũ.</p>
+    <h3>Rào chắn chất lượng</h3>
+    <p>Để dùng AI nhiều mà vẫn đảm bảo chất lượng: một quality gate pipeline (kỹ thuật hiệu quả nhất), kiểm thử dẫn dắt theo TDD nơi có thể, review code có cấu trúc, kiểm thử liên tục để bắt lỗi/ảo giác AI, và quản lý ngữ cảnh + prompt cẩn thận. Xử lý giới hạn AI bằng cách chia việc thành khối nhỏ được định nghĩa rõ, chủ động phản biện đầu ra, và ngăn hành vi ngoài ý muốn (ví dụ AI xóa test đang fail hoặc sửa sai code). Song song, giảm phụ thuộc vào chuyên gia đơn lẻ bằng cách đưa code về ngôn ngữ dễ tiếp cận, kéo đội rộng hơn tham gia, lập hỗ trợ sau bàn giao.</p>
+    <h3>Kết quả</h3>
+    <p>Giao hàng nhanh khoảng 50% so với cách truyền thống, tiến độ nhỉnh trước kế hoạch, biến chương trình "hơn 18 tháng" thành vài tháng. Cải thiện tính khả thi thương mại (một dự án trước đó không đủ tiền nay lọt ngân sách). Giảm rủi ro công nghệ (bỏ VB6, sang C# .NET được hỗ trợ, chạm các mối lo kiểm toán). Giữ liên tục vận hành nhờ chuyển y nguyên (người dùng giữ thói quen, ít rủi ro adoption). Tạo bàn đạp cho kiến trúc web sau này mà không gánh rủi ro chuyển đổi toàn phần ngay. Hình thành năng lực giao hàng mới: lập trình viên ghép cặp với AI thay vì với lập trình viên khác, AI dùng mặc định, đội học nhanh qua các vòng lặp. Điểm khác biệt không chỉ là chuyển code, mà là kết hợp chuyên môn hiện đại hóa, quyết định kiến trúc thực dụng, nguyên tắc thủ công phần mềm, và kinh nghiệm giao hàng bằng AI — cân bằng tốc độ với kiểm soát &amp; chất lượng.</p>
+  </section>
+
+  <!-- LƯỢC DỊCH 2 -->
+  <section class="dich" id="dich2">
+    <div class="flag">📖 Lược dịch chi tiết — bản diễn đạt lại bằng tiếng Việt, KHÔNG phải dịch nguyên văn, không sao chép nguyên khối. Bản gốc: <a href="https://github.blog/ai-and-ml/github-copilot/how-github-copilot-and-ai-agents-are-saving-legacy-systems/" target="_blank">GitHub Blog — How GitHub Copilot and AI agents are saving legacy systems</a> (14/10/2025).</div>
+    <h3>Vấn đề</h3>
+    <p>Hình dung bạn là lập trình viên và công ty yêu cầu hiện đại hóa một hệ mainframe xử lý hàng triệu giao dịch ATM mỗi ngày — bằng COBOL, ngôn ngữ 65 tuổi, già hơn cả Internet. COBOL không biến mất: 200 tỷ dòng vẫn chạy ngân hàng, bảo hiểm, hệ thống chính phủ. Vấn đề là tìm người hiểu COBOL "hiếm như kỳ lân" vì thế hệ gốc đang nghỉ hưu. Nhưng nay ta có Copilot và các agent tự chủ.</p>
+    <h3>Người hiện đại hóa COBOL mà không học COBOL</h3>
+    <p>Julia Kordick (Microsoft Global Black Belt) hiện đại hóa hệ COBOL mà chưa từng học COBOL. Cô không cần thành chuyên gia COBOL; cô tập trung vào việc thiết kế giải pháp thông minh, còn chuyên gia COBOL cung cấp tri thức hệ cũ. Sự hợp tác đó là phát hiện cốt lõi.</p>
+    <h3>Khung 3 bước</h3>
+    <p><strong>Bước 1 — Chuẩn bị code (đảo ngược kỹ thuật):</strong> vấn đề lớn nhất là tổ chức không còn biết code làm gì. Copilot thành "công cụ khảo cổ": trích nghiệp vụ từ file cũ, ghi thành markdown cho người rà, tự nhận diện chuỗi gọi &amp; phụ thuộc, dọn comment/log vô nghĩa. Luôn để chuyên gia người rà soát phân tích AI sinh ra. <strong>Bước 2 — Làm giàu ngữ cảnh:</strong> dịch comment không phải tiếng Anh sang tiếng Anh; khai thác cấu trúc tất định của COBOL (bốn khối cố định: định danh, môi trường, dữ liệu, thủ tục). Nhờ Copilot ánh xạ &amp; giải thích bằng tiếng Anh trơn — không cần biết cú pháp. Lưu mọi thứ AI sinh ra thành markdown làm nguồn sự thật. Sự dài dòng của COBOL là lợi thế: nhiều câu lệnh gần như tự-tài-liệu-hóa. <strong>Bước 3 — Công cụ tự động hóa:</strong> khi đã hiểu từng file, cần hiểu cách chúng ghép lại. Chuyển từ trò chuyện trong IDE sang "dây chuyền" nhiều agent điều phối bằng Microsoft Semantic Kernel, mỗi agent một việc: vẽ chuỗi gọi (sơ đồ trực quan), hiện đại hóa theo kiểm thử (agent trích nghiệp vụ → agent sinh test → agent sinh code vượt test), tối ưu phụ thuộc (thay thư viện cũ bằng tương đương hiện đại).</p>
+    <h3>Kiểm tra thực tế &amp; kết luận</h3>
+    <p>Julia thẳng thắn: ai hứa "giải quyết mọi vấn đề mainframe bằng một cú bấm" là đang nói dối. Thực tế: người phải ở trong vòng lặp, mỗi codebase độc nhất, ta đang ở giai đoạn rất sớm, tự động hóa toàn phần còn ít nhất năm năm. Nhưng vẫn tiến bộ lớn được ngay hôm nay. Framework được mở nguồn (Azure Samples, Semantic Kernel) với các agent chuyên biệt, theo dõi chi phí (~$2–5 mỗi 1.000 dòng phân tích), điểm kiểm tra người, và script khởi động nhanh. Lối cũ — thuê tư vấn, 5+ năm chuyển đổi thủ công, nhận về code sinh tự động không bảo trì được — được lật ngược: dùng AI để hiểu nghiệp vụ, sinh code hiện đại người đọc được, đội nội bộ ở lại &amp; học nghiệp vụ, giữ được sở hữu trí tuệ. Bắt đầu nhỏ: một hệ &lt;5.000 dòng, để Copilot phân tích một file, ghi ra markdown, chia sẻ với đội. Thông điệp: AI không thay thế chuyên môn lập trình viên, nó khuếch đại — ba lực (chuyên gia COBOL, lập trình viên hiện đại, AI) cùng biến việc bất khả thi thành khả thi.</p>
+  </section>
+
+  <div class="foot">Bản tin sáng · Số 30/08/2026 · Tổng hợp từ nguồn công khai, đã xác minh, dẫn nguồn nội dòng. Hai bài đều là case của nhà cung cấp/nền tảng — đọc như bài học quy trình, không phải benchmark độc lập.</div>
+</div>
+</body>
+</html>
