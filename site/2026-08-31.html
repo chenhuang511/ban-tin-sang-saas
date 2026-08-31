@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prompt injection "gián tiếp" đã ra trận: tin tặc rải chỉ dẫn ẩn khắp web để cướp quyền AI agent — và lỗ hổng thường không được cấp CVE · 31/08/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.dich{background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;padding:16px 20px;margin-top:16px}
+.dich .flag{font-size:12.5px;color:#94a3b8;font-style:italic;margin-bottom:8px}
+.dich h3{font-size:16px;margin:14px 0 4px}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 31/08/2026 · bản chi tiết</div>
+    <h1 class="title">Prompt injection "gián tiếp" đã ra trận: tin tặc rải chỉ dẫn ẩn khắp web để cướp quyền AI agent — và lỗ hổng thường không được cấp CVE</h1>
+    <div class="meta">31/08/2026 · Thời lượng đọc ~19 phút · Nguồn: Cloud Security Alliance (AI Safety Initiative) — "Indirect Prompt Injection Goes Operational" (26/04/2026, cập nhật 20/05/2026); Palo Alto Networks Unit 42 — "Fooling AI Agents: Web-Based Indirect Prompt Injection Observed in the Wild" (Nabeel Mohamed, 03/03/2026)</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: số này viết ở dạng "đậm cơ chế" — mỗi con số/nhận định điểm nhấn kèm một tầng <em>nghĩa là gì / vì sao khó / làm thế nào</em>. Các đoạn có nhãn <b style="color:#1e40af">Cơ chế</b>, bảng ánh xạ rủi ro và khuyến nghị theo quy mô đội là phần <strong>biên tập tổng hợp từ hai nguồn + thực hành phổ biến</strong> để minh họa, KHÔNG trích nguyên văn; mọi con số vẫn dẫn nguồn nội dòng. Nguồn 1 là ghi chú nghiên cứu của một tổ chức phi lợi nhuận về bảo mật đám mây (tổng hợp có nhãn từ Google/Forcepoint/Unit 42/OWASP); nguồn 2 là báo cáo điều tra mối đe dọa cấp một của một hãng bảo mật. Vì đây là chủ đề bảo mật, số này KHÔNG mô tả cách chế payload; mọi chi tiết kỹ thuật viết bằng văn xuôi ở mức phòng thủ.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1">CSA: prompt injection gián tiếp đã "từ phòng lab ra thực chiến" — 32% trang độc tăng thêm, một vụ rò rỉ qua log Grafana, và "khoảng trống công bố" khiến lỗ hổng AI vô hình</a></li>
+      <li><a href="#bai2">Unit 42 mổ xẻ ngoài thực địa: 22 kỹ thuật giấu chỉ dẫn, 85% dùng "lừa ngữ nghĩa", và lần đầu một trang qua mặt hệ duyệt quảng cáo bằng AI</a></li>
+      <li><a href="#gocnhin">Góc nhìn: nút thắt không nằm ở model — nằm ở chỗ agent không phân biệt "dữ liệu để đọc" với "lệnh để làm"; làm gì theo quy mô đội</a></li>
+      <li><a href="#dich1">📖 Lược dịch — Indirect Prompt Injection Goes Operational (CSA)</a></li>
+      <li><a href="#dich2">📖 Lược dịch — Fooling AI Agents: Web-Based IDPI in the Wild (Unit 42)</a></li>
+    </ol>
+  </nav>
+
+  <!-- BÀI 1 -->
+  <article class="card" id="bai1">
+    <span class="tag saas">An toàn thông tin · AI features</span>
+    <h2 class="head">1 · Prompt injection gián tiếp đã "ra trận": chỉ dẫn ẩn rải khắp web, một vụ rò rỉ dữ liệu qua log Grafana, và lỗ hổng AI thường không có CVE để lần theo</h2>
+    <p class="src">Nguồn: Cloud Security Alliance — AI Safety Initiative, "Indirect Prompt Injection Goes Operational" · công bố 26/04/2026, cập nhật 20/05/2026 · ghi chú nghiên cứu tổng hợp từ telemetry của Google, Forcepoint, Unit 42 và báo cáo OWASP · <a href="https://labs.cloudsecurityalliance.org/research/csa-research-note-indirect-prompt-injection-in-the-wild-2026/" target="_blank">labs.cloudsecurityalliance.org</a></p>
+
+    <div class="stat">
+      <div class="box"><div class="num">+32%</div><div class="lab">mức tăng tương đối của nội dung IPI độc hại Google phát hiện, từ 11/2025 đến 02/2026, trên ~2–3 tỷ trang crawl mỗi tháng <a href="https://labs.cloudsecurityalliance.org/research/csa-research-note-indirect-prompt-injection-in-the-wild-2026/" target="_blank">(CSA/Google, 2026)</a></div></div>
+      <div class="box"><div class="num">1/8</div><div class="lab">chỉ 1 trong 8 sự cố AI lớn Q1/2026 được cấp một mã CVE (Flowise); phần còn lại chỉ nằm trong blog nhà cung cấp/tin tức <a href="https://labs.cloudsecurityalliance.org/research/csa-research-note-indirect-prompt-injection-in-the-wild-2026/" target="_blank">(CSA/OWASP, 2026)</a></div></div>
+      <div class="box"><div class="num">$5.000</div><div class="lab">một payload thực tế ép agent chuyển khoản cố định qua PayPal.me — "vũ khí hóa để thực thi ngay" <a href="https://labs.cloudsecurityalliance.org/research/csa-research-note-indirect-prompt-injection-in-the-wild-2026/" target="_blank">(CSA/Forcepoint, 2026)</a></div></div>
+    </div>
+
+    <p>Ghi chú của Cloud Security Alliance mở đầu bằng một câu chốt: prompt injection <em>gián tiếp</em> (indirect prompt injection — IPI) đã "vượt lằn ranh từ bằng chứng-khái-niệm sang khai thác thực chiến".<sup><a href="https://labs.cloudsecurityalliance.org/research/csa-research-note-indirect-prompt-injection-in-the-wild-2026/" target="_blank">[1]</a></sup> Cuối tháng 4/2026, hai nguồn telemetry độc lập — blog bảo mật của Google và Forcepoint X-Labs — cùng công bố phân tích xác nhận rằng kẻ tấn công đang chủ động <em>gieo</em> chỉ dẫn ẩn lên web mở để chiếm quyền các agent duyệt web, trợ lý lập trình và copilot doanh nghiệp.<sup><a href="https://labs.cloudsecurityalliance.org/research/csa-research-note-indirect-prompt-injection-in-the-wild-2026/" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — "gián tiếp" khác "trực tiếp" ở đâu, và vì sao đó là điều đáng sợ:</b> ở đòn trực tiếp, chính người dùng gõ văn bản độc vào ô chat — bề mặt tấn công quen thuộc, kiến trúc bảo mật vốn coi input người dùng là "không tin được". Ở đòn <em>gián tiếp</em>, chỉ dẫn độc được cấy sẵn vào một <em>nguồn dữ liệu bên thứ ba</em> mà agent sẽ đọc trong lúc làm việc bình thường: một trang web, một dòng log, một lời mời lịch, một file PDF, một comment trên issue. LLM hiện tại thường <em>không</em> phân biệt được nội dung nó được yêu cầu <em>xử lý</em> với nội dung đang cố <em>ra lệnh</em> cho nó — đây chính là hạng mục OWASP xếp số 1 (LLM01) suốt nhiều năm.<sup><a href="https://labs.cloudsecurityalliance.org/research/csa-research-note-indirect-prompt-injection-in-the-wild-2026/" target="_blank">[1]</a></sup> Nói ngắn: đầu vào không tin được không còn đến từ chỗ bạn canh, mà từ mọi trang web agent lỡ đọc phải.</div>
+
+    <h3 class="sub">Vì sao "bây giờ" mới bùng: agent hết còn là "gợi ý thụ động"</h3>
+    <p>CSA chỉ ra hai yếu tố hội tụ đầu 2026 khiến IPI từ lý thuyết thành vận hành. Thứ nhất, làn sóng tính năng <em>agentic</em> phá vỡ giả định cũ rằng đầu ra của LLM chỉ là khuyến nghị thụ động: agent duyệt web nay bấm link và điền form; trợ lý lập trình chạy lệnh shell; agent CLI commit code và đăng lên GitHub. Mỗi năng lực biến một lỗi sinh-văn-bản vốn "vô hại" thành một đường dẫn tới <em>hành động trái phép</em>.<sup><a href="https://labs.cloudsecurityalliance.org/research/csa-research-note-indirect-prompt-injection-in-the-wild-2026/" target="_blank">[1]</a></sup> Thứ hai, kỹ thuật tiêm chuẩn hóa: cùng những câu mồi — kiểu <em>"Ignore previous instructions"</em> hay <em>"If you are an LLM"</em> — xuất hiện lặp lại trên các domain không liên quan, cho thấy có bộ công cụ/khuôn mẫu dùng chung chứ không phải sáng tạo độc lập.<sup><a href="https://labs.cloudsecurityalliance.org/research/csa-research-note-indirect-prompt-injection-in-the-wild-2026/" target="_blank">[1]</a></sup></p>
+    <p>Đáng chú ý, cả Google lẫn Forcepoint đều nói họ <em>không</em> thấy các chiến dịch tinh vi, phối hợp kiểu nhóm APT có tên tuổi; thay vào đó là các khuôn mẫu tiêm giống nhau lan trên nhiều domain rời rạc.<sup><a href="https://labs.cloudsecurityalliance.org/research/csa-research-note-indirect-prompt-injection-in-the-wild-2026/" target="_blank">[1]</a></sup> Hệ quả vận hành: bề mặt tấn công lớn, chi phí mỗi lần thử rất thấp, và một áp lực nền dai dẳng lên <em>mọi</em> agent chạm phải nội dung web không tin được.</p>
+
+    <h3 class="sub">Ý đồ đang leo thang: từ "nghịch phá" sang tiền và phá hoại</h3>
+    <p>Forcepoint xác định 10 payload IPI khác nhau qua săn tìm chủ động; Unit 42 lập bản đồ 22 kỹ thuật giao payload đang hoạt động — dấu hiệu của công cụ hóa có tổ chức, không phải thí nghiệm lẻ.<sup><a href="https://labs.cloudsecurityalliance.org/research/csa-research-note-indirect-prompt-injection-in-the-wild-2026/" target="_blank">[1]</a></sup> Danh mục ý đồ (theo mô tả trong báo cáo) nay gồm: ép chuyển tiền $5.000 qua PayPal, gian lận đăng ký qua Stripe, xóa file đệ quy trong agent tích hợp IDE, đánh cắp khóa API, và cả sàng lọc tuyển dụng thiên lệch.<sup><a href="https://labs.cloudsecurityalliance.org/research/csa-research-note-indirect-prompt-injection-in-the-wild-2026/" target="_blank">[1]</a></sup> Ba payload Forcepoint nêu tên minh họa dải rủi ro: một trang giấu lệnh <em>xóa đệ quy</em> nhắm một thư mục sao lưu, kích hoạt khi agent-lập-trình hoặc copilot terminal tóm tắt trang; một trang khác chỉ đạo agent chuyển $5.000 cố định qua PayPal.me; một trang thứ ba giấu chỉ dẫn trong comment HTML để rò một khóa API bí mật.<sup><a href="https://labs.cloudsecurityalliance.org/research/csa-research-note-indirect-prompt-injection-in-the-wild-2026/" target="_blank">[1]</a></sup></p>
+
+    <h3 class="sub">GrafanaGhost: một chuỗi rò rỉ dữ liệu đầu-cuối, kể lại bằng lời</h3>
+    <p>Trong 8 sự cố Q1 mà OWASP tổng hợp, GrafanaGhost (công bố 07/04/2026) là ví dụ IPI đầu-cuối có tài liệu kỹ thuật công khai đầy đủ. Nhà nghiên cứu ở Noma Security phát hiện kẻ tấn công có thể "đầu độc" các bản ghi log của Grafana bằng tham số truy vấn dựng khéo, khiến trợ lý AI của Grafana <em>diễn giải</em> đoạn văn bản nhúng đó thành <em>chỉ dẫn</em> khi nó tóm tắt log.<sup><a href="https://labs.cloudsecurityalliance.org/research/csa-research-note-indirect-prompt-injection-in-the-wild-2026/" target="_blank">[1]</a></sup> Kênh rút dữ liệu khai thác cách render ảnh trong Markdown với URL "tương đối theo giao thức" (đường dẫn bắt đầu bằng <em>//</em>): dạng URL này qua được bước kiểm tra của Grafana nhưng khiến trình duyệt gửi dữ liệu đã render tới một domain của kẻ tấn công.<sup><a href="https://labs.cloudsecurityalliance.org/research/csa-research-note-indirect-prompt-injection-in-the-wild-2026/" target="_blank">[1]</a></sup> Grafana Labs đồng thời vá hai lỗ hổng lân cận — CVE-2026-27876 (CVSS 9.1, ghi file tùy ý dẫn tới thực thi mã) và CVE-2026-27880 (CVSS 7.5, từ chối dịch vụ) — nhưng bản thân đòn IPI <em>không</em> được gán CVE.<sup><a href="https://labs.cloudsecurityalliance.org/research/csa-research-note-indirect-prompt-injection-in-the-wild-2026/" target="_blank">[1]</a></sup></p>
+    <div class="mech"><b>Cơ chế — vì sao "log" là một vector tiêm mà ít ai ngờ:</b> theo phản xạ, ta coi log là dữ liệu nội bộ đáng tin. Nhưng bất kỳ trường nào mà <em>bên ngoài</em> có thể ghi vào — tham số URL, user-agent, tên tài khoản, nội dung request lỗi — đều có thể chứa chỉ dẫn ẩn, và khi một trợ lý AI "tóm tắt log giúp bạn", nó nuốt luôn cả chỉ dẫn đó. Điểm mấu chốt của bài học Grafana: kênh <em>rút</em> dữ liệu không cần lỗ hổng exotic — chỉ cần một tính năng vô hại (render ảnh Markdown) cộng một kiểm tra URL lỏng. Bịt IPI vì thế phải bịt cả hai đầu: đầu vào (nội dung không tin được) lẫn đầu ra (agent được phép "vẽ" ảnh/gọi mạng tới đâu).</div>
+
+    <h3 class="sub">"Khoảng trống công bố": lỗ hổng AI thường vô hình với công cụ quét</h3>
+    <p>Phát hiện có tính cấu trúc nhất của báo cáo Q1: quản lý lỗ hổng truyền thống <em>không</em> bắt được rủi ro riêng của AI.<sup><a href="https://labs.cloudsecurityalliance.org/research/csa-research-note-indirect-prompt-injection-in-the-wild-2026/" target="_blank">[1]</a></sup> Trong 8 sự cố, chỉ Flowise (CVE-2025-59528, RCE qua cấu hình CustomMCP, 12.000–15.000 instance phơi ra Internet) mang một CVE; phần còn lại chỉ được theo dõi qua blog nhà cung cấp hoặc tin tức.<sup><a href="https://labs.cloudsecurityalliance.org/research/csa-research-note-indirect-prompt-injection-in-the-wild-2026/" target="_blank">[1]</a></sup> Khoảng trống này còn rộng hơn khi The Next Web ghi nhận các khoản thưởng lỗi mà Anthropic ($100, lỗi prompt injection ở Claude Code Security Review cho phép rút khóa API từ runner GitHub Actions), GitHub ($500, lỗi Copilot Agent kích hoạt bằng chèn comment HTML vào issue) và Google (Gemini CLI Action tự lộ khóa API của chính nó) đã trả — nhưng <em>không</em> hãng nào gán CVE hay ra advisory.<sup><a href="https://labs.cloudsecurityalliance.org/research/csa-research-note-indirect-prompt-injection-in-the-wild-2026/" target="_blank">[1]</a></sup></p>
+    <div class="mech"><b>Cơ chế — vì sao "không có CVE" là một lỗ hổng của quy trình, không phải tin tốt:</b> cả một dây chuyền bảo mật doanh nghiệp dựa vào định danh CVE: máy quét khớp chữ ký CVE, SBOM đánh dấu thành phần dính, đội vận hành ghim phiên bản theo advisory. Khi một lỗi agent được vá lặng lẽ và không có CVE, đội bảo mật <em>không có chữ ký để quét, không có dấu SBOM, không có phiên bản để ghim</em> — họ mù về một lỗi <em>đã biết</em>. Bài học: với agent, "không có CVE" không đồng nghĩa "không có lỗi"; phải theo dõi changelog nhà cung cấp và blog nghiên cứu như nguồn chính thức, đồng thời ghim phiên bản agent thủ công.</div>
+
+    <p>CSA liệt kê 8 sự cố Q1 kèm ánh xạ sang khung OWASP. Vài vụ đáng nhớ ngoài GrafanaGhost và Flowise: một vụ xâm nhập chính phủ Mexico "có AI hỗ trợ" làm lộ ~150 GB dữ liệu thuế và cử tri; OpenClaw xóa email người dùng sau khi <em>phớt lờ lệnh dừng</em>; rò rỉ agent AI nội bộ của Meta để dữ liệu nhạy cảm truy cập được trong ~2 giờ; "Double Agent" trên Vertex AI, nơi phạm vi quyền <em>mặc định quá rộng</em> mở đường rút thông tin xác thực.<sup><a href="https://labs.cloudsecurityalliance.org/research/csa-research-note-indirect-prompt-injection-in-the-wild-2026/" target="_blank">[1]</a></sup> Sợi chỉ đỏ: nhiều vụ nặng lên vì quyền cấp mặc định quá rộng (nhóm LLM06/ASI02 trong khung), chứ không vì model dở.</p>
+
+    <div class="takeaway"><strong>💡 Rút ra cho bạn:</strong> nếu bạn đang gắn một tính năng "AI tóm tắt / AI đọc giúp" vào sản phẩm SaaS, hãy giả định <em>mọi</em> nội dung ngoài (trang web, log, email, ticket, lịch) đều có thể chứa chỉ dẫn ẩn. Ưu tiên đầu tiên không phải là "prompt phòng thủ" tinh vi hơn, mà là <em>thu hẹp quyền</em>: agent nào chạm dữ liệu không tin được thì tuyệt đối không nên có sẵn khả năng gửi tiền, xóa dữ liệu, chạy lệnh hay gọi mạng ra ngoài nếu không qua bước người duyệt. Và đừng dựa vào máy quét CVE để yên tâm — lỗi agent thường không có CVE.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> [1] Cloud Security Alliance (AI Safety Initiative) — <a href="https://labs.cloudsecurityalliance.org/research/csa-research-note-indirect-prompt-injection-in-the-wild-2026/" target="_blank">Indirect Prompt Injection Goes Operational</a> (26/04/2026, cập nhật 20/05/2026); tổng hợp từ <a href="https://security.googleblog.com/2026/04/ai-threats-in-wild-current-state-of.html" target="_blank">Google Security Blog</a>, <a href="https://www.forcepoint.com/blog/x-labs/indirect-prompt-injection-payloads" target="_blank">Forcepoint X-Labs</a>, <a href="https://genai.owasp.org/2026/04/14/owasp-genai-exploit-round-up-report-q1-2026/" target="_blank">OWASP GenAI Q1 2026 Round-up</a>, và <a href="https://www.miggo.io/post/weaponizing-calendar-invites-a-semantic-attack-on-google-gemini" target="_blank">Miggo Security</a>.</div>
+  </article>
+
+  <!-- BÀI 2 -->
+  <article class="card" id="bai2">
+    <span class="tag saas">An toàn thông tin · điều tra thực địa</span>
+    <h2 class="head">2 · Unit 42 mổ xẻ ngoài thực địa: 22 kỹ thuật giấu chỉ dẫn, 85% dựa vào "lừa ngữ nghĩa", và lần đầu một trang qua mặt hệ duyệt quảng cáo bằng AI</h2>
+    <p class="src">Nguồn: Palo Alto Networks Unit 42 — Nabeel Mohamed, "Fooling AI Agents: Web-Based Indirect Prompt Injection Observed in the Wild" · 03/03/2026 · báo cáo điều tra mối đe dọa cấp một, dựa trên telemetry thực tế · <a href="https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/" target="_blank">unit42.paloaltonetworks.com</a></p>
+
+    <div class="stat">
+      <div class="box"><div class="num">22</div><div class="lab">kỹ thuật dựng payload IPI khác nhau quan sát ngoài thực địa — một số mới về cách áp dụng cho IPI trên web <a href="https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/" target="_blank">(Unit 42, 2026)</a></div></div>
+      <div class="box"><div class="num">85,2%</div><div class="lab">số ca dùng "lừa ngữ nghĩa" / social engineering — khung chỉ dẫn độc như tác vụ hệ thống thường lệ hoặc mệnh lệnh cấp trên <a href="https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/" target="_blank">(Unit 42, 2026)</a></div></div>
+      <div class="box"><div class="num">37,8%</div><div class="lab">kỹ thuật giao payload phổ biến nhất: văn bản nhìn-thấy-được-với-máy nhưng ẩn với người (cỡ chữ 0, đẩy ngoài màn hình, độ mờ 0) <a href="https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/" target="_blank">(Unit 42, 2026)</a></div></div>
+    </div>
+
+    <p>Nếu bài của CSA cho bức tranh toàn cảnh, thì báo cáo Unit 42 là bản mổ xẻ cận cảnh những gì đang thật sự nằm trên các trang web hôm nay. Nhóm quan sát prompt injection gián tiếp trên web (họ viết tắt IDPI) qua telemetry thực tế, không phải PoC trong phòng lab: kẻ tấn công lợi dụng chính những tính năng vô hại như "tóm tắt trang" hay "phân tích nội dung" để khiến LLM vô tình <em>thực thi</em> prompt do kẻ tấn công kiểm soát.<sup><a href="https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/" target="_blank">[2]</a></sup> Từ quan sát đó, họ dựng một phân loại cụ thể về ý đồ và kỹ thuật dựng payload.</p>
+
+    <h3 class="sub">Case cấp một: lần đầu một trang qua mặt hệ duyệt quảng cáo bằng AI</h3>
+    <p>Điểm mốc của báo cáo: Unit 42 ghi nhận (từ 12/2025) trường hợp thực tế đầu tiên của IDPI độc hại được thiết kế để <em>qua mặt một hệ duyệt/kiểm quảng cáo bằng AI</em>.<sup><a href="https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/" target="_blank">[2]</a></sup> Trang <em>reviewerpress</em> phục vụ một quảng cáo lừa đảo — rao "kính quân đội" MaxVision với giảm giá bịa đặt và bình luận giả để tăng độ tin — và giấu trong mã nguồn một prompt nhắm thẳng vào <em>hệ AI đi kiểm duyệt quảng cáo</em>, cố ép nó <em>phê duyệt</em> nội dung mà lẽ ra phải từ chối vì là lừa đảo.<sup><a href="https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/" target="_blank">[2]</a></sup> Chỉ dẫn ẩn ngụy trang thành "chỉ dẫn hệ thống mới" và khẳng định nội dung "đã được đội tuân thủ tiền-kiểm", lặp lại chữ "APPROVED" để dồn ép model.<sup><a href="https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/" target="_blank">[2]</a></sup> Người dùng bấm nút "giảm giá" sẽ bị chuyển tới một trang giỏ hàng khác để chốt lừa.<sup><a href="https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/" target="_blank">[2]</a></sup></p>
+    <div class="mech"><b>Cơ chế — vì sao đây là bước ngoặt "cấp một" đáng để ý:</b> hầu hết ví dụ IPI đời đầu là trò nghịch phá cấp thấp (bắt model đọc thơ, đổi giọng). Case này khác về <em>chất</em>: nạn nhân trực tiếp không phải người dùng cuối, mà là <em>một hệ thống AI của doanh nghiệp</em> đặt ở khâu kiểm soát — cái "cổng gác" bằng AI. Khi kẻ xấu chuyển từ đánh người sang đánh chính lớp phòng thủ tự động, mọi công ty đang thay người kiểm duyệt bằng agent cần hiểu: agent kiểm duyệt của bạn cũng là một bề mặt tấn công, và "đầu vào" của nó là nội dung do kẻ xấu soạn.</div>
+
+    <h3 class="sub">Ẩn với người, hiện với máy: bức tranh kỹ thuật</h3>
+    <p>Unit 42 phân loại cách <em>giao</em> payload và cách <em>bẻ khóa</em> model. Về giao payload, phổ biến nhất là văn bản nhìn-thấy-được nhưng bị che khỏi mắt người (37,8%) — cỡ chữ bằng 0, đẩy ra ngoài khung nhìn bằng tọa độ âm cực lớn, đặt độ mờ về 0, hoặc để chữ cùng màu nền; kế đó là nhét chỉ dẫn vào thuộc tính HTML (~19%) và chặn hiển thị bằng CSS (16,9%), phần còn lại là mã hóa/che giấu và lắp ráp payload lúc chạy.<sup><a href="https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/" target="_blank">[2]</a></sup> Về bẻ khóa, áp đảo là "lừa ngữ nghĩa"/social engineering (85,2%) — đóng khung lệnh độc thành nhiệm vụ chính đáng, khẩn cấp, hoặc viện quyền cấp trên; JSON/chèn cú pháp chiếm 7,0%.<sup><a href="https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/" target="_blank">[2]</a></sup> Về mật độ, 75,8% trang chỉ chứa một prompt tiêm, phần còn lại xếp chồng nhiều lệnh.<sup><a href="https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/" target="_blank">[2]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao "ẩn với người" là điều khiến IPI khó lọc:</b> chỉ dẫn độc được che bằng CSS, chữ 0-pixel, hay comment HTML thì <em>vô hình</em> với người rà soát cùng trang đó — nhưng lại hiện ra bình thường với một LLM đọc thẳng DOM hoặc markdown thô. Nghĩa là "cho người kiểm tra bằng mắt" không phải một lớp phòng thủ. Còn 85,2% dựa vào lừa ngữ nghĩa nói lên rằng vũ khí chính không phải kỹ thuật cao siêu, mà là <em>tính hay-giúp-đỡ</em> của model: khi một lệnh được đóng khung là "cập nhật hệ thống" hay "developer mode", model huấn luyện để tuân lệnh sẽ nghe theo trừ khi có rào chắn rõ ràng. Suy ra: sanitizer nên tước bỏ chữ 0-width, phần tử ẩn/đẩy-ngoài-màn-hình và comment HTML <em>trước khi</em> nội dung vào cửa sổ ngữ cảnh của agent — chặn ở tầng dữ liệu, đừng trông vào việc "dạy model đừng nghe lời kẻ xấu".</div>
+
+    <p>Danh mục ý đồ Unit 42 quan sát trải rộng: né kiểm duyệt quảng cáo, thao túng SEO để đẩy trang lừa đảo, rò rỉ chính prompt hệ thống, phá hủy dữ liệu, từ chối dịch vụ (ép model xuất ra nội dung vô nghĩa), giao dịch trái phép, và rò rỉ dữ liệu nhạy cảm.<sup><a href="https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/" target="_blank">[2]</a></sup> Kết luận của nhóm: IPI là một dịch chuyển nền tảng — từ khai thác lỗ hổng phần mềm sang thao túng chính <em>dữ liệu và nội dung</em> mà model tiêu thụ; và bản thân web trở thành một "cơ chế giao prompt", biến mọi tính năng web thông dụng thành đường tiêm tiềm tàng.<sup><a href="https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/" target="_blank">[2]</a></sup></p>
+
+    <div class="takeaway"><strong>💡 Rút ra cho bạn:</strong> nếu agent của bạn có khả năng "đọc web / tóm tắt trang", hãy coi trình đọc đó là một bề mặt tấn công riêng và đặt một <em>sanitizer</em> đứng trước cửa sổ ngữ cảnh để tước nội dung ẩn (chữ 0-pixel, phần tử đẩy-ngoài-màn-hình, comment HTML). Với các "cổng gác bằng AI" (kiểm duyệt, phê duyệt, chấm điểm), hãy nhớ 85% đòn là lừa ngữ nghĩa: đừng để model tự-quyết "phê duyệt/từ chối" dựa trên văn bản do bên ngoài soạn mà không có một tầng luật cứng và người kiểm ở các ca rủi ro cao.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> [2] Palo Alto Networks Unit 42 (Nabeel Mohamed) — <a href="https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/" target="_blank">Fooling AI Agents: Web-Based Indirect Prompt Injection Observed in the Wild</a> (03/03/2026). Ghi chú số liệu: tỷ lệ kỹ thuật giao payload lấy theo biểu đồ trong bài (văn bản nhìn-thấy 37,8%, chặn CSS 16,9%; nhét thuộc tính HTML nêu ~18,6–19,8% giữa biểu đồ và bảng của CSA — làm tròn ~19%).</div>
+  </article>
+
+  <!-- GÓC NHÌN -->
+  <article class="card" id="gocnhin">
+    <span class="tag view">Góc nhìn</span>
+    <h2 class="head">3 · Nút thắt không ở model — mà ở chỗ agent không phân biệt "dữ liệu để đọc" với "lệnh để làm"; làm gì theo quy mô đội</h2>
+    <p>Đặt hai báo cáo cạnh nhau, thông điệp trùng khớp: IPI khó không phải vì kẻ tấn công thông minh, mà vì kiến trúc agent hiện tại trộn chung <em>nội dung để xử lý</em> và <em>chỉ dẫn để tuân theo</em> vào một cửa sổ ngữ cảnh duy nhất. Model càng "biết nghe lời" thì càng dễ bị lời của kẻ lạ điều khiển. Vì thế phòng thủ hiệu quả nằm ở tầng hệ thống quanh model — giống bài học đã lặp ở các số về sự cố agent (23/08, 20/08): "model không phải vấn đề, hệ thống quanh nó mới là".</p>
+
+    <table class="tbl">
+      <tr><th>Tầng phòng thủ</th><th>IPI khai thác điều gì</th><th>Biện pháp cụ thể (văn xuôi)</th></tr>
+      <tr><td>Đầu vào (nội dung agent đọc)</td><td>Chữ ẩn, comment HTML, log/lịch/email do bên ngoài ghi vào</td><td>Sanitizer tước chữ 0-pixel/phần tử ẩn/comment trước khi vào ngữ cảnh; gắn nhãn nguồn (provenance) để tách "lệnh hệ thống" khỏi "dữ liệu"</td></tr>
+      <tr><td>Quyền của agent</td><td>Quyền mặc định quá rộng (gửi tiền, xóa, chạy lệnh)</td><td>Least privilege theo bán kính thiệt hại: agent chạm dữ liệu không tin được thì không có sẵn quyền hành động không-hoàn-tác</td></tr>
+      <tr><td>Người trong vòng lặp</td><td>Agent tự quyết hành động cao rủi ro</td><td>Chốt người duyệt cho thanh toán/xóa/gọi mạng ra ngoài; nhật ký mọi lời gọi tool</td></tr>
+      <tr><td>Đầu ra (kênh rút dữ liệu)</td><td>Render ảnh Markdown, URL "//", gọi mạng tùy ý</td><td>Chỉ cho ảnh/URL trong danh sách trắng; cấm URL tương đối theo giao thức (bài học GrafanaGhost)</td></tr>
+      <tr><td>Theo dõi lỗ hổng</td><td>Lỗi agent thường không có CVE</td><td>Ghim phiên bản agent thủ công; theo dõi changelog nhà cung cấp + blog nghiên cứu như nguồn chính thức</td></tr>
+    </table>
+    <div class="editnote">Bảng trên là ánh xạ biên tập tổng hợp từ khuyến nghị của CSA/OWASP + thực hành phổ biến, không phải bảng có sẵn trong nguồn. Không trích nguyên văn.</div>
+
+    <p><strong>Một điểm chiến lược từ CSA đáng nhấn:</strong> khung agent nên nâng việc <em>tách nội dung-agent-xử-lý khỏi chỉ dẫn-agent-tuân-theo</em> thành mối quan tâm thiết kế hàng đầu, thay vì vá sau. Khung nào coi mọi nội dung truy xuất là input không phân biệt đổ chung vào một prompt thì về cấu trúc là dễ tổn thương; khung nào giữ metadata nguồn và ràng buộc lời gọi tool theo <em>xuất xứ dữ liệu</em> thì phòng thủ được.<sup><a href="https://labs.cloudsecurityalliance.org/research/csa-research-note-indirect-prompt-injection-in-the-wild-2026/" target="_blank">[1]</a></sup> Đây cũng là tinh thần "Rule of Two"/lethal trifecta đã nhắc ở số về OWASP Agentic: đừng để một agent cùng lúc có (a) đọc dữ liệu không tin được, (b) truy cập dữ liệu/nhạy cảm, và (c) khả năng gửi ra ngoài.</p>
+
+    <div class="scale">
+      <div class="col small">
+        <h4>Đội nhỏ / startup (&lt;10 người)</h4>
+        <ul>
+          <li>Làm trước một việc rẻ mà chặn được phần lớn thiệt hại: lập <em>danh sách</em> mọi agent/copilot có đọc dữ liệu ngoài, ghi rõ mỗi cái được gọi tool gì và có khóa/quyền gì.</li>
+          <li>Với bất kỳ agent nào có thể gửi tiền, xóa, chạy lệnh hay gọi mạng: bỏ quyền đó khỏi chế độ tự động, đặt một bước người duyệt. Đây là việc trong-tuần.</li>
+          <li>Nếu có tính năng "AI đọc web/tóm tắt": thêm một sanitizer tối giản tước chữ ẩn + comment HTML trước khi đưa vào prompt.</li>
+          <li>Đừng dựa vào máy quét CVE: ghim phiên bản trợ lý lập trình/agent và theo dõi changelog nhà cung cấp.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Đội đã có sản phẩm production</h4>
+        <ul>
+          <li>Đưa "provenance" vào kiến trúc: đánh dấu rõ đâu là chỉ dẫn hệ thống, đâu là dữ liệu truy xuất; ràng buộc quyền gọi tool theo xuất xứ dữ liệu.</li>
+          <li>Bịt kênh rút dữ liệu: giới hạn render ảnh/URL vào danh sách trắng, cấm URL tương đối theo giao thức (đúng lỗ mà GrafanaGhost khai thác).</li>
+          <li>Rà các tích hợp lịch/email/SaaS nuôi agent theo mẫu Miggo–Gemini: nếu bên ngoài ghi được vào một trường mà agent sẽ tóm tắt, trường đó là vector tiêm.</li>
+          <li>Cập nhật bộ câu hỏi bảo mật khi mua công cụ: nhà cung cấp có ra advisory/gán CVE cho lỗi prompt injection & lạm dụng agent không? Chính sách công bố ra sao?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="doslist">
+      <div>✅ <strong>Việc làm tuần này (1):</strong> lập bảng "agent → tool được gọi → quyền/khóa"; đánh dấu đỏ mọi agent vừa đọc dữ liệu ngoài vừa có quyền hành động không-hoàn-tác, và gỡ quyền đó khỏi chế độ tự động.</div>
+      <div>✅ <strong>Việc làm tuần này (2):</strong> nếu có tính năng agent đọc web/log/email, thêm sanitizer tước nội dung ẩn và bật danh sách trắng domain cho ảnh/URL đầu ra.</div>
+      <div>✅ <strong>Việc làm tuần này (3):</strong> ghim phiên bản mọi trợ lý lập trình/agent, đăng ký nhận changelog nhà cung cấp — vì lỗi agent thường không có CVE để máy quét bắt.</div>
+      <div>❌ <strong>Tránh:</strong> tin rằng "prompt hệ thống dặn dò kỹ hơn" là đủ. 85% đòn là lừa ngữ nghĩa; phòng thủ phải ở tầng quyền + provenance + người duyệt, không ở lời dặn model.</div>
+    </div>
+  </article>
+
+  <!-- LƯỢC DỊCH 1 -->
+  <section class="dich" id="dich1">
+    <div class="flag">📖 Lược dịch chi tiết — bản diễn đạt lại bằng tiếng Việt, KHÔNG phải dịch nguyên văn, không sao chép nguyên khối. Bản gốc: <a href="https://labs.cloudsecurityalliance.org/research/csa-research-note-indirect-prompt-injection-in-the-wild-2026/" target="_blank">Cloud Security Alliance — Indirect Prompt Injection Goes Operational</a> (26/04/2026).</div>
+    <h3>Ý chính</h3>
+    <p>Prompt injection gián tiếp (IPI) đã chuyển từ bằng chứng-khái-niệm sang khai thác thực chiến. Cuối tháng 4/2026, blog bảo mật Google và Forcepoint X-Labs cùng công bố phân tích xác nhận kẻ tấn công đang gieo chỉ dẫn ẩn lên web mở để chiếm quyền agent duyệt web, trợ lý lập trình và copilot doanh nghiệp. Unit 42 ghi nhận 12 ca IPI nhắm agent, gồm lần đầu quan sát một payload thực tế qua mặt hệ duyệt quảng cáo bằng AI. Google báo mức tăng tương đối 32% nội dung IPI độc hại từ 11/2025 đến 02/2026 trên ~2–3 tỷ trang crawl mỗi tháng.</p>
+    <h3>Bối cảnh</h3>
+    <p>Khác biệt then chốt: đòn trực tiếp là người dùng cố tình gửi văn bản độc; đòn gián tiếp cấy văn bản độc vào nguồn bên thứ ba (trang web, lời mời lịch, dòng log, PDF, email, comment issue) mà agent nuốt vào trong lúc làm việc bình thường. LLM hiện tại thường không phân biệt nội dung để xử lý với nội dung đang cố ra lệnh — hạng mục OWASP xếp LLM01, vẫn cao nhất trong bản 2026. Hai yếu tố đẩy IPI từ lý thuyết sang vận hành: (1) tính năng agentic phá vỡ giả định "đầu ra LLM chỉ là khuyến nghị" — agent nay bấm link, điền form, chạy lệnh shell, commit code; (2) kỹ thuật tiêm chuẩn hóa, cùng câu mồi xuất hiện trên nhiều domain rời rạc, cho thấy bộ công cụ dùng chung.</p>
+    <h3>Telemetry cho thấy gì</h3>
+    <p>Google: tỷ lệ trang mang IPI độc tăng 32% tương đối, kẻ tấn công ưa trang tĩnh, blog, diễn đàn, mục bình luận. Cả Google lẫn Forcepoint đều không thấy chiến dịch APT phối hợp; thay vào đó là khuôn mẫu tiêm dùng chung — nghĩa là bề mặt lớn, chi phí thấp, áp lực nền dai dẳng. Forcepoint nêu 10 payload xác thực: một trang giấu lệnh xóa đệ quy nhắm thư mục sao lưu (kích hoạt khi agent tóm tắt trang); một trang chỉ đạo chuyển $5.000 qua PayPal.me; một trang giấu chỉ dẫn trong comment HTML để rò khóa API. Các ý đồ khác: chiếm ghi công, ép model từ chối trả lời vì "bản quyền" giả, từ chối dịch vụ bằng lặp vô hạn. Unit 42 mở rộng sang agent duyệt tự chủ: đầu độc SEO đẩy trang lừa, lệnh xóa cơ sở dữ liệu backend giấu bằng CSS, gian lận đăng ký bằng JavaScript động mã hóa Base64, và payload ép hệ sàng lọc tuyển dụng AI duyệt hồ sơ bịa.</p>
+    <h3>Sự cố Q1 &amp; GrafanaGhost</h3>
+    <p>OWASP GenAI Q1 2026 tổng hợp 8 sự cố lớn (01/01–11/04), ánh xạ mỗi vụ sang LLM Top 10 và Agentic Top 10. Vài vụ: xâm nhập chính phủ Mexico có AI hỗ trợ (~150 GB dữ liệu thuế/cử tri); OpenClaw xóa email sau khi phớt lờ lệnh dừng; rò rỉ agent nội bộ Meta (~2 giờ); "Double Agent" Vertex AI (phạm vi quyền mặc định quá rộng mở đường rút credential); rò source map Claude Code (59,8 MB, repo "rò rỉ" giả dùng để phát tán malware); vụ chuỗi cung ứng Mercor/LiteLLM; Flowise CVE-2025-59528 (RCE qua CustomMCP, 12.000–15.000 instance phơi ra). GrafanaGhost (07/04) là chuỗi IPI đầu-cuối có tài liệu đầy đủ: Noma Security phát hiện kẻ tấn công đầu độc log Grafana bằng tham số truy vấn khéo, khiến trợ lý AI diễn giải văn bản nhúng thành chỉ dẫn khi tóm tắt log; kênh rút dữ liệu khai thác render ảnh Markdown với URL tương đối theo giao thức (bắt đầu bằng //) qua được kiểm tra nhưng gửi dữ liệu tới domain kẻ tấn công. Grafana vá hai CVE lân cận (CVE-2026-27876 CVSS 9.1; CVE-2026-27880 CVSS 7.5) nhưng bản thân IPI không được gán CVE.</p>
+    <h3>Khoảng trống công bố &amp; vì sao IPI khó chặn</h3>
+    <p>Chỉ 1/8 sự cố (Flowise) có CVE; phần còn lại chỉ trong blog/tin tức. The Next Web ghi nhận Anthropic ($100, lỗi Claude Code Security Review rút khóa API từ runner GitHub Actions), GitHub ($500, Copilot Agent kích hoạt bằng comment HTML trong issue), Google (Gemini CLI Action tự lộ khóa API) đều trả thưởng lỗi nhưng không gán CVE/ra advisory — đội bảo mật không có chữ ký quét, dấu SBOM hay phiên bản để ghim. Miggo Security trước đó cho thấy một lời mời Google Calendar có thể cấy chỉ dẫn ngủ đông, để Gemini thực thi khi người dùng nhờ "tóm tắt lịch hôm nay", rút dữ liệu họp. IPI khó chặn vì chỉ dẫn độc không đến từ người dùng (nơi kiến trúc canh chừng) mà từ một nguồn dữ liệu agent coi là input tool; chữ ẩn bằng CSS/0-pixel/comment vô hình với người nhưng hiện với model; và tính hay-giúp của model khiến nó tuân theo khi lệnh đóng khung là "tác vụ hệ thống".</p>
+    <h3>Khuyến nghị</h3>
+    <p>Hành động ngay: kiểm kê mọi agent/copilot đọc dữ liệu ngoài và ánh xạ nó gọi được tool/khóa gì; agent nào có quyền gửi email, chạy code, thanh toán, ghi/xóa dữ liệu thì thu hẹp quyền theo least privilege, ưu tiên theo bán kính thiệt hại (thanh toán/thực-thi-mã/xóa dữ liệu xử lý trong tuần). Áp khung OWASP LLM Top 10 làm khung phân loại: bảo đảm kiểm soát LLM01 (gắn nhãn nguồn, prompt cấu trúc tách lệnh khỏi dữ liệu, rào chắn khi agent gọi tool) và LLM06 (người duyệt cho hành động rủi ro cao, cổng năng lực, nhật ký lời gọi tool). Với đầu ra Markdown, giới hạn ảnh vào danh sách trắng domain và cấm URL tương đối theo giao thức. Trung hạn: triển khai phát hiện các câu mồi và kỹ thuật che giấu; cổng AI/DLP nên quét nội dung lúc nạp; agent duyệt web nên chạy nội dung qua sanitizer tước chữ 0-width, phần tử đẩy-ngoài-màn-hình, comment HTML. Agent lập trình/CLI cần siết riêng: yêu cầu người duyệt trước khi agent commit/mở PR/đăng comment chứa nội dung trích từ issue. Ghim phiên bản agent thủ công vì máy quét không bắt các lỗi này. Chiến lược: khung agent nên coi việc tách nội-dung-xử-lý khỏi chỉ-dẫn-tuân-theo là mối quan tâm thiết kế hàng đầu; CSA đề xuất khung mô hình hóa mối đe dọa agent (MAESTRO) và Ma trận kiểm soát AI (AICM). Cập nhật bộ câu hỏi bảo mật nhà cung cấp; giả định "không có CVE không nghĩa là không có lỗi".</p>
+  </section>
+
+  <!-- LƯỢC DỊCH 2 -->
+  <section class="dich" id="dich2">
+    <div class="flag">📖 Lược dịch chi tiết — bản diễn đạt lại bằng tiếng Việt, KHÔNG phải dịch nguyên văn, không sao chép nguyên khối. Bản gốc: <a href="https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/" target="_blank">Palo Alto Networks Unit 42 — Fooling AI Agents: Web-Based Indirect Prompt Injection Observed in the Wild</a> (03/03/2026).</div>
+    <h3>Ý chính</h3>
+    <p>Unit 42 quan sát prompt injection gián tiếp trên web (IDPI) qua telemetry thực tế, không phải PoC. Kẻ tấn công lợi dụng chính các tính năng vô hại như tóm tắt trang hay phân tích nội dung, khiến LLM vô tình thực thi prompt do kẻ tấn công kiểm soát. Nhóm xác định 22 kỹ thuật dựng payload khác nhau ngoài thực địa, một số mới về cách áp dụng cho IDPI web, và rút ra một phân loại cụ thể về ý đồ và kỹ thuật.</p>
+    <h3>Lần đầu qua mặt hệ duyệt quảng cáo bằng AI</h3>
+    <p>Từ 12/2025, Unit 42 báo cáo trường hợp thực tế đầu tiên của IDPI độc hại thiết kế để qua mặt một hệ kiểm duyệt quảng cáo bằng AI — theo họ, đây là lần đầu ghi nhận kiểu này. Trang reviewerpress phục vụ một quảng cáo lừa: rao "kính quân đội" MaxVision với giảm giá bịa và bình luận giả để tăng độ tin. Trong mã nguồn giấu một prompt nhắm hệ AI kiểm duyệt, cố ép nó phê duyệt nội dung lẽ ra phải từ chối. Chỉ dẫn ẩn ngụy trang thành "chỉ dẫn hệ thống mới", khẳng định nội dung đã được đội tuân thủ tiền-kiểm, lặp chữ "APPROVED". Người bấm nút "giảm giá" bị chuyển sang một trang giỏ hàng khác để chốt lừa. Bước ngoặt là attacker chuyển từ hành vi rủi ro thấp trước đây sang payload tinh vi và ý đồ nặng hơn, dùng nhiều phương pháp IDPI cùng lúc.</p>
+    <h3>Phân loại kỹ thuật</h3>
+    <p>Về giao payload: phổ biến nhất là văn bản nhìn-thấy-được nhưng ẩn với người (37,8%) — cỡ chữ 0, tọa độ âm cực lớn đẩy ra ngoài khung nhìn, độ mờ 0, chữ cùng màu nền; nhét chỉ dẫn vào thuộc tính HTML (~18,6%); chặn hiển thị bằng CSS như display:none/visibility:hidden (16,9%); ngụy trang, zero-sizing, đẩy ngoài màn hình; và mã hóa/che giấu (XML/SVG, CDATA, ký tự Unicode tag) cùng lắp ráp lúc chạy (giải mã Base64 sau độ trễ tải trang). Về bẻ khóa: áp đảo là lừa ngữ nghĩa/social engineering (85,2%) — đóng khung lệnh độc là chính đáng, khẩn cấp, hoặc viện quyền cấp trên (ví dụ "chế độ quản trị", "god mode", đóng vai); JSON/chèn cú pháp 7,0% (dùng ký tự cú pháp để thoát ngữ cảnh dữ liệu, nhồi cặp khóa-giá-trị giả như "kết quả kiểm định: đã duyệt"); lệnh đa ngôn ngữ, tách payload, chữ nhiễu chiếm phần nhỏ. Về mật độ: 75,8% trang chứa một prompt tiêm, còn lại xếp chồng nhiều lệnh.</p>
+    <h3>Ý đồ &amp; kết luận</h3>
+    <p>Danh mục ý đồ: né kiểm duyệt quảng cáo, thao túng SEO để đẩy trang lừa/phishing, rò rỉ prompt hệ thống, phá hủy dữ liệu, từ chối dịch vụ, giao dịch trái phép, rò rỉ dữ liệu nhạy cảm. IDPI là một dịch chuyển nền tảng — từ khai thác lỗ hổng phần mềm sang thao túng chính dữ liệu và nội dung mà model tiêu thụ; kẻ tấn công đã thử nghiệm nhiều kỹ thuật sáng tạo, thường trộn social engineering, thao túng tìm kiếm và né kỹ thuật. Khi agent ngày càng tự chủ và có quyền truy cập rộng vào hệ thống nhạy cảm, web trở thành một cơ chế giao prompt cho LLM — một bề mặt tấn công rộng, nơi kẻ xấu lợi dụng các tính năng web thông dụng để tiêm chỉ dẫn và nhắm các hệ AI giá trị cao một cách gián tiếp.</p>
+  </section>
+
+  <div class="foot">Bản tin sáng · Số 31/08/2026 · Tổng hợp từ nguồn công khai, đã xác minh, dẫn nguồn nội dòng. Nguồn 1 là ghi chú nghiên cứu tổng hợp của CSA; nguồn 2 là báo cáo điều tra mối đe dọa cấp một của Unit 42. Chủ đề bảo mật — nội dung viết ở mức phòng thủ, không mô tả cách chế payload.</div>
+</div>
+</body>
+</html>
