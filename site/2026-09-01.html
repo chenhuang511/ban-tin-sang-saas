@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đánh giá (eval) mới là con hào, không phải model: hai đội kể cách họ đo chất lượng AI agent — và vì sao "độ chính xác" che mất lỗi · 01/09/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.dich{background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;padding:16px 20px;margin-top:16px}
+.dich .flag{font-size:12.5px;color:#94a3b8;font-style:italic;margin-bottom:8px}
+.dich h3{font-size:16px;margin:14px 0 4px}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 01/09/2026 · bản chi tiết</div>
+    <h1 class="title">Đánh giá (eval) mới là con hào, không phải model: hai đội kể cách họ đo chất lượng AI agent — và vì sao "độ chính xác" che mất lỗi</h1>
+    <div class="meta">01/09/2026 · Thời lượng đọc ~19 phút · Nguồn: Unify — "How we build evals for AI Agents" (cập nhật 22/06/2026); Towards Data Science / Intuz — "Building an Evaluation Harness for Production AI Agents: A 12-Metric Framework From 100+ Deployments" (13/05/2026, cập nhật 26/06/2026)</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: số này viết ở dạng "đậm cơ chế" — mỗi con số/lựa chọn kỹ thuật kèm một tầng <em>nghĩa là gì / vì sao khó / làm thế nào</em>. Các đoạn có nhãn <b style="color:#1e40af">Cơ chế</b>, bảng ánh xạ metric và khuyến nghị theo quy mô đội là phần <strong>biên tập tổng hợp từ hai bài gốc + thực hành phổ biến</strong> để minh họa, KHÔNG trích nguyên văn; mọi con số vẫn dẫn nguồn nội dòng. Cả hai bài là blog của <em>hãng bán sản phẩm AI</em> (Unify bán agent GTM; Intuz là hãng tư vấn triển khai), nên số liệu tự công bố — đọc như bài học quy trình chứ không phải benchmark độc lập. Vài tên model được nhắc (o1, gpt-4.1, o3, GPT-4, Claude Sonnet, Llama 3) phản ánh thời điểm viết bài; điều đáng học là <em>phương pháp đo</em>, không phải bảng xếp hạng model.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1">Unify: khi "độ chính xác tổng" nói dối — cách một đội GTM tách metric để nhìn ra lỗi agent thật sự</a></li>
+      <li><a href="#bai2">Intuz/TDS: khung 12 metric qua 100+ lần triển khai — và câu hỏi của một cán bộ tuân thủ suýt giết dự án</a></li>
+      <li><a href="#gocnhin">Góc nhìn: hai đội, một kết luận — "model là hàng hóa, đánh giá mới là khác biệt" &amp; làm gì theo quy mô đội</a></li>
+      <li><a href="#dich1">📖 Lược dịch — How we build evals for AI Agents (Unify)</a></li>
+      <li><a href="#dich2">📖 Lược dịch — A 12-Metric Framework From 100+ Deployments (Intuz/TDS)</a></li>
+    </ol>
+  </nav>
+
+  <!-- BÀI 1 -->
+  <article class="card" id="bai1">
+    <span class="tag saas">Quy trình &amp; kỹ thuật AI</span>
+    <h2 class="head">1 · Unify: "độ chính xác tổng" là cái bẫy — muốn nhìn ra lỗi của agent, phải đo trajectory, tool choice và độ ổn định</h2>
+    <p class="src">Nguồn: Unify — Kunal Rai, "How we build evals for AI Agents" · cập nhật 22/06/2026 · unifygtm.com/blog · bài kỹ thuật cấp một của đội xây agent nghiên cứu GTM (go-to-market); có màu quảng bá/tuyển dụng, số liệu tự công bố · <a href="https://www.unifygtm.com/blog/how-we-build-evals-for-ai-agents" target="_blank">unifygtm.com</a></p>
+
+    <div class="stat">
+      <div class="box"><div class="num">3 lát</div><div class="lab">một chỉ số "độ chính xác" được tách thành: chính xác tổng, chính xác có trọng số, và chính xác riêng cho tone <a href="https://www.unifygtm.com/blog/how-we-build-evals-for-ai-agents" target="_blank">(Unify, 2026)</a></div></div>
+      <div class="box"><div class="num">5 lần chạy</div><div class="lab">độ tin cậy được đo bằng độ lệch chuẩn của kết quả qua 5 lần chạy cùng một bài đánh giá <a href="https://www.unifygtm.com/blog/how-we-build-evals-for-ai-agents" target="_blank">(Unify, 2026)</a></div></div>
+      <div class="box"><div class="num">o1 → gpt-4.1</div><div class="lab">đổi model trong agent nhờ eval: plan quality tốt hơn kéo theo tool use tốt hơn, đồng thời giảm cả chi phí lẫn độ trễ <a href="https://www.unifygtm.com/blog/how-we-build-evals-for-ai-agents" target="_blank">(Unify, 2026)</a></div></div>
+    </div>
+
+    <p>Unify xây một "hệ thống luôn bật" tự động hóa các việc mà đội tăng trưởng/doanh thu mất hàng giờ mỗi tuần: nghiên cứu, chấm phẩm chất khách hàng (qualification), và viết. Nền của hệ thống là một loạt tính năng AI — cả loại <em>một lượt</em> (single-turn) lẫn <em>agent nhiều lượt</em> (multi-turn).<sup><a href="https://www.unifygtm.com/blog/how-we-build-evals-for-ai-agents" target="_blank">[1]</a></sup> Bài viết là câu chuyện họ học cách <em>đo</em> hai loại đó — và mỗi loại đòi một bộ thước hoàn toàn khác.</p>
+
+    <h3 class="sub">Single-turn: phân loại thư trả lời — và phát hiện "độ chính xác tổng" đang che lỗi</h3>
+    <p>Ví dụ single-turn của Unify là <em>Reply Classification</em> cho tính năng Sequences (chiến dịch outbound nhiều bước, nhiều kênh). Với mỗi email trả lời, một LLM trích các thuộc tính: tone, đây có phải trả lời tự động không, người gửi đang "vắng mặt" (out of office), "đã có giải pháp", "cần thêm thông tin"... Vấn đề: đây là bài toán <em>đa nhãn</em> (multi-label) — một email có thể vừa nghe tích cực vừa nói "chưa đúng lúc", hoặc trung tính nhưng đang hỏi thêm.<sup><a href="https://www.unifygtm.com/blog/how-we-build-evals-for-ai-agents" target="_blank">[1]</a></sup> Sự chồng lấn nhãn khiến việc chấm điểm khó hơn "một lớp một điểm", và một dự đoán sai ở đúng ô nhạy cảm có hậu quả thật: nhầm "vắng mặt" có thể <em>tạm dừng</em> cả chiến dịch; nhầm tone làm sai lệch nhận định "chiến dịch đang chạy tốt đến đâu".<sup><a href="https://www.unifygtm.com/blog/how-we-build-evals-for-ai-agents" target="_blank">[1]</a></sup></p>
+    <p>Để bắt đầu, họ dựng một tập dữ liệu email thật và <em>gán nhãn thủ công</em> làm chuẩn (ground truth), rồi đo bằng độ chính xác phân loại truyền thống — so mọi nhãn dự đoán với nhãn chuẩn. Họ nhanh chóng thấy <strong>"độ chính xác tổng gây hiểu lầm"</strong>: model có thể đúng cao ở việc nhận "thư tự động hay không" nhưng đúng thấp ở việc nhận "người gửi đã có giải pháp" — và tầm quan trọng của mỗi nhãn với người dùng lại rất khác nhau.<sup><a href="https://www.unifygtm.com/blog/how-we-build-evals-for-ai-agents" target="_blank">[1]</a></sup></p>
+    <div class="mech"><b>Cơ chế — vì sao một con số "độ chính xác" duy nhất luôn nói dối về hệ đa nhãn:</b> khi bạn bình quân độ đúng trên tất cả các nhãn, những nhãn <em>dễ</em> và <em>đông</em> (ví dụ "có phải thư tự động không", vốn gần 100% đúng) sẽ kéo điểm tổng lên cao, che lấp việc model dốt ở đúng những nhãn <em>hiếm nhưng quan trọng</em> (như "đã có giải pháp" — tín hiệu để dừng theo đuổi một lead). Con số 92% nghe yên tâm, nhưng nếu 92% ấy đến từ các nhãn không ai cần, còn nhãn đáng tiền chỉ đúng 60%, bạn đang mù ở đúng chỗ phải sáng. Cách chữa của Unify không phải "model giỏi hơn" mà là <em>đổi thước</em>.</div>
+    <p>Họ tách chỉ số thành ba: <strong>độ chính xác tổng</strong>; <strong>độ chính xác có trọng số</strong> — nhấn mạnh các nhãn mà Unify có thể <em>hành động</em> ("cần thêm thông tin", "vắng mặt", "đã có giải pháp") và hạ trọng số cho các nhãn vốn đã gần 100%; và <strong>độ chính xác riêng cho tone</strong> — tách riêng chất lượng phân tích cảm xúc. "Chia nhỏ độ chính xác thành các thước này lập tức phơi ra những lỗ hổng mà độ chính xác cổ điển giấu đi", cho tín hiệu rõ hơn để cải tiến model.<sup><a href="https://www.unifygtm.com/blog/how-we-build-evals-for-ai-agents" target="_blank">[1]</a></sup></p>
+
+    <h3 class="sub">Multi-turn: khi đúng đáp án vẫn có thể là hệ hỏng</h3>
+    <p>Chuyển sang agent nghiên cứu (multi-turn) là "một cú lật paradigm". Agent của Unify được giao câu hỏi về một người/công ty rồi tự tìm kiếm, cào web, đọc HTML, tra dữ liệu, dùng trình duyệt... cho tới khi trả lời được.<sup><a href="https://www.unifygtm.com/blog/how-we-build-evals-for-ai-agents" target="_blank">[1]</a></sup> Vì agent <em>không tất định</em> và tự chọn đường đi, chỉ đo "đáp án cuối đúng hay sai" là chưa đủ. Bài liệt kê ba kiểu hỏng mà metric single-turn <em>không</em> bắt được:</p>
+    <div class="doslist">
+      <div>❌ <strong>Đi sai đường (trajectory):</strong> agent có thể ra <em>đúng</em> kết quả nhưng mất gấp 10 lần thời gian, làm lại việc, hoặc kẹt trong vòng lặp — độ chính xác vẫn "xanh" trong khi hệ vận hành tệ.<sup><a href="https://www.unifygtm.com/blog/how-we-build-evals-for-ai-agents" target="_blank">[1]</a></sup></div>
+      <div>❌ <strong>Chọn tool kém / tool cho ra kết quả kém:</strong> chọn sai công cụ hoặc thứ tự công cụ làm hỏng cả chuỗi quyết định phía sau; độ chính xác chỉ là "proxy" chứ không chỉ ra gốc lỗi là do model hay do tool.<sup><a href="https://www.unifygtm.com/blog/how-we-build-evals-for-ai-agents" target="_blank">[1]</a></sup></div>
+      <div>❌ <strong>Kết luận bất nhất:</strong> cùng một bài, mỗi lần chạy ra một đường đi, một tập kết quả tool, một kết luận khác — nên phải đo <em>độ ổn định giữa các lần chạy</em>, thứ mà single-turn (đầu vào/ra kiểm soát được) gần như không có.<sup><a href="https://www.unifygtm.com/blog/how-we-build-evals-for-ai-agents" target="_blank">[1]</a></sup></div>
+    </div>
+    <p>Từ đó Unify dựng bộ metric mới cho hệ nhiều lượt: <strong>Plan quality</strong> (agent lập kế hoạch trước khi nghiên cứu; chấm bằng cả người lẫn LLM-làm-giám-khảo theo rubric: độ thấu đáo, độ chính xác của chỉ dẫn, bám hướng dẫn của người dùng, và <em>phạt</em> nếu giả định sai mà không chịu tra); <strong>Tool Choice &amp; Tool Diversity</strong> (mỗi bài yêu cầu ít nhất một tool cụ thể phải được dùng; "diversity" = số tool khác nhau đã gọi); <strong>Efficiency</strong> (số bước — pha lập kế hoạch, pha phản tư, pha gọi tool); <strong>Reliability</strong> (độ lệch chuẩn của đáp án qua 5 lần chạy); và <strong>Generalizability</strong> (meta-eval: cho một cấu hình chạy qua nhiều loại bài để xem nó tổng quát tới đâu).<sup><a href="https://www.unifygtm.com/blog/how-we-build-evals-for-ai-agents" target="_blank">[1]</a></sup></p>
+    <div class="mech"><b>Cơ chế — vì sao "efficiency cao bất thường + diversity thấp" lại là dấu hiệu agent gian lận:</b> nghe qua, ít bước và nhanh là tốt. Nhưng với agent nghiên cứu, nếu nó kết luận mà gọi <em>rất ít</em> tool, nhiều khả năng nó đang trả lời bằng <em>kiến thức có sẵn trong pre-training</em> cộng với thông tin người dùng đưa vào — tức là <em>bịa mà không kiểm chứng</em>. Unify bắt đúng lỗi này nhờ hai metric giao nhau: efficiency cao đột biến và tool diversity thấp cùng lúc = agent đang "đi tắt" bỏ qua bước tìm dữ liệu. Đây chính là biến thể của "lỗi thầm lặng" đã bàn ở số 19/08: hệ trông như thành công, đáp án nghe hợp lý, nhưng quy trình bên dưới đã hỏng.</div>
+    <p>Bộ metric này đã phơi ra hàng loạt lỗi khó thấy: model (kể cả model mới) <em>không so được ngày tháng</em> future/past từ dữ liệu phi cấu trúc — tìm ra nhờ metric reliability + một tập eval chuyên về trích dữ liệu theo khoảng thời gian; agent <em>bỏ qua việc gọi tool</em> (efficiency bất thường cao, diversity thấp); <em>kết quả bất nhất</em> khi chạy lại N lần (reliability lệch chuẩn cao); và <em>dùng sai tool mới</em> cho tình huống không phù hợp (bắt bằng metric tool choice).<sup><a href="https://www.unifygtm.com/blog/how-we-build-evals-for-ai-agents" target="_blank">[1]</a></sup></p>
+
+    <h3 class="sub">Các eval thực tế &amp; LLM-làm-giám-khảo cho việc "không đo được bằng đúng/sai"</h3>
+    <p>Từ những use case nghiên cứu tần suất cao và các trạng thái hỏng đã gặp, Unify dựng các eval: <em>Firmographics &amp; Technographics</em> (lấy trụ sở, quy mô, ngành, funding, cấu trúc pháp lý; nhận diện công nghệ như SOC 2, Auth0), <em>Account Qualification</em> (tín hiệu tăng trưởng, tuyển dụng, tin tức gần đây, tương tác mạng xã hội, nhận diện thực thể — gộp thành một điểm), <em>Business Understanding</em> (chỉ các agent biết suy luận mới làm đúng), và <em>Writing Capability</em>.<sup><a href="https://www.unifygtm.com/blog/how-we-build-evals-for-ai-agents" target="_blank">[1]</a></sup> Với những đầu ra không thể chấm bằng đúng/sai (viết, hiểu doanh nghiệp), họ dùng LLM-làm-giám-khảo theo <em>rubric</em> chấm thang 1–10: rubric hiểu doanh nghiệp gồm độ cụ thể, độ thấu đáo (giám khảo tự tìm chỗ thiếu), và độ khớp (kiểm tra "cảm quan chung" xem phân tích có ăn khớp dữ liệu đầu vào); rubric viết gồm độ phức tạp, độ trang trọng, tone, cá tính, cấu trúc câu, độ súc tích, từ vựng.<sup><a href="https://www.unifygtm.com/blog/how-we-build-evals-for-ai-agents" target="_blank">[1]</a></sup></p>
+    <div class="mech"><b>Cơ chế — vì sao "mỗi eval một nhóm model khác nhau" lại đúng hơn một bảng xếp hạng duy nhất:</b> Unify cố ý trình bày các model khác nhau cho từng eval, vì họ thấy model "trội lên ở những năng lực khác nhau" — cách tiếp cận một-model-cho-tất-cả là dưới tối ưu. Cụ thể: họ thay o1 bằng gpt-4.1 trong agent (plan quality tốt hơn → tool use tốt hơn, rẻ hơn, nhanh hơn); nhưng cho báo cáo hiểu doanh nghiệp thì o3 vượt hẳn o1-pro trước đó. Nói cách khác, eval không chỉ để "chấm điểm rồi thôi": nó là <em>bàn định tuyến</em> giúp bạn gắn đúng model vào đúng tác vụ — đúng tinh thần "con hào là lớp trên model, không phải model" đã bàn ở số 26/08.</div>
+
+    <div class="takeaway"><strong>💡 Rút ra cho bạn:</strong> nếu tính năng AI của bạn còn đo bằng một con số "độ chính xác" duy nhất, gần như chắc chắn bạn đang bị nó ru ngủ. Tách thước theo <em>giá trị hành động</em> (nhãn nào đáng tiền thì soi kỹ), và với agent thì bổ sung các thước quy trình: đi đúng đường không, chọn đúng tool không, chạy lại có ổn định không. Chính điểm giao của các thước — như "nhanh bất thường + ít tool" — mới lộ ra lỗi mà độ chính xác giấu.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> [1] Unify (Kunal Rai) — <a href="https://www.unifygtm.com/blog/how-we-build-evals-for-ai-agents" target="_blank">How we build evals for AI Agents</a> (cập nhật 22/06/2026).</div>
+  </article>
+
+  <!-- BÀI 2 -->
+  <article class="card" id="bai2">
+    <span class="tag saas">Quy trình &amp; kỹ thuật AI</span>
+    <h2 class="head">2 · Intuz: khung 12 metric qua 100+ lần triển khai — và câu hỏi của một cán bộ tuân thủ suýt giết dự án</h2>
+    <p class="src">Nguồn: Towards Data Science — Pratik Rupareliya (đồng sáng lập Intuz), "Building an Evaluation Harness for Production AI Agents: A 12-Metric Framework From 100+ Deployments" · xuất bản 13/05/2026, cập nhật 26/06/2026 · bài của hãng tư vấn triển khai AI, số liệu tổng hợp từ dự án khách hàng, tự công bố · <a href="https://towardsdatascience.com/building-an-evaluation-harness-for-production-ai-agents-a-12-metric-framework-from-100-deployments/" target="_blank">towardsdatascience.com</a></p>
+
+    <div class="stat">
+      <div class="box"><div class="num">12 metric</div><div class="lab">chia 4 nhóm: Truy hồi (4), Sinh (3), Agent (3), Vận hành (2) — mỗi metric có ngưỡng tới hạn <a href="https://towardsdatascience.com/building-an-evaluation-harness-for-production-ai-agents-a-12-metric-framework-from-100-deployments/" target="_blank">(TDS/Intuz, 2026)</a></div></div>
+      <div class="box"><div class="num">95% → 70%</div><div class="lab">độ chính xác chọn tool tụt khi số tool tăng từ 3 lên 12 <a href="https://towardsdatascience.com/building-an-evaluation-harness-for-production-ai-agents-a-12-metric-framework-from-100-deployments/" target="_blank">(TDS/Intuz, 2026)</a></div></div>
+      <div class="box"><div class="num">30–50%</div><div class="lab">chi phí chấm điểm bằng LLM-giám-khảo so với chi phí suy luận: ngân sách $4K/tháng → tốn thêm $1.200–2.000/tháng cho eval <a href="https://towardsdatascience.com/building-an-evaluation-harness-for-production-ai-agents-a-12-metric-framework-from-100-deployments/" target="_blank">(TDS/Intuz, 2026)</a></div></div>
+    </div>
+
+    <p>Bài mở đầu bằng một cảnh rất thật: ba tháng sau khi triển khai một agent AI cho lĩnh vực y tế, cán bộ tuân thủ của khách hàng hỏi một câu mà đội <em>không trả lời được</em>: "Làm sao các anh biết agent không đang bịa ra triệu chứng của bệnh nhân?"<sup><a href="https://towardsdatascience.com/building-an-evaluation-harness-for-production-ai-agents-a-12-metric-framework-from-100-deployments/" target="_blank">[2]</a></sup> Họ có unit test, integration test, một model chạy đẹp trên tập demo — nhưng <em>không</em> có thước đo tỷ lệ ảo giác, độ trung thành với ngữ cảnh, hay độ chính xác chọn tool <em>trong production</em>. "Khoảng trống đó suýt giết dự án." Sáu tuần sau, họ có một khung 12 metric chạy trên mọi phản hồi, mọi lời gọi tool, mọi thao tác truy hồi; đội tuân thủ ký duyệt; agent lên sóng.<sup><a href="https://towardsdatascience.com/building-an-evaluation-harness-for-production-ai-agents-a-12-metric-framework-from-100-deployments/" target="_blank">[2]</a></sup> Khung đó lớn dần thành playbook dùng cho 100+ lần triển khai doanh nghiệp.</p>
+
+    <h3 class="sub">12 metric &amp; ngưỡng tới hạn</h3>
+    <table class="tbl">
+      <tr><th>Nhóm</th><th>Metric</th><th>Đo gì</th><th>Ngưỡng</th></tr>
+      <tr><td rowspan="4">Truy hồi (RAG)</td><td>Context Relevance</td><td>Đoạn lấy về có liên quan câu hỏi?</td><td>&gt;0,85</td></tr>
+      <tr><td>Context Recall</td><td>Có lấy đủ mọi thông tin liên quan?</td><td>&gt;0,90</td></tr>
+      <tr><td>Context Precision (MRR)</td><td>Đoạn liên quan nhất có nằm đầu bảng?</td><td>&gt;0,80</td></tr>
+      <tr><td>Retrieval Latency</td><td>Truy hồi nhanh cỡ nào?</td><td>&lt;200ms p95</td></tr>
+      <tr><td rowspan="3">Sinh</td><td>Answer Faithfulness</td><td>Đáp án có bám ngữ cảnh lấy về?</td><td>&gt;0,95</td></tr>
+      <tr><td>Answer Relevance</td><td>Đáp án có trả đúng câu người hỏi?</td><td>&gt;0,90</td></tr>
+      <tr><td>Hallucination Rate</td><td>Bịa sự kiện bao nhiêu lần?</td><td>&lt;2%</td></tr>
+      <tr><td rowspan="3">Agent</td><td>Tool Selection Accuracy</td><td>Chọn đúng tool?</td><td>&gt;0,92</td></tr>
+      <tr><td>Tool Execution Success</td><td>Lời gọi tool có chạy thành công?</td><td>&gt;0,98</td></tr>
+      <tr><td>Multi-Step Coherence</td><td>Chuỗi nhiều bước có mạch lạc?</td><td>&gt;0,85</td></tr>
+      <tr><td rowspan="2">Vận hành</td><td>Cost per Query</td><td>Chi phí token+hạ tầng mỗi câu</td><td>&lt;$0,05 (điển hình)</td></tr>
+      <tr><td>P99 Latency</td><td>Thời gian đáp end-to-end ở phân vị 99</td><td>&lt;3 giây</td></tr>
+    </table>
+    <div class="editnote">Bảng ngưỡng trên do bài gốc nêu; đây là mức tham chiếu của Intuz cho phần lớn triển khai, không phải chuẩn ngành bắt buộc.</div>
+
+    <h3 class="sub">Ba lý do đội bỏ qua eval — và cái giá phải trả</h3>
+    <p>Bài chỉ ba mẫu lặp lại: <strong>"thêm eval sau MVP"</strong> (đến lúc MVP xong đã có UI, API, tích hợp, khách dùng — gắn eval vào hệ đang chạy mất 4–6 tuần, và độ trễ thu thập dữ liệu khiến phải nhiều ngày mới bắt được một hồi quy, khi đó niềm tin đã hỏng); <strong>"độ chính xác là đủ"</strong> (một agent RAG có thể đúng 95% trên câu benchmark mà vẫn ảo giác 30% trên câu người dùng thật nằm ngoài phân bố benchmark — "traffic production luôn khác tập eval của bạn"); và <strong>"soi tay là được"</strong> (soi thủ công ổn ở 100 câu/ngày, vỡ ở 10.000 câu/ngày).<sup><a href="https://towardsdatascience.com/building-an-evaluation-harness-for-production-ai-agents-a-12-metric-framework-from-100-deployments/" target="_blank">[2]</a></sup></p>
+    <div class="mech"><b>Cơ chế — vì sao "95% đúng benchmark" vẫn ảo giác 30% ngoài thực địa:</b> tập benchmark là những câu bạn <em>đã nghĩ tới</em> và có đáp án chuẩn; traffic thật là những câu người dùng nghĩ ra, luôn lệch phân bố. Model đúng cao trên benchmark chỉ chứng minh nó thuộc bài cũ, không chứng minh nó xử được câu lạ. Đó là lý do bài đòi <em>hai tầng eval</em>: offline (chạy trên tập gán nhãn, biết đáp án — bắt hồi quy trước khi ship) và online (chạy trên traffic thật, không biết đáp án — đo tín hiệu gián tiếp như độ trung thành, độ liên quan, tỷ lệ ảo giác). Thiếu tầng online, bạn "bay mù" đúng ở vùng người dùng thật đang ở.</div>
+
+    <h3 class="sub">Vài "cơ chế hỏng" có số — không phải lời khuyên chung chung</h3>
+    <div class="stat">
+      <div class="box"><div class="num">0,55 → 0,92</div><div class="lab">MRR (độ chính xác xếp hạng đoạn) khi thêm một reranker BGE trên pgvector — trả giá ~50ms độ trễ <a href="https://towardsdatascience.com/building-an-evaluation-harness-for-production-ai-agents-a-12-metric-framework-from-100-deployments/" target="_blank">(TDS/Intuz, 2026)</a></div></div>
+      <div class="box"><div class="num">95% → 60%</div><div class="lab">độ mạch lạc chuỗi tụt khi trace dài từ 2 bước lên 6 bước <a href="https://towardsdatascience.com/building-an-evaluation-harness-for-production-ai-agents-a-12-metric-framework-from-100-deployments/" target="_blank">(TDS/Intuz, 2026)</a></div></div>
+      <div class="box"><div class="num">$0,02 → $0,30</div><div class="lab">một câu hỏi có thể kích 5–15 lời gọi LLM (viết lại, chấm truy hồi, chọn tool, sinh, kiểm) → chi phí phình mà không ai để ý <a href="https://towardsdatascience.com/building-an-evaluation-harness-for-production-ai-agents-a-12-metric-framework-from-100-deployments/" target="_blank">(TDS/Intuz, 2026)</a></div></div>
+    </div>
+    <p>Điểm hay của bài là mỗi metric kèm một "cơ chế hỏng" cụ thể để hành động: Context Precision cải thiện mạnh khi thêm <em>reranker</em> sau tìm kiếm vector (MRR nhảy từ 0,55 lên 0,92, chỉ tốn ~50ms); Tool Selection tụt từ 95% (3 tool) xuống 70% (12 tool) → cách chữa là mô tả tool rõ hơn, chia bớt tool cho từng agent (tách thành sub-agent chuyên biệt), hoặc fine-tune; Multi-Step Coherence tụt từ 95% (2 bước) xuống 60% (6 bước) → chữa bằng phân rã (chẻ 6 bước thành hai nhiệm vụ 3 bước có bàn giao rõ) hoặc kiến trúc bộ nhớ giữ trạng thái qua các bước.<sup><a href="https://towardsdatascience.com/building-an-evaluation-harness-for-production-ai-agents-a-12-metric-framework-from-100-deployments/" target="_blank">[2]</a></sup></p>
+    <div class="mech"><b>Cơ chế — vì sao chọn tool và mạch lạc chuỗi đều "sập" khi hệ phình to:</b> mỗi tool thêm vào là một lựa chọn nữa để model phân vân; mỗi bước thêm vào là một cơ hội nữa để nó quên kết quả bước trước. Cả hai đường cong đều đi xuống theo độ phức tạp, nên "thêm tính năng" cho agent không miễn phí — nó âm thầm ăn vào độ tin cậy. Bài học vận hành: đừng nhồi một agent 12 tool và bắt nó chạy chuỗi 6 bước; hãy <em>chẻ nhỏ</em> thành nhiều agent phạm vi hẹp, mỗi cái ít tool, chuỗi ngắn — đúng tinh thần "phạm vi giới hạn" mà số 23/08 (Sherlocks) gọi là một trong ba tính chất của agent sẵn-sàng-production.</div>
+
+    <p>Về chi phí eval: chấm bằng LLM-giám-khảo tốn <em>khoảng 30–50%</em> chi phí suy luận (mỗi câu production còn bị một LLM chấm lại) — ngân sách suy luận $4.000/tháng thì eval tốn thêm $1.200–2.000/tháng; đổi lại là tránh được một sự cố production tốn hàng tuần-người để gỡ.<sup><a href="https://towardsdatascience.com/building-an-evaluation-harness-for-production-ai-agents-a-12-metric-framework-from-100-deployments/" target="_blank">[2]</a></sup> Bài cũng nêu lộ trình theo pha (tuần 0–2: metric truy hồi + độ trung thành; tuần 3–6: ảo giác, độ liên quan, chọn tool; tuần 7+: chi phí, P99, thành công tool, mạch lạc) và bốn cái bẫy: <em>dùng cùng model để sinh và để chấm</em> (điểm bị thổi phồng — phải dùng model khác họ làm giám khảo); bỏ tập gán nhãn; chỉ chạy eval trên ca thành công; và coi điểm eval là tuyệt đối (phải theo <em>xu hướng/độ lệch</em>, không phải con số trần).<sup><a href="https://towardsdatascience.com/building-an-evaluation-harness-for-production-ai-agents-a-12-metric-framework-from-100-deployments/" target="_blank">[2]</a></sup></p>
+
+    <div class="takeaway"><strong>💡 Rút ra cho bạn:</strong> đừng đợi "sau MVP" mới làm eval — retrofit tốn 4–6 tuần và bạn sẽ bắt hồi quy chậm mất nhiều ngày. Bắt đầu tối thiểu với ba thước bắt 70% lỗi trước khi ship (theo bài: context relevance, answer faithfulness, tool selection). Và nhớ quy tắc cứng: model chấm phải khác họ với model sinh, nếu không điểm sẽ tự khen nhau.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> [2] Towards Data Science / Intuz (Pratik Rupareliya) — <a href="https://towardsdatascience.com/building-an-evaluation-harness-for-production-ai-agents-a-12-metric-framework-from-100-deployments/" target="_blank">Building an Evaluation Harness for Production AI Agents: A 12-Metric Framework From 100+ Deployments</a> (13/05/2026, cập nhật 26/06/2026). Công cụ được nhắc: Ragas, TruLens, DeepEval, LangSmith, OpenTelemetry.</div>
+  </article>
+
+  <!-- GÓC NHÌN -->
+  <article class="card" id="gocnhin">
+    <span class="tag view">Góc nhìn</span>
+    <h2 class="head">3 · Hai đội, một kết luận: "model là hàng hóa, đánh giá mới là khác biệt" — và làm gì theo quy mô đội</h2>
+    <p>Một đội bán agent GTM, một hãng tư vấn triển khai y tế/fintech — xuất phát điểm khác nhau, nhưng cả hai đi tới cùng một chỗ: với hệ AI nhiều lượt, <strong>độ chính xác đơn lẻ không đủ, và bộ thước bạn dựng mới là thứ quyết định sản phẩm có ship được không.</strong> Rupareliya nói thẳng: "Các đội ship agent thành công năm 2026 không phải đội có model tốt nhất, mà là đội có hạ tầng đánh giá tốt nhất. Model là hàng hóa. Đánh giá là khác biệt."<sup><a href="https://towardsdatascience.com/building-an-evaluation-harness-for-production-ai-agents-a-12-metric-framework-from-100-deployments/" target="_blank">[2]</a></sup></p>
+
+    <table class="tbl">
+      <tr><th>Điểm hội tụ</th><th>Unify (bài 1)</th><th>Intuz/TDS (bài 2)</th></tr>
+      <tr><td>Độ chính xác đơn lẻ là bẫy</td><td>"Độ chính xác tổng gây hiểu lầm" ở bài đa nhãn → tách 3 thước theo giá trị hành động</td><td>"95% đúng benchmark mà 30% ảo giác" trên traffic thật → cần eval online, không chỉ offline</td></tr>
+      <tr><td>Thước riêng cho agent (ngoài đáp án)</td><td>Trajectory, tool choice/diversity, efficiency, reliability, generalizability</td><td>Tool selection, tool execution, multi-step coherence (nhóm "Agent")</td></tr>
+      <tr><td>Bắt "lỗi thầm lặng"</td><td>Efficiency cao + diversity thấp = agent bịa không tra tool</td><td>Đúng benchmark nhưng ảo giác ngoài phân bố = mù ở vùng người dùng thật</td></tr>
+      <tr><td>LLM-làm-giám-khảo + người</td><td>Rubric 1–10 cho viết &amp; hiểu doanh nghiệp; người chấm song song</td><td>LLM-judge chạy 100% traffic; người hiệu chỉnh 1–2% mẫu; model chấm ≠ model sinh</td></tr>
+      <tr><td>Eval để định tuyến, không chỉ chấm</td><td>Đổi o1→gpt-4.1 và o1-pro→o3 theo từng tác vụ</td><td>Eval quyết định phân rã/kiến trúc: chẻ agent, thêm reranker, đổi bộ nhớ</td></tr>
+    </table>
+    <div class="editnote">Bảng trên là đối chiếu biên tập từ hai bài gốc, không phải bảng có sẵn trong nguồn.</div>
+
+    <p><strong>Sợi chỉ nối các số gần đây:</strong> đây là mảnh còn thiếu bên cạnh "eval không đủ → phải soi trace production hằng tuần (Traces Hour)" của PostHog (27/08), "lỗi thầm lặng biến thành câu chuyện trơn tru" của arXiv (19/08), "6 golden signals + phạm vi giới hạn" của Sherlocks (23/08), và "estimator chỉ là baseline, không thay ROI" của Cognition (25/08). Điểm chung xuyên suốt: khi hệ AI không tất định, <em>quan sát được</em> và <em>đo đúng thứ</em> quan trọng hơn chọn model. Cả hai bài hôm nay nói thêm một tầng: đo <em>quy trình</em> (đường đi, tool, độ ổn định) chứ không chỉ đo <em>đáp án</em>.</p>
+
+    <div class="scale">
+      <div class="col small">
+        <h4>Đội nhỏ / startup (&lt;10 người)</h4>
+        <ul>
+          <li>Bắt đầu tối thiểu như Intuz khuyên: context relevance + answer faithfulness + tool selection — ba thước bắt ~70% lỗi trước khi ship, khỏi làm cả 12 ngay.</li>
+          <li>Học mẹo rẻ của Unify: gán nhãn tay một tập nhỏ email/tác vụ thật làm ground truth, rồi tách "độ chính xác có trọng số" theo nhãn nào đáng tiền.</li>
+          <li>Với agent: đo <em>reliability</em> bằng cách chạy lại cùng bài 5 lần và nhìn độ lệch — rẻ, không cần hạ tầng, mà lộ ngay agent "hên xui".</li>
+          <li>Luật cứng: model chấm phải khác họ với model sinh. Bỏ qua điều này, điểm eval sẽ tự khen.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Đội đã có sản phẩm production</h4>
+        <ul>
+          <li>Dựng đủ hai tầng: offline (chặn hồi quy mỗi PR chạm prompt/retrieval/agent) + online (chấm mẫu traffic thật liên tục, báo cáo cuộn theo ngày).</li>
+          <li>Ngân sách hóa eval như một khoản thật: ~30–50% chi phí suy luận. Rẻ hơn nhiều so với một sự cố production tốn hàng tuần-người.</li>
+          <li>Khi metric tụt theo độ phức tạp (chọn tool 95%→70%, mạch lạc 95%→60%), chẻ agent phạm vi hẹp thay vì nhồi thêm tool/bước.</li>
+          <li>Biến eval thành bàn định tuyến model theo tác vụ; và soi <em>xu hướng/độ lệch</em> chứ không con số trần — một 0,85 rơi về 0,78 trong một tuần đáng lo hơn con số tuyệt đối.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="doslist">
+      <div>✅ <strong>Việc làm tuần này (1):</strong> lấy tính năng AI đang đo bằng một "độ chính xác" duy nhất, tách nó theo giá trị hành động — nhãn/đầu ra nào gây hậu quả thật thì cho một thước riêng, đừng để nhãn dễ kéo điểm tổng lên che lỗi.</div>
+      <div>✅ <strong>Việc làm tuần này (2):</strong> với một agent bất kỳ, chạy lại cùng một bài 5 lần và ghi độ lệch kết quả; nếu lệch lớn, bạn có vấn đề độ ổn định trước cả vấn đề độ chính xác.</div>
+      <div>✅ <strong>Việc làm tuần này (3):</strong> đặt luật "model chấm ≠ model sinh" và dựng một tập gán nhãn nhỏ có cả ca <em>thất bại</em> (không chỉ ca thành công) để eval còn bắt được hồi quy.</div>
+      <div>❌ <strong>Tránh:</strong> hoãn eval "tới sau MVP" và nhồi một agent thật nhiều tool + chuỗi thật dài — bạn đang cùng lúc làm eval đắt hơn và làm agent kém tin cậy hơn.</div>
+    </div>
+  </article>
+
+  <!-- LƯỢC DỊCH 1 -->
+  <section class="dich" id="dich1">
+    <div class="flag">📖 Lược dịch chi tiết — bản diễn đạt lại bằng tiếng Việt, KHÔNG phải dịch nguyên văn, không sao chép nguyên khối. Bản gốc: <a href="https://www.unifygtm.com/blog/how-we-build-evals-for-ai-agents" target="_blank">Unify — How we build evals for AI Agents</a> (Kunal Rai, cập nhật 22/06/2026).</div>
+    <h3>Sứ mệnh &amp; hai loại tính năng AI</h3>
+    <p>Đội tăng trưởng/doanh thu mất hàng giờ mỗi tuần cho nghiên cứu, chấm phẩm chất khách, và viết — những việc nghe đơn giản nhưng đòi tra cứu kỹ, hiểu sâu cả sản phẩm lẫn khách hàng, và những phán đoán không hiển nhiên. Unify muốn dựng một "hệ thống luôn bật" tự động hóa phần lặp đi lặp lại, biến việc tăng doanh thu thành có thể quan sát, mở rộng, lặp lại. Nền của nó gồm nhiều tính năng AI: single-turn (một lượt) và multi-turn (agent nhiều lượt).</p>
+    <h3>Single-turn: phân loại thư trả lời</h3>
+    <p>Tác vụ một lượt là nguyên tử: cho prompt + ngữ cảnh, một lần forward qua model, trả đầu ra chấm được — giống suy luận ML truyền thống. Ví dụ là Reply Classification cho Sequences: dùng LLM đánh giá &amp; trích thuộc tính từ mỗi thư trả lời chiến dịch (tone, có phải tự động không, vắng mặt, đã có giải pháp, cần thêm thông tin...). Đây là bài đa nhãn — các nhãn không loại trừ nhau, một thư có thể vừa tích cực vừa "chưa đúng lúc". Sai một nhãn nhạy cảm có hậu quả: nhầm "vắng mặt" có thể tạm dừng chiến dịch; nhầm tone làm lệch nhận định hiệu quả. Họ dựng tập email thật, gán nhãn tay làm chuẩn, đo bằng độ chính xác truyền thống — và thấy độ chính xác tổng gây hiểu lầm: đúng cao ở nhãn dễ, thấp ở nhãn quan trọng. Nên tách thành ba thước: chính xác tổng, chính xác có trọng số (nhấn nhãn hành động được, hạ nhãn gần-100%), và chính xác tone. Việc chia nhỏ lập tức phơi ra lỗ hổng mà độ chính xác cổ điển giấu.</p>
+    <h3>Multi-turn: agent nghiên cứu</h3>
+    <p>Agent nhận câu hỏi về người/công ty, tự dùng tool (tìm web, cào trang, đọc HTML, tra dữ liệu người, dùng trình duyệt) tới khi trả lời được — từng làm được việc như quét tin tội phạm, đọc báo cáo tài chính, chọn thẻ quà nhà hàng theo vị trí prospect. Agent không tất định, tự chọn đường; nên chỉ đo đáp án cuối là chưa đủ. Ba kiểu hỏng single-turn không bắt: đi sai đường (đúng đáp án nhưng chậm gấp 10, làm lại, kẹt vòng lặp); chọn tool kém/tool ra kết quả kém (độ chính xác không chỉ ra gốc là model hay tool); kết luận bất nhất giữa các lần chạy (phải đo độ lệch chuẩn). Bộ metric mới: Plan quality (người + LLM-giám-khảo theo rubric: thấu đáo, chính xác chỉ dẫn, bám hướng dẫn người dùng, phạt giả định thiếu nghiên cứu); Tool Choice &amp; Diversity (bắt buộc tool cụ thể per-task; số tool khác nhau); Efficiency (số bước theo pha plan/reflect/tool-call); Reliability (độ lệch chuẩn qua 5 lần chạy); Generalizability (meta-eval qua nhiều bài). Nhờ đó tìm ra: model không so được ngày tháng; agent bỏ gọi tool (efficiency cao bất thường + diversity thấp → dùng kiến thức pre-training không kiểm chứng); kết quả bất nhất khi chạy lại; dùng sai tool mới.</p>
+    <h3>Các eval &amp; LLM-làm-giám-khảo</h3>
+    <p>Các eval đã dựng: Firmographics &amp; Technographics; Account Qualification (tăng trưởng, tuyển dụng, tin gần đây, tương tác xã hội, nhận diện thực thể — gộp một điểm); Business Understanding (chỉ agent suy luận làm đúng); Writing Capability. Với đầu ra không chấm được bằng đúng/sai, dùng LLM-giám-khảo theo rubric thang 1–10: hiểu doanh nghiệp (độ cụ thể, thấu đáo, khớp dữ liệu); viết (phức tạp, trang trọng, tone, cá tính, cấu trúc câu, súc tích, từ vựng). Họ trình bày nhóm model khác nhau cho mỗi eval vì model trội ở năng lực khác nhau — một-model-cho-tất-cả là dưới tối ưu; ví dụ thay o1 bằng gpt-4.1 (plan quality &amp; tool use tốt hơn, rẻ &amp; nhanh hơn), và o3 vượt o1-pro ở báo cáo hiểu doanh nghiệp. Kết: eval là nền tảng để cải thiện tính năng AI; còn phải liên tục dựng eval mới khi khách nghĩ ra những cách dùng bất ngờ.</p>
+  </section>
+
+  <!-- LƯỢC DỊCH 2 -->
+  <section class="dich" id="dich2">
+    <div class="flag">📖 Lược dịch chi tiết — bản diễn đạt lại bằng tiếng Việt, KHÔNG phải dịch nguyên văn, không sao chép nguyên khối. Bản gốc: <a href="https://towardsdatascience.com/building-an-evaluation-harness-for-production-ai-agents-a-12-metric-framework-from-100-deployments/" target="_blank">Towards Data Science / Intuz — A 12-Metric Framework From 100+ Deployments</a> (Pratik Rupareliya, 13/05/2026).</div>
+    <h3>Câu hỏi suýt giết dự án</h3>
+    <p>Ba tháng vào một dự án AI y tế, cán bộ tuân thủ hỏi: "Làm sao biết agent không bịa triệu chứng bệnh nhân?" Đội có unit/integration test, model chạy đẹp trên demo, nhưng không có thước đo tỷ lệ ảo giác, độ trung thành ngữ cảnh, độ chính xác chọn tool trong production. Khoảng trống đó suýt giết dự án. Sáu tuần sau họ có khung 12 metric chạy trên mọi phản hồi/tool call/truy hồi; tuân thủ ký duyệt; agent ship. Khung này lớn thành playbook cho 100+ triển khai.</p>
+    <h3>12 metric, 4 nhóm</h3>
+    <p>Truy hồi (nếu dùng RAG): Context Relevance (&gt;0,85), Context Recall (&gt;0,90), Context Precision đo bằng MRR (&gt;0,80), Retrieval Latency (&lt;200ms p95). Sinh: Answer Faithfulness (&gt;0,95, đo bằng cách trích các "claim" trong đáp án rồi đối chiếu ngữ cảnh), Answer Relevance (&gt;0,90), Hallucination Rate (&lt;2%; &lt;0,5% cho ngành bị quản chặt; lấy mẫu 5% traffic/ngày). Agent: Tool Selection Accuracy (&gt;0,92), Tool Execution Success (&gt;0,98), Multi-Step Coherence (&gt;0,85). Vận hành: Cost per Query (&lt;$0,05 điển hình), P99 Latency (&lt;3s hội thoại; &lt;10s cho agent phân tích nhiều bước).</p>
+    <h3>Vì sao đội bỏ eval &amp; các cơ chế hỏng</h3>
+    <p>Ba mẫu: "thêm eval sau MVP" (retrofit 4–6 tuần, bắt hồi quy chậm); "độ chính xác là đủ" (95% benchmark mà 30% ảo giác trên câu ngoài phân bố; traffic thật luôn khác tập eval); "soi tay là được" (ổn ở 100 câu/ngày, vỡ ở 10.000). Cơ chế có số: thêm reranker BGE trên pgvector đẩy MRR từ 0,55 lên 0,92 (tốn ~50ms); Tool Selection tụt 95% (3 tool) → 70% (12 tool), chữa bằng mô tả tool rõ hơn/ít tool hơn/tách sub-agent/fine-tune; Multi-Step Coherence tụt 95% (2 bước) → 60% (6 bước), chữa bằng phân rã hoặc kiến trúc bộ nhớ; một câu có thể kích 5–15 lời gọi LLM khiến chi phí phình $0,02 → $0,30. Phân tầng: offline (tập gán nhãn, biết đáp án — chặn hồi quy) và online (traffic thật, không biết đáp án — đo tín hiệu gián tiếp).</p>
+    <h3>Chi phí, lộ trình, cái bẫy &amp; kết</h3>
+    <p>Chi phí eval bằng LLM-giám-khảo ~30–50% chi phí suy luận ($4K/tháng suy luận → $1,2–2K/tháng eval); sau lần đầu ngăn được một sự cố, eval tự trả cho mình. Dựng đủ 12 metric mất 2–3 tuần. Lộ trình theo pha: tuần 0–2 (truy hồi + faithfulness), tuần 3–6 (ảo giác, relevance, chọn tool), tuần 7+ (chi phí, P99, thành công tool, mạch lạc, latency truy hồi). Bốn bẫy: dùng cùng model để sinh &amp; chấm (điểm thổi phồng — dùng model khác họ làm giám khảo); bỏ tập gán nhãn (không đo được recall/hồi quy); chỉ chạy eval trên ca thành công; coi điểm là tuyệt đối (phải theo xu hướng/độ lệch). Công cụ: Ragas (metric RAG), TruLens, DeepEval (mạnh agent), LangSmith (giám sát production); Intuz ghép Ragas + evaluator tự viết + Datadog/OpenTelemetry. Kết: đội ship agent thành công 2026 không phải đội model tốt nhất mà là đội hạ tầng đánh giá tốt nhất — "model là hàng hóa, đánh giá là khác biệt".</p>
+  </section>
+
+  <div class="foot">Bản tin sáng · Số 01/09/2026 · Tổng hợp từ nguồn công khai, đã xác minh, dẫn nguồn nội dòng. Hai bài đều là blog của hãng bán sản phẩm AI — đọc như bài học quy trình, không phải benchmark độc lập.</div>
+</div>
+</body>
+</html>
