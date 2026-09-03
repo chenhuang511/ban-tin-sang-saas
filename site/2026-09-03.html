@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>"Model không phải con hào — cái harness quanh nó mới là": LangChain kéo agent từ Top 30 lên Top 5 mà không đổi model &amp; bộ khung 5 lớp + thước đo cho "harness engineering" · 03/09/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.dich{background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;padding:16px 20px;margin-top:16px}
+.dich .flag{font-size:12.5px;color:#94a3b8;font-style:italic;margin-bottom:8px}
+.dich h3{font-size:16px;margin:14px 0 4px}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 03/09/2026 · bản chi tiết</div>
+    <h1 class="title">"Model không phải con hào — cái <em>harness</em> quanh nó mới là": LangChain kéo agent lập trình từ Top 30 lên Top 5 mà <em>không đổi model</em> &amp; bộ khung 5 lớp + thước đo cho "harness engineering"</h1>
+    <div class="meta">03/09/2026 · Thời lượng đọc ~19 phút · Nguồn: LangChain — Vivek Trivedy, "Improving Deep Agents with harness engineering" (17/02/2026); Faros AI — Neely Dunlap, "Harness engineering: a guide" (22/05/2026, cập nhật 15/07/2026)</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: số này viết ở dạng "đậm cơ chế" — mỗi con số cố gắng kèm một tầng <em>nghĩa là gì / vì sao khó / làm thế nào</em>. Các đoạn nhãn <b style="color:#1e40af">Cơ chế</b>, bảng ánh xạ và khuyến nghị theo quy mô là phần <strong>biên tập tổng hợp từ thực hành phổ biến</strong> để minh họa, KHÔNG trích nguyên văn từ nguồn; mọi con số vẫn dẫn nguồn nội dòng. Lưu ý cấp nguồn: bài LangChain là <em>case cấp một</em> (đội tự chạy benchmark, có link tập trace công khai); bài Faros là <em>khung tổng hợp</em> từ một hãng bán công cụ đo năng suất AI (số "211 tác vụ" và "22.000 dev" do Faros tự công bố — đọc như định hướng, không phải chân lý đã kiểm định độc lập).</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1">LangChain: +13,7 điểm chỉ nhờ sửa "harness" — model đứng yên, 3 núm vặn, một vài phát hiện ngược đời</a></li>
+      <li><a href="#bai2">Faros: "Agent = Model + Harness" — bộ khung 5 lớp, cú "san bằng" model rẻ, và thước đo theo tầng</a></li>
+      <li><a href="#gocnhin">Góc nhìn: "harness" là hồi kết của cuộc đuổi theo model — và bắt đầu của một kỷ luật kỹ thuật</a></li>
+      <li><a href="#dich1">📖 Lược dịch — Improving Deep Agents with harness engineering (LangChain)</a></li>
+      <li><a href="#dich2">📖 Lược dịch — Harness engineering: a guide (Faros AI)</a></li>
+    </ol>
+  </nav>
+
+  <!-- BÀI 1 -->
+  <article class="card" id="bai1">
+    <span class="tag saas">Quy trình sản xuất</span>
+    <h2 class="head">1 · Cùng một model, harness khác nhau: LangChain đẩy agent lập trình từ 52,8% lên 66,5% trên Terminal Bench — và chỉ động vào lớp vỏ quanh model</h2>
+    <p class="src">Nguồn: Vivek Trivedy, "Improving Deep Agents with harness engineering" · LangChain Blog, 17/02/2026 · <a href="https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering" target="_blank">langchain.com</a> — case cấp một, có link công khai tới <a href="https://smith.langchain.com/public/29393299-8f31-48bb-a949-5a1f5968a744/d?tab=2" target="_blank">tập trace</a> &amp; mã nguồn mở <a href="https://github.com/langchain-ai/deepagents" target="_blank">deepagents</a></p>
+
+    <div class="stat">
+      <div class="box"><div class="num">52,8% → 66,5%</div><div class="lab">điểm agent deepagents-cli trên Terminal Bench 2.0, <em>chỉ đổi harness</em>, model giữ nguyên (gpt-5.2-codex) <a href="https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering" target="_blank">(LangChain, 2026)</a></div></div>
+      <div class="box"><div class="num">Top 30 → Top 5</div><div class="lab">thứ hạng trên bảng xếp hạng Terminal Bench 2.0 (89 tác vụ: ML, debug, sinh học…) sau khi tối ưu harness <a href="https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering" target="_blank">(LangChain, 2026)</a></div></div>
+      <div class="box"><div class="num">+13,7 điểm</div><div class="lab">mức tăng, đạt được bằng 3 núm vặn: system prompt, tools, middleware (hook quanh model &amp; tool call) <a href="https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering" target="_blank">(LangChain, 2026)</a></div></div>
+    </div>
+
+    <p>Đây là loại kết quả buộc người ta phải dừng lại: đội LangChain lấy agent lập trình của họ (deepagents-cli), <strong>khóa cứng model là gpt-5.2-codex</strong>, rồi chỉ sửa phần "harness" — cái khung phần mềm bọc quanh model — và điểm số nhảy 13,7 điểm, từ ngay ngoài Top 30 lên Top 5 của Terminal Bench 2.0.<sup><a href="https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering" target="_blank">[1]</a></sup> Không đổi model. Không fine-tune. Cùng một "bộ não", một cái vỏ khác. Câu hỏi mọi lãnh đạo kỹ thuật nên rút ra: nếu 13,7 điểm nằm ở phần bạn <em>tự viết được</em>, thì bao nhiêu phần trăm "agent của mình chạy kém" thực ra là "harness của mình còn sơ sài"?</p>
+
+    <div class="mech"><b>Cơ chế — "harness" là gì, và vì sao nó, chứ không phải model, quyết định kết quả:</b> harness là toàn bộ hạ tầng quanh model biến một cỗ máy sinh văn bản thành một tác nhân biết hành động: cách nó chọn &amp; nối công cụ, cách nó tự kiểm tra, cách nó nhớ, và các rào chặn khi nó làm sai. LangChain cố tình <em>nén không gian tối ưu</em> xuống 3 núm: system prompt (cách nói với model), tools (công cụ nó có), và middleware — thuật ngữ của họ cho các hook chèn quanh mỗi lời gọi model/tool.<sup><a href="https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering" target="_blank">[1]</a></sup> Điểm mấu chốt: kỹ sư <em>không</em> dùng model trần — họ dùng model <em>qua</em> một harness quyết định ngữ cảnh nào được nạp, tool nào được gọi, lỗi được xử ra sao. Nên chất lượng agent phần lớn là chất lượng harness.</p></div>
+
+    <h3 class="sub">Cách họ tìm ra chỗ để sửa: một "kỹ năng đọc trace" tự động</h3>
+    <p>Điều đáng học nhất không phải các bản vá cụ thể, mà là <em>quy trình</em> tìm ra chúng. LangChain ghi lại mọi hành động agent vào LangSmith (kèm độ trễ, số token, chi phí), rồi đóng gói việc phân tích trace thành một "Agent Skill" lặp lại được: (1) kéo trace của một lượt chạy benchmark; (2) tung nhiều agent phân tích lỗi chạy song song, một agent chính tổng hợp phát hiện + đề xuất; (3) gom phản hồi và sửa <em>trúng đích</em> vào harness.<sup><a href="https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering" target="_blank">[1]</a></sup> Họ ví cách làm này với "boosting" trong học máy — mỗi vòng tập trung vào chính những lỗi vòng trước mắc phải.<sup><a href="https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering" target="_blank">[1]</a></sup></p>
+    <div class="mech"><b>Cơ chế — vì sao "đọc trace" là đòn bẩy, không phải "thử prompt cho may":</b> model ngày nay là hộp đen; ta không nhìn được cơ chế bên trong, nhưng nhìn được <em>đầu vào &amp; đầu ra ở dạng văn bản</em>. Trace biến "agent chạy dở" mơ hồ thành một danh sách lỗi cụ thể có thể đếm được (không chạy test, không theo hướng dẫn, lặp vô ích, hết giờ…). Có danh sách đó thì mỗi thay đổi harness là một giả thuyết kiểm chứng được, không phải một cú đoán. Cảnh báo LangChain tự nêu: sửa quá khít một tác vụ sẽ <em>phá</em> tác vụ khác (overfit → hồi quy) — nên bước 3 nên có người xác nhận. Đây là "reasoning trace" của số <a href="/2026-08-23" target="_blank">23/08</a> dùng làm <em>tín hiệu cải tiến</em>, không chỉ để gỡ lỗi.</p></div>
+
+    <h3 class="sub">Bốn thứ thực sự kéo điểm lên (và một cái không)</h3>
+    <p><strong>1) Bắt agent tự kiểm tra ("build → verify → fix").</strong> Mẫu lỗi phổ biến nhất: agent viết xong lời giải, <em>đọc lại code của chính mình</em>, thấy "trông ổn", rồi dừng.<sup><a href="https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering" target="_blank">[1]</a></sup> LangChain thêm hướng dẫn quy trình vào system prompt (lập kế hoạch → dựng có kèm test → chạy test và <em>đối chiếu với đề bài, không đối chiếu với code của mình</em> → sửa), và một <em>PreCompletionChecklistMiddleware</em> chặn agent ngay trước khi nó thoát, buộc nó chạy một lượt xác minh với đề bài.<sup><a href="https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering" target="_blank">[1]</a></sup></p>
+    <div class="mech"><b>Cơ chế — vì sao "so với đề bài, không so với code của mình" là cả trận đánh:</b> model thiên vị lời giải đầu tiên nghe hợp lý của chính nó. Nếu nó tự kiểm bằng cách đọc lại code, nó chỉ xác nhận thành kiến của mình. Chỉ khi <em>chạy test thật</em> và <em>đọc toàn bộ output</em> rồi đối chiếu với yêu cầu gốc, nó mới có tín hiệu ngoài để "leo dốc". Cái middleware chặn-trước-khi-thoát chính là phiên bản kỹ thuật của câu "đừng tin agent khi nó tự tuyên đã xong" — nó đóng đúng lỗi "victory declaration" (tự tuyên thắng lợi) mà Bài 2 sẽ gọi tên.</p></div>
+    <p><strong>2) Nạp sẵn ngữ cảnh môi trường.</strong> Một <em>LocalContextMiddleware</em> chạy lúc agent khởi động, lập bản đồ thư mục hiện hành và các thư mục cha/con, chạy lệnh bash để tìm sẵn công cụ (ví dụ bản cài Python).<sup><a href="https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering" target="_blank">[1]</a></sup> Lý do: việc tự dò tìm ngữ cảnh rất dễ sai; nạp sẵn giúp <em>giảm diện tích lỗi</em> ngay từ đầu và "onboard" agent vào môi trường của nó. Họ cũng dạy agent viết code <em>kiểm thử được</em> (bám đúng đường dẫn file như đề nêu, để bước chấm tự động chạy được) và chèn cảnh báo ngân sách thời gian vì "agent nổi tiếng dở khoản ước lượng thời gian".<sup><a href="https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering" target="_blank">[1]</a></sup></p>
+    <p><strong>3) Bắt agent "lùi lại nghĩ" khi mắc kẹt.</strong> Agent dễ thiển cận sau khi đã chọn một kế hoạch, rơi vào "doom loop" — biến tấu vặt cùng một cách sai (có trace thấy lặp 10+ lần).<sup><a href="https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering" target="_blank">[1]</a></sup> Một <em>LoopDetectionMiddleware</em> đếm số lần sửa cùng một file; sau N lần, nó chèn gợi ý kiểu "…cân nhắc xem lại cách tiếp cận".<sup><a href="https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering" target="_blank">[1]</a></sup></p>
+    <p><strong>4) Chọn "sandwich suy luận" thay vì đốt max mọi bước.</strong> gpt-5.2-codex có 4 mức suy luận (low/medium/high/xhigh). LangChain thấy suy luận nhiều <em>giúp</em> ở khâu lập kế hoạch và khâu xác minh cuối, nhưng đốt hơn 2× token/thời gian.<sup><a href="https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering" target="_blank">[1]</a></sup> Nghịch lý đáng chú ý: chạy <em>toàn bộ ở xhigh chỉ đạt 53,9%</em> (vì agent hết giờ) so với <em>63,6% khi chạy high</em>.<sup><a href="https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering" target="_blank">[1]</a></sup> Họ chốt một "sandwich" xhigh–high–xhigh (nghĩ nhiều lúc lập kế hoạch &amp; lúc xác minh, tiết kiệm ở giữa), đẩy điểm lên 66,5%.<sup><a href="https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering" target="_blank">[1]</a></sup></p>
+    <div class="mech"><b>Cơ chế — vì sao "nghĩ nhiều hơn" lại làm điểm TỆ đi:</b> đây là bài học phản trực giác nhất của cả bài. Trong môi trường có giới hạn thời gian, đốt max suy luận ở <em>mọi</em> bước khiến agent chưa kịp về đích đã hết giờ — nhiều lời giải đúng-một-nửa bị tính là trượt. "Suy luận" không phải càng nhiều càng tốt; nó là một <em>ngân sách</em> phải phân bổ. Dồn vào hai chỗ đáng giá nhất (hiểu đề &amp; bắt lỗi cuối) rồi tiết kiệm ở khúc thực thi cho ra kết quả tốt hơn là rải đều. Đây là "context rot/ngân sách token" của số <a href="/2026-08-16" target="_blank">16/08</a> nhìn từ trục thời gian.</p></div>
+    <p><em>Cái không tạo phép màu:</em> đổi model. Một lượt thử với Claude Opus 4.6 trên một phiên bản harness cũ hơn đạt 59,6% — cạnh tranh nhưng thấp hơn Codex, <strong>vì họ chưa chạy cùng vòng tối ưu harness cho Claude</strong>, không phải vì Claude yếu hơn.<sup><a href="https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering" target="_blank">[1]</a></sup> Kết luận của họ: nhiều nguyên tắc harness chuyển được giữa các model (chuẩn bị ngữ cảnh tốt, ép xác minh), nhưng phải chạy vài vòng lặp riêng cho từng model — <strong>harness phải may đo cho model</strong>.</p>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn — theo quy mô đội:</strong></div>
+    <div class="scale">
+      <div class="col small">
+        <h4>Đội nhỏ / startup &lt; 10 người</h4>
+        <ul>
+          <li>Trước khi đổi sang model đắt hơn, hãy làm hai việc rẻ: (1) thêm một bước <em>bắt agent chạy test &amp; đối chiếu với đề bài</em> trước khi kết thúc; (2) ghi lại vài lượt chạy hỏng và đọc kỹ chúng — mẫu lỗi lặp lại chính là danh sách việc cần sửa harness.</li>
+          <li>Đừng đốt "suy luận tối đa" mặc định. Thử mức trung bình cho khâu thực thi, dồn mức cao cho lập kế hoạch &amp; kiểm tra cuối — thường rẻ hơn <em>và</em> tốt hơn.</li>
+          <li>Nếu agent hay "kẹt cứng", thêm một bộ đếm sửa-cùng-file đơn giản để nhắc nó đổi hướng sau vài lần lặp.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Đội đã có agent chạy production</h4>
+        <ul>
+          <li>Dựng <em>hạ tầng trace</em> làm việc đầu tiên: không đo được agent đang sai ở đâu thì mọi cải tiến chỉ là đoán. Biến việc phân tích trace thành quy trình lặp lại (thậm chí tự động), không phải việc thủ công lúc rảnh.</li>
+          <li>Coi mỗi lần agent mắc lỗi lặp là một hạng mục harness cần đóng vĩnh viễn (guardrail/middleware), thay vì vá prompt tạm thời.</li>
+          <li>Đừng giả định "đổi model tốt hơn = agent tốt hơn": chạy lại vòng tối ưu harness cho model mới trước khi kết luận. Harness cũ có thể đang bóp nghẹt model mới.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> Vivek Trivedy, "Improving Deep Agents with harness engineering" — LangChain Blog (17/02/2026) — <a href="https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering" target="_blank">link</a>; benchmark <a href="https://www.tbench.ai/leaderboard/terminal-bench/2.0" target="_blank">Terminal Bench 2.0</a>; tập trace công khai &amp; mã nguồn mở deepagents đính kèm trong bài. Liên hệ: "reasoning trace" số <a href="/2026-08-23" target="_blank">23/08</a>; ngân sách token/context số <a href="/2026-08-16" target="_blank">16/08</a>; kỹ nghệ ngữ cảnh số <a href="/2026-08-27" target="_blank">27/08</a>.</div>
+  </article>
+
+  <!-- BÀI 2 -->
+  <article class="card" id="bai2">
+    <span class="tag saas">Quy trình sản xuất</span>
+    <h2 class="head">2 · "Agent = Model + Harness": bộ khung 5 lớp, bằng chứng model rẻ có thể sánh model đắt nếu harness tốt, và thước đo cho lãnh đạo kỹ thuật</h2>
+    <p class="src">Nguồn: Neely Dunlap, "Harness engineering: a guide to building better AI coding agents" · Faros AI Blog, đăng 22/05/2026, cập nhật 15/07/2026 · <a href="https://www.faros.ai/blog/harness-engineering" target="_blank">faros.ai</a> — khung tổng hợp từ hãng bán công cụ đo năng suất AI (số 211 tác vụ &amp; 22.000 dev do Faros tự công bố)</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">3 giai đoạn</div><div class="lab">độ trưởng thành AI: prompt (2022–23) → context (2024–25) → <em>harness</em> (2026), theo Faros <a href="https://www.faros.ai/blog/harness-engineering" target="_blank">(Faros, 2026)</a></div></div>
+      <div class="box"><div class="num">5 lớp</div><div class="lab">một harness production: điều phối tool · vòng xác minh · ngữ cảnh &amp; trí nhớ · rào chắn (guardrails) · quan sát được <a href="https://www.faros.ai/blog/harness-engineering" target="_blank">(Faros, 2026)</a></div></div>
+      <div class="box"><div class="num">211 tác vụ</div><div class="lab">Faros thử: model mở (GLM-5.2, Kimi K2.6) có harness tốt <em>sánh hoặc vượt</em> model đỉnh (Opus 4.8, GPT-5.5) <a href="https://www.faros.ai/blog/harness-engineering" target="_blank">(Faros, 2026)</a></div></div>
+    </div>
+
+    <p>Nếu Bài 1 là một case chứng minh, Bài 2 là bộ khung để hệ thống hóa. Faros gói toàn bộ hiện tượng vào một công thức: <strong>Agent = Model + Harness</strong>. Model chứa trí thông minh thô; harness biến trí thông minh đó thành thứ đáng tin và hành động được.<sup><a href="https://www.faros.ai/blog/harness-engineering" target="_blank">[2]</a></sup> Họ đặt nó vào một dòng thời gian ba giai đoạn của "độ trưởng thành kỹ nghệ AI": prompt engineering (2022–23, chỉnh <em>cách nói</em> với model) → context engineering (2024–25, chỉnh <em>thứ model biết</em>) → harness engineering (2026, chỉnh <em>cách model được phép hành động &amp; tự sửa</em>).<sup><a href="https://www.faros.ai/blog/harness-engineering" target="_blank">[2]</a></sup></p>
+
+    <p>Tiền đề của cả kỷ luật này, Faros dẫn từ Mitchell Hashimoto (đồng sáng lập HashiCorp, tác giả Terraform), diễn lại bằng lời: <em>mỗi khi phát hiện agent mắc một lỗi, bạn bỏ công dựng một giải pháp để nó không bao giờ mắc lại lỗi đó nữa</em> — và giải pháp đó thường là một cải tiến harness.<sup><a href="https://www.faros.ai/blog/harness-engineering" target="_blank">[2]</a></sup> (Trong bài gốc của mình, Hashimoto mô tả sáu bước áp dụng AI, "engineer the harness" là bước thứ năm; thực trạng của chính ông: chỉ ~10–20% một ngày làm việc có một agent chạy nền, chưa phải "đội agent song song" như lời đồn — một liều thực tế hữu ích.)<sup><a href="https://mitchellh.com/writing/my-ai-adoption-journey" target="_blank">[3]</a></sup></p>
+
+    <h3 class="sub">Ba chế độ hỏng "có sẵn trong model" mà harness phải bọc lại</h3>
+    <p>Faros dẫn nghiên cứu của Anthropic về ba chế độ lỗi cố hữu của model nhưng giải được ở tầng harness:<sup><a href="https://www.faros.ai/blog/harness-engineering" target="_blank">[2]</a></sup></p>
+    <div class="doslist">
+      <div>❌ <strong>Victory declaration bias (thiên kiến tự tuyên thắng lợi):</strong> agent thường đánh dấu "xong" mà không kiểm tra kết quả — chính lỗi mà PreCompletionChecklistMiddleware của LangChain (Bài 1) dựng ra để đóng.</div>
+      <div>❌ <strong>Context anxiety (lo âu ngữ cảnh):</strong> khi cửa sổ ngữ cảnh gần đầy, model "hoảng", vội kết thúc và cắt góc để khỏi hết chỗ.</div>
+      <div>❌ <strong>One-shotting overreach (ôm cả bài một lượt):</strong> agent cố xử lý cả vấn đề trong một hơi, đẻ ra một mớ thay đổi rối và không tài liệu.</div>
+    </div>
+    <p>Đây chính là các doom loop, các cú "hết giờ", các lần "tự đọc code rồi dừng" mà Bài 1 gặp trong trace — không phải trục trặc riêng của LangChain, mà là bản tính của model hiện thời. Harness là nơi ta thiết kế để bọc lại chúng.</p>
+
+    <h3 class="sub">"Cú san bằng": harness tốt kéo model rẻ lên ngang model đắt</h3>
+    <p>Đây là số liệu đắt nhất của bài (và cũng cần đọc thận trọng vì Faros tự chạy, tự công bố). Họ cho 211 tác vụ kỹ thuật thật chạy qua khung đánh giá định tuyến model của mình, so model mở với model đỉnh. Kết quả: khi ghép với một harness tối ưu cao, các model mở như <strong>GLM-5.2 và Kimi K2.6 lọt nhóm chất lượng cao nhất, sánh hoặc vượt các tuyến đắt như Opus 4.8 và GPT-5.5</strong> trên tác vụ lập trình thật.<sup><a href="https://www.faros.ai/blog/harness-engineering" target="_blank">[2]</a></sup> Họ cũng dẫn lại chính case LangChain (Top 30 → Top 5, không đổi model) làm bằng chứng bên ngoài.<sup><a href="https://www.faros.ai/blog/harness-engineering" target="_blank">[2]</a></sup></p>
+    <div class="mech"><b>Cơ chế — vì sao điều này quan trọng với hóa đơn của bạn:</b> nếu harness (thứ bạn <em>tự sở hữu</em>) là biến quyết định, thì "trả tiền cao cho model đỉnh" không còn là con đường mặc định để có agent tốt. Đầu tư vào harness có thể để bạn dùng model rẻ hơn mà vẫn đạt chất lượng — đảo ngược trực giác "muốn tốt phải mua đắt". Cảnh báo minh bạch: đây là số của một hãng có động cơ thương mại (bán công cụ tối ưu &amp; đo token); hãy coi là <em>giả thuyết đáng kiểm</em> trên chính codebase của bạn, không phải phán quyết. Nhưng chiều hướng thì trùng khớp với case cấp một của LangChain.</p></div>
+
+    <h3 class="sub">Năm lớp của một harness production</h3>
+    <table class="tbl">
+      <tr><th>Lớp</th><th>Là gì</th><th>Vì sao quan trọng</th></tr>
+      <tr><td><strong>Điều phối tool</strong></td><td>Cách agent chọn, nối &amp; chạy tool (API, shell), tự phục hồi khi lỗi</td><td>Biến script dễ vỡ thành luồng tự chủ, sống được trong môi trường thật bất định</td></tr>
+      <tr><td><strong>Vòng xác minh</strong></td><td>Bước QA tự động (unit test, tự phê bình) chấm <em>giữa chừng</em>, không chỉ ở cuối</td><td>"Thất bại sớm" chặn lỗi nhỏ dồn thành lỗi lớn — tiết kiệm token &amp; tăng độ chính xác</td></tr>
+      <tr><td><strong>Ngữ cảnh &amp; trí nhớ</strong></td><td>Đánh chỉ mục codebase, giữ lịch sử/kỹ năng qua nhiều phiên</td><td>Khỏi "học lại kiến trúc" mỗi lần; bám đúng mẫu thiết kế của công ty</td></tr>
+      <tr><td><strong>Rào chắn (guardrails)</strong></td><td>Giới hạn cứng, sandbox bảo mật, trần ngân sách, cổng người-duyệt (HITL)</td><td>Chặn chi phí mất kiểm soát, truy cập trái phép, hành động phá hủy hạ tầng</td></tr>
+      <tr><td><strong>Quan sát được</strong></td><td>Telemetry, truy vết thực thi, log audit đầy đủ input/output/trạng thái</td><td>Mở hộp đen: gỡ lỗi, chạy hồi quy, chứng minh độ tin cậy</td></tr>
+    </table>
+    <p>Để ý: bốn thứ LangChain thực sự làm ở Bài 1 rơi gọn vào bảng này — PreCompletionChecklist &amp; test là <em>vòng xác minh</em>; LocalContext là <em>ngữ cảnh</em>; LoopDetection là <em>rào chắn</em>; toàn bộ dựa trên hạ tầng trace là <em>quan sát được</em>. Bộ khung của Faros là cái tên cho những gì đội cấp một đang tự phát hiện.</p>
+
+    <h3 class="sub">Đo cái gì: thước đo theo tầng, xếp theo dữ liệu bạn thực có</h3>
+    <p>Phần hữu dụng nhất cho lãnh đạo là một kế hoạch đo <em>theo giai đoạn</em>, xếp theo độ khó lấy dữ liệu.<sup><a href="https://www.faros.ai/blog/harness-engineering" target="_blank">[2]</a></sup> Faros định nghĩa "task" = một đơn vị công việc kết thúc bằng thứ người xem xét được (một PR hoặc một ticket đóng) để mọi tỷ lệ so sánh được giữa các đội.</p>
+    <div class="scale">
+      <div class="col small">
+        <h4>Tầng 1 — đo được NGAY (dữ liệu đã có)</h4>
+        <ul>
+          <li>Chi phí AI / mỗi PR đã merge</li>
+          <li>Chi tiêu compute / mỗi dev</li>
+          <li>Thời gian mở→merge của PR có AI chạm</li>
+          <li>Kích thước PR có AI vs PR người viết</li>
+          <li>Code churn: dòng AI thêm bị xóa/viết lại trong 2 tuần</li>
+          <li>Tốc độ review so với kích thước PR</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Tầng 2 &amp; 3 — cần hạ tầng/khảo sát</h4>
+        <ul>
+          <li><strong>Tầng 2</strong> (cần nối phiên agent ↔ PR — mảnh khó nhất): tỷ lệ đúng ngay lần đầu; tỷ lệ code agent còn sống sau 30 ngày; tỷ lệ lỗi truy về PR do agent.</li>
+          <li><strong>Tầng 3</strong> (cần phân loại độ khó việc hoặc khảo sát): phân bố độ phức tạp việc theo cấp kỹ sư; mệt mỏi &amp; niềm tin của người review (khảo sát quý); giữ chân kỹ sư ở đội nặng-agent (tín hiệu chậm, cần &gt;1 năm).</li>
+        </ul>
+      </div>
+    </div>
+    <div class="mech"><b>Cơ chế — vì sao "nối phiên agent ↔ PR" là nền móng, không phải chi tiết:</b> đây là mảnh hạ tầng khó nhất <em>và</em> giá trị nhất. Nối được mỗi phiên agent với PR nó tạo ra, gán nhãn ý định (dựng tính năng / thăm dò / hỏi), và truy lỗi ngược về PR cụ thể — thì mới tính được agent đúng ngay lần đầu bao nhiêu, code nó trụ lại bao nhiêu, gây họa bao nhiêu. Faros khuyên dựng liên kết này <em>trước</em>; các thước đo sâu theo sau. Đây là lý do Bài 1 phải dựng hạ tầng trace trước mọi thứ. Không có "sổ kế toán" nối được nguyên nhân–kết quả, "agent giúp hay hại" mãi là cảm tính.</p></div>
+    <p>Faros khép lại bằng một khuyến nghị thực dụng và một cảnh báo bối cảnh: hãy bắt đầu với các thước đo Tầng 1 (không cần công cụ mới) để có baseline, rồi để dữ liệu chỉ ra lớp harness nào cần đầu tư kế tiếp.<sup><a href="https://www.faros.ai/blog/harness-engineering" target="_blank">[2]</a></sup> Cảnh báo: báo cáo AI Engineering Report 2026 ("Acceleration Whiplash", số liệu Faros tự công bố từ ~22.000 dev / 4.000 đội) cho rằng AI đang tạo ra thay đổi code <em>lớn hơn, phức tạp hơn, bán kính tác động rộng hơn</em>, và bề mặt "trông như senior viết" khiến việc review <em>tốn sức nhận thức hơn</em> — thứ Faros gọi là "thuế kỹ sư senior".<sup><a href="https://www.faros.ai/blog/harness-engineering" target="_blank">[2]</a></sup> Nói cách khác: harness không chỉ để agent chạy tốt hơn, mà để đội <em>người</em> theo kịp cái agent đang đẻ ra.</p>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn — theo quy mô đội:</strong></div>
+    <div class="scale">
+      <div class="col small">
+        <h4>Đội nhỏ / startup &lt; 10 người</h4>
+        <ul>
+          <li>Đừng dựng cả 5 lớp cùng lúc. Bắt đầu bằng <em>vòng xác minh</em> (ép test + đối chiếu đề bài) và <em>quan sát được</em> (ghi lại các lượt chạy) — hai lớp cho lợi tức cao nhất sớm nhất.</li>
+          <li>Đo Tầng 1 ngay tuần này: chi phí AI / PR merge và code churn 2 tuần. Không cần công cụ mới, chỉ cần hóa đơn + git.</li>
+          <li>Cân nhắc model mở + harness tốt trước khi mặc định trả cho model đắt nhất — thử trên chính codebase của bạn.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Đội đã có sản phẩm production</h4>
+        <ul>
+          <li>Đầu tư mảnh khó nhất: <em>nối phiên agent ↔ PR</em>. Không có nó, các câu hỏi "agent đúng bao nhiêu / trụ bao nhiêu / gây họa bao nhiêu" không trả lời được.</li>
+          <li>Đưa "thuế senior" thành chỉ số theo dõi: tốc độ review so kích thước PR, mệt mỏi người review — kẻo năng suất agent che một nút thắt xác minh đang phình.</li>
+          <li>Chuyển từ vá prompt sang <em>guardrail/middleware</em> có thể tái dùng: mỗi lỗi lặp = một lớp harness cần đóng vĩnh viễn.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> Neely Dunlap, "Harness engineering: a guide to building better AI coding agents" — Faros AI Blog (22/05/2026, cập nhật 15/07/2026) — <a href="https://www.faros.ai/blog/harness-engineering" target="_blank">link</a>; tiền đề từ <a href="https://mitchellh.com/writing/my-ai-adoption-journey" target="_blank">Mitchell Hashimoto, "My AI Adoption Journey"</a> (05/02/2026); chế độ lỗi model từ nghiên cứu Anthropic (dẫn trong bài Faros). Liên hệ: kỹ nghệ ngữ cảnh số <a href="/2026-08-27" target="_blank">27/08</a>; eval là con hào số <a href="/2026-09-01" target="_blank">01/09</a>; nút thắt review/nợ xác minh số <a href="/2026-08-11" target="_blank">11/08</a> &amp; <a href="/2026-08-15" target="_blank">15/08</a>.</div>
+  </article>
+
+  <!-- GÓC NHÌN -->
+  <article class="card" id="gocnhin">
+    <span class="tag view">Góc nhìn</span>
+    <h2 class="head">3 · "Harness" là hồi kết của cuộc đuổi theo model — và bắt đầu của một kỷ luật kỹ thuật</h2>
+    <p>Hai bài hôm nay cùng nói một điều từ hai độ cao. LangChain là <em>bằng chứng</em>: cùng một model, cái vỏ khác nhau, chênh 13,7 điểm và 25 bậc thứ hạng. Faros là <em>bản đồ</em>: đặt tên cho cái vỏ đó (harness), chia nó thành 5 lớp, và cho một thước đo để lãnh đạo biết đầu tư lớp nào. Ghép lại, thông điệp rõ ràng: câu hỏi trung tâm của kỹ nghệ AI năm 2026 đã rời khỏi "model nào giỏi nhất" (2022–23) và "nạp ngữ cảnh gì" (2024–25) để sang "<em>làm sao vận hành hóa agent</em>" — và câu trả lời phần lớn là thứ đội tự viết được, không phải thứ đội mua.</p>
+    <p>Điều này an ủi một cách kỳ lạ. Suốt hai năm, nhiều đội nhỏ có cảm giác thua cuộc vì không đủ tiền cho model đỉnh hay không tự train được model riêng. Nhưng nếu 13,7 điểm nằm ở system prompt, tool và middleware — và nếu model mở có harness tốt sánh được model đắt — thì <em>đòn bẩy đã dịch về phía kỹ thuật</em>, nơi một đội kỷ luật thắng một đội lắm tiền. Đây cũng là mạch xuyên suốt bản tin này gần đây: eval là con hào (<a href="/2026-09-01" target="_blank">01/09</a>), kỹ nghệ ngữ cảnh là kỹ năng production (<a href="/2026-08-27" target="_blank">27/08</a>), lỗi agent xếp tầng ngoài model (<a href="/2026-08-23" target="_blank">23/08</a>). "Harness engineering" là cái ô gọi tên cả cụm đó.</p>
+    <p>Nhưng đừng đọc thành "model không quan trọng". Model vẫn là trần năng lực; harness chỉ giúp bạn <em>chạm gần trần đó một cách đáng tin</em>. Và có một cái giá ẩn: các bản vá harness (loop detection, cảnh báo thời gian, sandwich suy luận) phần lớn là "kỹ thuật quanh khiếm khuyết hiện thời của model" — chính LangChain nói các rào này "gần như chắc chắn sẽ tan biến khi model khá lên".<sup><a href="https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering" target="_blank">[1]</a></sup> Nghĩa là một phần công sức harness là <em>nợ có tuổi thọ</em>: hữu ích hôm nay, có thể thừa sau vài thế hệ model. Kỷ luật đúng, như Faros gợi, là tách phần harness <em>bền</em> (xác minh, quan sát, rào an toàn — sẽ luôn cần) khỏi phần harness <em>tạm</em> (vá lỗi model đời này).</p>
+    <p><strong>3 việc nên làm tuần này:</strong></p>
+    <div class="doslist">
+      <div>• Chọn một agent/luồng AI bạn đang chạy và bật <em>ghi trace</em> đầy đủ (input, output, tool call, token, thời gian). Đọc 5–10 lượt hỏng gần nhất — bạn sẽ có ngay danh sách lỗi lặp để đóng.</div>
+      <div>• Thêm một <em>bước xác minh bắt buộc</em> trước khi agent tuyên "xong": chạy test/kiểm tra và đối chiếu với yêu cầu gốc, không đối chiếu với đầu ra của chính nó.</div>
+      <div>• Đo hai chỉ số Tầng 1 (chi phí AI / PR merge và code churn 2 tuần) và đặt cạnh nhau. Nếu churn cao mà chi phí cũng cao, harness — không phải model — là nơi cần sửa trước.</div>
+    </div>
+  </article>
+
+  <hr class="sep">
+
+  <!-- LƯỢC DỊCH 1 -->
+  <section class="dich" id="dich1">
+    <h2 class="head">📖 Lược dịch chi tiết — Improving Deep Agents with harness engineering (LangChain)</h2>
+    <div class="flag">Bản diễn đạt lại bằng tiếng Việt, bám sát bố cục &amp; số liệu bài gốc — không phải dịch nguyên văn. <a href="https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering" target="_blank">Bài gốc</a> — Vivek Trivedy, 17/02/2026.</div>
+    <h3>Tóm tắt</h3>
+    <p>Agent lập trình của LangChain (deepagents-cli) đi từ Top 30 lên Top 5 trên Terminal Bench 2.0. Họ <em>chỉ đổi harness</em>, giữ nguyên model. Hai đòn bẩy lớn nhất: tự-xác-minh và đọc-trace.</p>
+    <h3>Mục tiêu của harness engineering</h3>
+    <p>Harness dùng để "nắn" trí thông minh vốn lởm chởm của model về đúng các tác vụ ta quan tâm. Harness engineering là chuyện <em>hệ thống</em>: dựng công cụ quanh model để tối ưu hiệu năng tác vụ, hiệu quả token, độ trễ… Quyết định thiết kế gồm system prompt, chọn tool, luồng thực thi. Câu hỏi: sửa harness thế nào để agent khá lên? LangChain dùng Trace (LangSmith) để hiểu chế độ hỏng ở quy mô lớn — model là hộp đen, nhưng đầu vào/ra ở dạng văn bản thì thấy được và dùng làm vòng cải tiến.</p>
+    <h3>Thiết lập thí nghiệm &amp; các "núm vặn"</h3>
+    <p>Dùng Terminal Bench 2.0 (89 tác vụ: ML, debug, sinh học…), điều phối bằng Harbor, sandbox Daytona, mọi hành động lưu ở LangSmith kèm độ trễ/token/chi phí. Harness có rất nhiều núm (system prompt, tools, middleware/hook, skills, ủy thác sub-agent, trí nhớ…); họ cố tình nén xuống 3: <strong>System Prompt, Tools, Middleware</strong>. Mặc định (prompt + tool/middleware chuẩn) đạt 52,8% với GPT-5.2-Codex — vừa ngoài Top 30.</p>
+    <h3>"Kỹ năng đọc trace"</h3>
+    <p>Họ biến việc phân tích trace thành một Agent Skill lặp lại: (1) kéo trace từ LangSmith; (2) tung nhiều agent phân tích lỗi song song → agent chính tổng hợp phát hiện &amp; đề xuất; (3) gom phản hồi, sửa trúng đích vào harness. Cách này giống "boosting" — tập trung vào lỗi của vòng trước. Người có thể hữu ích ở bước 3 để xác nhận (dù không bắt buộc), vì sửa quá khít một tác vụ dễ gây hồi quy ở tác vụ khác. Phân tích trace tự động tiết kiệm hàng giờ.</p>
+    <h3>Điều gì thực sự cải thiện agent</h3>
+    <p><strong>Dựng &amp; tự-xác-minh:</strong> mẫu lỗi phổ biến nhất — agent viết xong, đọc lại code của mình, thấy ổn, rồi dừng. Test là mấu chốt: kiểm tính đúng đồng thời cho tín hiệu để "leo dốc". Họ thêm quy trình vào prompt: lập kế hoạch &amp; cách xác minh → dựng có kèm test (cả happy path lẫn ca biên) → chạy test, đọc toàn bộ output, <em>đối chiếu với đề bài chứ không với code của mình</em> → phân tích lỗi, xem lại đề, sửa. Một <em>PreCompletionChecklistMiddleware</em> chặn agent trước khi thoát, buộc chạy một lượt xác minh với đề bài (giống "Ralph Wiggum loop" — hook buộc agent tiếp tục khi định thoát).</p>
+    <p><strong>Cho agent biết môi trường:</strong> <em>LocalContextMiddleware</em> chạy lúc khởi động, lập bản đồ thư mục hiện hành + cha/con, dò tool (như bản cài Python) — vì dò tìm ngữ cảnh dễ sai, nạp sẵn giảm bề mặt lỗi. Dạy agent viết code kiểm-thử-được (bám đúng đường dẫn file như đề nêu, để bước chấm tự động chạy được), nhấn ca biên để tránh chỉ kiểm "happy path". Chèn cảnh báo ngân sách thời gian vì agent rất dở ước lượng thời gian.</p>
+    <p><strong>Bắt agent lùi lại nghĩ:</strong> agent dễ thiển cận, rơi vào "doom loop" (biến tấu vặt cùng một cách sai, có trace lặp 10+ lần). <em>LoopDetectionMiddleware</em> đếm số lần sửa cùng file, sau N lần chèn gợi ý "xem lại cách tiếp cận". Đây là heuristic vá quanh khiếm khuyết model hiện thời; model khá lên thì rào này sẽ thừa.</p>
+    <p><strong>Chọn mức suy luận:</strong> gpt-5.2-codex có 4 mức (low/medium/high/xhigh). Suy luận nhiều giúp lập kế hoạch &amp; xác minh cuối nhưng đốt &gt;2× token/thời gian. Chạy toàn bộ ở xhigh chỉ 53,9% (do hết giờ) so với 63,6% ở high. Họ chốt "reasoning sandwich" xhigh–high–xhigh, đẩy điểm lên 66,5%. Hướng tự nhiên là "suy luận thích ứng" (model tự quyết), hoặc trong harness đa model: model lớn lập kế hoạch, bàn giao model nhỏ thực thi.</p>
+    <h3>Nguyên tắc thực dụng</h3>
+    <p>(1) Kỹ nghệ ngữ cảnh <em>thay cho</em> agent: nạp sẵn cấu trúc thư mục, tool, best practice, chiến lược giải bài. (2) Giúp agent tự-xác-minh: model thiên vị lời giải đầu tiên; ép nó chạy test &amp; tinh chỉnh. (3) Trace làm tín hiệu phản hồi: gỡ lỗi tool &amp; suy luận cùng nhau. (4) Phát hiện &amp; vá mẫu xấu trong ngắn hạn (retry mù, không xác minh) — các rào này sẽ tan khi model tốt lên. (5) May harness theo model: cùng harness cũ, Claude Opus 4.6 đạt 59,6% (cạnh tranh nhưng thấp hơn Codex) vì chưa chạy vòng tối ưu riêng cho Claude. Họ mở mã nguồn deepagents và công bố một tập trace để cộng đồng dùng.</p>
+  </section>
+
+  <!-- LƯỢC DỊCH 2 -->
+  <section class="dich" id="dich2">
+    <h2 class="head">📖 Lược dịch chi tiết — Harness engineering: a guide to building better AI coding agents (Faros AI)</h2>
+    <div class="flag">Bản diễn đạt lại bằng tiếng Việt, bám sát bố cục &amp; số liệu bài gốc — không phải dịch nguyên văn. <a href="https://www.faros.ai/blog/harness-engineering" target="_blank">Bài gốc</a> — Neely Dunlap, 22/05/2026 (cập nhật 15/07/2026). Lưu ý: hãng bán công cụ đo năng suất AI; số 211 tác vụ &amp; 22.000 dev do Faros tự công bố.</div>
+    <h3>Tóm tắt: Agent = Model + Harness</h3>
+    <p>Model chứa trí thông minh thô; harness làm nó hữu ích &amp; hành động được. Harness engineering là cách dựng môi trường quanh model để biến nó thành agent tự chủ, đáng tin — giai đoạn thứ ba của độ trưởng thành kỹ nghệ AI (sau prompt &amp; context), và trọng tâm đầu tư 2026. Harness production gồm 5 lớp: điều phối tool, vòng xác minh, ngữ cảnh &amp; trí nhớ, guardrails, quan sát được. Lãnh đạo nên bắt đầu bằng baseline từ dữ liệu sẵn có (chi phí/PR merge, thời gian merge PR có AI, tốc độ review theo kích thước PR, compute/dev), rồi để dữ liệu chỉ lớp cần đầu tư kế tiếp.</p>
+    <h3>Ba giai đoạn: prompt → context → harness</h3>
+    <p>Giai đoạn 1 (2022–23) prompt engineering: chỉnh <em>cách nói</em> với model; AI như autocomplete thông minh. Giai đoạn 2 (2024–25) context engineering: nút thắt dời từ từ ngữ sang <em>thông tin</em>; MCP/RAG giúp nạp đúng file/quy tắc/ràng buộc. Giai đoạn 3 (2026) harness engineering: thách thức là tự chủ, chính xác &amp; kiểm soát. Tiền đề (Mitchell Hashimoto): mỗi khi agent mắc lỗi, dựng giải pháp để nó không mắc lại — thường là cải tiến harness.</p>
+    <h3>Vì sao agent buộc phải chuyển sang harness</h3>
+    <p>Mọi công cụ nay đều sinh được nhiều code, nhanh — nhưng nhiều code không đồng nghĩa tốt hơn. Báo cáo của Faros (Acceleration Whiplash, ~22.000 dev/4.000 đội) thấy AI tạo thay đổi lớn hơn, phức tạp hơn, bán kính tác động rộng hơn; bề mặt "trông như senior viết" khiến review tốn sức nhận thức — "thuế kỹ sư senior". Nạp ngữ cảnh tốt hơn giúp, nhưng không giải được lõi; cần khung ép xác minh, giới hạn phạm vi, giữ trách nhiệm giải trình. Anthropic nêu 3 chế độ lỗi cố hữu của model, giải được ở tầng harness: <em>victory declaration bias</em> (tự tuyên xong mà không kiểm), <em>context anxiety</em> (gần đầy cửa sổ thì vội cắt góc), <em>one-shotting overreach</em> (ôm cả bài một lượt). Ví dụ thực tế: 3/2026 LangChain đưa agent từ hạng 30 lên 5 trên Terminal Bench 2.0 <em>chỉ nhờ tối ưu harness</em>.</p>
+    <h3>"Cú san bằng": harness nâng model mở</h3>
+    <p>Faros cho 211 tác vụ kỹ thuật thật chạy qua khung đánh giá định tuyến model, so model mở với model đỉnh. Khi ghép harness tối ưu cao, model mở (GLM-5.2, Kimi K2.6) lọt nhóm chất lượng cao nhất, sánh/vượt tuyến đắt (Opus 4.8, GPT-5.5). Vì kỹ sư dùng model <em>qua</em> harness (quyết định nạp ngữ cảnh, gọi tool, xử lý lỗi), harness thành "kẻ san bằng": không nhất thiết phải trả cao cho model đỉnh nếu đầu tư harness production đủ tốt.</p>
+    <h3>Harness dựng-sẵn vs tùy chỉnh</h3>
+    <p>Đa số agent (vd Claude Code) có sẵn harness mặc định: đọc/ghi file, chạy lệnh terminal, vòng thực thi nhiều bước, cổng xin phép trước hành động rủi ro — đó là thứ biến chatbot thành agent. Nhưng mặc định chỉ là điểm khởi đầu. Ví dụ một fintech cỡ vừa dùng Claude Code: mọi PR chạm logic thanh toán phải qua linter tuân thủ riêng; agent không được sửa file migration DB nếu chưa có người ký; mọi hoạt động agent phải ghi vào hệ audit nội bộ. Không có sẵn → đội tự dựng lớp giữa agent &amp; codebase để ép các luật đó mỗi lượt chạy. Cơ chế mở rộng: MCP server (cắm tool mới), file CLAUDE.md (bơm chỉ dẫn của đội vào mỗi phiên), hoặc pipeline điều phối (một agent triage, Claude Code viết fix, agent thứ hai review trước khi mở PR). Harness dựng-sẵn cho độ tin cậy đa dụng; harness tùy chỉnh cho trách nhiệm giải trình của tổ chức — cả hai đều cần.</p>
+    <h3>Năm lớp của harness production</h3>
+    <p><strong>Điều phối tool:</strong> "hệ thần kinh trung ương" quyết agent chọn/nối/chạy tool ra sao, tự phục hồi khi lỗi — tách prototype dễ vỡ khỏi agent production. <strong>Vòng xác minh:</strong> QA tự động (unit test, linter, tự phê bình) <em>giữa chừng</em>, bắt ảo giác/lỗi logic ngay, chặn lỗi nhỏ dồn thành lớn — tiết kiệm compute. <strong>Ngữ cảnh &amp; trí nhớ:</strong> đánh chỉ mục codebase, giữ lịch sử/kỹ năng qua phiên — khỏi "học lại kiến trúc", bám mẫu thiết kế công ty. <strong>Guardrails:</strong> giới hạn phạm vi, sandbox, trần ngân sách, cổng người-duyệt cho hành động nhạy cảm/không-hoàn-tác (như sửa DB production) — điều kiện bắt buộc để đưa agent ra thật. <strong>Quan sát được:</strong> telemetry, truy vết thực thi, log audit — mở hộp đen, gỡ lỗi, chạy eval &amp; phát hiện hồi quy, biến hành vi giai thoại thành số đo được.</p>
+    <h3>Đo gì khi harness tiến hóa</h3>
+    <p>Định nghĩa "task" = đơn vị việc kết thúc bằng thứ người review được (PR/ticket). Đo theo tầng, xếp theo dữ liệu sẵn có. <strong>Tầng 1 (có ngay):</strong> chi phí/PR merge; compute/dev; thời gian merge PR có AI; kích thước PR AI vs người; code churn (dòng AI bị xóa/viết lại &lt;2 tuần); tốc độ review theo kích thước PR. <strong>Tầng 2 (khi nối được phiên agent↔PR — mảnh khó &amp; giá trị nhất):</strong> tỷ lệ đúng ngay lần đầu; tỷ lệ code agent còn trong main sau 30 ngày; tỷ lệ lỗi truy về PR agent. <strong>Tầng 3 (cần phân loại việc/khảo sát):</strong> phân bố độ phức tạp việc theo cấp kỹ sư; mệt mỏi &amp; niềm tin người review (khảo sát quý); giữ chân kỹ sư (tín hiệu chậm). Khi một chỉ số báo động: tác vụ hỏng → thường lỗi harness (thiếu ngữ cảnh, bỏ bước xác minh, tool hỏng); chi phí leo → thường lãng phí token (tool call thừa, lặp tra ngữ cảnh, eval chạy lại mỗi thay đổi); người mất niềm tin → thường harness giấu lý do agent, buộc người review tự đoán ý định.</p>
+    <h3>Việc harness nên ưu tiên quý này</h3>
+    <p>Bắt đầu với Tầng 1 (không cần công cụ mới): chi phí/PR merge, thời gian merge PR có AI, tốc độ review theo kích thước PR, compute/dev. Có baseline rồi, dữ liệu sẽ chỉ lớp harness nào cần đầu tư kế tiếp. Harness engineering là một trong "tám trụ" của kỹ nghệ AI đang hình thành, nên coi là một kỷ luật có chủ đích, đo được — trong 2026 và về sau.</p>
+  </section>
+
+  <div class="refs" style="margin-top:26px">
+    <strong>Nguồn tham khảo toàn số:</strong><br>
+    [1] Vivek Trivedy, <a href="https://www.langchain.com/blog/improving-deep-agents-with-harness-engineering" target="_blank">"Improving Deep Agents with harness engineering"</a> — LangChain Blog (17/02/2026). Case cấp một: 52,8%→66,5% trên <a href="https://www.tbench.ai/leaderboard/terminal-bench/2.0" target="_blank">Terminal Bench 2.0</a> (89 tác vụ), model gpt-5.2-codex giữ nguyên; xhigh-only 53,9% vs high 63,6%; Claude Opus 4.6 đạt 59,6% trên harness cũ. Có link tập trace công khai &amp; mã nguồn mở deepagents.<br>
+    [2] Neely Dunlap, <a href="https://www.faros.ai/blog/harness-engineering" target="_blank">"Harness engineering: a guide to building better AI coding agents"</a> — Faros AI Blog (22/05/2026, cập nhật 15/07/2026). Khung tổng hợp: Agent = Model + Harness; 3 giai đoạn; 5 lớp; 211 tác vụ (model mở sánh model đỉnh — số Faros tự công bố); thước đo theo tầng; báo cáo Acceleration Whiplash ~22.000 dev/4.000 đội (Faros tự công bố).<br>
+    [3] <a href="https://mitchellh.com/writing/my-ai-adoption-journey" target="_blank">Mitchell Hashimoto, "My AI Adoption Journey"</a> (05/02/2026) — tiền đề "engineer the harness"; 6 bước; thực trạng ~10–20% ngày làm việc có 1 agent chạy nền.<br>
+    <em>Các đoạn "Cơ chế", bảng 5 lớp, ánh xạ Bài 1↔Bài 2 và khuyến nghị theo quy mô là phần biên tập tổng hợp minh họa, không trích nguyên văn từ nguồn. Mọi con số đều dẫn nguồn nội dòng; số do một hãng tự công bố (Faros) được gắn nhãn rõ &amp; nên đọc như định hướng.</em>
+  </div>
+
+  <div class="foot"><a href="/" style="color:#4338ca;text-decoration:none">← Về trang bìa lưu trữ</a></div>
+</div>
+</body>
+</html>
