@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sự thật về "AI viết code": 90% dev dùng agent hằng tuần nhưng chỉ ~22% để agent viết &gt;80% code · 04/09/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.dich{background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;padding:16px 20px;margin-top:16px}
+.dich .flag{font-size:12.5px;color:#94a3b8;font-style:italic;margin-bottom:8px}
+.dich h3{font-size:16px;margin:14px 0 4px}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 04/09/2026 · bản chi tiết</div>
+    <h1 class="title">Sự thật về "AI viết code": 90% dev dùng agent hằng tuần, nhưng chỉ ~22% để agent viết trên 80% code — và vì sao Claude Code chuyển đổi ~80% còn Copilot tụt hạng</h1>
+    <div class="meta">04/09/2026 · Thời lượng đọc ~19 phút · Nguồn: JetBrains Developer Ecosystem Survey 2026 — hai báo cáo "AI Coding Agents: Adoption Trends" (19/08/2026) &amp; "How Much Code Do Developers Really Let Agents Write?" (26/08/2026), khảo sát &gt;15.000 lập trình viên chuyên nghiệp</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: số này viết ở dạng "đậm cơ chế" — mỗi con số cố gắng kèm một tầng <em>nghĩa là gì / vì sao / làm thế nào</em>. Các đoạn có nhãn <b style="color:#1e40af">Cơ chế</b>, các bảng ánh xạ và khuyến nghị theo quy mô đội là phần <strong>biên tập tổng hợp từ chính dữ liệu bài gốc + thực hành phổ biến</strong>, KHÔNG phải trích nguyên văn từ báo cáo; mọi con số vẫn dẫn nguồn nội dòng. Cả hai bài đều dựa trên khảo sát tự-báo-cáo của một hãng công cụ (JetBrains) — số phản ánh cảm nhận người trả lời, đọc kèm lưu ý phương pháp ở cuối mỗi bài.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1">JetBrains khảo sát 15.000 dev: 90% dùng agent hằng tuần, Claude Code thành mặc định — và "tỷ lệ chuyển đổi 80%" nghĩa là gì</a></li>
+      <li><a href="#bai2">"100% code do AI viết" là chuyện hoang đường: trung bình 47%, và ai để agent viết nhiều nhất lại là… senior</a></li>
+      <li><a href="#gocnhin">Góc nhìn: khoảng cách giữa "dùng công cụ" và "đổi cách làm việc" — và ba việc cho tuần này</a></li>
+      <li><a href="#dich1">📖 Lược dịch — AI Coding Agents: Adoption Trends (JetBrains)</a></li>
+      <li><a href="#dich2">📖 Lược dịch — How Much Code Do Developers Really Let Agents Write? (JetBrains)</a></li>
+    </ol>
+  </nav>
+
+  <!-- BÀI 1 -->
+  <article class="card" id="bai1">
+    <span class="tag saas">Quy trình &amp; năng suất AI</span>
+    <h2 class="head">1 · 90% lập trình viên dùng agent AI hằng tuần, Claude Code thành công cụ mặc định — và "tỷ lệ chuyển đổi ~80%" thật ra đo cái gì</h2>
+    <p class="src">Nguồn: JetBrains — Mikhail Bogdanov, "AI Coding Agents: Adoption Trends" · dựa trên Developer Ecosystem Survey 2026 (ấn bản thứ 10), &gt;15.000 lập trình viên chuyên nghiệp toàn cầu, khảo sát 5–7/2026 · báo cáo do hãng công cụ tự công bố · <a href="https://blog.jetbrains.com/research/2026/08/ai-coding-agent-adoption-2026/" target="_blank">blog.jetbrains.com</a></p>
+
+    <div class="stat">
+      <div class="box"><div class="num">90% / 68%</div><div class="lab">dev chuyên nghiệp dùng agent AI ít nhất hằng tuần / dùng hằng ngày <a href="https://blog.jetbrains.com/research/2026/08/ai-coding-agent-adoption-2026/" target="_blank">(JetBrains, 8/2026)</a></div></div>
+      <div class="box"><div class="num">39% → 47%</div><div class="lab">dùng Claude Code tại nơi làm (toàn cầu / tại Mỹ); tăng từ 18% hồi 1/2026 <a href="https://blog.jetbrains.com/research/2026/08/ai-coding-agent-adoption-2026/" target="_blank">(JetBrains, 8/2026)</a></div></div>
+      <div class="box"><div class="num">21%</div><div class="lab">GitHub Copilot — tụt từ 29% một năm trước, mất ngôi dẫn đầu <a href="https://blog.jetbrains.com/research/2026/08/ai-coding-agent-adoption-2026/" target="_blank">(JetBrains, 8/2026)</a></div></div>
+    </div>
+
+    <p>JetBrains vừa công bố Developer Ecosystem Survey 2026 — khảo sát thường niên năm thứ 10, hơn 15.000 lập trình viên chuyên nghiệp toàn cầu, thực hiện tháng 5–7/2026.<sup><a href="https://blog.jetbrains.com/research/2026/08/ai-coding-agent-adoption-2026/" target="_blank">[1]</a></sup> Lưu ý ngay: đây là dữ liệu tự-báo-cáo do một hãng bán IDE và công cụ AI công bố, nên phản ánh <em>cảm nhận</em> người trả lời (và JetBrains có sản phẩm trong chính thị trường này). Nhưng bộ số này đáng đọc kỹ vì nó vẽ được bức tranh "ai thực sự dùng gì" thay cho những tuyên bố giật gân trên mạng xã hội.</p>
+
+    <p>Con số nền: tính đến tháng 5–7/2026, <strong>90% dev chuyên nghiệp dùng agent AI (local hoặc cloud) ít nhất hằng tuần, 68% dùng hằng ngày</strong>.<sup><a href="https://blog.jetbrains.com/research/2026/08/ai-coding-agent-adoption-2026/" target="_blank">[1]</a></sup> Agent lập trình không còn là thử nghiệm bên lề — nó đã thành công cụ trong hộp đồ nghề thường trực.</p>
+
+    <h3 class="sub">Claude Code: từ 18% lên 39% trong nửa năm, và "tỷ lệ chuyển đổi ~80%"</h3>
+    <p>Claude Code là câu chuyện tăng trưởng lớn nhất: <strong>~39% dev toàn cầu dùng tại nơi làm (từ 18% hồi 1/2026), tại Mỹ tới 47%</strong> — gần một nửa dev Mỹ.<sup><a href="https://blog.jetbrains.com/research/2026/08/ai-coding-agent-adoption-2026/" target="_blank">[1]</a></sup> Nó được dùng nhiều gấp đôi GitHub Copilot, công cụ từng là "người mở đường" cho lập trình có AI hỗ trợ từ 2023. Đáng chú ý nhất: Claude Code là công cụ AI <em>được dùng nhiều nhất</em> của 31% dev — tức <strong>tỷ lệ chuyển đổi ~80%</strong> từ "dùng thường xuyên" sang "công cụ chính".<sup><a href="https://blog.jetbrains.com/research/2026/08/ai-coding-agent-adoption-2026/" target="_blank">[1]</a></sup></p>
+    <div class="mech"><b>Cơ chế — "tỷ lệ chuyển đổi" khác "tỷ lệ dùng" ở chỗ nào và vì sao nó quan trọng hơn:</b> "dùng tại nơi làm" chỉ nghĩa là công cụ có mặt trong quy trình (thử, dùng cạnh cái khác). "Công cụ được dùng nhiều nhất" nghĩa là nó thắng cuộc cạnh tranh <em>hằng ngày</em> — dev chủ động chọn nó khi có nhiều lựa chọn. Một công cụ có thể được nhiều người thử nhưng ít ai giữ (chuyển đổi thấp); Claude Code giữ được ~4/5 người đã dùng thường xuyên. Với một đội đang chọn công cụ, con số cần nhìn là <em>chuyển đổi</em>, không phải "bao nhiêu người từng thử" — vì nó cho biết công cụ có thật sự dính vào công việc hay chỉ được cài rồi bỏ.</div>
+
+    <h3 class="sub">Bức tranh phần còn lại: Codex tăng tốc, Copilot mất ngôi, Cursor đi lùi</h3>
+    <table class="tbl">
+      <tr><th>Công cụ</th><th>Dùng tại nơi làm (5–7/2026)</th><th>Biến động</th><th>Nhận biết (mindshare)</th></tr>
+      <tr><td><strong>Claude Code</strong></td><td>~39% (Mỹ 47%)</td><td>▲ từ 18% (1/2026)</td><td>công cụ chính của 31% dev</td></tr>
+      <tr><td>Codex (OpenAI)</td><td>16%</td><td>▲ ~5× từ 3% (1/2026)</td><td>27% → 65%</td></tr>
+      <tr><td>GitHub Copilot</td><td>21%</td><td>▼ từ 29% (một năm trước)</td><td>79% (EU/UK/Mỹ 86–90%)</td></tr>
+      <tr><td>Cursor</td><td>12%</td><td>▼ từ 18% (1/2026)</td><td>69% → 75%</td></tr>
+      <tr><td>OpenCode (mã nguồn mở)</td><td>7%</td><td>—</td><td>42%</td></tr>
+      <tr><td>Google Antigravity</td><td>6%</td><td>ổn định</td><td>29% → 47%</td></tr>
+      <tr><td>JetBrains AI / Junie</td><td>~9%</td><td>—</td><td>—</td></tr>
+    </table>
+    <p class="src" style="margin-top:2px">Số liệu từ JetBrains DevEco 2026;<sup><a href="https://blog.jetbrains.com/research/2026/08/ai-coding-agent-adoption-2026/" target="_blank">[1]</a></sup> bảng do biên tập sắp xếp lại, không phải bảng nguyên văn trong bài.</p>
+
+    <p>Codex là kẻ bám đuổi nhanh nhất: adoption tăng ~5× (3% → 16%), nhưng cú nhảy về <em>nhận biết</em> còn ấn tượng hơn — chỉ 27% dev biết đến Codex hồi 1/2026, đến 5–7/2026 đã là 65%.<sup><a href="https://blog.jetbrains.com/research/2026/08/ai-coding-agent-adoption-2026/" target="_blank">[1]</a></sup> Copilot mất ngôi (29% → 21%) nhưng vẫn là công cụ được biết đến rộng nhất (79% mindshare); thú vị là 39% người dùng Copilot dùng nó <em>trong IDE của JetBrains</em>.<sup><a href="https://blog.jetbrains.com/research/2026/08/ai-coding-agent-adoption-2026/" target="_blank">[1]</a></sup> Cursor thì ngược đời: nhận biết tăng (69% → 75%) nhưng adoption <em>giảm</em> (18% → 12%), sụt mạnh nhất ở Trung Quốc (28% → 16%).<sup><a href="https://blog.jetbrains.com/research/2026/08/ai-coding-agent-adoption-2026/" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao "nhận biết tăng nhưng adoption giảm" (Cursor) là một tín hiệu cảnh báo:</b> khi mindshare tăng mà số người dùng thật giảm, nghĩa là công cụ được <em>nói đến</em> nhiều hơn là được <em>giữ lại</em> — thường vì một lựa chọn khác đang hút mất người dùng lõi. Ở đây, đà dồn về các agent chạy ở dòng lệnh/nền (Claude Code, Codex) đang kéo người dùng khỏi mô hình "agent gắn trong một IDE riêng". Bài học cho người chọn công cụ: đừng lấy độ nổi tiếng làm chỉ báo — một công cụ đang "hot" trên mạng vẫn có thể đang mất người dùng thực. Với người <em>làm</em> công cụ: awareness cao mà retention thấp là dấu hiệu sản phẩm bị thử rồi bỏ, cần soi vào khoảnh khắc người dùng rời đi.</div>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn — theo quy mô đội:</strong></div>
+    <div class="scale">
+      <div class="col small">
+        <h4>Đội nhỏ / startup &lt; 10 người</h4>
+        <ul>
+          <li>Nếu chưa chuẩn hóa công cụ, mặc định thị trường đang hội tụ về agent dòng lệnh (Claude Code/Codex) — thử trước khi tự dựng quy trình riêng.</li>
+          <li>Đừng chọn theo độ nổi tiếng; chọn theo công cụ đội bạn thật sự <em>giữ lại</em> sau 2 tuần dùng thử.</li>
+          <li>Codex quota historically hào phóng hơn — đáng cân nhắc nếu ngân sách token là ràng buộc chính.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Đội đã có sản phẩm production</h4>
+        <ul>
+          <li>Kiểm kê thực tế đội đang dùng gì (không phải giấy phép mua gì) — 90% dùng hằng tuần nghĩa là shadow-AI gần như chắc chắn đang có.</li>
+          <li>Nếu đã đầu tư vào IDE JetBrains, lưu ý dev vẫn có thể chạy Copilot/Claude Agent/Codex/OpenCode ngay trong IDE — không cần ép một công cụ duy nhất.</li>
+          <li>Theo dõi <em>tỷ lệ chuyển đổi</em> nội bộ (bao nhiêu người biến công cụ thành công cụ chính), không chỉ số ghế đã cấp.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> JetBrains — Mikhail Bogdanov, "AI Coding Agents: Adoption Trends" (19/08/2026, DevEco Survey 2026, n&gt;15.000) — <a href="https://blog.jetbrains.com/research/2026/08/ai-coding-agent-adoption-2026/" target="_blank">bài gốc</a>. Bối cảnh trước đó: <a href="https://blog.jetbrains.com/research/2026/04/which-ai-coding-tools-do-developers-actually-use-at-work/" target="_blank">báo cáo 4/2026</a>. Kinh tế token &amp; quota: xem số <a href="/2026-08-16" target="_blank">16/08</a>.</div>
+  </article>
+
+  <!-- BÀI 2 -->
+  <article class="card" id="bai2">
+    <span class="tag saas">Quy trình &amp; năng suất AI</span>
+    <h2 class="head">2 · "100% code của tôi do AI viết" là chuyện hoang đường: trung bình 47%, và nhóm để agent viết nhiều nhất lại là… senior</h2>
+    <p class="src">Nguồn: JetBrains — Mikhail Bogdanov, "How Much Code Do Developers Really Let Agents Write?" · cùng Developer Ecosystem Survey 2026, &gt;15.000 dev, khảo sát 5–7/2026 · <a href="https://blog.jetbrains.com/research/2026/08/how-much-code-do-developers-really-let-agents-write/" target="_blank">blog.jetbrains.com</a></p>
+
+    <div class="stat">
+      <div class="box"><div class="num">~47%</div><div class="lab">tỷ lệ code trung bình do agent viết hoàn toàn (38% có AI hỗ trợ; 27% viết tay hoàn toàn) <a href="https://blog.jetbrains.com/research/2026/08/how-much-code-do-developers-really-let-agents-write/" target="_blank">(JetBrains, 8/2026)</a></div></div>
+      <div class="box"><div class="num">~22%</div><div class="lab">nhóm để agent viết &gt;80% code — vẫn là thiểu số, dù &gt;một nửa dev viết tay dưới 20% <a href="https://blog.jetbrains.com/research/2026/08/how-much-code-do-developers-really-let-agents-write/" target="_blank">(JetBrains, 8/2026)</a></div></div>
+      <div class="box"><div class="num">1/5</div><div class="lab">dev không viết <em>một dòng code nào</em> mà không có AI hỗ trợ <a href="https://blog.jetbrains.com/research/2026/08/how-much-code-do-developers-really-let-agents-write/" target="_blank">(JetBrains, 8/2026)</a></div></div>
+    </div>
+
+    <p>Bài thứ hai, cùng bộ khảo sát, đánh thẳng vào một câu bạn nghe suốt năm nay: <em>"100% code của tôi do agent AI viết!"</em> JetBrains hỏi hơn 15.000 dev: tháng vừa rồi, bao nhiêu phần trăm code họ làm ra là (a) do agent viết hoàn toàn, (b) do họ viết có AI hỗ trợ, (c) tự viết không AI.<sup><a href="https://blog.jetbrains.com/research/2026/08/how-much-code-do-developers-really-let-agents-write/" target="_blank">[2]</a></sup></p>
+
+    <p>Kết quả trung bình: <strong>~47% code do agent viết hoàn toàn, ~38% có AI hỗ trợ, ~27% viết tay</strong> (tổng vượt 100% do câu trả lời chia theo khoảng — xem lưu ý phương pháp).<sup><a href="https://blog.jetbrains.com/research/2026/08/how-much-code-do-developers-really-let-agents-write/" target="_blank">[2]</a></sup> Bức tranh thật: <strong>hơn một nửa dev nay viết tay dưới 20% code, cứ 5 người thì 1 không viết dòng nào mà không có AI</strong> — nhưng nhóm gần như phó thác toàn bộ cho agent (&gt;80% code do agent) vẫn chỉ là thiểu số ~22%. Đa số nằm ở khoảng giữa.<sup><a href="https://blog.jetbrains.com/research/2026/08/how-much-code-do-developers-really-let-agents-write/" target="_blank">[2]</a></sup></p>
+    <div class="mech"><b>Cơ chế — vì sao con số "100%" gây hiểu lầm nguy hiểm cho việc lập kế hoạch đội:</b> tuyên bố "100% AI" thường đến từ một nhóm nhỏ, làm loại việc rất hợp với agent (prototype, script, code lặp mẫu). Nếu CTO lấy đó làm mốc để cắt giảm hoặc đặt kỳ vọng "cả đội sẽ 100% AI", họ đang ngoại suy từ điểm cực đoan. Thực tế phân bố là <em>quang phổ</em>: mặc định mới không phải "AI viết hết" mà là "viết tay thuần đang biến mất, còn mức phó thác thì rất khác nhau tùy người và tùy việc". Kế hoạch năng lực đội nên dựa vào phân bố này, không dựa vào tít.</div>
+
+    <h3 class="sub">Nghịch lý: senior giao code cho agent nhiều hơn junior</h3>
+    <p>Trực giác thường nói junior — người ít kinh nghiệm — sẽ dựa vào AI nhiều nhất. Dữ liệu nói ngược lại: <strong>khoảng 1/4 dev senior để agent sinh phần lớn code (&gt;80%), cao hơn tỷ lệ ở junior</strong>, vốn nghiêng về lối "có AI hỗ trợ" hơn là phó thác toàn bộ.<sup><a href="https://blog.jetbrains.com/research/2026/08/how-much-code-do-developers-really-let-agents-write/" target="_blank">[2]</a></sup></p>
+    <div class="mech"><b>Cơ chế — vì sao kinh nghiệm lại đi cùng "phó thác nhiều hơn":</b> để giao trọn một tác vụ cho agent, bạn phải làm được ba việc mà junior thường chưa vững: (1) <em>đặc tả</em> rõ cần gì để agent không đi chệch; (2) <em>đánh giá nhanh</em> output đúng hay sai mà không phải đọc từng dòng; (3) <em>biết khi nào không nên tin</em> và can thiệp. Senior có sẵn mô hình tư duy về hệ thống nên "khoán rồi nghiệm thu" là bước tự nhiên. Junior thiếu bộ lọc đó nên dùng AI theo lối từng-bước-có-hỗ-trợ để vừa làm vừa học. Hàm ý đào tạo: đừng tưởng đưa agent cho junior là xong — cái họ cần rèn là kỹ năng đặc tả và thẩm định, thứ agent không tự dạy (nối tiếp lo ngại "đường ống junior→senior" ở số <a href="/2026-08-21" target="_blank">21/08</a>).</div>
+
+    <h3 class="sub">Khác biệt theo công cụ, ngôn ngữ, khu vực</h3>
+    <p>Theo công cụ: trong nhóm coi Claude Code là công cụ chính, 32% để agent viết &gt;80% code; nhưng ở nhóm Codex con số này cao hơn hẳn — 42%, và 37% người dùng Codex <em>không viết dòng nào không có AI</em>.<sup><a href="https://blog.jetbrains.com/research/2026/08/how-much-code-do-developers-really-let-agents-write/" target="_blank">[2]</a></sup> Người dùng Cursor giống Claude Code: trung bình 58% code do agent, 28% để agent viết &gt;80%.<sup><a href="https://blog.jetbrains.com/research/2026/08/how-much-code-do-developers-really-let-agents-write/" target="_blank">[2]</a></sup></p>
+    <div class="mech"><b>Cơ chế — vì sao người dùng Codex "agentic" hơn dù Claude Code phổ biến hơn:</b> JetBrains diễn giải: khi Claude Code trở thành dòng chính (39% adoption), tệp người dùng của nó không còn thuần "tay chơi nâng cao" nữa — nó gồm cả số đông dùng vừa phải. Codex đang ở giai đoạn sớm hơn, nên tệp người dùng thiên về nhóm cấp tiến, chủ động tìm giá trị cao (Codex vốn có quota hào phóng hơn). Nói cách khác, mức "phó thác cho agent" cao ở Codex phản ánh <em>ai đang dùng</em> nó lúc này, không phải công cụ nào giỏi hơn — một cái bẫy so sánh cổ điển.</div>
+    <p>Theo ngôn ngữ có một lằn ranh rõ: <strong>Go, JavaScript, TypeScript dẫn đầu tỷ lệ code do agent (trung bình 54–55%); C và C++ thấp nhất, giữ tỷ lệ viết tay cao nhất (38% trung bình)</strong>; Java và Python ở giữa (48–51%).<sup><a href="https://blog.jetbrains.com/research/2026/08/how-much-code-do-developers-really-let-agents-write/" target="_blank">[2]</a></sup> Theo khu vực: Đông Á (Trung Quốc, Nhật, Hàn) dẫn đầu — khoảng gấp đôi số dev (32–35%) để agent viết &gt;80% code so với ~16% ở châu Âu và Anh.<sup><a href="https://blog.jetbrains.com/research/2026/08/how-much-code-do-developers-really-let-agents-write/" target="_blank">[2]</a></sup></p>
+    <div class="mech"><b>Cơ chế — vì sao ngôn ngữ quyết định mức phó thác:</b> code do agent sinh dễ tin hơn khi <em>hậu quả của sai sót thấp và dễ kiểm chứng</em>. Với JS/TS/Go — web, API, service tầng cao — lỗi thường lộ ngay qua test/chạy thử, và các mẫu code rất phổ biến trong dữ liệu huấn luyện. Với C/C++ — quản lý bộ nhớ thủ công, hành vi không xác định, ràng buộc phần cứng — một dòng sai có thể gây lỗi âm thầm khó dò, nên dev giữ tay lái chặt hơn. Bài học: mức "an toàn để khoán cho agent" không phải hằng số của đội — nó thay đổi theo tầng ngăn xếp và mức độ dễ kiểm chứng của phần việc.</div>
+
+    <h3 class="sub">Ba chân dung dev — và vì sao "dùng công cụ mạnh" chưa chắc là "đã đổi cách làm"</h3>
+    <p>JetBrains phân cụm dev thành ba nhóm: <strong>Agentic coders (~31%)</strong> — trung bình 84% code do agent, chỉ ~6% viết tay; <strong>AI-assisted coders (~47%)</strong> — 40% do agent nhưng vẫn ưa lối có-hỗ-trợ; <strong>Manual coders (~23%)</strong> — ~75% viết tay, chỉ dùng AI rải rác.<sup><a href="https://blog.jetbrains.com/research/2026/08/how-much-code-do-developers-really-let-agents-write/" target="_blank">[2]</a></sup> Con số then chốt: <strong>chỉ 46–57% người dùng nặng Claude Code và Codex là "agentic coders"</strong> thực thụ.<sup><a href="https://blog.jetbrains.com/research/2026/08/how-much-code-do-developers-really-let-agents-write/" target="_blank">[2]</a></sup></p>
+    <div class="mech"><b>Cơ chế — cài công cụ mạnh ≠ đổi quy trình:</b> ngay cả trong nhóm dùng nặng nhất hai agent hàng đầu, gần một nửa vẫn làm theo lối "có AI hỗ trợ" chứ chưa chuyển sang "khoán trọn tác vụ". Đây là lời nhắc quan trọng cho lãnh đạo đội: cấp phát công cụ đỉnh <em>không tự động</em> tạo ra thay đổi năng suất kiểu bước nhảy — vì thay đổi thật nằm ở cách chia việc, cách đặc tả và cách nghiệm thu, không nằm ở phần mềm đã mua. Đây chính là cùng một khoảng cách "model là trần, cách dùng mới là biến quyết định" đã bàn ở các số về harness engineering (<a href="/2026-09-03" target="_blank">03/09</a>).</div>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn — theo quy mô đội:</strong></div>
+    <div class="scale">
+      <div class="col small">
+        <h4>Đội nhỏ / startup &lt; 10 người</h4>
+        <ul>
+          <li>Đừng đặt mục tiêu "100% AI"; chọn <em>từng loại việc</em> để khoán trọn cho agent (script, prototype, code JS/TS/Go mẫu) và giữ tay ở phần rủi ro cao (C/C++, logic thanh toán).</li>
+          <li>Nếu có junior, ưu tiên rèn kỹ năng đặc tả &amp; thẩm định output — đó là thứ mở khóa lối "khoán rồi nghiệm thu" của senior.</li>
+          <li>Đo mức phó thác theo phần việc, không theo con người: cùng một dev sẽ "agentic" ở tầng này và "manual" ở tầng khác.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Đội đã có sản phẩm production</h4>
+        <ul>
+          <li>Đừng lấy tuyên bố "100% AI" làm mốc lập kế hoạch năng lực; dùng phân bố thật (đa số ở khoảng giữa) để đặt kỳ vọng.</li>
+          <li>Sau khi cấp công cụ đỉnh, đo tiếp xem đội có thực sự chuyển sang "agentic" hay vẫn "AI-assisted" — nếu vẫn assisted, nút thắt là quy trình chứ không phải công cụ.</li>
+          <li>Chuẩn hóa mức khoán theo tầng ngăn xếp &amp; độ dễ kiểm chứng, gắn với cổng review tương ứng (khoán nhiều ↔ review/eval chặt hơn).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> JetBrains — Mikhail Bogdanov, "How Much Code Do Developers Really Let Agents Write?" (26/08/2026, DevEco Survey 2026) — <a href="https://blog.jetbrains.com/research/2026/08/how-much-code-do-developers-really-let-agents-write/" target="_blank">bài gốc</a>. Đường ống junior→senior: số <a href="/2026-08-21" target="_blank">21/08</a>. Harness &amp; "cách dùng là biến quyết định": số <a href="/2026-09-03" target="_blank">03/09</a>.</div>
+  </article>
+
+  <!-- GÓC NHÌN -->
+  <article class="card" id="gocnhin">
+    <span class="tag view">Góc nhìn</span>
+    <h2 class="head">3 · Khoảng cách giữa "dùng công cụ" và "đổi cách làm việc" — và ba việc cho tuần này</h2>
+    <p>Hai bài hôm nay, gộp lại, kể một câu chuyện mà các tít giật gân bỏ sót. Ở bề nổi, cuộc cách mạng đã xong: 90% dev dùng agent hằng tuần, viết tay thuần đang tuyệt chủng.<sup><a href="https://blog.jetbrains.com/research/2026/08/ai-coding-agent-adoption-2026/" target="_blank">[1]</a></sup> Nhưng đào một lớp là thấy sự phân hóa lớn: chỉ ~22% để agent viết &gt;80% code, và ngay trong nhóm dùng nặng công cụ đỉnh, gần một nửa vẫn chưa đổi sang lối khoán trọn.<sup><a href="https://blog.jetbrains.com/research/2026/08/how-much-code-do-developers-really-let-agents-write/" target="_blank">[2]</a></sup></p>
+    <p>Sợi chỉ chung: <strong>adoption công cụ đã bão hòa, nhưng chuyển hóa quy trình thì chưa</strong>. Khoảng cách đó — giữa "đã cài Claude Code" và "đã đổi cách chia việc để khoán cho nó" — mới là nơi năng suất thật được quyết định. Nó giải thích vì sao senior (giỏi đặc tả và thẩm định) phó thác nhiều hơn junior, vì sao JS/TS được khoán nhiều hơn C/C++, và vì sao có công cụ mạnh không đảm bảo bước nhảy năng suất. Cùng một bài học đã lặp lại suốt các số gần đây: model/công cụ là trần; cách con người tổ chức công việc quanh nó mới là biến quyết định.</p>
+    <p>Với người chọn công cụ, còn một cảnh báo phụ: đừng đọc độ nổi tiếng thành độ hữu ích. Cursor có mindshare tăng nhưng adoption giảm; Codex có tệp người dùng "agentic" hơn không phải vì giỏi hơn mà vì đang thu hút nhóm cấp tiến. Chỉ số đáng tin là <em>tỷ lệ giữ lại / chuyển đổi</em> của chính đội bạn, không phải bảng xếp hạng trên mạng.</p>
+    <p><strong>3 việc nên làm tuần này:</strong></p>
+    <div class="doslist">
+      <div>• Kiểm kê thật: đội đang dùng agent nào (không phải mua giấy phép gì). Với 90% dùng hằng tuần, giả định shadow-AI đang tồn tại và quản lý nó — thay vì giả vờ chưa có.</div>
+      <div>• Lập "bản đồ khoán": với mỗi loại việc/tầng ngăn xếp, ghi rõ mức phù hợp để khoán cho agent (từ "khoán trọn" đến "chỉ hỗ trợ"), gắn cổng review tương ứng. Khoán nhiều thì review/eval phải chặt hơn.</div>
+      <div>• Đo chuyển hóa quy trình, không chỉ adoption: sau khi cấp công cụ, hỏi từng dev họ đang "agentic" hay "AI-assisted", và điều gì cản họ khoán được nhiều hơn — thường là thiếu kỹ năng đặc tả/thẩm định, không phải thiếu công cụ.</div>
+    </div>
+  </article>
+
+  <hr class="sep">
+
+  <!-- LƯỢC DỊCH 1 -->
+  <section class="dich" id="dich1">
+    <h2 class="head">📖 Lược dịch chi tiết — AI Coding Agents: Adoption Trends (JetBrains)</h2>
+    <div class="flag">Bản diễn đạt lại bằng tiếng Việt, bám sát bố cục &amp; số liệu bài gốc — không phải dịch nguyên văn. <a href="https://blog.jetbrains.com/research/2026/08/ai-coding-agent-adoption-2026/" target="_blank">Bài gốc</a></div>
+    <h3>Bối cảnh</h3>
+    <p>Bài tiếp nối báo cáo tháng 4/2026 về công cụ AI mà dev thực sự dùng. Dữ liệu đến từ Developer Ecosystem Survey 2026 — khảo sát toàn cầu năm thứ 10, hơn 15.000 lập trình viên chuyên nghiệp, do nhóm Nghiên cứu Chiến lược &amp; Thị trường của JetBrains thực hiện, cung cấp góc nhìn rộng về công cụ, thực hành, công nghệ và thái độ của dev.</p>
+    <h3>Bức tranh tổng — agent đã vào dòng chính</h3>
+    <p>Tính đến 5–7/2026, 90% dev chuyên nghiệp dùng agent AI (local hoặc cloud) ít nhất hằng tuần, 68% dùng hằng ngày. Agent lập trình đang chủ động giành chỗ trong hộp công cụ của dev.</p>
+    <h3>Claude Code — kẻ dẫn đầu</h3>
+    <p>Claude Code tiếp tục tăng với tốc độ chưa từng có, trở thành công cụ AI được dùng rộng nhất tại nơi làm — gấp đôi GitHub Copilot. Adoption toàn cầu ~39% (từ 18% hồi 1/2026), tại Mỹ 47%. Nó là công cụ chính của 31% dev, tức tỷ lệ chuyển đổi ~80% từ "dùng thường xuyên" sang "công cụ số một".</p>
+    <h3>Codex, Copilot, Cursor</h3>
+    <p>Codex tăng ~5× (3% → 16%); nhận biết nhảy 27% → 65%. GitHub Copilot giảm từ 29% (một năm trước) còn 21%, nhưng vẫn có mindshare 79% (EU/UK/Mỹ 86–90%); 39% người dùng Copilot dùng nó trong IDE của JetBrains. Cursor tăng nhận biết (69% → 75%) nhưng adoption giảm (18% → 12%), giảm mạnh nhất ở Trung Quốc (28% → 16%).</p>
+    <h3>Các tên tuổi khác</h3>
+    <p>OpenCode (mã nguồn mở) đạt 7% adoption và 42% mindshare — đáng nể khi không có "ông lớn" đứng sau. Google Antigravity ổn định ở 6% adoption nhưng nhận biết nhảy 29% → 47%; Ấn Độ là cứ điểm (15% dev dùng, ngang Cursor). JetBrains AI (trong IDE và/hoặc Junie) đạt ~9%. JetBrains cũng tích hợp Claude Agent, Codex, GitHub Copilot, OpenCode ngay trong AI chat của IDE, và mở kết nối các agent khác qua Agent Client Protocol; đồng thời giới thiệu Air (môi trường phát triển agentic, đang preview) và JetBrains Central.</p>
+    <h3>Ghi chú phương pháp</h3>
+    <p>"Dev chuyên nghiệp" gồm các vai trò liên quan tới code (kỹ sư phần mềm, AI/ML, DevOps, kiến trúc sư, data, QA); ~90% mẫu thuộc nhóm kỹ sư phần mềm. Khảo sát được bản địa hóa 8 ngôn ngữ, áp quota theo khu vực và tái cân trọng số để đại diện tốt hơn cho dân số dev toàn cầu (theo khu vực, tình trạng việc làm, ngôn ngữ, mức quen thuộc với sản phẩm JetBrains).</p>
+  </section>
+
+  <!-- LƯỢC DỊCH 2 -->
+  <section class="dich" id="dich2">
+    <h2 class="head">📖 Lược dịch chi tiết — How Much Code Do Developers Really Let Agents Write? (JetBrains)</h2>
+    <div class="flag">Bản diễn đạt lại bằng tiếng Việt, bám sát bố cục &amp; số liệu bài gốc — không phải dịch nguyên văn. <a href="https://blog.jetbrains.com/research/2026/08/how-much-code-do-developers-really-let-agents-write/" target="_blank">Bài gốc</a></div>
+    <h3>Câu hỏi</h3>
+    <p>Tuyên bố "100% code của tôi do [một agent nào đó] viết" xuất hiện khắp nơi năm nay. JetBrains muốn biết thực sự bao nhiêu dev đã khoán trọn việc viết code cho agent, và tỷ lệ đó khác nhau ra sao theo khu vực, ngăn xếp công nghệ và thâm niên. Khảo sát 5–7/2026 hỏi hơn 15.000 dev về tỷ lệ code tháng trước theo ba loại: do agent viết hoàn toàn / viết có AI hỗ trợ / tự viết không AI (thang chọn 0%, 1–20%, …, 81–99%, 100%, hoặc "không biết").</p>
+    <h3>Bức tranh tổng</h3>
+    <p>Viết tay thủ công đang biến mất nhanh, nhưng chưa phải ai cũng chuyển hẳn sang lối agentic. Trung bình: ~47% code do agent viết hoàn toàn, ~38% có AI hỗ trợ, ~27% viết tay (tổng có thể vượt 100% do câu trả lời theo khoảng). Hơn một nửa dev nay viết tay dưới 20%; cứ 5 người thì 1 không viết dòng nào không có AI. Nhưng nhóm gần như phó thác toàn bộ (&gt;80% code do agent) vẫn chỉ ~22% — đa số ở khoảng giữa.</p>
+    <h3>Theo thâm niên</h3>
+    <p>Bất ngờ: senior nằm trong nhóm đầu tiên khoán code cho agent. Khoảng 1/4 senior sinh phần lớn code (&gt;80%) bằng agent, cao hơn tỷ lệ ở junior — nhóm nghiêng về lối có-AI-hỗ-trợ hơn là agentic hoàn toàn. Dù vậy adoption trong nhóm senior cũng rất khác nhau.</p>
+    <h3>Theo công cụ</h3>
+    <p>Khoảng 32% người coi Claude Code là công cụ chính để agent viết &gt;80% code; ở nhóm Codex con số này cao hơn — 42%, và 37% người dùng Codex không viết dòng nào không có AI. JetBrains diễn giải: Claude Code đã thành dòng chính (39% adoption) nên tệp người dùng không còn thuần "cao thủ agent"; Codex đang bắt kịp và tệp người dùng có lẽ thiên về nhóm cấp tiến tìm giá trị cao (Codex vốn quota hào phóng hơn). Người dùng Cursor giống Claude Code: trung bình 58% code do agent, 28% để agent viết &gt;80%.</p>
+    <h3>Theo ngôn ngữ &amp; khu vực</h3>
+    <p>Có lằn ranh rõ theo ngăn xếp: Go, JavaScript, TypeScript dẫn đầu (54–55% code do agent); C và C++ thấp nhất, giữ 38% viết tay trung bình; Java và Python ở giữa (48–51%). Theo khu vực, Đông Á (Trung Quốc, Nhật, Hàn) dẫn đầu: khoảng gấp đôi số dev (32–35%) để agent viết &gt;80% code so với ~16% ở châu Âu &amp; Anh.</p>
+    <h3>Ba chân dung dev</h3>
+    <p>Phân cụm cho ra ba nhóm. Agentic coders (~31%): trung bình 84% code do agent, ~15% có hỗ trợ, ~6% viết tay. AI-assisted coders (~47%): 40% do agent, ~60% có hỗ trợ, ~20% viết tay — chưa chuyển hẳn sang agentic. Manual coders (~23%): ~10% do agent, ~25% hỗ trợ, ~75% viết tay. Đáng chú ý: chỉ 46–57% người dùng nặng Claude Code và Codex là "agentic coders" thực thụ. Dù ở nhóm nào, xu hướng rõ: viết tay thuần đang thành dĩ vãng.</p>
+    <h3>Ghi chú phương pháp</h3>
+    <p>Các câu trả lời phi thực tế (tổng cận dưới &gt;150% hoặc tổng cận trên &lt;80%) bị loại. Trung bình tính bằng điểm giữa mỗi khoảng (0%, 10,5%, 30,5%, 50,5%, 70,5%, 90%, 100%) — nên tổng ba loại trong cùng một nhóm có thể vượt 100%, và tự-báo-cáo không phải lúc nào cũng chính xác tuyệt đối. Phân cụm dùng phân tích cụm phân cấp (phương pháp Ward, khoảng cách Euclid). Định nghĩa "dev chuyên nghiệp" và cách tái cân trọng số như bài trước.</p>
+  </section>
+
+  <div class="refs" style="margin-top:26px">
+    <strong>Nguồn tham khảo toàn số:</strong><br>
+    [1] JetBrains — Mikhail Bogdanov, <a href="https://blog.jetbrains.com/research/2026/08/ai-coding-agent-adoption-2026/" target="_blank">AI Coding Agents: Adoption Trends</a> (19/08/2026, Developer Ecosystem Survey 2026, n&gt;15.000)<br>
+    [2] JetBrains — Mikhail Bogdanov, <a href="https://blog.jetbrains.com/research/2026/08/how-much-code-do-developers-really-let-agents-write/" target="_blank">How Much Code Do Developers Really Let Agents Write?</a> (26/08/2026, cùng bộ khảo sát)<br>
+    <em>Các đoạn "Cơ chế", bảng tổng hợp công cụ và khuyến nghị theo quy mô đội là phần biên tập tổng hợp minh họa, không trích nguyên văn từ nguồn; mọi con số vẫn dẫn nguồn nội dòng. Cả hai bài là khảo sát tự-báo-cáo do JetBrains — một hãng công cụ — công bố.</em>
+  </div>
+
+  <div class="foot"><a href="/" style="color:#4338ca;text-decoration:none">← Về trang bìa lưu trữ</a></div>
+</div>
+</body>
+</html>
