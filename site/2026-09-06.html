@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI migrate code cũ: giỏi việc dễ, gục việc khó — tương đương tụt 92%→47% theo độ phức tạp trên 12 tính năng VB6→C# · 06/09/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.dich{background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;padding:16px 20px;margin-top:16px}
+.dich .flag{font-size:12.5px;color:#94a3b8;font-style:italic;margin-bottom:8px}
+.dich h3{font-size:16px;margin:14px 0 4px}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 06/09/2026 · bản chi tiết</div>
+    <h1 class="title">AI migrate code cũ giỏi ở việc dễ, gục ở việc khó: đo trên 12 tính năng VB6→C#, tương đương tụt từ 92% xuống 47% theo độ phức tạp — và vì sao lỗi nằm ở "luật ngầm", không ở model</h1>
+    <div class="meta">06/09/2026 · Thời lượng đọc ~19 phút · Nguồn: Alves, Politowski &amp; Montandon — "Legacy System Modernization with Coding Agents: A Case Study", arXiv 2608.28972 (29/08/2026)</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: số này viết ở dạng "đậm cơ chế" — mỗi con số cố gắng kèm một tầng <em>nghĩa là gì / vì sao / làm thế nào</em>. Các đoạn có nhãn <b style="color:#1e40af">Cơ chế</b>, bảng ánh xạ chế-độ-lỗi → biện pháp, và phần khuyến nghị theo quy mô đội là <strong>biên tập tổng hợp từ chính dữ liệu bài gốc và thực hành phổ biến</strong>, KHÔNG trích nguyên văn từ paper; mọi con số đều dẫn nguồn nội dòng. Đây là số chuyên đề một-bài-đào-sâu vì bài gốc là một nghiên cứu định lượng cấp một, đủ chi tiết để mổ xẻ trọn số.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1">Nghiên cứu: 12 tính năng ERP VB6→C# .NET 10 do agent tự migrate — đo tương đương &amp; chi phí theo độ phức tạp</a></li>
+      <li><a href="#bang">Bảng: tương đương &amp; chi phí theo độ phức tạp (92% → 81% → 47%)</a></li>
+      <li><a href="#case">Mổ xẻ 3 ca hỏng: workflow duyệt biến mất, bản ghi bị nhân đôi, email phê duyệt bị bỏ</a></li>
+      <li><a href="#coche">Ba cơ chế gốc: code phân mảnh, luật ngầm bị bỏ, chi phí do "đọc vào" quyết định</a></li>
+      <li><a href="#rutra">💡 Rút ra cho bạn — theo quy mô đội</a></li>
+      <li><a href="#gocnhin">Góc nhìn: "discovery giỏi, migration yếu" nay đã có con số &amp; 3 việc làm tuần này</a></li>
+      <li><a href="#dich1">📖 Lược dịch chi tiết — Legacy System Modernization with Coding Agents (arXiv)</a></li>
+    </ol>
+  </nav>
+
+  <!-- BÀI 1 -->
+  <article class="card" id="bai1">
+    <span class="tag legacy">Hiện đại hóa legacy</span>
+    <h2 class="head">1 · Một agent AI tự migrate 12 tính năng ERP từ VB6 sang C# .NET 10 — và tương đương tụt thẳng đứng khi tính năng phức tạp lên</h2>
+    <p class="src">Nguồn: Iago da Silva Rodrigues Alves, Cristiano Politowski, João Eduardo Montandon — "Legacy System Modernization with Coding Agents: A Case Study" · arXiv:2608.28972 [cs.SE], nộp 29/08/2026 · nghiên cứu cấp một trong bối cảnh công nghiệp thật (hệ ERP do Group Software cung cấp) · <a href="https://arxiv.org/abs/2608.28972" target="_blank">arxiv.org/abs/2608.28972</a></p>
+
+    <div class="stat">
+      <div class="box"><div class="num">70%</div><div class="lab">tương đương trung bình sau khi agent tự migrate 12 tính năng (đo trên 331 chỉ dẫn nghiệp vụ) <a href="https://arxiv.org/abs/2608.28972" target="_blank">(Alves et al., 2026)</a></div></div>
+      <div class="box"><div class="num">92% → 47%</div><div class="lab">tương đương tụt theo độ phức tạp: thấp 92%, trung bình 81%, cao chỉ 47% <a href="https://arxiv.org/abs/2608.28972" target="_blank">(Alves et al., 2026)</a></div></div>
+      <div class="box"><div class="num">$0,15</div><div class="lab">chi phí token trung bình mỗi chỉ dẫn migrate ($50,29 cho 331 chỉ dẫn, tổng 59 phút agent chạy) <a href="https://arxiv.org/abs/2608.28972" target="_blank">(Alves et al., 2026)</a></div></div>
+    </div>
+
+    <p>Đây là loại nguồn mà bản tin ưu tiên: một nghiên cứu định lượng cấp một, chạy trên hệ thống thật của một doanh nghiệp thật, không phải bài PR của nhà cung cấp. Ba tác giả (một trong số đó chính là kỹ sư đang bảo trì hệ ERP legacy được dùng làm đối tượng) để một agent — Claude Code phiên bản 2.1.96 chạy model Opus 4.6 với cửa sổ ngữ cảnh 1 triệu token — migrate 12 tính năng từ Visual Basic 6 sang C# .NET 10, rồi <em>đo</em> xem code mới có giữ đúng hành vi code cũ không, tốn bao lâu và bao nhiêu tiền.<sup><a href="https://arxiv.org/abs/2608.28972" target="_blank">[1]</a></sup></p>
+
+    <h3 class="sub">Điều quan trọng nhất về thiết kế: "một lượt, không người sửa"</h3>
+    <p>Nhóm cố ý dùng <strong>chiến lược một-lượt (single-generation)</strong>: giao đề, agent chạy một phiên, lấy kết quả — <em>không</em> có vòng lặp con người xem lại rồi bảo agent sửa. Họ nói rõ lý do: muốn đo năng lực <em>tự chủ</em> của agent, không phải năng lực của cặp người-máy.<sup><a href="https://arxiv.org/abs/2608.28972" target="_blank">[1]</a></sup> Và họ dẫn nghiên cứu trước (De Siano et al.) rằng đưa vòng lặp lặp-đi-lặp-lại có người vào thì tương đương tăng đáng kể.<sup><a href="https://arxiv.org/abs/2608.28972" target="_blank">[1]</a></sup></p>
+    <div class="mech"><b>Cơ chế — vì sao con số 70% phải đọc kèm chữ "một lượt":</b> 70% không phải "trần" của AI trên bài migrate, mà là điểm <em>khởi đầu khi bỏ mặc agent</em>. Đọc đúng phải là: "nếu bạn để agent tự chạy một mạch rồi merge thẳng, kỳ vọng ~30% chỉ dẫn nghiệp vụ bị sai/thiếu — và tỷ lệ đó dồn vào các tính năng khó." Con số này định giá <em>khâu con người phải làm</em> (review + sửa), chứ không phủ nhận giá trị của agent. Đó cũng là lý do đừng suy ra "AI làm được 70% công việc, thuê ít người đi 70%".</p></div>
+
+    <p>Cách đo tương đương cũng đáng học vì nó cụ thể chứ không cảm tính. Trước khi migrate, tác giả (người bảo trì hệ cũ) <em>liệt kê tay</em> mọi chỉ dẫn của từng tính năng vào hai loại: <strong>luật nghiệp vụ</strong> (rules) và <strong>thao tác lưu trữ</strong> (database operations) — tổng 331 chỉ dẫn (160 luật + 171 thao tác DB).<sup><a href="https://arxiv.org/abs/2608.28972" target="_blank">[1]</a></sup> Sau khi migrate, họ chạy cả bản cũ lẫn bản mới trên cùng kịch bản và so từng chỉ dẫn: <strong>tương đương lưu trữ</strong> (bản mới có ghi đúng dữ liệu như bản cũ không) và <strong>tương đương hành vi</strong> (có thực thi đúng luật nghiệp vụ không).<sup><a href="https://arxiv.org/abs/2608.28972" target="_blank">[1]</a></sup></p>
+    <div class="mech"><b>Cơ chế — vì sao "đếm chỉ dẫn" đáng tin hơn "chạy test cho xanh":</b> code migrate có thể biên dịch được, chạy được, "trông đúng" mà vẫn lệch hành vi ở các nhánh ít đi qua. Nếu chỉ dựa vào test suite sẵn có (mà hệ legacy thường không có), bạn chỉ thấy phần đã được test. Đếm từng luật/thao tác rồi đối chiếu thực thi là cách <em>chủ động</em> phát hiện cái bị bỏ sót — chính là "behavioral equivalence" đã bàn ở số <a href="/2026-08-11" target="_blank">11/08</a>, ở đây được đưa xuống mức đo được từng dòng.</div>
+
+    <p>Để chống chủ quan, một kỹ sư thứ hai (không tham gia migrate) chấm lại độc lập toàn bộ 160 luật nghiệp vụ: ra 69% tương đương hành vi (so với 69% của người thứ nhất), hai người đồng thuận 149/160 luật (93%), hệ số Cohen's Kappa 0,84 — mức "đồng thuận mạnh".<sup><a href="https://arxiv.org/abs/2608.28972" target="_blank">[1]</a></sup> Nói cách khác, con số 70% không phải cảm nhận của một người.</p>
+  </article>
+
+  <!-- BẢNG -->
+  <article class="card" id="bang">
+    <span class="tag legacy">Số liệu</span>
+    <h2 class="head">2 · Bức tranh trong một bảng: tương đương và chi phí đều "gãy" ở tính năng khó</h2>
+    <p>Bài phân loại 12 tính năng thành ba mức phức tạp bằng ba tiêu chí khách quan (số dòng code, số phương thức, số phụ thuộc lớp; đạt ≥2/3 tiêu chí thì xếp mức): 6 thấp, 4 trung bình, 2 cao.<sup><a href="https://arxiv.org/abs/2608.28972" target="_blank">[1]</a></sup> Số chỉ dẫn mỗi tính năng cũng phản ánh độ khó: thấp 11–15, trung bình 27–39, cao 58–72.<sup><a href="https://arxiv.org/abs/2608.28972" target="_blank">[1]</a></sup></p>
+
+    <table class="tbl">
+      <tr><th>Mức phức tạp</th><th>Tương đương lưu trữ</th><th>Tương đương hành vi</th><th>Tương đương chung</th><th>Thời gian TB</th><th>Chi phí TB</th><th>Token TB</th></tr>
+      <tr><td>Thấp (6 tính năng)</td><td>100%</td><td>83%</td><td><strong>92%</strong></td><td>2 phút 48s</td><td>$1,66</td><td>1,47 triệu</td></tr>
+      <tr><td>Trung bình (4)</td><td>77%</td><td>85%</td><td><strong>81%</strong></td><td>6 phút 42s</td><td>$4,97</td><td>4,70 triệu</td></tr>
+      <tr><td>Cao (2)</td><td>51%</td><td>42%</td><td><strong>47%</strong></td><td>7 phút 38s</td><td>$10,23</td><td>9,09 triệu</td></tr>
+      <tr><td>Tổng / trung bình</td><td>71%</td><td>69%</td><td><strong>70%</strong></td><td>4 phút 54s</td><td>$4,19</td><td>3,81 triệu</td></tr>
+    </table>
+    <p class="src" style="margin-top:2px">Nguồn: Bảng 5 &amp; Bảng 7 của bài gốc. Giá tính theo bảng Anthropic tháng 4/2026 cho Opus 4.6.</p>
+
+    <div class="mech"><b>Cơ chế — đọc bảng này thế nào cho ra hành động:</b> chú ý hai chiều <em>cùng gãy</em> ở mức cao. Tính năng khó vừa cho tương đương thấp nhất (47%) vừa đắt nhất ($10,23) — tệ ở cả hai đầu. Bài chốt lại thành một câu đắt giá: agent làm tính năng dễ <strong>tốt hơn ~1,98 lần với chi phí chỉ bằng 0,16 lần</strong> so với tính năng khó.<sup><a href="https://arxiv.org/abs/2608.28972" target="_blank">[1]</a></sup> Hệ quả chiến lược: đừng thả agent vào module khó nhất trước để "chứng minh nó làm được" — đó là nơi bạn trả nhiều tiền nhất để nhận kết quả kém tin nhất. Bắt đầu ở tính năng nhỏ, gọn phạm vi.</div>
+
+    <p>Một điểm phản trực giác đáng dừng lại: <em>trung bình hành vi của mức trung bình (85%) lại cao hơn mức thấp (83%)</em>.<sup><a href="https://arxiv.org/abs/2608.28972" target="_blank">[1]</a></sup> Kích thước không phải yếu tố quyết định duy nhất — có tính năng "thấp" 926 dòng chỉ đạt 67%, trong khi một tính năng "trung bình" 4.158 dòng đạt 92%.<sup><a href="https://arxiv.org/abs/2608.28972" target="_blank">[1]</a></sup> Lý do nằm ở <em>cách code được tổ chức</em>, không phải nó dài bao nhiêu — phần cơ chế bên dưới sẽ mổ.</p>
+
+    <div class="mech"><b>Cơ chế — vì sao hóa đơn phình theo "đọc vào" chứ không theo "viết ra":</b> token đầu vào chiếm 99,6% tổng token.<sup><a href="https://arxiv.org/abs/2608.28972" target="_blank">[1]</a></sup> Tỷ lệ vào:ra là 170× ở tính năng dễ, 226× ở trung bình, 299× ở khó.<sup><a href="https://arxiv.org/abs/2608.28972" target="_blank">[1]</a></sup> Vì mỗi vòng suy luận agent phải <em>đọc lại</em> code legacy để giữ ngữ cảnh — tính năng càng lớn, ngữ cảnh phải nạp lại càng nhiều, chi phí bị đẩy bởi khối lượng agent <em>nhận vào</em>, không phải code nó <em>sinh ra</em>. Đây chính là "re-sent context" (số <a href="/2026-08-16" target="_blank">16/08</a>) hiện ra trong bài toán migrate. May là input rẻ hơn output ~5×, nên tổng vẫn ở mức chấp nhận được ($0,15/chỉ dẫn); nhưng nó cho một đòn bẩy rõ: <em>chia nhỏ tính năng khó</em> để mỗi phiên nạp ít ngữ cảnh hơn — vừa rẻ hơn vừa (theo giả thuyết của chính tác giả) chính xác hơn.</div>
+  </article>
+
+  <!-- CASE -->
+  <article class="card" id="case">
+    <span class="tag legacy">Mổ xẻ ca hỏng</span>
+    <h2 class="head">3 · Ba ca hỏng cụ thể — và tại sao chúng nguy hiểm hơn "code không biên dịch được"</h2>
+    <p>Điều làm bài này đáng đọc là nó không dừng ở phần trăm. Tác giả phân loại 100 chỉ dẫn bị làm sai/thiếu thành năm nhóm nguyên nhân:</p>
+
+    <table class="tbl">
+      <tr><th>Chế độ lỗi (bài gốc)</th><th>Số ca</th><th>Nghĩa là gì</th></tr>
+      <tr><td>Bỏ sót module liền kề</td><td>42</td><td>Agent làm phần lõi nhưng bỏ các module "sống cạnh" (nhập liệu theo lô, sinh báo cáo, gửi email…), <em>dù được cấp làm ngữ cảnh</em></td></tr>
+      <tr><td>Bỏ sót thao tác DB</td><td>22</td><td>Thiếu một truy vấn/validation cụ thể ngoài luồng lõi</td></tr>
+      <tr><td>Bỏ sót luật nghiệp vụ</td><td>20</td><td>Thiếu một luật riêng lẻ (thường nằm trong sự kiện của form)</td></tr>
+      <tr><td>Bỏ sót tích hợp giữa module</td><td>10</td><td>Không nối tính năng với module khác (vd gửi thông báo)</td></tr>
+      <tr><td>Làm sai (bad implementation)</td><td>6</td><td>Làm nhưng sai điều kiện / sai bảng</td></tr>
+    </table>
+    <p class="src" style="margin-top:2px">Nguồn: Bảng 6 của bài gốc. Điểm mấu chốt: 94/100 ca là <em>bỏ sót</em>, chỉ 6 ca là <em>làm sai</em>.</p>
+
+    <div class="mech"><b>Cơ chế — vì sao "bỏ sót" nguy hiểm hơn "làm sai":</b> code làm sai thường lộ (crash, sai kết quả rõ ràng, test đỏ). Code <em>thiếu</em> thì bản mới vẫn chạy trơn, vẫn "xanh", chỉ là lặng lẽ không làm một việc mà bản cũ có làm — một họ hàng của "lỗi thầm lặng" (số <a href="/2026-08-19" target="_blank">19/08</a>). Với migrate legacy, đây là kiểu lỗi tốn kém nhất vì nó lọt qua review hời hợt và chỉ nổ ra khi đúng nhánh nghiệp vụ đó được kích hoạt trong sản xuất.</div>
+
+    <p><strong>Ca 1 — workflow duyệt biến mất hẳn (tính năng Tính toán Tiêu thụ, mức cao).</strong> Toàn bộ quy trình đọc-và-phê-duyệt — truy vấn các chỉ số đang chờ, phê duyệt chúng, hủy các phê duyệt trước — <em>không được cài đặt chút nào</em>, chứ không phải cài sai.<sup><a href="https://arxiv.org/abs/2608.28972" target="_blank">[1]</a></sup> Agent ưu tiên phần lõi và không mở rộng ra module liền kề, kể cả khi module đó nằm trong ngữ cảnh được cấp.</p>
+
+    <p><strong>Ca 2 — bản ghi bị nhân đôi thay vì cập nhật (tính năng Thiết bị Di động, mức trung bình, 69%).</strong> Bản cũ, trước khi ghi, <em>kiểm tra bản ghi đã tồn tại chưa</em> để quyết định thêm mới hay cập nhật. Agent bỏ mất bước kiểm tra tồn tại này; hệ quả là bản mới luôn <em>thêm mới</em> — dữ liệu bị nhân đôi thay vì được cập nhật.<sup><a href="https://arxiv.org/abs/2608.28972" target="_blank">[1]</a></sup> Đây đúng là loại "hợp đồng ngầm" đã bàn ở số <a href="/2026-08-24" target="_blank">24/08</a>: một quy tắc không được khai báo rõ ràng nhưng cả hệ thống dựa vào.</p>
+
+    <p><strong>Ca 3 — email phê duyệt bị bỏ, phá vỡ trạng thái "chờ duyệt" (tính năng Yêu cầu Mua hàng, mức cao, 44%, ~12 nghìn dòng — tính năng lớn nhất thí nghiệm).</strong> Bản cũ, khi lưu một yêu cầu, còn gửi email cho người có thẩm quyền duyệt; email này <em>không chỉ để thông báo</em> — nó giữ yêu cầu ở trạng thái "đang chờ" và yêu cầu chỉ tiến tiếp khi người nhận hành động. Bản mới chỉ giữ luồng chính: chèn yêu cầu, luôn ở trạng thái "Mở", không bao giờ gửi thông báo. Kết quả: yêu cầu được tạo <em>bất kể</em> phê duyệt của cấp thẩm quyền — một lỗ hổng quy trình nghiệp vụ, không phải lỗi cú pháp.<sup><a href="https://arxiv.org/abs/2608.28972" target="_blank">[1]</a></sup></p>
+    <div class="mech"><b>Cơ chế chung của cả ba ca:</b> agent "co về lõi" (core-shrinking) — nó nhận diện chức năng trung tâm và làm tốt, nhưng cắt các nhánh phụ, các bước trung gian, các tích hợp chéo. Với tính năng nhỏ, "lõi" gần bằng "toàn bộ" nên tương đương cao. Với tính năng lớn, phần bị cắt (module liền kề, workflow phê duyệt, thông báo) lại chính là <em>logic nghiệp vụ quan trọng nhất</em> — nên tương đương sập xuống 47%. Đây không phải lỗi model "không đủ thông minh"; đó là hành vi tối ưu-cục-bộ khi phải ôm phạm vi lớn trong một lượt.</div>
+  </article>
+
+  <!-- CƠ CHẾ -->
+  <article class="card" id="coche">
+    <span class="tag legacy">Cơ chế gốc</span>
+    <h2 class="head">4 · Ba cơ chế gốc bài rút ra — và chúng đổi cách bạn chuẩn bị codebase trước khi gọi agent</h2>
+
+    <h3 class="sub">Cơ chế 1: code phân mảnh giết tương đương — kể cả khi mọi file đã được cấp</h3>
+    <p>Ba trong bốn tính năng trung bình đạt &gt;90% đều có luật <em>tập trung trong các lớp domain gọn phạm vi</em> (file .cls). Ngược lại, phần lớn luật bị bỏ sót ở tính năng thấp lại nằm <em>ngoài</em> lớp domain — trong sự kiện giao diện của form (.frm) hoặc gọi qua biến toàn cục.<sup><a href="https://arxiv.org/abs/2608.28972" target="_blank">[1]</a></sup> Ví dụ điển hình: tính năng Thương hiệu (thấp, 926 dòng) chỉ đạt 67% vì một bộ lọc truy vấn (loại bỏ bản ghi không hợp lệ) được viết trong form nạp danh sách, không khai báo trong lớp domain — nên agent bỏ qua.<sup><a href="https://arxiv.org/abs/2608.28972" target="_blank">[1]</a></sup></p>
+    <div class="mech"><b>Cơ chế:</b> "cấp file cho agent" không bằng "agent chú ý tới file". Khi logic rải khắp nhiều file, agent bám vào nơi nó <em>kỳ vọng</em> logic sống (lớp domain) và bỏ sót logic nấp ở chỗ bất thường (form, biến toàn cục). Hàm ý thực hành: <em>trước</em> khi migrate, gom logic nghiệp vụ tản mát về một chỗ dễ thấy (một pha refactor nhỏ ngay trên code cũ, hoặc ít nhất một tài liệu liệt kê "luật này nằm ở file/đoạn nào") sẽ nâng tương đương hơn là kỳ vọng agent tự đi tìm.</div>
+
+    <h3 class="sub">Cơ chế 2: agent ưu tiên luật tường minh, bỏ luật ngầm</h3>
+    <p>Agent migrate tốt các chỉ dẫn <em>tường minh</em> (validation viết rõ trong phương thức, thao tác DB được đặt tên rõ) nhưng bỏ các chỉ dẫn <em>ngầm</em>: tham số truy vấn tùy chọn, giá trị cấu hình động, điều kiện ở mức form âm thầm đổi hành vi.<sup><a href="https://arxiv.org/abs/2608.28972" target="_blank">[1]</a></sup> Bài nêu ví dụ cụ thể: một tham số boolean loại bỏ một loại dữ liệu khỏi kết quả khi được bật; một luật chặn xóa dựa trên giá trị mặc định hệ thống hoặc một biến toàn cục <em>nạp động từ DB lúc khởi động</em>; các ngưỡng lọc ngầm trong truy vấn. Khuyến nghị của chính tác giả: <em>đừng giao cho agent suy ra các ràng buộc quan trọng</em> — hãy nêu chúng rõ ràng nhất có thể.<sup><a href="https://arxiv.org/abs/2608.28972" target="_blank">[1]</a></sup></p>
+    <div class="mech"><b>Cơ chế:</b> luật ngầm là luật không có "chữ ký" trong code để agent nhận diện — nó chỉ tồn tại trong đầu người viết cũ hoặc trong cấu hình runtime. Agent không có cách nào "đọc" ra thứ không được viết ra. Đây là lý do vì sao pha "khảo cổ codebase" (số <a href="/2026-08-24" target="_blank">24/08</a>) — dùng AI ở chế độ <em>điều tra</em> để lôi luật ngầm thành danh sách tường minh <em>trước</em> khi migrate — không phải bước xa xỉ mà là điều kiện để pha migrate đạt tương đương cao.</div>
+
+    <h3 class="sub">Cơ chế 3: chi phí do "đọc vào" — nên chia nhỏ là đòn bẩy kép</h3>
+    <p>Như bảng trên đã chỉ, chi phí bị đẩy bởi khối lượng agent nhận vào (đọc lại code legacy mỗi vòng), không phải code sinh ra.<sup><a href="https://arxiv.org/abs/2608.28972" target="_blank">[1]</a></sup> Bài nêu định hướng tương lai: <em>phân rã tính năng phức tạp thành đơn vị nhỏ trước khi giao</em>, cùng với chiến lược lặp có người và cách tiếp cận đa-agent (tách phần cài đặt khỏi phần tài liệu/build/test).<sup><a href="https://arxiv.org/abs/2608.28972" target="_blank">[1]</a></sup></p>
+    <div class="mech"><b>Cơ chế:</b> chia một tính năng khó thành vài tính năng nhỏ vừa hạ ngữ cảnh mỗi phiên (rẻ hơn) vừa thu hẹp "phạm vi phải ôm" (agent bớt co-về-lõi, ít bỏ sót module liền kề hơn). Nói cách khác, hai vấn đề lớn nhất của bài — tương đương thấp ở tính năng khó và chi phí cao — có <em>chung một liều thuốc</em>: giảm phạm vi mỗi lượt. Đây là lý do "một prompt khổng lồ ôm cả module" gần như luôn thua "nhiều lượt hẹp việc", đúng tinh thần điều phối agent con (số <a href="/2026-08-17" target="_blank">17/08</a>).</div>
+  </article>
+
+  <!-- RÚT RA -->
+  <article class="card" id="rutra">
+    <span class="tag view">Rút ra</span>
+    <h2 class="head">5 · Rút ra cho bạn — theo quy mô đội</h2>
+    <div class="takeaway">💡 <strong>Điểm cốt lõi:</strong> agent AI hôm nay là công cụ migrate <em>tốt cho tính năng nhỏ, gọn phạm vi, luật tường minh</em> — và là công cụ <em>rủi ro</em> cho tính năng lớn, phân mảnh, nhiều luật ngầm, nếu bỏ mặc tự chạy một lượt. Giá trị nằm ở việc dùng đúng chỗ và chuẩn bị codebase trước.</div>
+    <div class="scale">
+      <div class="col small">
+        <h4>Đội nhỏ / startup &lt; 10 người</h4>
+        <ul>
+          <li>Chọn tính năng <em>nhỏ, gọn</em> để migrate bằng agent trước (kỳ vọng ~90% tương đương, ~$2 và vài phút mỗi tính năng) — thắng nhanh, rủi ro thấp.</li>
+          <li>Trước khi giao: viết một danh sách "luật nghiệp vụ của tính năng này gồm gì" (kể cả bộ lọc, ngưỡng, điều kiện trong form). Đây vừa là prompt tốt vừa là checklist review sau.</li>
+          <li>Coi mọi output là "bản nháp thiếu sót", không phải "xong". Review kỹ nhất ở: module liền kề, thông báo/email, bước kiểm tra tồn tại trước khi ghi.</li>
+          <li>Đừng để agent làm module khó nhất đầu tiên để "thử sức" — đó là nơi đắt nhất và sai nhiều nhất.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Đội đã có sản phẩm production</h4>
+        <ul>
+          <li>Tách quy trình hai pha: (1) "khảo cổ" — dùng AI ở chế độ điều tra để biến luật ngầm thành danh sách tường minh; (2) migrate — mới giao cho agent, kèm bộ đối chiếu (đếm luật + thao tác DB, chạy song song cũ/mới).</li>
+          <li>Chuẩn hóa "phân rã tính năng lớn thành đơn vị nhỏ" thành bước bắt buộc trước khi giao agent — giảm cả chi phí lẫn tỷ lệ bỏ sót.</li>
+          <li>Nếu thiếu test cho hệ cũ, viết characterization test (số <a href="/2026-08-06" target="_blank">06/08</a>) cho các luật quan trọng <em>trước</em> khi migrate; đừng tin "biên dịch được là đúng".</li>
+          <li>Cân nhắc chiến lược lặp có người (không phải một-lượt) cho tính năng cao — bằng chứng cho thấy vòng lặp nâng tương đương đáng kể.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="src">Khuyến nghị trên là biên tập tổng hợp từ dữ liệu &amp; định hướng của bài gốc cùng thực hành phổ biến, không trích nguyên văn; các con số kỳ vọng (~90%, ~$2) lấy từ số liệu mức thấp của bài.</p>
+  </article>
+
+  <!-- GÓC NHÌN -->
+  <article class="card" id="gocnhin">
+    <span class="tag view">Góc nhìn</span>
+    <h2 class="head">6 · "Discovery giỏi, migration còn yếu" — nay đã có con số, và 3 việc làm tuần này</h2>
+    <p>Bản tin từng lặp lại một luận điểm từ nhiều nguồn khác nhau: AI rất giỏi <em>hiểu</em> code cũ (discovery) nhưng còn yếu ở <em>chuyển đổi</em> giữ đúng ngữ nghĩa nghiệp vụ (migration) — xem số <a href="/2026-08-09" target="_blank">09/08</a> (Open Mainframe Project) và benchmark LegacyCodeBench số <a href="/2026-08-13" target="_blank">13/08</a>. Điểm mới của nghiên cứu hôm nay là nó <em>định lượng</em> đúng ranh giới đó trên một hệ thật, và chỉ ra nơi ranh giới nằm: không phải ở "ngôn ngữ nào", mà ở <strong>độ phức tạp, mức phân mảnh và tỷ lệ luật ngầm</strong> của từng tính năng.</p>
+    <p>Nó cũng khớp với hai số gần đây từ hai hướng đối nghịch. Số <a href="/2026-08-30" target="_blank">30/08</a> (Codurance) kể một hãng tư vấn migrate VB6→C# nhanh gấp đôi — nhưng với <em>con người trong vòng lặp</em>, quality gate và di trú từng-form. Số <a href="/2026-08-24" target="_blank">24/08</a> kể một refactor AI "4 giờ" đẻ ra 127 bug vì bỏ characterization test. Nghiên cứu hôm nay là mảnh còn thiếu: nó cho thấy <em>vì sao</em> có sự khác biệt đó — khi bỏ con người và bỏ chuẩn bị (một-lượt, không phân rã, để nguyên luật ngầm), tương đương rơi về 47% ở tính năng khó; và <em>đắt nhất đúng ở nơi kém tin nhất</em>.</p>
+    <p>Thông điệp không phải "AI chưa dùng được cho legacy" — mà là "AI dịch chuyển công việc, không xóa nó". Khâu rẻ đi (viết bản chuyển đổi thô) không phải khâu quan trọng nhất; khâu đắt lên (xác minh nghiệp vụ còn đúng, lôi luật ngầm ra ánh sáng) mới là nơi con người tạo giá trị — đúng luận điểm "nợ xác minh" xuyên suốt bản tin.</p>
+    <p><strong>3 việc nên làm tuần này:</strong></p>
+    <div class="doslist">
+      <div>• Chọn một tính năng legacy <em>nhỏ, gọn phạm vi</em> và cho agent migrate thử; đo tương đương bằng cách đếm luật + thao tác DB rồi chạy song song cũ/mới — để có baseline thật cho chính codebase của bạn thay vì tin con số 70% chung.</div>
+      <div>• Với một tính năng bạn nghi là "khó", liệt kê tay các <em>luật ngầm</em>: bộ lọc trong form, ngưỡng, cờ boolean, biến cấu hình nạp lúc chạy. Chính danh sách này là thứ agent sẽ bỏ sót nếu bạn không nói ra.</div>
+      <div>• Đặt một quy tắc đội: không merge code do agent migrate mà chưa review riêng ba chỗ hay bị bỏ sót — module liền kề (báo cáo/nhập lô), thông báo/email giữ trạng thái, và bước kiểm tra tồn tại trước khi ghi DB.</div>
+    </div>
+    <p class="src">Phần "Góc nhìn" là bình luận biên tập nối các số trước; không trích nguyên văn từ nguồn.</p>
+  </article>
+
+  <hr class="sep">
+
+  <!-- LƯỢC DỊCH -->
+  <section class="dich" id="dich1">
+    <h2 class="head">📖 Lược dịch chi tiết — Legacy System Modernization with Coding Agents: A Case Study (arXiv 2608.28972)</h2>
+    <div class="flag">Bản diễn đạt lại bằng tiếng Việt, bám sát bố cục &amp; số liệu bài gốc — không phải dịch nguyên văn, không sao chép nguyên khối. <a href="https://arxiv.org/abs/2608.28972" target="_blank">Bài gốc (arXiv)</a> · <a href="https://arxiv.org/html/2608.28972v1" target="_blank">bản HTML</a> · gói tái lập: <a href="https://zenodo.org/records/21983175" target="_blank">Zenodo</a></div>
+
+    <h3>Tóm tắt</h3>
+    <p>Hệ thống legacy trên nền tảng đã ngừng phát triển là gánh nặng công nghệ tái diễn ở các tổ chức phụ thuộc vào chúng cho quy trình nghiệp vụ tối quan trọng. Hiện đại hóa là cần thiết nhưng tốn kém và dễ sai nếu làm hoàn toàn thủ công. Bài báo cáo một nghiên cứu tình huống trong bối cảnh công nghiệp thật, đánh giá cả hiệu quả lẫn hiệu suất của agent AI khi hỗ trợ migrate legacy sang nền tảng hiện đại. Dùng một phiên bản Claude Code, nhóm migrate 12 tính năng ở các mức phức tạp khác nhau từ một hệ ERP doanh nghiệp viết bằng VB6 sang C# .NET 10 theo chiến lược một-lượt. Kết quả: tương đương trung bình 70%, bất đối xứng mạnh theo độ phức tạp — thấp 92%, cao 47%. Chi phí cũng bất đối xứng: tính năng thấp tốn 1,47 triệu token ($1,66), tính năng cao tốn 9,09 triệu token ($10,28) — gấp ~6 lần.</p>
+
+    <h3>Thiết kế nghiên cứu</h3>
+    <p>Đối tượng: hai module của một hệ ERP VB6 thật (do Group Software cung cấp). Chọn 12 tính năng: 6 thấp (L), 4 trung bình (M), 2 cao (H). Phân mức bằng ba chỉ số mã nguồn — số dòng code, số phương thức, số phụ thuộc lớp — cần đạt ≥2/3 để xếp mức. Số chỉ dẫn mỗi tính năng: thấp 11–15, trung bình 27–39, cao 58–72. Tác giả thứ nhất (kỹ sư bảo trì hệ cũ) kiểm tra tay từng tính năng, đếm số chỉ dẫn thuộc hai loại: luật nghiệp vụ và thao tác lưu trữ. Công cụ: Claude Code 2.1.96, model Opus 4.6 cửa sổ 1 triệu token, được chọn vì phù hợp bối cảnh công nghiệp và giữ các phiên có thể so sánh với nhau. Chiến lược <em>một-lượt</em> (single-generation): agent chạy tự chủ một phiên, không có vòng lặp con người sửa — cố ý, để đo năng lực tự chủ của agent (khác với De Siano et al. dùng người trong vòng lặp và đạt tương đương cao hơn).</p>
+
+    <h3>Câu hỏi nghiên cứu &amp; cách đo</h3>
+    <p>RQ1 — mức tương đương giữa bản migrate và bản gốc, đo hai chiều: (a) tương đương lưu trữ (chạy cả hai bản trên cùng kịch bản, so trạng thái DB); (b) tương đương hành vi (so luồng thực thi của từng luật nghiệp vụ). RQ2 — chi phí: thời gian phiên (lấy từ giao diện Claude Code), chi phí (theo bảng giá Anthropic tháng 4/2026 cho Opus 4.6: $5/triệu input mới, $6,25/triệu ghi cache, $0,50/triệu đọc cache, $25/triệu output), và số token (trích từ file JSONL của phiên).</p>
+
+    <h3>Kết quả — Tương đương (RQ1)</h3>
+    <p>Tổng thể: agent chạy 12 phiên trong ~59 phút, 45,8 triệu token, tổng chi phí $50,29; tương đương 70% trên 331 chỉ dẫn. Theo mức (Bảng 5): thấp — lưu trữ 100%, hành vi 83%, chung 92%; trung bình — 77%/85%/81%; cao — 51%/42%/47%. Ở mức cao, lỗi chuyển <em>chất</em>: cả module lưu trữ bị bỏ trắng (vd toàn bộ workflow đọc-duyệt của tính năng Tính toán Tiêu thụ vắng mặt hoàn toàn), chứ không phải cài sai. Kiểm chứng độ tin cậy: một kỹ sư thứ hai chấm lại 160 luật, ra 69% (110/160), đồng thuận 149/160 (93%), Cohen's Kappa 0,84 (đồng thuận mạnh). 11 điểm bất đồng tập trung ở luật được cài một phần — agent tạo luật nhưng không nối vào luồng thực thi (vd kiểm tra trùng IMEI được cài thành endpoint độc lập mà cả luồng tạo lẫn cập nhật đều không gọi).</p>
+
+    <h3>Kết quả — Hiểu các ca thất bại</h3>
+    <p>100/331 chỉ dẫn bị bỏ/làm sai, phân năm nhóm: bỏ sót module liền kề (42) — như nhập liệu theo lô, sinh báo cáo, gửi email — xảy ra gần như chỉ ở tính năng cao vì chúng nhiều phương thức/phụ thuộc; agent ưu tiên lõi tính năng và không mở rộng ra module liền kề <em>dù được cấp làm ngữ cảnh</em>. Bỏ sót thao tác DB (22) và bỏ sót luật (20) — các chỉ dẫn riêng lẻ ngoài logic lõi (validation trong sự kiện form, kiểm tra trong nhánh điều kiện). Bỏ sót tích hợp module (10) — không nối tính năng với module khác. Làm sai (6) — cài sai điều kiện/sai bảng. Ví dụ: tính năng Thiết bị Di động (M, 69%) bỏ bước kiểm tra tồn tại trước khi ghi → nhân đôi bản ghi thay vì cập nhật. Tính năng Yêu cầu Mua hàng (H, 44%, ~12K dòng, lớn nhất) giữ luồng chính nhưng bỏ email cho người phê duyệt vốn giữ yêu cầu ở trạng thái chờ → yêu cầu được tạo bất kể phê duyệt của cấp thẩm quyền.</p>
+
+    <h3>Kết quả — Hiệu suất (RQ2)</h3>
+    <p>Trung bình 4 phút 54s, $4,19 và 3,81 triệu token mỗi migrate; $0,15/chỉ dẫn. Theo mức: thấp 2min48s/$1,66/1,47M; trung bình 6min42s/$4,97/4,70M; cao 7min38s/$10,23/9,09M. Token đầu vào chiếm 99,6% (agent đọc lại code legacy mỗi vòng suy luận); tỷ lệ vào:ra 170× (thấp), 226× (trung bình), 299× (cao). Chi phí một migrate chủ yếu do khối lượng nhận vào, không do khối lượng sinh ra. Phân tích chi phí–lợi ích: agent làm tính năng thấp tốt hơn 1,98× ở mức chi phí chỉ 0,16× so với tính năng cao.</p>
+
+    <h3>Thảo luận</h3>
+    <p><strong>Code phân mảnh:</strong> ba tính năng trung bình đạt &gt;90% đều có luật tập trung trong lớp domain gọn phạm vi (.cls); luật bị bỏ sót ở tính năng thấp thường nằm ngoài lớp domain (sự kiện form .frm, biến toàn cục). Phân mảnh qua nhiều file — dù file đã được cấp đủ — là yếu tố quyết định hiệu năng agent. <strong>Luật tường minh vs ngầm:</strong> agent migrate tốt luật tường minh, bỏ luật ngầm (tham số truy vấn tùy chọn, giá trị cấu hình động nạp lúc chạy, điều kiện mức form). Khuyến nghị: nêu ràng buộc quan trọng rõ ràng, đừng để agent tự suy. <strong>Chi phí do kích thước:</strong> dù output đắt gấp 5× input, agent tiêu input áp đảo; chi phí bị quyết bởi khối lượng nhận vào.</p>
+
+    <h3>Công trình liên quan &amp; đe dọa tính hợp lệ</h3>
+    <p>Các nghiên cứu dịch code (Yang et al.; Feischl &amp; Kern) cũng thấy hiệu năng bị giới hạn bởi độ phức tạp và bản sinh có thể lệch hành vi ở ca biên dù biên dịch/chạy được. De Siano et al. cho thấy vòng lặp có người tăng tương đương đáng kể — bài này cố ý dùng một-lượt để đo tự chủ. Đe dọa: đo tương đương thủ công (giảm rủi ro bằng liệt kê trước + kiểm chứng người thứ hai, Kappa 0,84); chỉ 2 module của một ERP, một agent/một model, chiến lược một-lượt — không nên ngoại suy sang cách lặp; chỉ 2 tính năng cao hạn chế độ vững kết luận ở mức đó. Tác giả kỳ vọng <em>xu hướng</em> ổn định hơn các <em>giá trị tuyệt đối</em>.</p>
+
+    <h3>Kết luận &amp; hướng tiếp</h3>
+    <p>Kết quả hứa hẹn cho việc dùng agent AI trong hiện đại hóa legacy, đặc biệt với tính năng thấp và gọn phạm vi. Hướng tương lai: (a) lặp lại với chiến lược lặp có người để đo mức cải thiện; (b) cách tiếp cận đa-agent phủ cả cài đặt, tài liệu, build, test; (c) phân rã trước tính năng phức tạp thành đơn vị nhỏ để cải thiện hiệu năng; (d) so sánh nhiều agent và nhiều cặp ngôn ngữ nguồn–đích.</p>
+    <p><em>Lưu ý nguồn:</em> đây là bài nghiên cứu học thuật (giấy phép CC BY 4.0), tài trợ bởi Group Software / INES.IA / CNPq / FAPEMIG. Mọi con số ở trên trích từ bài gốc; các đoạn "Cơ chế", bảng ánh xạ và khuyến nghị theo quy mô đội ở phần trên là biên tập tổng hợp minh họa, không trích nguyên văn.</p>
+  </section>
+
+  <div class="refs" style="margin-top:26px">
+    <strong>Nguồn tham khảo toàn số:</strong><br>
+    [1] Iago da Silva Rodrigues Alves, Cristiano Politowski, João Eduardo Montandon — <a href="https://arxiv.org/abs/2608.28972" target="_blank">Legacy System Modernization with Coding Agents: A Case Study</a>, arXiv:2608.28972 [cs.SE] (29/08/2026) · <a href="https://arxiv.org/html/2608.28972v1" target="_blank">bản HTML</a> · <a href="https://zenodo.org/records/21983175" target="_blank">gói tái lập (Zenodo)</a><br>
+    Liên hệ các số trước: "discovery ≠ migration" <a href="/2026-08-09" target="_blank">09/08</a> · behavioral equivalence <a href="/2026-08-11" target="_blank">11/08</a> · LegacyCodeBench <a href="/2026-08-13" target="_blank">13/08</a> · khảo cổ codebase &amp; 127 bug <a href="/2026-08-24" target="_blank">24/08</a> · Codurance VB6→C# <a href="/2026-08-30" target="_blank">30/08</a> · re-sent context <a href="/2026-08-16" target="_blank">16/08</a> · characterization test <a href="/2026-08-06" target="_blank">06/08</a><br>
+    <em>Các đoạn "Cơ chế", bảng chế-độ-lỗi → biện pháp, phần "Rút ra theo quy mô" và "Góc nhìn" là biên tập tổng hợp minh họa, không trích nguyên văn từ nguồn.</em>
+  </div>
+
+  <div class="foot"><a href="/" style="color:#4338ca;text-decoration:none">← Về trang bìa lưu trữ</a></div>
+</div>
+</body>
+</html>
