@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cắt nửa hóa đơn AI nhưng làm hỏng sản phẩm: "bẫy Pareto" của lớp định tuyến model rẻ · 07/09/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.dich{background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;padding:16px 20px;margin-top:16px}
+.dich .flag{font-size:12.5px;color:#94a3b8;font-style:italic;margin-bottom:8px}
+.dich h3{font-size:16px;margin:14px 0 4px}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 07/09/2026 · bản chi tiết</div>
+    <h1 class="title">Cắt nửa hóa đơn AI nhưng làm hỏng sản phẩm: mổ xẻ "bẫy Pareto" của lớp định tuyến model rẻ — lỗi ẩn trong "đuôi dài" &amp; chi phí thật gấp 4–5× khoản tiết kiệm</h1>
+    <div class="meta">07/09/2026 · Thời lượng đọc ~19 phút · Nguồn: Pratik Rupareliya (Intuz) — "We Built a Routing Layer to Cut Our AI Costs. It Broke the Product.", Towards Data Science, 27/06/2026</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: số này viết ở dạng "đậm cơ chế" — mỗi con số cố gắng kèm một tầng <em>nghĩa là gì / vì sao khó / làm thế nào</em>. Các đoạn có nhãn <b style="color:#1e40af">Cơ chế</b>, bảng so sánh hai kiến trúc, và khối "Rút ra theo quy mô" là phần <strong>biên tập tổng hợp từ chính bài gốc + thực hành phổ biến</strong> để giúp áp dụng, KHÔNG phải trích nguyên văn; mọi con số vẫn dẫn nguồn nội dòng. Đây là bài <em>một nguồn cấp một</em> (post-mortem của người trong cuộc) — xem lưu ý về xung đột lợi ích ở cuối.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1">Họ cắt hóa đơn suy luận còn ~40% — rồi ba tháng sau mất khách: chuyện gì đã xảy ra</a></li>
+      <li><a href="#dobo">Họ đo gì và KHÔNG đo gì — vì sao dashboard cứ xanh</a></li>
+      <li><a href="#coche">Vì sao model rẻ vỡ ở "đuôi dài": ba cơ chế cấu trúc</a></li>
+      <li><a href="#hai">Hai đội khác cùng vết xe: SaaS mid-market &amp; một ca fintech suýt thành sự cố tuân thủ</a></li>
+      <li><a href="#phat">Cách phát hiện bẫy trước khi mất một quý &amp; kiến trúc thay thế (cascade)</a></li>
+      <li><a href="#gocnhin">Góc nhìn: đây là bài toán tổ chức, không phải bài toán model — &amp; 3 việc làm tuần này</a></li>
+      <li><a href="#dich1">📖 Lược dịch chi tiết — bài gốc (Towards Data Science / Intuz)</a></li>
+    </ol>
+  </nav>
+
+  <!-- BÀI 1 -->
+  <article class="card" id="bai1">
+    <span class="tag saas">AI trong SaaS</span>
+    <h2 class="head">1 · Họ cắt hóa đơn suy luận xuống còn ~40% — rồi ba tháng sau khách bắt đầu rời đi</h2>
+    <p class="src">Nguồn: Pratik K. Rupareliya (Đồng sáng lập &amp; Head of Strategy, Intuz) — "We Built a Routing Layer to Cut Our AI Costs. It Broke the Product." · Towards Data Science, 27/06/2026 · bài kể lại post-mortem của một đội tác giả tư vấn + hai case tác giả audit thêm · <a href="https://towardsdatascience.com/we-built-a-routing-layer-to-cut-our-ai-costs-it-broke-the-product/" target="_blank">towardsdatascience.com</a></p>
+
+    <div class="stat">
+      <div class="box"><div class="num">~40%</div><div class="lab">hóa đơn suy luận tháng còn lại sau 8 tuần định tuyến (cắt hơn một nửa) <a href="https://towardsdatascience.com/we-built-a-routing-layer-to-cut-our-ai-costs-it-broke-the-product/" target="_blank">(TDS, 2026)</a></div></div>
+      <div class="box"><div class="num">4–5×</div><div class="lab">chi phí giữ chân + hỗ trợ phát sinh so với khoản tiết kiệm (~$100k/tháng tiết kiệm vs $400–500k/tháng thiệt hại) <a href="https://towardsdatascience.com/we-built-a-routing-layer-to-cut-our-ai-costs-it-broke-the-product/" target="_blank">(TDS, 2026)</a></div></div>
+      <div class="box"><div class="num">~3 tháng</div><div class="lab">thời gian để "vết nứt" hiện ra trong chỉ số kinh doanh; thêm 1 tháng nữa mới quy đúng nguyên nhân <a href="https://towardsdatascience.com/we-built-a-routing-layer-to-cut-our-ai-costs-it-broke-the-product/" target="_blank">(TDS, 2026)</a></div></div>
+    </div>
+
+    <p>Câu chuyện bắt đầu bằng một chiến thắng kỹ thuật gọn gàng. Một đội vận hành agent AI hỗ trợ khách cho một sản phẩm SaaS có <strong>khoảng 4 triệu người dùng hoạt động hằng tháng</strong>. Agent chạy trên một model suy luận cao cấp duy nhất; lưu lượng đủ lớn để hóa đơn hằng tháng từ nhà cung cấp model leo lên sáu chữ số và vẫn đang tăng theo đà tăng trưởng.<sup><a href="https://towardsdatascience.com/we-built-a-routing-layer-to-cut-our-ai-costs-it-broke-the-product/" target="_blank">[1]</a></sup> Bài toán kinh điển của 2026: chi phí token đang ăn mòn biên lợi nhuận.</p>
+
+    <p>Giải pháp cũng kinh điển — chính là "playbook đồng thuận" mà mọi bài viết về kinh tế AI năm nay đều khuyên: <em>định tuyến câu dễ sang model rẻ, giữ câu khó ở model mạnh</em>. Đội dựng một <strong>lớp phân loại (classifier)</strong> nhỏ đứng trước agent chính, huấn luyện trên <strong>~200.000 câu hỏi hỗ trợ lịch sử</strong> có nhãn chất lượng, gắn nhãn mỗi câu đến là "đơn giản" hay "phức tạp". Câu đơn giản → model rẻ (cùng họ nhà cung cấp, giá mỗi token chỉ bằng <strong>~1/4</strong> model mạnh); câu phức tạp → giữ ở model mạnh. Classifier là một encoder tinh chỉnh, nhẹ đến mức chạy dưới <strong>30 mili-giây</strong>, gần như không thêm chi phí.<sup><a href="https://towardsdatascience.com/we-built-a-routing-layer-to-cut-our-ai-costs-it-broke-the-product/" target="_blank">[1]</a></sup></p>
+
+    <p>Bảng phân loại lấy từ quan sát production: "đơn giản" là tra cứu tài khoản, hỏi trạng thái hóa đơn, reset mật khẩu, theo dõi đơn hàng, giờ mở cửa; "phức tạp" là tranh chấp hoàn tiền, cân nhắc đổi gói, gỡ lỗi tích hợp, bất thường chu kỳ thanh toán. Tỷ lệ chia khoảng <strong>65% đơn giản / 35% phức tạp</strong> trên một tuần lưu lượng đại diện. Trên tập giữ lại 5.000 câu, model rẻ cho chất lượng tương đương model mạnh ở <strong>94%</strong> số câu đơn giản; khoảng cách 6% được đánh giá là "chấp nhận được" đổi lấy tiết kiệm.<sup><a href="https://towardsdatascience.com/we-built-a-routing-layer-to-cut-our-ai-costs-it-broke-the-product/" target="_blank">[1]</a></sup></p>
+
+    <p>Đội làm rất bài bản: 8 tuần, 3 kỹ sư + 1 người ML (phân bổ một phần), có validation schema giữa classifier và model, có instrumentation trên quyết định định tuyến, có đường dự phòng nếu classifier hỏng. Triển khai theo bậc — 5% lưu lượng tuần đầu, rồi 10, 25, 50, đủ 100% trong 6 tuần. <strong>Mỗi bậc, chỉ số chất lượng đều xanh</strong>; độ trễ trong ngưỡng; chi phí giảm đúng theo tỷ trọng định tuyến. Hết tuần 8, hóa đơn còn ~40% mức cũ. Đội trình bày ở all-hands, CFO gửi thư cảm ơn, rồi chuyển sang ưu tiên quý sau.<sup><a href="https://towardsdatascience.com/we-built-a-routing-layer-to-cut-our-ai-costs-it-broke-the-product/" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao "mỗi quyết định đều đúng" mà hệ thống vẫn sai:</b> từng lựa chọn đều biện minh được — classifier nhẹ, model rẻ tương đương ở ca dễ, rollout từ tốn, giám sát đủ. Nhưng chúng <em>cộng lại</em> tạo ra một khoảng trống chất lượng mà kiến trúc đo lường hiện có <em>không nhìn thấy</em>. Đây là điểm cốt lõi của cả bài: sự cố không nằm ở một quyết định tồi, mà ở chỗ hệ thống đo lường được thiết kế cho <em>một model</em>, nay phải soi <em>hai phân phối chất lượng</em> — và nó mù với phân phối thứ hai.</div>
+
+    <p>Khoảng trống đó mất <strong>ba tháng</strong> mới nổi lên trong chỉ số kinh doanh, và thêm một tháng nữa mới được quy đúng nguyên nhân. Tới lúc đội hiểu chuyện gì đang xảy ra, bốn tháng đã trôi qua và tác động lên khách hàng đã ở ngay trong phòng.<sup><a href="https://towardsdatascience.com/we-built-a-routing-layer-to-cut-our-ai-costs-it-broke-the-product/" target="_blank">[1]</a></sup></p>
+  </article>
+
+  <!-- ĐO BỎ -->
+  <article class="card" id="dobo">
+    <span class="tag saas">AI trong SaaS</span>
+    <h2 class="head">2 · Họ đo gì, và KHÔNG đo gì — vì sao mọi dashboard đều xanh trong khi sản phẩm đang hỏng</h2>
+
+    <p>Trước khi có lớp định tuyến, tín hiệu chất lượng đến từ ba nguồn: (1) một mẫu <strong>~200 phản hồi/ngày</strong> do người chấm accuracy &amp; helpfulness; (2) một bộ hồi quy offline <strong>~12.000 câu có nhãn</strong> chạy hằng tuần; (3) widget phản hồi trong sản phẩm (thumbs-up/down).<sup><a href="https://towardsdatascience.com/we-built-a-routing-layer-to-cut-our-ai-costs-it-broke-the-product/" target="_blank">[1]</a></sup> Ba nguồn này đều được xây trên giả định <em>chỉ có một model</em>.</p>
+
+    <p>Khi lớp định tuyến lên sóng, đội giữ nguyên tổng ~200 review/ngày <strong>nhưng không tách theo tầng định tuyến</strong>; thêm model rẻ vào bộ hồi quy offline (nó đạt ngưỡng); và để nguyên widget phản hồi vì nó không biết câu trả lời do model nào phục vụ. Ba lựa chọn đo lường đó chính là hạt giống của thảm họa.<sup><a href="https://towardsdatascience.com/we-built-a-routing-layer-to-cut-our-ai-costs-it-broke-the-product/" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — ba điểm mù, ba lý do khác nhau:</b><br>
+    • <b>Mẫu review người</b> không tách tầng = một <em>trung bình có trọng số</em>: 65% review rơi vào model rẻ, 35% vào model mạnh. Vì model rẻ <em>tương đương ở ca dễ</em> (đúng phần đông của phân phối câu đơn giản), nó kéo con số trung bình lên; lỗi ở <em>rìa khó</em> của nhóm "đơn giản" bị pha loãng đến mức vô hình.<br>
+    • <b>Bộ hồi quy offline</b> là tĩnh, dựng từ 6 tháng trước khi chưa có ý niệm định tuyến — nó phản ánh một phân phối lý tưởng hóa, không phải phân phối production thật mà model rẻ nay phải gánh. Model rẻ <em>qua</em> bài kiểm tĩnh nhưng <em>trượt</em> ở rìa sống.<br>
+    • <b>Widget phản hồi</b>: khách chỉ bấm thumbs-down khoảng <strong>3 lần trên 1.000 tương tác</strong>, và những lần đó lệch về nhóm vốn đã bực chuyện khác. Tỷ lệ tín hiệu/nhiễu quá thấp để phát hiện bất kỳ thay đổi nào nhỏ hơn một cú hồi quy lớn.<sup><a href="https://towardsdatascience.com/we-built-a-routing-layer-to-cut-our-ai-costs-it-broke-the-product/" target="_blank">[1]</a></sup></div>
+
+    <p>Điểm tinh tế: <em>không lỗi nào trong ba lỗi trên là do lớp định tuyến gây ra</em> — chúng nằm sẵn trong kiến trúc đo lường. Khi hệ thống còn chạy một model, các khoảng trống đo lường không tạo ra chỉ số sai, vì chỉ có một phân phối chất lượng để đo. Lớp định tuyến đưa vào <em>hai</em> phân phối, và kiến trúc cũ không quan sát chúng tách nhau được.<sup><a href="https://towardsdatascience.com/we-built-a-routing-layer-to-cut-our-ai-costs-it-broke-the-product/" target="_blank">[1]</a></sup></p>
+
+    <h3 class="sub">Dòng thời gian của một sự cố "thầm lặng"</h3>
+    <p>Trôi dạt chất lượng ở tầng model rẻ bắt đầu từ <strong>tuần 3</strong> sau khi rollout đủ. <strong>Tuần 6</strong>, độ trôi đã đo được trong bộ hồi quy, nhưng đội đọc nhầm nó thành "model nhà cung cấp trôi phiên bản" (vì không phân tích theo tầng). <strong>Tuần 10</strong>, tác động dồn lên sự hài lòng của khách đã thấy trong chỉ số sản phẩm. <strong>Tuần 13</strong>, churn đã cao hơn baseline một cách đo được. Đó là lúc đội gọi tác giả.<sup><a href="https://towardsdatascience.com/we-built-a-routing-layer-to-cut-our-ai-costs-it-broke-the-product/" target="_blank">[1]</a></sup></p>
+
+    <p>Chẩn đoán mất hai tuần. Họ dựng lại các quyết định định tuyến từ log instrumentation, ghép với sự kiện phản hồi trong sản phẩm, và lần đầu tiên có một <strong>view chất lượng theo từng tầng</strong>. Model rẻ làm tốt <strong>~80%</strong> số câu classifier gửi đến (khớp phát hiện tương đương trên tập giữ lại), nhưng 20% còn lại trong production khác về cấu trúc so với tập giữ lại — theo cách classifier không thể phát hiện tại thời điểm ra quyết định.<sup><a href="https://towardsdatascience.com/we-built-a-routing-layer-to-cut-our-ai-costs-it-broke-the-product/" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — ví dụ "hóa đơn" mà bạn sẽ nhớ:</b> classifier được dạy coi "khoản này tính phí từ đâu?" là câu đơn giản (tra tài khoản + lấy hóa đơn). Trong production, một phần không nhỏ câu này giấu ý định phức tạp hơn: đôi khi là <em>giao dịch gian lận</em> thật, đôi khi là <em>đối soát trễ giữa hai hệ thống</em>, đôi khi là <em>đổi chu kỳ thanh toán</em> chưa được báo. Model mạnh vẫn âm thầm xử đúng vì nó có "khoảng thở" để đi theo cuộc hội thoại vào chỗ phức tạp. Model rẻ trả lời <em>ý định bề mặt</em> — đáp một câu hỏi mà khách <em>không thật sự hỏi</em>.</div>
+
+    <p>Và đây là khúc quanh: khách nhận câu trả lời sai <em>không phải lúc nào cũng bấm thumbs-down</em> — nhiều người chỉ bỏ agent và gọi tổng đài. Nên tín hiệu thumbs-down <em>báo thiếu</em> mức độ hỏng, còn chi phí bị dời sang đội hỗ trợ người (xử lại cùng câu hỏi lần hai, trả bằng một ngân sách khác). Hệ quả: tỷ lệ deflection <em>đo được</em> của agent vẫn ổn định trong khi <em>lượng ticket người thật xử</em> bắt đầu leo. Hai đội ở hai cost center khác nhau, và mối liên hệ không hiện trên bất kỳ một dashboard nào.<sup><a href="https://towardsdatascience.com/we-built-a-routing-layer-to-cut-our-ai-costs-it-broke-the-product/" target="_blank">[1]</a></sup></p>
+
+    <p>Khi ghép các con số lại, tác động chi phí của việc mất chất lượng — một cách thận trọng — <strong>gấp 4–5 lần</strong> khoản tiết kiệm: đội cắt được ~<strong>$100.000/tháng</strong> chi phí suy luận nhưng gánh <strong>$400.000–500.000/tháng</strong> chi phí giữ chân và hỗ trợ. Cohort khách tương tác trong giai đoạn rollout có điểm hài lòng thấp hơn ở khảo sát 90 ngày; giữ chân ở mốc 6 tháng đi xuống so baseline, dốc nhất ở phân khúc phơi nhiễm nhiều với mẫu định tuyến hỏng.<sup><a href="https://towardsdatascience.com/we-built-a-routing-layer-to-cut-our-ai-costs-it-broke-the-product/" target="_blank">[1]</a></sup></p>
+
+    <div class="takeaway">💡 <strong>Đây là "tính chất cấu trúc" của bẫy Pareto:</strong> khoản <em>tiết kiệm</em> ở tầng suy luận do chính đội dựng hệ thống đo. Còn <em>cái giá</em> của mất chất lượng thì đội trải nghiệm khách, đội hỗ trợ người và bộ phận giữ chân gánh — không ai trong số đó sở hữu việc tối ưu. Mỗi đội tối ưu ngân sách riêng; tổng của các tối ưu lại <strong>âm</strong>.</div>
+
+    <p>Đội lăn ngược lớp định tuyến về mức rất bảo thủ ở tuần 16. Tuần 20, xu hướng hài lòng đảo chiều; tuần 28, giữ chân về baseline. Tổng chi phí "thí nghiệm" — cân giữa tiết kiệm thu lại và tổn hại khách hàng — <strong>xấp xỉ hai quý giá trị sản phẩm ròng âm</strong>.<sup><a href="https://towardsdatascience.com/we-built-a-routing-layer-to-cut-our-ai-costs-it-broke-the-product/" target="_blank">[1]</a></sup></p>
+  </article>
+
+  <!-- CƠ CHẾ -->
+  <article class="card" id="coche">
+    <span class="tag saas">AI trong SaaS</span>
+    <h2 class="head">3 · Vì sao model rẻ vỡ ở "đuôi dài" — ba cơ chế khiến đây là lỗi cấu trúc, không phải xui rủi</h2>
+    <p>Tác giả nhấn: mẫu hỏng này <em>cấu trúc</em> chứ không <em>tình huống</em> — không phải do model cụ thể, nhà cung cấp cụ thể hay classifier họ huấn luyện. Nó nằm ở <em>hình học của không gian bài toán</em>. Ba cơ chế chồng lên nhau.<sup><a href="https://towardsdatascience.com/we-built-a-routing-layer-to-cut-our-ai-costs-it-broke-the-product/" target="_blank">[1]</a></sup></p>
+
+    <h3 class="sub">Cơ chế 1 — "nén đuôi dài": bề mặt câu hỏi là chỉ báo tồi về độ sâu ý định</h3>
+    <p>Câu hỏi khách theo phân phối <em>lũy thừa</em> về độ khó: khối lớn tụ ở tâm dễ, một khối nhỏ kéo dài thành đuôi khó/mơ hồ/phụ thuộc ngữ cảnh. Model tiền tuyến <em>thừa năng lực</em> cho tâm dễ — đó chính là lý do cơ hội tiết kiệm là thật. Nhưng classifier <em>chỉ thấy bề mặt</em> câu hỏi. Câu đọc như "khoản này tính phí từ đâu?" có thể là tra tài khoản tầm thường, cũng có thể là dòng mở đầu một cuộc điều tra gian lận cần suy luận nhiều bước. Classifier thấy cùng những từ ngữ; model rẻ cho cùng câu trả lời bề mặt.</p>
+    <div class="mech"><b>Cơ chế — nghịch lý hiệu chỉnh:</b> classifier được hiệu chỉnh <em>tốt đúng chỗ không cần</em> (câu dễ, nơi chọn model gần như không quan trọng) và <em>tệ đúng chỗ cần</em> (câu khó, nơi chọn model quyết định tất cả). Bề mặt đáng tin nhất ở đúng những câu mà lựa chọn model ít ảnh hưởng nhất. Đó là lý do "94% tương đương trên tập giữ lại" không hề mâu thuẫn với "vỡ trong production": 94% đó đo ở tâm dễ.</div>
+
+    <h3 class="sub">Cơ chế 2 — model nhỏ "thất bại một cách tự tin"</h3>
+    <p>Model tiền tuyến thường có kiểu thất bại <em>gỡ lại được</em>: nó lưỡng lự, hỏi lại, hoặc bộc lộ sự không chắc — đủ để một con người bước vào. Model nhỏ hay <em>thất bại đầy tự tin</em>: cho một câu trả lời hoàn chỉnh, hợp lý, mạch lạc bề mặt nhưng sai về ý định thật. Câu trả lời sai đó <em>khó bị khách nhận ra là sai</em> hơn một câu lưỡng lự, nên lỗi trôi đi lâu hơn mà không bị gắn cờ.<sup><a href="https://towardsdatascience.com/we-built-a-routing-layer-to-cut-our-ai-costs-it-broke-the-product/" target="_blank">[1]</a></sup></p>
+
+    <h3 class="sub">Cơ chế 3 — trôi dạt phân phối (drift)</h3>
+    <p>Phân phối câu hỏi production <em>tiến hóa</em>: ra sản phẩm mới, đón cohort khách mới, mẫu hỏng mới xuất hiện. Classifier huấn luyện trên 6 tháng lịch sử dần định tuyến sai một tỷ trọng ngày càng lớn khi phân phối rời khỏi tập huấn luyện. <em>Tiết kiệm thì ổn định</em> (lớp định tuyến vẫn gửi cùng tỷ lệ sang model rẻ), nhưng <em>chi phí chất lượng lớn dần trong im lặng</em> vì classifier ngày càng sai về việc câu nào thật sự "đơn giản".<sup><a href="https://towardsdatascience.com/we-built-a-routing-layer-to-cut-our-ai-costs-it-broke-the-product/" target="_blank">[1]</a></sup></p>
+
+    <div class="takeaway">💡 Hình học cộng lại rất khắc nghiệt: tầng model rẻ xử tốt khối dễ, <em>vỡ mờ đục</em> ở đuôi dài ẩn, rồi <em>xấu dần</em> khi phân phối trôi. Khoản tiết kiệm hiện trên dashboard; cái giá do những người <em>không thấy được quyết định định tuyến</em> trả ở hạ nguồn. Đó là điều biến định tuyến thành một cái <em>bẫy</em>, không chỉ là một tối ưu nhiều nhiễu.</div>
+  </article>
+
+  <!-- HAI CASE -->
+  <article class="card" id="hai">
+    <span class="tag saas">AI trong SaaS</span>
+    <h2 class="head">4 · Hai đội khác cùng vết xe: một SaaS mid-market &amp; một ca fintech suýt thành sự cố tuân thủ</h2>
+    <p>Sau case đầu, tác giả đi tìm cùng mẫu ở các triển khai khác mình có tầm nhìn. Hai ca nổi lên nhanh.<sup><a href="https://towardsdatascience.com/we-built-a-routing-layer-to-cut-our-ai-costs-it-broke-the-product/" target="_blank">[1]</a></sup></p>
+
+    <table class="tbl">
+      <tr><th>Đội</th><th>Chi tiêu suy luận</th><th>Kiểu classifier</th><th>Tỷ lệ tiết kiệm</th><th>Tác động ước tính &amp; kết cục</th></tr>
+      <tr><td>Đội gốc (SaaS ~4tr MAU)</td><td>Sáu chữ số/tháng</td><td>Encoder tinh chỉnh</td><td>Xuống ~40% (tiết kiệm ~60%)</td><td>Thiệt hại 4–5× tiết kiệm; lăn ngược tuần 16, hồi phục tuần 28</td></tr>
+      <tr><td>SaaS mid-market (trợ lý customer-success)</td><td>Năm chữ số thấp/tháng</td><td>Tương đồng embedding</td><td>~50%</td><td>Thiệt hại niềm tin ~2,5–3× tiết kiệm; lăn ngược trong vòng một tháng sau audit</td></tr>
+      <tr><td>Fintech (ngành quản chế)</td><td>Sáu chữ số cao/tháng</td><td>Định tuyến bảo thủ, chỉ "câu thông tin"</td><td>~20%</td><td>Đuôi dài chạm hàm ý tuân thủ; đội compliance bắt qua audit tay <em>trước</em> khi thành vi phạm → lăn ngược toàn bộ</td></tr>
+    </table>
+
+    <p><strong>Ca SaaS mid-market</strong> cùng kiến trúc: một lớp định tuyến dựng 4 tháng trước, gửi "câu đơn giản" (định nghĩa bằng classifier tương đồng embedding, không phải encoder tinh chỉnh) sang model rẻ; tiết kiệm ~50%; dashboard nội bộ xanh. Khi tách tín hiệu phản hồi theo tầng, tầng model rẻ có điểm hài lòng thấp rõ rệt ở những câu đuôi dài bị classifier gắn nhãn "đơn giản". Đội ước tổn hại niềm tin khách ~<strong>2,5–3×</strong> khoản tiết kiệm.<sup><a href="https://towardsdatascience.com/we-built-a-routing-layer-to-cut-our-ai-costs-it-broke-the-product/" target="_blank">[1]</a></sup></p>
+
+    <p><strong>Ca fintech</strong> làm rõ một điều: đánh đổi chi phí–chất lượng <em>không đối xứng giữa các ngành</em>. Họ định tuyến bảo thủ hơn — chỉ gửi câu "thông tin" (số dư, lịch sử giao dịch, thông tin sản phẩm cơ bản) sang model rẻ, giữ mọi thứ chạm tuân thủ hay quyết định tài chính ở model mạnh. Tiết kiệm thấp hơn (~20%) vì tỷ trọng định tuyến hẹp. Nhưng lỗi đuôi dài ở đây <em>mang hàm ý tuân thủ</em>: một câu "lãi suất của tôi là bao nhiêu?" đôi khi có câu hỏi tiếp theo <em>phụ thuộc vào việc câu đầu được trả lời chính xác</em> — điều model rẻ không đảm bảo nổi. Đội compliance bắt được qua audit tay <em>trước</em> khi thành vấn đề pháp lý, nhưng cú suýt đó đủ để họ lăn ngược toàn bộ.<sup><a href="https://towardsdatascience.com/we-built-a-routing-layer-to-cut-our-ai-costs-it-broke-the-product/" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao ngành quyết định mức độ nguy hiểm:</b> ở hỗ trợ khách, một câu trả lời sai <em>gỡ lại được</em>. Ở ngành quản chế, một câu trả lời sai <em>có thể là vi phạm</em>. Bẫy Pareto bị khuếch đại ở bất kỳ ngữ cảnh nào mà chi phí đuôi dài cao hoặc bị ràng buộc. Trước khi định tuyến, hãy hỏi: một câu trả lời sai ở nhánh rẻ, tệ nhất, tốn gì? Nếu câu trả lời là "một vé hỗ trợ" thì khác; nếu là "một án phạt" thì đừng định tuyến kiểu tiền-phân-loại.</div>
+
+    <p>Xuyên suốt ba ca, mẫu nhất quán: <em>tiết kiệm là thật và đo được; mất chất lượng cũng thật nhưng kiến trúc hiện có không đo nổi</em>. Đội nào bắt được thì bắt muộn nhiều tháng, sau khi chỉ số kinh doanh đã hấp thụ tác động. Đội nào không bắt được thì sẽ tiếp tục chạy một tối ưu ròng âm nhằm vào chính khách hàng của mình, chừng nào dashboard còn xanh.<sup><a href="https://towardsdatascience.com/we-built-a-routing-layer-to-cut-our-ai-costs-it-broke-the-product/" target="_blank">[1]</a></sup></p>
+  </article>
+
+  <!-- PHÁT HIỆN + THAY THẾ -->
+  <article class="card" id="phat">
+    <span class="tag saas">AI trong SaaS</span>
+    <h2 class="head">5 · Phát hiện bẫy trước khi mất một quý — &amp; kiến trúc thay thế: "cascade định tuyến theo độ bất định"</h2>
+
+    <h3 class="sub">Ba bổ sung vào lớp quan sát (phải làm TRƯỚC khi định tuyến lên sóng)</h3>
+    <p>Phương pháp chẩn đoán để bắt sớm bất kỳ ca nào ở trên khá đơn giản, nhưng đòi đổi kiến trúc đo lường <em>trước</em>, không phải sau. Ba bổ sung:<sup><a href="https://towardsdatascience.com/we-built-a-routing-layer-to-cut-our-ai-costs-it-broke-the-product/" target="_blank">[1]</a></sup></p>
+    <div class="doslist">
+      <div><strong>1 · Giám sát chất lượng theo từng tầng.</strong> Mọi tín hiệu chất lượng phải tách theo tầng định tuyến, với nhãn tầng truyền suốt từ đầu đến cuối. Mẫu review người phân tầng (mỗi tầng được review theo tỷ lệ hoặc lấy mẫu vượt trội); bộ hồi quy tách thành tập con theo tầng, chấm riêng; sự kiện phản hồi trong sản phẩm ghép với log quyết định định tuyến. Con số chất lượng gộp, tự thân nó, <em>không thể</em> lộ ra trôi dạt riêng của một tầng.</div>
+      <div><strong>2 · Lấy mẫu hài lòng ở đuôi dài.</strong> Vì lỗi đuôi dài vô hình trong gộp, phải <em>lấy mẫu vượt trội</em> đuôi dài để nó hiện ra — lấy nặng hơn ở những câu classifier <em>ít tự tin nhất</em>, hoặc nằm ngoài tâm phân phối huấn luyện. Mục tiêu không phải làm lệch pool review về câu dễ (lỗi của lấy mẫu ngây thơ), mà <em>tăng trọng số đúng những câu nơi chọn model thật sự quan trọng</em>.</div>
+      <div><strong>3 · Theo dõi trôi dạt độ tự tin định tuyến.</strong> Bản thân classifier là một nguồn tín hiệu chất lượng mà đa số đội bỏ quên. Phân phối điểm tự tin trên lưu lượng production phải được so với phân phối lúc huấn luyện. Khi phân phối production dịch, classifier hoạt động ngoài dải đã hiệu chỉnh → quyết định định tuyến ngày càng kém tin. <em>Tín hiệu trôi này đi trước tín hiệu chất lượng vài tuần</em> — đó chính là thời gian dẫn để kịp sửa hướng.</div>
+    </div>
+    <div class="editnote">Ba bổ sung trên là của bài gốc; phần diễn đạt "làm gì Thứ Hai" là biên tập. Chi phí dựng <em>trước</em> khi launch: khoảng <strong>ba tuần-kỹ-sư</strong>. Dựng <em>sau</em> khi lỗi đã nổ thường phải tái dựng dữ liệu chưa từng được ghi — đắt hơn nhiều.<sup><a href="https://towardsdatascience.com/we-built-a-routing-layer-to-cut-our-ai-costs-it-broke-the-product/" target="_blank">[1]</a></sup></div>
+
+    <h3 class="sub">Kiến trúc thay thế: cascade thay vì tiền-phân-loại</h3>
+    <p>Nếu "tiền-phân-loại bằng classifier" là bẫy Pareto, thì thay thế là gì? Bài đề xuất một <strong>cascade định tuyến theo độ bất định</strong>: thay vì phân loại câu hỏi <em>trước khi</em> model chạm vào, <em>mọi câu bắt đầu ở model rẻ</em>. Model rẻ cho câu trả lời kèm một <em>điểm tự tin đã hiệu chỉnh</em> (qua ước lượng bất định sẵn có, hoặc một bước tự đánh giá thêm vào cuối). Tự tin cao → trả thẳng cho người dùng; tự tin dưới ngưỡng → nâng cấp lên model mạnh và trả câu của model mạnh.<sup><a href="https://towardsdatascience.com/we-built-a-routing-layer-to-cut-our-ai-costs-it-broke-the-product/" target="_blank">[1]</a></sup></p>
+
+    <table class="tbl">
+      <tr><th></th><th>Tiền-phân-loại (classifier phía trước)</th><th>Cascade theo độ bất định</th></tr>
+      <tr><td>Ai quyết định độ khó?</td><td>Classifier — chỉ thấy <em>bề mặt</em> câu, quyết định <em>về</em> câu hỏi</td><td>Chính model rẻ — tự quyết <em>cho mình</em> dựa trên độ tự tin</td></tr>
+      <tr><td>Câu khó ẩn (đuôi dài)</td><td>Bị trả lời sai một cách tự tin</td><td>Nổi lên dưới dạng tự-tin-thấp → được nâng cấp lên model mạnh</td></tr>
+      <tr><td>Tiết kiệm chi phí</td><td>Dự đoán được, nhưng <em>giả tạo</em> khi chất lượng sụt</td><td>Xấp xỉ cùng dải trong mô hình hóa của tác giả, chất lượng đuôi dài <em>tốt hơn rõ</em></td></tr>
+      <tr><td>Độ trễ</td><td>Thấp (một chặng)</td><td>Câu bị nâng cấp ≈ trễ rẻ + trễ mạnh (tệ hơn)</td></tr>
+      <tr><td>Điểm yếu</td><td>Điểm mù cấu trúc ở đuôi dài</td><td>Khó dự đoán chi phí trước; hiệu chỉnh độ tự tin của model rẻ là việc không dễ</td></tr>
+    </table>
+
+    <div class="mech"><b>Cơ chế — vì sao cascade "lật ngược" mẫu hỏng:</b> ở tiền-phân-loại, câu khó ẩn bị một classifier mù bề mặt quẳng cho model rẻ, và model rẻ trả lời sai đầy tự tin. Ở cascade, <em>chính model rẻ</em> gặp câu khó, không đủ tự tin, và tự đẩy nó lên. Nói cách khác: tiền-phân-loại <em>tin một classifier không thấy được thứ quan trọng</em>; cascade <em>tin chính model biết điều nó không biết</em>. Hai tăng cường đi kèm: <em>shadow scoring</em> (chạy model mạnh song song trên một % nhỏ lưu lượng ngay cả khi model rẻ tự tin, để bắt drift trong điều kiện thật) và <em>định tuyến theo trọng số chất lượng</em> (đưa tín hiệu hài lòng quan sát được trở lại việc chỉnh ngưỡng theo thời gian).</div>
+
+    <p>Cascade có cái giá mà tiền-phân-loại không có: độ trễ ở câu bị nâng cấp xấp xỉ tổng hai model; chi phí khó dự đoán trước vì phụ thuộc phân phối độ tự tin; độ phức tạp cao hơn vì hiệu chỉnh độ tự tin của model rẻ tự nó đã khó. Nhưng đó là đánh đổi để giữ một <em>sàn chất lượng</em> mà tiền-phân-loại không giữ. Kết cục của đội gốc: sau khi chuyển sang cascade + quan sát theo tầng, chi phí ổn định ở <strong>~35% dưới baseline</strong> (ít hơn con số "trên giấy" của tiền-phân-loại), nhưng hài lòng khách về mức trước thí nghiệm, và giá trị sản phẩm ròng <em>dương</em> rõ ràng.<sup><a href="https://towardsdatascience.com/we-built-a-routing-layer-to-cut-our-ai-costs-it-broke-the-product/" target="_blank">[1]</a></sup></p>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn — theo quy mô đội:</strong></div>
+    <div class="scale">
+      <div class="col small">
+        <h4>Đội nhỏ / startup &lt; 10 người</h4>
+        <ul>
+          <li>Chưa đến ngưỡng đau về chi phí thì <em>đừng</em> dựng lớp định tuyến — nó thêm một mặt hỏng mới. Ưu tiên đúng model tốt trước.</li>
+          <li>Khi buộc phải cắt: chọn <em>cascade</em> (mọi câu qua model rẻ, không tự tin thì nâng cấp) thay vì thuê một classifier tiền-phân-loại — bạn không có đội đo lường để canh điểm mù.</li>
+          <li>Bắt buộc gắn <em>nhãn tầng</em> vào mọi log ngay từ đầu; ghép log định tuyến với thumbs-up/down. Rẻ khi làm sớm, đắt khi làm muộn.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Đội đã có sản phẩm production</h4>
+        <ul>
+          <li>Không cho lớp định tuyến nào lên sóng nếu chưa có <em>ba bổ sung quan sát</em> ở trên — coi đó là điều kiện gate, ~3 tuần-kỹ-sư.</li>
+          <li>Đặt một <em>eval gate trước-merge</em> (50–500 ca đại diện) chặn mọi thay đổi định tuyến làm tụt chất lượng dưới ngưỡng. Định tuyến không có eval gate không phải tối ưu chi phí — là canh bạc chất lượng.</li>
+          <li>Đo <em>tổng chi phí hệ thống</em>, không chỉ hóa đơn suy luận: ghép chi phí token với lượng ticket người-xử và churn theo cohort, kể cả khi hai thứ ở hai cost center.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> Pratik Rupareliya (Intuz), <a href="https://towardsdatascience.com/we-built-a-routing-layer-to-cut-our-ai-costs-it-broke-the-product/" target="_blank">"We Built a Routing Layer to Cut Our AI Costs. It Broke the Product."</a> — Towards Data Science, 27/06/2026. Chủ đề "kinh tế token / FinOps cho agent": xem số <a href="/2026-08-16" target="_blank">16/08</a>; "chi phí ẩn của tính năng AI": số <a href="/2026-08-12" target="_blank">12/08</a>; "eval là con hào": số <a href="/2026-09-01" target="_blank">01/09</a>.</div>
+  </article>
+
+  <!-- GÓC NHÌN -->
+  <article class="card" id="gocnhin">
+    <span class="tag view">Góc nhìn</span>
+    <h2 class="head">6 · Đây là bài toán tổ chức, không phải bài toán model — &amp; 3 việc làm tuần này</h2>
+    <p>Điều đắt nhất trong câu chuyện này không phải model rẻ, cũng không phải classifier — mà là <strong>ranh giới ngân sách</strong>. Tối ưu thắng ở tầng suy luận vì đội đo nó; tối ưu thua ở tầng khách hàng vì <em>không ai đo cả hai cùng lúc</em>. Đó là biến thể mới nhất của một bài học cũ đã lặp nhiều lần trong bản tin này: <em>một con số dễ nhìn (hóa đơn suy luận giảm) che một khoảng trống thật (chất lượng đuôi dài sụt)</em>. Nó cùng họ với "90% deflection thực ra là 40% resolution" (số <a href="/2026-09-02" target="_blank">02/09</a>) và "độ chính xác gộp che mất lỗi" (số <a href="/2026-09-01" target="_blank">01/09</a>): đo hoạt động ở một tầng thay cho kết quả ở tầng khác.</p>
+    <p>Điểm chốt thực dụng: cắt chi phí AI <em>không sai</em>. Cái sai là chọn <em>tầng nào của hệ thống</em> để tin nó ra quyết định đánh đổi. Tiền-phân-loại tin một classifier không thấy được thứ quan trọng; cascade tin chính model tự biết nó không chắc. Và trước cả kiến trúc, thứ quyết định thành–bại là <strong>bạn có đo được đúng tầng bị ảnh hưởng hay không</strong> — nếu không, mọi dashboard sẽ xanh cho tới khi khách đã đi.</p>
+    <p><strong>3 việc nên làm tuần này:</strong></p>
+    <div class="doslist">
+      <div>• Nếu đang chạy (hoặc sắp dựng) một lớp định tuyến model: kiểm tra ngay mọi tín hiệu chất lượng có <em>tách theo tầng</em> không. Nếu review người, bộ hồi quy và widget phản hồi đều gộp — bạn đang mù đúng chỗ nguy hiểm nhất. Gắn nhãn tầng vào log là việc đầu tiên.</div>
+      <div>• Với mỗi nhánh "định tuyến sang model rẻ", viết một dòng: <em>một câu trả lời sai ở nhánh này, tệ nhất, tốn gì?</em> Nếu câu trả lời chạm tuân thủ/tài chính/an toàn (như ca fintech) → không định tuyến kiểu tiền-phân-loại; ưu tiên cascade hoặc giữ model mạnh.</div>
+      <div>• Ghép hai con số vốn ở hai cost center: <em>hóa đơn token</em> và <em>lượng ticket người-xử + churn theo cohort</em>. Nếu tiết kiệm token đi cùng ticket người tăng, bạn có thể đang chạy một tối ưu ròng âm mà không biết.</div>
+    </div>
+  </article>
+
+  <hr class="sep">
+
+  <!-- LƯỢC DỊCH -->
+  <section class="dich" id="dich1">
+    <h2 class="head">📖 Lược dịch chi tiết — "We Built a Routing Layer to Cut Our AI Costs. It Broke the Product." (Towards Data Science / Intuz)</h2>
+    <div class="flag">Bản diễn đạt lại bằng tiếng Việt, bám sát bố cục &amp; số liệu bài gốc — không phải dịch nguyên văn, không sao chép nguyên khối. <a href="https://towardsdatascience.com/we-built-a-routing-layer-to-cut-our-ai-costs-it-broke-the-product/" target="_blank">Bài gốc</a> (Pratik Rupareliya, 27/06/2026)</div>
+
+    <h3>Mở đầu</h3>
+    <p>Một đội tác giả làm việc cùng đã cắt hơn một nửa hóa đơn suy luận AI trong quý trước — tám tuần kỹ thuật gọn gàng, đúng chiến thắng cả năm đội theo đuổi. Nó cũng là <em>tối ưu sai</em>. Ba tháng sau, hài lòng khách sụt, churn nhích lên, và khoản tiết kiệm gắn cấu trúc với mất chất lượng. "Chúng tôi không thắng — chỉ dời chi phí sang chỗ không đo." Tác giả cho rằng đây là mẫu sẽ thấy khắp các triển khai AI production trong sáu tháng tới, vì "playbook đồng thuận" 2026 (định tuyến câu dễ sang model rẻ) đúng về toán nhưng dựng nên một cái bẫy Pareto.</p>
+
+    <h3>Họ đã dựng gì</h3>
+    <p>Agent hỗ trợ khách cho một SaaS ~4 triệu MAU, chạy một model suy luận cao cấp duy nhất; hóa đơn tháng đã lên sáu chữ số và đang tăng. Lớp định tuyến: một classifier nhỏ (encoder tinh chỉnh) huấn luyện trên ~200.000 câu hỏi lịch sử có nhãn chất lượng, gắn nhãn "đơn giản/phức tạp", chạy &lt;30ms. Câu đơn giản → model rẻ (~1/4 giá token); câu phức tạp → giữ model mạnh. Bảng phân loại từ quan sát production: đơn giản (tra tài khoản, trạng thái hóa đơn, reset mật khẩu, theo dõi đơn, giờ mở cửa) vs phức tạp (tranh chấp hoàn tiền, đổi gói, gỡ lỗi tích hợp, bất thường chu kỳ thanh toán). Chia ~65/35. Trên tập giữ lại 5.000 câu, model rẻ tương đương ở 94% câu đơn giản; khoảng cách 6% coi là chấp nhận. Build 8 tuần (3 kỹ sư + 1 ML), có schema validation, instrumentation, fallback. Rollout 5→10→25→50→100% trong 6 tuần, mỗi bậc xanh. Hết tuần 8, hóa đơn còn ~40%. Được khen ở all-hands; đội chuyển việc.</p>
+
+    <h3>Họ đo gì và không đo gì</h3>
+    <p>Kiến trúc eval cũ giả định một model: ~200 review người/ngày, bộ hồi quy offline ~12.000 câu/tuần, widget thumbs-up/down. Khi định tuyến lên sóng: giữ ~200 review/ngày nhưng <em>không tách tầng</em>; thêm model rẻ vào hồi quy (đạt ngưỡng); để nguyên widget (không biết model nào phục vụ). Ba lựa chọn đó là hạt giống sự cố. Mẫu review gộp = trung bình trọng số 65% rẻ/35% mạnh, bị kéo lên vì model rẻ tương đương ở ca dễ. Bộ hồi quy tĩnh, dựng 6 tháng trước, phản ánh phân phối lý tưởng hóa. Widget: ~3 thumbs-down/1.000 tương tác, lệch về người vốn đã bực. Các lỗi này <em>latent</em> trong kiến trúc đo; định tuyến chỉ phơi bày. Một model = một phân phối, không sai; định tuyến = hai phân phối, kiến trúc cũ không tách được.</p>
+
+    <h3>Cái gì vỡ và tìm ra thế nào</h3>
+    <p>Trôi chất lượng tầng rẻ bắt đầu tuần 3 sau rollout đủ; đo được ở hồi quy tuần 6 nhưng bị đọc nhầm thành "model nhà cung cấp trôi phiên bản"; tuần 10 hiện ở hài lòng khách; tuần 13 churn trên baseline. Chẩn đoán 2 tuần: dựng lại quyết định định tuyến từ log, ghép với phản hồi, lần đầu có view chất lượng theo tầng. Model rẻ tốt ~80% câu được gửi (khớp holdout), nhưng 20% còn lại khác cấu trúc. Ví dụ hóa đơn: "khoản này tính phí từ đâu?" có khi là gian lận, đối soát trễ, đổi chu kỳ — model mạnh âm thầm xử đúng, model rẻ trả lời ý định bề mặt. Khách sai không bấm down mà bỏ đi gọi tổng đài → deflection đo được vẫn ổn, ticket người tăng, chi phí dời sang cost center khác. Cohort rollout hài lòng thấp hơn ở khảo sát 90 ngày; giữ chân 6 tháng đi xuống. Ghép lại: thiệt hại 4–5× tiết kiệm (~$100k/tháng tiết kiệm vs $400–500k/tháng thiệt hại). Lăn ngược tuần 16; hài lòng đảo chiều tuần 20; giữ chân về baseline tuần 28. Tổng ~hai quý giá trị ròng âm.</p>
+
+    <h3>Vì sao model rẻ vỡ ở đuôi dài (ba cơ chế)</h3>
+    <p>(1) <em>Nén đuôi dài</em>: độ khó theo phân phối lũy thừa; model tiền tuyến thừa năng lực cho tâm dễ (nên cơ hội tiết kiệm là thật), nhưng classifier chỉ thấy bề mặt; bề mặt là chỉ báo tồi về độ sâu ý định đúng ở những câu quan trọng nhất; classifier hiệu chỉnh tốt đúng chỗ không cần, tệ đúng chỗ cần. (2) <em>Thất bại tự tin</em>: model mạnh lưỡng lự/hỏi lại/lộ bất định (gỡ lại được); model nhỏ cho câu hoàn chỉnh, hợp lý, mạch lạc bề mặt nhưng sai — khó bị nhận ra hơn. (3) <em>Drift</em>: phân phối production tiến hóa; classifier huấn luyện 6 tháng lịch sử dần định tuyến sai tỷ trọng lớn dần; tiết kiệm ổn định, chi phí chất lượng lớn dần trong im lặng.</p>
+
+    <h3>Hai đội khác được audit</h3>
+    <p>SaaS mid-market (trợ lý customer-success, chi tiêu năm chữ số thấp/tháng): cùng kiến trúc, classifier tương đồng embedding, tiết kiệm ~50%, dashboard xanh; tách tầng ra thấy tầng rẻ hài lòng thấp ở đuôi dài; ước thiệt hại niềm tin ~2,5–3× tiết kiệm; lăn ngược trong một tháng. Fintech quản chế (chi tiêu sáu chữ số cao/tháng): định tuyến bảo thủ, chỉ câu "thông tin" (số dư, lịch sử giao dịch, thông tin sản phẩm), tiết kiệm ~20%; đuôi dài chạm tuân thủ — "lãi suất của tôi bao nhiêu?" có câu tiếp phụ thuộc độ chính xác câu đầu; compliance bắt qua audit tay trước khi thành vấn đề pháp lý → lăn ngược toàn bộ. Bài học: đánh đổi chi phí–chất lượng không đối xứng giữa ngành; hỗ trợ khách thì câu sai gỡ được, ngành quản chế thì câu sai có thể là vi phạm.</p>
+
+    <h3>Phát hiện bẫy trước ba tháng</h3>
+    <p>Ba bổ sung vào lớp quan sát, phải làm <em>trước</em> khi định tuyến lên sóng: (1) <em>Giám sát chất lượng theo tầng</em> — nhãn tầng truyền suốt; review người phân tầng; hồi quy tách tầng; phản hồi ghép log định tuyến. (2) <em>Lấy mẫu hài lòng đuôi dài</em> — lấy nặng ở câu classifier ít tự tin/ngoài tâm huấn luyện. (3) <em>Trôi độ tự tin định tuyến</em> — so phân phối điểm tự tin production với lúc huấn luyện; tín hiệu này đi trước tín hiệu chất lượng vài tuần. Chi phí làm trước ~3 tuần-kỹ-sư; làm sau đắt hơn nhiều vì phải tái dựng dữ liệu chưa ghi. Kết luận nhánh này: kiến trúc đo lường quan trọng hơn cả quyết định định tuyến — đội có quan sát theo tầng tốt có thể thí nghiệm định tuyến quyết liệt an toàn; đội không có thì không nên vận hành lớp định tuyến nào ở quy mô.</p>
+
+    <h3>Kiến trúc thay thế: cascade theo độ bất định</h3>
+    <p>Thay vì tiền-phân-loại, mọi câu bắt đầu ở model rẻ; model rẻ cho câu trả lời + điểm tự tin hiệu chỉnh (bất định sẵn có hoặc bước tự đánh giá); tự tin cao → trả thẳng, dưới ngưỡng → nâng cấp model mạnh. Lật ngược mẫu hỏng: model rẻ tự quyết thay vì bị classifier quyết hộ; câu khó (vốn bị trả lời sai đầy tự tin) nay nổi lên tự-tin-thấp → escalate. Tiết kiệm mô hình hóa cùng dải, chất lượng đuôi dài tốt hơn rõ. Hai tăng cường: shadow scoring (chạy model mạnh song song trên % nhỏ để bắt drift), định tuyến theo trọng số chất lượng (đưa hài lòng quan sát vào chỉnh ngưỡng). Đánh đổi: độ trễ câu escalate ≈ rẻ + mạnh; chi phí khó dự đoán trước; hiệu chỉnh độ tự tin của model rẻ không dễ. Kết cục đội gốc: chuyển sang cascade + quan sát theo tầng, chi phí ổn định ~35% dưới baseline (ít hơn số "trên giấy" của tiền-phân-loại), hài lòng về mức trước, giá trị ròng dương.</p>
+
+    <h3>Kết</h3>
+    <p>Bài học không phải "tối ưu chi phí là sai", mà là "tối ưu chi phí là một lựa chọn về việc tin tầng nào của hệ thống ra quyết định đánh đổi". Tiền-phân-loại tin một classifier không thấy được thứ quan trọng; cascade tin chính model biết điều nó không biết. Tối ưu rẻ là cái âm thầm làm hỏng sản phẩm; tối ưu trung thực về kiến trúc là cái sống sót qua đuôi dài. Trong AI production, khác biệt thường là một quý hài lòng của khách.</p>
+
+    <p><em>Lưu ý nguồn &amp; xung đột lợi ích:</em> tác giả là Pratik K. Rupareliya, Đồng sáng lập &amp; Head of Strategy tại <strong>Intuz</strong> — một hãng bán dịch vụ triển khai AI/agent, nên bài vừa là chia sẻ thực chiến vừa có động cơ thương mại (khéo léo kết luận nghiêng về "cần đối tác làm đúng kiến trúc"). Đây là một <em>post-mortem cấp một</em> nhưng các đội/khách được ẩn danh, nên số liệu không kiểm chứng độc lập được — hãy đọc như một mô hình cơ chế đáng tin, không phải bằng chứng benchmark. Cùng tác giả/hãng từng xuất hiện ở số <a href="/2026-09-01" target="_blank">01/09</a> với một bài <em>khác</em> ("khung 12-metric đánh giá agent"), dữ liệu hoàn toàn khác.</p>
+  </section>
+
+  <div class="refs" style="margin-top:26px">
+    <strong>Nguồn tham khảo toàn số:</strong><br>
+    [1] Pratik Rupareliya (Intuz) — <a href="https://towardsdatascience.com/we-built-a-routing-layer-to-cut-our-ai-costs-it-broke-the-product/" target="_blank">We Built a Routing Layer to Cut Our AI Costs. It Broke the Product.</a> — Towards Data Science, 27/06/2026 (post-mortem một đội + hai case audit; các bên ẩn danh).<br>
+    <em>Các đoạn "Cơ chế", bảng so sánh hai kiến trúc và khối "Rút ra theo quy mô" là phần biên tập tổng hợp từ chính bài gốc + thực hành phổ biến để giúp áp dụng, không trích nguyên văn; mọi con số dẫn nguồn nội dòng.</em>
+  </div>
+
+  <div class="foot"><a href="/" style="color:#4338ca;text-decoration:none">← Về trang bìa lưu trữ</a></div>
+</div>
+</body>
+</html>
