@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>800 triệu người dùng trên MỘT primary Postgres: OpenAI chọn không shard — &amp; Figma chọn cắt, mất 30 giây mỗi lần · 11/09/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 11/09/2026</div>
+    <h1 class="title">800 triệu người dùng trên <em>một</em> primary Postgres: OpenAI chọn không shard — còn Figma chọn cắt, và trả giá 30 giây mỗi lần cắt</h1>
+    <div class="meta">11/09/2026 · Đọc khoảng 14 phút · Nguồn: OpenAI Engineering — Bohan Zhang (22/01/2026) · Figma Engineering — Tim Liang · Michal Drozd (08/12/2025)</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: hôm nay bản tin quay về mảng <b>tối ưu hệ đang chạy</b> — sửa từng điểm nhỏ trong một hệ đang sống, không viết lại, không di trú. Hai bài là hai đội gặp <em>cùng một trần</em> (một primary Postgres không gánh nổi nữa) nhưng quyết ngược nhau, nên đọc cạnh nhau mới thấy hết. Cả hai nguồn đều là bài kỹ thuật cấp một do chính đội làm viết, nhưng <em>không</em> nằm trong bảy ngày gần nhất: bài OpenAI đăng 22/01/2026, bài Figma đăng sau khi họ hoàn tất chuỗi thao tác mà thao tác cuối rơi vào tháng 10/2022. Bản tin chọn chúng vì tuần này không tìm được case cấp một nào mới hơn cho mảng này, và vì cặp đối chiếu này vẫn đúng nguyên. Các khối có nhãn <b style="color:#1e40af">Cơ chế</b>, bảng so sánh và mục "Rút ra theo quy mô" là phân tích tổng hợp của bản tin từ nguồn cộng thực hành phổ biến — <em>không trích nguyên văn</em>. Mọi con số đều dẫn nguồn ngay cạnh câu.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1"><strong>Bài 1</strong> — OpenAI: giữ một primary, dồn hết công sức vào việc <em>không làm phiền</em> nó<br><span style="font-size:13.5px;color:#6b7280">· Vòng xoáy chết · chín chỗ họ sửa · điều khoản "cấm thêm bảng mới"</span></a></li>
+      <li><a href="#bai2"><strong>Bài 2</strong> — Figma: cắt database theo bảng, mỗi lần mất ~30 giây và rơi ~2% request<br><span style="font-size:13.5px;color:#6b7280">· Chọn bảng nào để cắt · mẹo bỏ index làm copy nhanh gấp bội · cắt PgBouncer trước, cắt dữ liệu sau</span></a></li>
+      <li><a href="#gocnhin"><strong>Góc nhìn</strong> — Cái trần không phải database, mà là "ai được phép làm gì với nó" &amp; 3 việc tuần này</a></li>
+    </ol>
+  </nav>
+
+  <!-- BÀI 1 -->
+  <article class="card" id="bai1">
+    <span class="tag legacy">Tối ưu hệ đang chạy · độ tin cậy</span>
+    <h2 class="head">Bài 1 · OpenAI giữ nguyên một primary Postgres cho 800 triệu người dùng — và dồn toàn bộ công sức vào việc <em>không làm phiền</em> nó</h2>
+    <p class="src">Nguồn: Bohan Zhang (Member of the Technical Staff) — "Scaling PostgreSQL to power 800 million ChatGPT users", OpenAI Engineering, 22/01/2026 · <a href="https://openai.com/index/scaling-postgresql/" target="_blank">openai.com/index/scaling-postgresql</a>. Bài do chính đội vận hành viết; các con số là do OpenAI tự công bố, không có bên thứ ba kiểm chứng.</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">1 primary · ~50 replica</div><div class="lab">một instance Azure PostgreSQL flexible server làm primary, gần 50 read replica rải nhiều vùng <a href="https://openai.com/index/scaling-postgresql/" target="_blank">(OpenAI, 22/01/2026)</a></div></div>
+      <div class="box"><div class="num">&gt;10× / năm</div><div class="lab">tải Postgres tăng hơn mười lần trong một năm và vẫn đang tăng nhanh <a href="https://openai.com/index/scaling-postgresql/" target="_blank">(OpenAI)</a></div></div>
+      <div class="box"><div class="num">1 SEV-0 / 12 tháng</div><div class="lab">chỉ một sự cố mức cao nhất liên quan Postgres trong 12 tháng qua, p99 phía client ở mức vài chục mili-giây <a href="https://openai.com/index/scaling-postgresql/" target="_blank">(OpenAI)</a></div></div>
+    </div>
+
+    <p>Câu chuyện này đáng đọc không phải vì quy mô. Nó đáng đọc vì <em>quyết định họ không làm</em>. Ai cũng biết bài giảng kinh điển: hết chỗ thì shard. OpenAI chạy ChatGPT và API trên một primary Postgres duy nhất, chưa shard, và nói thẳng rằng shard không phải ưu tiên gần.<sup><a href="https://openai.com/index/scaling-postgresql/" target="_blank">[1]</a></sup> Lý do họ đưa ra rất thực dụng: chia nhỏ các workload đang chạy sẽ phải sửa hàng trăm endpoint, mất hàng tháng có khi hàng năm. Trong khi đó tải của họ nghiêng hẳn về đọc, và còn nhiều dư địa tối ưu chưa dùng hết.<sup><a href="https://openai.com/index/scaling-postgresql/" target="_blank">[1]</a></sup></p>
+
+    <p>Nói cách khác, họ đổi một dự án kiến trúc dài hơi lấy một chuỗi sửa nhỏ. Bài viết liệt kê chín nhóm sửa. Phần còn lại của bài này mổ những chỗ đáng học nhất.</p>
+
+    <h3 class="sub">Vòng xoáy chết: vì sao các sự cố của họ trông giống hệt nhau</h3>
+    <p>OpenAI mô tả một khuôn mẫu lặp lại trong các sự cố Postgres của họ, và khuôn mẫu này quen tới mức bạn nên dán lên tường. Một trục trặc ở tầng trên gây tăng vọt tải database: lớp cache hỏng làm cache miss tràn xuống, hoặc một cụm query join nhiều bảng ăn sạch CPU, hoặc một tính năng mới ra gây bão ghi. Tài nguyên cạn dần, độ trễ query dâng lên, request bắt đầu timeout. Rồi client <strong>retry</strong> — và retry khuếch đại tải, đóng vòng lặp.<sup><a href="https://openai.com/index/scaling-postgresql/" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — retry biến một sự cố nhỏ thành sự cố toàn hệ:</b> điểm chết nằm ở chỗ retry là hành vi <em>mặc định</em> của gần như mọi thư viện HTTP và mọi ORM, còn người viết code hiếm khi chọn nó một cách có ý thức. Ở trạng thái bình thường retry là bạn: một request lỗi lẻ, thử lại, xong. Nhưng khi database đã quá tải, mỗi request timeout lại đẻ thêm một request mới — trong khi request cũ <em>vẫn đang chạy</em> dưới database, vẫn giữ connection, vẫn ăn CPU. Tải đầu vào tăng đúng lúc năng lực phục vụ giảm. Đó là lý do hệ thống không "chậm dần đều" mà "rơi đột ngột": có một ngưỡng, qua ngưỡng đó thì mỗi giây trôi qua tình hình lại xấu hơn giây trước dù lưu lượng người dùng thật không đổi. Hai nút vặn rẻ nhất mà phần lớn đội chưa vặn: đặt khoảng chờ giữa các lần retry <em>đủ dài và có ngẫu nhiên</em> (OpenAI nhấn mạnh tránh khoảng retry quá ngắn vì nó gây bão retry<sup><a href="https://openai.com/index/scaling-postgresql/" target="_blank">[1]</a></sup>), và huỷ query phía server khi client đã bỏ cuộc — nếu không, bạn đang trả tiền CPU cho những câu trả lời không còn ai nghe.</div>
+
+    <h3 class="sub">Query 12 bảng và cái giá của việc để ORM viết SQL hộ</h3>
+    <p>Chi tiết cụ thể nhất trong bài: OpenAI từng tìm ra một query <em>join 12 bảng</em>, và những lúc query đó tăng vọt chính là thủ phạm của các sự cố mức nghiêm trọng trong quá khứ.<sup><a href="https://openai.com/index/scaling-postgresql/" target="_blank">[1]</a></sup> Khuyến nghị của họ: tránh join nhiều bảng; nếu buộc phải join, cân nhắc bẻ query ra và đẩy phần logic ghép phức tạp lên tầng ứng dụng. Và họ chỉ đích danh nguồn gốc phổ biến của loại query này — <strong>ORM sinh ra</strong>, nên phải xem kỹ SQL mà ORM thực sự phát ra chứ đừng tin nó chạy như mình tưởng.<sup><a href="https://openai.com/index/scaling-postgresql/" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao join nhiều bảng nguy hiểm hơn query chậm bình thường:</b> một query chậm đều đặn thì dễ sống chung, bạn thấy nó trong bảng xếp hạng và xử lý dần. Join nhiều bảng nguy hiểm ở chỗ chi phí của nó <em>không tuyến tính và không ổn định</em>. Bộ tối ưu phải chọn thứ tự ghép các bảng, và nó chọn dựa trên ước lượng số dòng ở từng bước. Ước lượng ấy lệch dần khi dữ liệu đổi hình dạng — thêm một khách hàng lớn, một đợt dữ liệu bất thường, thống kê bảng chưa kịp cập nhật. Tới lúc nào đó bộ tối ưu đổi kế hoạch, và kế hoạch mới có thể đắt gấp hàng chục lần kế hoạch cũ mà <em>không có ai deploy gì cả</em>. Đó là kiểu sự cố khó nhất: hôm qua chạy tốt, hôm nay chết, code không đổi một dòng. Bẻ query ra rồi ghép ở tầng ứng dụng nghe có vẻ lùi một bước về mặt kỹ thuật, nhưng đổi lại bạn có thứ quý hơn: chi phí <em>dự đoán được</em>.</div>
+
+    <p>Một mẹo nhỏ khác trong cùng mục, nhưng đáng giá với đội nào từng khổ vì bảng phình: OpenAI nói việc có những query nằm im rất lâu trong transaction là chuyện thường gặp, và đặt timeout cho phiên nhàn rỗi trong transaction là bắt buộc — vì nếu không, chúng <strong>chặn autovacuum</strong>.<sup><a href="https://openai.com/index/scaling-postgresql/" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — một transaction bỏ quên có thể làm sưng cả database:</b> Postgres dùng MVCC, nghĩa là cập nhật một dòng không sửa tại chỗ mà tạo <em>bản mới</em> và để bản cũ lại. Bản cũ chỉ được dọn khi không còn transaction nào có thể cần nhìn thấy nó. Một transaction mở và ngồi im vô thời hạn giữ nguyên quyền "có thể cần nhìn thấy" đó, nên autovacuum không dám dọn bất cứ dòng chết nào sinh ra sau thời điểm nó mở. Hậu quả không phải là một query chậm, mà là bảng và index phình ra trên đĩa, và mọi lần quét đều phải lội qua các bản chết. Đau nhất là quan hệ nhân quả bị lệch pha: một request bị treo lúc 2 giờ chiều có thể biểu hiện thành p99 xấu đi trên toàn hệ vào tối hôm sau. OpenAI nói thẳng MVCC là điểm yếu của Postgres với tải ghi nặng — ghi bị khuếch đại, đọc cũng bị khuếch đại vì phải quét qua nhiều phiên bản dòng, kèm bloat bảng và index cùng chi phí chỉnh autovacuum.<sup><a href="https://openai.com/index/scaling-postgresql/" target="_blank">[1]</a></sup></div>
+
+    <h3 class="sub">50 ms còn 5 ms: connection pool là thứ rẻ nhất trong danh sách</h3>
+
+    <div class="stat">
+      <div class="box"><div class="num">5.000</div><div class="lab">giới hạn connection trên một instance Azure PostgreSQL — rất dễ cạn hoặc chất đầy connection nhàn rỗi <a href="https://openai.com/index/scaling-postgresql/" target="_blank">(OpenAI)</a></div></div>
+      <div class="box"><div class="num">50 ms → 5 ms</div><div class="lab">thời gian thiết lập connection trung bình sau khi đặt PgBouncer, theo benchmark của chính họ <a href="https://openai.com/index/scaling-postgresql/" target="_blank">(OpenAI)</a></div></div>
+      <div class="box"><div class="num">~0</div><div class="lab">độ trễ replica giữ gần bằng không dù có tới gần 50 replica xuyên vùng <a href="https://openai.com/index/scaling-postgresql/" target="_blank">(OpenAI)</a></div></div>
+    </div>
+
+    <p>OpenAI kể họ từng có sự cố do <strong>bão connection</strong> làm cạn sạch số connection cho phép.<sup><a href="https://openai.com/index/scaling-postgresql/" target="_blank">[1]</a></sup> Cách chữa là đặt PgBouncer làm lớp proxy gom connection, chạy ở chế độ gom theo câu lệnh hoặc theo transaction để tái dùng connection hiệu quả. Kết quả phụ đáng chú ý: thời gian thiết lập connection trung bình rơi từ <strong>50 mili-giây xuống 5 mili-giây</strong> trong benchmark của họ. Họ cũng nhấn mạnh hai điều thực dụng — đặt proxy, client và replica <em>cùng một vùng</em> vì kết nối liên vùng đắt, và cấu hình PgBouncer cẩn thận, đặc biệt là timeout cho connection nhàn rỗi.<sup><a href="https://openai.com/index/scaling-postgresql/" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — cạn pool là loại sự cố mà database trông vẫn khoẻ:</b> đây là chỗ nhiều đội chẩn đoán sai. Ứng dụng treo, người dùng kêu, nhưng mọi biểu đồ của database đều đẹp — CPU thấp, query nhanh, không có lock. Vì nút thắt không nằm trong database mà nằm ở <em>hàng đợi trước cửa</em> nó. Mỗi tiến trình ứng dụng giữ một nắm connection; nhân số tiến trình với số pod là ra một con số dễ vượt 5.000 hơn người ta tưởng, nhất là sau một lần scale-out vội lúc cao điểm. Đây cũng là một trong những triệu chứng mà giới vận hành Postgres mô tả riêng thành một dạng "sự cố im lặng": ứng dụng treo trong khi database trông khoẻ mạnh.<sup><a href="https://www.michal-drozd.com/en/blog/database-connection-pool-exhaustion/" target="_blank">[3]</a></sup> Cái hay của PgBouncer là nó biến connection từ tài nguyên <em>độc chiếm theo tiến trình</em> thành tài nguyên <em>dùng chung theo câu lệnh</em>. Còn con số 50 ms → 5 ms thì đừng đọc thành "nhanh hơn 45 ms": với dịch vụ mở connection thường xuyên, đó là 45 mili-giây bị cắt khỏi <em>mọi</em> request ở nhánh đó, và nó nằm đúng trong phần đuôi p99.</div>
+
+    <h3 class="sub">Chống dẫm đạp cache: chỉ cho một người đi lấy dữ liệu</h3>
+    <p>Mục cache trong bài mô tả một kỹ thuật cụ thể và dễ áp dụng. Vấn đề: khi tỷ lệ trúng cache tụt bất ngờ, cả đám cache miss đổ thẳng xuống Postgres, ăn sạch tài nguyên và làm chậm dịch vụ. Cách chữa của họ là <strong>khoá (và cho thuê) khoá cache</strong>: khi nhiều request cùng trượt trên một khoá, chỉ một request giành được quyền đi lấy dữ liệu và nạp lại cache; những request còn lại <em>đợi cache được cập nhật</em> thay vì cùng lúc đâm xuống database.<sup><a href="https://openai.com/index/scaling-postgresql/" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao đây là một trong những sửa đổi lãi nhất trong bài:</b> chi phí hiện thực là một khoá phân tán ngắn hạn trên chính lớp cache bạn đã có, thường vài chục dòng ở một chỗ duy nhất. Lợi ích thì phi tuyến: giả sử một khoá nóng đang có một nghìn request mỗi giây và khoá đó hết hạn, không có cơ chế này thì Postgres nhận một nghìn query <em>giống hệt nhau</em>; có cơ chế này thì nó nhận một. Điều đáng nói là mức tiết kiệm lớn nhất rơi đúng vào lúc hệ thống đang yếu nhất — tức là bạn đang mua bảo hiểm, chứ không phải mua tốc độ. Hai cái bẫy khi làm: phải có timeout cho người đang giữ khoá, nếu không một request chết sẽ treo tất cả những request đang đợi; và nên trả về dữ liệu cũ còn dùng được cho nhóm đang đợi thay vì bắt họ chờ cứng, vì trong sự cố thì một câu trả lời hơi cũ luôn tốt hơn một khoảng trắng.</div>
+
+    <h3 class="sub">Ba nước đi ít được nhắc: chia hạng workload, chặn theo dấu vân tay query, và cấm thêm bảng</h3>
+    <p><strong>Chia hạng workload.</strong> OpenAI tách request thành hạng ưu tiên thấp và ưu tiên cao rồi đẩy chúng sang những instance riêng, để một workload tốn tài nguyên không kéo theo cả hệ.<sup><a href="https://openai.com/index/scaling-postgresql/" target="_blank">[1]</a></sup> Họ áp dụng cùng logic đó giữa các sản phẩm khác nhau. Đây là chống "hàng xóm ồn ào" — và điểm hay là nó không đòi hỏi đổi model dữ liệu, chỉ đổi <em>đường đi</em> của request.</p>
+
+    <p><strong>Chặn theo dấu vân tay query.</strong> Họ đặt giới hạn tốc độ ở nhiều tầng — ứng dụng, connection pooler, proxy, và ngay tại query — và nâng cấp tầng ORM để hỗ trợ giới hạn tốc độ, thậm chí <em>chặn hoàn toàn một query digest cụ thể</em> khi cần. Họ gọi đó là dạng cắt tải có mục tiêu, cho phép hồi phục nhanh khi một cụm query đắt tăng vọt.<sup><a href="https://openai.com/index/scaling-postgresql/" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — "chặn được đúng một query" là khác biệt giữa sự cố 5 phút và sự cố 50 phút:</b> khi một query đắt đang giết database, các lựa chọn thông thường đều tệ. Rollback bản deploy thì mất nhiều phút và có thể kéo theo thứ khác. Tắt tính năng bằng feature flag thì chỉ được nếu ai đó đã kịp gắn cờ đúng chỗ. Còn chặn ở tầng query thì bạn dập đúng nguồn gây hại mà không đụng tới phần còn lại của ứng dụng — và làm được ngay cả khi người trực không biết query đó thuộc tính năng nào. Chỗ này nhiều đội bỏ lỡ vì nó nằm ở tầng ORM hoặc proxy, không ai coi là "của mình": đội hạ tầng nghĩ nó thuộc ứng dụng, đội ứng dụng nghĩ nó thuộc hạ tầng. Câu hỏi tự kiểm rất ngắn: <em>3 giờ sáng, người trực có nút nào để làm một query cụ thể ngừng chạy trong vòng một phút không?</em></div>
+
+    <p><strong>Cấm thêm bảng mới.</strong> Đây là nước đi mang tính tổ chức nhiều hơn kỹ thuật, và có lẽ là bài học chuyển giao được nhất cho đội nhỏ. OpenAI <em>không cho phép thêm bảng mới</em> vào cụm Postgres hiện tại; workload mới mặc định đi sang các hệ đã shard như Azure Cosmos DB.<sup><a href="https://openai.com/index/scaling-postgresql/" target="_blank">[1]</a></sup> Kèm theo đó là một bộ luật về thay đổi schema: chỉ cho phép thay đổi nhẹ, không cho thứ nào gây ghi lại toàn bộ bảng, đặt <strong>timeout cứng 5 giây</strong> cho thao tác đổi schema, tạo và xoá index thì phải làm ở chế độ đồng thời. Khi cần đổ dữ liệu vào một cột mới, họ giới hạn tốc độ chặt để không tạo đỉnh ghi — và chấp nhận rằng việc đó đôi khi kéo dài <strong>hơn một tuần</strong>.<sup><a href="https://openai.com/index/scaling-postgresql/" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — timeout 5 giây không phải để thao tác chạy nhanh, mà để nó <em>thất bại nhanh</em>:</b> một thao tác đổi schema tưởng là nhẹ nhưng lại cần ghi lại cả bảng sẽ giữ khoá trên bảng đó suốt thời gian chạy. Trong lúc ấy mọi query chạm vào bảng xếp hàng sau nó, và hàng đợi đó ăn connection. Chỉ vài giây là đủ để cạn pool và biến "một migration hơi lâu" thành một sự cố toàn hệ. Timeout 5 giây biến kịch bản đó thành một lỗi gọn gàng: migration bị huỷ, người chạy thấy ngay, không ai khác bị ảnh hưởng. Nhìn rộng hơn, đây là một khuôn mẫu lặp lại trong cả bài — <em>đặt trần cứng ở mọi chỗ có thể chạy vô hạn</em>: timeout cho phiên nhàn rỗi trong transaction, timeout cho thao tác schema, giới hạn tốc độ cho backfill, giới hạn tốc độ cho query. Mỗi cái là một dòng cấu hình. Gộp lại chúng là lý do vì sao một primary duy nhất vẫn đứng được.</div>
+
+    <p>Còn về chuyện ghi: OpenAI thừa nhận họ không thắng được MVCC bằng cách vặn cấu hình. Họ <em>chuyển</em> các workload ghi nặng nhưng chia nhỏ được sang hệ đã shard, tối ưu ứng dụng để bớt ghi thừa — kể cả sửa bug gây ghi trùng — và dùng ghi trễ ở những chỗ hợp lý để làm phẳng các đỉnh.<sup><a href="https://openai.com/index/scaling-postgresql/" target="_blank">[1]</a></sup> Với số replica, nút thắt là primary phải bơm WAL cho từng replica một; họ đang thử nghiệm <strong>nhân bản phân tầng</strong>, cho replica trung gian chuyển tiếp WAL xuống replica phía sau, hướng tới hơn một trăm replica mà không đè chết primary.<sup><a href="https://openai.com/index/scaling-postgresql/" target="_blank">[1]</a></sup></p>
+
+    <div class="editnote">Đọc con số cho cẩn thận. "p99 vài chục mili-giây" trong bài là <em>phía client</em> của tầng database, không phải độ trễ người dùng cảm nhận, và "năm số chín" là mức khả dụng do OpenAI tự công bố, không có kiểm toán bên ngoài. Con số "một SEV-0 trong 12 tháng" cũng phụ thuộc hoàn toàn vào cách họ phân loại mức nghiêm trọng. Thêm nữa, đây là bài đồng tác giả về mặt lợi ích với Azure: OpenAI dùng Azure PostgreSQL và cảm ơn đội Azure trong bài. Thứ đáng mang về không phải các con số, mà là <em>danh sách chín chỗ họ sửa</em> — nó kiểm chứng được trên hệ của bạn.</div>
+
+    <div class="takeaway">💡 Rút ra cho bạn: trước khi mở một dự án shard, hãy liệt kê xem bạn đã dùng hết mấy trong chín nước đi này chưa — đẩy đọc sang replica, dọn query đắt, tách hạng workload, gom connection, chống dẫm đạp cache, giới hạn tốc độ nhiều tầng, siết luật schema, chuyển workload ghi nặng đi nơi khác, và có nút chặn theo query. Gần như tất cả đều là <em>vài ngày công</em> và có thể làm từng cái một, trong khi shard là dự án hàng tháng và không thể làm nửa vời. Điều OpenAI chứng minh không phải là "đừng bao giờ shard", mà là <strong>trần của một primary cao hơn phần lớn đội tưởng</strong>, nếu bạn chịu kỷ luật với những gì được phép chạm vào nó.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> Bohan Zhang, <a href="https://openai.com/index/scaling-postgresql/" target="_blank">"Scaling PostgreSQL to power 800 million ChatGPT users"</a>, OpenAI Engineering, 22/01/2026 · Michal Drozd, <a href="https://www.michal-drozd.com/en/blog/database-connection-pool-exhaustion/" target="_blank">"Database Connection Pool Exhaustion: The Silent Outage Trigger"</a> · Michal Drozd, <a href="https://www.michal-drozd.com/en/blog/postgresql-checkpoint-spikes/" target="_blank">"PostgreSQL Checkpoint Spikes: Why p99 Explodes Every N Minutes"</a>, 08/12/2025.</div>
+  </article>
+
+  <!-- BÀI 2 -->
+  <article class="card" id="bai2">
+    <span class="tag legacy">Tối ưu hệ đang chạy · cắt chuyển không downtime</span>
+    <h2 class="head">Bài 2 · Figma cắt database theo bảng — mỗi lần mất khoảng 30 giây và rơi khoảng 2% request, và họ làm đi làm lại nhiều lần</h2>
+    <p class="src">Nguồn: Tim Liang (Software Engineer, đội database) — "The growing pains of database architecture", Figma Engineering · <a href="https://www.figma.com/blog/how-figma-scaled-to-multiple-databases/" target="_blank">figma.com/blog/how-figma-scaled-to-multiple-databases</a>. Bài kỹ thuật cấp một do chính đội làm viết; thao tác cuối được mô tả rơi vào tháng 10/2022, tức đây là câu chuyện đã hoàn tất chứ không phải tin mới.</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">~3× / năm</div><div class="lab">lưu lượng database của Figma tăng khoảng ba lần mỗi năm, trên một RDS đơn lẻ <a href="https://www.figma.com/blog/how-figma-scaled-to-multiple-databases/" target="_blank">(Figma Engineering)</a></div></div>
+      <div class="box"><div class="num">65% → ~10%</div><div class="lab">CPU lúc cao điểm trước khi cắt; sau khi cắt, phân vùng lớn nhất chỉ quanh 10% <a href="https://www.figma.com/blog/how-figma-scaled-to-multiple-databases/" target="_blank">(Figma)</a></div></div>
+      <div class="box"><div class="num">~30 giây · ~2%</div><div class="lab">mỗi lần cắt gây ảnh hưởng khả dụng một phần chừng 30 giây, rơi khoảng 2% request <a href="https://www.figma.com/blog/how-figma-scaled-to-multiple-databases/" target="_blank">(Figma)</a></div></div>
+    </div>
+
+    <p>Figma gặp đúng cái trần mà OpenAI gặp, chỉ sớm hơn và ở quy mô khác. Năm 2020, một RDS Postgres lớn duy nhất giữ gần hết metadata của họ — quyền, thông tin file, bình luận. Lúc cao điểm CPU lên tới hơn 65%, và họ mô tả rất chính xác cái đáng sợ: khi tiến gần giới hạn, độ trễ database <em>ngày càng khó đoán</em>.<sup><a href="https://www.figma.com/blog/how-figma-scaled-to-multiple-databases/" target="_blank">[2]</a></sup> Đó mới là triệu chứng nguy hiểm, không phải con số CPU.</p>
+
+    <p>Bước đầu của họ giống hệt sách giáo khoa, và giống hệt bài 1: nâng instance lên loại lớn nhất có thể, thêm read replica, đưa use case mới sang database mới, và đặt PgBouncer vì số connection đã lên tới hàng nghìn.<sup><a href="https://www.figma.com/blog/how-figma-scaled-to-multiple-databases/" target="_blank">[2]</a></sup> Bốn việc đó mua thêm khoảng một năm dư địa. Nhưng rồi họ phân tích lưu lượng và thấy giới hạn: <strong>ghi</strong> chiếm phần đáng kể mức sử dụng, và không phải đọc nào cũng đẩy sang replica được vì ứng dụng nhạy với độ trễ nhân bản.<sup><a href="https://www.figma.com/blog/how-figma-scaled-to-multiple-databases/" target="_blank">[2]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — đây chính là chỗ hai câu chuyện rẽ nhánh, và lý do rẽ rất cụ thể:</b> OpenAI nói tải của họ nghiêng hẳn về đọc nên còn nhiều dư địa;<sup><a href="https://openai.com/index/scaling-postgresql/" target="_blank">[1]</a></sup> Figma phát hiện ghi chiếm phần lớn và nhiều đọc bị trói vào primary vì không chịu được replica trễ.<sup><a href="https://www.figma.com/blog/how-figma-scaled-to-multiple-databases/" target="_blank">[2]</a></sup> Cùng một kiến trúc, cùng một công cụ, quyết định ngược nhau — vì <em>hình dạng tải</em> khác nhau. Bài học chuyển giao được: câu hỏi "có nên chia database không" không trả lời được bằng CPU hay bằng số người dùng. Nó trả lời bằng hai con số khác — tỷ lệ ghi trên tổng tải, và tỷ lệ đọc <em>bắt buộc</em> phải ở primary vì nghiệp vụ không chịu được dữ liệu chậm vài trăm mili-giây. Nếu bạn chưa đo hai con số đó thì mọi tranh luận kiến trúc trong phòng họp đều là đoán.</div>
+
+    <h3 class="sub">Vì sao họ không shard ngang — và cũng không tự host</h3>
+    <p>Figma cân nhắc mở rộng ngang rồi bỏ. Lý do họ nêu rất thực dụng. Nhiều giải pháp có sẵn không tương thích tự nhiên với Postgres; chuyển sang NoSQL hoặc Vitess đòi hỏi một cuộc di trú đọc-ghi kép phức tạp, riêng NoSQL còn kéo theo sửa lớn ở tầng ứng dụng. Với nhánh Postgres phân tán dạng managed, họ sẽ nằm trong nhóm cụm lớn nhất — và họ <em>không muốn làm khách hàng đầu tiên vấp phải các vấn đề quy mô</em>, trong khi lại nắm rất ít quyền kiểm soát một dịch vụ managed. Còn tự host thì họ chưa từng làm, nên phải trả một khoản đầu tư lớn về đào tạo và kỹ năng trước khi bắt đầu, và khoản đó sẽ lấy mất sự tập trung khỏi bài toán sống còn là khả năng mở rộng.<sup><a href="https://www.figma.com/blog/how-figma-scaled-to-multiple-databases/" target="_blank">[2]</a></sup></p>
+
+    <p>Nên họ chọn <strong>phân vùng dọc</strong>: thay vì chia mỗi bảng ra nhiều database, họ chuyển từng <em>nhóm bảng</em> sang database riêng. Cái hay của lựa chọn này, theo chính họ, là nó vừa gỡ tải ngay lập tức, vừa để ngỏ đường shard ngang cho một phần bảng về sau.<sup><a href="https://www.figma.com/blog/how-figma-scaled-to-multiple-databases/" target="_blank">[2]</a></sup></p>
+
+    <h3 class="sub">Chọn bảng nào để cắt: hai tiêu chí, và cái thứ hai mới khó</h3>
+    <p>Figma dùng hai tiêu chí. <strong>Tác động</strong> — chuyển nhóm bảng đó đi thì phải gỡ được phần đáng kể khối lượng công việc. <strong>Độ biệt lập</strong> — nhóm bảng đó không được dính chặt vào các bảng khác.<sup><a href="https://www.figma.com/blog/how-figma-scaled-to-multiple-databases/" target="_blank">[2]</a></sup></p>
+
+    <p>Để đo tác động, họ dùng số phiên hoạt động trung bình cho từng query, lấy mẫu trạng thái hoạt động của database mỗi <strong>10 mili-giây</strong> rồi gộp theo tên bảng.<sup><a href="https://www.figma.com/blog/how-figma-scaled-to-multiple-databases/" target="_blank">[2]</a></sup> Còn độ biệt lập mới là chỗ đau: khi tách bảng sang database khác, bạn <em>mất</em> giao dịch nguyên tử giữa các bảng, mất kiểm tra khoá ngoại, và mất join. Nghĩa là chi phí thật nằm ở lượng code ứng dụng phải viết lại.<sup><a href="https://www.figma.com/blog/how-figma-scaled-to-multiple-databases/" target="_blank">[2]</a></sup></p>
+
+    <p>Rồi họ vấp một trở ngại rất đời: backend viết bằng Ruby dùng ActiveRecord, mà bản chất động của Ruby khiến <em>không thể</em> dùng phân tích tĩnh để biết một query đụng vào bảng vật lý nào. Cách chữa của họ đáng chép lại: gắn bộ kiểm tra chạy lúc runtime vào ActiveRecord, đẩy thông tin query và transaction thật từ production — gồm cả vị trí gọi và danh sách bảng liên quan — vào kho dữ liệu, rồi tìm những query và transaction luôn đụng vào cùng một nhóm bảng.<sup><a href="https://www.figma.com/blog/how-figma-scaled-to-multiple-databases/" target="_blank">[2]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — "đo ở runtime thay vì đọc code" là nước đi dùng lại được ở rất nhiều nơi:</b> mọi framework có chút phép thuật đều làm phân tích tĩnh nói dối. Ruby và ActiveRecord là ví dụ dễ thấy, nhưng Django, Hibernate, Prisma hay bất kỳ lớp truy vấn nào sinh SQL động đều cùng vấn đề: bạn đọc code xong vẫn không biết chắc query nào đụng bảng nào, chạy bao nhiêu lần, tốn bao nhiêu. Figma không cố giải bài toán đó bằng cách đọc kỹ hơn. Họ <em>để production trả lời</em>: gắn hook vào tầng truy vấn, ghi lại quan hệ query–bảng–nơi gọi, gom vài ngày dữ liệu rồi đọc. Chi phí là một hook và một bảng log; đổi lại bạn có bản đồ phụ thuộc <em>thật</em> thay vì bản đồ mà mọi người tin là thật. Mẹo này dùng được cho nhiều việc khác ngoài cắt database: tìm bảng chết, tìm đường chạy nóng, gỡ tính năng cũ, hay xác định ranh giới trước khi tách một service.</div>
+
+    <h3 class="sub">Cắt thế nào mà chỉ mất 30 giây: tách PgBouncer trước, tách dữ liệu sau</h3>
+    <p>Ràng buộc của Figma khắc nghiệt: sản phẩm cộng tác thời gian thực, không có cửa sổ bảo trì. Họ đặt ba mục tiêu — ảnh hưởng khả dụng dưới <strong>một phút</strong>, quy trình tự động hoá để lặp lại được, và có đường quay lui.<sup><a href="https://www.figma.com/blog/how-figma-scaled-to-multiple-databases/" target="_blank">[2]</a></sup> Không tìm được công cụ có sẵn đáp ứng, họ tự xây.</p>
+
+    <p>Nước đi khéo nhất trong toàn bộ bài là <strong>tách làm hai pha</strong>. Trước hết họ tách lớp PgBouncer: dựng các dịch vụ PgBouncer riêng để chia lưu lượng <em>trên danh nghĩa</em>, trong khi cả hai vẫn trỏ về cùng một database. Nhóm bảo mật đảm bảo client chỉ vào database qua PgBouncer. Nhờ vậy, nếu ứng dụng định tuyến query sai, họ <em>phát hiện được ngay</em> mà người dùng vẫn lấy được dữ liệu bình thường.<sup><a href="https://www.figma.com/blog/how-figma-scaled-to-multiple-databases/" target="_blank">[2]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao pha giả này là thứ biến một thao tác đáng sợ thành thao tác lặp lại được:</b> rủi ro lớn nhất khi cắt database không phải chuyện chép dữ liệu, mà là <em>hàng nghìn tiến trình ứng dụng có định tuyến đúng không</em>. Sai một chỗ thì sau khi cắt, query đó tìm bảng ở database không còn bảng nữa — và bạn chỉ biết khi người dùng gặp lỗi. Figma tách rủi ro đó ra khỏi thao tác cắt thật: họ tạo đường định tuyến mới <em>trước</em>, cho nó chạy trong production, và vì cả hai đường còn về chung một database nên mọi định tuyến sai đều <em>hiện ra trong log mà không gây hại</em>. Khi đường định tuyến đã sạch, thao tác cắt thật chỉ còn phải điều phối một nhúm node PgBouncer thay vì hàng nghìn client.<sup><a href="https://www.figma.com/blog/how-figma-scaled-to-multiple-databases/" target="_blank">[2]</a></sup> Khuôn mẫu chung ở đây: <em>tách "đổi đường đi" khỏi "đổi đích đến", làm cái trước trong điều kiện vô hại, rồi mới làm cái sau.</em> Nó dùng được cho tách service, đổi lược đồ, đổi nhà cung cấp, không riêng gì database.</div>
+
+    <p>Về nhân bản, họ chọn nhân bản logic thay vì nhân bản luồng, vì ba lý do: chép được <em>một tập con</em> bảng nên database đích có dấu chân lưu trữ nhỏ hơn nhiều; chép được sang database chạy <em>phiên bản Postgres chính khác</em>, nên cùng bộ công cụ này còn dùng để nâng phiên bản lớn với downtime tối thiểu; và dựng được luồng nhân bản <em>ngược</em> để quay lui.<sup><a href="https://www.figma.com/blog/how-figma-scaled-to-multiple-databases/" target="_blank">[2]</a></sup></p>
+
+    <p>Nhưng nhân bản logic có một điểm chết: với khối dữ liệu production cỡ hàng terabyte, lần chép đầu có thể mất nhiều ngày, thậm chí nhiều tuần. Thay vì chịu, họ đi tìm nguyên nhân — và tìm ra. Nhân bản logic chép dòng theo lô, nhưng <strong>cập nhật index từng dòng một</strong> ở database đích. Cách chữa: bỏ index ở đích, chép xong rồi mới dựng lại index. Thời gian chép rơi từ nhiều ngày xuống <strong>vài giờ</strong>.<sup><a href="https://www.figma.com/blog/how-figma-scaled-to-multiple-databases/" target="_blank">[2]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — đây là ví dụ mẫu cho "đổi đúng một thứ":</b> họ không đổi công cụ, không đổi kiến trúc, không mua gì. Họ hỏi <em>vì sao</em> chậm thay vì chấp nhận rằng nó chậm, và phát hiện chi phí nằm ở chỗ index bị cập nhật theo từng dòng — tức là mỗi dòng phải đi qua cây index một lần, thay vì dựng cây một lần cho toàn bộ dữ liệu đã nằm sẵn. Mức cải thiện từ "nhiều ngày" xuống "vài giờ" không đến từ phần cứng mà đến từ việc <em>đổi thứ tự hai bước</em>. Điều đáng học hơn cả con số là cái vòng lặp phía sau: khi một bước trong quy trình chậm tới mức khó chịu, mặc định của phần lớn đội là lên lịch chờ nó; mặc định đáng có là bỏ nửa ngày ra xem nó chậm ở đâu. Ở đây nửa ngày đó mua lại nhiều tuần, và quan trọng hơn, nó thu hẹp cửa sổ rủi ro — chép càng lâu thì càng nhiều cơ hội hỏng giữa chừng và phải làm lại.</div>
+
+    <h3 class="sub">Vài chục giây quyết định: dừng, xác nhận hai database giống nhau, rồi đổi hướng</h3>
+    <p>Chuỗi thao tác thật của họ gồm sáu bước, trong đó bốn bước cuối chạy trong vài giây: chuẩn bị ứng dụng để query được nhiều phân vùng; nhân bản bảng sang database mới cho tới khi độ trễ gần bằng không; tạm dừng hoạt động trên database gốc; đợi hai bên đồng bộ; đổi hướng lưu lượng sang database mới; cho chạy tiếp.<sup><a href="https://www.figma.com/blog/how-figma-scaled-to-multiple-databases/" target="_blank">[2]</a></sup></p>
+
+    <p>Chi tiết đáng chú ý nằm ở bước dừng. PgBouncer tạm dừng nhận connection mới, họ thu hồi quyền query trên các bảng sắp tách ở database gốc, chờ một khoảng ân hạn ngắn rồi <em>huỷ những query còn đang chạy</em>. Vì ứng dụng của họ chủ yếu phát query ngắn, số query phải huỷ thường <strong>dưới mười</strong>.<sup><a href="https://www.figma.com/blog/how-figma-scaled-to-multiple-databases/" target="_blank">[2]</a></sup> Sau đó họ dùng số thứ tự bản ghi trong log để xác nhận bản sao đã bắt kịp: lấy một mốc từ database gốc khi chắc chắn không còn ghi mới, rồi đợi bản sao chạy qua mốc đó — lúc ấy dữ liệu hai bên là như nhau.<sup><a href="https://www.figma.com/blog/how-figma-scaled-to-multiple-databases/" target="_blank">[2]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — "query ngắn" là điều kiện ngầm khiến cả quy trình này chạy được:</b> đọc lướt thì chi tiết "thường huỷ dưới mười query" trông như một con số vui. Thật ra nó là điều kiện tiên quyết. Cửa sổ dừng chỉ ngắn được nếu số query đang bay ở thời điểm dừng là nhỏ; mà số đó nhỏ được là vì ứng dụng không có query dài. Nếu hệ của bạn có báo cáo chạy ba phút hay job nền quét bảng lớn trên cùng database, thì hoặc bạn phải đợi chúng xong — cửa sổ dừng biến thành vài phút — hoặc bạn huỷ chúng và ai đó mất việc đang làm. Suy ra một điều kiện chuẩn bị mà nhiều đội bỏ qua: <em>trước khi nghĩ tới cắt chuyển không downtime, hãy tách các query dài ra khỏi database chính hoặc ít nhất ra khỏi primary.</em> Đó là việc làm được ngay tuần này, và nó có lợi kể cả khi bạn không bao giờ cắt gì.</div>
+
+    <h3 class="sub">Kết quả — và cái giá họ nói thẳng</h3>
+    <p>Figma đã chạy thao tác này nhiều lần trong production. Lần đầu chuyển hai bảng có lưu lượng cao; thao tác cuối được mô tả, vào tháng 10/2022, chuyển <strong>50 bảng</strong>. Mỗi lần, họ quan sát thấy khoảng <strong>30 giây</strong> ảnh hưởng khả dụng một phần, với chừng <strong>2% request bị rơi</strong>. Sau đó mỗi phân vùng có dư địa lớn hơn hẳn: phân vùng lớn nhất chạy ở mức CPU quanh <strong>10%</strong>, và họ còn giảm được tài nguyên cấp cho các phân vùng ít lưu lượng.<sup><a href="https://www.figma.com/blog/how-figma-scaled-to-multiple-databases/" target="_blank">[2]</a></sup></p>
+
+    <p>Nhưng họ không dừng ở phần khoe. Bài viết nói rõ cái giá: giờ có nhiều database, ứng dụng phải <em>nhớ</em> từng cái, và độ phức tạp định tuyến tăng theo cấp số nhân khi thêm database và thêm client. Họ đã phải làm một dịch vụ định tuyến query riêng để gom logic đó về một chỗ. Và họ thừa nhận phân vùng dọc có trần: vài bảng của họ ghi nhiều hoặc có hàng tỷ dòng, sẽ tự chạm trần đĩa, CPU và I/O của riêng nó — nên shard ngang là chuyện sớm muộn.<sup><a href="https://www.figma.com/blog/how-figma-scaled-to-multiple-databases/" target="_blank">[2]</a></sup></p>
+
+    <table class="tbl">
+      <tr><th>Cùng một trần, hai lối đi</th><th>OpenAI — giữ một primary</th><th>Figma — cắt theo nhóm bảng</th></tr>
+      <tr><td>Hình dạng tải</td><td>Nghiêng hẳn về đọc <sup><a href="https://openai.com/index/scaling-postgresql/" target="_blank">[1]</a></sup></td><td>Ghi chiếm phần đáng kể; nhiều đọc không rời primary được vì nhạy với độ trễ nhân bản <sup><a href="https://www.figma.com/blog/how-figma-scaled-to-multiple-databases/" target="_blank">[2]</a></sup></td></tr>
+      <tr><td>Nước đi chính</td><td>Chín nhóm tối ưu quanh một primary, cộng đẩy workload ghi nặng sang hệ đã shard <sup><a href="https://openai.com/index/scaling-postgresql/" target="_blank">[1]</a></sup></td><td>Phân vùng dọc: chuyển từng nhóm bảng sang database riêng <sup><a href="https://www.figma.com/blog/how-figma-scaled-to-multiple-databases/" target="_blank">[2]</a></sup></td></tr>
+      <tr><td>Giá phải trả</td><td>Kỷ luật rất chặt: cấm thêm bảng, cấm thay đổi schema nặng, backfill kéo cả tuần <sup><a href="https://openai.com/index/scaling-postgresql/" target="_blank">[1]</a></sup></td><td>Mất join, khoá ngoại và giao dịch nguyên tử xuyên nhóm bảng; định tuyến phức tạp dần <sup><a href="https://www.figma.com/blog/how-figma-scaled-to-multiple-databases/" target="_blank">[2]</a></sup></td></tr>
+      <tr><td>Ai gánh phần khó</td><td>Đội hạ tầng và người duyệt thay đổi schema</td><td>Đội sản phẩm — họ phải viết lại code khi mất join và giao dịch</td></tr>
+      <tr><td>Trần tiếp theo</td><td>Primary vẫn là điểm chết duy nhất cho ghi; đang thử nhân bản phân tầng <sup><a href="https://openai.com/index/scaling-postgresql/" target="_blank">[1]</a></sup></td><td>Bảng ghi nặng hoặc hàng tỷ dòng sẽ tự chạm trần, phải shard ngang <sup><a href="https://www.figma.com/blog/how-figma-scaled-to-multiple-databases/" target="_blank">[2]</a></sup></td></tr>
+      <tr><td>Điểm chung</td><td colspan="2">Cả hai đều dựng PgBouncer trước tiên, đều đẩy đọc sang replica trước, đều coi việc <em>giới hạn thứ được phép chạm vào database</em> quan trọng hơn việc chọn đúng kiến trúc</td></tr>
+    </table>
+    <p style="font-size:13px;color:#6b7280;margin-top:-6px">Các ô có chú thích nội dòng dẫn nguồn gốc. Hai dòng "ai gánh phần khó" và "điểm chung" là diễn giải của bản tin, <em>không trích nguyên văn</em>.</p>
+
+    <div class="takeaway">💡 Rút ra cho bạn: nếu buộc phải cắt, hãy bắt chước <em>trình tự</em> của Figma chứ đừng bắt chước kết quả. Ba ý cốt lõi dùng lại được ở mọi quy mô: (1) đo phụ thuộc bằng dữ liệu runtime thật, đừng đọc code; (2) tách "đổi đường đi" khỏi "đổi đích đến" và làm cái trước trong điều kiện vô hại; (3) tự động hoá thao tác cắt để nó lặp lại được — vì lần cắt đầu bao giờ cũng nhỏ, còn lần cắt thứ mười mới là lần chuyển 50 bảng.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> Tim Liang, <a href="https://www.figma.com/blog/how-figma-scaled-to-multiple-databases/" target="_blank">"The growing pains of database architecture"</a>, Figma Engineering.</div>
+  </article>
+
+  <!-- GÓC NHÌN -->
+  <article class="card" id="gocnhin">
+    <span class="tag view">Góc nhìn</span>
+    <h2 class="head">Góc nhìn · Cái trần không nằm ở database, mà ở chỗ "ai được phép làm gì với nó"</h2>
+
+    <p>Đọc hai bài cạnh nhau, thứ nổi lên rõ nhất không phải kỹ thuật. Cả hai đội đều dùng Postgres, đều dùng PgBouncer, đều đẩy đọc sang replica đầu tiên. Khác biệt về kiến trúc — chia hay không chia — hoá ra lại là phần <em>ít quan trọng nhất</em> trong cả hai câu chuyện.</p>
+
+    <p>Thứ quyết định là một danh sách các <strong>trần cứng đặt lên hành vi</strong>. OpenAI cấm thêm bảng mới vào cụm hiện tại, cấm thay đổi schema gây ghi lại bảng, đặt timeout 5 giây cho thao tác schema, giới hạn tốc độ backfill dù việc đó kéo dài hơn một tuần, và giữ khả năng chặn một query digest cụ thể.<sup><a href="https://openai.com/index/scaling-postgresql/" target="_blank">[1]</a></sup> Figma thì đảm bảo không client nào chạm thẳng vào database mà phải qua PgBouncer, và dựng bộ kiểm tra runtime để biết ai đang đụng vào bảng nào.<sup><a href="https://www.figma.com/blog/how-figma-scaled-to-multiple-databases/" target="_blank">[2]</a></sup> Không cái nào trong số đó là công nghệ. Tất cả đều là <em>luật</em>, được cài vào chỗ mà người ta không thể vòng qua.</p>
+
+    <div class="mech"><b>Cơ chế — vì sao luật lại hiệu quả hơn tối ưu:</b> một lần tối ưu query mua cho bạn một khoảng dư địa cố định, rồi tăng trưởng ăn hết. Một cái trần cứng thì <em>thay đổi phân phối</em> của những thứ sẽ được đưa vào hệ thống từ nay về sau. Cấm bảng mới không làm hệ chạy nhanh hơn một mili-giây, nhưng nó chặn đứng dòng chảy của mọi workload tương lai chưa được cân nhắc. Timeout 5 giây không tăng thông lượng, nhưng nó xoá bỏ cả một lớp sự cố khỏi tương lai. Nói theo ngôn ngữ độ tin cậy: tối ưu tác động lên giá trị trung vị, còn trần cứng tác động lên <em>đuôi</em> — mà sự cố thì luôn sống ở đuôi. Đây cũng là lý do một đội nhỏ có thể áp dụng bài học này gần như toàn bộ: bạn không có 50 replica, nhưng bạn hoàn toàn đặt được timeout và một danh sách luật schema, ngay hôm nay, miễn phí.</div>
+
+    <p>Một điểm chung nữa, ít vui hơn: cả hai bài đều là chuyện <em>sửa từng thứ nhỏ trong một hệ đang sống</em>, không viết lại gì, không di trú gì. Đặt cạnh mấy số gần đây của bản tin — <a href="/2026-09-10" target="_blank">dự án ERP sáu năm của Zeiss</a> hay <a href="/2026-09-06" target="_blank">nghiên cứu về di trú code cũ bằng AI</a> — mẫu hình khá rõ: những thay đổi để lại kết quả đo được thường là loại có <em>phạm vi đóng</em>. Bỏ index rồi dựng lại sau khi chép. Đặt một khoá cache. Thêm một timeout. Từng cái nhỏ tới mức không đáng một cuộc họp, nhưng cộng lại thì chúng là thứ đang giữ cho 800 triệu người dùng chạy trên một primary.</p>
+
+    <h3 class="sub">Rút ra theo quy mô</h3>
+    <div class="scale">
+      <div class="col small">
+        <h4>▸ Đội nhỏ / startup dưới 10 người</h4>
+        <ul>
+          <li><strong>Đặt trần trước, tối ưu sau.</strong> Timeout cho phiên nhàn rỗi trong transaction, timeout cho thao tác schema, timeout cho query. Ba dòng cấu hình, xoá được cả một lớp sự cố tương lai.<sup><a href="https://openai.com/index/scaling-postgresql/" target="_blank">[1]</a></sup></li>
+          <li><strong>Dựng connection pool ngay cả khi chưa cần.</strong> Cả hai đội đều làm việc này trước mọi thứ khác, và nó vừa chống cạn connection vừa cắt vài chục mili-giây khỏi mỗi lần mở kết nối.<sup><a href="https://openai.com/index/scaling-postgresql/" target="_blank">[1]</a></sup></li>
+          <li><strong>Đo hai con số trước mọi tranh luận kiến trúc:</strong> ghi chiếm bao nhiêu phần tải, và bao nhiêu phần đọc <em>bắt buộc</em> phải ở primary. Không có hai số đó thì "có nên shard không" chỉ là cảm tính.</li>
+          <li><strong>Đừng shard.</strong> Gần như chắc chắn bạn còn cách trần rất xa, và trần đó cao hơn bạn tưởng.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>▸ Đội đã có sản phẩm chạy production</h4>
+        <ul>
+          <li><strong>Xem lại hành vi retry của client.</strong> Khoảng chờ quá ngắn là nhiên liệu cho vòng xoáy chết; thêm ngẫu nhiên vào khoảng chờ và huỷ query phía server khi client đã bỏ cuộc.<sup><a href="https://openai.com/index/scaling-postgresql/" target="_blank">[1]</a></sup></li>
+          <li><strong>Thêm khoá chống dẫm đạp cache cho các khoá nóng nhất.</strong> Vài chục dòng, và mức tiết kiệm lớn nhất rơi đúng lúc hệ đang yếu nhất.<sup><a href="https://openai.com/index/scaling-postgresql/" target="_blank">[1]</a></sup></li>
+          <li><strong>Tách hạng workload theo đường đi, không theo model dữ liệu.</strong> Việc chạy nền và báo cáo đi sang instance riêng; đây cũng là điều kiện tiên quyết nếu sau này bạn muốn cắt chuyển mà chỉ mất vài chục giây.<sup><a href="https://www.figma.com/blog/how-figma-scaled-to-multiple-databases/" target="_blank">[2]</a></sup></li>
+          <li><strong>Soi SQL mà ORM thật sự phát ra</strong>, đặc biệt là các query join nhiều bảng — chi phí của chúng không ổn định và có thể nhảy vọt mà không ai deploy gì.<sup><a href="https://openai.com/index/scaling-postgresql/" target="_blank">[1]</a></sup></li>
+          <li><strong>Nếu p99 có đỉnh đều đặn theo chu kỳ mà CPU vẫn đẹp</strong>, nghi ngờ đợt xả trang bẩn định kỳ và giới hạn ném ra của đĩa trước khi nghi query.<sup><a href="https://www.michal-drozd.com/en/blog/postgresql-checkpoint-spikes/" target="_blank">[3]</a></sup></li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="sub">Ba việc làm được trong tuần này</h3>
+    <div class="doslist">
+      <div><strong>1 · Trả lời một câu hỏi trong 15 phút: 3 giờ sáng, người trực có cách nào làm một query cụ thể ngừng chạy trong vòng một phút không?</strong> Nếu câu trả lời là "rollback deploy" thì bạn chưa có nút đó. OpenAI coi khả năng chặn theo query digest là một dạng cắt tải có mục tiêu, cho phép hồi phục nhanh.<sup><a href="https://openai.com/index/scaling-postgresql/" target="_blank">[1]</a></sup></div>
+      <div><strong>2 · Liệt kê mọi query chạy dài trên database chính</strong> — báo cáo, job nền, thao tác quản trị — rồi chuyển chúng sang replica hoặc instance riêng. Việc này có lợi ngay lập tức, và nó là điều kiện ngầm để về sau bạn cắt chuyển được mà chỉ mất vài chục giây.<sup><a href="https://www.figma.com/blog/how-figma-scaled-to-multiple-databases/" target="_blank">[2]</a></sup></div>
+      <div><strong>3 · Viết ra một trang luật schema và dán vào quy trình review.</strong> Thao tác nào được phép, thao tác nào phải làm ở chế độ đồng thời, timeout là bao nhiêu, backfill được chạy nhanh tới đâu. Đây là thứ rẻ nhất trong cả hai bài, và là thứ đội nhỏ sao chép được nguyên vẹn.<sup><a href="https://openai.com/index/scaling-postgresql/" target="_blank">[1]</a></sup></div>
+    </div>
+
+    <div class="takeaway">💡 Câu hỏi kiểm tra cho tuần tới: <strong>trong hệ của bạn, thứ gì đang được phép chạy vô hạn?</strong> Một transaction không có timeout, một backfill không có giới hạn tốc độ, một retry không có khoảng chờ, một query không có trần thời gian. Mỗi cái là một dòng cấu hình còn thiếu — và gần như mọi sự cố database đáng nhớ đều bắt đầu từ một trong số đó.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> [1] Bohan Zhang, <a href="https://openai.com/index/scaling-postgresql/" target="_blank">OpenAI Engineering, 22/01/2026</a> · [2] Tim Liang, <a href="https://www.figma.com/blog/how-figma-scaled-to-multiple-databases/" target="_blank">Figma Engineering</a> · [3] Michal Drozd, <a href="https://www.michal-drozd.com/en/blog/postgresql-checkpoint-spikes/" target="_blank">"PostgreSQL Checkpoint Spikes"</a>, 08/12/2025 và <a href="https://www.michal-drozd.com/en/blog/database-connection-pool-exhaustion/" target="_blank">"Database Connection Pool Exhaustion"</a>.</div>
+  </article>
+
+  <div class="foot">Bản tin sáng · Số 11/09/2026 · Biên tập từ nguồn công khai, mọi số liệu dẫn nguồn ngay cạnh câu · <a href="/" style="color:#6b7280">Về trang bìa</a></div>
+</div>
+</body>
+</html>
