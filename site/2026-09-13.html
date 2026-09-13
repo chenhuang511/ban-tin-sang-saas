@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>5 người, 5 tháng, 5× sản lượng — nhưng lần đầu Atlassian đẩy prototype AI lên production thì vỡ; &amp; dữ liệu hai dự án: PR to gấp 3,5 lần, PR một dòng gần như tuyệt chủng · 13/09/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 13/09/2026</div>
+    <h1 class="title">5 người, 5 tháng, 5× sản lượng — nhưng lần đầu Atlassian đẩy prototype AI lên production thì vỡ; &amp; dữ liệu hai dự án: PR to gấp 3,5 lần, PR một dòng gần như tuyệt chủng</h1>
+    <div class="meta">13/09/2026 · Đọc khoảng 15 phút · Nguồn: Anand Shastri — Inside Atlassian (26/08/2026) · Pawel Brodzinski — Lunar Logic (14/07/2026)</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: hai số gần nhất ở mảng vận hành hệ đang chạy, hôm nay bản tin quay về <b>quy trình sản xuất phần mềm</b> — cụ thể là chuyện gì xảy ra với <em>kích cỡ một đơn vị công việc</em> khi agent viết phần lớn code. Cả hai nguồn đều là bài cấp một do chính người trong cuộc viết, nhưng không nằm trong bảy ngày gần nhất (26/08 và 14/07). Tuần này không có bài cấp một nào mới hơn kể cùng câu chuyện với số đo kèm theo, và cặp "một đội kể cách họ sửa" đặt cạnh "một đội đo xem chuyện gì thật sự thay đổi" thì vẫn đúng nguyên. Các khối gắn nhãn <b style="color:#1e40af">Cơ chế</b>, bảng đối chiếu và mục "Rút ra theo quy mô" là phân tích tổng hợp của bản tin từ nguồn cộng thực hành phổ biến — <em>không trích nguyên văn</em>. Mọi con số đều dẫn nguồn ngay cạnh câu.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1"><strong>Bài 1</strong> — Atlassian: 15 tiếng để agent đẻ ra một sản phẩm chạy được, rồi vài tháng để hiểu ra vì sao nó không lên production được<br><span style="font-size:13.5px;color:#6b7280">· dàn agent planner–coder–reviewer và 250 phiên · bốn vết nứt khi thay mock bằng thật · vì sao E2E test tự hủy tác dụng · "làm bài toán nhỏ lại" · đo 5× bằng cách nào để con số có nghĩa</span></a></li>
+      <li><a href="#bai2"><strong>Bài 2</strong> — Lunar Logic đo hai dự án giống nhau: PR trung bình 232 → 817 dòng, và loại PR dễ review nhất gần như biến mất<br><span style="font-size:13.5px;color:#6b7280">· phân bố mới dịch về đâu · P90 từ 600 lên 1.799 dòng · vì sao ngưỡng 200 dòng của Cisco vẫn là mốc · vì sao "bảo agent làm nhỏ lại" nghe hợp lý mà không ai làm</span></a></li>
+      <li><a href="#gocnhin"><strong>Góc nhìn</strong> — Biến số ẩn không phải model, mà là kích cỡ lô hàng &amp; 3 việc làm được tuần này</a></li>
+    </ol>
+  </nav>
+
+  <!-- BÀI 1 -->
+  <article class="card" id="bai1">
+    <span class="tag saas">Quy trình sản xuất · case cấp một</span>
+    <h2 class="head">Bài 1 · Atlassian: agent dựng xong sản phẩm trong 15 tiếng, rồi đội mất mấy tháng mới hiểu vì sao không đẩy lên production được</h2>
+    <p class="src">Nguồn: Anand Shastri (Principal Software Engineer) — "From prototype to production: lessons learned taking AI-built software to enterprise scale", Inside Atlassian, 26/08/2026 · <a href="https://www.atlassian.com/blog/jira/ai-built-prototype-to-production" target="_blank">atlassian.com/blog</a>. Bài do chính kỹ sư trong đội viết; mọi con số là Atlassian tự công bố và tự đo. Lưu ý: đây cũng là kênh truyền thông sản phẩm của Atlassian — bộ công cụ dùng trong bài là Jira/Confluence/Bitbucket/Rovo của chính họ.</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">15 tiếng</div><div class="lab">để dàn agent biến một PRD thành ứng dụng chạy được với database thật — không phải wireframe <a href="https://www.atlassian.com/blog/jira/ai-built-prototype-to-production" target="_blank">(Atlassian, 26/08/2026)</a></div></div>
+      <div class="box"><div class="num">~250 phiên</div><div class="lab">số phiên agent trong 15 tiếng đó, kèm 100+ lần review bị từ chối và 10+ lần phải leo thang lên người <a href="https://www.atlassian.com/blog/jira/ai-built-prototype-to-production" target="_blank">(Atlassian)</a></div></div>
+      <div class="box"><div class="num">5 người / 5 tháng / ~5×</div><div class="lab">đội 5 người đưa prototype cuối tuần thành sản phẩm cấp doanh nghiệp trong ~5 tháng, sản lượng mỗi kỹ sư ~5× so với một dự án nền cùng loại <a href="https://www.atlassian.com/blog/jira/ai-built-prototype-to-production" target="_blank">(Atlassian)</a></div></div>
+    </div>
+
+    <p>Bài này đáng đọc không phải vì con số 5×. Nó đáng đọc vì tác giả kể cả đoạn thất bại ở giữa, và đoạn đó mới là phần dùng được. Đội đặt câu hỏi rất cụ thể: xây một thứ ở quy mô doanh nghiệp — dữ liệu nhạy cảm, phân quyền theo vai chặt chẽ, yêu cầu audit thật, hàng nghìn người dùng — thì làm kiểu gì? Họ kết luận rằng nó không phải vibe-coding, cũng không phải SDLC truyền thống, mà nằm đâu đó ở giữa.<sup><a href="https://www.atlassian.com/blog/jira/ai-built-prototype-to-production" target="_blank">[1]</a></sup></p>
+
+    <h3 class="sub">Chặng 1: phần dễ — dựng prototype bằng một dàn agent</h3>
+
+    <p>Họ bắt đầu từ một PRD ở mức cao, trong đó có luật nghiệp vụ, các persona, các mức truy cập và kiểu truy cập, yêu cầu chức năng, mô hình dữ liệu, và cả yêu cầu phi chức năng như khả năng mở rộng.<sup><a href="https://www.atlassian.com/blog/jira/ai-built-prototype-to-production" target="_blank">[1]</a></sup> Đội biết một phiên agent duy nhất không nuốt nổi cả PRD — context window quá nhỏ, và agent sẽ bịa ở giữa đường. Nên họ dựng một dàn bốn vai: một agent lập kế hoạch chẻ PRD thành các hạng mục công việc, một agent viết code, một agent <em>khác</em> đi review kèm phần git, và một người ở giữa để gỡ khi hai agent cãi nhau. Các agent trao đổi trên một bảng tin chung, phải giải trình hành động của mình, và mọi bất đồng đều bị đẩy lên.<sup><a href="https://www.atlassian.com/blog/jira/ai-built-prototype-to-production" target="_blank">[1]</a></sup></p>
+
+    <p>Đầu vào còn có một thứ nữa, mà theo bản tin thì đây chính là mầm của rắc rối về sau: danh sách những chỗ được phép mock — tích hợp thật, xác thực, và cách suy ra persona.<sup><a href="https://www.atlassian.com/blog/jira/ai-built-prototype-to-production" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao "agent review agent" cho kết quả tốt hơn một agent:</b> 100+ lần từ chối review trên ~250 phiên nghĩa là cứ khoảng 2-3 phiên thì có một lần bị đánh trượt.<sup><a href="https://www.atlassian.com/blog/jira/ai-built-prototype-to-production" target="_blank">[1]</a></sup> Tỷ lệ đó cao đến mức nếu bỏ agent review đi, gần một nửa số việc sẽ đi tiếp với lỗi. Lý do nằm ở chỗ chính tác giả nói ở cuối bài: một agent tin bản thân nó quá mức, và niềm tin đó khiến nó trôi dần khỏi chỉ dẫn ban đầu.<sup><a href="https://www.atlassian.com/blog/jira/ai-built-prototype-to-production" target="_blank">[1]</a></sup> Agent viết code không phát hiện ra mình đã đi chệch, vì toàn bộ lịch sử chệch hướng đó nằm trong context của nó và trông rất hợp lý. Một agent khác, khởi động sạch, chỉ nhìn thấy diff và yêu cầu — nên nó không thừa hưởng cái đà chệch đó. Đây là lý do việc tách <em>người viết</em> khỏi <em>người duyệt</em> đáng giá không kém gì ở đội người: không phải vì agent thứ hai giỏi hơn, mà vì nó không có cùng ký ức. Chi phí để có được lớp này rất rẻ — chạy một phiên riêng với prompt khác — trong khi nó chặn đúng loại lỗi mà chính agent kia không thể tự thấy.</div>
+
+    <h3 class="sub">Chặng 2: bốn vết nứt khi thay mock bằng thật</h3>
+
+    <p>Prototype đã có sẵn persona và luật nghiệp vụ, nhưng tất cả đều dựa trên mock. Ý định ban đầu rất đơn giản: giữ nguyên các mức truy cập và luật nghiệp vụ, chỉ thay hệ xác thực giả bằng hệ thật. Trước khi động vào, đội viết một loạt test E2E để khóa hành vi hiện tại lại, sao cho khi thay dần từng mảnh sang tích hợp thật thì không âm thầm đẻ ra hồi quy.<sup><a href="https://www.atlassian.com/blog/jira/ai-built-prototype-to-production" target="_blank">[1]</a></sup> Nghe rất chuẩn sách giáo khoa. Nó không chạy.</p>
+
+    <p>Bốn chỗ vỡ, theo đúng thứ tự tác giả kể:<sup><a href="https://www.atlassian.com/blog/jira/ai-built-prototype-to-production" target="_blank">[1]</a></sup></p>
+
+    <div class="doslist">
+      <div><strong>❌ Schema thật khác schema mock.</strong> Schema database ban đầu không trụ được, và đội không thể chỉ biến đổi dữ liệu cho khớp, vì prototype đã nướng sẵn vào trong nó những giả định sai cùng rất nhiều đường tắt để kịp ra kết quả mong muốn.</div>
+      <div><strong>❌ Thay đổi nền móng làm hỏng chính các test E2E.</strong> PR nào cũng kèm theo sửa test E2E — tức là mục đích của bộ test coi như mất sạch. Với vốn hiểu biết nghiệp vụ còn mỏng, đội không phân biệt nổi sửa nào đúng sửa nào sai lúc review.</div>
+      <div><strong>❌ Mặt đất liên tục dịch chuyển.</strong> Yêu cầu mới từ phía sản phẩm vẫn đổ xuống, trong khi một phần giả định của prototype vẫn đang chờ sửa — tất cả cùng lúc.</div>
+      <div><strong>❌ Không có kiến trúc để lái theo.</strong> Thiếu một thiết kế hệ thống ở mức cao, đội không có quan điểm về việc mọi thứ <em>nên</em> được làm thế nào. Code phình ra phức tạp, agent cứ nối các miền nghiệp vụ lại theo những cách thấy sai sai, và họ đâm vào phụ thuộc vòng hết lần này tới lần khác.</div>
+    </div>
+
+    <p>Kết cục là họ chia codebase làm hai phần — giữ và xóa — rồi xóa phần còn lại.<sup><a href="https://www.atlassian.com/blog/jira/ai-built-prototype-to-production" target="_blank">[1]</a></sup> Và đây là câu đắt nhất trong cả bài: sinh code không còn khó nữa; agent đẻ code nhanh hơn tốc độ con người hiểu được nghiệp vụ, mà không lượng code sinh ra nào chữa được một vấn đề bạn chưa hiểu. Nút thắt là ngữ cảnh trong đầu người.<sup><a href="https://www.atlassian.com/blog/jira/ai-built-prototype-to-production" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao bộ test E2E dựng trên nền mock lại tự hủy:</b> một bộ test hồi quy chỉ có giá trị khi nó <em>độc lập</em> với thứ bạn sắp thay. Nếu test đi qua schema, qua luồng đăng nhập, qua cách suy ra persona — mà cả ba thứ đó đều là mock và đều sắp bị thay — thì test không khóa được hành vi, nó chỉ khóa cái mock. Lúc thay thật, test buộc phải đổi, và một bộ test phải đổi cùng lúc với code thì không còn là trọng tài nữa. Điểm đau thứ hai nằm ở khâu review: khi đội chưa nắm nghiệp vụ, họ nhìn một PR có sửa test mà không biết đó là "sửa cho đúng thực tế mới" hay "sửa cho test thôi kêu". Bài học dùng lại được: <em>viết test hồi quy ở tầng mà bạn không định thay</em>. Nếu tất cả các tầng đều sắp thay, thì thứ bạn cần không phải là test — mà là hiểu nghiệp vụ trước đã. Đây cũng chính là chỗ mà một prototype "chạy được" đánh lừa người ta mạnh nhất: nó chạy, nên trông như đã có hành vi đúng để mà khóa lại; thật ra nó mới chỉ có <em>một</em> hành vi, và là hành vi của bản mock.</div>
+
+    <h3 class="sub">Chặng 3: làm bài toán nhỏ lại — hai vòng, và vòng thứ hai mới ăn</h3>
+
+    <p>Đội lùi một bước. Lý do lần trước đổ là họ xây nhanh hơn tốc độ hiểu, nên lần này họ cố tình thu nhỏ bài toán: chọn một tính năng duy nhất mà đội tiêu hóa nổi và ship được trong vài tuần, rồi dùng chính nó để tìm ra cách nên làm.<sup><a href="https://www.atlassian.com/blog/jira/ai-built-prototype-to-production" target="_blank">[1]</a></sup></p>
+
+    <p><strong>Vòng một</strong> — lấy một PRD nhỏ, chẻ thành nhiều ticket chạy song song, lập kế hoạch cho ticket <em>trước</em> khi thực thi, mỗi hạng mục một PR. Việc bám theo agent dễ hơn hẳn. Nhưng vấn đề mới nổi lên: hành vi sản phẩm sai vẫn lộ ra muộn, vì vốn nghiệp vụ mỏng nên các ca biên xuất hiện quá trễ — code khớp với hình dung kiến trúc nhưng lệch ở ca sử dụng thật, và phía sản phẩm cứ bắt lỗi sau khi đã merge vào main. Song song đó, người review vật lộn để hiểu thay đổi hoặc đề xuất thiết kế khác, vì các quyết định lớn được đưa ra mà không có cả đội kỹ thuật tham gia.<sup><a href="https://www.atlassian.com/blog/jira/ai-built-prototype-to-production" target="_blank">[1]</a></sup></p>
+
+    <p><strong>Vòng hai</strong> — trước khi bất kỳ agent nào chạm vào tính năng, đội làm cái việc buồn tẻ và truyền thống: lên kế hoạch và grooming thật sự, ngồi với nhau, không bám vào AI. Cả đội đi qua tính năng, hỏi các câu hỏi ca biên, tiêu hóa hết phần thiết kế. Sau đó họ dựng một <em>trình lập kế hoạch tương tác</em> có quyền đọc codebase, PRD và các tài liệu dự án — nó được thiết kế để hỏi lại cho rõ và chỉ ra chỗ hổng trong PRD. Đội trò chuyện với nó cho tới khi mọi câu hỏi có lời đáp, rồi mới định hình bản chẻ việc và tinh chỉnh ticket. Tất cả xong trước khi một dòng code được chạy.<sup><a href="https://www.atlassian.com/blog/jira/ai-built-prototype-to-production" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao "hỏi lại cho rõ" phải là một bước riêng có công cụ, chứ không phải một thói quen tốt:</b> tác giả nêu ra một ràng buộc mà bản tin thấy đắt nhất trong cả bài — phần mềm cấp doanh nghiệp được nhiều bên định hình (sản phẩm, thiết kế, tuân thủ, kỹ thuật), và <em>agent không thể dừng giữa chừng để hỏi</em> bất kỳ bên nào trong số đó.<sup><a href="https://www.atlassian.com/blog/jira/ai-built-prototype-to-production" target="_blank">[1]</a></sup> Với một kỹ sư người, việc hỏi lại rải đều trong lúc làm: gặp chỗ mơ hồ thì nhắn Slack, chờ nửa tiếng, làm tiếp. Với agent, mọi câu hỏi chưa được trả lời sẽ biến thành một giả định — và giả định đó được hiện thực hóa thành code ngay lập tức, ở tốc độ máy. Nghĩa là toàn bộ ngân sách "hỏi lại" của một tính năng bị dồn về <em>trước</em> khi chạy. Đó là lý do một agent chuyên đi bới chỗ hổng trong PRD lại có giá: nó không thay người ra quyết định, nó chỉ ép các quyết định phải hiện ra sớm, lúc sửa còn rẻ. Và đây là chỗ khác biệt thật sự giữa "dùng AI để viết nhanh" và "đổi quy trình vì có AI".</div>
+
+    <p>Còn một vấn đề sót lại, và nó nối thẳng sang bài 2 của số hôm nay: <strong>PR vẫn to hơn hẳn PR truyền thống.</strong> Agent review PR trên Bitbucket không gặp khó khăn gì khi đọc; người mới là bên vất vả — họ khó cập nhật bản đồ code trong đầu khi PR lớn. Cách xử lý của đội không phải là chẻ nhỏ PR, mà là dựng thêm một "bạn đồng hành review": một công cụ có quyền đọc codebase, PRD và hạng mục công việc, và <em>trả lời được câu hỏi</em> về thay đổi đó. Nó không chỉ nêu ra chỗ thiếu; người review dùng nó để hiểu code mà không phải kéo tác giả vào cho những câu đơn giản.<sup><a href="https://www.atlassian.com/blog/jira/ai-built-prototype-to-production" target="_blank">[1]</a></sup></p>
+
+    <h3 class="sub">Chặng 4: con số 5× được đo thế nào</h3>
+
+    <p>Phần này nên đọc kỹ, vì nó là lý do con số có nghĩa thay vì chỉ là một câu quảng cáo. Đội nói rõ họ <em>không ước lượng</em>. Họ chạy đối chiếu với một mốc nền nội bộ có thật: một sản phẩm cùng hạng, cùng tech stack, được làm theo lối cũ bởi một đội truyền thống hai năm trước.<sup><a href="https://www.atlassian.com/blog/jira/ai-built-prototype-to-production" target="_blank">[1]</a></sup></p>
+
+    <p>Và họ nêu thẳng cái bẫy mà phần lớn so sánh kiểu này rơi vào: đặt một sản phẩm mới sinh cạnh một sản phẩm đã trưởng thành thì không chứng minh được gì. Nên thay vào đó họ xếp các giai đoạn tương đương cạnh nhau — <em>những tháng đầu của mỗi sản phẩm tính từ commit đầu tiên</em> — rồi chạy cùng một bộ phép đo có kịch bản trên cả hai. Trước đó còn một bước xác nhận hai bên cùng hạng cân: kích thước schema database tương đương, bề mặt tích hợp bên ngoài tương đương, cùng ngôn ngữ chủ đạo, và khối lượng code viết tay tương đương.<sup><a href="https://www.atlassian.com/blog/jira/ai-built-prototype-to-production" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao bốn điều kiện "cùng hạng cân" kia là phần đáng sao chép nhất:</b> số 09/09 của bản tin đã nói về khoảng trống đo lường trong năng suất AI, và đây là một lời giải cụ thể cho nó. Ba thứ giết chết phần lớn so sánh năng suất là: (a) so hai dự án khác độ khó, (b) so hai giai đoạn khác nhau trong vòng đời, (c) đo bằng thước khác nhau ở hai phía. Bốn điều kiện của Atlassian bịt (a); việc cắt "từ commit đầu tiên" bịt (b); "cùng một bộ phép đo có kịch bản" bịt (c). Vẫn còn những thứ không bịt được và bản tin nêu ra để bạn đọc con số cho đúng: mốc nền cách đây hai năm, nên nó gánh luôn mọi cải thiện về công cụ, hạ tầng và kinh nghiệm tổ chức trong hai năm đó — không chỉ riêng phần AI; và đội 5 người này biết mình đang được đo, điều mà đội nền hai năm trước không biết. Cách dùng đúng con số 5× không phải là kỳ vọng đội bạn cũng 5×, mà là mượn <em>phương pháp</em>: nếu bạn muốn biết AI đổi được gì ở đội mình, thứ bạn cần trước tiên là một dự án cũ cùng hạng cân và một bộ phép đo chạy được trên cả hai.</div>
+
+    <h3 class="sub">Những gì đội mang sang dự án sau</h3>
+
+    <p>Bài liệt kê tám điều rút ra; bản tin chọn ra những điều có sức nặng hơn cả một lời khuyên chung chung.<sup><a href="https://www.atlassian.com/blog/jira/ai-built-prototype-to-production" target="_blank">[1]</a></sup></p>
+
+    <div class="doslist">
+      <div><strong>✅ Người vẫn giữ miền nghiệp vụ và quyền quyết định; agent tăng tốc phần thực thi.</strong> Quyết định kiến trúc, quyết định sản phẩm, và một cái cổng chặn trước mọi thứ rủi ro — tất cả ở lại phía người.</div>
+      <div><strong>❌ "Một phát ăn ngay" cả ứng dụng production, hay chỉ "chạy vòng lặp" lên nó, không dùng được.</strong> Cái dòng duy nhất đang âm thầm giữ cho ứng dụng đứng vững chính là dòng agent sẽ vui vẻ sửa. Tác giả ví agent như cây liễu ban điều ước: nó cho bạn đúng điều bạn xin, còn cái giá thì khó thấy nếu bạn chưa hiểu chính ứng dụng của mình.</div>
+      <div><strong>✅ Coi agent như đồng đội.</strong> Cái gì một người trong đội cần biết thì agent cũng cần. Một quy ước hay một cái bẫy chỉ nằm trong đầu một kỹ sư là thứ agent không với tới, và nó sẽ lôi người trở lại vào vòng lặp. Viết ra chỗ agent truy vấn được thì lần nào cũng có lãi.</div>
+      <div><strong>✅ Bất cứ việc gì người làm bằng tay đều là ứng viên để đóng gói thành một "skill".</strong> Dựng workspace, chạy bộ test, nối vào DB dev để debug, bật một tích hợp giả, sinh một component UI từ bản thiết kế — mỗi thứ được gói lại thành việc agent tự chạy được.</div>
+      <div><strong>✅ Dựng công cụ dùng một lần.</strong> Nút thắt cứ dịch chỗ liên tục. Trước đây làm công cụ đắt nên đội bỏ qua mọi thứ quá riêng cho một sản phẩm; giờ thì không — chỗ nào người bị nghẽn, dựng luôn một công cụ riêng cho chỗ đó, rẻ và đáng.</div>
+      <div><strong>✅ Monorepo không phải ý tồi.</strong> Agent không quan tâm hai bên viết bằng hai ngôn ngữ khác nhau; nó quan tâm việc nhìn được một thay đổi từ đầu tới cuối. Có client, server, schema, migration và test trong một repo, nó lần được từ giao diện xuống tận database và thấy hết bán kính ảnh hưởng trước khi động vào.</div>
+    </div>
+
+    <p>Một chi tiết nữa đáng ghi: đội đổ các quyết định của mình vào một kho trí nhớ dài hạn — có một agent ghi chép lại những gì chốt trong cuộc họp, và một agent khác bắt các khúc ngoặt quan trọng bị chôn trong luồng chat.<sup><a href="https://www.atlassian.com/blog/jira/ai-built-prototype-to-production" target="_blank">[1]</a></sup> Agent với tới càng nhiều ngữ cảnh thì sản phẩm nó tạo ra càng khá.</p>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> câu chuyện này không phải "AI làm nhanh gấp 5". Nó là: chi phí sinh code đã rơi gần về không, nên nút thắt dời sang chỗ khác — tốc độ một đội người <em>hiểu</em> miền nghiệp vụ của chính họ. Mọi thứ đội Atlassian thêm vào ở vòng hai đều nhằm vào đúng nút thắt đó: grooming có người thật, một công cụ moi chỗ hổng trong PRD trước khi code chạy, một trợ lý giúp người review hiểu PR to. Không có thứ nào trong đó làm code sinh ra nhanh hơn cả.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo bài 1:</strong> [1] Anand Shastri, <a href="https://www.atlassian.com/blog/jira/ai-built-prototype-to-production" target="_blank">"From prototype to production: lessons learned taking AI-built software to enterprise scale", Inside Atlassian, 26/08/2026</a>.</div>
+  </article>
+
+  <!-- BÀI 2 -->
+  <article class="card" id="bai2">
+    <span class="tag view">Quy trình sản xuất · dữ liệu cấp một</span>
+    <h2 class="head">Bài 2 · Hai dự án gần như giống hệt nhau, khác mỗi cách dùng AI: PR trung bình từ 232 lên 817 dòng, và PR một dòng gần như tuyệt chủng</h2>
+    <p class="src">Nguồn: Pawel Brodzinski — "We 3.5x'd Our Pull Requests with AI: Now We Catch Fewer Bugs", 14/07/2026 · <a href="https://brodzinski.com/2026/07/3x-pull-request-size-ai.html" target="_blank">brodzinski.com</a>. Dữ liệu rút từ hai dự án của Lunar Logic, công ty do tác giả điều hành. Quy mô nhỏ (hai dự án, mỗi dự án vài trăm PR) — đây là một quan sát có số, không phải benchmark ngành.</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">232 → 817 dòng</div><div class="lab">kích thước PR trung bình, dự án ít AI so với dự án làm hoàn toàn bằng Claude — tăng 3,5× <a href="https://brodzinski.com/2026/07/3x-pull-request-size-ai.html" target="_blank">(Brodzinski, 14/07/2026)</a></div></div>
+      <div class="box"><div class="num">1/5 → 1/20</div><div class="lab">tỷ lệ PR bé xíu (cỡ một dòng) trong tổng số — thay đổi lớn nhất trong cả bộ dữ liệu <a href="https://brodzinski.com/2026/07/3x-pull-request-size-ai.html" target="_blank">(Brodzinski)</a></div></div>
+      <div class="box"><div class="num">13% → 33%</div><div class="lab">tỷ lệ PR thuộc nhóm to và rất to, tăng 2,5× <a href="https://brodzinski.com/2026/07/3x-pull-request-size-ai.html" target="_blank">(Brodzinski)</a></div></div>
+    </div>
+
+    <p>Điểm đầu tiên khiến bài này đáng tin hơn phần lớn bài cùng chủ đề: tác giả mở đầu bằng việc tự đính chính. Trước đó ông từng nói kích thước PR trung bình đã tăng một bậc — khoảng 10 lần — dựa trên những cuộc nói chuyện hành lang với lập trình viên ở công ty. Rồi ông đi lấy số thật và thừa nhận mình sai.<sup><a href="https://brodzinski.com/2026/07/3x-pull-request-size-ai.html" target="_blank">[2]</a></sup></p>
+
+    <p>Thiết kế so sánh khá sạch. Hai dự án tương đương về độ phức tạp, công sức và quy mô đội; cả hai đều bắt đầu từ con số không; mỗi dự án trải qua vài trăm PR trong khoảng thời gian được phân tích; thậm chí đội kỹ thuật còn trùng nhau một phần. Khác biệt then chốt là cách dùng AI. Dự án thứ nhất — tác giả gọi là <em>Helpful</em> — thuộc thời kỳ trước Claude: có dùng AI nhưng chủ yếu là autocomplete, thỉnh thoảng ghé ChatGPT hỏi một vấn đề khó, toàn bộ code do lập trình viên quản lý theo thời gian thực. Dự án thứ hai — <em>Grateful</em> — chạy hoàn toàn bằng Claude, với giả định nền là không dòng nào viết bằng tay; trách nhiệm của kỹ sư nằm ở quản lý ngữ cảnh, viết prompt, và review.<sup><a href="https://brodzinski.com/2026/07/3x-pull-request-size-ai.html" target="_blank">[2]</a></sup></p>
+
+    <h3 class="sub">Cái gì thật sự dịch chuyển trong phân bố</h3>
+
+    <p>Đây mới là phần có giá trị, chứ không phải con số trung bình. Phần lớn PR ở cả hai dự án vẫn là loại nhỏ tới vừa — tối đa vài trăm dòng, với ngưỡng cắt tác giả dùng là 500 dòng (kích thước PR tính bằng tổng dòng thêm và dòng xóa). Ở <em>Grateful</em>, trọng tâm của nhóm này nặng hơn khoảng 100-200 dòng so với <em>Helpful</em>, nhưng với một kỹ sư đã quen codebase thì mức đó không phải thách thức.<sup><a href="https://brodzinski.com/2026/07/3x-pull-request-size-ai.html" target="_blank">[2]</a></sup></p>
+
+    <p>Cái đổi nằm ở hai đầu mút. Đầu dưới: PR bé xíu — loại một dòng kinh điển — gần như biến mất, từ 1 trên 5 xuống còn 1 trên 20.<sup><a href="https://brodzinski.com/2026/07/3x-pull-request-size-ai.html" target="_blank">[2]</a></sup> Tác giả gọi đây là thay đổi lớn nhất trong cả bộ dữ liệu, và nhận xét rằng cả một lớp công việc <em>dễ review nhất</em> đang đứng trước nguy cơ tuyệt chủng. Đầu trên: số PR lớn nhiều gần gấp ba; phân vị 90 tăng 3 lần, từ 600 lên 1.799 dòng; và các ca ngoại lai còn phình mạnh hơn — PR lớn nhất ở <em>Grateful</em> vượt 30.000 dòng, gấp gần 7 lần ca tương đương ở dự án kia.<sup><a href="https://brodzinski.com/2026/07/3x-pull-request-size-ai.html" target="_blank">[2]</a></sup></p>
+
+    <table class="tbl">
+      <tr><th>Thước đo</th><th>Dự án ít AI (<em>Helpful</em>)</th><th>Dự án full Claude (<em>Grateful</em>)</th><th>Bội số</th></tr>
+      <tr><td>PR trung bình (dòng thêm + xóa)</td><td>232</td><td>817</td><td>3,5×</td></tr>
+      <tr><td>PR trung vị</td><td>66</td><td>210</td><td>3,2×</td></tr>
+      <tr><td>Phân vị 90</td><td>600</td><td>1.799</td><td>3×</td></tr>
+      <tr><td>Tỷ lệ PR to + rất to</td><td>13%</td><td>33%</td><td>2,5×</td></tr>
+      <tr><td>Tỷ lệ PR bé xíu</td><td>1 trên 5</td><td>1 trên 20</td><td>~0,25×</td></tr>
+      <tr><td>PR lớn nhất</td><td>—</td><td>hơn 30.000 dòng</td><td>~7× ca tương đương</td></tr>
+    </table>
+    <p style="font-size:13px;color:#6b7280;margin-top:-6px">Bảng do bản tin lập lại từ các con số trong bài; không trích nguyên văn.<sup><a href="https://brodzinski.com/2026/07/3x-pull-request-size-ai.html" target="_blank">[2]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao cái chết của PR một dòng đáng lo hơn cái phình của PR to:</b> hãy để ý trung vị nhảy từ 66 lên 210 dòng, tức là hơn gấp ba, trong khi trung bình chỉ tăng 3,5 lần.<sup><a href="https://brodzinski.com/2026/07/3x-pull-request-size-ai.html" target="_blank">[2]</a></sup> Hai con số đi gần nhau nghĩa là đây không phải chuyện vài PR khổng lồ kéo trung bình lên — mà là <em>toàn bộ phân bố</em> trượt sang phải. PR một dòng không biến mất vì công việc một dòng đã hết; công việc đó vẫn còn nguyên. Nó biến mất vì khi đã mở một phiên agent, chi phí biên để "tiện tay làm nốt mấy chỗ liên quan" gần bằng không, nên lô hàng tự phình. Chỗ mất mát thật nằm ở đây: PR một dòng là loại duy nhất mà người review đọc <em>trọn vẹn</em>, có kết luận chắc chắn, và mất 30 giây. Đó là mẫu duy nhất trong quy trình mà tỷ lệ bắt lỗi gần 100%. Khi loại đó rơi từ 1/5 xuống 1/20, cái mất không phải là "vài PR nhỏ", mà là một phần tư tổng số lần review có độ tin cậy cao nhất.</div>
+
+    <h3 class="sub">Vì sao mốc 200 dòng vẫn là mốc</h3>
+
+    <p>Để nối kích thước với chất lượng, tác giả dẫn nghiên cứu case study về code review của Cisco do Smart Bear thực hiện — một nghiên cứu cũ và đã được công nhận rộng. Khuyến nghị của nó là giữ PR dưới 200 dòng; trên mức đó, người review bắt đầu bỏ sót. Nguyên văn nghiên cứu nói khoảng dưới 200 dòng cho ra mật độ lỗi phát hiện được tương đối cao, thường gấp vài lần mức trung bình, sau đó kết quả <em>"trail off considerably"</em> — và không bản review nào lớn hơn 250 dòng cho ra quá 37 lỗi trên 1.000 dòng code.<sup><a href="https://static0.smartbear.co/support/media/resources/cc/book/code-review-cisco-case-study.pdf" target="_blank">[3]</a></sup></p>
+
+    <p>Đặt hai thứ cạnh nhau thì bức tranh khá rõ: trung vị ở dự án AI-nặng là 210 dòng<sup><a href="https://brodzinski.com/2026/07/3x-pull-request-size-ai.html" target="_blank">[2]</a></sup> — tức là <em>một nửa số PR</em> đã nằm ở phía bên kia ngưỡng mà nghiên cứu Cisco coi là chỗ hiệu quả bắt đầu rơi. Ở dự án ít AI, trung vị 66 dòng nằm gọn trong vùng tốt. Tác giả tóm tắt gọn: dùng AI mạnh làm từng khối công việc to ra, và vì thế chất lượng tổng thể đi xuống.<sup><a href="https://brodzinski.com/2026/07/3x-pull-request-size-ai.html" target="_blank">[2]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao ngưỡng ~200 dòng không phải con số tùy tiện:</b> nghiên cứu Cisco đo từ thời chưa có AI, trên người thật đọc code người thật viết, nên cái nó đo là giới hạn <em>của người review</em>, không phải của người viết. Giới hạn đó không đổi khi bên viết là agent — não người vẫn giữ được chừng đó ngữ cảnh một lúc, vẫn mỏi sau chừng đó dòng. Đây là lý do con số cũ lại càng đúng hơn trong bối cảnh mới: mọi thứ khác trong quy trình đều tăng tốc, riêng năng lực review thì đứng yên. Và có một chỗ tệ hơn nữa mà bản tin muốn bạn để ý: với PR do người viết, người review ít nhất chia sẻ với tác giả cùng một dòng suy nghĩ — đọc đến giữa là đoán được ý. Với PR do agent viết theo một prompt mà người review không thấy, cái mạch đó không có, nên cùng 500 dòng thì tải nhận thức còn nặng hơn. Con số 200 vì thế nên hiểu là <em>trần lạc quan</em>, không phải mục tiêu.</div>
+
+    <h3 class="sub">Phần thẳng thắn nhất: biết cách sửa, nhưng sẽ không sửa</h3>
+
+    <p>Tác giả không dừng ở chẩn đoán. Ông nói rõ rằng không có gì trong chuỗi này là tất yếu: hoàn toàn có thể bảo Claude Code làm từng khối nhỏ cho tiện review, thậm chí bắt nó dùng kỹ thuật chú giải mà nghiên cứu Smart Bear khuyến nghị, và nhờ đó giữ được phần lớn chuẩn chất lượng. Vấn đề duy nhất: chúng ta sẽ không làm.<sup><a href="https://brodzinski.com/2026/07/3x-pull-request-size-ai.html" target="_blank">[2]</a></sup></p>
+
+    <p>Lý do ông đưa ra rất đời: làm vậy tức là buộc kỹ sư phải <em>tự bóp phanh</em> chính con agent của mình một cách nhân tạo, tăng số lần đi lại giữa người và công cụ, và đi ngược bản năng lười. Nếu agent xử được một việc lớn, cớ gì phải chẻ nó ra rồi review từng mẩu? Chưa kể phần lợi ích cảm nhận được đến ngay lập tức, còn cái giá của chất lượng kém thì trả sau.<sup><a href="https://brodzinski.com/2026/07/3x-pull-request-size-ai.html" target="_blank">[2]</a></sup></p>
+
+    <p>Chuỗi suy diễn ông vẽ ra cho tương lai: model càng khỏe thì kích thước PR điển hình càng lên; người review càng bỏ sót nhiều; việc không đào sâu vào code ở mức khái niệm càng làm chất lượng tệ thêm; phần mềm càng nhiều lỗi; lỗi đẻ ra việc làm lại cho cả agent lẫn người; và nhịp giao thứ có giá trị chậm lại vì công sức dồn vào làm lại — rồi làm lại của làm lại.<sup><a href="https://brodzinski.com/2026/07/3x-pull-request-size-ai.html" target="_blank">[2]</a></sup> Câu chốt của ông: chúng ta sẽ đi nhanh hơn rất nhiều, chỉ để rốt cuộc chậm như xưa, hoặc chậm hơn.</p>
+
+    <div class="mech"><b>Cơ chế — vì sao lô nhỏ là bài học đi mượn, và vì sao mượn lại được:</b> tác giả nhắc rằng suốt nhiều thập kỷ ngành phần mềm phải học rất chật vật cách làm việc theo lô nhỏ, và thứ đó vốn không phải phát minh của phần mềm — nó mượn từ sản xuất công nghiệp.<sup><a href="https://brodzinski.com/2026/07/3x-pull-request-size-ai.html" target="_blank">[2]</a></sup> Lý do nó đúng ở cả hai ngành là như nhau, và không dính gì tới code: lô càng to thì lỗi càng nằm lâu trong hệ trước khi bị phát hiện, và chi phí sửa một lỗi tăng theo thời gian nó đã tồn tại. Lô nhỏ không làm bạn ít lỗi hơn — nó làm vòng phản hồi ngắn lại. Điều này giải thích vì sao con số 3,5× của bài không nên đọc như "công việc nhiều gấp 3,5", mà như "mỗi lỗi giờ đây sống lâu gấp mấy lần trước khi ai đó nhìn thấy nó". Và đó cũng là lý do lời khuyên "bảo agent làm nhỏ lại" tuy nghe như bóp phanh, thật ra là bóp phanh ở một chỗ duy nhất — kích cỡ lô giao cho người duyệt — chứ không phải ở tốc độ agent sinh code.</div>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> nếu đội bạn đang dùng agent nhiều, có một phép đo rẻ mà gần như chắc chắn chưa ai làm: lấy kích thước PR trung vị của sáu tháng gần nhất và của cùng kỳ năm ngoái, rồi đặt cạnh nhau. Không cần dựng công cụ, dữ liệu đã nằm sẵn trong Git. Nếu trung vị của bạn đã vượt qua 200 dòng, thì mọi cuộc thảo luận về chất lượng code của đội đang bỏ sót biến số lớn nhất.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo bài 2:</strong> [2] Pawel Brodzinski, <a href="https://brodzinski.com/2026/07/3x-pull-request-size-ai.html" target="_blank">"We 3.5x'd Our Pull Requests with AI: Now We Catch Fewer Bugs", 14/07/2026</a> · [3] Smart Bear, <a href="https://static0.smartbear.co/support/media/resources/cc/book/code-review-cisco-case-study.pdf" target="_blank">"Best Kept Secrets of Peer Code Review — Cisco case study" (PDF)</a>, dẫn qua nguồn [2].</div>
+  </article>
+
+  <!-- GÓC NHÌN -->
+  <article class="card" id="gocnhin">
+    <span class="tag view">Góc nhìn của bản tin</span>
+    <h2 class="head">Góc nhìn · Biến số ẩn không phải model, mà là kích cỡ lô hàng</h2>
+
+    <p>Hai bài hôm nay xuất phát từ hai thế giới khác hẳn — một công ty lớn kể lại dự án nội bộ, một công ty tư vấn nhỏ đi đếm số dòng trong Git — nhưng chúng đâm vào cùng một bức tường.</p>
+
+    <p>Atlassian phát biểu nó bằng lời: agent đẻ code nhanh hơn tốc độ người hiểu miền nghiệp vụ, và nút thắt là ngữ cảnh trong đầu người.<sup><a href="https://www.atlassian.com/blog/jira/ai-built-prototype-to-production" target="_blank">[1]</a></sup> Brodzinski phát biểu nó bằng số: trung vị PR nhảy từ 66 lên 210 dòng, vượt qua ngưỡng mà một nghiên cứu từ thời chưa có AI đã chỉ ra là chỗ người review bắt đầu bỏ sót.<sup><a href="https://brodzinski.com/2026/07/3x-pull-request-size-ai.html" target="_blank">[2]</a></sup><sup><a href="https://static0.smartbear.co/support/media/resources/cc/book/code-review-cisco-case-study.pdf" target="_blank">[3]</a></sup> Đó là hai mặt của một hiện tượng.</p>
+
+    <h3 class="sub">Chỗ hai bài không đồng ý — và vì sao chỗ đó mới thú vị</h3>
+
+    <p>Hãy chú ý: khi PR quá to để người đọc nổi, Atlassian <em>không</em> chẻ nhỏ PR. Họ dựng thêm một trợ lý giúp người review hiểu PR to.<sup><a href="https://www.atlassian.com/blog/jira/ai-built-prototype-to-production" target="_blank">[1]</a></sup> Brodzinski thì nói cách duy nhất giữ được chất lượng là quay lại lô nhỏ, đồng thời dự đoán sẽ không ai chịu làm vì nó đi ngược bản năng lười.<sup><a href="https://brodzinski.com/2026/07/3x-pull-request-size-ai.html" target="_blank">[2]</a></sup></p>
+
+    <p>Nói cách khác, Atlassian chính là ví dụ sống cho dự đoán của Brodzinski: một đội có nguồn lực, làm việc rất kỷ luật, vẫn chọn <em>bù đắp</em> cho PR to thay vì thu nhỏ nó. Và họ có lý do chính đáng — họ đã dời phần lớn công đoạn hiểu sang trước khi code chạy, nên đến lúc review thì người ta đã nắm ý đồ rồi.</p>
+
+    <div class="mech"><b>Cơ chế — hai chiến lược khác nhau cho cùng một bài toán, và cách chọn:</b> có đúng hai chỗ để bơm hiểu biết vào một thay đổi. <em>Trước</em> khi code sinh ra — grooming, đặc tả, một công cụ đi moi chỗ hổng trong PRD — hoặc <em>sau</em> khi code đã sinh ra, tức lúc review. Atlassian dồn vào vế trước và chấp nhận PR to; Brodzinski nói vế sau không co giãn được, nên phải giữ lô nhỏ. Thực ra cả hai đang nói cùng một điều bằng hai ngôn ngữ: tổng lượng hiểu biết con người cần bỏ ra cho một thay đổi gần như cố định, chỉ có chỗ trả là thay đổi được. Cái bẫy là trả ở vế sau thì <em>đắt hơn</em>, vì lúc đó code đã tồn tại, và người ta có xu hướng gật đầu cho qua thay vì đòi làm lại. Hệ quả thực dụng: nếu bạn không có ngân sách để làm grooming tử tế trước, thì bạn <em>buộc</em> phải giữ PR nhỏ, không có lựa chọn thứ ba. Còn nếu bạn đã đầu tư mạnh vào vế trước, PR to trở nên chịu đựng được — nhưng chỉ với đúng những người đã dự phần vào vế trước đó. Người review mới vào đội thì không hưởng lợi gì cả.</div>
+
+    <h3 class="sub">Rút ra theo quy mô</h3>
+
+    <div class="scale">
+      <div class="col small">
+        <h4>▸ Đội nhỏ / startup dưới 10 người</h4>
+        <ul>
+          <li><strong>Chọn vế "giữ lô nhỏ", vì bạn không đủ người cho vế kia.</strong> Grooming kiểu Atlassian cần cả đội ngồi lại và một công cụ riêng; ở quy mô của bạn thì đặt trần kích thước PR rẻ hơn nhiều.</li>
+          <li><strong>Đặt một ngưỡng mềm và để nó hiện ra trong PR.</strong> Mốc tham chiếu là 200 dòng của nghiên cứu Cisco<sup><a href="https://static0.smartbear.co/support/media/resources/cc/book/code-review-cisco-case-study.pdf" target="_blank">[3]</a></sup>; vượt thì không chặn, chỉ buộc tác giả viết một dòng giải thích vì sao không chẻ được.</li>
+          <li><strong>Đừng để agent đụng vào thứ bạn chưa hiểu.</strong> Bài học đắt nhất của Atlassian là prototype đã nướng sẵn giả định sai vào schema, và không cách nào biến đổi dữ liệu cho khớp lại.<sup><a href="https://www.atlassian.com/blog/jira/ai-built-prototype-to-production" target="_blank">[1]</a></sup></li>
+          <li><strong>Viết ra các quy ước và cái bẫy trong đầu bạn.</strong> Đây là việc rẻ nhất trong danh sách và có lãi ngay: thứ chỉ nằm trong đầu một người là thứ agent không với tới.<sup><a href="https://www.atlassian.com/blog/jira/ai-built-prototype-to-production" target="_blank">[1]</a></sup></li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>▸ Đội đã có sản phẩm chạy production</h4>
+        <ul>
+          <li><strong>Đo trung vị kích thước PR theo quý và đưa nó lên bảng theo dõi.</strong> Dữ liệu nằm sẵn trong Git, không cần dựng gì. Nếu trung vị vượt 200 dòng thì bạn đã ở vùng mà nghiên cứu Cisco nói hiệu quả review rơi.<sup><a href="https://static0.smartbear.co/support/media/resources/cc/book/code-review-cisco-case-study.pdf" target="_blank">[3]</a></sup></li>
+          <li><strong>Theo dõi riêng tỷ trọng PR bé xíu.</strong> Đây là chỉ số sớm nhất và ít ai nhìn: ở dự án AI-nặng nó rơi từ 1/5 xuống 1/20.<sup><a href="https://brodzinski.com/2026/07/3x-pull-request-size-ai.html" target="_blank">[2]</a></sup> Nó rơi trước khi chất lượng rơi.</li>
+          <li><strong>Chuyển ngân sách "hỏi lại cho rõ" về trước khi agent chạy.</strong> Agent không dừng giữa chừng để hỏi sản phẩm hay tuân thủ được; mọi câu chưa trả lời sẽ thành một giả định đã hiện thực hóa thành code.<sup><a href="https://www.atlassian.com/blog/jira/ai-built-prototype-to-production" target="_blank">[1]</a></sup></li>
+          <li><strong>Nếu đã chấp nhận PR to, hãy trả giá cho nó đúng chỗ.</strong> Atlassian dựng một trợ lý review trả lời được câu hỏi về thay đổi — không phải công cụ nêu lỗi, mà công cụ giải thích.<sup><a href="https://www.atlassian.com/blog/jira/ai-built-prototype-to-production" target="_blank">[1]</a></sup></li>
+          <li><strong>Đừng dựng test hồi quy trên nền mock mà bạn sắp thay.</strong> Bộ E2E của Atlassian mất tác dụng vì PR nào cũng phải sửa test.<sup><a href="https://www.atlassian.com/blog/jira/ai-built-prototype-to-production" target="_blank">[1]</a></sup></li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="sub">Ba việc làm được trong tuần này</h3>
+    <div class="doslist">
+      <div><strong>1 · Lấy hai con số từ Git, mất 10 phút.</strong> Trung vị kích thước PR của sáu tháng gần nhất, và của cùng kỳ năm ngoái. Kèm theo tỷ lệ PR dưới 20 dòng ở hai giai đoạn. Hai con số này trả lời câu hỏi "AI đã đổi gì ở đội mình" chắc chắn hơn mọi khảo sát cảm nhận.<sup><a href="https://brodzinski.com/2026/07/3x-pull-request-size-ai.html" target="_blank">[2]</a></sup></div>
+      <div><strong>2 · Với tính năng sắp tới, thử dồn toàn bộ câu hỏi ca biên về trước.</strong> Ngồi với sản phẩm và thiết kế, liệt kê mọi chỗ mơ hồ trong đặc tả, trả lời hết, <em>rồi</em> mới cho agent chạy. Đây đúng là vòng lặp thứ hai của Atlassian, và là chỗ họ nói mọi thứ bắt đầu trơn.<sup><a href="https://www.atlassian.com/blog/jira/ai-built-prototype-to-production" target="_blank">[1]</a></sup> Đo bằng một thứ: số lần sản phẩm bắt lỗi hành vi <em>sau khi</em> merge vào main.</div>
+      <div><strong>3 · Chọn một việc tay mà đội làm hằng tuần và gói nó thành thứ agent tự chạy được.</strong> Dựng workspace, chạy bộ test, bật một tích hợp giả, nối vào DB dev để debug — Atlassian nói đây là loại đầu tư cộng dồn theo thời gian.<sup><a href="https://www.atlassian.com/blog/jira/ai-built-prototype-to-production" target="_blank">[1]</a></sup> Chọn việc nào đội làm nhiều nhất, không phải việc nào nghe hay nhất.</div>
+    </div>
+
+    <div class="takeaway">💡 Câu hỏi kiểm tra cho tuần tới: <strong>trong đội bạn, ai là người cuối cùng thật sự đọc hết một thay đổi trước khi nó lên production — và lần gần nhất người đó đọc hết là khi nào?</strong> Cả hai bài hôm nay đều kết luận rằng phần sinh code đã rẻ gần như cho không, nên mọi thứ còn lại trong quy trình đều là các biến thể của cùng một câu hỏi: ai hiểu, hiểu lúc nào, và với bao nhiêu dòng một lúc.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> [1] Anand Shastri, <a href="https://www.atlassian.com/blog/jira/ai-built-prototype-to-production" target="_blank">"From prototype to production: lessons learned taking AI-built software to enterprise scale", Inside Atlassian, 26/08/2026</a> · [2] Pawel Brodzinski, <a href="https://brodzinski.com/2026/07/3x-pull-request-size-ai.html" target="_blank">"We 3.5x'd Our Pull Requests with AI: Now We Catch Fewer Bugs", 14/07/2026</a> · [3] Smart Bear, <a href="https://static0.smartbear.co/support/media/resources/cc/book/code-review-cisco-case-study.pdf" target="_blank">"Best Kept Secrets of Peer Code Review — Cisco case study" (PDF)</a>, dẫn qua [2].</div>
+  </article>
+
+  <div class="foot">Bản tin sáng · Số 13/09/2026 · Biên tập từ nguồn công khai, mọi số liệu dẫn nguồn ngay cạnh câu · <a href="/" style="color:#6b7280">Về trang bìa</a></div>
+</div>
+</body>
+</html>
