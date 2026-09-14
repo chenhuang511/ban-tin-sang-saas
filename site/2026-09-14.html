@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hóa đơn AWS 45k → 27k USD mà p99 không nhúc nhích: đội này sửa đường mạng trước, đụng vào compute sau cùng; &amp; một Internal Developer Platform bị 80% kỹ sư bỏ sau ba tháng · 14/09/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 14/09/2026</div>
+    <h1 class="title">Hóa đơn AWS 45k → 27k USD mà p99 không nhúc nhích: đội này sửa đường mạng trước, đụng vào compute sau cùng; &amp; một Internal Developer Platform bị 80% kỹ sư bỏ sau ba tháng</h1>
+    <div class="meta">14/09/2026 · Đọc khoảng 15 phút · Nguồn: The Good Shell — case study EKS (26/05/2026) · Akhil — "We Built an IDP. 80% of Devs Stopped Using It", HackerNoon (01/07/2026)</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: hôm nay bản tin quay lại mảng <b>tối ưu hệ đang chạy</b>, nhưng ở một góc chưa chạm tới — <em>chi phí hạ tầng và trải nghiệm nội bộ</em>, thay vì database hay sự cố như hai tuần trước. Cả hai bài đều là chuyện một đội kể lại việc họ làm, kèm số trước/sau. Cả hai cũng đều có điểm yếu về nguồn, và bản tin ghi rõ ngay ở đầu mỗi bài: một bên là hãng tư vấn kể case của khách hàng ẩn danh (họ bán đúng dịch vụ này), một bên là bài tự thuật trên HackerNoon với công ty không nêu tên. Số liệu vì thế nên đọc như <em>hình dạng của vấn đề</em>, không phải benchmark. Các khối gắn nhãn <b style="color:#1e40af">Cơ chế</b>, bảng đối chiếu và mục "Rút ra theo quy mô" là phân tích tổng hợp của bản tin từ nguồn cộng thực hành phổ biến — <em>không trích nguyên văn</em>. Mọi con số đều dẫn nguồn ngay cạnh câu.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1"><strong>Bài 1</strong> — Hóa đơn EKS 45k → 27k USD/tháng, p99 đứng yên: vì sao đội này chạm vào compute <em>sau cùng</em><br><span style="font-size:13.5px;color:#6b7280">· NAT Gateway 8k USD là khoản to nhất và không ai biết · 60% lưu lượng nội bộ băng qua AZ một cách vô ích · vì sao "nhân đôi memory request" sau OOM là cách chữa đắt nhất · hai tuần chỉ để đo · và bài toán khó nhất: quy một đô-la mạng về đúng workload</span></a></li>
+      <li><a href="#bai2"><strong>Bài 2</strong> — 140 → 52 → 28 người: đường cong chết của một Internal Developer Platform, và cái CLI 2 tháng thay được nó<br><span style="font-size:13.5px;color:#6b7280">· portal không phải platform · thuế YAML và lỗi parse im lặng · 3 tuần xuống 12 phút · ba luật đội này rút ra, luật thứ ba là luật đắt nhất</span></a></li>
+      <li><a href="#gocnhin"><strong>Góc nhìn</strong> — Cả hai đội đều tối ưu đúng tầng nhìn thấy được &amp; 3 việc làm được tuần này</a></li>
+    </ol>
+  </nav>
+
+  <!-- BÀI 1 -->
+  <article class="card" id="bai1">
+    <span class="tag legacy">Tối ưu hệ đang chạy · case study</span>
+    <h2 class="head">Bài 1 · Cắt 40% hóa đơn AWS mà p99 không đổi: sửa đường mạng trước, compute sau cùng</h2>
+    <p class="src">Nguồn: The Good Shell — "Reducing Kubernetes Infrastructure Costs by 40% on EKS", 26/05/2026 (cập nhật 28/05/2026) · <a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">thegoodshell.com</a>. <strong>Lưu ý nguồn:</strong> đây là case study marketing của một hãng tư vấn DevOps/SRE — họ bán đúng dịch vụ mô tả trong bài, kèm gói audit hạ tầng 7 ngày giá 4.500 USD ghi ngay cuối trang. Khách hàng ẩn danh, mọi con số do chính họ công bố và không có bên thứ ba xác minh. Giá trị của bài nằm ở <em>thứ tự các bước và lý do</em>, không nằm ở con số 40%. Phần cơ chế tính tiền mạng được đối chiếu thêm với một bài kỹ thuật độc lập của OneUptime<sup><a href="https://oneuptime.com/blog/post/2026-08-04-allocate-nat-gateway-cross-az-network-cost/view" target="_blank">[2]</a></sup>.</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">45k → 27k USD</div><div class="lab">chi AWS mỗi tháng, giảm 40%; số là trung bình trượt 30 ngày, đo ba tháng sau khi chạy ổn định <a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">(The Good Shell, 26/05/2026)</a></div></div>
+      <div class="box"><div class="num">8k → 1,2k USD</div><div class="lab">riêng NAT Gateway, giảm 85% — khoản đơn lẻ lớn nhất trong hóa đơn trước khi sửa <a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">(The Good Shell)</a></div></div>
+      <div class="box"><div class="num">p99 đứng yên</div><div class="lab">không có hồi quy về độ trễ sau toàn bộ thay đổi; uptime nhích thêm 0,3% <a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">(The Good Shell)</a></div></div>
+    </div>
+
+    <p>Bối cảnh trước đã, vì nó quyết định bài này có dùng được cho bạn không. Khách hàng là một công ty B2B SaaS vòng Series B, chạy sản phẩm chính trên AWS EKS trải ba availability zone. Khoảng 200 microservice, code Go lẫn TypeScript, chừng 30 kỹ sư, cỡ 500 triệu request API mỗi tháng. Năm trước đó công ty tăng trưởng 4 lần, còn hóa đơn cloud tăng 5 lần — và CTO bị hội đồng quản trị yêu cầu kéo tốc độ tăng chi phí hạ tầng về trong tầm kiểm soát trước kỳ họp quý sau.<sup><a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">[1]</a></sup></p>
+
+    <p>Đội kỹ thuật không yếu. Họ chỉ xây nhanh: một node group mặc định duy nhất, autoscaling mặc định theo CPU, không có công cụ FinOps, không gắn nhãn chi phí, không dùng VPC Endpoint, và multi-AZ ở khắp nơi theo phản xạ. Kiến trúc chạy tin cậy, chỉ có điều rất tốn.<sup><a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">[1]</a></sup> Nghe quen không? Đây gần như là ảnh chụp mặc định của mọi cụm Kubernetes dựng trong lúc chạy đua tính năng.</p>
+
+    <h3 class="sub">Hai tuần đầu không sửa gì cả — chỉ đo</h3>
+
+    <p>Điểm đầu tiên đáng chép lại: họ dành hai tuần audit trước khi động vào bất cứ thứ gì. Sản phẩm của giai đoạn này là một bảng tính ánh xạ từng khoản đáng kể trong hóa đơn AWS về đúng một workload Kubernetes, kèm thứ tự ưu tiên theo "tiết kiệm nhiều nhất với rủi ro thấp nhất".<sup><a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">[1]</a></sup></p>
+
+    <p>Công cụ rất ít: bật cost allocation tag ở mọi nơi, cài OpenCost vào cụm, bật VPC Flow Logs lấy mẫu 1%. Sau hai tuần dữ liệu, họ trả lời được câu hỏi kiểu "service tính tiền của khách tốn bao nhiêu một tháng, chia theo compute, egress qua NAT và EBS". Chính tác giả nhận xét: phần lớn đội không trả lời nổi câu đó.<sup><a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">[1]</a></sup> Bản tin đồng ý — và đây là câu hỏi bạn nên tự hỏi trước khi đọc tiếp.</p>
+
+    <p>Riêng giai đoạn audit đã moi ra vài khoản ngoài phạm vi ban đầu, đáng vài chục nghìn USD mỗi năm: các volume EBS mồ côi từ những lần deploy cũ, ba instance RDS cỡ <em>r5.4xlarge</em> đang phục vụ lưu lượng thừa sức nằm vừa trên <em>r5.xlarge</em>, và hai NAT Gateway đặt ở những zone không cần tới.<sup><a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">[1]</a></sup></p>
+
+    <h3 class="sub">Bốn nguyên nhân gốc, xếp theo đúng thứ tự họ tìm ra</h3>
+
+    <div class="doslist">
+      <div><strong>1 · NAT Gateway là khoản to nhất — khoảng 8.000 USD/tháng.</strong> Gần như toàn bộ là lưu lượng đi ra các API của chính AWS (S3, ECR, CloudWatch, STS, SecretsManager) cùng một nhúm dịch vụ SaaS bên ngoài. Mọi node nằm trong subnet private, nên mọi byte đi ra đều chui qua NAT và bị tính tiền theo GB: từng lần kéo Docker image, từng dòng log đẩy sang bên thứ ba, từng lần xoay secret, từng lần replicate liên vùng.<sup><a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">[1]</a></sup></div>
+      <div><strong>2 · Lưu lượng băng qua AZ ở tầng service.</strong> Multi-AZ là tính năng độ tin cậy, nhưng scheduler của Kubernetes không biết traffic qua AZ thì mất tiền. Pod được xếp ở đâu tùy cluster autoscaler, còn kube-proxy chia vòng tròn nên lời gọi service đập vào pod bất kỳ, bất kể zone. Họ đo được khoảng <strong>60% lưu lượng service-tới-service nội bộ băng qua AZ một cách không cần thiết</strong>.<sup><a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">[1]</a></sup></div>
+      <div><strong>3 · Compute thừa đang che một vấn đề độ tin cậy.</strong> Trước đó đội gặp vài sự cố pod bị OOM kill lúc tải cao. Cách chữa hồi ấy là nhân đôi memory request ở mọi chỗ. Triệu chứng hết, nhưng cụm còn chạy ở mức <strong>~35% mức dùng CPU và bộ nhớ thật</strong>, với số node gấp đôi nhu cầu.<sup><a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">[1]</a></sup></div>
+      <div><strong>4 · Không Spot, không Karpenter, không đa dạng loại máy.</strong> Cả cụm chạy một họ instance duy nhất (<em>m5.2xlarge</em> on-demand) cho mọi thứ. Các workload stateless trả giá on-demand trong khi chúng thừa sức chịu được việc Spot bị thu hồi.<sup><a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">[1]</a></sup></div>
+    </div>
+
+    <div class="mech"><b>Cơ chế — vì sao NAT Gateway thành khoản to nhất mà không ai để ý:</b> chỗ đánh lừa nằm ở chữ "egress". Trong đầu hầu hết chúng ta, egress là lưu lượng gửi cho người dùng cuối. Nhưng NAT tính tiền theo từng GB <em>nó xử lý</em>, bất kể đích đến là đâu — kể cả khi đích là một dịch vụ AWS nằm cách đó vài mét trong cùng region.<sup><a href="https://oneuptime.com/blog/post/2026-08-04-allocate-nat-gateway-cross-az-network-cost/view" target="_blank">[2]</a></sup> Nghĩa là mọi hoạt động bạn coi là "nội bộ" và miễn phí — pull image mỗi lần scale up, đẩy log, đọc secret, ghi vào S3 — đều chạy qua một cái đồng hồ tính tiền. Và nó không tăng theo lưu lượng người dùng, mà tăng theo <em>số lần deploy, số pod khởi động lại, độ chi tiết của log</em>. Đó là lý do khoản này phình lên đúng lúc đội đang làm mọi thứ "chuẩn": CI chạy nhiều hơn, autoscaling năng hơn, quan sát kỹ hơn. VPC Endpoint giải quyết bằng cách dựng một đường riêng thẳng tới dịch vụ AWS, không đi qua cái đồng hồ đó nữa. Ở case này, riêng nó xóa khoảng <strong>80% chi NAT</strong>.<sup><a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">[1]</a></sup> Việc phải làm mất vài giờ, không sửa một dòng code ứng dụng nào.</div>
+
+    <h3 class="sub">Kiến trúc mới: ba tầng, và thứ tự là phần quan trọng nhất</h3>
+
+    <p>Đội tấn công chi phí theo đúng ba tầng, theo thứ tự này: <strong>đường mạng → nơi đặt workload → bản thân compute</strong>. Tác giả nói thẳng lý do thứ tự quan trọng: tối ưu compute trước khi sửa routing thì bạn sẽ chỉnh quá tay.<sup><a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — "chỉnh quá tay" ở đây nghĩa là gì:</b> bản tin diễn giải, vì bài gốc nói gọn. Chi phí mạng không co lại khi bạn thu nhỏ node — nó bám theo lưu lượng và theo topology. Nếu 20% hóa đơn là NAT cộng cross-AZ mà bạn chưa động tới, thì bạn đang đặt mục tiêu cắt giảm lên phần compute và <em>gánh luôn</em> phần dư của mạng. Muốn hóa đơn xuống 30%, bạn phải bóp compute sâu hơn mức an toàn — và chỗ bóp quá tay đó chính là chỗ pod bắt đầu bị OOM, p99 bắt đầu nhảy, rồi ai đó lại nhân đôi memory request lên. Vòng lặp khép kín. Ngược lại, khi routing đã sạch thì "sàn nhiễu" hạ xuống, và mọi quyết định về compute sau đó đều dễ hơn: bạn nhìn thấy đúng phần chi phí <em>thật sự</em> do CPU và RAM sinh ra. Đây là lý do bản tin cho rằng dòng "sửa routing trước compute" là câu đáng mang về nhất trong cả bài — nó không phải mẹo AWS, nó là một nguyên tắc thứ tự.</div>
+
+    <p><strong>Tầng 1 — đường mạng.</strong> Họ thêm VPC Endpoint (gateway endpoint cho S3 và DynamoDB, interface endpoint cho phần còn lại) để lưu lượng tới API của AWS thôi đi qua NAT. Sau đó bật định tuyến theo topology trong Kubernetes để kube-proxy ưu tiên endpoint cùng zone khi có thể — cắt khoảng <strong>70% dữ liệu truyền qua AZ</strong>.<sup><a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">[1]</a></sup></p>
+
+    <p>Đánh đổi được họ nêu rõ, và đây là chỗ đáng học: định tuyến theo topology có thể làm hỏng tính sẵn sàng nếu toàn bộ endpoint trong một zone cùng chết. Nên họ chỉ bật nó cho những service có <strong>tối thiểu 3 replica mỗi AZ</strong> — đủ để một zone gánh nổi toàn bộ tải một mình. Service ít replica hơn thì giữ nguyên chia vòng tròn.<sup><a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">[1]</a></sup> Tiết kiệm gần như trọn vẹn, mà không đổi bằng độ tin cậy.</p>
+
+    <p><strong>Tầng 2 — nơi đặt workload.</strong> Một node group duy nhất bị thay bằng ba pool: pool stateless do Karpenter quản (Spot cho phần không sống còn, on-demand cho phần sống còn), pool stateful chạy on-demand cho database và queue, và pool hệ thống cho ingress, monitoring, add-on. Mỗi pool có label và taint riêng để scheduler không trộn chúng vào nhau.<sup><a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">[1]</a></sup></p>
+
+    <p><strong>Tầng 3 — bản thân compute.</strong> Họ cài Vertical Pod Autoscaler ở <em>chế độ khuyến nghị</em>, không cho tự áp, cộng thêm Goldilocks để đọc gợi ý cho dễ. Đội nền tảng duyệt gợi ý theo từng service, chấp nhận hoặc chỉnh, rồi áp qua pull request thay vì để VPA sửa pod trực tiếp.<sup><a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao VPA ở chế độ tự áp là thứ đáng sợ:</b> VPA thay đổi request của pod bằng cách khởi động lại pod. Ở trạng thái bình thường thì không sao. Nhưng thời điểm VPA <em>muốn</em> chỉnh nhất lại chính là lúc tải vừa tăng đột biến — đó là lúc số liệu mới đủ lệch để nó ra quyết định. Nghĩa là công cụ có xu hướng khởi động lại pod đúng vào lúc bạn cần pod nhất, và trong một cụm có nhiều service phụ thuộc nhau thì một đợt restart đủ để đẩy tải sang service kế bên, khiến VPA ở đó cũng ra quyết định. Bài gốc nói họ từng thấy VPA tự áp gây chuỗi restart lan truyền dưới tải.<sup><a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">[1]</a></sup> Cách chữa của họ đơn giản và đáng sao chép: giữ nguyên phần thông minh (VPA vẫn tính), bỏ phần tự động (người duyệt qua PR). Bạn được cái giá trị thật — con số khuyến nghị dựa trên dữ liệu — mà không nhận cái rủi ro thật là một tác nhân được phép restart production lúc nửa đêm. Nguyên tắc chung hơn: với công cụ tối ưu tự động, hãy tách <em>quyền tính toán</em> khỏi <em>quyền hành động</em>.</div>
+
+    <h3 class="sub">Mấy quyết định nhỏ nhưng có tính lặp lại</h3>
+
+    <div class="doslist">
+      <div><strong>✅ Spot chỉ ở chỗ workload chịu được.</strong> Spot rẻ hơn 60–70% nhưng thu hồi pod với 2 phút báo trước. Họ chia workload làm ba nhóm: nhạy độ trễ (không Spot), chịu được (trộn Spot với on-demand), và chạy nền (chủ yếu Spot). Karpenter tự lo phần đa dạng loại máy — 8+ loại instance trải các họ <em>m6i, m6a, c6i, r6i</em> — khi ràng buộc đã được diễn đạt bằng node selector và pod disruption budget.<sup><a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">[1]</a></sup></div>
+      <div><strong>✅ Tắt môi trường không phải production ngoài giờ.</strong> Một CronScaler của KEDA hạ các deployment dev/staging về 0 ngoài giờ làm, kèm một biểu ngữ trong cụm nói rõ cái gì đang tạm dừng. Riêng việc này tiết kiệm khoảng <strong>2.000 USD/tháng</strong>.<sup><a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">[1]</a></sup></div>
+      <div><strong>✅ Nhãn chi phí là ràng buộc kỹ thuật, không phải quy ước.</strong> Một luật OPA Gatekeeper buộc mọi Namespace và Deployment phải mang nhãn <em>team</em> và <em>cost-center</em>. Karpenter và OpenCost đẩy nhãn đó xuống tài nguyên AWS, nên màn hình Cost Explorer xem theo tag cuối cùng khớp được với đội thật.<sup><a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">[1]</a></sup></div>
+      <div><strong>✅ Báo cáo chênh lệch chi phí hằng tuần, không phải review hằng tháng.</strong> Tác giả gọi review hằng tháng là nơi bạn chủ yếu tìm thấy sự hối tiếc. Một bản diff tuần đẩy lên Slack bắt được cú tăng gấp đôi qua đêm ngay sáng hôm sau — và đổi câu hỏi từ "vì sao tháng trước hóa đơn tăng" thành "hôm qua mình ship cái gì mà tốn hơn".<sup><a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">[1]</a></sup></div>
+      <div><strong>❌ Đừng tưởng gắn tag là bài toán kỹ thuật.</strong> Chính họ nói phần khó nhất của phân bổ chi phí không phải công cụ, mà là bắt mọi đội thống nhất "một đội" và "một trung tâm chi phí" nghĩa là gì, rồi thực thi quy ước đó. Gatekeeper chỉ tự động hóa khâu thực thi; cuộc nói chuyện vẫn phải diễn ra trước.<sup><a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">[1]</a></sup></div>
+    </div>
+
+    <table class="tbl">
+      <tr><th>Hạng mục</th><th>Mức thay đổi</th><th>Đổi đúng cái gì</th></tr>
+      <tr><td>Tổng chi mỗi tháng</td><td>−40% (45k → 27k USD)</td><td>tổng hợp của ba tầng bên dưới</td></tr>
+      <tr><td>NAT Gateway</td><td>−85% (8k → 1,2k USD)</td><td>VPC Endpoint cho S3/DynamoDB + interface endpoint cho phần còn lại</td></tr>
+      <tr><td>Lưu lượng qua AZ</td><td>−70%</td><td>định tuyến theo topology, chỉ bật cho service có ≥3 replica mỗi AZ</td></tr>
+      <tr><td>Right-size compute</td><td>−35%</td><td>VPA chế độ khuyến nghị + Karpenter, áp qua PR</td></tr>
+      <tr><td>Môi trường không production</td><td>−2.000 USD/tháng</td><td>KEDA CronScaler hạ về 0 ngoài giờ làm</td></tr>
+      <tr><td>p99</td><td>không đổi</td><td>—</td></tr>
+      <tr><td>Uptime</td><td>+0,3%</td><td>—</td></tr>
+    </table>
+    <p style="font-size:13px;color:#6b7280;margin-top:-6px">Bảng do bản tin lập lại từ các con số trong bài gốc; cột "đổi đúng cái gì" là tóm tắt của bản tin, không trích nguyên văn.<sup><a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">[1]</a></sup> Toàn bộ quá trình mất 8 tuần từ lúc khởi động tới khi hệ ổn định ở trạng thái mới.</p>
+
+    <h3 class="sub">Phần khó nhất mà bài gốc không kể: quy một đô-la mạng về đúng workload</h3>
+
+    <p>Case study nói "chúng tôi ánh xạ từng khoản về đúng workload" trong hai câu. Thực tế việc đó rắc rối hơn nhiều, và một bài kỹ thuật của OneUptime tháng 8 vừa rồi mổ đúng chỗ này.<sup><a href="https://oneuptime.com/blog/post/2026-08-04-allocate-nat-gateway-cross-az-network-cost/view" target="_blank">[2]</a></sup> Đáng đọc nếu bạn định làm thật, vì đây là chỗ phần lớn nỗ lực showback chết yểu.</p>
+
+    <p>Vấn đề thứ nhất là quyền sở hữu. Một NAT gateway thường nằm trong tài khoản của đội mạng, nên hóa đơn chỉ về đội mạng — trong khi byte lại sinh ra từ subnet ứng dụng. Tính hết cho chủ gateway thì giấu mất hành vi tạo ra chi phí biến đổi; mà chia hết theo byte thì lại tính sai phần phí cố định theo giờ.<sup><a href="https://oneuptime.com/blog/post/2026-08-04-allocate-nat-gateway-cross-az-network-cost/view" target="_blank">[2]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao phải tách hóa đơn mạng thành các "hồ" riêng:</b> AWS tính NAT theo hai thứ khác hẳn nhau — <em>mỗi giờ gateway sẵn sàng</em>, và <em>mỗi GB gateway xử lý</em>.<sup><a href="https://oneuptime.com/blog/post/2026-08-04-allocate-nat-gateway-cross-az-network-cost/view" target="_blank">[2]</a></sup> Hai thứ này có hai động cơ hoàn toàn khác, nên gộp lại rồi chia theo byte sẽ tạo ra một kết quả rất bất công và rất dễ bị cãi: một đội chạy job nén dữ liệu trong một đêm sẽ ôm gần hết phí gateway-giờ của cả tháng, trong khi một subnet production im lìm — nhưng <em>cần</em> gateway luôn sẵn sàng — thì gần như không phải trả gì. Lần đầu ai đó chỉ ra điều này trong cuộc họp chi phí, cả mô hình showback mất uy tín và không ai dùng nữa. Cách làm của bài là chia thành các hồ độc lập: phí cố định của gateway, phí xử lý theo byte, phí truyền qua AZ, và phần truyền mạng khác. Mỗi hồ có một chính sách phân bổ riêng, và phí gateway-giờ được coi là <em>năng lực dùng chung</em> — chia theo chính sách được ghi ra thành văn bản và có đánh phiên bản, chứ không chia theo lưu lượng.<sup><a href="https://oneuptime.com/blog/post/2026-08-04-allocate-nat-gateway-cross-az-network-cost/view" target="_blank">[2]</a></sup></div>
+
+    <p>Vấn đề thứ hai tinh vi hơn và bản tin thấy đây là ý hay nhất trong bài: <strong>đừng coi VPC Flow Logs là đồng hồ tính tiền</strong>. Flow log có thể bị bỏ qua, bị trễ, hoặc lệch so với dữ liệu billing. Cách đúng là lấy tiền từ báo cáo chi phí của AWS làm cái hồ, còn số byte trong flow log chỉ dùng làm <em>trọng số</em> để chia cái hồ đó. Và phải đo tỷ lệ phủ của telemetry so với một số liệu đối chứng độc lập: nếu flow log chỉ phủ 92% số byte của gateway, thì chia 92% đó cho các nguồn đã biết và đẩy phần còn lại vào một khoản dư <em>có tên</em> — đừng thổi các nguồn đã biết lên cho tròn 100%.<sup><a href="https://oneuptime.com/blog/post/2026-08-04-allocate-nat-gateway-cross-az-network-cost/view" target="_blank">[2]</a></sup></p>
+
+    <p>Bài còn nêu hai cái bẫy kỹ thuật dễ mắc. Một là <strong>đếm trùng</strong>: một gói tin có thể xuất hiện trong log của nhiều network interface, nên cộng log ở interface workload với log ở interface NAT là tính đôi cùng một lưu lượng — phải chọn đúng một điểm quan sát và ghi ra thành tài liệu.<sup><a href="https://oneuptime.com/blog/post/2026-08-04-allocate-nat-gateway-cross-az-network-cost/view" target="_blank">[2]</a></sup> Hai là <strong>tra chủ sở hữu theo thời điểm phát sinh, không phải thời điểm truy vấn</strong>: địa chỉ IP được cấp lại và network interface bị xóa, nên nhìn trạng thái hiện tại sẽ gán nhầm chi phí cho đội đang giữ IP hôm nay.<sup><a href="https://oneuptime.com/blog/post/2026-08-04-allocate-nat-gateway-cross-az-network-cost/view" target="_blank">[2]</a></sup></p>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> ba thứ trong bài này đáng mang về, và không thứ nào phụ thuộc vào việc bạn có thuê tư vấn hay không. Một: <em>thứ tự</em> — đường mạng, rồi nơi đặt workload, rồi mới tới kích cỡ máy; sửa ngược thứ tự thì bạn sẽ bóp compute quá tay và trả bằng độ tin cậy. Hai: <em>đo trước hai tuần</em> — nếu bạn chưa trả lời được "service X tốn bao nhiêu một tháng", mọi quyết định cắt giảm sau đó đều là đoán. Ba: <em>tách quyền tính toán khỏi quyền hành động</em> — để VPA khuyến nghị, để người duyệt qua PR. Còn con số 40% thì đừng mang về; nó là con số của một cụm cụ thể chưa từng được tối ưu, do chính bên bán dịch vụ công bố.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo bài 1:</strong> [1] The Good Shell, <a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">"Reducing Kubernetes Infrastructure Costs by 40% on EKS — Case Study", 26/05/2026</a> · [2] Nawaz Dhandala, <a href="https://oneuptime.com/blog/post/2026-08-04-allocate-nat-gateway-cross-az-network-cost/view" target="_blank">"Attribute NAT Gateway and Cross-AZ Cost to Traffic Generators", OneUptime, 04/08/2026</a>.</div>
+  </article>
+
+  <!-- BÀI 2 -->
+  <article class="card" id="bai2">
+    <span class="tag saas">Quy trình sản xuất · case tự thuật</span>
+    <h2 class="head">Bài 2 · 140 → 52 → 28 người: đường cong chết của một Internal Developer Platform, và cái CLI hai tháng thay được nó</h2>
+    <p class="src">Nguồn: Akhil (Lead SDET / Automation Architect) — "We Built an Internal Developer Platform. 80% of Devs Stopped Using It After Three Months.", HackerNoon, 01/07/2026 · <a href="https://hackernoon.com/we-built-an-internal-developer-platform-80percent-of-devs-stopped-using-it-after-three-months" target="_blank">hackernoon.com</a>. <strong>Lưu ý nguồn:</strong> bài tự thuật, công ty không nêu tên, số liệu lấy từ Google Analytics nội bộ và do tác giả tự công bố — không có cách kiểm chứng độc lập. HackerNoon là nền tảng tự đăng, bài được gắn nhãn vừa là tường thuật gốc vừa là bài quan điểm. Bản tin chọn nó vì <em>hình dạng thất bại</em> rất cụ thể và khớp với nhiều chuyện đã nghe, chứ không vì con số.</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">140 → 52 → 28</div><div class="lab">số kỹ sư đăng nhập vào IDP trong tháng 1, tháng 2 và tháng 3; phần lớn 28 người còn lại là chính đội nền tảng vào xem hệ còn sống không <a href="https://hackernoon.com/we-built-an-internal-developer-platform-80percent-of-devs-stopped-using-it-after-three-months" target="_blank">(Akhil, 01/07/2026)</a></div></div>
+      <div class="box"><div class="num">6 tháng / 4 kỹ sư</div><div class="lab">công sức bỏ vào bản Backstage tùy biến, kèm plugin riêng, giao diện làm đẹp và một chỉ đạo từ VP Engineering <a href="https://hackernoon.com/we-built-an-internal-developer-platform-80percent-of-devs-stopped-using-it-after-three-months" target="_blank">(Akhil)</a></div></div>
+      <div class="box"><div class="num">3 tuần → 12 phút</div><div class="lab">thời gian tới lần deploy đầu tiên, sau khi đội bỏ portal và làm một CLI cộng một orchestrator trong 2 tháng <a href="https://hackernoon.com/we-built-an-internal-developer-platform-80percent-of-devs-stopped-using-it-after-three-months" target="_blank">(Akhil)</a></div></div>
+    </div>
+
+    <p>Bài mở đầu bằng một cảnh rất đắt. Tác giả kéo số liệu Google Analytics vào chiều thứ Năm, chủ yếu để chuẩn bị slide khoe thành tích adoption quý II trước toàn bộ phòng kỹ thuật. Tháng đầu: 140 kỹ sư đăng nhập, bấm loanh quanh catalog, sinh vài service mẫu — nói chung là làm những việc người ta vẫn làm khi lãnh đạo bảo đây là tương lai của công ty. Tháng hai: 52. Tháng ba: đúng 28, và phần lớn là người của chính đội nền tảng.<sup><a href="https://hackernoon.com/we-built-an-internal-developer-platform-80percent-of-devs-stopped-using-it-after-three-months" target="_blank">[3]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao con số tháng 1 gần như không mang thông tin:</b> 140 người vào trong tháng đầu không phải adoption. Đó là hiệu ứng của một thông báo cộng một chỉ đạo từ VP — thứ mà bản tin gọi là <em>tuân lệnh</em>, không phải <em>lựa chọn</em>. Điểm mấu chốt nằm ở chỗ hai thứ đó nhìn giống hệt nhau trên biểu đồ. Cách phân biệt là nhìn <em>lần thứ hai</em>: tỷ lệ người quay lại sau khi đã thử một lần, và số lần dùng trên mỗi người mỗi tháng. Ở đây, độ dốc 140→52→28 nói rằng gần như không ai quay lại lần thứ ba — một đường cong mà bất kỳ ai làm sản phẩm cũng nhận ra ngay, chỉ có điều với công cụ nội bộ thì hiếm khi có ai đo. Bài học chung: <strong>công cụ nội bộ cũng cần đo giữ chân, không chỉ đo lượt dùng.</strong> Và nếu bạn đang định lấy số của tháng ra mắt để báo cáo, hãy đợi tháng thứ ba.</div>
+
+    <h3 class="sub">Chẩn đoán 1: họ dựng cái cửa sổ, không dựng cái động cơ</h3>
+
+    <p>Bối cảnh trước khi làm: khoảng 40 microservice, một cụm EKS đang lớn dần, và một vấn đề onboarding nghiêm trọng — người mới mất <strong>ba tuần</strong> để đưa một service từ máy mình lên môi trường staging. Họ phải biết Terraform, Helm, GitHub Actions, và biết chọn đúng kỹ sư senior nào để năn nỉ trên Slack cho một IAM role.<sup><a href="https://hackernoon.com/we-built-an-internal-developer-platform-80percent-of-devs-stopped-using-it-after-three-months" target="_blank">[3]</a></sup></p>
+
+    <p>Họ chọn Backstage. Và đây là câu chẩn đoán trung tâm của cả bài: Backstage là một <em>developer portal</em>, không phải một <em>developer platform</em>. Portal là một tấm kính — giao diện gom thông tin lại. Platform là cái máy thật sự cấp phát hạ tầng, quản lý trạng thái và thực thi chính sách. Đội dựng xong tấm kính mà không dựng cái máy phía sau.<sup><a href="https://hackernoon.com/we-built-an-internal-developer-platform-80percent-of-devs-stopped-using-it-after-three-months" target="_blank">[3]</a></sup></p>
+
+    <p>Hậu quả cụ thể: khi một lập trình viên bấm "Create New Service" trên giao diện mới bóng bẩy, họ tưởng mình sắp có một container đang chạy trong Kubernetes. Thứ họ thật sự nhận được là một repo GitHub với app Node "Hello World", một pipeline CI hỏng vì secret chưa được cấp, và một ticket Jira tự động rơi vào hàng đợi DevOps xin quyền AWS.<sup><a href="https://hackernoon.com/we-built-an-internal-developer-platform-80percent-of-devs-stopped-using-it-after-three-months" target="_blank">[3]</a></sup> Tác giả kết luận: họ không giảm tải nhận thức đi chút nào, chỉ đắp một frontend React lên đúng cái ma sát cũ.</p>
+
+    <div class="mech"><b>Cơ chế — vì sao "chuyển ma sát" còn tệ hơn "để nguyên ma sát":</b> trước khi có portal, một kỹ sư biết mình đang ở đâu trong quy trình. Việc mở ticket xin IAM role là khó chịu, nhưng nó <em>trung thực</em>: bạn biết mình đang chờ người, biết chờ ai, biết đi hỏi ai. Sau khi có portal, cùng công việc đó bị ẩn sau một nút bấm hứa hẹn kết quả tức thì. Kỹ sư bấm, thấy "thành công", rồi mười phút sau phát hiện CI đỏ, rồi mất thêm nửa tiếng để hiểu ra rằng thật ra vẫn có một ticket đang nằm chờ ở đâu đó. Cái mất không phải nửa tiếng — cái mất là <em>niềm tin vào công cụ</em>, và niềm tin đó chỉ mất được một lần. Đây là lý do tỷ lệ rơi mạnh nhất nằm giữa tháng 1 và tháng 2: phần lớn người dùng chỉ cần đúng một lần hụt để quyết định quay về cách cũ. Nguyên tắc rút ra: một lớp trừu tượng hóa chỉ được phép hứa đúng những gì nó thực hiện trọn vẹn. Nếu quy trình còn 30% cần người, hãy để cái 30% đó hiện ra rõ ràng thay vì gói nó sau một nút bấm.</div>
+
+    <h3 class="sub">Chẩn đoán 2: thuế YAML, và lỗi parse im lặng</h3>
+
+    <p>Nếu thiếu tự động hóa là căn bệnh, thì mô hình metadata là triệu chứng đuổi người đi. Để service hiện lên trong catalog, kỹ sư phải viết một file mô tả đặt ở gốc repo. Đây là cách làm chuẩn của Backstage. Nhưng vì đội muốn theo dõi <em>mọi thứ</em> — quyền sở hữu, tích hợp PagerDuty, các API phụ thuộc, trạng thái vòng đời — nên file bắt buộc đó cứ dài ra: tên, mô tả, thẻ, các đường link kèm biểu tượng, chú thích trỏ sang GitHub/PagerDuty/SonarQube, loại, vòng đời, chủ sở hữu, hệ thống, danh sách API cung cấp, danh sách API tiêu thụ, danh sách tài nguyên phụ thuộc.<sup><a href="https://hackernoon.com/we-built-an-internal-developer-platform-80percent-of-devs-stopped-using-it-after-three-months" target="_blank">[3]</a></sup></p>
+
+    <p>Và toàn bộ chỗ đó do người duy trì bằng tay. API đổi tên thì sửa file. Đội tái cơ cấu thì sửa file ở cả chục repo. Còn nếu gõ nhầm ở trường chủ sở hữu, bộ phân tích sẽ <em>hỏng trong im lặng</em>: service biến mất khỏi catalog, và bạn không biết gì cho tới khi đội nền tảng nhắn hỏi hai tuần sau.<sup><a href="https://hackernoon.com/we-built-an-internal-developer-platform-80percent-of-devs-stopped-using-it-after-three-months" target="_blank">[3]</a></sup></p>
+
+    <p>Tác giả có hỏi các kỹ sư vì sao họ bỏ. Một người làm backend senior trả lời đại ý: ngày của anh ta là để viết logic nghiệp vụ, chứ không phải bỏ hai mươi phút gỡ lỗi thụt lề YAML chỉ để service có một cái biểu tượng đẹp trên bảng điều khiển mà anh ta chẳng bao giờ nhìn.<sup><a href="https://hackernoon.com/we-built-an-internal-developer-platform-80percent-of-devs-stopped-using-it-after-three-months" target="_blank">[3]</a></sup> Tác giả nói thẳng: anh ta đúng hoàn toàn, và đội đã đẩy gánh nặng bảo trì nền tảng sang cho chính người dùng.</p>
+
+    <div class="mech"><b>Cơ chế — vì sao "hỏng trong im lặng" là loại lỗi đắt nhất trong công cụ nội bộ:</b> ghép hai đặc điểm lại thì ra một cái bẫy hoàn hảo. Thứ nhất, <em>người trả giá không phải người hưởng lợi</em>: người viết file metadata là kỹ sư sản phẩm, còn người hưởng lợi là đội nền tảng và những ai đi tra cứu catalog. Thứ hai, <em>lỗi không có vòng phản hồi</em>: gõ nhầm không làm gì đỏ lên, không chặn merge, không báo gì cả. Với một quy ước mà chi phí thì rơi vào một bên còn lợi ích rơi vào bên kia, thứ duy nhất giữ nó sống là kỷ luật — và kỷ luật luôn thua sự im lặng. Hệ quả là dữ liệu catalog trôi dần khỏi thực tế, mà không ai phát hiện được sự trôi đó, cho tới khi cả catalog không còn đáng tin. Lúc đó thì nó thành vô dụng kể cả với người từng muốn dùng. Bài học: <strong>mọi thứ bạn bắt người khác khai báo bằng tay thì phải kiểm tra được trong CI, hoặc đừng bắt khai báo.</strong> Không có phương án thứ ba.</div>
+
+    <h3 class="sub">Cú xoay: bỏ giao diện, làm cái máy</h3>
+
+    <p>Khi con số 80% buộc phải ra quyết định, đội có hai lựa chọn: bắt buộc dùng (thứ chưa bao giờ hiệu quả), hoặc vứt portal đi và làm cái mà kỹ sư thật sự cần. Họ vứt portal.<sup><a href="https://hackernoon.com/we-built-an-internal-developer-platform-80percent-of-devs-stopped-using-it-after-three-months" target="_blank">[3]</a></sup></p>
+
+    <p>Nhận ra quan trọng nhất: kỹ sư của họ không muốn một giao diện. Họ sống trong terminal và IDE. Họ không muốn bấm nút trong trình duyệt để tạo service; họ muốn gõ một lệnh và nó <em>thật sự chạy</em>. Hai tháng tiếp theo đội làm một CLI nhẹ viết bằng Go cộng một orchestrator thô ở phía sau, gọi là <em>pave</em>.<sup><a href="https://hackernoon.com/we-built-an-internal-developer-platform-80percent-of-devs-stopped-using-it-after-three-months" target="_blank">[3]</a></sup></p>
+
+    <p>Một lệnh duy nhất giờ làm hết: tạo repo GitHub, dựng khung từ template, cấp IAM role cho EKS, tạo database Postgres qua Terraform Cloud, tiêm secret vào GitHub Actions, và đăng ký service vào catalog nội bộ.<sup><a href="https://hackernoon.com/we-built-an-internal-developer-platform-80percent-of-devs-stopped-using-it-after-three-months" target="_blank">[3]</a></sup> Thứ biến mất khỏi quy trình là file YAML: phần backend tự sinh metadata, tự nối dashboard và tự cấp phát service PagerDuty qua API, tự sinh dữ liệu catalog từ trạng thái repo Git và tag AWS.</p>
+
+    <table class="tbl">
+      <tr><th>Việc mà kỹ sư phải làm</th><th>Bản portal (Backstage)</th><th>Bản CLI (<em>pave</em>)</th></tr>
+      <tr><td>Tạo service mới</td><td>bấm nút → nhận repo rỗng + CI hỏng + một ticket Jira</td><td>một lệnh → repo, IAM, database, secret, CI đều đã nối</td></tr>
+      <tr><td>Khai báo metadata</td><td>viết và bảo trì file YAML bằng tay ở mọi repo</td><td>hệ tự sinh từ trạng thái Git và tag AWS</td></tr>
+      <tr><td>Khi khai báo sai</td><td>parse hỏng im lặng, service biến mất khỏi catalog</td><td>không có khâu khai báo nên không có lỗi khai báo</td></tr>
+      <tr><td>Vai trò của catalog</td><td>nguồn sự thật do người nhập</td><td>chỉ đọc, sinh tự động, kỹ sư không đụng vào</td></tr>
+      <tr><td>Thời gian tới deploy đầu tiên</td><td>3 tuần (trạng thái trước đó)</td><td>12 phút</td></tr>
+    </table>
+    <p style="font-size:13px;color:#6b7280;margin-top:-6px">Bảng do bản tin lập lại từ mô tả trong bài; không trích nguyên văn.<sup><a href="https://hackernoon.com/we-built-an-internal-developer-platform-80percent-of-devs-stopped-using-it-after-three-months" target="_blank">[3]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — con số "3 tuần → 12 phút" nói gì và không nói gì:</b> nói gì thì rõ — phần chờ người trong quy trình đã bị xóa, vì cấp IAM role, tạo database và tiêm secret không còn là ba cuộc trò chuyện với ba người nữa. Chỗ tiết kiệm lớn nhất không phải thời gian thao tác mà là <em>thời gian xếp hàng</em>: trong ba tuần cũ, phần lớn là chờ chứ không phải làm. Còn không nói gì: 12 phút là thời gian tới lần deploy đầu tiên của một service <em>mới</em> theo đúng khuôn mẫu chuẩn — nó không nói gì về việc sửa một service đã có, về một service không vừa khuôn, hay về chi phí bảo trì chính cái orchestrator kia khi hạ tầng đổi. Đó là khoản nợ ẩn của mọi "paved road": bạn đã đổi ma sát rải đều cho mọi người thành một điểm tập trung mà một đội nhỏ phải nuôi. Khi so hai lựa chọn, bản tin cho rằng đây vẫn là đổi có lãi — nhưng hãy tính cả chi phí nuôi, và hãy hỏi trước "cái gì xảy ra với service không vừa khuôn", vì câu trả lời cho câu đó mới quyết định bao nhiêu phần trăm đội sẽ đi đường vòng.</div>
+
+    <h3 class="sub">Ba luật đội này rút ra</h3>
+
+    <div class="doslist">
+      <div><strong>1 · Đường đã lát, không phải trạm thu phí.</strong> Nền tảng phải là con đường ít trở lực nhất, tự lo phần nặng — IAM, CI/CD, quản secret, định tuyến. Nếu nó bắt lập trình viên học một lược đồ metadata mới, viết thêm YAML, hay tự trông trạng thái catalog, thì nó là trạm thu phí. Kỹ sư sẽ đi vòng qua.<sup><a href="https://hackernoon.com/we-built-an-internal-developer-platform-80percent-of-devs-stopped-using-it-after-three-months" target="_blank">[3]</a></sup></div>
+      <div><strong>2 · Tự động hóa trước, giao diện sau.</strong> Đừng làm web interface cho tới khi phần tự động hóa bên dưới đã chạy sạch. Nếu một lập trình viên chưa thể cấp phát một service từ đầu tới cuối bằng một script hay một lời gọi API, thì frontend React không cứu được bạn. Dựng orchestrator, rồi dựng CLI. Chỉ dựng giao diện khi người không kỹ thuật cần nhìn.<sup><a href="https://hackernoon.com/we-built-an-internal-developer-platform-80percent-of-devs-stopped-using-it-after-three-months" target="_blank">[3]</a></sup></div>
+      <div><strong>3 · Trạng thái phải được khám phá, không phải khai báo.</strong> Đừng bắt người gõ tay những phụ thuộc mà máy suy ra được. Nếu service A gọi service B, nền tảng nên tự phát hiện qua theo dõi mạng hoặc phân tích code, chứ không phải trông vào việc lập trình viên nhớ thêm một dòng vào file YAML. Con người thì trôi; trạng thái được khám phá thì không.<sup><a href="https://hackernoon.com/we-built-an-internal-developer-platform-80percent-of-devs-stopped-using-it-after-three-months" target="_blank">[3]</a></sup></div>
+    </div>
+
+    <p>Kết cục: họ vẫn có catalog, nhưng nó chỉ đọc và sinh hoàn toàn tự động. Kỹ sư không bao giờ chạm vào. Họ dùng CLI. Và tác giả nói rõ con số 12 phút không đến từ cái bảng điều khiển đẹp — nó đến từ việc đội thôi cố trở thành Spotify và bắt đầu tự động hóa đúng những khúc khổ sở trong ngày làm việc của kỹ sư.<sup><a href="https://hackernoon.com/we-built-an-internal-developer-platform-80percent-of-devs-stopped-using-it-after-three-months" target="_blank">[3]</a></sup></p>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> nếu bạn đang cân nhắc dựng một developer portal, hãy làm một phép thử rẻ trước khi tiêu sáu tháng. Hỏi ba kỹ sư trong đội: "khâu nào trong việc đưa một thay đổi lên production làm anh bực nhất?" Nếu câu trả lời là "không nhìn thấy bức tranh tổng thể" thì portal có thể hợp. Nếu câu trả lời là "chờ quyền", "credential không chạy ngay lần đầu", "phải đi hỏi người" — thì thứ bạn cần là một orchestrator, và giao diện của nó có thể chỉ là một dòng lệnh. Điểm khác biệt giữa hai nhóm câu trả lời này quyết định sáu tháng công sức của bốn kỹ sư.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo bài 2:</strong> [3] Akhil, <a href="https://hackernoon.com/we-built-an-internal-developer-platform-80percent-of-devs-stopped-using-it-after-three-months" target="_blank">"We Built an Internal Developer Platform. 80% of Devs Stopped Using It After Three Months.", HackerNoon, 01/07/2026</a>.</div>
+  </article>
+
+  <!-- GÓC NHÌN -->
+  <article class="card" id="gocnhin">
+    <span class="tag view">Góc nhìn của bản tin</span>
+    <h2 class="head">Góc nhìn · Cả hai đội đều tối ưu rất giỏi đúng cái tầng nhìn thấy được</h2>
+
+    <p>Hai bài hôm nay không liên quan gì nhau về chủ đề — một bên là hóa đơn AWS, một bên là trải nghiệm lập trình viên nội bộ. Nhưng đặt cạnh nhau thì cùng một sai lầm hiện ra rất rõ.</p>
+
+    <p>Đội ở bài 1 nhìn thấy node và instance, nên họ bóp node và instance: gặp OOM thì nhân đôi memory request, và cứ thế chạy ở 35% hiệu suất thật với số máy gấp đôi nhu cầu.<sup><a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">[1]</a></sup> Khoản thật sự to nhất — NAT Gateway 8.000 USD một tháng — thì không ai nhìn thấy, vì nó không hiện ra như một cái máy, nó hiện ra như một dòng trong hóa đơn không ai đọc.<sup><a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">[1]</a></sup></p>
+
+    <p>Đội ở bài 2 nhìn thấy giao diện, nên họ làm giao diện: sáu tháng, bốn kỹ sư, plugin riêng, theme đẹp.<sup><a href="https://hackernoon.com/we-built-an-internal-developer-platform-80percent-of-devs-stopped-using-it-after-three-months" target="_blank">[3]</a></sup> Phần thật sự cần — cái máy tự cấp IAM, database và secret — thì không ai nhìn thấy, vì nó chạy xong là xong và không có màn hình nào để khoe trong buổi họp toàn phòng.</p>
+
+    <div class="mech"><b>Cơ chế — vì sao tầng nhìn thấy được luôn được sửa trước, kể cả khi nó sai:</b> đây không phải lỗi năng lực, mà là lỗi của <em>chỗ đặt phản hồi</em>. Trong cả hai câu chuyện, tầng nhìn thấy được có ba đặc điểm khiến nó hút mọi nỗ lực về phía mình: nó có tên gọi quen thuộc (node, dashboard), nó có công cụ sẵn để thao tác, và kết quả hiện ra ngay lập tức. Tầng thật thì ngược lại: nó không có tên trong từ vựng hằng ngày của đội (ai nói chuyện về "topology-aware routing" trong standup?), muốn nhìn thấy nó phải dựng đo lường trước, và kết quả chỉ hiện ra sau nhiều tuần. Giữa hai lựa chọn, con người luôn chọn thứ có vòng phản hồi ngắn — và đó chính xác là thứ mà giai đoạn "hai tuần chỉ để đo" của bài 1 khắc phục: nó <em>tạo ra</em> vòng phản hồi cho tầng vô hình trước khi bất kỳ ai được phép sửa cái gì.<sup><a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">[1]</a></sup> Ở bài 2, đội không có giai đoạn đó — họ đi thẳng vào xây, và thứ đóng vai trò "hai tuần đo" đến muộn ba tháng, dưới dạng một biểu đồ Google Analytics chiều thứ Năm.<sup><a href="https://hackernoon.com/we-built-an-internal-developer-platform-80percent-of-devs-stopped-using-it-after-three-months" target="_blank">[3]</a></sup></div>
+
+    <h3 class="sub">Chỗ hai bài mâu thuẫn nhau — và bên nào đúng</h3>
+
+    <p>Có một điểm hai bài nói ngược nhau, và nó đáng dừng lại. Bài 2 rút ra luật: <em>trạng thái phải được khám phá, không phải khai báo</em> — đừng bắt người gõ tay thứ máy suy ra được.<sup><a href="https://hackernoon.com/we-built-an-internal-developer-platform-80percent-of-devs-stopped-using-it-after-three-months" target="_blank">[3]</a></sup> Nhưng bài 1 lại làm đúng điều ngược lại: họ dựng một luật Gatekeeper <em>bắt buộc</em> mọi namespace và deployment phải khai báo nhãn đội và trung tâm chi phí bằng tay.<sup><a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">[1]</a></sup></p>
+
+    <p>Khác biệt nằm ở chỗ: có những thứ máy <em>không thể</em> suy ra. Máy suy được service A gọi service B — cái đó nằm trong lưu lượng mạng. Máy không suy được "trung tâm chi phí nào chịu trách nhiệm cho service này", vì đó là một quyết định của tổ chức, không phải một sự thật kỹ thuật. Chính bài 1 cũng nói phần khó nhất của gắn tag là tổ chức chứ không phải công cụ.<sup><a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">[1]</a></sup></p>
+
+    <p>Nhưng để ý một chi tiết quan trọng: bài 1 <em>không</em> mắc cái bẫy của bài 2. Nhãn chi phí của họ được ép bằng OPA Gatekeeper — tức là thiếu nhãn thì tài nguyên bị chặn, không tạo được.<sup><a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">[1]</a></sup> Còn file YAML của bài 2 thì gõ sai cũng chẳng ai chặn, chỉ âm thầm biến mất khỏi catalog.<sup><a href="https://hackernoon.com/we-built-an-internal-developer-platform-80percent-of-devs-stopped-using-it-after-three-months" target="_blank">[3]</a></sup> Đó mới là ranh giới thật, và nó nên là luật làm việc của bạn: <strong>khai báo bằng tay chỉ được phép tồn tại khi nó được kiểm tra tự động ở thời điểm khai báo.</strong> Khai báo có cổng chặn thì sống; khai báo trông vào kỷ luật thì chết trong vài tháng.</p>
+
+    <h3 class="sub">Rút ra theo quy mô</h3>
+
+    <div class="scale">
+      <div class="col small">
+        <h4>▸ Đội nhỏ / startup dưới 10 người</h4>
+        <ul>
+          <li><strong>Đừng dựng portal, đừng dựng nền tảng.</strong> Ở quy mô này, thứ tương đương với <em>pave</em> là một script shell và một file README. Bài học dùng được không phải "hãy làm CLI", mà là "hãy tự động hóa khâu chờ người" — cụ thể là quyền và credential.<sup><a href="https://hackernoon.com/we-built-an-internal-developer-platform-80percent-of-devs-stopped-using-it-after-three-months" target="_blank">[3]</a></sup></li>
+          <li><strong>Bật VPC Endpoint ngay hôm nay nếu bạn ở AWS.</strong> Đây là thay đổi rẻ nhất trong cả số báo: không sửa code ứng dụng, không rủi ro về độ tin cậy, và ở case bài 1 nó xóa khoảng 80% chi NAT.<sup><a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">[1]</a></sup></li>
+          <li><strong>Tắt môi trường dev/staging ngoài giờ làm.</strong> Một lịch hạ về 0 là việc của một buổi chiều; ở case bài 1 nó đáng khoảng 2.000 USD mỗi tháng.<sup><a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">[1]</a></sup></li>
+          <li><strong>Chưa cần showback, chỉ cần một bản diff chi phí hằng tuần.</strong> Bạn chưa đủ đội để cãi nhau về phân bổ; thứ bạn cần là biết hôm qua ship cái gì làm tiền tăng.<sup><a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">[1]</a></sup></li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>▸ Đội đã có sản phẩm chạy production</h4>
+        <ul>
+          <li><strong>Trả lời được câu này trước khi cắt bất cứ thứ gì:</strong> "service X tốn bao nhiêu một tháng, chia theo compute, mạng và lưu trữ?" Nếu chưa, hai tuần audit là khoản đầu tư rẻ nhất bạn có thể làm.<sup><a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">[1]</a></sup></li>
+          <li><strong>Đo tỷ lệ lưu lượng nội bộ băng qua AZ.</strong> Ở case bài 1 con số là khoảng 60% và hoàn toàn không cần thiết.<sup><a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">[1]</a></sup> Nếu bật định tuyến theo topology, hãy áp điều kiện ≥3 replica mỗi AZ như họ làm — nếu không bạn đang đổi tiền lấy rủi ro mất zone.</li>
+          <li><strong>Chuyển mọi công cụ tối ưu tự động sang chế độ khuyến nghị + duyệt qua PR.</strong> Áp dụng cho VPA, cho rightsizing, và cho bất kỳ thứ gì được phép khởi động lại workload.<sup><a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">[1]</a></sup></li>
+          <li><strong>Nếu đang chạy showback, đừng chuẩn hóa cho tròn 100%.</strong> Chia đúng phần telemetry phủ được và để phần còn lại thành một khoản dư có tên. Một mô hình phân bổ bị bắt gặp nói dối một lần thì không ai dùng nữa.<sup><a href="https://oneuptime.com/blog/post/2026-08-04-allocate-nat-gateway-cross-az-network-cost/view" target="_blank">[2]</a></sup></li>
+          <li><strong>Với mọi công cụ nội bộ, hãy đo giữ chân chứ đừng đo lượt dùng.</strong> Số tháng ra mắt là số của mệnh lệnh; số tháng thứ ba mới là số của giá trị.<sup><a href="https://hackernoon.com/we-built-an-internal-developer-platform-80percent-of-devs-stopped-using-it-after-three-months" target="_blank">[3]</a></sup></li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="sub">Ba việc làm được trong tuần này</h3>
+    <div class="doslist">
+      <div><strong>1 · Mở hóa đơn cloud tháng trước và tìm dòng lớn nhất <em>không phải</em> compute.</strong> Mất 15 phút. Với phần lớn cụm Kubernetes trên AWS, câu trả lời sẽ là truyền dữ liệu hoặc NAT — và ở case bài 1 thì đó là khoản đơn lẻ to nhất trong cả hóa đơn.<sup><a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">[1]</a></sup> Nếu bạn không tìm được vì hóa đơn không chia nổi theo workload, thì bạn vừa tìm ra việc thật sự cần làm.</div>
+      <div><strong>2 · Lấy số người dùng theo tháng của một công cụ nội bộ mà đội bạn từng dựng.</strong> Bất kỳ công cụ nào — dashboard, portal, bot. So tháng ra mắt với tháng thứ ba. Đường cong 140→52→28 trong bài 2 là thứ hiếm ai đi đo với công cụ nội bộ, vì không có khách hàng nào phàn nàn khi họ lặng lẽ bỏ đi.<sup><a href="https://hackernoon.com/we-built-an-internal-developer-platform-80percent-of-devs-stopped-using-it-after-three-months" target="_blank">[3]</a></sup></div>
+      <div><strong>3 · Rà lại một chỗ mà đội đang bắt nhau khai báo bằng tay.</strong> File metadata, nhãn, trường owner, một bảng tính. Hỏi đúng một câu: nếu ai đó gõ sai, có thứ gì đỏ lên không? Nếu không, hoặc thêm cổng kiểm tra vào CI, hoặc bỏ hẳn khâu khai báo và để hệ tự suy ra.<sup><a href="https://hackernoon.com/we-built-an-internal-developer-platform-80percent-of-devs-stopped-using-it-after-three-months" target="_blank">[3]</a></sup></div>
+    </div>
+
+    <div class="takeaway">💡 Câu hỏi kiểm tra cho tuần tới: <strong>trong hệ thống của bạn, khoản chi lớn nhất và khâu tốn thời gian nhất — có cái nào hiện ra trên một màn hình mà ai đó thật sự nhìn hằng tuần không?</strong> Cả hai đội hôm nay đều làm việc rất nghiêm túc trong nhiều tháng lên đúng cái tầng họ nhìn thấy. Khác biệt duy nhất là một đội bỏ hai tuần ra để dựng chỗ nhìn trước khi sửa, còn đội kia dựng chỗ nhìn sau khi đã tiêu sáu tháng.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> [1] The Good Shell, <a href="https://thegoodshell.com/cloud-cost-optimization-on-kubernetes/" target="_blank">"Reducing Kubernetes Infrastructure Costs by 40% on EKS — Case Study", 26/05/2026</a> · [2] Nawaz Dhandala, <a href="https://oneuptime.com/blog/post/2026-08-04-allocate-nat-gateway-cross-az-network-cost/view" target="_blank">"Attribute NAT Gateway and Cross-AZ Cost to Traffic Generators", OneUptime, 04/08/2026</a> · [3] Akhil, <a href="https://hackernoon.com/we-built-an-internal-developer-platform-80percent-of-devs-stopped-using-it-after-three-months" target="_blank">"We Built an Internal Developer Platform. 80% of Devs Stopped Using It After Three Months.", HackerNoon, 01/07/2026</a>.</div>
+  </article>
+
+  <div class="foot">Bản tin sáng · Số 14/09/2026 · Biên tập từ nguồn công khai, mọi số liệu dẫn nguồn ngay cạnh câu · <a href="/" style="color:#6b7280">Về trang bìa</a></div>
+</div>
+</body>
+</html>
