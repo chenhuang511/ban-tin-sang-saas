@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ba tuần tối ưu SQL, p99 chỉ giảm 50 ms: 94% thời gian request nằm ở chỗ không ai gắn đồng hồ; &amp; bốn tầng quyền để pipeline CI/CD không thành cửa sau vào AWS · 15/09/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 15/09/2026</div>
+    <h1 class="title">Ba tuần tối ưu SQL, p99 chỉ giảm 50 ms: 94% thời gian request nằm ở chỗ không ai gắn đồng hồ; &amp; bốn tầng quyền để pipeline CI/CD không thành cửa sau vào AWS</h1>
+    <div class="meta">15/09/2026 · Đọc khoảng 15 phút · Nguồn: syarif — "We Cut Our Database Query Time by 91% Without Changing a Single Index", Level Up Coding (13/05/2026) · Aditya Agarwal — "Postgres for everything hits a wall the moment dashboards get concurrent", DEV (12/09/2026) · Alexey Vidanov — "Least-Privilege CI/CD on AWS: The 4-Layer Pattern That Scales", AWS Community Builders (12/05/2026)</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: hai bài hôm nay chạm hai mảng khác nhau — <b>tối ưu hệ đang chạy</b> và <b>quy trình phát triển an toàn</b> — nhưng chung một hình dạng: có một tầng trong hệ thống của bạn <em>không có đồng hồ đo</em>, và mọi nỗ lực nghiêm túc đều đổ vào tầng nhìn thấy được bên cạnh nó. Về nguồn, bản tin nói rõ ngay đây: bài gốc của bài 1 là bài <em>thu phí</em> trên Medium, bản tin chỉ đọc được phần mở miễn phí, nên toàn bộ số liệu dẫn lại đều nằm trong phần đó và bản tin <em>không</em> tường thuật cách họ sửa — chỗ nào là suy luận của bản tin thì ghi rõ. Các khối gắn nhãn <b style="color:#1e40af">Cơ chế</b>, bảng đối chiếu và mục "Rút ra theo quy mô" là phân tích tổng hợp của bản tin từ nguồn cộng thực hành phổ biến — <em>không trích nguyên văn</em>. Mọi con số đều dẫn nguồn ngay cạnh câu.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1"><strong>Bài 1</strong> — Query 5 ms, p99 1.240 ms: ba tuần tối ưu SQL mua được đúng 50 ms<br><span style="font-size:13.5px;color:#6b7280">· vì sao slow query log không hề kêu · toán học của hàng đợi, và vì sao nó chỉ cắn vào p99 · cái bẫy "tăng pool lên cho nhanh" · và một tầng mù thứ hai vừa được kể lại tuần này: read replica cô lập compute chứ không cô lập định dạng lưu trữ</span></a></li>
+      <li><a href="#bai2"><strong>Bài 2</strong> — Pipeline của bạn là một principal gọi API AWS: bốn tầng quyền và lộ trình 90 ngày<br><span style="font-size:13.5px;color:#6b7280">· vì sao một dòng điều kiện thiếu trong trust policy mở role cho cả internet · Learning role ở dev, Operations role ở prod · ba thứ Access Analyzer không bao giờ nhìn thấy · bảng "quy mô nào thì thêm tầng nào"</span></a></li>
+      <li><a href="#gocnhin"><strong>Góc nhìn</strong> — Cả hai bài đều nói về cái đường nối không ai đo &amp; 3 việc làm được tuần này</a></li>
+    </ol>
+  </nav>
+
+  <!-- BÀI 1 -->
+  <article class="card" id="bai1">
+    <span class="tag legacy">Tối ưu hệ đang chạy · case study</span>
+    <h2 class="head">Bài 1 · Query chạy 5 ms, p99 vẫn 1.240 ms: ba tuần tối ưu SQL mua được đúng 50 ms</h2>
+    <p class="src">Nguồn chính: syarif — "We Cut Our Database Query Time by 91% Without Changing a Single Index", Level Up Coding, 13/05/2026 · <a href="https://levelup.gitconnected.com/we-cut-our-database-query-time-by-91-without-changing-a-single-index-1d5b227f58bd" target="_blank">levelup.gitconnected.com</a>. <strong>Lưu ý nguồn — đọc kỹ chỗ này:</strong> bài gốc là bài thu phí trên Medium. Bản tin chỉ đọc được phần mở, nên <em>mọi</em> con số trích ở đây đều nằm trong phần miễn phí, và bản tin <strong>không tường thuật cách họ sửa</strong> vì không đọc được. Tác giả là một lập trình viên backend Go, đội không nêu tên, không có bên thứ ba kiểm chứng. Cái đáng giá của bài nằm ở <em>chẩn đoán</em> — và chẩn đoán đó thì phần miễn phí nói đủ. Toàn bộ phần "Cơ chế" bên dưới là suy luận của bản tin từ hành vi đã biết của connection pool, không phải nội dung bài gốc. Nguồn phụ: Aditya Agarwal, DEV, 12/09/2026<sup><a href="https://dev.to/adioof/postgres-for-everything-hits-a-wall-the-moment-dashboards-get-concurrent-h43" target="_blank">[2]</a></sup>.</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">1.240 → 1.190 ms</div><div class="lab">p99 của endpoint đó, sau ba tuần tối ưu SQL — đúng 50 ms cho ba tuần <a href="https://levelup.gitconnected.com/we-cut-our-database-query-time-by-91-without-changing-a-single-index-1d5b227f58bd" target="_blank">(syarif, 13/05/2026)</a></div></div>
+      <div class="box"><div class="num">6,7 → 5,1 ms</div><div class="lab">thời gian thực thi query theo EXPLAIN ANALYZE, sau khi thêm index phức hợp ở tuần thứ hai <a href="https://levelup.gitconnected.com/we-cut-our-database-query-time-by-91-without-changing-a-single-index-1d5b227f58bd" target="_blank">(syarif)</a></div></div>
+      <div class="box"><div class="num">94%</div><div class="lab">phần thời gian request bỏ ra chỉ để <em>chờ được bắt đầu</em>, không phải để chạy query <a href="https://levelup.gitconnected.com/we-cut-our-database-query-time-by-91-without-changing-a-single-index-1d5b227f58bd" target="_blank">(syarif)</a></div></div>
+    </div>
+
+    <p>Câu mở của bài gốc ngắn và đau: ba tuần, đó là khoảng thời gian họ bỏ ra để tối ưu nhầm thứ.<sup><a href="https://levelup.gitconnected.com/we-cut-our-database-query-time-by-91-without-changing-a-single-index-1d5b227f58bd" target="_blank">[1]</a></sup></p>
+
+    <p>Bối cảnh rất bình thường, bình thường đến mức bạn nên thấy mình trong đó. Có một endpoint chậm. Query của nó đã có index đúng. Kế hoạch thực thi cho thấy index scan, không phải sequential scan. Kết quả EXPLAIN ANALYZE sạch sẽ: thời gian lập kế hoạch 0,4 ms, thời gian thực thi 6,7 ms. Tuần thứ hai họ thêm một index phức hợp, kéo xuống 5,1 ms. Cảm giác như đang tiến bộ.<sup><a href="https://levelup.gitconnected.com/we-cut-our-database-query-time-by-91-without-changing-a-single-index-1d5b227f58bd" target="_blank">[1]</a></sup></p>
+
+    <p>Nhưng p99 của endpoint đứng ở 1.240 ms. Sau ba tuần, nó ở 1.190 ms. Năm mươi mili-giây cải thiện trên một con số lẽ ra phải dưới 80.<sup><a href="https://levelup.gitconnected.com/we-cut-our-database-query-time-by-91-without-changing-a-single-index-1d5b227f58bd" target="_blank">[1]</a></sup></p>
+
+    <p>Bạn dừng lại một giây và tự làm phép trừ đi. Query mất 5 ms. Request mất 1.190 ms. Một nghìn một trăm tám mươi lăm mili-giây kia đang ở đâu? Câu trả lời của tác giả: request bỏ <strong>94% thời gian chỉ để chờ được bắt đầu</strong>.<sup><a href="https://levelup.gitconnected.com/we-cut-our-database-query-time-by-91-without-changing-a-single-index-1d5b227f58bd" target="_blank">[1]</a></sup> Nút thắt không phải query. Nút thắt là connection pool.</p>
+
+    <h3 class="sub">Chỗ mù không nằm ở công cụ — nằm ở chỗ công cụ chĩa vào</h3>
+
+    <p>Đây mới là phần đáng sợ. Đội này không phải không có quan sát. Tác giả liệt kê: Datadog kèm APM trace, metric tự đặt cho thời lượng query, và slow query log bật sẵn trong Postgres với ngưỡng 100 ms. Anh mô tả đó là bộ đồ nghề "hợp lý với một đội cỡ này". Họ nhìn màn hình thời lượng query suốt ngày. Slow query log <em>không có gì</em>. Index đầy đủ. Vacuum vẫn chạy.<sup><a href="https://levelup.gitconnected.com/we-cut-our-database-query-time-by-91-without-changing-a-single-index-1d5b227f58bd" target="_blank">[1]</a></sup></p>
+
+    <p>Nghĩa là mọi đồng hồ họ có đều báo xanh, và mọi đồng hồ đó đều nói thật. Query <em>đúng là</em> nhanh. Vấn đề là không có cái đồng hồ nào đo khoảng thời gian giữa lúc request tới và lúc query bắt đầu.</p>
+
+    <div class="mech"><b>Cơ chế — vì sao slow query log không bao giờ kêu trong tình huống này (phân tích của bản tin):</b> slow query log của Postgres đếm giờ từ lúc server <em>nhận được</em> câu lệnh. Nhưng để gửi được câu lệnh, ứng dụng phải có trong tay một connection. Nếu pool đã cạn, request nằm xếp hàng ở phía ứng dụng — hoàn toàn bên ngoài tầm nhìn của database. Database không biết có ai đang đợi mình; nó chỉ thấy một chuỗi query 5 ms nối nhau, và nó rất hài lòng về điều đó. Vì vậy ngưỡng 100 ms trong slow query log không phải đặt sai — nó đang đo đúng thứ nó có thể đo, chỉ là thứ đó không liên quan tới triệu chứng. Với APM cũng vậy: hầu hết thư viện tạo span quanh <em>lần gọi query</em>, không tạo span quanh <em>lần xin connection</em>. Hai thao tác đó nằm cạnh nhau trong code, nhưng chỉ một cái được vẽ lên biểu đồ. Cả ba tuần của đội này diễn ra trong khoảng trống giữa hai dòng code.</div>
+
+    <h3 class="sub">Toán học của hàng đợi, và vì sao nó chỉ cắn vào p99</h3>
+
+    <p>Vì sao triệu chứng lại xuất hiện ở p99 mà không ở trung vị? Bản tin cho rằng đây là phần quan trọng nhất để mang về, nên xin nói kỹ — và nói rõ đây là diễn giải, không phải nội dung bài gốc.</p>
+
+    <div class="mech"><b>Cơ chế — vì sao thời gian chờ không tăng đều mà bật lên như tường (phân tích của bản tin):</b> một pool có N connection, mỗi query mất T mili-giây. Khả năng phục vụ của pool là N chia T query mỗi mili-giây — với 20 connection và query 5 ms, đó là khoảng 4.000 query mỗi giây. Chừng nào lưu lượng còn dưới ngưỡng đó <em>tính trung bình</em>, mọi thứ trông rất ổn: request tới, thấy connection rảnh, chạy ngay, tổng thời gian bằng đúng 5 ms. Trung vị đẹp. Nhưng lưu lượng thật không đều — nó tới theo cụm. Và khi mức sử dụng pool tiến gần 100%, thời gian chờ không tăng tuyến tính mà tăng theo kiểu một chia cho phần còn trống: ở 80% sử dụng bạn chờ một nhịp, ở 95% bạn chờ khoảng bốn nhịp, ở 99% bạn chờ khoảng hai mươi nhịp. Đó chính xác là hình dạng "trung vị 8 ms, p99 1.240 ms". Hệ quả thực tế rất phản trực giác: <strong>giảm thời gian query không giúp gì đáng kể khi hàng đợi đang chi phối.</strong> Kéo query từ 6,7 xuống 5,1 ms là tăng khả năng phục vụ được 24% — nghe to, nhưng nếu bạn đang ngồi ở vùng 99% sử dụng thì nó chỉ dịch bạn sang vùng 97%, và đuôi vẫn dày. Đúng bằng 50 ms mà họ mua được.</div>
+
+    <p>Nói cách khác: đội này không làm sai kỹ thuật nào cả. Họ làm đúng mọi bước của quy trình "tối ưu query" chuẩn mực. Chỉ là quy trình đó giả định nút thắt nằm trong database, và ở đây thì không.</p>
+
+    <h3 class="sub">Cái bẫy kế tiếp: "vậy tăng pool size lên là xong chứ gì"</h3>
+
+    <p>Bài gốc dừng ở chỗ bản tin đọc được, nên phần dưới đây hoàn toàn là biên tập tổng hợp từ thực hành phổ biến — bạn nên coi nó như một danh sách cần kiểm tra, không phải tường thuật.</p>
+
+    <p>Phản xạ đầu tiên của gần như mọi đội khi phát hiện pool cạn là nâng số connection lên. Nó có tác dụng trong một số trường hợp, và nó là cái bẫy trong nhiều trường hợp khác. Lý do: pool không phải nơi sinh ra năng lực, nó chỉ là nơi <em>xếp hàng</em>. Nâng pool lên gấp ba không làm database khỏe hơn gấp ba — nó chuyển chỗ tranh chấp từ hàng đợi phía ứng dụng vào bên trong database, nơi mà biểu hiện của tranh chấp khó đọc hơn nhiều: khóa, tranh chấp buffer, chuyển ngữ cảnh, và một loại chậm mới không còn quy về một chỗ nào rõ ràng nữa.</p>
+
+    <p>Trước khi đụng vào con số pool size, có bốn câu hỏi rẻ hơn nhiều và thường tìm ra thủ phạm thật:</p>
+
+    <div class="doslist">
+      <div><strong>1 · Có ai đang giữ connection trong lúc gọi mạng ra ngoài không?</strong> Đây là nguyên nhân số một và cũng là nguyên nhân hay bị bỏ sót nhất. Một hàm mở transaction, gọi một API bên thứ ba mất 300 ms ở giữa, rồi mới commit — trong suốt 300 ms đó nó chiếm một connection mà chẳng dùng đến database. Query vẫn 5 ms; connection vẫn bị giữ 305 ms. Với 20 connection, chỉ cần 20 request kiểu này chạy song song là toàn hệ dừng.</div>
+      <div><strong>2 · Có connection nào ở trạng thái mở transaction nhưng không làm gì không?</strong> Postgres gọi trạng thái đó là <em>idle in transaction</em>. Nó vừa chiếm slot, vừa chặn dọn dẹp phiên bản cũ của hàng. Đây là loại rò rỉ mà biểu đồ CPU không bao giờ thể hiện.</div>
+      <div><strong>3 · Tổng số connection của tất cả instance ứng dụng là bao nhiêu?</strong> Pool được cấu hình cho <em>một tiến trình</em>. Nhân với số pod, rồi nhân tiếp với số lần autoscaling nhân đôi lúc cao điểm — con số cuối cùng thường vượt xa giới hạn của database, và khi vượt thì lỗi báo ra là "too many connections", một thông điệp chẳng nói gì về nguyên nhân.</div>
+      <div><strong>4 · Bạn có metric nào cho chính cái hàng đợi đó không?</strong> Hầu hết driver database đều phơi ra sẵn: số connection đang dùng, số connection rảnh, số lần phải chờ, tổng thời gian chờ. Chúng thường tắt mặc định hoặc phải đăng ký thủ công. Một bình luận dưới bài gốc nói đúng điều đáng làm nhất: hãy nhét việc thu thập metric pool vào <em>gói database dùng chung</em> của công ty, để nó là mặc định bật chứ không phải tùy chọn — nhờ vậy đội tiếp theo không mất ba tuần vào cùng một chỗ mù.<sup><a href="https://levelup.gitconnected.com/we-cut-our-database-query-time-by-91-without-changing-a-single-index-1d5b227f58bd" target="_blank">[1]</a></sup></div>
+    </div>
+
+    <div class="takeaway">💡 <strong>Một câu để nhớ:</strong> nếu p99 của endpoint lớn hơn <em>vài chục lần</em> thời gian query của chính endpoint đó, thì bạn đang nhìn một bài toán hàng đợi, không phải bài toán query. Và hàng đợi hầu như không bao giờ nằm trong tầm nhìn của công cụ database.</div>
+
+    <h3 class="sub">Tầng mù thứ hai, vừa được kể lại tuần này</h3>
+
+    <p>Bản tin ghép thêm một bài mới ra ngày 12/09 vào đây, vì nó là cùng một lỗi tư duy ở một tầng khác. Tác giả là Aditya Agarwal, kỹ sư sáng lập tại Sydney. Đây là bài quan điểm, không phải post-mortem, và các số liệu trong đó đều dẫn lại từ nơi khác — bản tin ghi rõ để bạn đọc đúng trọng lượng.<sup><a href="https://dev.to/adioof/postgres-for-everything-hits-a-wall-the-moment-dashboards-get-concurrent-h43" target="_blank">[2]</a></sup></p>
+
+    <p>Câu chuyện: đội anh dùng Postgres cho mọi thứ. Đến lúc dashboard phân tích bắt đầu có nhiều người xem cùng lúc, họ làm việc mà ai cũng làm — thêm một read replica để gánh bớt phần đọc nặng, bảo vệ primary. Kết quả là chính cái replica bắt đầu quá tải.<sup><a href="https://dev.to/adioof/postgres-for-everything-hits-a-wall-the-moment-dashboards-get-concurrent-h43" target="_blank">[2]</a></sup></p>
+
+    <p>Câu chẩn đoán của anh gọn và đáng chép: <em>read replica cô lập được compute, nhưng không cô lập được vật lý</em>. Replica là một bản sao của đúng cái kho lưu trữ theo hàng đó. Anh dẫn hướng dẫn tháng 5/2026 của đội kỹ thuật ClickHouse, nói rằng replica của Postgres "chia sẻ những giới hạn hướng-hàng của primary", nén kém với dữ liệu phân tích và vẫn cần các index B-tree nặng làm phình bộ nhớ.<sup><a href="https://dev.to/adioof/postgres-for-everything-hits-a-wall-the-moment-dashboards-get-concurrent-h43" target="_blank">[2]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — "vật lý" ở đây là gì, nói cụ thể:</b> Postgres lưu dữ liệu thành các trang 8 KB, mỗi bản ghi kèm một phần đầu cố định 23 byte.<sup><a href="https://dev.to/adioof/postgres-for-everything-hits-a-wall-the-moment-dashboards-get-concurrent-h43" target="_blank">[2]</a></sup> Nghĩa là một câu truy vấn dashboard chỉ cần hai cột vẫn phải kéo <em>nguyên hàng</em> lên bộ nhớ. Với một request thì không sao. Nhân con số đó với mức đồng thời của một dashboard có ba chục người cùng mở, và bạn đang đọc gấp hàng chục lần lượng dữ liệu mình thật sự cần. Đây là lý do thêm replica không cứu được: bạn nhân đôi cái máy, nhưng giữ nguyên tỷ lệ lãng phí. Anh dẫn mô phỏng của MotherDuck cho đường cong quen thuộc — một phép gộp dashboard chạy 50 ms lúc dữ liệu còn ít, lên 5 giây khi tới hàng chục triệu hàng, rồi hết giờ hẳn khi tải đồng thời chồng lên.<sup><a href="https://dev.to/adioof/postgres-for-everything-hits-a-wall-the-moment-dashboards-get-concurrent-h43" target="_blank">[2]</a></sup> Và ngân sách độ trễ cho phân tích hiện cho khách hàng thì nằm dưới 100 ms mới được coi là tức thì.<sup><a href="https://dev.to/adioof/postgres-for-everything-hits-a-wall-the-moment-dashboards-get-concurrent-h43" target="_blank">[2]</a></sup></div>
+
+    <p>Anh cũng dẫn một bản rà soát sự cố tháng 9/2026, trong đó một replica bị "hàng trăm phép gộp tương tự nhau chạy cùng lúc" đập vào, đẩy cả CPU lẫn bộ nhớ lên đỉnh; việc phát lại WAL và các query nhanh giành nhau cùng một nguồn lực, khiến query nhanh trở nên "chậm đến khổ sở".<sup><a href="https://dev.to/adioof/postgres-for-everything-hits-a-wall-the-moment-dashboards-get-concurrent-h43" target="_blank">[2]</a></sup> Nhận xét của anh đáng dừng lại: dấu hiệu nhận ra không phải <em>một</em> query chậm, mà là sự cộng dồn của nhiều query.</p>
+
+    <p>Còn cách chữa quen thuộc — phóng to máy lên — anh gọi thẳng là thuế, không phải giải pháp: bạn cấp dư một máy cỡ <em>r8gd.4xlarge</em> để chịu mấy đợt tăng đột biến của dashboard, rồi nó nằm không lúc ba giờ sáng và vẫn đốt tiền.<sup><a href="https://dev.to/adioof/postgres-for-everything-hits-a-wall-the-moment-dashboards-get-concurrent-h43" target="_blank">[2]</a></sup> Kết luận của anh không phải "Postgres dở" — anh nói vẫn giữ dữ liệu giao dịch ở Postgres và sẵn sàng bảo vệ lựa chọn đó. Cái sai là bắt một engine vừa làm sổ cái vừa làm kho phân tích.<sup><a href="https://dev.to/adioof/postgres-for-everything-hits-a-wall-the-moment-dashboards-get-concurrent-h43" target="_blank">[2]</a></sup></p>
+
+    <p><strong>Một lưu ý về thiên lệch, vì nó quan trọng:</strong> hướng giải quyết bài này đề xuất là dựng một tầng phục vụ hướng-cột, và ví dụ anh nêu là ClickHouse — cũng chính là nguồn anh trích để lập luận. Bạn nên đọc phần chẩn đoán (vật lý của trang 8 KB, replica không đổi định dạng) như phần chắc chắn, và đọc phần kê đơn với con mắt của người biết rằng tài liệu của nhà cung cấp luôn dẫn về sản phẩm của họ.</p>
+
+    <h3 class="sub">Hai bài, một hình dạng</h3>
+
+    <table class="tbl">
+      <tr><th>&nbsp;</th><th>Case connection pool<sup><a href="https://levelup.gitconnected.com/we-cut-our-database-query-time-by-91-without-changing-a-single-index-1d5b227f58bd" target="_blank">[1]</a></sup></th><th>Case read replica<sup><a href="https://dev.to/adioof/postgres-for-everything-hits-a-wall-the-moment-dashboards-get-concurrent-h43" target="_blank">[2]</a></sup></th></tr>
+      <tr><td>Triệu chứng</td><td>p99 1.240 ms trong khi query 5 ms</td><td>replica quá tải dù đã tách khỏi primary</td></tr>
+      <tr><td>Giả định sai</td><td>"chậm ở endpoint nghĩa là chậm ở query"</td><td>"tách compute nghĩa là tách được tải"</td></tr>
+      <tr><td>Tầng thật sự nghẽn</td><td>hàng đợi xin connection, ở phía ứng dụng</td><td>định dạng lưu trữ theo hàng, ở cả hai bên</td></tr>
+      <tr><td>Vì sao khó thấy</td><td>không có span, không vào slow query log</td><td>đồ thị CPU/bộ nhớ tăng, nhưng không chỉ ra nguyên nhân cấu trúc</td></tr>
+      <tr><td>Cách chữa phản xạ và vì sao hụt</td><td>tối ưu SQL — mua được 50 ms trong ba tuần</td><td>phóng to máy — nằm không lúc 3 giờ sáng, vẫn tính tiền</td></tr>
+    </table>
+    <p style="font-size:13px;color:#6b7280;margin-top:-6px">Bảng do bản tin lập để đối chiếu hai nguồn; các ô "giả định sai" và "vì sao khó thấy" là diễn giải của bản tin, không trích nguyên văn.</p>
+
+    <h3 class="sub">Rút ra theo quy mô</h3>
+
+    <div class="scale">
+      <div class="col small">
+        <h4>▸ Đội nhỏ / startup dưới 10 người</h4>
+        <ul>
+          <li><strong>Bật metric connection pool ngay hôm nay.</strong> Driver của bạn gần như chắc chắn đã phơi sẵn: số đang dùng, số lần chờ, tổng thời gian chờ. Việc của bạn là đăng ký chúng — mất một buổi, và nó là cái đồng hồ mà đội trong bài không có suốt ba tuần.<sup><a href="https://levelup.gitconnected.com/we-cut-our-database-query-time-by-91-without-changing-a-single-index-1d5b227f58bd" target="_blank">[1]</a></sup></li>
+          <li><strong>Rà một lượt xem có chỗ nào gọi API bên ngoài khi đang mở transaction không.</strong> Đây là thứ rẻ nhất để kiểm tra và hay là thủ phạm nhất. Không cần công cụ, chỉ cần đọc lại mấy hàm dài nhất.</li>
+          <li><strong>Đừng dựng kho phân tích riêng khi chưa cần.</strong> Ở quy mô của bạn, Postgres chạy được cả hai vai. Thứ cần làm là <em>biết trước dấu hiệu</em> mình sắp chạm trần: dashboard bắt đầu có nhiều người xem cùng lúc, và thời gian một phép gộp bắt đầu tính bằng giây.<sup><a href="https://dev.to/adioof/postgres-for-everything-hits-a-wall-the-moment-dashboards-get-concurrent-h43" target="_blank">[2]</a></sup></li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>▸ Đội đã có sản phẩm chạy production</h4>
+        <ul>
+          <li><strong>Thêm một span riêng cho thao tác xin connection</strong>, tách khỏi span chạy query. Nếu APM của bạn chỉ có một span "db", bạn đang nhìn đúng cái màn hình mà đội trong bài đã nhìn suốt ba tuần.<sup><a href="https://levelup.gitconnected.com/we-cut-our-database-query-time-by-91-without-changing-a-single-index-1d5b227f58bd" target="_blank">[1]</a></sup></li>
+          <li><strong>Cảnh báo theo thời gian chờ pool, đừng cảnh báo theo thời lượng query.</strong> Query chậm thì slow query log đã bắt rồi. Cái chưa ai bắt là hàng đợi.</li>
+          <li><strong>Cộng tổng số connection thật.</strong> Pool size nhân số pod nhân hệ số autoscaling, so với giới hạn của database. Làm phép tính đó <em>trước</em> đợt cao điểm kế tiếp, không phải trong lúc nó đang diễn ra.</li>
+          <li><strong>Nếu đang phục vụ phân tích cho khách hàng, hãy đo tỷ lệ cột thật sự cần trên số cột phải đọc.</strong> Đó là con số quyết định bạn còn dư địa tối ưu trong Postgres, hay đã tới lúc tách hẳn một tầng phục vụ khác.<sup><a href="https://dev.to/adioof/postgres-for-everything-hits-a-wall-the-moment-dashboards-get-concurrent-h43" target="_blank">[2]</a></sup></li>
+          <li><strong>Đưa việc thu thập metric pool vào gói database dùng chung.</strong> Mặc định bật, không phải tùy chọn. Đây là cách duy nhất để bài học này không phải học lại ở đội kế tiếp.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> con số 91% trong tiêu đề bài gốc thì đừng mang về — bản tin không đọc được phần họ làm gì để đạt nó, và nó là con số của một hệ cụ thể. Ba thứ đáng mang về là: <em>một</em>, khi p99 lớn hơn nhiều lần thời gian query thì thủ phạm nằm ngoài database; <em>hai</em>, đồng hồ của bạn báo xanh không có nghĩa hệ khỏe, có thể nó đang đo đúng một thứ không liên quan; <em>ba</em>, trước khi tối ưu bất cứ thứ gì, hãy hỏi "tôi có đồng hồ ở tầng này chưa" thay vì "tầng này có vẻ chậm".</div>
+
+    <div class="refs"><strong>Nguồn tham khảo bài 1:</strong> [1] syarif, <a href="https://levelup.gitconnected.com/we-cut-our-database-query-time-by-91-without-changing-a-single-index-1d5b227f58bd" target="_blank">"We Cut Our Database Query Time by 91% Without Changing a Single Index", Level Up Coding, 13/05/2026</a> (bài thu phí — bản tin chỉ dẫn số liệu trong phần mở miễn phí) · [2] Aditya Agarwal, <a href="https://dev.to/adioof/postgres-for-everything-hits-a-wall-the-moment-dashboards-get-concurrent-h43" target="_blank">"Postgres for everything hits a wall the moment dashboards get concurrent", DEV Community, 12/09/2026</a>.</div>
+  </article>
+
+  <!-- BÀI 2 -->
+  <article class="card" id="bai2">
+    <span class="tag view">Quy trình phát triển an toàn · bộ khung</span>
+    <h2 class="head">Bài 2 · Pipeline của bạn chỉ là một principal gọi API AWS: bốn tầng quyền, và một dòng điều kiện quyết định tất cả</h2>
+    <p class="src">Nguồn: Alexey Vidanov (AWS Community Builders) — "Least-Privilege CI/CD on AWS: The 4-Layer Pattern That Scales", DEV Community, 12/05/2026 · <a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">dev.to</a>. <strong>Lưu ý nguồn:</strong> đây là bài kỹ thuật của một cá nhân trong chương trình AWS Community Builders, không phải tài liệu chính thức của AWS. Tác giả nói rõ phần lớn mẫu hình này chắt ra từ tài liệu hướng dẫn của AWS và có dẫn link tới từng trang; cái mới là gom về một chỗ kèm code chạy được. Đoạn kinh nghiệm cá nhân về khoảng trống của Access Analyzer là tự thuật, không kiểm chứng độc lập được. Bản tin diễn đạt mọi thứ bằng văn xuôi, <em>không chép code</em>.</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">4 tầng</div><div class="lab">SCP · permission boundary · identity policy · resource policy — một request chỉ đi lọt khi <em>mọi</em> tầng cho phép <a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">(Vidanov, 12/05/2026)</a></div></div>
+      <div class="box"><div class="num">~1 giờ</div><div class="lab">tuổi thọ token mà pipeline nhận qua OIDC, thay cho access key sống vĩnh viễn trong biến CI <a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">(Vidanov)</a></div></div>
+      <div class="box"><div class="num">~90%</div><div class="lab">mức hoàn chỉnh của chính sách mà IAM Access Analyzer sinh ra từ log — phần 10% còn lại là chỗ pipeline vỡ lần đầu lên prod <a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">(Vidanov)</a></div></div>
+    </div>
+
+    <p>Bài mở bằng một nhận xét mà bản tin thấy là cái khóa của cả vấn đề: <strong>dưới mắt AWS, một pipeline CI/CD chỉ là một principal gọi API, không hơn không kém.</strong> Phần khó không phải làm cho nó chạy — việc đó mất vài phút. Phần khó là làm cho nó chạy <em>an toàn</em> khi có năm chục đội dịch vụ, hàng trăm pipeline, nhiều môi trường và một danh sách dịch vụ liên tục dài ra.<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup></p>
+
+    <p>Anh chỉ ra ba lực kéo ngược nhau, và đội nào cũng dính đủ ba: <em>tốc độ</em> — mỗi lần sửa quyền phải mở ticket bảo mật là một lần ma sát; <em>an toàn</em> — một pipeline bị chiếm mà đang mang quyền quản trị thì đó là sự cố cấp tài khoản; và <em>trôi dạt</em> — quyền cấp "tạm thời" thì thành vĩnh viễn, role tích tụ những quyền chẳng ai nhớ vì sao có.<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup></p>
+
+    <p>Về bối cảnh mối đe dọa, anh dẫn mấy vụ gần đây. Bản tin nhắc gọn vì hai trong số đó đã mổ ở <a href="/2026-09-05">số 05/09</a>: vụ GitHub Action của Trivy bị chiếm tháng 3/2026 (kẻ tấn công force-push 75 trên 76 thẻ phiên bản về một commit độc), và một chiến dịch tháng 4/2026 mở 475 pull request độc trong 26 giờ, khai thác kiểu trigger chạy trên PR từ bên ngoài để hút secret của CI/CD ở hàng trăm tổ chức suốt sáu tuần.<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup> Xa hơn: vụ <em>tj-actions/changed-files</em> tháng 3/2025 chạm hơn 23.000 repo, CircleCI năm 2022, Codecov năm 2021.<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup></p>
+
+    <p>Nhận định của anh về chuỗi này thì đáng chép nguyên ý: nguyên nhân gốc không bao giờ đổi — pipeline giữ credential mạnh, sống lâu, và không có giới hạn cấu trúc nào chặn nó làm gì.<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup> Nói cách khác: bạn không thể chặn gói phụ thuộc kế tiếp bị nhiễm độc, nhưng bạn quyết định được nó <em>làm được gì</em> sau khi vào.</p>
+
+    <h3 class="sub">Mô hình tư duy: ranh giới tin cậy là role, không phải repo</h3>
+
+    <p>Đây là chỗ anh nói phần lớn đội hiểu ngược. Cùng một script deploy chạy ở cả ba môi trường. Thứ thay đổi là pipeline nhận <em>role</em> nào — và điều đó do chính sách tin cậy của role quyết định, chứ không do file cấu hình pipeline.<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup></p>
+
+    <p>Hệ quả cụ thể: một nhánh tính năng không thể mang role của production, ngay cả khi có người sửa file pipeline để thử — vì chính sách tin cậy của role sẽ từ chối cấp credential. Repo là thứ dùng chung; an toàn nằm trong IAM.<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao chỗ này quan trọng hơn mọi thứ khác trong bài:</b> nếu bạn thực thi an toàn bằng file pipeline (kiểu "chỉ job này mới được deploy prod"), thì người sửa được file pipeline chính là người quyết định được ai deploy prod. Mà file pipeline nằm trong repo, và repo là thứ mọi kỹ sư đều đụng vào được — thường chỉ cần một PR. Còn nếu bạn thực thi bằng chính sách tin cậy của role, thì người muốn đổi ranh giới phải sửa hạ tầng IAM, tức là đi qua một đường khác hẳn, có người duyệt khác hẳn. Cùng một quy tắc, nhưng đặt ở hai chỗ thì cho ra hai mức độ bảo đảm khác nhau về bản chất. Nguyên tắc chung: <strong>đặt luật ở nơi mà người bị luật ràng buộc không sửa được nó.</strong></div>
+
+    <h3 class="sub">OIDC: bỏ hẳn khóa sống vĩnh viễn, và dòng điều kiện quyết định tất cả</h3>
+
+    <p>Nền móng là OIDC. Cả GitLab lẫn GitHub đều đóng vai nhà cung cấp danh tính; AWS tin họ; pipeline nhận một token sống khoảng một giờ; và không tồn tại access key dài hạn ở bất cứ đâu.<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup></p>
+
+    <p>Nhưng đây mới là chỗ anh in đậm, và bản tin cũng in đậm lại: <strong>chính sách tin cậy sai một dòng thì role của bạn trở thành thứ mà bất kỳ người dùng GitHub nào trên internet cũng mang được.</strong><sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao thiếu một điều kiện lại mở toang role (diễn đạt bằng lời, không chép cấu hình):</b> token mà GitHub Actions phát ra có một trường mô tả "ai đang chạy" — nó ghi rõ repo nào, nhánh nào hoặc môi trường nào. Chính sách tin cậy của bạn phải nói: chỉ chấp nhận token có trường đó khớp đúng repo của tôi và nhánh chính của tôi. Nếu bạn chỉ khai báo "tin nhà cung cấp danh tính GitHub" mà quên ràng buộc trường này, thì bạn vừa tuyên bố tin <em>toàn bộ GitHub</em> — nghĩa là bất kỳ ai tạo một repo công khai và chạy một workflow đều lấy được credential vào tài khoản AWS của bạn.<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup> Điều tệ nhất: cấu hình thiếu này <em>vẫn chạy đúng</em>. Pipeline của bạn deploy thành công, test xanh, không có gì đỏ lên. Đây lại đúng cái hình dạng của bài 1 — một tầng quan trọng, không có đồng hồ nào báo khi nó sai. Anh cũng lưu ý GitLab dùng định dạng trường khác và cho phép so khớp kiểu ký tự đại diện, nhưng khuyên đừng dùng: hãy ghi cụ thể.<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup></div>
+
+    <h3 class="sub">Bốn tầng quyền, và ai giữ tầng nào</h3>
+
+    <p>Một request tới AWS chỉ thành công khi <em>mọi</em> tầng đều cho phép. Bốn tầng đó, cùng người quản lý, theo đúng bảng trong bài:<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup></p>
+
+    <table class="tbl">
+      <tr><th>Tầng</th><th>Phạm vi</th><th>Việc nó làm</th><th>Ai quản</th></tr>
+      <tr><td>Service control policy (SCP)</td><td>toàn tổ chức / đơn vị tổ chức</td><td>giới hạn cứng ở cấp tổ chức</td><td>đội bảo mật</td></tr>
+      <tr><td>Permission boundary</td><td>từng role</td><td>trần quyền tối đa mà role đó <em>bao giờ</em> có thể có</td><td>đội nền tảng</td></tr>
+      <tr><td>Identity policy</td><td>từng role</td><td>quyền role thật sự được cấp</td><td>đội dịch vụ</td></tr>
+      <tr><td>Resource policy</td><td>từng tài nguyên</td><td>truy cập liên tài khoản, truy cập công khai</td><td>chủ tài nguyên</td></tr>
+    </table>
+    <p style="font-size:13px;color:#6b7280;margin-top:-6px">Bảng dịch lại từ bảng trong bài gốc.<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup></p>
+
+    <p>Ba ví dụ anh nêu, diễn đạt bằng lời: một SCP cấm mọi người tắt hoặc xóa nhật ký kiểm toán — kể cả quản trị viên; một permission boundary chặn hẳn các đường leo thang quyền (tạo user mới, tạo access key, gắn chính sách cho user, gỡ chính bản thân cái boundary, sửa chính sách tin cậy của role) và đồng thời cấm role tự sửa cái boundary của mình; và một identity policy chỉ cấp đúng vài hành động trên đúng vài tài nguyên có tên.<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup></p>
+
+    <p>Một chi tiết nhỏ trong ví dụ đó rất đáng nhắc, vì nó là dạng lỗi hay gặp và hậu quả lớn: quyền "trao role cho dịch vụ khác" phải được giới hạn về đúng <em>một</em> role cụ thể và đúng <em>một</em> dịch vụ cụ thể. Anh nói riêng điều kiện này chặn được cả một lớp tấn công leo thang quyền.<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao quyền "trao role" là lỗ hổng lớn nhất trong một chính sách trông có vẻ chặt (phân tích của bản tin, dựa trên ví dụ trong bài):</b> hãy hình dung pipeline của bạn chỉ được phép cập nhật một dịch vụ container. Nghe rất hẹp. Nhưng để chạy container, nó phải nói cho AWS biết container đó chạy dưới role nào — và đó chính là quyền "trao role". Nếu quyền này không bị ràng buộc, pipeline có thể chọn <em>bất kỳ</em> role nào trong tài khoản, kể cả role quản trị, gán cho một container mà nó tự khởi động. Nói cách khác, từ quyền "cập nhật một dịch vụ" nó tự nâng mình thành quyền "chạy code với quyền cao nhất trong tài khoản". Đường đi này không cần lỗ hổng phần mềm nào, chỉ cần một chính sách viết rộng một cách vô tình. Ràng buộc đúng gồm hai vế và phải có <em>cả hai</em>: chỉ được trao role có tên này, và chỉ được trao cho dịch vụ này.</div>
+
+    <h3 class="sub">Learning role và Operations role: cách tìm ra chính sách đúng mà không làm vỡ prod</h3>
+
+    <p>Đây là phần thực dụng nhất của bài, và nó trả lời một câu hỏi thật: bạn biết trước pipeline cần đúng những quyền gì bằng cách nào? Câu trả lời anh dẫn từ tài liệu AWS gồm sáu bước:<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup></p>
+
+    <div class="doslist">
+      <div><strong>1 · Role "học việc" ở dev chạy rộng, nhưng bị quan sát.</strong> Nhật ký kiểm toán ghi lại mọi hành động nó thật sự làm.</div>
+      <div><strong>2 · Tài khoản dev phải cô lập thật.</strong> Không dữ liệu prod, không mạng prod, tài khoản AWS riêng. Đây là điều kiện để "chạy rộng" không đồng nghĩa với "chạy liều".</div>
+      <div><strong>3 · Access Analyzer đọc khoảng 90 ngày nhật ký</strong> và sinh ra một chính sách tối thiểu tương ứng.</div>
+      <div><strong>4 · Chính sách đó được commit vào Git</strong> và đi qua đúng quy trình review như code.</div>
+      <div><strong>5 · Prod dùng một role khác — role "vận hành" — với chính sách vừa sinh ra.</strong> Hai role tách bạch, không phải một role đổi chế độ.</div>
+      <div><strong>6 · Nếu prod hỏng, quay lui là chuyện nhỏ:</strong> phiên bản chính sách trước đó chỉ cách một lệnh.</div>
+    </div>
+
+    <p>Anh nhấn một cảnh báo quan trọng: role học việc cũng phải có trần. "Rộng" không có nghĩa là vô hạn — vẫn phải gắn permission boundary chặn leo thang quyền, chặn nhảy sang tài khoản khác, chặn đụng vào dịch vụ dùng chung. Rộng ở bên trong hộp cát, bịt kín ở các mép.<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup></p>
+
+    <h3 class="sub">Ba thứ Access Analyzer không bao giờ nhìn thấy</h3>
+
+    <p>Phần này là kinh nghiệm cá nhân của tác giả, và bản tin cho rằng nó đáng giá hơn cả phần lý thuyết. Lần đầu anh chạy Access Analyzer sau 90 ngày, chính sách sinh ra <em>thiếu</em> hai thứ, và pipeline vỡ ngay lần deploy prod đầu tiên.<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup></p>
+
+    <div class="doslist">
+      <div><strong>❌ Quyền "trao role" không được ghi vào nhật ký kiểm toán</strong>, nên không bao giờ xuất hiện trong chính sách sinh tự động. Phải thêm tay.<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup></div>
+      <div><strong>❌ Sự kiện dữ liệu của S3 mặc định tắt</strong> trong nhật ký kiểm toán. Nếu không bật, mọi thao tác đọc/ghi object đều vô hình với công cụ sinh chính sách.<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup></div>
+      <div><strong>❌ Hành động hiếm, kiểu mỗi quý một lần</strong>, nằm ngoài cửa sổ 90 ngày. Cách của anh: giữ một danh sách nhỏ các hành động "hiếm nhưng cần", gộp với chính sách sinh tự động.<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup></div>
+    </div>
+
+    <p>Anh kết phần này bằng một câu nên dán lên tường: <em>Access Analyzer đưa bạn đi được 90% quãng đường, không phải 100%.</em><sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao 10% còn lại luôn rơi vào đúng lúc tệ nhất (phân tích của bản tin):</b> ba khoảng trống trên không phải ngẫu nhiên — chúng cùng một loại. Công cụ sinh chính sách chỉ nhìn thấy thứ có <em>vết</em> trong nhật ký, còn ba thứ kia lại là những thứ hoặc không để lại vết, hoặc để lại vết ở nơi mặc định không bật, hoặc xảy ra quá thưa để lọt vào cửa sổ quan sát. Kết quả là chính sách sinh ra luôn <em>chặt hơn</em> thực tế cần — và cái chặt đó chỉ lộ ra khi gặp đúng nhánh chạy hiếm: lần deploy đầu lên prod, lần chạy job cuối quý, lần khôi phục sau sự cố. Tức là công cụ đẩy rủi ro vào đúng những thời điểm bạn ít muốn gặp bất ngờ nhất. Bài học chung hơn, áp dụng cho mọi thứ được sinh ra từ dữ liệu quan sát: <strong>hãy liệt kê trước những đường chạy mà cửa sổ quan sát của bạn chưa từng thấy</strong>, và coi chúng là đầu vào riêng chứ đừng trông vào công cụ.</div>
+
+    <h3 class="sub">Vòng lặp "để nó hỏng rồi mở PR"</h3>
+
+    <p>Khi prod báo từ chối truy cập, anh không xử lý bằng cách nới quyền trước cho chắc. Anh dựng một vòng lặp: cảnh báo bắn ra, một hàm nhỏ đọc sự kiện lấy ra ai gọi, gọi hành động gì, trên tài nguyên nào, rồi <em>tự mở một pull request</em> thêm đúng hành động còn thiếu; người duyệt trả lời hai câu hỏi — quyền này có chính đáng không, và có phải là nới rộng ngoài ý định không; merge, deploy lại, pipeline chạy.<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup></p>
+
+    <p>Anh mô tả tác dụng của nó bằng một câu gọn: cách này biến mỗi lần bị từ chối thành một <em>yêu cầu cấp quyền có người duyệt</em>. Chính sách hội tụ dần về đúng những gì thật sự cần, qua vài vòng, và mỗi lần thêm đều có một con người ở giữa.<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup> Anh nói thẳng: chậm hơn cách cấp quyền rộng, nhưng có thể truy vết.<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup></p>
+
+    <p>Bản tin để ý thấy đây là cùng một khuôn mẫu với thứ <a href="/2026-09-14">số hôm qua</a> gọi là <em>tách quyền tính toán khỏi quyền hành động</em>: máy làm phần phát hiện và soạn thảo, người giữ nút bấm. Hai bài khác hẳn nhau về chủ đề mà rơi vào cùng một lời giải — đó thường là dấu hiệu của một nguyên tắc chứ không phải một mẹo.</p>
+
+    <h3 class="sub">Quy mô nào thì thêm tầng nào</h3>
+
+    <p>Phần bản tin thích nhất ở bài này là tác giả không bán trọn gói. Anh nói rõ: không phải đội nào cũng cần đủ bốn tầng từ ngày đầu, và nêu dấu hiệu để biết khi nào thì thêm.<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup></p>
+
+    <table class="tbl">
+      <tr><th>Quy mô</th><th>Số đội</th><th>Nên có gì</th><th>Vì sao lúc này</th></tr>
+      <tr><td>1–5 pipeline</td><td>1</td><td>OIDC + chính sách viết tay + permission boundary</td><td>bạn còn đọc tay được từng chính sách; dựng thêm hạ tầng chỉ tốn công</td></tr>
+      <tr><td>5–15 pipeline</td><td>2–3</td><td>thêm một module hạ tầng chung để cấp role</td><td>nhiều đội thì mỗi đội tạo role một kiểu; module ép khuôn về mặt cấu trúc</td></tr>
+      <tr><td>15–50 pipeline</td><td>3–10</td><td>thêm vòng tinh chỉnh chính sách tự động</td><td>review tay không kham nổi quá ~15 role; trôi dạt thành sự cố lặp lại</td></tr>
+      <tr><td>50–200 pipeline</td><td>10+</td><td>tách pipeline hạ tầng + cổng tự phục vụ + onboarding qua PR</td><td>một pipeline hạ tầng duy nhất vừa là nút cổ chai vừa là mục tiêu giá trị cao</td></tr>
+    </table>
+    <p style="font-size:13px;color:#6b7280;margin-top:-6px">Bảng dịch lại từ bảng "scaling guide" trong bài gốc.<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup></p>
+
+    <p>Kèm theo là các dấu hiệu "bạn đã vượt quá cách làm hiện tại", và mấy cái này rất dễ tự kiểm: hai đội trở lên đang sao chép định nghĩa role của nhau; bạn tìm thấy một role pipeline không có permission boundary; một lần rà soát bảo mật lôi ra những role cấp quyền toàn phần mà không ai nhớ đã tạo; onboarding một pipeline mới mất hơn một ngày chỉ vì qua lại chuyện quyền.<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup> Với vòng tinh chỉnh tự động, dấu hiệu là: có role sáu tháng chưa ai rà; sự cố "từ chối truy cập" ở prod xảy ra hằng tháng (chính sách quá chặt) hoặc <em>không bao giờ</em> xảy ra (chính sách quá rộng, không ai để ý); và một kỳ kiểm toán hỏi "quyền này được xác nhận lần cuối khi nào" mà không ai trả lời được.<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup></p>
+
+    <p>Bản tin dừng lại ở cái dấu hiệu "không bao giờ xảy ra", vì nó ngược đời và vì thế dễ bỏ qua nhất. Một hệ không bao giờ báo từ chối truy cập nghe như hệ khỏe. Thực ra nó nói rằng bạn chưa bao giờ chạm tới trần — mà trần thì bao giờ cũng tồn tại, chỉ là nó đang ở rất xa phía trên.</p>
+
+    <h3 class="sub">Ba thứ đúng ở mọi quy mô</h3>
+
+    <p>Anh chốt bằng ba điều không phụ thuộc quy mô, và bản tin đồng ý với cả ba:<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup></p>
+
+    <div class="doslist">
+      <div><strong>✅ OIDC, không dùng access key.</strong> Không có quy mô nào mà credential sống vĩnh viễn là chấp nhận được.</div>
+      <div><strong>✅ Permission boundary trên mọi role pipeline.</strong> Kể cả khi bạn chỉ có đúng một pipeline, nó cũng không nên tự nâng quyền được.</div>
+      <div><strong>✅ Chính sách tin cậy ghim chặt vào repo và nhánh cụ thể.</strong> Cái giá là một khối điều kiện; cái giá của việc quên là mất tài khoản.</div>
+    </div>
+
+    <p>Còn lộ trình 90 ngày, nếu bạn đang xuất phát từ tình trạng "ai cũng dùng quyền quản trị": hai tuần đầu bật nhật ký kiểm toán ở mọi tài khoản và gom về một chỗ, dựng Access Analyzer, dựng nhà cung cấp danh tính, áp SCP nền; hai tuần tiếp chọn <em>một</em> dịch vụ ít rủi ro làm thí điểm, chuyển pipeline đó sang OIDC và hủy access key của nó; một tháng sau đó sinh chính sách, áp vào staging, theo dõi các lần bị từ chối, vá khoảng trống, rồi đẩy lên prod; tháng cuối mới công nghiệp hóa — dựng module chung, viết tài liệu, chạy một buổi hướng dẫn cho một đội khác, dựng vòng tinh chỉnh, và cuối cùng khai tử cái role quản trị dùng chung cũ.<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup></p>
+
+    <p>Kết quả sau 90 ngày, theo lời anh, khiêm tốn một cách thành thật: bạn có <em>một</em> dịch vụ đã chuyển xong, một mẫu hình chạy được, và bộ công cụ cho năm mươi cái tiếp theo.<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup></p>
+
+    <div class="scale">
+      <div class="col small">
+        <h4>▸ Đội nhỏ / startup dưới 10 người</h4>
+        <ul>
+          <li><strong>Làm đúng một việc tuần này: chuyển một pipeline sang OIDC và xóa access key của nó.</strong> Tác giả nói việc này mất khoảng một giờ, và anh khuyên người một repo thì bắt đầu đúng ở đây, bỏ qua phần còn lại cho tới khi cần.<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup></li>
+          <li><strong>Đọc lại chính sách tin cậy và tự hỏi: nó có ghim vào đúng repo và đúng nhánh của tôi không?</strong> Đây là năm phút đáng giá nhất trong cả bài.</li>
+          <li><strong>Gắn permission boundary cho cái role duy nhất đó.</strong> Mục tiêu tối thiểu: role không được tạo user mới, không tạo access key, không tự sửa cái trần của chính nó.<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup></li>
+          <li><strong>Chưa cần tự động hóa gì cả.</strong> Với vài pipeline, bạn vẫn đọc tay được từng chính sách — và tác giả nói đúng như vậy.<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup></li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>▸ Đội đã có sản phẩm chạy production</h4>
+        <ul>
+          <li><strong>Rà soát quyền "trao role" trong mọi chính sách pipeline.</strong> Mỗi chỗ chưa ràng buộc cả tên role lẫn dịch vụ đích là một đường leo thang quyền đang mở.<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup></li>
+          <li><strong>Đếm xem có bao nhiêu role pipeline không có permission boundary.</strong> Con số đó là thước đo nợ tốt nhất trong cả bài, và lấy được trong một buổi.</li>
+          <li><strong>Cảnh báo trên các sự kiện thay đổi IAM ngoài khung giờ pipeline</strong>, trên việc sửa boundary, và trên quan hệ tin cậy mới.<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup></li>
+          <li><strong>Nếu pipeline hạ tầng của bạn có 30 câu lệnh quyền trở lên, đã đến lúc tách.</strong> Anh xem đây là ngưỡng, và lý do rất thực tế: nó vừa là nút cổ chai vừa là mục tiêu tấn công giá trị nhất.<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup></li>
+          <li><strong>Trước khi tin chính sách do công cụ sinh ra, tự liệt kê các đường chạy hiếm.</strong> Job cuối quý, kịch bản khôi phục, thao tác đọc/ghi object nếu chưa bật nhật ký sự kiện dữ liệu.<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> bài này không có con số ROI nào và đó là điểm mạnh của nó. Thứ đáng mang về là một câu hỏi bạn trả lời được trong hôm nay: <em>nếu một gói phụ thuộc trong pipeline của tôi bị nhiễm độc chiều nay, nó làm được những gì trong tài khoản AWS của tôi?</em> Nếu câu trả lời là "gần như mọi thứ", thì thứ tự việc cần làm đã có sẵn: OIDC trước, boundary sau, ghim chính sách tin cậy vào repo và nhánh — ba việc này không đòi hỏi đội nền tảng, không đòi hỏi ngân sách, và đứng độc lập được với nhau.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo bài 2:</strong> [3] Alexey Vidanov, <a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">"Least-Privilege CI/CD on AWS: The 4-Layer Pattern That Scales", AWS Community Builders trên DEV Community, 12/05/2026</a>. Bài dẫn lại các sự cố Trivy GitHub Action (CrowdStrike, 3/2026), chiến dịch 475 PR độc (Wiz, 4/2026) và <em>tj-actions/changed-files</em> (Wiz, 3/2025) làm bối cảnh; bản tin đã mổ hai vụ đầu ở <a href="/2026-09-05">số 05/09/2026</a>.</div>
+  </article>
+
+  <!-- GÓC NHÌN -->
+  <article class="card" id="gocnhin">
+    <span class="tag saas">Góc nhìn</span>
+    <h2 class="head">Góc nhìn · Cả hai bài đều nói về cái đường nối không ai gắn đồng hồ</h2>
+
+    <p>Đặt hai bài cạnh nhau, chúng chẳng liên quan gì: một bên là độ trễ database, một bên là quyền truy cập hạ tầng. Nhưng hình dạng thất bại thì trùng khít.</p>
+
+    <p>Ở bài 1, có một khoảng thời gian giữa lúc request tới và lúc query chạy. Không span nào bọc nó, không log nào ghi nó, không ngưỡng nào cảnh báo về nó. Ba tuần công sức nghiêm túc đổ vào tầng bên cạnh — tầng <em>có</em> đồng hồ — và mua về đúng 50 ms.<sup><a href="https://levelup.gitconnected.com/we-cut-our-database-query-time-by-91-without-changing-a-single-index-1d5b227f58bd" target="_blank">[1]</a></sup></p>
+
+    <p>Ở bài 2, có một dòng điều kiện trong chính sách tin cậy quyết định ai trên thế giới này mang được role của bạn. Thiếu nó, mọi thứ vẫn chạy: deploy thành công, test xanh, không ai biết gì.<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup> Trong khi đó đội bạn vẫn quét lỗ hổng, vẫn review code, vẫn làm mọi thứ ở tầng <em>có</em> đồng hồ.</p>
+
+    <p>Điểm chung không phải "hãy quan sát nhiều hơn". Thêm dashboard không giải quyết được, vì cả hai đội đều đã có dashboard. Điểm chung là: <strong>chỗ mù nằm ở các đường nối — nơi một thành phần bàn giao cho thành phần khác.</strong> Query có đồng hồ, pool có đồng hồ; cái <em>giữa</em> hai thứ đó thì không. GitHub có nhật ký, AWS có nhật ký; cái bắt tay giữa hai bên thì không ai sở hữu.</p>
+
+    <p>Và đường nối thì luôn thiếu chủ. Đội database nói pool là chuyện của ứng dụng; đội ứng dụng nói chậm là chuyện của database. Đội CI nói quyền là chuyện của cloud; đội cloud nói pipeline là chuyện của CI. Không ai nói dối cả — chỉ là ranh giới trách nhiệm được vẽ đúng ngay chỗ cần có người nhìn.</p>
+
+    <p>Thêm một lớp nữa, và đây là chỗ bản tin thấy đáng nghĩ nhất: hai bài đều cho thấy <em>hệ thống im lặng không phải hệ thống khỏe</em>. Slow query log không kêu vì nó không được mời vào cuộc. Pipeline không báo lỗi vì chính sách tin cậy quá rộng chứ không phải quá đúng. Tác giả bài 2 nói thẳng điều này khi liệt kê dấu hiệu "chính sách quá rộng": sự cố từ chối truy cập <em>không bao giờ</em> xảy ra.<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup> Một hệ chưa bao giờ chạm trần không phải hệ có nhiều chỗ thở — nó là hệ chưa biết trần của mình ở đâu.</p>
+
+    <h3 class="sub">Ba việc làm được trong tuần này</h3>
+    <div class="doslist">
+      <div><strong>1 · Lấy p99 của endpoint chậm nhất, rồi lấy thời gian query trung bình của chính endpoint đó, chia cho nhau.</strong> Mười phút. Nếu tỷ lệ lớn hơn vài chục lần, bạn vừa tìm ra rằng vấn đề nằm ngoài database — và bạn tiết kiệm được ba tuần mà đội trong bài 1 đã tiêu.<sup><a href="https://levelup.gitconnected.com/we-cut-our-database-query-time-by-91-without-changing-a-single-index-1d5b227f58bd" target="_blank">[1]</a></sup></div>
+      <div><strong>2 · Mở chính sách tin cậy của role mà pipeline production đang dùng, và đọc đúng một câu hỏi: nó ghim vào repo nào, nhánh nào?</strong> Nếu không ghim, bạn đang tin toàn bộ nền tảng CI đó chứ không phải tin repo của mình.<sup><a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">[3]</a></sup> Sửa mất vài phút; hậu quả của việc không sửa thì ở mức tài khoản.</div>
+      <div><strong>3 · Chọn một đường nối trong hệ của bạn và hỏi "ai sở hữu cái đồng hồ ở đây".</strong> Hàng đợi xin connection, hàng đợi message, lớp cache đứng giữa hai dịch vụ, bước bàn giao giữa CI và cloud. Chọn một cái, tìm xem có metric nào cho nó không. Nếu không có, đó là việc tiếp theo của bạn — và nó gần như luôn rẻ hơn việc tối ưu thứ bên cạnh nó.</div>
+    </div>
+
+    <div class="takeaway">💡 Câu hỏi kiểm tra cho tuần tới: <strong>trong hệ của bạn, có bao nhiêu chỗ mà "không có cảnh báo nào" đang được hiểu là "ổn", trong khi thật ra nghĩa là "chưa ai đo"?</strong> Hai đội hôm nay đều làm việc rất nghiêm túc, rất lâu, bằng công cụ rất hợp lý. Khác biệt duy nhất giữa ba tuần lãng phí và một buổi chiều hiệu quả là biết mình đang nhìn tầng nào.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> [1] syarif, <a href="https://levelup.gitconnected.com/we-cut-our-database-query-time-by-91-without-changing-a-single-index-1d5b227f58bd" target="_blank">"We Cut Our Database Query Time by 91% Without Changing a Single Index", Level Up Coding, 13/05/2026</a> · [2] Aditya Agarwal, <a href="https://dev.to/adioof/postgres-for-everything-hits-a-wall-the-moment-dashboards-get-concurrent-h43" target="_blank">"Postgres for everything hits a wall the moment dashboards get concurrent", DEV Community, 12/09/2026</a> · [3] Alexey Vidanov, <a href="https://dev.to/aws-builders/least-privilege-cicd-on-aws-the-4-layer-pattern-that-scales-to-200-pipelines-238o" target="_blank">"Least-Privilege CI/CD on AWS: The 4-Layer Pattern That Scales", AWS Community Builders, 12/05/2026</a>.</div>
+  </article>
+
+  <div class="foot">Bản tin sáng · Số 15/09/2026 · Biên tập từ nguồn công khai, mọi số liệu dẫn nguồn ngay cạnh câu · <a href="/" style="color:#6b7280">Về trang bìa</a></div>
+</div>
+</body>
+</html>
