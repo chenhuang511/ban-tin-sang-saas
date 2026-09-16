@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cloudflare sinh 3.900 file AGENTS.md để agent đọc — rồi một nghiên cứu đo lại: loại file đó làm agent tệ hơn và đắt thêm 20% &middot; 16/09/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 16/09/2026</div>
+    <h1 class="title">Cloudflare sinh 3.900 file AGENTS.md để agent đọc — rồi một nghiên cứu đo lại: loại file đó làm agent tệ hơn và đắt thêm 20%</h1>
+    <div class="meta">16/09/2026 · Đọc khoảng 15 phút · Nguồn: Ayush Thakur, Scott Roe-Meschke &amp; Rajesh Bhatia — "The AI engineering stack we built internally", Cloudflare Blog (20/04/2026) · Thibaud Gloaguen và cộng sự (ETH Zürich SRI Lab &amp; LogicStar.ai) — "Evaluating AGENTS.md: Are Repository-Level Context Files Helpful for Coding Agents?", ICLR 2026 MemAgents workshop (trang công bố cập nhật 15/09/2026)</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: số hôm nay đặt cạnh nhau <b>một case study nội bộ</b> và <b>một nghiên cứu đối chứng</b> nói ngược nhau về cùng một việc: có nên để AI tự sinh file ngữ cảnh cho từng repo hay không. Bản tin không chọn phe — phần thú vị nằm ở chỗ vì sao cả hai đều đúng trong điều kiện của mình. Về độ tin cậy: bài 1 là công ty tự kể về chính mình và mọi con số đều tự công bố, lại đăng trong tuần ra mắt sản phẩm, nên phần "chúng tôi xây bằng sản phẩm của chúng tôi" cần đọc đúng trọng lượng; bài 2 là nghiên cứu có mã nguồn công khai nhưng là workshop paper, quy mô vài trăm tác vụ Python. Các khối gắn nhãn <b style="color:#1e40af">Cơ chế</b>, bảng đối chiếu và phần "Rút ra theo quy mô" là phân tích tổng hợp của bản tin từ nguồn cộng thực hành phổ biến — <em>không trích nguyên văn</em>. Mọi con số đều dẫn nguồn ngay cạnh câu. Không chèn code minh họa.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1"><strong>Bài 1</strong> — 11 tháng để 93% khối R&amp;D dùng agent hằng ngày: Cloudflare kể phần hạ tầng, không phải phần công cụ<br><span style="font-size:13.5px;color:#6b7280">· con số 3.683 người dễ đọc nhầm ở chỗ nào · một đồ thị 16.000 thực thể làm nền cho agent · 34 tool ăn 15.000 token trước khi bạn kịp hỏi · vì sao một proxy duy nhất là quyết định đắt giá nhất họ làm sớm</span></a></li>
+      <li><a href="#bai2"><strong>Bài 2</strong> — Đo thật thì file ngữ cảnh do AI sinh làm agent tệ đi và đắt thêm hơn 20%<br><span style="font-size:13.5px;color:#6b7280">· 438 tác vụ, 4 agent, 3 điều kiện · agent không phớt lờ file — nó tuân thủ quá kỹ · thí nghiệm xoá sạch tài liệu và cú lật kết quả · một nghiên cứu khác ra con số ngược chiều, và vì sao không mâu thuẫn</span></a></li>
+      <li><a href="#gocnhin"><strong>Góc nhìn</strong> — Cái file không phải là ngữ cảnh &amp; 3 việc làm được tuần này</a></li>
+    </ol>
+  </nav>
+
+  <!-- BÀI 1 -->
+  <article class="card" id="bai1">
+    <span class="tag saas">Quy trình sản xuất phần mềm · case study cấp một</span>
+    <h2 class="head">Bài 1 · 11 tháng, 3.683 người, 3.900 repo: Cloudflare kể phần hạ tầng đằng sau "dùng AI viết code"</h2>
+    <p class="src">Nguồn chính: Ayush Thakur, Scott Roe-Meschke, Rajesh Bhatia — "The AI engineering stack we built internally — on the platform we ship", Cloudflare Blog, 20/04/2026 (cập nhật 15/07/2026) · <a href="https://blog.cloudflare.com/internal-ai-engineering-stack/" target="_blank">blog.cloudflare.com</a>. <strong>Lưu ý nguồn:</strong> đây là bài của chính Cloudflare viết về chính Cloudflare, đăng để khép lại tuần ra mắt sản phẩm "Agents Week", và mọi lớp hạ tầng trong bài đều là sản phẩm họ đang bán. Không có bên thứ ba kiểm chứng con số nào. Vì vậy bản tin đọc bài này theo cách khác với một báo cáo khảo sát: cái đáng giá là <em>trình tự việc làm</em> và các ràng buộc kỹ thuật họ mô tả, không phải các con số adoption.</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">3.683 người</div><div class="lab">dùng công cụ lập trình AI trong 30 ngày — 60% toàn công ty (~6.100 nhân viên), 93% khối R&amp;D <a href="https://blog.cloudflare.com/internal-ai-engineering-stack/" target="_blank">(Cloudflare, 20/04/2026)</a></div></div>
+      <div class="box"><div class="num">~3.900 repo</div><div class="lab">được sinh file AGENTS.md tự động, mỗi file mở một merge request để đội chủ duyệt lại <a href="https://blog.cloudflare.com/internal-ai-engineering-stack/" target="_blank">(Cloudflare)</a></div></div>
+      <div class="box"><div class="num">~15.000 token</div><div class="lab">phần mô tả 34 tool của riêng MCP server GitLab chiếm trong mỗi request — 7,5% cửa sổ ngữ cảnh 200K <a href="https://blog.cloudflare.com/internal-ai-engineering-stack/" target="_blank">(Cloudflare)</a></div></div>
+    </div>
+
+    <p>Bài mở bằng một câu thống kê và một cái tên đội. Trong 30 ngày gần nhất tính tới lúc viết, 93% khối nghiên cứu và phát triển của Cloudflare dùng công cụ lập trình AI chạy trên hạ tầng do chính họ dựng. Mười một tháng trước đó, họ gom kỹ sư từ nhiều nơi trong công ty thành một đội đặc nhiệm tên iMARS, và phần việc kéo dài sau đó rơi vào đội Dev Productivity — cũng là đội đang giữ CI/CD, hệ thống build và công cụ nội bộ.<sup><a href="https://blog.cloudflare.com/internal-ai-engineering-stack/" target="_blank">[1]</a></sup></p>
+
+    <p>Chi tiết đó không phải màu mè. Nó nói cho bạn biết bài này thuộc thể loại nào: đây không phải chuyện chọn model hay chọn IDE. Đây là chuyện <strong>ai trong công ty bạn sở hữu cái đường ống</strong>.</p>
+
+    <h3 class="sub">Con số 3.683 dễ đọc nhầm ở chỗ nào</h3>
+
+    <p>Bảng tổng kết của họ, đo trong cửa sổ 5/2 – 15/4/2026: 3.683 người dùng hoạt động, 295 đội có hoạt động AI, 47,95 triệu tin nhắn AI, trong đó 27,08 triệu qua OpenCode và 434.900 qua Windsurf.<sup><a href="https://blog.cloudflare.com/internal-ai-engineering-stack/" target="_blank">[1]</a></sup> Phía hạ tầng, 30 ngày gần nhất: 20,18 triệu request qua AI Gateway, 241,37 tỷ token; riêng Workers AI xử lý 51,47 tỷ token vào và 361,12 triệu token ra.<sup><a href="https://blog.cloudflare.com/internal-ai-engineering-stack/" target="_blank">[1]</a></sup></p>
+
+    <p>Về sản lượng, họ đưa một con số và một cách diễn đạt rất thận trọng: trung bình trượt 4 tuần của số merge request tăng từ khoảng 5.600 mỗi tuần lên hơn 8.700, tuần 23/3 chạm 10.952 — gần gấp đôi mức nền quý 4.<sup><a href="https://blog.cloudflare.com/internal-ai-engineering-stack/" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao "số merge request tăng gấp đôi" không phải thứ bạn mang về họp (phân tích của bản tin):</b> merge request là <em>đơn vị công việc</em>, không phải <em>lượng công việc</em>. Khi agent tham gia, kích thước trung bình một MR đổi — đó chính là thứ hai nguồn khác nhau đã đo được và bản tin đã kể ở <a href="/2026-09-13">số 13/09</a>. Nếu MR nhỏ đi thì số MR tăng mà tổng sản lượng đứng yên; nếu MR to lên thì số MR tăng nghĩa là nhiều việc hơn thật. Cloudflare không công bố phân bố kích thước MR, nên con số 5.600 → 8.700 chỉ nói được một điều chắc chắn: <em>lưu lượng qua quy trình tăng</em>. Và lưu lượng tăng thì cái nghẽn dịch chuyển sang khâu sau — khâu review. Đó chính là lý do phần thứ ba của bài họ là một hệ review tự động, không phải vì nó hay ho mà vì không có nó thì cái đầu tiên không chạy được.</div>
+
+    <p>Bản tin nhấn mạnh chỗ này vì nó là sợi chỉ xuyên suốt bài: mỗi lớp họ dựng đều là <em>phản ứng với chỗ nghẽn do lớp trước tạo ra</em>. Không có lớp nào được lên kế hoạch từ đầu.</p>
+
+    <h3 class="sub">Tầng nền: một đồ thị hơn 16.000 thực thể, không phải một file prompt</h3>
+
+    <p>Trước khi dựng được MCP server nào hữu ích, họ nói phải giải một bài toán căn bản hơn: dữ liệu có cấu trúc về chính hệ thống của mình. Ai sở hữu service nào, service phụ thuộc vào đâu, tài liệu nằm chỗ nào, service nói chuyện với database nào.<sup><a href="https://blog.cloudflare.com/internal-ai-engineering-stack/" target="_blank">[1]</a></sup></p>
+
+    <p>Họ dùng Backstage — cổng nội bộ mã nguồn mở do Spotify làm — và tự vận hành (họ ghi rõ: đây là thứ duy nhất trong cả kiến trúc không chạy trên sản phẩm Cloudflare). Nội dung catalog: 2.055 service, 167 thư viện, 122 package, 228 API kèm định nghĩa schema, 544 hệ thống sản phẩm trải trên 45 lĩnh vực, 1.302 database, 277 bảng ClickHouse, 173 cluster, 375 đội và 6.389 người dùng có ánh xạ sở hữu — cộng đồ thị phụ thuộc nối service tới database, tới Kafka topic, tới tài nguyên cloud.<sup><a href="https://blog.cloudflare.com/internal-ai-engineering-stack/" target="_blank">[1]</a></sup></p>
+
+    <p>MCP server đọc Backstage phơi ra 13 tool. Agent hỏi được: ai sở hữu service này, nó phụ thuộc gì, spec API liên quan ở đâu — không cần rời phiên làm việc.<sup><a href="https://blog.cloudflare.com/internal-ai-engineering-stack/" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao thứ tự này mới là bài học, không phải danh sách công cụ:</b> một agent đọc được code trước mặt nó, nhưng không nhìn thấy <em>hệ thống quanh</em> đoạn code đó. Sở hữu, phụ thuộc, hợp đồng API — những thứ này không nằm trong file nào cả; chúng nằm trong đầu người, trong wiki đã lỗi thời, trong tên đội trên Slack. Chuyển chúng thành dữ liệu có cấu trúc là công việc <em>trước</em> AI, và là công việc AI không làm hộ được: bạn không thể sinh ra bằng model cái sự thật "service này do đội kia sở hữu". Đó là lý do bản tin cho rằng nhiều công ty áp AI vào quy trình rồi thấy kết quả nhạt: họ mua tầng trên cùng, trong khi tầng dưới cùng của họ trống rỗng. Kiểm tra nhanh cho đội bạn: hỏi một câu như "service X gọi những database nào" — nếu câu trả lời phải đi hỏi người, thì agent của bạn cũng không có câu trả lời đó.</div>
+
+    <h3 class="sub">AGENTS.md ở quy mô 3.900 repo — và cái vòng lặp họ dựng sau đó</h3>
+
+    <p>Triệu chứng họ mô tả rất quen: agent sinh ra thay đổi <em>trông hợp lý</em> nhưng sai với repo đó. Nguyên nhân thường là ngữ cảnh cục bộ — model không biết lệnh chạy test đúng, không biết quy ước hiện tại của đội, không biết chỗ nào cấm động vào.<sup><a href="https://blog.cloudflare.com/internal-ai-engineering-stack/" target="_blank">[1]</a></sup></p>
+
+    <p>Cách giải: một file AGENTS.md ngắn trong mỗi repo. Họ nói rõ mục tiêu là ngắn và nhiều tín hiệu, vì file này nằm thẳng trong cửa sổ ngữ cảnh của model. Nội dung gồm runtime, lệnh test, lệnh lint, cách đi lại trong codebase, quy ước, ranh giới cấm, và danh sách phụ thuộc hai chiều.<sup><a href="https://blog.cloudflare.com/internal-ai-engineering-stack/" target="_blank">[1]</a></sup></p>
+
+    <p>Đường ống sinh file thì đáng chú ý hơn cái file. Nó kéo metadata thực thể từ Backstage, phân tích cấu trúc repo để đoán ngôn ngữ, hệ build, framework test và bố cục thư mục, ánh xạ ngăn xếp đó sang các chuẩn kỹ thuật nội bộ, rồi để một model sinh tài liệu và <strong>mở merge request cho đội chủ repo duyệt và sửa lại</strong>. Họ đã chạy qua khoảng 3.900 repo. Họ tự nhận lượt đầu không phải lúc nào cũng chuẩn, nhất là với repo đa ngôn ngữ hoặc build lạ.<sup><a href="https://blog.cloudflare.com/internal-ai-engineering-stack/" target="_blank">[1]</a></sup></p>
+
+    <p>Rồi một câu ngắn trong bài mà bản tin nghĩ là câu quan trọng nhất phần này: <em>một file AGENTS.md cũ có thể tệ hơn không có file nào</em>. Nên họ khép vòng bằng hệ review AI — nó gắn cờ khi thay đổi trong repo gợi ý rằng file cần được cập nhật.<sup><a href="https://blog.cloudflare.com/internal-ai-engineering-stack/" target="_blank">[1]</a></sup></p>
+
+    <h3 class="sub">34 tool ăn 15.000 token trước khi bạn kịp hỏi câu nào</h3>
+
+    <p>Cổng MCP nội bộ của họ gom 13 MCP server chạy production, phơi hơn 182 tool, phủ Backstage, GitLab, Jira, Sentry, Elasticsearch, Prometheus, Google Workspace và hệ quản lý phát hành nội bộ — tất cả sau một endpoint và một luồng xác thực duy nhất.<sup><a href="https://blog.cloudflare.com/internal-ai-engineering-stack/" target="_blank">[1]</a></sup></p>
+
+    <p>Và đây là chỗ họ đụng một giới hạn mà mọi đội dựng agent rồi sẽ đụng. Riêng MCP server cho GitLab ban đầu phơi 34 tool. Phần mô tả của 34 tool đó ngốn khoảng 15.000 token cửa sổ ngữ cảnh <em>mỗi request</em>. Trên cửa sổ 200K, đó là 7,5% ngân sách bốc hơi trước khi model nghe được câu hỏi. Nhân với mọi request, mọi kỹ sư, mọi ngày.<sup><a href="https://blog.cloudflare.com/internal-ai-engineering-stack/" target="_blank">[1]</a></sup></p>
+
+    <p>Cách chữa của họ tên là Code Mode: thay vì nạp toàn bộ mô tả tool lên trước, model tìm và gọi tool thông qua code. Đặt ở tầng cổng, cả cụm 182 tool thu lại còn đúng hai tool mức cổng — một để tìm, một để chạy.<sup><a href="https://blog.cloudflare.com/internal-ai-engineering-stack/" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao chỗ này là bài toán tăng trưởng chứ không phải bài toán tối ưu:</b> chi phí mô tả tool tăng tuyến tính theo số tool, nhưng nó <em>bị trả lại ở mọi request</em>, kể cả request không dùng tool nào. Nghĩa là mỗi MCP server mới bạn cắm vào sẽ đánh thuế lên toàn bộ lưu lượng của cả tổ chức, mãi mãi. Đây là loại chi phí không ai thấy lúc cắm server thứ hai, và thành không chịu nổi ở server thứ mười. Đặt lớp thu gọn ở cổng thay vì ở từng server có một tính chất then chốt: số tool mà client nhìn thấy đứng yên khi số server tăng. Hệ quả tổ chức đáng kể hơn hệ quả kỹ thuật — nó khiến việc "thêm một MCP server" trở lại thành quyết định rẻ, và đó mới là điều kiện để các đội chịu đóng góp server.</div>
+
+    <h3 class="sub">Tầng ép: 100% merge request có review AI, và mỗi nhận xét trỏ về một luật có mã số</h3>
+
+    <p>Mọi merge request ở Cloudflare đều được review bằng AI. Cách tích hợp đơn giản: đội thêm một thành phần CI vào pipeline, từ đó mọi MR được review tự động. Bộ điều phối phân loại MR theo mức rủi ro — tầm thường, nhẹ, đầy đủ — rồi giao cho các agent chuyên trách: chất lượng code, bảo mật, tuân thủ chuẩn nội bộ, tài liệu, hiệu năng, ảnh hưởng tới phát hành.<sup><a href="https://blog.cloudflare.com/internal-ai-engineering-stack/" target="_blank">[1]</a></sup></p>
+
+    <p>Số liệu 30 ngày: phủ 100% các repo chạy pipeline CI chuẩn, 5,47 triệu request qua AI Gateway, 24,77 tỷ token.<sup><a href="https://blog.cloudflare.com/internal-ai-engineering-stack/" target="_blank">[1]</a></sup></p>
+
+    <p>Hai chi tiết về định dạng đầu ra đáng chép lại, vì chúng là thứ quyết định người ta có đọc review hay không. Thứ nhất, mỗi phát hiện có mức nghiêm trọng rõ ràng — nghiêm trọng, quan trọng, gợi ý, hoặc nhặt sạn — để kỹ sư biết ngay cái nào phải xử. Thứ hai, hệ giữ ngữ cảnh qua các vòng: nếu vòng trước nó đã nêu một điểm và điểm đó đã được sửa, nó ghi nhận thay vì nêu lại.<sup><a href="https://blog.cloudflare.com/internal-ai-engineering-stack/" target="_blank">[1]</a></sup></p>
+
+    <p>Còn phần bản tin cho là sắc nhất: khi một phát hiện ánh xạ được vào một luật trong bộ chuẩn nội bộ (họ gọi là Engineering Codex), review trích đúng mã số luật đó. Một gợi ý của AI biến thành một tham chiếu tới chuẩn của tổ chức.<sup><a href="https://blog.cloudflare.com/internal-ai-engineering-stack/" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao "có mã số luật" đổi bản chất cuộc tranh luận (phân tích của bản tin):</b> khi một bot nói "chỗ này nên xử lý lỗi khác đi", kỹ sư có hai lựa chọn: làm theo, hoặc bỏ qua — và không có cách nào phân xử vì không có gì để đối chiếu. Tranh luận thành ý kiến chọi ý kiến, mà một bên là máy. Khi nhận xét trỏ về một mã luật cụ thể, ba thứ đổi cùng lúc: kỹ sư kiểm tra được luật đó có thật không; nếu thấy luật sai thì đường đi đúng là <em>sửa luật</em>, một việc có người duyệt và có lịch sử; và khi luật đổi thì mọi review sau tự động đổi theo, không ai phải sửa prompt. Nói gọn: mã số luật biến hệ review từ <em>người phát biểu ý kiến</em> thành <em>người tra cứu quy định</em>. Đó là thứ mà đội bạn có thể bắt chước hôm nay mà không cần bất cứ sản phẩm nào của họ.</div>
+
+    <h3 class="sub">Chỗ họ tự nhận làm đúng sớm: đúng một điểm nghẽn</h3>
+
+    <p>Có một đoạn thú vị vì nó là lời tự đánh giá, không phải quảng cáo. Họ nói: thứ làm đúng sớm là cho mọi thứ đi qua một proxy duy nhất ngay từ ngày đầu. Đáng lẽ để client nối thẳng tới gateway thì dựng nhanh hơn. Nhưng vì gom qua một điểm, họ thêm được — về sau, mà không phải động vào cấu hình của bất kỳ client nào — các thứ như quy về từng người dùng, quản lý danh mục model, và áp quyền.<sup><a href="https://blog.cloudflare.com/internal-ai-engineering-stack/" target="_blank">[1]</a></sup></p>
+
+    <p>Vài hệ quả cụ thể họ kể: không có khóa API nào nằm trên máy kỹ sư, vì khóa thật được chèn ở phía máy chủ; email người dùng được ánh xạ sang một mã định danh vô danh trước khi request rời hệ, nên nhà cung cấp model và log của gateway chỉ thấy mã, không thấy danh tính; danh mục model được làm mới theo giờ và tự động gắn cờ không lưu dữ liệu cho model mới, không cần triển khai lại cấu hình. Và việc đổi thứ mà hơn 3.000 người nhận được trong môi trường lập trình của họ chỉ là một lần triển khai.<sup><a href="https://blog.cloudflare.com/internal-ai-engineering-stack/" target="_blank">[1]</a></sup></p>
+
+    <p>Về chi phí, một ví dụ đáng chú ý: họ có một agent bảo mật xử lý hơn 7 tỷ token mỗi ngày trên model mở Kimi K2.5. Họ ước tính khối lượng đó sẽ tốn khoảng 2,4 triệu USD mỗi năm trên một model đóng tầm trung, còn chạy trên nền suy luận của chính họ thì rẻ hơn 77%.<sup><a href="https://blog.cloudflare.com/internal-ai-engineering-stack/" target="_blank">[1]</a></sup> Bản tin nhắc: đây là so sánh do bên bán nền suy luận tự làm, và phần trăm phụ thuộc hoàn toàn vào "model đóng tầm trung" là model nào — bài không nói. Cái đáng mang về là <em>hình dạng</em>: khối lượng token lớn nhất trong tổ chức họ không nằm ở chỗ kỹ sư gõ chat, mà ở một tác vụ nền chạy tự động. Tỷ lệ phân bổ họ công bố cũng nói vậy — 13,38 triệu request tháng đi tới các model tiên phong (91,16%), 1,3 triệu ở lại nền mở (8,84%), nhưng phần review tài liệu trong hệ review thì Workers AI gánh khoảng 15% lưu lượng.<sup><a href="https://blog.cloudflare.com/internal-ai-engineering-stack/" target="_blank">[1]</a></sup></p>
+
+    <h3 class="sub">Đọc bài này như một thứ tự việc làm</h3>
+
+    <table class="tbl">
+      <tr><th>Lớp</th><th>Vấn đề nó sinh ra để giải</th><th>Thứ bạn cần có trước khi làm lớp này</th></tr>
+      <tr><td>Danh mục dịch vụ (Backstage)</td><td>agent không thấy hệ thống quanh đoạn code</td><td>ai đó chịu trách nhiệm cập nhật quyền sở hữu</td></tr>
+      <tr><td>File ngữ cảnh mỗi repo</td><td>agent không biết lệnh test, quy ước, chỗ cấm</td><td>quy ước phải thật sự tồn tại và thống nhất</td></tr>
+      <tr><td>Cổng MCP + thu gọn tool</td><td>mô tả tool ăn ngân sách ngữ cảnh mọi request</td><td>đủ nhiều tool để chi phí này thấy được</td></tr>
+      <tr><td>Review tự động theo mã luật</td><td>lưu lượng MR tăng, review thành nghẽn mới</td><td>bộ chuẩn viết thành luật có mã số, không phải wiki</td></tr>
+      <tr><td>Một điểm nghẽn duy nhất cho mọi request</td><td>không quy được chi phí, không đổi được chính sách</td><td>chấp nhận chậm hơn ở tuần đầu</td></tr>
+    </table>
+    <p style="font-size:13px;color:#6b7280;margin-top:-6px">Bảng do bản tin lập từ trình tự mô tả trong bài; cột thứ ba là suy luận của bản tin, không trích nguyên văn.</p>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> đừng mang con số 93% về. Hãy mang thứ tự về. Ba việc trong bài không cần sản phẩm của Cloudflare và làm được ở mọi quy mô: <em>một</em>, biến quyền sở hữu và phụ thuộc thành dữ liệu máy đọc được trước khi nói tới agent; <em>hai</em>, cho mọi lời gọi model đi qua đúng một chỗ để về sau còn đổi được chính sách; <em>ba</em>, viết chuẩn kỹ thuật thành các luật có mã số, để review AI trích dẫn thay vì phát biểu.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo bài 1:</strong> [1] Ayush Thakur, Scott Roe-Meschke, Rajesh Bhatia, <a href="https://blog.cloudflare.com/internal-ai-engineering-stack/" target="_blank">"The AI engineering stack we built internally — on the platform we ship", Cloudflare Blog, 20/04/2026</a>.</div>
+  </article>
+
+  <!-- BÀI 2 -->
+  <article class="card" id="bai2">
+    <span class="tag view">Nghiên cứu đối chứng · đo lại một thói quen</span>
+    <h2 class="head">Bài 2 · 438 tác vụ thật, 4 agent, 3 điều kiện: file ngữ cảnh do AI sinh làm agent tệ hơn và đắt thêm hơn 20%</h2>
+    <p class="src">Nguồn chính: Thibaud Gloaguen, Niels Mündler, Mark Niklas Müller, Veselin Raychev, Martin Vechev (SRI Lab, ETH Zürich &amp; LogicStar.ai) — "Evaluating AGENTS.md: Are Repository-Level Context Files Helpful for Coding Agents?", workshop MemAgents tại ICLR 2026, giải Oral &amp; á quân Best Paper · <a href="https://www.sri.inf.ethz.ch/publications/gloaguen2026agentsmd" target="_blank">sri.inf.ethz.ch</a> (trang công bố cập nhật 15/09/2026) · bản đầy đủ: <a href="https://arxiv.org/abs/2602.11988" target="_blank">arXiv:2602.11988</a> · mã nguồn <a href="https://github.com/eth-sri/agentbench" target="_blank">eth-sri/agentbench</a>. <strong>Lưu ý nguồn:</strong> đây là workshop paper, không phải bài hội nghị chính, và toàn bộ tác vụ đều là Python. Nhóm tác giả có liên hệ với LogicStar.ai, một công ty làm agent sửa lỗi tự động — tức không hoàn toàn trung lập với chủ đề, dù chiều lợi ích ở đây không rõ ràng. Điểm mạnh: mã và dữ liệu công khai, thiết kế có nhóm đối chứng thật.</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">+20% / +23%</div><div class="lab">mức tăng chi phí suy luận khi thêm file ngữ cảnh do LLM sinh, trên SWE-bench Lite và AGENTbench <a href="https://arxiv.org/abs/2602.11988" target="_blank">(Gloaguen và cộng sự)</a></div></div>
+      <div class="box"><div class="num">−0,5đ / −2đ</div><div class="lab">thay đổi tỷ lệ giải quyết tác vụ, trung bình trên hai bộ dữ liệu — tức là tệ đi, không phải tốt lên <a href="https://arxiv.org/abs/2602.11988" target="_blank">(Gloaguen và cộng sự)</a></div></div>
+      <div class="box"><div class="num">+2,7đ</div><div class="lab">mức file do LLM sinh <em>giúp ích</em> — nhưng chỉ khi xoá sạch mọi tài liệu khác khỏi repo <a href="https://arxiv.org/abs/2602.11988" target="_blank">(Gloaguen và cộng sự)</a></div></div>
+    </div>
+
+    <p>Bối cảnh trước đã. File ngữ cảnh cấp repo — AGENTS.md, CLAUDE.md và họ hàng — là thứ gần như mọi nhà làm agent đều khuyên dùng. Hầu hết bộ khung agent hỗ trợ sẵn, phần lớn có lệnh khởi tạo tự sinh file. Theo con số nhóm tác giả dẫn lại, hơn 60.000 repo công khai trên GitHub đã có một file như vậy.<sup><a href="https://arxiv.org/abs/2602.11988" target="_blank">[2]</a></sup></p>
+
+    <p>Và chưa ai đo xem nó có tác dụng không. Nhóm ETH nói thẳng: họ là những người đầu tiên đo tác động của file ngữ cảnh <em>đang được dùng thật</em> lên hành vi và kết quả của agent ở quy mô.<sup><a href="https://arxiv.org/abs/2602.11988" target="_blank">[2]</a></sup></p>
+
+    <h3 class="sub">Thiết kế: chỗ khó nằm ở việc kiếm repo có file thật</h3>
+
+    <p>Bài toán đo đạc có một cái bẫy. Các bộ benchmark cũ được lập trước khi file ngữ cảnh phổ biến, nên không repo nào trong đó có file. Còn các repo nổi tiếng thường dùng làm benchmark thì không đại diện cho codebase của phần lớn công ty.<sup><a href="https://arxiv.org/abs/2602.11988" target="_blank">[2]</a></sup></p>
+
+    <p>Nên họ dựng bộ dữ liệu riêng tên AGENTbench: 138 tác vụ Python lấy từ issue GitHub thật, trải trên 12 repo mới và ít tiếng, <em>tất cả đều có file ngữ cảnh do chính lập trình viên viết</em>, gồm cả sửa lỗi lẫn thêm tính năng. Bộ này chạy song song với SWE-bench Lite (300 tác vụ, 11 repo Python phổ biến, không repo nào có file ngữ cảnh) để đo riêng tác động của file sinh tự động.<sup><a href="https://arxiv.org/abs/2602.11988" target="_blank">[2]</a></sup></p>
+
+    <p>Bốn cặp agent–model: Claude Code với Sonnet 4.5, Codex với GPT-5.2, Codex với GPT-5.1 mini, Qwen Code với Qwen3-30b-coder. Mỗi model chạy trong đúng bộ khung của nó. Ba điều kiện: không có file; có file do chính agent đó sinh bằng lệnh khởi tạo mà nhà sản xuất khuyến nghị; và có file do lập trình viên viết.<sup><a href="https://arxiv.org/abs/2602.11988" target="_blank">[2]</a></sup></p>
+
+    <h3 class="sub">Kết quả: file do AI sinh làm tệ đi, file người viết cải thiện rất mỏng</h3>
+
+    <p>File do LLM sinh kéo kết quả xuống ở 5 trên 8 cấu hình. Tính trung bình, tỷ lệ giải quyết giảm 0,5 điểm trên SWE-bench Lite và 2 điểm trên AGENTbench. Cùng lúc, số bước agent phải đi tăng thêm trung bình 2,45 và 3,92 bước, kéo chi phí lên 20% và 23%.<sup><a href="https://arxiv.org/abs/2602.11988" target="_blank">[2]</a></sup></p>
+
+    <p><em>Một lưu ý về chính con số này:</em> phần mở đầu bài báo tóm tắt hiệu ứng là "giảm khoảng 3%" cho file LLM sinh và "tăng khoảng 4%" cho file người viết, trong khi bảng kết quả chi tiết cho các số 0,5 và 2 điểm. Bản tin ghi cả hai và để bạn tự đọc — dấu hiệu chắc chắn duy nhất là <strong>hướng</strong> của hiệu ứng, không phải độ lớn.<sup><a href="https://arxiv.org/abs/2602.11988" target="_blank">[2]</a></sup></p>
+
+    <p>File do lập trình viên viết thì tốt hơn file do LLM sinh ở cả bốn agent, dù chúng không được viết riêng cho agent nào. So với không có file, chúng cải thiện ở ba trên bốn agent — ngoại lệ là Claude Code. Nhưng chúng cũng làm agent đi thêm trung bình 3,34 bước và tăng chi phí tới 19%.<sup><a href="https://arxiv.org/abs/2602.11988" target="_blank">[2]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — agent không phớt lờ file ngữ cảnh; nó tuân thủ quá kỹ:</b> đây là phần phân tích trace, và nó lật ngược cách hiểu thông thường. Khi có file ngữ cảnh, agent khám phá nhiều file hơn, chạy nhiều test hơn, dùng nhiều công cụ riêng của repo hơn. Cụ thể: một công cụ quản lý gói Python được dùng trung bình 1,6 lần mỗi tác vụ khi file có nhắc tới nó, so với dưới 0,01 lần khi không nhắc; công cụ riêng của repo là 2,5 lần so với dưới 0,05 lần.<sup><a href="https://arxiv.org/abs/2602.11988" target="_blank">[2]</a></sup> Nghĩa là chỉ dẫn được thực hiện nghiêm túc. Vấn đề là <strong>mỗi chỉ dẫn thêm vào là một ràng buộc thêm phải thoả mãn</strong>, và agent xử lý nó như phần của bài toán chứ không như gợi ý. Bằng chứng gián tiếp nằm ở số token suy luận: hai model có khả năng tự điều chỉnh độ sâu suy nghĩ theo độ khó cảm nhận đã dùng nhiều hơn 22% và 14% token suy luận trên SWE-bench Lite khi có file do LLM sinh (14% và 10% trên AGENTbench).<sup><a href="https://arxiv.org/abs/2602.11988" target="_blank">[2]</a></sup> Model tự thấy bài toán khó hơn. Nó khó hơn thật — vì bạn vừa thêm việc.</div>
+
+    <h3 class="sub">Phần "tổng quan codebase" gần như vô dụng, mà lại có ở khắp nơi</h3>
+
+    <p>Khuyến nghị phổ biến nhất khi viết file ngữ cảnh là mở đầu bằng một phần tổng quan codebase. Nhóm tác giả kiểm tra xem khuyến nghị đó có được làm theo không, và kết quả gần như tuyệt đối: 100% file do Sonnet 4.5 sinh có phần tổng quan, GPT-5.2 là 99%, Qwen3-30b-coder 95%. Chỉ GPT-5.1 mini thấp hẳn, 36%. Trong 12 file do lập trình viên viết ở AGENTbench, 8 file có phần tổng quan, trong đó 4 file liệt kê và mô tả từng thư mục con.<sup><a href="https://arxiv.org/abs/2602.11988" target="_blank">[2]</a></sup></p>
+
+    <p>Còn nó có giúp agent tìm ra file cần sửa nhanh hơn không? Không. Số bước cho tới lần đầu agent chạm vào một file nằm trong bản vá cuối cùng nhìn chung <em>thấp hơn</em> khi không có file ngữ cảnh.<sup><a href="https://arxiv.org/abs/2602.11988" target="_blank">[2]</a></sup></p>
+
+    <h3 class="sub">Thí nghiệm xoá sạch tài liệu — và cú lật kết quả</h3>
+
+    <p>Đây là phần bản tin thấy sắc nhất, vì nó không dừng ở "không có tác dụng" mà đi tìm lý do.</p>
+
+    <p>Giả thuyết của nhóm: file do LLM sinh trùng lặp nặng với tài liệu đã có sẵn trong repo, còn file do người viết mang thông tin mới. Để kiểm chứng, họ xoá sạch mọi tài liệu khỏi codebase <em>sau khi</em> sinh file ngữ cảnh và <em>trước khi</em> chạy agent — mọi file .md, code ví dụ, và thư mục docs. Trong điều kiện đó, tức là khi file ngữ cảnh là nguồn tài liệu duy nhất, file do LLM sinh cải thiện kết quả đều đặn 2,7 điểm trung bình và <strong>vượt cả file do người viết</strong>.<sup><a href="https://arxiv.org/abs/2602.11988" target="_blank">[2]</a></sup></p>
+
+    <p>Nhóm tác giả rút ra một suy đoán rất đáng chú ý: điều này có thể giải thích vì sao nhiều lập trình viên kể rằng agent chạy tốt hơn hẳn sau khi họ thêm file ngữ cảnh — vì nhiều repo ít tiếng tăm gần như không có tài liệu gì cả.<sup><a href="https://arxiv.org/abs/2602.11988" target="_blank">[2]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — file do AI sinh chỉ là bộ nhớ đệm đặt trước, không phải thông tin mới:</b> lệnh khởi tạo tự động đọc repo của bạn rồi viết lại thứ nó đọc được thành một file. Nhưng agent <em>cũng</em> đọc được repo đó trong lúc làm việc. Nên cái file ấy không thêm tri thức nào vào hệ, nó chỉ nạp sẵn một phần tri thức mà agent sẽ tự tìm thấy — và bắt bạn trả tiền cho phần đó ở mọi request, kể cả những request không cần đến. Đổi lại, bạn nhận thêm một tập ràng buộc. Cân đối: chi phí chắc chắn, lợi ích tuỳ lúc. Suy ra một quy tắc đơn giản để bạn tự kiểm: <strong>một dòng trong file ngữ cảnh chỉ đáng tồn tại nếu agent không thể tự suy ra nó từ repo.</strong> Tên framework test? Suy ra được từ file cấu hình. Cấu trúc thư mục? Nhìn là thấy. Nhưng "đội này dùng pnpm dù trong repo còn sót lockfile của npm", hay "chạy lint trước khi commit nếu không CI sẽ trượt ở bước sau" — đấy là thứ chỉ nằm trong đầu người.</div>
+
+    <h3 class="sub">Một nghiên cứu khác ra con số ngược chiều — và vì sao không mâu thuẫn</h3>
+
+    <p>Nếu chỉ đọc bài ETH, bạn có thể kết luận file ngữ cảnh là thứ nên bỏ. Nhưng có một nghiên cứu khác, nhóm khác, đưa con số trông như ngược hẳn, và bản tin đặt nó cạnh đây vì so hai bài mới ra được bài học.</p>
+
+    <p>Nhóm Jai Lal Lulla, Seyedmoein Mohsenimofidi, Matthias Galster, Jie M. Zhang, Sebastian Baltes và Christoph Treude, công bố 28/01/2026 (bản sửa 30/03/2026), chạy agent trên 124 pull request thuộc 10 repo, hai điều kiện có và không có AGENTS.md. Kết quả: khi có file, thời gian chạy trung vị giảm 28,64% và lượng token đầu ra giảm 16,58%, trong khi hành vi hoàn thành tác vụ tương đương.<sup><a href="https://arxiv.org/abs/2601.20404" target="_blank">[3]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — hai bài đo hai thứ khác nhau, và chỗ khác nhau đó chính là bài học:</b> bài của nhóm Lulla đo <em>hiệu quả vận hành</em> — nhanh bao nhiêu, tốn bao nhiêu token đầu ra — và không đo tác vụ có được giải đúng hay không (họ ghi nhận hành vi hoàn thành "tương đương"). Bài ETH đo <em>tỷ lệ giải quyết đúng</em>, kiểm bằng cách áp bản vá rồi chạy test, và đo tổng chi phí chứ không riêng token đầu ra. Một hệ quả trực tiếp của cơ chế "tuân thủ quá kỹ" giải thích được cả hai chiều: agent đọc file rồi đi thẳng tới nơi, ít lan man, nên <em>token đầu ra</em> và thời gian tường có thể giảm; nhưng nó đồng thời nạp thêm ràng buộc và chạy thêm test, nên <em>tổng bước</em> và tổng chi phí tăng. Nói gọn: file ngữ cảnh có thể làm agent <strong>gọn hơn</strong> mà không làm nó <strong>đúng hơn</strong>. Nếu chỉ số bạn theo dõi là thời gian và token đầu ra, bạn sẽ thấy file ngữ cảnh là thắng lợi rõ ràng — và bạn sẽ không bao giờ thấy phần nó làm hỏng.</div>
+
+    <table class="tbl">
+      <tr><th>&nbsp;</th><th>Nhóm ETH Zürich<sup><a href="https://arxiv.org/abs/2602.11988" target="_blank">[2]</a></sup></th><th>Nhóm Lulla và cộng sự<sup><a href="https://arxiv.org/abs/2601.20404" target="_blank">[3]</a></sup></th></tr>
+      <tr><td>Quy mô</td><td>300 + 138 tác vụ, 23 repo, 4 cặp agent–model</td><td>124 pull request, 10 repo</td></tr>
+      <tr><td>Thước đo chính</td><td>tỷ lệ giải quyết (áp bản vá, chạy test)</td><td>thời gian chạy và token tiêu thụ</td></tr>
+      <tr><td>Kết quả với file do AI sinh</td><td>tệ đi 0,5–2 điểm; chi phí +20–23%</td><td>thời gian trung vị −28,64%; token ra −16,58%</td></tr>
+      <tr><td>Điều kiện để file có ích</td><td>khi repo không có tài liệu nào khác (+2,7 điểm)</td><td>không kiểm chứng điều kiện này</td></tr>
+      <tr><td>Kết luận của nhóm</td><td>bỏ file do LLM sinh; file người viết chỉ nên ghi yêu cầu tối thiểu</td><td>file có tác dụng tốt về hiệu quả vận hành</td></tr>
+    </table>
+    <p style="font-size:13px;color:#6b7280;margin-top:-6px">Bảng do bản tin lập để đối chiếu hai nguồn; dòng cuối diễn đạt lại kết luận của từng nhóm, không trích nguyên văn.</p>
+
+    <h3 class="sub">Rút ra theo quy mô</h3>
+
+    <div class="scale">
+      <div class="col small">
+        <h4>▸ Đội nhỏ / startup dưới 10 người</h4>
+        <ul>
+          <li><strong>Đừng chạy lệnh khởi tạo tự sinh file rồi để đó.</strong> Bắt đầu bằng một file rỗng. Đây là khuyến nghị thẳng của chính nhóm nghiên cứu: bỏ file do LLM sinh, chỉ giữ yêu cầu tối thiểu.<sup><a href="https://arxiv.org/abs/2602.11988" target="_blank">[2]</a></sup></li>
+          <li><strong>Mỗi lần bạn phải sửa tay một lỗi của agent, ghi lại.</strong> Cuối tuần nhìn danh sách: lỗi nào lặp từ hai lần trở lên thì thành một dòng trong file. Lỗi xảy ra một lần thì bỏ qua.</li>
+          <li><strong>Ngoại lệ đáng biết:</strong> nếu repo của bạn gần như không có tài liệu — không README tử tế, không docs, không code ví dụ — thì file do AI sinh <em>có</em> giúp, và giúp hơn cả file người viết.<sup><a href="https://arxiv.org/abs/2602.11988" target="_blank">[2]</a></sup> Nhưng nên hỏi tiếp: viết README tử tế có phải là việc đáng làm hơn không, vì nó phục vụ cả người lẫn máy.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>▸ Đội đã có sản phẩm chạy production</h4>
+        <ul>
+          <li><strong>Nếu bạn sinh file hàng loạt cho nhiều repo, bắt buộc phải có bước người duyệt.</strong> Đây chính là chỗ Cloudflare làm đúng: đường ống của họ mở merge request cho đội chủ repo sửa lại, tức là chuyển file từ dạng "do LLM sinh" sang dạng "do người xác nhận" — đúng dạng mà nghiên cứu thấy có tác dụng.<sup><a href="https://blog.cloudflare.com/internal-ai-engineering-stack/" target="_blank">[1]</a></sup></li>
+          <li><strong>Cắt phần tổng quan codebase khỏi mẫu file của bạn.</strong> Nó có mặt trong gần như mọi file do AI sinh, và nó không giúp agent tìm file cần sửa nhanh hơn.<sup><a href="https://arxiv.org/abs/2602.11988" target="_blank">[2]</a></sup></li>
+          <li><strong>Đo cả hai thứ, đừng chỉ đo một.</strong> Nếu bảng theo dõi của bạn chỉ có thời gian và token, file ngữ cảnh sẽ luôn trông như thắng lợi. Thêm một chỉ số về tỷ lệ tác vụ được giải đúng ngay lần đầu, nếu không bạn đang tối ưu mù.</li>
+          <li><strong>Coi file ngữ cảnh là thứ phải tỉa, không phải thứ phải làm đầy.</strong> Đặt lịch rà soát: dòng nào không còn đổi được hành vi agent thì xoá. Mỗi dòng đều đang thu phí ở mọi request.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> khuyến nghị "chạy lệnh khởi tạo để sinh file ngữ cảnh đầy đủ cho repo" là thứ gần như mọi nhà làm agent đều nói, và đây là lần đầu có người đo nó tử tế — kết quả là nó không giúp, còn tốn thêm hơn 20%. Cái quyết định không phải file có tồn tại hay không, mà là <strong>file có chứa thứ agent không tự tìm được hay không</strong>. Nếu nội dung file là thứ đọc repo ra được, bạn đang trả tiền để nói với agent điều nó đã biết — và kèm theo đó là một tập ràng buộc mới.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo bài 2:</strong> [2] Thibaud Gloaguen, Niels Mündler, Mark Niklas Müller, Veselin Raychev, Martin Vechev, <a href="https://www.sri.inf.ethz.ch/publications/gloaguen2026agentsmd" target="_blank">"Evaluating AGENTS.md: Are Repository-Level Context Files Helpful for Coding Agents?", SRI Lab ETH Zürich, MemAgents @ ICLR 2026</a> · bản đầy đủ <a href="https://arxiv.org/abs/2602.11988" target="_blank">arXiv:2602.11988</a> · [3] Jai Lal Lulla, Seyedmoein Mohsenimofidi, Matthias Galster, Jie M. Zhang, Sebastian Baltes, Christoph Treude, <a href="https://arxiv.org/abs/2601.20404" target="_blank">"On the Impact of AGENTS.md Files on the Efficiency of AI Coding Agents", arXiv:2601.20404, 28/01/2026 (bản sửa 30/03/2026)</a>.</div>
+  </article>
+
+  <!-- GÓC NHÌN -->
+  <article class="card" id="gocnhin">
+    <span class="tag legacy">Góc nhìn</span>
+    <h2 class="head">Góc nhìn · Cái file không phải là ngữ cảnh — nó chỉ là chỗ đặt ngữ cảnh</h2>
+
+    <p>Đặt cạnh nhau, hai bài hôm nay trông như cãi nhau. Một công ty sinh gần 3.900 file ngữ cảnh bằng LLM và báo cáo 93% khối R&amp;D dùng agent hằng ngày. Một nhóm nghiên cứu đo 438 tác vụ và kết luận đúng loại file đó làm agent tệ đi và đắt thêm hơn 20%.</p>
+
+    <p>Bản tin cho rằng cả hai đều đúng, và chỗ giao nhau nằm ở ba điều kiện — cả ba đều nói ra được thành việc cụ thể.</p>
+
+    <p><strong>Thứ nhất: repo doanh nghiệp thường rơi đúng vào ngoại lệ của nghiên cứu.</strong> Phát hiện gây bất ngờ nhất ở bài 2 là khi xoá sạch tài liệu khỏi repo, file do LLM sinh lập tức có ích và vượt cả file người viết.<sup><a href="https://arxiv.org/abs/2602.11988" target="_blank">[2]</a></sup> Bộ dữ liệu SWE-bench Lite dựng từ 11 repo Python nổi tiếng — loại repo có tài liệu chỉn chu vì hàng nghìn người ngoài phải đọc được. Repo nội bộ của một công ty thì ngược lại: không ai ngoài đội đọc, nên không ai viết. Nếu codebase của bạn giống vế sau, nghiên cứu này nói rằng sinh file là <em>đúng</em> việc phải làm.</p>
+
+    <p><strong>Thứ hai: Cloudflare không dừng ở file sinh ra.</strong> Đường ống của họ mở merge request cho đội chủ repo duyệt và sửa.<sup><a href="https://blog.cloudflare.com/internal-ai-engineering-stack/" target="_blank">[1]</a></sup> Đó là một bước nhỏ trong mô tả kỹ thuật nhưng lại là bước đổi hẳn loại file: từ "do LLM sinh" — loại nghiên cứu thấy làm tệ đi — sang "do lập trình viên xác nhận" — loại duy nhất có cải thiện.<sup><a href="https://arxiv.org/abs/2602.11988" target="_blank">[2]</a></sup> Và họ nói thẳng lượt sinh đầu không phải lúc nào cũng chuẩn.<sup><a href="https://blog.cloudflare.com/internal-ai-engineering-stack/" target="_blank">[1]</a></sup> Sinh hàng loạt ở đây là cách <em>khởi động</em> việc viết tài liệu, không phải cách thay thế nó.</p>
+
+    <p><strong>Thứ ba, và đây mới là phần đáng mang về nhất: phần lớn ngữ cảnh ở Cloudflare không nằm trong file.</strong> Nó nằm trong một danh mục dịch vụ với hơn 16.000 thực thể mà agent truy vấn được lúc đang làm việc, trong một bộ chuẩn kỹ thuật có mã số mà hệ review trích dẫn, trong một cổng gom tool để việc thêm nguồn ngữ cảnh mới không đánh thuế lên mọi request.<sup><a href="https://blog.cloudflare.com/internal-ai-engineering-stack/" target="_blank">[1]</a></sup> File AGENTS.md chỉ là mảnh <em>tĩnh</em> và <em>nhỏ nhất</em> trong toàn bộ hệ đó.</p>
+
+    <div class="mech"><b>Cơ chế — vì sao "nạp trước" và "tra khi cần" khác nhau về bản chất (phân tích của bản tin):</b> một file ngữ cảnh nằm trong cửa sổ ngữ cảnh ở <em>mọi</em> request, dù request đó có cần hay không — chi phí cố định, lợi ích tuỳ lúc. Một danh mục dịch vụ mà agent truy vấn qua tool thì ngược lại: chỉ tốn khi thật sự cần đến, và luôn trả về dữ liệu hiện tại thay vì ảnh chụp lúc sinh file. Đây chính là cùng một bài toán mà Cloudflare gặp với 34 mô tả tool ngốn 15.000 token mỗi request, và cách chữa cũng cùng một hình dạng: chuyển từ <em>nạp trước</em> sang <em>tìm rồi lấy</em>.<sup><a href="https://blog.cloudflare.com/internal-ai-engineering-stack/" target="_blank">[1]</a></sup> Suy ra một quy tắc chung để bạn xếp ngữ cảnh: thứ gì <em>đổi</em> và chỉ cần <em>đôi khi</em> thì đặt sau một tool; thứ gì <em>ổn định</em> và cần ở <em>mọi</em> tác vụ thì mới đặt trong file. Đa số nội dung mà lệnh khởi tạo tự sinh ra rơi vào ô thứ nhất, mà lại bị nhét vào ô thứ hai.</div>
+
+    <p>Còn một điểm chung âm thầm hơn giữa hai bài, đáng nói ra. Cả hai đều cho thấy <strong>agent làm đúng những gì bạn bảo</strong> — và đó là vấn đề, không phải lời khen. Nhóm ETH thấy agent tuân thủ chỉ dẫn tới mức tự làm khó mình.<sup><a href="https://arxiv.org/abs/2602.11988" target="_blank">[2]</a></sup> Cloudflare thì dựng cả một tầng ép gồm chuẩn có mã số và review tự động, tức là họ cũng không tin vào chỉ dẫn suông.<sup><a href="https://blog.cloudflare.com/internal-ai-engineering-stack/" target="_blank">[1]</a></sup> Hai đội khác nhau hoàn toàn, cùng đi tới một chỗ: <em>kiểm tra đáng tin hơn dặn dò</em>. Một dòng trong file ngữ cảnh là lời dặn, và nó có giá ở mọi request. Một bước lint, một test, một luật trong hệ review là cái cổng, và nó chỉ kêu khi có chuyện.</p>
+
+    <h3 class="sub">Ba việc làm được trong tuần này</h3>
+
+    <div class="doslist">
+      <div><strong>1 · Mở file AGENTS.md hoặc CLAUDE.md của một repo bạn hay đụng, đọc từng dòng, hỏi đúng một câu:</strong> "agent có tự tìm được dòng này từ repo không?" Dòng nào trả lời là có thì xoá. Phần tổng quan codebase gần như chắc chắn nằm trong nhóm bị xoá — nó có mặt ở 95–100% file do AI sinh mà không giúp agent tìm file nhanh hơn.<sup><a href="https://arxiv.org/abs/2602.11988" target="_blank">[2]</a></sup></div>
+      <div><strong>2 · Lập một ghi chú "lỗi lặp lại" cho tuần tới.</strong> Mỗi lần bạn phải sửa tay một thay đổi của agent, ghi một dòng. Cuối tuần, chỉ những lỗi xuất hiện từ hai lần trở lên mới được thành một dòng trong file ngữ cảnh. Đây là cách duy nhất bảo đảm nội dung file là thứ agent không tự suy ra được.</div>
+      <div><strong>3 · Trả lời thử một câu hỏi thay cho agent của bạn:</strong> "service X gọi những database nào, và đội nào sở hữu nó?" Nếu câu trả lời phải đi hỏi người hoặc đọc một wiki đã cũ, thì tầng dưới cùng trong hệ của bạn đang trống — và không file ngữ cảnh nào lấp được chỗ trống đó. Đây là việc trước AI, không phải việc của AI.<sup><a href="https://blog.cloudflare.com/internal-ai-engineering-stack/" target="_blank">[1]</a></sup></div>
+    </div>
+
+    <div class="takeaway">💡 <strong>Một câu để nhớ:</strong> ngữ cảnh không phải là một file bạn viết cho agent đọc, mà là những sự thật về hệ thống của bạn mà máy tra cứu được. File chỉ là chỗ đặt phần nhỏ nhất và tĩnh nhất trong đó — và phần đó thì càng ngắn càng tốt.</div>
+  </article>
+
+  <div class="foot">Bản tin sáng · Số 16/09/2026 · Toàn bộ nội dung là phân tích của bản tin dựa trên các nguồn dẫn nội dòng.</div>
+</div>
+</body>
+</html>
