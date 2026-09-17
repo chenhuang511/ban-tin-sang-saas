@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GitHub bỏ đếm request, chuyển Copilot sang đồng hồ đo token — và giữa lúc công bố với lúc bật, số tiền kèm theo gói đã đổi &middot; 17/09/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 17/09/2026</div>
+    <h1 class="title">GitHub bỏ đếm request, gắn đồng hồ đo token lên Copilot — và giữa lúc công bố với lúc bật, số tiền kèm theo gói đã đổi</h1>
+    <div class="meta">17/09/2026 · Đọc khoảng 14 phút · Nguồn: Mario Rodriguez (Chief Product Officer, GitHub) — "GitHub Copilot is moving to usage-based billing", GitHub Blog, 27/04/2026, đối chiếu với trang giá Copilot đang hiển thị · IRM Consulting &amp; Advisory — "Threat modeling for a team of six" và "What a SOC 2 auditor actually asks about your CI/CD pipeline", DEV Community, 09/09/2026</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: số hôm nay có hai bài tưởng như không liên quan — một bài về cách tính tiền phần mềm AI, một bài về quy trình an toàn ở đội nhỏ. Sợi nối nằm ở phần "Góc nhìn": cả hai đều nói về <b>cái đồng hồ và cái biên bản</b> — thứ mà bên thứ ba chấp nhận, chứ không phải thứ bạn tin là đúng. Về nguồn: bài 1 dựa trên thông báo chính thức của GitHub cộng trang giá công khai mà bản tin tự đối chiếu; một phần bối cảnh thị trường dẫn lại từ blog của các bên bán công cụ đo lường và tính tiền — họ có lợi ích trong câu chuyện này và bản tin ghi rõ chỗ nào là của họ. Bài 2 là bài của một hãng tư vấn bảo mật viết để giới thiệu dịch vụ vCISO, không có số liệu khảo sát, giá trị nằm ở quy trình cụ thể. Các khối gắn nhãn <b style="color:#1e40af">Cơ chế</b>, bảng đối chiếu và phần "Rút ra theo quy mô" là phân tích tổng hợp của bản tin — <em>không trích nguyên văn từ nguồn</em>. Mọi con số đều dẫn nguồn ngay cạnh câu. Không chèn code minh họa.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1"><strong>Bài 1</strong> — Copilot đổi đơn vị tính tiền: từ "request cao cấp" sang credit quy từ token<br><span style="font-size:13.5px;color:#6b7280">· vì sao giá theo ghế vỡ trước tiên ở sản phẩm agent · credit là gì và vì sao không phải token · thông báo tháng 4 nói $10, trang giá hôm nay nói $15 · bỏ đường lùi mới là thay đổi lớn nhất, không phải giá · gộp credit toàn tổ chức và bài toán phần thừa mắc kẹt</span></a></li>
+      <li><a href="#bai2"><strong>Bài 2</strong> — Một giờ, ba người, một trang giấy: bản threat modeling mà đội sáu người thật sự làm được<br><span style="font-size:13.5px;color:#6b7280">· người thứ ba trong phòng là cơ chế, không phải phép lịch sự · câu hỏi tìm ra nhiều lỗi nhất · ba loại phát hiện lặp đi lặp lại · và cuộc audit SOC 2 vỡ trong mười một phút vì thiếu một bằng chứng</span></a></li>
+      <li><a href="#gocnhin"><strong>Góc nhìn</strong> — Ai cầm đồng hồ thì người đó ra luật &amp; 3 việc làm được tuần này</a></li>
+    </ol>
+  </nav>
+
+  <!-- BÀI 1 -->
+  <article class="card" id="bai1">
+    <span class="tag saas">AI trong SaaS · định giá &amp; đơn vị tính tiền</span>
+    <h2 class="head">Bài 1 · GitHub gắn đồng hồ token lên Copilot: giá gói không đổi, nhưng đơn vị bạn tiêu thì đổi hẳn</h2>
+    <p class="src">Nguồn chính: Mario Rodriguez (Chief Product Officer, GitHub) — "GitHub Copilot is moving to usage-based billing", GitHub Blog, 27/04/2026 · <a href="https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/" target="_blank">github.blog</a>. Đối chiếu với trang giá đang hiển thị: <a href="https://github.com/features/copilot/plans" target="_blank">github.com/features/copilot/plans</a>. <strong>Lưu ý nguồn:</strong> đây là thông báo của chính GitHub về sản phẩm của GitHub, viết ở giọng "đây là điều tốt cho bạn". Bản tin không lấy giọng đó, nhưng các con số trong bài là dữ kiện công khai kiểm chứng được bằng cách mở trang giá — và chính việc đối chiếu hai nguồn này mới ra phần đáng kể nhất của bài.</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">1 credit = 1 cent</div><div class="lab">đơn vị mới thay cho "premium request"; trừ dần theo token vào, token ra và token cache, theo bảng giá API từng model <a href="https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/" target="_blank">(GitHub, 27/04/2026)</a></div></div>
+      <div class="box"><div class="num">$10 → $15</div><div class="lab">gói Pro: giá giữ nguyên 10 USD/tháng, nhưng credit kèm theo hiện là 15 USD — 10 USD nền cộng 5 USD linh hoạt <a href="https://github.com/features/copilot/plans" target="_blank">(trang giá Copilot)</a></div></div>
+      <div class="box"><div class="num">Không còn đường lùi</div><div class="lab">trước đây hết quota thì rơi xuống model rẻ hơn và làm tiếp; giờ hết credit là dừng, trừ khi admin mở ngân sách <a href="https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/" target="_blank">(GitHub)</a></div></div>
+    </div>
+
+    <p>Ngày 27/04/2026, GitHub thông báo toàn bộ các gói Copilot chuyển sang tính tiền theo mức dùng kể từ 01/06/2026. Đơn vị "premium request" bị thay bằng GitHub AI Credits. Mỗi gói kèm một lượng credit hằng tháng, gói trả phí mua thêm được, và mức trừ tính từ lượng token — cả token vào, token ra lẫn token cache — theo bảng giá API của từng model.<sup><a href="https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/" target="_blank">[1]</a></sup></p>
+
+    <p>Lý do họ đưa ra ngắn và thẳng: Copilot không còn là sản phẩm của một năm trước. Nó đã đi từ trợ lý trong editor thành nền tảng chạy được những phiên lập trình nhiều bước, kéo dài, đụng khắp repo. Và trong mô hình cũ, một câu hỏi chat nhanh với một phiên agent chạy vài giờ tốn của người dùng <em>y như nhau</em>. GitHub nói họ đã gánh phần lớn phần chi phí suy luận phình ra đằng sau, và mô hình đếm request không còn chịu được nữa.<sup><a href="https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/" target="_blank">[1]</a></sup></p>
+
+    <h3 class="sub">Vì sao giá theo ghế vỡ trước tiên ở đúng loại sản phẩm này</h3>
+
+    <p>Đây là chỗ đáng dừng lại, vì nó không phải chuyện riêng của GitHub. Nó là bài toán của bất kỳ ai đang gắn agent vào sản phẩm SaaS của mình.</p>
+
+    <div class="mech"><b>Cơ chế — phép tính làm giá theo ghế tự phá chính nó (phân tích của bản tin):</b> giá theo ghế đứng vững khi mỗi ghế tương ứng một người, và một người làm được chừng đó việc mỗi ngày. Agent cắt đứt mối tương ứng đó. Một ghế giờ có thể chạy năm luồng việc song song, hoặc chạy suốt đêm. Hệ quả ngược đời: <em>bạn càng làm agent giỏi lên, khách càng cần ít ghế hơn, và hóa đơn của bạn càng nhỏ đi</em>. Mọi cải tiến hiệu quả bạn ship đều tự cắn vào doanh thu của bạn. Cùng lúc, chi phí biến đổi lại đi ngược hướng: agent giỏi hơn nghĩa là chạy nhiều bước hơn, nghĩa là tốn token hơn. Nên ở sản phẩm agent, giá theo ghế không chỉ là "chưa tối ưu" — nó là mô hình mà doanh thu và chi phí chạy ngược chiều nhau khi sản phẩm tốt lên. Phần "khách trả ít đi khi AI làm nhiều hơn" được UsageBox gọi là phép đảo ngược của mô hình theo ghế, dẫn từ một cuộc thảo luận trong giới làm SaaS tháng 7.<sup><a href="https://usagebox.com/articles/ai-credits-new-pricing-primitive-2026" target="_blank">[3]</a></sup> Lưu ý: UsageBox bán dịch vụ đo lường mức dùng, nên họ có lợi ích rõ ràng khi câu chuyện này đúng — bản tin dẫn cách diễn đạt của họ, không dẫn kết luận.</div>
+
+    <p>Nền kinh tế phía sau cũng đã khác. Phần mềm SaaS đời trước sống nhờ chi phí biên gần bằng không: xong sản phẩm rồi, thêm một khách gần như không tốn gì, nên biên lợi nhuận gộp 75–85% thành chuẩn ngành. Sản phẩm AI thì mỗi lượt gọi model đều tốn thật. Theo khảo sát State of AI 2026 của ICONIQ, biên lợi nhuận gộp trung bình của sản phẩm AI vào khoảng 52% — con số này bản tin dẫn lại qua bài phân tích của Chargebee, chưa mở được báo cáo gốc, nên hãy đọc nó như một mức tham chiếu chứ không phải một phép đo chính xác.<sup><a href="https://www.chargebee.com/blog/saas-business-model-ai-monetization/" target="_blank">[4]</a></sup></p>
+
+    <h3 class="sub">Credit là gì, và vì sao đơn vị không phải là token</h3>
+
+    <p>Một credit bằng một xu Mỹ. Mức trừ tính từ token theo giá API từng model.<sup><a href="https://usagebox.com/articles/ai-credits-new-pricing-primitive-2026" target="_blank">[3]</a></sup> Nghĩa là credit không phải một đơn vị mới thật sự — nó là một lớp bọc quanh token.</p>
+
+    <div class="mech"><b>Cơ chế — vì sao lớp bọc đó có giá trị với bên bán (phân tích của bản tin):</b> bán theo token có một vấn đề rất thực tế về mặt con người: không ai hình dung nổi một triệu token là bao nhiêu việc. Bạn không biết mình sắp tiêu bao nhiêu, nên bạn sợ. Bán theo ghế thì ngược lại, ai cũng hiểu, nhưng như trên, nó vỡ. Credit đứng giữa: khách nhìn thấy một con số cố định nghe như một gói cước, còn bên bán vẫn đo từng token bên dưới. Nhưng tính chất quan trọng nhất là cái này: <em>tỷ lệ quy đổi từ token sang credit do bên bán đặt, và đặt riêng cho từng model</em>. Muốn tăng giá thực tế, không cần đụng vào con số "10 USD/tháng" trên trang giá — chỉ cần chỉnh tỷ lệ của một model. Giá niêm yết đứng yên, giá thực đi lên. Đây là lý do UsageBox cho rằng credit thắng thế, và là lý do bản tin khuyên bạn lập bảng tiêu thụ của riêng mình thay vì tin vào con số credit kèm gói.<sup><a href="https://usagebox.com/articles/ai-credits-new-pricing-primitive-2026" target="_blank">[3]</a></sup></div>
+
+    <h3 class="sub">Đối chiếu: thông báo tháng 4 nói một đằng, trang giá hôm nay nói một nẻo</h3>
+
+    <p>Phần này bản tin tự làm, bằng cách mở lại thông báo rồi mở trang giá đang hiển thị và so.</p>
+
+    <p>Trong thông báo 27/04, GitHub viết rất rõ: giá gói nền không đổi — Pro giữ 10 USD/tháng, Pro+ giữ 39 USD/tháng, Business 19 USD/người/tháng, Enterprise 39 USD/người/tháng. Và lượng credit kèm theo được mô tả là "khớp với giá đăng ký hiện tại": Pro 10 USD credit, Pro+ 39 USD credit.<sup><a href="https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/" target="_blank">[1]</a></sup></p>
+
+    <p>Trang giá đang chạy thì khác. Pro vẫn 10 USD/tháng nhưng kèm 15 USD credit. Pro+ vẫn 39 USD nhưng kèm 70 USD. Và có thêm một bậc chưa từng xuất hiện trong thông báo tháng 4: gói Max, 100 USD/tháng, kèm 200 USD credit, mô tả dành cho luồng việc agent chạy khối lượng lớn liên tục. Trang này tách rõ hai thành phần — credit nền đúng bằng giá gói, cộng một phần linh hoạt thêm: Pro thêm 5 USD, Pro+ thêm 31 USD, Max thêm 100 USD.<sup><a href="https://github.com/features/copilot/plans" target="_blank">[2]</a></sup></p>
+
+    <table class="tbl">
+      <tr><th>Gói</th><th>Thông báo 27/04/2026</th><th>Trang giá đang hiển thị</th><th>Đọc ra điều gì</th></tr>
+      <tr><td>Pro</td><td>$10/tháng, kèm $10 credit</td><td>$10/tháng, kèm $15 ($10 nền + $5 linh hoạt)</td><td>giá niêm yết đứng yên, phần kèm theo được nới</td></tr>
+      <tr><td>Pro+</td><td>$39/tháng, kèm $39 credit</td><td>$39/tháng, kèm $70 ($39 + $31)</td><td>nới mạnh nhất theo tỷ lệ</td></tr>
+      <tr><td>Max</td><td>không tồn tại</td><td>$100/tháng, kèm $200 ($100 + $100)</td><td>bậc mới sinh ra sau khi thấy nhóm dùng nặng</td></tr>
+      <tr><td>Free</td><td>—</td><td>2.000 lượt gợi ý code/tháng</td><td>hoàn thành code tách khỏi hệ credit</td></tr>
+    </table>
+    <p style="font-size:13px;color:#6b7280;margin-top:-6px">Bảng do bản tin lập bằng cách đối chiếu trực tiếp hai nguồn [1] và [2]; cột cuối là nhận định của bản tin, không trích nguyên văn.</p>
+
+    <div class="mech"><b>Cơ chế — vì sao "phần kèm theo" là biến số, còn "giá gói" là hằng số quảng cáo:</b> để ý cấu trúc "nền + linh hoạt" trên trang giá. Phần nền luôn đúng bằng giá gói — đó là phần bên bán không thể rút mà không mang tiếng tăng giá. Phần linh hoạt là phần có thể chỉnh bất cứ lúc nào, và chỉnh xuống thì không ai gọi là tăng giá. Kết hợp với chuyện tỷ lệ token-sang-credit cũng do bên bán đặt, bạn có hai cái núm điều chỉnh giá thực mà không cái nào chạm vào con số người ta nhớ. Điều này không nói GitHub sẽ làm vậy — thực tế lần này họ chỉnh theo hướng <em>hào phóng hơn</em> thông báo ban đầu. Nó nói rằng nếu bạn lập ngân sách cho cả năm, đừng lập từ con số "kèm 15 USD credit". Hãy lập từ con số bạn thật sự tiêu mỗi tháng, đo bằng chính hệ thống của bạn.</div>
+
+    <h3 class="sub">Thay đổi lớn nhất không phải giá — mà là bỏ đường lùi</h3>
+
+    <p>Trong danh sách "những gì thay đổi", có một dòng dễ lướt qua nhưng đổi hẳn trải nghiệm: cơ chế dự phòng không còn nữa. Trước đây, người dùng hết premium request thì rơi xuống một model rẻ hơn và làm tiếp. Từ nay, việc dùng được điều tiết bằng credit còn lại và ngân sách do admin đặt.<sup><a href="https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao dòng này quan trọng hơn cả bảng giá (phân tích của bản tin):</b> hết quota mà vẫn làm việc được, chỉ là chậm hơn hoặc kém hơn, là một trải nghiệm <em>xuống cấp dần</em>. Hết credit là dừng hẳn — một trải nghiệm <em>đứt</em>. Với người dùng, hai thứ này khác nhau về loại chứ không phải về mức: cái đầu gây khó chịu, cái sau chặn công việc đang làm dở. Với đội vận hành sản phẩm, nó chuyển một bài toán định giá thành một bài toán độ tin cậy — vì "hết credit giữa phiên agent" giờ có hình dạng y hệt một sự cố. Nếu bạn đang gắn AI vào sản phẩm của mình và định bán theo credit, đây là chi tiết đáng chép lại nhất trong cả bài: bạn phải thiết kế <em>trạng thái cạn</em> trước khi thiết kế bảng giá. Cảnh báo ở ngưỡng bao nhiêu, ai nhận, chuyện gì xảy ra với công việc đang chạy dở — ba câu hỏi này nếu không trả lời trước thì khách sẽ trả lời hộ bạn bằng một ticket giận dữ.</div>
+
+    <p>Một chi tiết kỹ thuật khác cũng đáng ghi: Copilot code review từ nay tiêu thêm cả phút GitHub Actions, tính theo đúng đơn giá phút như mọi workflow khác — tức là một tính năng ăn hai đồng hồ cùng lúc.<sup><a href="https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/" target="_blank">[1]</a></sup> Ngược lại, hoàn thành code và gợi ý sửa tiếp theo vẫn nằm trong gói và không tiêu credit.<sup><a href="https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/" target="_blank">[1]</a></sup></p>
+
+    <h3 class="sub">Gộp credit toàn tổ chức: một chi tiết nhỏ giải đúng một bài toán số học</h3>
+
+    <p>Với doanh nghiệp, GitHub thêm hai thứ. Thứ nhất, credit kèm theo được gộp chung cho cả tổ chức thay vì khóa cứng theo từng người — họ nói thẳng mục đích là xóa phần dung lượng bị mắc kẹt. Thứ hai, admin đặt được ngân sách ở ba cấp: toàn doanh nghiệp, theo trung tâm chi phí, và theo từng người; khi hết phần gộp, tổ chức chọn cho tiêu tiếp theo giá niêm yết hoặc chặn lại.<sup><a href="https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — phần thừa mắc kẹt là bài toán phân bố, không phải bài toán tiết kiệm:</b> mức dùng AI trong một đội không phân bố đều mà lệch rất mạnh — vài người chạy agent cả ngày, phần lớn dùng lai rai. Khi credit khóa theo từng người, nhóm dùng nặng cạn sớm và bị chặn, còn phần chưa dùng của nhóm nhẹ thì bốc hơi cuối tháng. Tổ chức trả tiền cho tổng, nhưng chỉ tiêu được phần nào rơi đúng người. Gộp lại không làm tổng tiền giảm — nó làm <em>tỷ lệ tiền biến thành công việc</em> tăng lên. Đây là điều đáng mang về nếu bạn tự xây hệ quota trong sản phẩm của mình: khóa theo người là mặc định dễ code nhất và gần như luôn sai, vì nó bắt bạn phải đoán đúng mức dùng của từng người, một việc không ai đoán đúng.</div>
+
+    <div class="scale">
+      <div class="col small"><h4>Đội nhỏ / startup dưới 10 người</h4>
+        <ul>
+          <li>Trước khi đổi gói, mở hóa đơn ba tháng gần nhất và tính mức tiêu <em>thực</em> theo đầu người. Đừng chọn gói theo nhãn, chọn theo con số đó.</li>
+          <li>Nếu bạn đang nhúng AI vào sản phẩm và tính tiền khách: chốt <em>trạng thái cạn</em> trước khi chốt bảng giá. Cảnh báo ở 60% và 85% là mức đủ dùng cho hầu hết đội.</li>
+          <li>Đừng bán theo ghế cho phần có agent. Tách rõ: ghế là vé vào cửa, đồng hồ mới là hóa đơn.</li>
+        </ul>
+      </div>
+      <div class="col"><h4>Đội đã có sản phẩm chạy production</h4>
+        <ul>
+          <li>Lập bảng tiêu thụ theo từng luồng việc thật của bạn (mỗi lần review một PR tốn bao nhiêu, mỗi phiên agent tốn bao nhiêu). Không nhà cung cấp nào công bố bảng này hộ bạn.</li>
+          <li>Gộp quota ở cấp tổ chức, đừng khóa theo người. Đặt ngân sách ở cấp trung tâm chi phí để quy được tiền về đội.</li>
+          <li>Coi danh mục giá là mã nguồn production: có phiên bản, có kiểm tra tự động, có người duyệt. Nó sẽ hỏng như code, vì nó là code.<sup><a href="https://usagebox.com/articles/ai-credits-new-pricing-primitive-2026" target="_blank">[3]</a></sup></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> khi một sản phẩm chuyển sang bán theo credit, ba thứ đổi cùng lúc mà chỉ một thứ được nói to. Thứ được nói to là giá gói — và nó thường đứng yên. Hai thứ còn lại: tỷ lệ quy đổi từ token sang credit do bên bán nắm và chỉnh được theo từng model, và trạng thái khi bạn cạn credit. Nếu bạn là người mua, hãy lập ngân sách từ mức tiêu đo được chứ không từ số credit kèm gói. Nếu bạn là người bán, hãy thiết kế lúc cạn trước khi thiết kế bảng giá.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo bài 1:</strong> [1] Mario Rodriguez, <a href="https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/" target="_blank">"GitHub Copilot is moving to usage-based billing", GitHub Blog, 27/04/2026</a> · [2] <a href="https://github.com/features/copilot/plans" target="_blank">GitHub Copilot — Plans &amp; pricing</a> (trang giá công khai, bản tin đối chiếu ngày 17/09/2026) · [3] <a href="https://usagebox.com/articles/ai-credits-new-pricing-primitive-2026" target="_blank">UsageBox — "AI Credits Are the New Pricing Primitive", 18/07/2026</a> (bên bán dịch vụ đo mức dùng) · [4] <a href="https://www.chargebee.com/blog/saas-business-model-ai-monetization/" target="_blank">Chargebee — "2026's Real SaaS Threat Isn't AI. It's Business Model Debt.", cập nhật 26/06/2026</a>, dẫn lại <a href="https://www.iconiqcapital.com/growth/reports/2026-state-of-ai-bi-annual-snapshot" target="_blank">ICONIQ 2026 State of AI</a> (bên bán phần mềm tính tiền).</div>
+  </article>
+
+  <!-- BÀI 2 -->
+  <article class="card" id="bai2">
+    <span class="tag view">Quy trình phát triển an toàn · đội nhỏ</span>
+    <h2 class="head">Bài 2 · Một giờ, ba người, một trang giấy: bản threat modeling mà đội sáu người thật sự làm được — và cuộc audit vỡ trong mười một phút</h2>
+    <p class="src">Nguồn chính: IRM Consulting &amp; Advisory (hãng tư vấn bảo mật ở Toronto, làm dịch vụ vCISO cho SaaS và startup) — <a href="https://dev.to/irmcon/threat-modeling-for-a-team-of-six-the-version-that-actually-gets-done-2afe" target="_blank">"Threat modeling for a team of six: the version that actually gets done"</a> và <a href="https://dev.to/irmcon/what-a-soc-2-auditor-actually-asks-about-your-cicd-pipeline-4lic" target="_blank">"What a SOC 2 auditor actually asks about your CI/CD pipeline"</a>, DEV Community, cùng đăng 09/09/2026. <strong>Lưu ý nguồn:</strong> cả hai bài là nội dung tiếp thị cho dịch vụ vCISO, viết ở ngôi thứ nhất từ kinh nghiệm hành nghề, và <em>không có số liệu khảo sát nào</em> — không mẫu, không tỷ lệ, không kiểm chứng độc lập. Bản tin chọn chúng vì phần quy trình đủ cụ thể để làm theo được, và vì đây là góc "tổ chức công việc" chứ không phải bản tin lỗ hổng. Hãy đọc mọi nhận định trong bài như kinh nghiệm một người hành nghề, không phải bằng chứng thống kê.</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">1 giờ · 3 người</div><div class="lab">một buổi threat modeling cho <em>một</em> tính năng hoặc dịch vụ, không phải cả hệ; làm 4–6 lần mỗi năm <a href="https://dev.to/irmcon/threat-modeling-for-a-team-of-six-the-version-that-actually-gets-done-2afe" target="_blank">(IRM, 09/09/2026)</a></div></div>
+      <div class="box"><div class="num">11 phút</div><div class="lab">thời gian một cuộc audit SOC 2 đi chệch, chỉ vì đội không dựng lại được bằng chứng cho một lần deploy <a href="https://dev.to/irmcon/what-a-soc-2-auditor-actually-asks-about-your-cicd-pipeline-4lic" target="_blank">(IRM)</a></div></div>
+      <div class="box"><div class="num">5 bằng chứng · 4 hệ</div><div class="lab">số thứ phải nối lại cho một thay đổi khi bị lấy mẫu: ticket, pull request, người duyệt khác, lần chạy test xanh, bản ghi deploy <a href="https://dev.to/irmcon/what-a-soc-2-auditor-actually-asks-about-your-cicd-pipeline-4lic" target="_blank">(IRM)</a></div></div>
+    </div>
+
+    <p>Tác giả mở bài bằng một quan sát mà nhiều đội nhỏ sẽ thấy quen. Phần lớn lời khuyên về threat modeling được viết cho công ty <em>có sẵn đội bảo mật</em>. Nếu bạn là sáu kỹ sư đang lo ship sản phẩm, đọc những lời khuyên đó chỉ ra một danh sách lý do để không bắt đầu: dựng sơ đồ luồng dữ liệu, liệt kê ranh giới tin cậy, duy trì sơ đồ đó khi kiến trúc đổi, vẽ cây tấn công. Tất cả đều hợp lý, và không cái nào sống sót ở một đội mà người lẽ ra chạy nó cũng đang trực on-call tuần này.<sup><a href="https://dev.to/irmcon/threat-modeling-for-a-team-of-six-the-version-that-actually-gets-done-2afe" target="_blank">[5]</a></sup></p>
+
+    <p>Thế là đội làm việc trung thực nhất có thể: bỏ qua. Rồi bảng câu hỏi bảo mật của một khách hàng tiềm năng hỏi "công ty có làm threat modeling không", ai đó điền "có" và hy vọng không bị hỏi tiếp.<sup><a href="https://dev.to/irmcon/threat-modeling-for-a-team-of-six-the-version-that-actually-gets-done-2afe" target="_blank">[5]</a></sup></p>
+
+    <h3 class="sub">Bản rút gọn: một giờ, một dịch vụ, ba người</h3>
+
+    <p>Bố cục tác giả đưa ra rất gọn. Một giờ. Một tính năng hoặc một dịch vụ, không phải cả hệ thống. Ba người: người sở hữu code, người sở hữu hạ tầng nó chạy trên đó, và <em>một người không tham gia xây nó</em>. Một cái bảng hoặc một tài liệu chung. Không công cụ gì.<sup><a href="https://dev.to/irmcon/threat-modeling-for-a-team-of-six-the-version-that-actually-gets-done-2afe" target="_blank">[5]</a></sup></p>
+
+    <p>Mười phút đầu vẽ sơ đồ — cố tình vẽ xấu. Hộp và mũi tên, cái gì nói chuyện với cái gì, dữ liệu vào chỗ nào, nằm ở đâu, đi ra lối nào. Tác giả nhấn: đừng vẽ đẹp và đừng vẽ đủ, vì mục đích của sơ đồ là cho sáu con mắt cùng một hình dung trong năm mươi phút tới, không phải để thành tài liệu phải bảo trì. Trên sơ đồ đánh dấu ba thứ: mọi điểm dữ liệu đi từ chỗ bạn kiểm soát sang chỗ bạn không kiểm soát, mọi điểm giá trị người dùng nhập vào ảnh hưởng tới việc code làm gì, và mọi chỗ có credential hay token nằm.<sup><a href="https://dev.to/irmcon/threat-modeling-for-a-team-of-six-the-version-that-actually-gets-done-2afe" target="_blank">[5]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — người thứ ba trong phòng là một cơ chế, không phải phép lịch sự (phân tích của bản tin):</b> người xây một hệ thống mang trong đầu một mô hình đã được lấp đầy các khoảng trống. Khi họ nhìn mũi tên giữa hai hộp, họ "thấy" luôn cả phần xác thực mà họ biết là có ở đó — kể cả khi trong code nó không có. Đó không phải cẩu thả, đó là cách trí nhớ làm việc: bạn không đọc lại thứ bạn tin là mình đã viết. Người ngoài không có mô hình lấp sẵn, nên họ buộc phải hỏi. Giá trị của họ không nằm ở chỗ giỏi hơn, mà ở chỗ <em>không biết</em>. Một độc giả bình luận dưới bài diễn đạt ý này rất gọn, và bản tin đồng ý: người ngoài tìm ra lỗi không phải vì sắc sảo hơn, mà vì họ thiếu đúng cái mô hình đang che mắt hai người kia.<sup><a href="https://dev.to/irmcon/threat-modeling-for-a-team-of-six-the-version-that-actually-gets-done-2afe" target="_blank">[5]</a></sup> Hệ quả thực hành: nếu bạn chỉ làm được một việc trong cả quy trình này, hãy làm việc mời người ngoài. Nó rẻ nhất và bị bỏ qua nhiều nhất.</div>
+
+    <h3 class="sub">Ba mươi lăm phút cho bốn câu hỏi — và câu tìm ra nhiều lỗi nhất</h3>
+
+    <p>Khung bốn câu hỏi là của Adam Shostack, tác giả ghi rõ. Hỏi lần lượt: chúng ta đang làm gì, chuyện gì có thể hỏng, ta sẽ làm gì với nó, và ta vừa làm có tốt không.<sup><a href="https://dev.to/irmcon/threat-modeling-for-a-team-of-six-the-version-that-actually-gets-done-2afe" target="_blank">[5]</a></sup></p>
+
+    <p>Phần "chuyện gì có thể hỏng" chiếm gần hết buổi. Đi từng phần tử trên sơ đồ, với mỗi cái hỏi: một kẻ tấn công đã tới được đây thì làm được gì. Không hỏi "cái này có an toàn không" — hỏi <em>họ làm được gì</em>. Các câu gợi ý mà tác giả nói cho kết quả thật ở đội nhỏ: nếu định danh này bị đổi sang định danh của khách hàng khác thì sao; thành phần này làm gì khi thứ nó gọi trả về rác, trả về rỗng, hoặc treo mãi; ai đọc được log này và trong đó có gì; nếu credential này lộ hôm nay thì bán kính thiệt hại tới đâu và ta biết bằng cách nào; và endpoint này làm những gì <em>trước khi</em> nó kiểm tra quyền.<sup><a href="https://dev.to/irmcon/threat-modeling-for-a-team-of-six-the-version-that-actually-gets-done-2afe" target="_blank">[5]</a></sup></p>
+
+    <p>Tác giả nói câu cuối cùng tìm ra nhiều vấn đề thật hơn bất kỳ câu nào khác anh từng dùng.<sup><a href="https://dev.to/irmcon/threat-modeling-for-a-team-of-six-the-version-that-actually-gets-done-2afe" target="_blank">[5]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao "kiểm quyền sau khi làm việc nặng" là lỗi sinh ra hàng loạt lỗi khác:</b> hình dạng quen thuộc là endpoint nhận tham số, đi lấy dữ liệu, tính toán, rồi mới hỏi người gọi có được phép không. Về mặt kết quả cuối, nó vẫn đúng: người không có quyền vẫn bị từ chối. Nhưng đường đi tới chỗ từ chối đã rò rỉ thông tin rồi. Hỏi một định danh <em>tồn tại nhưng của người khác</em> thì hệ phải đi tìm, mất thời gian, rồi trả 403. Hỏi một định danh <em>không tồn tại</em> thì hệ trả 404 gần như tức thì. Chỉ cần so thời gian phản hồi hoặc so thông báo lỗi, người ngoài đã dò được danh sách định danh có thật của khách hàng khác — không cần vượt qua lớp xác thực nào. Chưa kể một hệ quả tốn tiền: mọi request rác đều được phục vụ đầy đủ phần đắt nhất trước khi bị chặn, nên endpoint loại này vừa là lỗ rò thông tin vừa là cửa để làm kiệt tài nguyên. Cách chữa là một thói quen chứ không phải một công cụ: kiểm quyền là việc <em>đầu tiên</em> sau khi phân tích tham số, trước mọi truy vấn.</div>
+
+    <p>Bước ba là biên bản, mười lăm phút. Một trang: ngày, ai tham gia, ảnh chụp sơ đồ, và bảng phát hiện ba cột — chuyện gì có thể hỏng, quyết định, ai chịu trách nhiệm. Tác giả nói đúng trang đó là sản phẩm giao nộp: nó là thứ bạn chỉ vào khi khách hỏi công ty có threat modeling không, và là thứ kiểm toán viên SOC 2 hoặc ISO 27001 chấp nhận làm bằng chứng cho hạng mục thiết kế an toàn — một hạng mục mà phần lớn đội nhỏ không có gì để trình.<sup><a href="https://dev.to/irmcon/threat-modeling-for-a-team-of-six-the-version-that-actually-gets-done-2afe" target="_blank">[5]</a></sup></p>
+
+    <p>Phần bản tin đánh giá cao nhất là chỗ tác giả tự liệt kê những gì bản rút gọn này <em>đánh đổi</em>: không có độ phủ hệ thống, vì hỏi ngẫu hứng sẽ bỏ sót những loại vấn đề mà một khung có cấu trúc bắt được; không có mô hình được duy trì, vì sơ đồ vứt đi sau mỗi buổi; và kết quả lệch về phía những thứ cả phòng vốn đã lo. Đổi lại, nó <em>diễn ra</em>. Lập luận của anh: một buổi chạy bốn lần một năm và tìm ra ba vấn đề thật hơn hẳn một phương pháp chặt chẽ bị hoãn mười tám tháng.<sup><a href="https://dev.to/irmcon/threat-modeling-for-a-team-of-six-the-version-that-actually-gets-done-2afe" target="_blank">[5]</a></sup></p>
+
+    <h3 class="sub">Ba loại phát hiện lặp đi lặp lại ở đội nhỏ</h3>
+
+    <p>Theo kinh nghiệm tác giả, ba nhóm chiếm phần lớn kết quả: kiểm quyền sau khi đã làm việc nặng; tin vào một dịch vụ "nội bộ" mà thực ra không còn nội bộ, thường vì một đường đi được thêm vào nhiều tháng sau thiết kế gốc; và bí mật không có câu chuyện xoay vòng — không phải bí mật đã lộ, mà bí mật mà không ai trả lời được quy trình khôi phục sẽ là gì, nghĩa là không có quy trình nào cả.<sup><a href="https://dev.to/irmcon/threat-modeling-for-a-team-of-six-the-version-that-actually-gets-done-2afe" target="_blank">[5]</a></sup></p>
+
+    <h3 class="sub">Bài thứ hai: khoảng cách giữa "chốt chặn có chạy" và "chứng minh được nó đã chạy"</h3>
+
+    <p>Bài còn lại của cùng tác giả kể một buổi audit SOC 2 đi chệch sau khoảng mười một phút. Không phải vì pipeline tệ — nó tốt: trunk-based, test chặn ở merge, deploy khi xanh, mọi thứ trong Terraform. Kiểm toán viên hỏi đúng một câu: cho tôi xem bằng chứng là code lên production ngày 14 tháng 3 đã được một người khác người viết review. Im lặng. Ai cũng biết câu trả lời là có. Không ai lấy ra được.<sup><a href="https://dev.to/irmcon/what-a-soc-2-auditor-actually-asks-about-your-cicd-pipeline-4lic" target="_blank">[6]</a></sup></p>
+
+    <p>Tác giả liệt kê bốn câu kiểm toán viên hỏi và thứ tự họ hỏi. Ai được đẩy vào nhánh chính và bạn biết bằng cách nào — bằng chứng là cấu hình bảo vệ nhánh cộng danh sách merge trong cả kỳ quan sát. Một thay đổi có đường nào lên production mà không qua cổng của bạn không — script deploy còn nằm trên máy ai đó, quyền vào thẳng cluster, luồng hotfix cố tình bỏ qua test, thay đổi hạ tầng làm tay ngoài Terraform. Cho tôi xem một thay đổi từ ticket tới production — đây là chỗ mười một phút xảy ra. Và chuyện gì diễn ra khi một thư viện có CVE nghiêm trọng.<sup><a href="https://dev.to/irmcon/what-a-soc-2-auditor-actually-asks-about-your-cicd-pipeline-4lic" target="_blank">[6]</a></sup></p>
+
+    <p>Về câu cuối, tác giả nói rõ một chỗ nhiều đội hiểu nhầm: kiểm toán viên không hỏi bạn có quét hay không, ai cũng quét. Họ hỏi <em>sau đó thì sao</em>. "Chúng tôi dùng Dependabot" không phải một chốt chặn. "Lỗi mức nghiêm trọng xử trong 7 ngày, mức cao trong 30, theo dõi trên bảng công việc bằng nhãn security, rà lại hằng tháng" mới là một chốt chặn. Công cụ giống hệt nhau. Khác biệt nằm hoàn toàn ở chỗ bạn có định nghĩa chính sách <em>trước khi</em> kiểm toán viên hỏi hay không.<sup><a href="https://dev.to/irmcon/what-a-soc-2-auditor-actually-asks-about-your-cicd-pipeline-4lic" target="_blank">[6]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — một việc không thể sửa sau, và đó là việc phải làm trước (phân tích của bản tin):</b> hầu hết hạng mục trong danh sách trên đều vá được muộn. Viết chính sách quản lý lỗ hổng: làm tuần nào cũng được. Viết quy trình thay đổi khẩn cấp: một đoạn văn. Thêm quy ước mã ticket vào commit message: theo tác giả tốn khoảng hai mươi phút, và biến mỗi lần lấy mẫu từ một cuộc khai quật thành hai cú bấm chuột.<sup><a href="https://dev.to/irmcon/what-a-soc-2-auditor-actually-asks-about-your-cicd-pipeline-4lic" target="_blank">[6]</a></sup> Nhưng có đúng một thứ không có đường quay lại: <em>log audit của kỳ quan sát đã trôi qua</em>. Nếu bạn chưa bật xuất log khi kỳ quan sát bắt đầu, bạn không tạo lại nó được, và bạn sẽ viết một bản giải trình thay vì nộp một bằng chứng.<sup><a href="https://dev.to/irmcon/what-a-soc-2-auditor-actually-asks-about-your-cicd-pipeline-4lic" target="_blank">[6]</a></sup> Đây là loại việc có tính chất đặc biệt trong kỹ thuật: chi phí gần bằng không nếu làm sớm, và không mua lại được bằng bất cứ giá nào nếu làm muộn. Nhóm việc đó nên nằm ở đầu mọi kế hoạch, không phải vì nó quan trọng nhất mà vì nó là nhóm duy nhất có hạn chót thật.</div>
+
+    <p>Tác giả gói cả bốn câu vào một hình dạng chung: thực hành kỹ thuật vốn đã ổn, thứ thiếu là <em>hiện vật chứng minh nó đã ổn vào một ngày cụ thể, với một người không có mặt trong phòng</em>. Và anh nói đội vượt SOC 2 lần đầu trong chín mươi ngày thay vì bảy tháng gần như không bao giờ là đội an toàn hơn — họ là đội đã dựng cơ chế thu thập bằng chứng <em>trước khi</em> kỳ quan sát mở, chứ không phải sau khi nó đóng.<sup><a href="https://dev.to/irmcon/what-a-soc-2-auditor-actually-asks-about-your-cicd-pipeline-4lic" target="_blank">[6]</a></sup> Bản tin nhắc lại: đây là quan sát nghề nghiệp, không phải số liệu đo.</p>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> nếu đội bạn dưới mười người và chưa từng làm threat modeling, bản một-giờ ở trên là thứ bạn đặt lịch được ngay chiều nay, và trang biên bản của nó vừa là kết quả kỹ thuật vừa là bằng chứng tuân thủ. Còn nếu bạn đang nhắm một chứng nhận, hãy phân loại lại việc: cái gì vá được sau thì để sau, nhưng bật xuất log và đặt thời gian lưu thì làm <em>tuần này</em>, vì nó là việc duy nhất trong danh sách không có đường sửa muộn.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo bài 2:</strong> [5] IRM Consulting &amp; Advisory, <a href="https://dev.to/irmcon/threat-modeling-for-a-team-of-six-the-version-that-actually-gets-done-2afe" target="_blank">"Threat modeling for a team of six: the version that actually gets done", DEV Community, 09/09/2026</a> · [6] IRM Consulting &amp; Advisory, <a href="https://dev.to/irmcon/what-a-soc-2-auditor-actually-asks-about-your-cicd-pipeline-4lic" target="_blank">"What a SOC 2 auditor actually asks about your CI/CD pipeline", DEV Community, 09/09/2026</a>. Khung bốn câu hỏi trong bài [5] được tác giả ghi rõ là của Adam Shostack.</div>
+  </article>
+
+  <!-- GÓC NHÌN -->
+  <article class="card" id="gocnhin">
+    <span class="tag legacy">Góc nhìn</span>
+    <h2 class="head">Góc nhìn · Ai cầm đồng hồ thì người đó ra luật</h2>
+
+    <p>Hai bài hôm nay đến từ hai thế giới khác nhau. Một bên là chuyện tiền: GitHub đổi đơn vị tính tiền của Copilot. Một bên là chuyện giấy tờ: một kiểm toán viên hỏi bằng chứng cho một lần deploy sáu tháng trước. Nhưng đọc kỹ thì cả hai kể cùng một câu chuyện, chỉ khác góc.</p>
+
+    <p><strong>Thứ nhất: trong cả hai trường hợp, thực tế vốn không sai.</strong> Đội trong bài 2 <em>có</em> review chéo mọi thay đổi — cả phòng đều biết. Người dùng Copilot <em>có</em> tiêu một lượng tài nguyên nhất định — không ai tranh cãi chuyện đó. Vấn đề không nằm ở thực tế. Nó nằm ở chỗ thực tế đó có được ghi lại bằng một đơn vị mà bên kia chấp nhận hay không. Với kiểm toán viên, đơn vị đó là bản ghi có mốc thời gian. Với nhà cung cấp AI, đơn vị đó là credit.</p>
+
+    <p><strong>Thứ hai: bên nào định nghĩa đơn vị thì bên đó nắm quyền.</strong> GitHub đặt tỷ lệ quy đổi token sang credit, riêng cho từng model — nên họ đổi được giá thực mà không chạm vào giá niêm yết.<sup><a href="https://usagebox.com/articles/ai-credits-new-pricing-primitive-2026" target="_blank">[3]</a></sup> Kiểm toán viên quyết định thứ gì được tính là bằng chứng — nên một chốt chặn chạy hoàn hảo suốt sáu tháng vẫn có thể trượt.<sup><a href="https://dev.to/irmcon/what-a-soc-2-auditor-actually-asks-about-your-cicd-pipeline-4lic" target="_blank">[6]</a></sup> Trong cả hai trường hợp, bạn không ở phía cầm bút. Cái bạn làm được là dựng bản ghi của <em>chính mình</em>, đủ chi tiết để đối chiếu, trước khi cần đến nó.</p>
+
+    <div class="mech"><b>Cơ chế — vì sao bản ghi phải dựng trước, không phải khi cần (phân tích của bản tin):</b> hai loại dữ liệu trong bài hôm nay đều có chung một tính chất khó chịu: chúng chỉ tồn tại nếu bạn ghi <em>lúc sự việc đang xảy ra</em>. Bạn không dựng lại được log audit của tháng 3 khi đang ngồi trong buổi audit tháng 9.<sup><a href="https://dev.to/irmcon/what-a-soc-2-auditor-actually-asks-about-your-cicd-pipeline-4lic" target="_blank">[6]</a></sup> Bạn cũng không dựng lại được bảng tiêu thụ token theo từng luồng việc khi hóa đơn đã về và bạn đang cần giải thích nó cho sếp. Cả hai là dữ liệu chuỗi thời gian mà nguồn phát chỉ phát một lần. So với hầu hết việc kỹ thuật khác — nơi làm muộn chỉ tốn thêm công — nhóm này có một hạn chót vật lý. Cách xếp ưu tiên vì thế đảo lại so với trực giác thông thường: không xếp theo cái nào quan trọng nhất, mà xếp theo cái nào <em>mất đi nếu không làm hôm nay</em>.</div>
+
+    <p><strong>Thứ ba, và đây là phần đáng mang về nhất: hai bài cùng chỉ ra rằng thứ được đo sẽ định hình thứ được làm.</strong> Khi Copilot bỏ đường lùi, hết credit không còn là bất tiện mà thành công việc bị chặn — nên một quyết định định giá biến thành một bài toán độ tin cậy, thuộc về đội kỹ thuật.<sup><a href="https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/" target="_blank">[1]</a></sup> Khi kiểm toán viên đòi nối ticket tới deploy, một quy ước viết commit message tưởng là chuyện thẩm mỹ bỗng thành hạ tầng bằng chứng.<sup><a href="https://dev.to/irmcon/what-a-soc-2-auditor-actually-asks-about-your-cicd-pipeline-4lic" target="_blank">[6]</a></sup> Trong cả hai, một thay đổi ở tầng "đo đếm" đẩy công việc thật sang một đội khác. Nếu bạn đang thiết kế đồng hồ đo cho sản phẩm của mình — quota, credit, giới hạn dùng — hãy nhớ rằng bạn không chỉ đang chọn cách thu tiền. Bạn đang chọn xem người dùng sẽ gặp trạng thái nào lúc tệ nhất, và đội nào trong công ty bạn sẽ phải xử lý trạng thái đó.</p>
+
+    <h3 class="sub">Ba việc làm được trong tuần này</h3>
+
+    <div class="doslist">
+      <div><strong>1 · Bật xuất log audit và đặt thời gian lưu, hôm nay.</strong> Không cần biết bạn có định làm SOC 2 hay không. Đây là việc duy nhất trong cả số hôm nay mà làm muộn thì không mua lại được — mọi thứ khác đều vá được sau.<sup><a href="https://dev.to/irmcon/what-a-soc-2-auditor-actually-asks-about-your-cicd-pipeline-4lic" target="_blank">[6]</a></sup> Kèm theo: đặt thời gian lưu phủ hết kỳ bạn quan tâm cộng một khoảng dư.</div>
+      <div><strong>2 · Lập bảng tiêu thụ token cho ba luồng việc AI tốn nhất của bạn.</strong> Mỗi lần review một PR hết bao nhiêu, mỗi phiên agent hết bao nhiêu, mỗi lượt gọi tính năng AI trong sản phẩm hết bao nhiêu. Nhà cung cấp đã cho thấy họ không công bố bảng này, nên bạn phải tự đo.<sup><a href="https://usagebox.com/articles/ai-credits-new-pricing-primitive-2026" target="_blank">[3]</a></sup> Có bảng rồi thì việc chọn gói và đặt ngân sách mới thôi là đoán mò.</div>
+      <div><strong>3 · Đặt một buổi một giờ cho tính năng mới nhất của bạn, mời đúng một người không xây nó.</strong> Vẽ sơ đồ xấu mười phút, hỏi bốn câu, viết một trang. Nếu chỉ có thời gian cho một câu hỏi, hỏi câu này: endpoint này làm những gì trước khi nó kiểm tra quyền.<sup><a href="https://dev.to/irmcon/threat-modeling-for-a-team-of-six-the-version-that-actually-gets-done-2afe" target="_blank">[5]</a></sup></div>
+    </div>
+
+    <div class="takeaway">💡 <strong>Một câu để nhớ:</strong> bạn làm đúng là chưa đủ — cái quyết định kết quả là bạn có bản ghi chứng minh mình đã làm đúng, ghi bằng đơn vị mà bên kia chấp nhận, ghi vào lúc sự việc đang diễn ra. Cả hóa đơn AI lẫn cuộc audit đều thua ở cùng một chỗ: không phải ở thực hành, mà ở cái đồng hồ không ai nhớ bật.</div>
+  </article>
+
+  <div class="foot">Bản tin sáng · Số 17/09/2026 · Toàn bộ nội dung là phân tích của bản tin dựa trên các nguồn dẫn nội dòng.</div>
+</div>
+</body>
+</html>
