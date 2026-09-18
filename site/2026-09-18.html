@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Throughput rơi một nửa mà không một request nào lỗi: Pfizer bắt được con bug một dòng trong CI &middot; 18/09/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 18/09/2026</div>
+    <h1 class="title">Throughput rơi một nửa mà không một request nào báo lỗi: Pfizer bắt được con bug một dòng — và từ 11/09, đồng hồ 24 giờ của EU bắt đầu chạy từ lúc bạn "biết"</h1>
+    <div class="meta">18/09/2026 · Đọc khoảng 14 phút · Nguồn: Pfizer AI Platform Engineering &amp; LiteLLM — "How Pfizer Improved LiteLLM Gateway Performance and Resiliency at Scale", LiteLLM Engineering Blog, 11/09/2026 · Ủy ban châu Âu (DG CONNECT) — trang chính thức về nghĩa vụ báo cáo theo Cyber Resilience Act, cập nhật 11/09/2026, đối chiếu với phân tích của Freshfields 31/08/2026</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: hai bài hôm nay ở hai thế giới — một bài gỡ lỗi hiệu năng, một bài về luật châu Âu. Sợi nối nằm ở phần "Góc nhìn": cả hai đều đo cùng một khoảng trống, là khoảng cách giữa <b>lúc hệ thống có vấn đề</b> và <b>lúc tổ chức biết là có vấn đề</b>. Một bên đo bằng RPS, một bên đo bằng giờ. Về nguồn: bài 1 là bài do chính LiteLLM và đội Pfizer viết chung, đăng trên blog của LiteLLM — tức là nhà cung cấp kể chuyện lỗi của chính mình, một dạng nguồn cấp một nhưng có lợi ích trong cách kể; bản tin ghi rõ chỗ nào là số đo và chỗ nào là lời kể. Bài 2 dựa trên văn bản chính thức của Ủy ban châu Âu, cộng một bài phân tích của hãng luật để lấy phần diễn giải thực hành. Các khối gắn nhãn <b style="color:#1e40af">Cơ chế</b>, bảng đối chiếu và phần "Rút ra theo quy mô" là phân tích tổng hợp của bản tin — <em>không trích nguyên văn từ nguồn</em>. Mọi con số đều dẫn nguồn ngay cạnh câu. Không chèn code minh họa. Bài 2 không phải tư vấn pháp lý.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1"><strong>Bài 1</strong> — Một dòng điều kiện kiểm "có key" thay vì "key bằng true", và một nửa throughput biến mất<br><span style="font-size:13.5px;color:#6b7280">· loại regression tệ nhất: 0% lỗi HTTP · vì sao họ không bisect commit mà bisect cấu hình · cơ chế đầy đủ: bắt tay TLS vào một cổng không có TLS · bốn phát hiện phụ trong cùng cuộc điều tra · năm cổng CI và cái duy nhất bắt được loại bug này</span></a></li>
+      <li><a href="#bai2"><strong>Bài 2</strong> — Từ 11/09/2026, EU bắt đầu đếm giờ: 24h cảnh báo sớm, 72h báo cáo, và đồng hồ chạy cả cuối tuần<br><span style="font-size:13.5px;color:#6b7280">· ai thuộc diện và SaaS thuần nằm ở đâu · "biết" nghĩa là gì và vì sao đó mới là phần khó · ba mốc và ba loại báo cáo · công ty siêu nhỏ được miễn phạt mốc 24h · việc phải làm trước, không phải việc phải hiểu</span></a></li>
+      <li><a href="#gocnhin"><strong>Góc nhìn</strong> — Khoảng cách giữa "hỏng" và "biết là hỏng" &amp; 3 việc làm được tuần này</a></li>
+    </ol>
+  </nav>
+
+  <!-- BÀI 1 -->
+  <article class="card" id="bai1">
+    <span class="tag legacy">Tối ưu hệ đang chạy · độ tin cậy &amp; hiệu năng</span>
+    <h2 class="head">Bài 1 · Nâng version xong, throughput còn một nửa — mà log ứng dụng sạch bong: mổ xẻ cuộc điều tra của đội Pfizer</h2>
+    <p class="src">Nguồn chính: Ishaan Jaffer, Krrish Dholakia, Yassin Kortam, Gabriele Michelli (LiteLLM) cùng Aleksandr Liadov, Praveena Mundolimoole, Pramod Naik, Tung Hoang, Alexey Reznichenko (Pfizer AI Platform Engineering) — "How Pfizer Improved LiteLLM Gateway Performance and Resiliency at Scale", 11/09/2026 · <a href="https://docs.litellm.ai/blog/pfizer-gateway-performance-and-resiliency" target="_blank">docs.litellm.ai</a>. <strong>Lưu ý nguồn:</strong> bài đăng trên blog của LiteLLM, do nhà cung cấp và khách hàng viết chung. Nó kể một con bug của chính LiteLLM, nên không phải bài quảng cáo thuần — nhưng cách kể vẫn nghiêng về phía "chúng tôi đã sửa và đã đóng góp ngược lại". Các con số RPS và latency là số đo trong CI của Pfizer, có ghi rõ môi trường benchmark; bản tin dùng chúng như số đo của một môi trường cụ thể, không phải chuẩn chung.</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">300 → 156 RPS</div><div class="lab">throughput trong CI: ổn định ở v1.85.0 và v1.87.3, rơi khoảng 48% khi lên v1.89.2 — tỷ lệ lỗi không đổi <a href="https://docs.litellm.ai/blog/pfizer-gateway-performance-and-resiliency" target="_blank">(LiteLLM × Pfizer, 11/09/2026)</a></div></div>
+      <div class="box"><div class="num">5.000 → 1.200 ms</div><div class="lab">latency trung vị trong CI trước và sau bản vá, tức nhanh hơn 76%; RPS đi từ 158 lên 236 <a href="https://docs.litellm.ai/blog/pfizer-gateway-performance-and-resiliency" target="_blank">(cùng nguồn)</a></div></div>
+      <div class="box"><div class="num">1 dòng</div><div class="lab">toàn bộ nguyên nhân gốc: một câu điều kiện trong bộ dựng connection pool của Redis <a href="https://github.com/BerriAI/litellm/pull/32590" target="_blank">(PR #32590, ship trong v1.93.0)</a></div></div>
+    </div>
+
+    <p>Pfizer chạy LiteLLM như một AI gateway tự host: một API duy nhất kiểu OpenAI đứng trước danh mục model nhiều nhà cung cấp, phục vụ mọi đội, mọi ứng dụng và mọi agent trong công ty. Một cửa vào duy nhất nghĩa là một regression ở gateway lan tới toàn bộ bên tiêu thụ cùng lúc. Nên mọi thay đổi — dù là nâng version LiteLLM từ bên ngoài hay một commit nội bộ — đều phải qua load test và regression test tự động trong CI trước khi ship.<sup><a href="https://docs.litellm.ai/blog/pfizer-gateway-performance-and-resiliency" target="_blank">[1]</a></sup></p>
+
+    <p>Chính cái cổng đó bắt được vụ này. Throughput trong CI giữ ổn định quanh 300 request mỗi giây ở v1.85.0 và v1.87.3, rồi rơi xuống khoảng 156 RPS ở v1.89.2. Tỷ lệ lỗi: y nguyên. Latency từng request ở tầng HTTP: không có gì bất thường. Cú rơi chỉ hiện ra khi có tải đồng thời.<sup><a href="https://docs.litellm.ai/blog/pfizer-gateway-performance-and-resiliency" target="_blank">[1]</a></sup></p>
+
+    <h3 class="sub">Vì sao loại regression này là loại tệ nhất</h3>
+
+    <p>Đội Pfizer nói thẳng trong bài: một cú rơi throughput với tỷ lệ lỗi HTTP 0% là loại khó bắt nhất sau khi đã lên production. Không có gì để page. Và nó chỉ lộ ra dưới tải đồng thời thật, chứ không lộ khi bạn gửi một request đơn lẻ. Lỗi timeout của Redis <em>có</em> xuất hiện trong log nội bộ của proxy — nhưng gateway vẫn trả HTTP 200 cho mọi người gọi.<sup><a href="https://docs.litellm.ai/blog/pfizer-gateway-performance-and-resiliency" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao "không lỗi" nguy hiểm hơn "lỗi" (phân tích của bản tin):</b> hầu hết cảnh báo production được dựng quanh hai thứ: tỷ lệ lỗi và latency. Cả hai đều là thuộc tính của <em>một request</em>. Throughput thì không — nó là thuộc tính của <em>cả hệ dưới tải</em>, và bạn chỉ thấy nó khi có nhiều request cùng lúc chen nhau qua cùng một chỗ hẹp. Nghĩa là tồn tại nguyên một họ lỗi mà mọi chỉ số per-request đều báo xanh: mỗi request vẫn thành công, vẫn không chậm bất thường, chỉ là trong một giây hệ làm được ít việc hơn. Ở production, hình dạng của loại lỗi này không phải là một cảnh báo — nó là hóa đơn hạ tầng nhích lên, là autoscaler nuôi thêm instance, là ai đó ba tháng sau hỏi "sao tháng này tốn thế". Muốn bắt nó, bạn phải có một phép đo <em>mức hệ dưới tải cố định</em> và một mốc nền để so. Không có mốc nền thì không có gì để rơi khỏi.</div>
+
+    <h3 class="sub">Cách họ đi tìm: bisect cấu hình chứ không bisect commit</h3>
+
+    <p>Giữa hai minor version là rất nhiều commit. Thay vì lần theo từng commit, đội thu hẹp bề mặt bằng cấu hình trước. Ba bước:<sup><a href="https://docs.litellm.ai/blog/pfizer-gateway-performance-and-resiliency" target="_blank">[1]</a></sup></p>
+
+    <p>Bước một: chạy LiteLLM trần — không callback tự viết, không auth tự viết, backend giả lập. Cả v1.85.0 lẫn v1.92.0 đều cho latency trung vị 320–340 ms dưới tải đồng thời. Lõi proxy sạch ở cả hai version. Bước hai: gắn lại từng thành phần tự viết của Pfizer, từng cái một, rồi tất cả cùng lúc. Vẫn sạch. Bước ba: bật cache Redis. Latency trung vị nhảy lên 4.200 ms. Khoanh xong vùng: đường kết nối Redis.<sup><a href="https://docs.litellm.ai/blog/pfizer-gateway-performance-and-resiliency" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao thứ tự này rẻ hơn hẳn (phân tích của bản tin):</b> bisect theo commit là tìm kiếm nhị phân trên trục <em>thời gian</em>: mỗi bước bạn phải build lại, deploy lại, chạy lại load test. Với hàng trăm commit giữa hai version, bạn tốn cỡ tám tới mười vòng, mỗi vòng vài phút tới vài chục phút. Bisect theo cấu hình là tìm kiếm trên trục <em>bề mặt</em>: bạn giữ nguyên artifact, chỉ bật tắt từng khối chức năng. Rẻ hơn mỗi bước, và quan trọng hơn: kết quả của nó <em>gọi tên một thành phần</em>, chứ không chỉ gọi tên một commit. Biết "cache Redis là thủ phạm" đưa bạn thẳng tới đúng vài chục dòng cần đọc; biết "commit abc123 gây ra" vẫn phải hiểu tại sao. Quy tắc rút ra: khi lỗi chỉ xuất hiện ở một môi trường có cấu hình đặc thù, hãy bisect cái đặc thù trước, bisect lịch sử sau. Và thứ tự này chỉ chạy được nếu bạn có một baseline "trần" để so — tức là một lần chạy không bật gì cả.</div>
+
+    <h3 class="sub">Nguyên nhân gốc: một câu điều kiện hỏi sai câu hỏi</h3>
+
+    <p>Bộ dựng connection pool trong module Redis của LiteLLM quyết định có mở kết nối TLS hay không bằng cách kiểm tra xem khóa bật TLS có <em>xuất hiện</em> trong tham số cấu hình không — chứ không kiểm tra giá trị của nó có <em>đúng là true</em> không. Bản vá đổi câu hỏi đó: lấy giá trị ra và chỉ dùng lớp kết nối TLS khi giá trị là đúng.<sup><a href="https://github.com/BerriAI/litellm/pull/32590" target="_blank">[2]</a></sup></p>
+
+    <p>Cấu hình của Pfizer đặt khóa đó bằng <em>false</em>, trỏ vào một Redis không TLS — một cấu hình hợp lệ và rất phổ biến. Nhưng vì khóa <em>có mặt</em>, mọi thao tác cache đều cố dùng lớp kết nối TLS để nói chuyện với một cổng chạy giao thức trần.<sup><a href="https://docs.litellm.ai/blog/pfizer-gateway-performance-and-resiliency" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — chuỗi nhân quả đầy đủ, vì đây mới là phần đáng học:</b> phía client mở socket rồi bắt đầu bắt tay TLS. Phía Redis không biết TLS là gì, nên nó không trả lời đúng nghi thức — cuộc bắt tay không hỏng dứt khoát, nó <em>treo</em>. Treo cho tới khi socket timeout, mặc định 5 giây. Điểm mấu chốt: thao tác cache trong đường nóng của LiteLLM theo nguyên tắc "cố gắng hết sức, có timeout" — hết giờ thì bỏ qua cache và đi tiếp. Nên request vẫn xong, model vẫn trả lời, client vẫn nhận HTTP 200.<sup><a href="https://docs.litellm.ai/blog/pfizer-gateway-performance-and-resiliency" target="_blank">[1]</a></sup> Nhưng dưới tải đồng thời, các request xếp hàng chờ những lần thử kết nối và những lần timeout đó. Connection pool bão hòa, và những thao tác lẽ ra chạy song song trong vòng lặp bất đồng bộ bị ép nối đuôi nhau. Đó là toàn bộ cơ chế: <em>một lựa chọn thiết kế đúng (đừng để cache làm chết request) biến một lỗi cấu hình thành một cú giảm throughput vô hình</em>. Nếu cache mà lỗi thì làm rơi request, họ đã biết trong năm phút. Chính vì nó không làm rơi, nó sống được ở đó rất lâu — bài viết ghi rõ con bug này tồn tại cả ở v1.85.0, chỉ không lộ ra dưới hồ sơ tải cụ thể đó.<sup><a href="https://docs.litellm.ai/blog/pfizer-gateway-performance-and-resiliency" target="_blank">[1]</a></sup></div>
+
+    <p>Bản tin muốn nhấn thêm một lớp nữa, vì nó áp dụng được ở mọi hệ chứ không riêng LiteLLM. Mọi lớp "degrade nhẹ nhàng" — cache lỗi thì bỏ qua, service phụ chết thì dùng giá trị mặc định, gọi bên thứ ba treo thì trả rỗng — đều là một cái công tắc chuyển <em>lỗi</em> thành <em>chậm</em>. Đó là đánh đổi đúng cho người dùng. Nhưng nó chỉ an toàn nếu bạn gắn thêm một đồng hồ đếm số lần cái công tắc ấy bật. Không có bộ đếm đó, bạn đã tự tay bịt miệng đúng cái tín hiệu duy nhất mà hệ thống dùng để kêu cứu.</p>
+
+    <h3 class="sub">Bốn phát hiện phụ trong cùng một cuộc điều tra</h3>
+
+    <p>Ngoài con bug Redis, cùng cuộc điều tra còn lôi ra thêm bốn thứ — và danh sách này đáng đọc như một danh mục kiểm tra cho chính hệ của bạn.<sup><a href="https://docs.litellm.ai/blog/pfizer-gateway-performance-and-resiliency" target="_blank">[1]</a></sup></p>
+
+    <table class="tbl">
+      <tr><th>Phát hiện</th><th>Bản chất</th><th>Hình dạng chung đáng nhớ</th></tr>
+      <tr><td>Phụ thuộc Starlette/FastAPI</td><td>một thay đổi trong thư viện nền làm middleware tốn thêm chi phí mỗi request dưới tải cao; ghim lại version đã kiểm thử là về mốc nền</td><td>bạn không nâng gì cả, nhưng cây phụ thuộc nâng hộ bạn</td></tr>
+      <tr><td>Cache cấu hình OTEL</td><td>một hàm kiểm tra cờ bật/tắt tính lại ở mỗi lần gọi; cache lại đưa chi phí mỗi lần từ 28,4 µs xuống 0,018 µs</td><td>chi phí không nằm ở phép tính, nằm ở <em>tần suất</em></td></tr>
+      <tr><td>Import OTel thất bại</td><td>một lần import hỏng bị thử lại ở mỗi request thay vì ghi nhớ kết quả</td><td>thất bại không được nhớ là thất bại được trả tiền mãi mãi</td></tr>
+      <tr><td>Bộ đếm chi tiêu</td><td>đường nạp lại bị rút về gần một vòng đi-về Redis khi có tranh chấp</td><td>số vòng đi-về là đơn vị chi phí thật, không phải số dòng code</td></tr>
+    </table>
+    <p style="font-size:13px;color:#6b7280;margin-top:-6px">Bảng do bản tin lập từ danh sách trong nguồn [1]; cột thứ ba là khái quát hóa của bản tin, không trích nguyên văn. Hai con số 28,4 µs và 0,018 µs là số đo trong nguồn.</p>
+
+    <div class="mech"><b>Cơ chế — vì sao ba trong bốn phát hiện trên cùng một họ:</b> để ý cái nối chúng lại: cache cấu hình, import hỏng, vòng đi-về thừa. Cả ba đều là <em>một việc rẻ bị làm quá nhiều lần</em>. 28,4 µs nghe như không có gì — cho tới khi nó chạy ở mỗi lần gọi trong đường nóng, và bạn có hàng nghìn lần gọi mỗi giây. Đây là chỗ trực giác về hiệu năng hay sai nhất: người ta đi tìm một hàm chậm, trong khi thủ phạm thường là một hàm nhanh ở sai vị trí. Cách phát hiện cũng khác: profiler xếp theo tổng thời gian sẽ chỉ đúng chỗ, còn đọc code thì gần như không bao giờ chỉ ra, vì nhìn từng dòng thì dòng nào cũng vô hại. Nếu bạn định bỏ một buổi để tối ưu, đừng bắt đầu bằng đọc code — bắt đầu bằng một biểu đồ xếp theo tổng thời gian tích lũy, rồi hỏi mỗi mục đầu bảng: <em>cái này có cần chạy mỗi lần không</em>.</div>
+
+    <h3 class="sub">Năm cổng CI — và cái duy nhất bắt được loại bug này</h3>
+
+    <p>Load test bắt được vụ này không phải một script chạy một lần. Đội Pfizer mô tả năm cổng kiểm thử tự động chạy trên mọi thay đổi code của gateway, không thay đổi nào lên production mà chưa qua đủ năm.<sup><a href="https://docs.litellm.ai/blog/pfizer-gateway-performance-and-resiliency" target="_blank">[1]</a></sup></p>
+
+    <p>Unit test cho auth, routing, health check và metrics — chạy đúng cấu hình runtime như container production, để không có chênh lệch giữa hệ đang kiểm và hệ đang chạy. Kiểm thử hợp đồng API bằng diff OpenAPI tự động trên mọi pull request: thay đổi phá vỡ tương thích thì chặn merge, thay đổi chỉ thêm thì cho qua và ghi lại. Load test dưới tải đồng thời, chạy trên hạ tầng giả lập cục bộ trong CI rồi chạy lại trên hạ tầng thật ở staging sau khi deploy, với lưu lượng nặng nhẹ theo đúng tỷ lệ production và đối chiếu với mốc nền về latency, throughput, tỷ lệ lỗi. Phát hiện rò rỉ bộ nhớ bằng các bài chạy dài dưới tải bền, theo dõi bộ nhớ theo giờ chứ không theo phút. Và kiểm thử chức năng đầu-cuối trên môi trường đã deploy thật, bắt buộc đỗ toàn bộ kịch bản — đỗ một phần không được tính.<sup><a href="https://docs.litellm.ai/blog/pfizer-gateway-performance-and-resiliency" target="_blank">[1]</a></sup> Đang làm dở: tiêm lỗi nhà cung cấp để thử đường fallback, và mutation testing.<sup><a href="https://docs.litellm.ai/blog/pfizer-gateway-performance-and-resiliency" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — bốn trong năm cổng đều không bắt được con bug này, và đó mới là bài học:</b> thử chiếu con bug Redis qua từng cổng. Unit test: đỗ, vì logic từng hàm không sai. Hợp đồng API: đỗ, vì hình dạng response không đổi. Chức năng đầu-cuối: đỗ, vì mọi kịch bản vẫn trả kết quả đúng. Rò rỉ bộ nhớ: đỗ, vì có rò rỉ gì đâu. Chỉ có load test có mốc nền là trượt. Nói cách khác, một bộ kiểm thử rất tốt theo chuẩn thông thường vẫn để lọt nguyên một họ lỗi, và cái bịt được lỗ đó không phải "thêm test" mà là <em>thêm một loại test khác</em>: loại đo hành vi tập thể dưới tải, so với một con số đã chốt từ trước. Nếu hôm nay bạn phải chọn đúng một cổng để thêm vào CI, và bạn đang vận hành thứ gì đó có tải đồng thời, đây là cổng đáng chọn — không phải vì nó bắt được nhiều lỗi nhất, mà vì nó là cổng duy nhất bắt được loại lỗi mà không cổng nào khác bắt được.</div>
+
+    <p>Môi trường benchmark được ghi khá đầy đủ, nên chép lại ở đây để bạn đối chiếu: 750 người dùng đồng thời trong Locust, tốc độ sinh 100 người/giây, tải bền 60 giây, backend giả lập kiểu ghi băng cho phản hồi tất định, một container proxy duy nhất, Redis 7 có mật khẩu, LocalStack thay các dịch vụ AWS. Tỷ trọng công việc: chat completion 10 phần, health 5, embedding 3, sinh ảnh 1. Mốc nền: trung vị dưới 1.200 ms, trên 200 RPS, tỷ lệ lỗi dưới 0,5%.<sup><a href="https://docs.litellm.ai/blog/pfizer-gateway-performance-and-resiliency" target="_blank">[1]</a></sup></p>
+
+    <h3 class="sub">Phần khó hơn: bắt cái trôi chậm, không phải cái rơi đột ngột</h3>
+
+    <p>Load test bắt regression ở thời điểm release. Nhưng còn loại trôi chậm tích lũy — thứ hiện ra ba tuần sau dưới dạng autoscaler nuôi thêm instance chứ không phải một lần CI trượt. Đội Pfizer mô tả cách họ làm: trace request xuống tới mức cấp phát bộ nhớ, tái sử dụng kết nối HTTP, lịch của vòng lặp sự kiện, và hành vi của bộ dọn rác Python. Nhờ đó họ tìm ra một chỗ rò kết nối và một chỗ tích tụ object trong đường nóng — hai thứ đang âm thầm đẩy hệ tự mở rộng không cần thiết, và <em>không cái nào hiện ra dưới dạng lỗi hay dưới dạng một ngưỡng bị vượt</em>. Chúng chỉ là một đường đi lên chầm chậm của bộ nhớ và số instance.<sup><a href="https://docs.litellm.ai/blog/pfizer-gateway-performance-and-resiliency" target="_blank">[1]</a></sup></p>
+
+    <p>Sửa xong thì hẹp và cụ thể: siết vòng đời object, làm mượt hành vi vòng lặp ở đường nóng, bịt đúng chỗ rò. Và họ vẫn giữ một lớp đỡ cuối: worker chạy lâu vẫn được tái tạo định kỳ — nhưng nói rõ đó là <em>lớp đỡ</em>, không phải thứ thay cho việc tìm nguyên nhân gốc.<sup><a href="https://docs.litellm.ai/blog/pfizer-gateway-performance-and-resiliency" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — "restart định kỳ" là thuốc giảm đau, và biết mình đang uống thuốc giảm đau là phần quan trọng:</b> rất nhiều đội đặt lịch restart worker, rồi vấn đề biến mất, rồi không ai nhắc lại nữa. Vấn đề không biến mất — nó bị đưa xuống dưới ngưỡng quan sát. Chỗ đắt nằm ở chỗ này: một chỗ rò bộ nhớ bị restart che đi vẫn tiếp tục ăn tiền, chỉ là ăn dưới dạng bộ nhớ trung bình cao hơn, instance nhiều hơn, và thỉnh thoảng một lần restart rơi đúng lúc cao điểm. Cách đội Pfizer làm là cách đáng chép: giữ lớp đỡ, nhưng gọi đúng tên nó, và vẫn đi tìm nguyên nhân. Nếu trong hệ của bạn có một cái cron restart mà không ai nhớ vì sao nó ở đó, đấy chính là chỗ nên đào đầu tiên — nó là tấm biển chỉ đường tới một bug chưa được sửa.</div>
+
+    <div class="scale">
+      <div class="col small"><h4>Đội nhỏ / startup dưới 10 người</h4>
+        <ul>
+          <li>Chốt <em>một</em> con số mốc nền cho luồng chính, đo dưới tải cố định, chạy trước mỗi lần release. Một con số vẫn hơn không có con số nào.</li>
+          <li>Gắn bộ đếm cho mọi đường "degrade nhẹ nhàng" đang có: cache miss vì lỗi, fallback được dùng, timeout bị nuốt. Đó là những chỗ hệ của bạn đang câm.</li>
+          <li>Khi lỗi chỉ xuất hiện ở một môi trường, bisect cấu hình trước khi bisect commit. Chạy một lần với cấu hình trần để có mốc so.</li>
+        </ul>
+      </div>
+      <div class="col"><h4>Đội đã có sản phẩm chạy production</h4>
+        <ul>
+          <li>Thêm cổng load test có mốc nền vào CI nếu chưa có — bốn loại test còn lại không thay được nó.</li>
+          <li>Ghim version thư viện nền đã kiểm thử. Regression hiệu năng đi vào qua cây phụ thuộc mà không ai bấm nút nâng.</li>
+          <li>Đi soát danh sách cron restart. Mỗi cái là một bug chưa sửa được đặt tên lại thành quy trình vận hành.</li>
+          <li>Nếu bạn phụ thuộc một dự án mã nguồn mở ở đường nóng: đóng góp ngược lại cấu hình test, đừng chỉ báo lỗi. Pfizer đã đưa cấu hình load test của họ vào CI của LiteLLM để lần sau lỗi bị bắt ở thượng nguồn.<sup><a href="https://docs.litellm.ai/blog/pfizer-gateway-performance-and-resiliency" target="_blank">[1]</a></sup></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> hệ thống của bạn có một họ lỗi mà mọi dashboard đều báo xanh — họ lỗi làm giảm việc làm được mỗi giây chứ không làm hỏng request nào. Bạn chỉ phát hiện được nó bằng một phép đo ở mức hệ, dưới tải cố định, so với một con số đã chốt trước. Và mọi cơ chế "degrade nhẹ nhàng" bạn đã dựng để bảo vệ người dùng đều đồng thời là một chỗ bịt miệng hệ thống — trừ khi bạn đếm số lần chúng được kích hoạt.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo bài 1:</strong> [1] Ishaan Jaffer, Krrish Dholakia, Yassin Kortam, Gabriele Michelli (LiteLLM), Aleksandr Liadov, Praveena Mundolimoole, Pramod Naik, Tung Hoang, Alexey Reznichenko (Pfizer AI Platform Engineering) — <a href="https://docs.litellm.ai/blog/pfizer-gateway-performance-and-resiliency" target="_blank">"How Pfizer Improved LiteLLM Gateway Performance and Resiliency at Scale", LiteLLM Engineering Blog, 11/09/2026</a> · [2] <a href="https://github.com/BerriAI/litellm/pull/32590" target="_blank">PR #32590 trên BerriAI/litellm</a> (bản vá điều kiện Redis, ship trong <a href="https://github.com/BerriAI/litellm/releases/tag/v1.93.0-rc.1" target="_blank">v1.93.0-rc.1</a>, cùng đợt xử lý 134 vấn đề).</div>
+  </article>
+
+  <!-- BÀI 2 -->
+  <article class="card" id="bai2">
+    <span class="tag view">Quy trình phát triển an toàn · nghĩa vụ báo cáo</span>
+    <h2 class="head">Bài 2 · Từ 11/09/2026, EU bắt đầu bấm giờ: 24 giờ cảnh báo sớm, 72 giờ báo cáo — và đồng hồ tính từ lúc bạn "biết"</h2>
+    <p class="src">Nguồn chính: Ủy ban châu Âu, DG CONNECT — trang chính thức <a href="https://digital-strategy.ec.europa.eu/en/policies/cra-reporting" target="_blank">"Cyber Resilience Act — Reporting obligations"</a> (cập nhật lần cuối 11/09/2026) và <a href="https://digital-strategy.ec.europa.eu/en/policies/cra-summary" target="_blank">bản tóm tắt chính thức Quy định (EU) 2024/2847</a>. Phần diễn giải thực hành đối chiếu với <a href="https://www.freshfields.com/en/our-thinking/blogs/technology-quotient/cyber-resilience-act-reporting-obligations-take-effect-on-11-september-2026-102nzmk" target="_blank">Theresa Ehlen, Satya Staes Polet, Quentin Fontaine &amp; Leonie Wittershagen (Freshfields), 31/08/2026</a>. <strong>Lưu ý:</strong> đây là bài về <em>quy trình</em>, không phải bản tin lỗ hổng, và <em>không phải tư vấn pháp lý</em>. Phạm vi áp dụng cho từng sản phẩm cụ thể là câu hỏi pháp lý; bản tin chỉ nêu các mốc và các hệ quả về cách tổ chức công việc.</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">24h · 72h · 14 ngày</div><div class="lab">cảnh báo sớm trong 24 giờ, báo cáo đầy đủ trong 72 giờ, báo cáo cuối không muộn hơn 14 ngày sau khi có biện pháp khắc phục <a href="https://digital-strategy.ec.europa.eu/en/policies/cra-reporting" target="_blank">(Ủy ban châu Âu)</a></div></div>
+      <div class="box"><div class="num">11/09/2026</div><div class="lab">ngày Điều 14 có hiệu lực và nền tảng báo cáo chung của ENISA bắt đầu vận hành — hơn một năm trước khi phần còn lại của luật áp dụng đầy đủ (11/12/2027) <a href="https://digital-strategy.ec.europa.eu/en/policies/cra-summary" target="_blank">(bản tóm tắt chính thức)</a></div></div>
+      <div class="box"><div class="num">Cả sản phẩm đã bán</div><div class="lab">nghĩa vụ báo cáo áp dụng cho mọi sản phẩm đã đưa ra thị trường EU, kể cả những sản phẩm bán trước 11/12/2027 <a href="https://digital-strategy.ec.europa.eu/en/policies/cra-summary" target="_blank">(bản tóm tắt chính thức)</a></div></div>
+    </div>
+
+    <p>Cyber Resilience Act — Quy định (EU) 2024/2847 — có hiệu lực từ 10/12/2024 và áp dụng đầy đủ từ 11/12/2027. Nhưng một phần của nó không chờ tới đó. Điều 14 về nghĩa vụ báo cáo bắt đầu áp dụng từ 11/09/2026, tức tuần trước.<sup><a href="https://digital-strategy.ec.europa.eu/en/policies/cra-summary" target="_blank">[3]</a></sup></p>
+
+    <p>Từ ngày đó, nhà sản xuất phải báo cáo hai loại việc: lỗ hổng <em>đang bị khai thác thực tế</em> trong sản phẩm của mình, và <em>sự cố nghiêm trọng</em> ảnh hưởng tới an toàn của sản phẩm.<sup><a href="https://digital-strategy.ec.europa.eu/en/policies/cra-reporting" target="_blank">[4]</a></sup></p>
+
+    <h3 class="sub">Hai định nghĩa quyết định bạn có phải bấm nút hay không</h3>
+
+    <p>Một lỗ hổng được coi là đang bị khai thác khi <em>có bằng chứng đáng tin cậy</em> rằng một kẻ xấu đã khai thác nó trong một hệ thống mà không được chủ hệ thống cho phép. Một sự cố là nghiêm trọng khi nó ảnh hưởng — hoặc có thể ảnh hưởng — tới khả năng của sản phẩm trong việc bảo vệ dữ liệu hay chức năng quan trọng, hoặc khi nó đã dẫn tới, hoặc có thể dẫn tới, việc mã độc được đưa vào hoặc chạy trong sản phẩm hay trong hệ thống của người dùng.<sup><a href="https://www.freshfields.com/en/our-thinking/blogs/technology-quotient/cyber-resilience-act-reporting-obligations-take-effect-on-11-september-2026-102nzmk" target="_blank">[5]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — hai chữ "có thể" là chỗ định nghĩa nở ra (phân tích của bản tin):</b> đọc kỹ định nghĩa sự cố nghiêm trọng: nó không đòi thiệt hại đã xảy ra. "Có thể ảnh hưởng" và "có thể dẫn tới" là đủ. Nghĩa là ngưỡng đánh giá không nằm ở hậu quả đo được, mà ở <em>khả năng</em> — và khả năng thì phải có người phán đoán. Hệ quả tổ chức rất cụ thể: bạn không thể tự động hóa việc quyết định "cái này có phải sự cố nghiêm trọng không". Bạn cần một người được chỉ định trước, có quyền nói có, và có đường leo thang rõ. Nếu quyết định đó phải đi qua một cuộc họp, bạn đã tiêu mất phần lớn 24 giờ. Lật ngược lại, đây cũng là lý do phần lớn công việc chuẩn bị không nằm ở chỗ hiểu luật — nó nằm ở chỗ <em>chỉ đích danh ai gọi quyết định đó lúc ba giờ sáng</em>, và người đó có tự bấm nút được không hay phải xin phép ai.</div>
+
+    <h3 class="sub">Đồng hồ bắt đầu từ lúc nào — phần khó nhất của cả điều luật</h3>
+
+    <p>Thời hạn bắt đầu chạy từ lúc nhà sản xuất <em>biết</em> về lỗ hổng hoặc sự cố. Theo hướng dẫn của Ủy ban châu Âu công bố ngày 27/07/2026, "biết" ở đây nghĩa là khi một đánh giá ban đầu cho thấy <em>mức độ chắc chắn hợp lý</em> rằng lỗ hổng đang bị khai thác, hoặc rằng một sự cố nghiêm trọng đã xảy ra và làm tổn hại an toàn của sản phẩm.<sup><a href="https://www.freshfields.com/en/our-thinking/blogs/technology-quotient/cyber-resilience-act-reporting-obligations-take-effect-on-11-september-2026-102nzmk" target="_blank">[5]</a></sup></p>
+
+    <p>Và một chi tiết mà Freshfields nhắc đúng chỗ: đồng hồ <em>không dừng vào cuối tuần hay ngày lễ</em>, theo quy tắc chung về cách tính thời hạn trong luật EU.<sup><a href="https://www.freshfields.com/en/our-thinking/blogs/technology-quotient/cyber-resilience-act-reporting-obligations-take-effect-on-11-september-2026-102nzmk" target="_blank">[5]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao "mức độ chắc chắn hợp lý" tạo ra một cái bẫy quy trình (phân tích của bản tin):</b> hãy dựng lại dòng thời gian thật của một vụ điển hình. Thứ sáu 16 giờ, một khách hàng gửi mail nói thấy hành vi lạ trong log. Bạn phân loại nó là "cần xem", đưa vào hàng đợi. Thứ hai 10 giờ có người mở ra, mười lăm phút sau nhận ra đây là khai thác thật. Câu hỏi: 24 giờ đếm từ thứ hai 10 giờ 15, hay từ thứ sáu 16 giờ? Câu trả lời phụ thuộc vào chỗ "đánh giá ban đầu" của bạn diễn ra <em>lúc nào</em> — và đây chính là chỗ quy trình quyết định kết quả pháp lý. Nếu bạn có một bước sàng lọc chạy trong vài giờ kể cả cuối tuần, mốc "biết" của bạn có ngày giờ rõ ràng, ghi lại được, và bạn bảo vệ được nó. Nếu bạn không có, mốc đó là một khoảng mờ mà bên kia có quyền diễn giải. Nói cách khác: <em>bạn không kiểm soát được lúc sự cố xảy ra, nhưng bạn kiểm soát được chất lượng của bản ghi về lúc bạn biết</em> — và trong mọi chế độ báo cáo theo giờ, bản ghi đó mới là thứ được đem ra soi. Đừng nhầm điều này với việc cố tình biết muộn: cố tình không sàng lọc để đồng hồ chạy muộn là một chiến lược tồi, vì nó vừa không chống đỡ được vừa làm bạn phản ứng chậm thật.</div>
+
+    <h3 class="sub">Ba mốc, ba loại báo cáo, nộp một chỗ</h3>
+
+    <table class="tbl">
+      <tr><th>Mốc</th><th>Với lỗ hổng đang bị khai thác</th><th>Với sự cố nghiêm trọng</th></tr>
+      <tr><td>24 giờ</td><td colspan="2">cảnh báo sớm, kể từ khi biết</td></tr>
+      <tr><td>72 giờ</td><td colspan="2">báo cáo đầy đủ</td></tr>
+      <tr><td>Báo cáo cuối</td><td>không muộn hơn 14 ngày sau khi có biện pháp khắc phục hoặc giảm nhẹ</td><td>trong vòng một tháng kể từ lần nộp ở mốc 72 giờ</td></tr>
+    </table>
+    <p style="font-size:13px;color:#6b7280;margin-top:-6px">Bảng do bản tin lập từ nội dung nguồn [4] và [3]; các mốc là trích dẫn nội dung, cách trình bày là của bản tin.</p>
+
+    <p>Nộp ở đâu: một chỗ duy nhất. ENISA đã dựng CRA Single Reporting Platform, vận hành từ 11/09/2026. Nhà sản xuất nộp một lần qua nền tảng đó; thông báo gửi tới CSIRT (đội ứng cứu sự cố) của nước nơi doanh nghiệp có cơ sở chính, và trừ trường hợp ngoại lệ, thông tin được chuyển đồng thời tới ENISA. CSIRT nhận đầu tiên sẽ chia sẻ ngay cho các CSIRT ở những nước nơi sản phẩm được bán.<sup><a href="https://digital-strategy.ec.europa.eu/en/policies/cra-reporting" target="_blank">[4]</a></sup></p>
+
+    <p>Ngoài báo cáo cho cơ quan, còn một nghĩa vụ dễ bị bỏ quên: nhà sản xuất phải thông báo cho người dùng bị ảnh hưởng, và khi phù hợp là cho toàn bộ người dùng, về lỗ hổng hoặc sự cố cùng các biện pháp họ có thể làm để giảm thiệt hại.<sup><a href="https://www.freshfields.com/en/our-thinking/blogs/technology-quotient/cyber-resilience-act-reporting-obligations-take-effect-on-11-september-2026-102nzmk" target="_blank">[5]</a></sup> Với một đội SaaS, đây là dòng kéo theo nhiều việc nhất: nó đòi bạn biết ai đang dùng phiên bản nào, và có một kênh liên hệ tới họ.</p>
+
+    <h3 class="sub">Ai thuộc diện — và SaaS thuần nằm ở đâu</h3>
+
+    <p>Đây là chỗ bản tin phải cẩn thận. CRA áp dụng cho "sản phẩm có yếu tố số" được đưa ra thị trường Liên minh — cả sản phẩm hoàn chỉnh lẫn linh kiện bán riêng. Định nghĩa chính thức của "sản phẩm có yếu tố số" bao gồm cả <em>giải pháp xử lý dữ liệu từ xa</em> của sản phẩm đó. Và "xử lý dữ liệu từ xa" được định nghĩa là phần xử lý ở xa mà nhà sản xuất thiết kế hoặc chịu trách nhiệm, <em>mà nếu không có nó thì sản phẩm không thực hiện được một chức năng của mình</em>.<sup><a href="https://digital-strategy.ec.europa.eu/en/policies/cra-summary" target="_blank">[3]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — câu hỏi cần hỏi, thay cho câu trả lời mà bản tin không đưa được:</b> đọc định nghĩa trên, bạn thấy trục phân biệt không phải "có phải phần mềm chạy trên cloud không", mà là "backend này có phải là phần không thể thiếu của một sản phẩm đang được bán trên thị trường EU không". Một dịch vụ mà khách thuê bao và dùng qua trình duyệt, không đi kèm sản phẩm nào, nằm ở một chỗ khác trên trục đó so với một backend mà thiếu nó thì thiết bị hoặc ứng dụng của khách không chạy nổi một chức năng. Bản tin không kết luận hộ bạn, vì phân loại từng sản phẩm là việc pháp lý và phụ thuộc chi tiết. Nhưng câu hỏi để mang vào cuộc họp thì rõ: <em>trong những thứ chúng ta bán vào EU, có cái nào mà phần backend của chúng ta là điều kiện để nó chạy không</em>. Nếu có, nhánh này đáng hỏi luật sư ngay tuần này, chứ không đợi tới 2027. Đáng chú ý thêm: nghĩa vụ báo cáo áp dụng cho cả sản phẩm đã đưa ra thị trường trước 11/12/2027<sup><a href="https://digital-strategy.ec.europa.eu/en/policies/cra-summary" target="_blank">[3]</a></sup> — nên "sản phẩm cũ" không phải một lối thoát.</div>
+
+    <p>Hai ngoại lệ đáng ghi cho đội nhỏ. Thứ nhất, doanh nghiệp siêu nhỏ và doanh nghiệp nhỏ <em>không bị phạt</em> vì lỡ mốc 24 giờ khi báo cáo lỗ hổng và sự cố nghiêm trọng.<sup><a href="https://digital-strategy.ec.europa.eu/en/policies/cra-summary" target="_blank">[3]</a></sup> Thứ hai, người quản lý dự án mã nguồn mở (open-source software steward) chỉ chịu nghĩa vụ báo cáo từ 11/12/2027, và không bị phạt vì vi phạm CRA.<sup><a href="https://digital-strategy.ec.europa.eu/en/policies/cra-reporting" target="_blank">[4]</a></sup><sup><a href="https://digital-strategy.ec.europa.eu/en/policies/cra-summary" target="_blank">[3]</a></sup> Ngoài ra, bất kỳ cá nhân hay tổ chức nào cũng có thể báo cáo tự nguyện lỗ hổng, mối đe dọa, sự cố và cả sự cố suýt xảy ra qua chính nền tảng đó.<sup><a href="https://digital-strategy.ec.europa.eu/en/policies/cra-summary" target="_blank">[3]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — "không bị phạt vì lỡ mốc 24 giờ" không có nghĩa là bỏ qua mốc 24 giờ (phân tích của bản tin):</b> miễn phạt là miễn một loại hậu quả, không phải miễn nghĩa vụ. Ba lý do vẫn nên dựng quy trình như thể mốc đó ràng buộc. Một, doanh nghiệp lớn lên; ngày bạn vượt ngưỡng "nhỏ" không phải ngày tốt để bắt đầu học cách báo cáo trong 24 giờ. Hai, khách hàng doanh nghiệp của bạn hỏi về quy trình này trong bảng câu hỏi mua hàng, và câu trả lời "chúng tôi được miễn phạt" không giúp bạn thắng hợp đồng. Ba, và đây là lý do thực tế nhất: cái quy trình bạn dựng để kịp 24 giờ — sàng lọc báo cáo bên ngoài, một người quyết định, một đường leo thang, một mẫu ghi chép — chính là quy trình bạn cần để phản ứng nhanh với sự cố, bất kể có luật hay không. Nó không phải chi phí tuân thủ. Nó là năng lực vận hành mà tuân thủ chỉ đang trả tiền hộ bạn.</div>
+
+    <div class="scale">
+      <div class="col small"><h4>Đội nhỏ / startup chưa bán vào EU</h4>
+        <ul>
+          <li>Chưa cần làm gì về pháp lý. Nhưng hãy dựng đúng ba thứ rẻ: một địa chỉ nhận báo cáo bảo mật mà có người thật đọc, một quy tắc sàng lọc trong vài giờ, và một người được chỉ định có quyền nói "cái này nghiêm trọng".</li>
+          <li>Ghi lại <em>mốc thời gian bạn biết</em> cho mọi báo cáo bảo mật nhận được, dù nhỏ. Đây là loại dữ liệu không dựng lại được sau.</li>
+          <li>Biết mình đang chạy phiên bản nào ở đâu, và liên hệ được với người dùng của từng phiên bản.</li>
+        </ul>
+      </div>
+      <div class="col"><h4>Đội đã có sản phẩm bán vào EU</h4>
+        <ul>
+          <li>Rà soát danh mục: sản phẩm nào có phần backend của bạn là điều kiện để chạy. Đưa câu hỏi phạm vi cho luật sư, đừng tự kết luận.</li>
+          <li>Viết ra quy trình 24/72 giờ và diễn tập một lần. Chỉ định người quyết định và người dự phòng, kèm cách liên hệ ngoài giờ.</li>
+          <li>Đăng ký và làm quen nền tảng báo cáo của ENISA <em>trước</em> khi cần dùng — không ai muốn tạo tài khoản lần đầu vào giờ thứ hai của một sự cố.<sup><a href="https://digital-strategy.ec.europa.eu/en/policies/cra-reporting" target="_blank">[4]</a></sup></li>
+          <li>Ghép luồng này với các nghĩa vụ báo cáo song song đang có (NIS2, GDPR) để không báo cáo lệch nhau ở ba nơi.<sup><a href="https://www.freshfields.com/en/our-thinking/blogs/technology-quotient/cyber-resilience-act-reporting-obligations-take-effect-on-11-september-2026-102nzmk" target="_blank">[5]</a></sup></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> phần khó của chế độ báo cáo này không phải viết báo cáo — nó là <em>biết sớm và ghi lại lúc mình biết</em>. Cửa sổ 24 giờ ép bạn có ba thứ tồn tại từ trước sự cố: một kênh để tin xấu đi vào, một quy tắc sàng lọc chạy trong vài giờ kể cả cuối tuần, và đúng một người có quyền quyết định mà không cần họp. Ba thứ đó viết ra trong một buổi chiều. Cái không làm được trong một buổi chiều là dựng lại bản ghi của những tuần đã trôi qua.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo bài 2:</strong> [3] Ủy ban châu Âu — <a href="https://digital-strategy.ec.europa.eu/en/policies/cra-summary" target="_blank">"The Cyber Resilience Act — Summary of the legislative text"</a> (bản tóm tắt chính thức Quy định (EU) 2024/2847; chính Ủy ban ghi rõ bản tóm tắt không thay thế văn bản gốc) · [4] Ủy ban châu Âu — <a href="https://digital-strategy.ec.europa.eu/en/policies/cra-reporting" target="_blank">"Cyber Resilience Act — Reporting obligations"</a>, cập nhật 11/09/2026 · [5] Theresa Ehlen, Satya Staes Polet, Quentin Fontaine, Leonie Wittershagen (Freshfields) — <a href="https://www.freshfields.com/en/our-thinking/blogs/technology-quotient/cyber-resilience-act-reporting-obligations-take-effect-on-11-september-2026-102nzmk" target="_blank">"Cyber Resilience Act reporting obligations take effect on 11 September 2026", 31/08/2026</a> · Văn bản gốc: <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32024R2847" target="_blank">Quy định (EU) 2024/2847 trên EUR-Lex</a>.</div>
+  </article>
+
+  <!-- GÓC NHÌN -->
+  <article class="card" id="gocnhin">
+    <span class="tag legacy">Góc nhìn</span>
+    <h2 class="head">Góc nhìn · Khoảng cách giữa "hỏng" và "biết là hỏng"</h2>
+
+    <p>Hai bài hôm nay nhìn thì chẳng liên quan. Một bên là một đội platform gỡ một con bug Redis. Một bên là một quy định châu Âu về báo cáo sự cố. Nhưng cả hai đang đo cùng một thứ: khoảng thời gian từ lúc có vấn đề tới lúc tổ chức <em>biết</em> là có vấn đề. Bài 1 đo khoảng đó bằng RPS. Bài 2 đo nó bằng giờ, và gắn cho nó một hạn chót pháp lý.</p>
+
+    <p><strong>Thứ nhất: trong cả hai trường hợp, tín hiệu đã ở đó rồi.</strong> Lỗi timeout Redis <em>có</em> nằm trong log nội bộ của proxy Pfizer — chỉ là không ai nhìn, vì ở tầng HTTP mọi thứ trả 200.<sup><a href="https://docs.litellm.ai/blog/pfizer-gateway-performance-and-resiliency" target="_blank">[1]</a></sup> Trong phần lớn sự cố bảo mật, dấu hiệu đầu tiên cũng đã tồn tại ở đâu đó: một mail của khách, một dòng log lạ, một cảnh báo bị đánh dấu nhiễu. Vấn đề không phải thiếu tín hiệu. Vấn đề là tín hiệu không đi tới được chỗ có người ra quyết định, trong thời gian còn kịp.</p>
+
+    <p><strong>Thứ hai: cả hai đều bị che bởi chính cơ chế bảo vệ.</strong> Đây là phần đối xứng đẹp nhất giữa hai bài. Ở bài 1, cơ chế "cache lỗi thì bỏ qua" là thiết kế đúng — nó giữ cho người dùng không bị lỗi. Cái giá là nó biến một hỏng hóc thành một sự chậm chạp âm thầm.<sup><a href="https://docs.litellm.ai/blog/pfizer-gateway-performance-and-resiliency" target="_blank">[1]</a></sup> Ở bài 2, cơ chế phân loại và xếp hàng ticket cũng là thiết kế đúng — nó giữ cho đội không bị nhiễu dìm chết. Cái giá là một báo cáo thật nằm trong hàng đợi suốt cuối tuần, trong khi theo cách tính thời hạn của EU, cuối tuần vẫn tính.<sup><a href="https://www.freshfields.com/en/our-thinking/blogs/technology-quotient/cyber-resilience-act-reporting-obligations-take-effect-on-11-september-2026-102nzmk" target="_blank">[5]</a></sup> Cả hai lớp đệm đều cần thiết, và cả hai đều cần một cái đồng hồ đếm xem chúng nuốt bao nhiêu thứ.</p>
+
+    <div class="mech"><b>Cơ chế — quy tắc chung rút ra từ hai bài (phân tích của bản tin):</b> mỗi khi bạn dựng một lớp hấp thụ lỗi — retry, fallback, cache best-effort, hàng đợi phân loại, ngưỡng lọc nhiễu cảnh báo — bạn đang đổi <em>tính hiển thị</em> lấy <em>tính ổn định</em>. Đó gần như luôn là một cuộc đổi có lợi. Nhưng nó chỉ an toàn kèm đúng một điều kiện: lớp hấp thụ đó phải có một bộ đếm, và bộ đếm đó phải có ngưỡng cảnh báo riêng. Đếm số lần fallback được dùng. Đếm số ticket bảo mật nằm quá bốn tiếng chưa ai sàng. Đếm số lần cache bị bỏ qua vì lỗi chứ không vì miss. Không có mấy bộ đếm này, hệ của bạn không phải "ổn định" — nó chỉ là <em>im lặng</em>, và hai thứ đó nhìn giống hệt nhau trên dashboard cho tới ngày chúng không còn giống nhau nữa.</div>
+
+    <p><strong>Thứ ba: hai loại việc, hai kiểu ưu tiên.</strong> Phần lớn việc kỹ thuật làm muộn chỉ tốn thêm công. Nhưng cả hai bài hôm nay đều chạm vào nhóm việc khác: nhóm mà làm muộn thì <em>không mua lại được</em>. Mốc nền hiệu năng của tháng trước không dựng lại được khi hóa đơn tháng này đã về. Mốc thời gian "chúng tôi biết lúc mấy giờ" không dựng lại được khi cơ quan quản lý đã hỏi. Cả hai là dữ liệu chuỗi thời gian mà nguồn phát chỉ phát một lần. Cách xếp ưu tiên vì thế không phải "cái nào quan trọng nhất" mà "cái nào mất đi nếu hôm nay không làm".</p>
+
+    <h3 class="sub">Ba việc làm được trong tuần này</h3>
+
+    <div class="doslist">
+      <div><strong>1 · Chốt một mốc nền hiệu năng dưới tải cố định, chạy trước mỗi release.</strong> Một luồng chính, một mức tải, ba con số: latency trung vị, throughput, tỷ lệ lỗi. Đây là cổng duy nhất bắt được loại lỗi làm giảm việc-làm-được-mỗi-giây mà không làm hỏng request nào.<sup><a href="https://docs.litellm.ai/blog/pfizer-gateway-performance-and-resiliency" target="_blank">[1]</a></sup></div>
+      <div><strong>2 · Đi liệt kê mọi lớp hấp thụ lỗi trong hệ của bạn và gắn bộ đếm cho từng cái.</strong> Fallback, retry, cache best-effort, timeout bị nuốt, ngưỡng lọc cảnh báo. Mỗi cái không có bộ đếm là một chỗ hệ của bạn đang câm. Bắt đầu từ cái nào đứng gần đường nóng nhất.</div>
+      <div><strong>3 · Viết ra một trang quy trình leo thang bảo mật, và ghi mốc "chúng tôi biết lúc nào" cho mọi báo cáo từ hôm nay.</strong> Ai nhận, sàng trong bao lâu, ai có quyền nói nghiêm trọng mà không cần họp, liên hệ ngoài giờ thế nào. Nếu bạn bán vào EU, thêm câu hỏi phạm vi CRA vào danh sách hỏi luật sư tuần này thay vì đợi 2027.<sup><a href="https://digital-strategy.ec.europa.eu/en/policies/cra-reporting" target="_blank">[4]</a></sup></div>
+    </div>
+
+    <div class="takeaway">💡 <strong>Một câu để nhớ:</strong> một hệ thống không báo lỗi không có nghĩa là nó ổn — có thể chỉ là bạn đã bọc quá kỹ cái miệng của nó. Cả con bug làm mất một nửa throughput lẫn cái đồng hồ 24 giờ của EU đều hỏi cùng một câu: <em>bao lâu sau khi có chuyện thì bạn biết, và bạn có bản ghi chứng minh mốc đó không</em>.</div>
+  </article>
+
+  <div class="foot">Bản tin sáng · Số 18/09/2026 · Toàn bộ nội dung là phân tích của bản tin dựa trên các nguồn dẫn nội dòng.</div>
+</div>
+</body>
+</html>
