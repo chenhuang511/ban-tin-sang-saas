@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hóa đơn giám sát tăng 6 lần trong một tháng vì một cái nhãn &middot; 19/09/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 19/09/2026</div>
+    <h1 class="title">Hóa đơn giám sát nhảy từ 1.800 lên 11.000 USD trong một tháng, lưu lượng không đổi một chút nào — và một đội cài "chuẩn ngành" vào production rồi phải rút ra sau 20 phút</h1>
+    <div class="meta">19/09/2026 · Đọc khoảng 15 phút · Nguồn: Claire Nguyen (Buildkite) — "The Prometheus label that blew our monitoring bill out 6x", DEV Community, 29/05/2026, đối chiếu với Samson Tanimawo — "How We Cut Datadog Bills by 60%", DEV, 09/05/2026 và một phân tích cấu trúc chi phí của zop.dev, 18/05/2026 · Devrim Ozcay — "Connection Pooling With PgBouncer Made Things Worse", CodeToDeploy/Medium, 21/01/2026</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: hôm nay hai bài cùng một mảng — vận hành hệ đang chạy — vì chúng kể hai nửa của cùng một sai lầm, và đặt cạnh nhau thì rõ hơn tách ra. Về nguồn: cả hai bài đều dựa trên <b>tự thuật của kỹ sư</b>, không phải báo cáo có kiểm toán. Bài 1 do một kỹ sư hạ tầng ở Buildkite kể, có nêu tên công ty; bài 2 do một kỹ sư kể lại, <em>không nêu tên công ty</em>, nên các con số của bài 2 không kiểm chứng độc lập được — bản tin dùng chúng như một câu chuyện có cơ chế hợp lý, không như một phép đo chuẩn. Tác giả bài 2 đã xuất hiện ở số 24/08/2026 với một bài khác; đây là bài mới, chủ đề khác. Cả ba nguồn của bài 1 đều đăng hồi tháng 5/2026 — không phải tin tuần này; bản tin chọn vì chủ đề chi phí quan sát chưa từng xuất hiện trong các số trước và vì bài Buildkite là một case cấp một hiếm có cho đúng cơ chế này. Các khối gắn nhãn <b style="color:#1e40af">Cơ chế</b>, bảng đối chiếu và phần "Rút ra theo quy mô" là phân tích tổng hợp của bản tin — <em>không trích nguyên văn từ nguồn</em>. Mọi con số đều dẫn nguồn ngay cạnh câu. Không chèn code minh họa.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1"><strong>Bài 1</strong> — Một nhãn <em>build_id</em> thêm vào để gỡ lỗi, một tháng sau hóa đơn nhân 6<br><span style="font-size:13.5px;color:#6b7280">· nhà cung cấp tính tiền theo cái bạn không nhìn · số học cardinality: vì sao thêm nhãn là phép nhân chứ không phải phép cộng · vì sao "giảm log" chỉ cắt được 5% · 2.400 metric mà chỉ 600 có người dùng · ba chỗ sửa được và cái rẻ nhất nằm ở đâu · cái giá phải trả khi cắt</span></a></li>
+      <li><a href="#bai2"><strong>Bài 2</strong> — Cài PgBouncer theo lời khuyên chuẩn ngành, 20 phút sau phải rút ra<br><span style="font-size:13.5px;color:#6b7280">· staging chậm 30% và câu "staging khác production" · CPU database giảm 30% mà người dùng chậm hơn 45% · transaction pooling xoá mất prepared statement · phép nhân ai cũng quên: số instance × pool size · thứ thật sự sửa được vấn đề lại rất chán</span></a></li>
+      <li><a href="#gocnhin"><strong>Góc nhìn</strong> — Hai lần vặn nhầm cái van, và cách nhận ra trước khi vặn &amp; 3 việc làm được tuần này</a></li>
+    </ol>
+  </nav>
+
+  <!-- BÀI 1 -->
+  <article class="card" id="bai1">
+    <span class="tag legacy">Tối ưu hệ đang chạy · chi phí quan sát</span>
+    <h2 class="head">Bài 1 · Lưu lượng y nguyên, hóa đơn nhân 6: một cái nhãn thêm vào để gỡ lỗi một lần deploy hỏng</h2>
+    <p class="src">Nguồn chính: Claire Nguyen, Senior Infrastructure Engineer tại Buildkite — <a href="https://dev.to/claire_nguyen/the-prometheus-label-that-blew-our-monitoring-bill-out-6x-57hj" target="_blank">"The Prometheus label that blew our monitoring bill out 6x"</a>, DEV Community, 29/05/2026. Đối chiếu với Samson Tanimawo — <a href="https://dev.to/samson_tanimawo/how-we-cut-datadog-bills-by-60-without-losing-observability-3d9d" target="_blank">"How We Cut Datadog Bills by 60% Without Losing Observability"</a>, DEV, 09/05/2026, và phần phân tích cấu trúc chi phí trong <a href="https://dev.to/zop_8abedcc7e12/the-90k-observability-bill-why-your-cardinality-limit-is-the-one-knob-that-matters-4h43" target="_blank">"The $90k Observability Bill"</a> của zop.dev, DEV, 18/05/2026. <strong>Lưu ý nguồn:</strong> nguồn thứ ba là bài tiếp thị nội dung của một công ty bán dịch vụ tối ưu chi phí hạ tầng, và tự nó ghi rõ các mức trần trong bảng là "minh họa". Bản tin chỉ lấy từ nguồn đó phần <em>số học</em> và phần <em>tỷ trọng chi phí</em>, không lấy các con số dự báo ba năm làm điểm nhấn.</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">1.800 → 11.000 USD</div><div class="lab">ước tính hóa đơn metric hằng tháng, trước và sau — trong khi số build mỗi ngày vẫn khoảng 40.000 như nhiều tuần trước đó <a href="https://dev.to/claire_nguyen/the-prometheus-label-that-blew-our-monitoring-bill-out-6x-57hj" target="_blank">(Buildkite, 29/05/2026)</a></div></div>
+      <div class="box"><div class="num">1,2 → 9 triệu</div><div class="lab">số active series (chuỗi thời gian đang sống) — và backend tính tiền theo active series, không theo số request <a href="https://dev.to/claire_nguyen/the-prometheus-label-that-blew-our-monitoring-bill-out-6x-57hj" target="_blank">(cùng nguồn)</a></div></div>
+      <div class="box"><div class="num">2.400 → 600</div><div class="lab">ở một đội khác: có 2.400 custom metric, chỉ 600 thực sự được vẽ lên dashboard hoặc dùng để cảnh báo; bỏ 1.800 cái còn lại cắt được 30% hóa đơn <a href="https://dev.to/samson_tanimawo/how-we-cut-datadog-bills-by-60-without-losing-observability-3d9d" target="_blank">(Tanimawo, 09/05/2026)</a></div></div>
+    </div>
+
+    <p>Câu chuyện bắt đầu bằng một sáng thứ Hai rất bình thường. Đội hạ tầng ở Buildkite mở bảng chi phí lên và thấy ước tính hằng tháng đã lặng lẽ đi từ khoảng 1.800 USD lên hơn 11.000 USD. Không ai đẩy thêm lưu lượng. Số build vẫn quanh 40.000 mỗi ngày như nhiều tuần trước đó.<sup><a href="https://dev.to/claire_nguyen/the-prometheus-label-that-blew-our-monitoring-bill-out-6x-57hj" target="_blank">[1]</a></sup></p>
+
+    <p>Thứ đã đổi là số active series: từ khoảng 1,2 triệu lên gần 9 triệu. Và đây là chỗ mấu chốt của cả bài — backend tính tiền theo <em>active series</em>, không theo lượng request hay lượng dữ liệu gửi lên.<sup><a href="https://dev.to/claire_nguyen/the-prometheus-label-that-blew-our-monitoring-bill-out-6x-57hj" target="_blank">[1]</a></sup></p>
+
+    <p>Thủ phạm là một dòng: một đồng nghiệp thêm nhãn <em>build_id</em> vào một counter để gỡ một lần deploy chập chờn. Hoàn toàn hợp lý trong lúc đó. Vấn đề là mỗi build có một ID riêng, một ngày có khoảng 40.000 build, và những ID đó sống hết cửa sổ lưu trữ.<sup><a href="https://dev.to/claire_nguyen/the-prometheus-label-that-blew-our-monitoring-bill-out-6x-57hj" target="_blank">[1]</a></sup></p>
+
+    <h3 class="sub">Số học cardinality: thêm một nhãn là một phép nhân, không phải phép cộng</h3>
+
+    <p>Từ "cardinality" nghe hàn lâm nhưng ý thì rất đơn giản. Mỗi tổ hợp duy nhất của <em>tên metric + giá trị của tất cả các nhãn</em> là một chuỗi thời gian riêng, phải lưu riêng và đánh chỉ mục riêng. Cardinality là số tổ hợp đó. Tác giả bài Buildkite ví nó như số ngăn kéo trong một tủ hồ sơ: một metric đếm request không nhãn là một ngăn; thêm nhãn khu vực thì mỗi khu vực một ngăn; thêm một nhãn có giá trị không giới hạn thì bạn có một cái tủ to bằng cái kho.<sup><a href="https://dev.to/claire_nguyen/the-prometheus-label-that-blew-our-monitoring-bill-out-6x-57hj" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao trực giác của bạn sai ở đúng chỗ này (phân tích của bản tin, số lấy từ nguồn [3]):</b> lấy một counter đếm request HTTP. Không nhãn: 1 chuỗi. Thêm method (8 giá trị): 8 chuỗi. Thêm endpoint (300 route): 2.400. Thêm status (12 mã): 28.800. Tới đây vẫn rẻ, và quan trọng hơn — tới đây <em>cảm giác</em> vẫn rẻ, vì mỗi lần thêm bạn chỉ thấy mình thêm "một nhãn nữa". Rồi ai đó thêm user_id với 50.000 giá trị: 8 × 300 × 12 × 50.000 = 1,44 tỷ chuỗi tiềm năng từ một counter duy nhất.<sup><a href="https://dev.to/zop_8abedcc7e12/the-90k-observability-bill-why-your-cardinality-limit-is-the-one-knob-that-matters-4h43" target="_blank">[3]</a></sup> Thực tế thấp hơn nhiều vì phần lớn tổ hợp không bao giờ xuất hiện, nhưng hướng thì không đổi. Điểm đáng nhớ: trong pull request, thêm một nhãn trông giống hệt nhau dù nhãn đó có 5 giá trị hay 50.000 giá trị. Diff dài đúng một dòng trong cả hai trường hợp. Không có tín hiệu nào trong quy trình review nói cho người duyệt biết mình vừa duyệt một phép nhân — trừ khi đội tự dựng tín hiệu đó ra.</div>
+
+    <p>Cách Buildkite tìm ra thủ phạm cũng đáng chép lại, và không cần công cụ gì đặc biệt. Hai câu hỏi, theo đúng thứ tự: metric nào đang có nhiều chuỗi nhất, rồi trong metric tệ nhất đó thì nhãn nào đang sinh ra nhiều giá trị nhất. Khi câu trả lời thứ hai trả về một con số hàng chục nghìn, họ có thủ phạm.<sup><a href="https://dev.to/claire_nguyen/the-prometheus-label-that-blew-our-monitoring-bill-out-6x-57hj" target="_blank">[1]</a></sup></p>
+
+    <h3 class="sub">Vì sao đội nào cũng vặn nhầm cái van đầu tiên</h3>
+
+    <p>Đây là phần bản tin muốn nhấn nhất, vì nó giải thích tại sao chuyện này lặp lại ở rất nhiều nơi. Phản xạ đầu tiên khi hóa đơn giám sát tăng là đi cắt <em>lượng dữ liệu</em>: tắt log DEBUG, giảm tần suất lấy mẫu metric từ 10 giây xuống 60 giây, sample bớt trace. Rất dễ hiểu — vì đó chính là những con số mà dashboard của nhà cung cấp hiển thị to nhất.<sup><a href="https://dev.to/zop_8abedcc7e12/the-90k-observability-bill-why-your-cardinality-limit-is-the-one-knob-that-matters-4h43" target="_blank">[3]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — cái van dễ thấy và cái van thật:</b> theo phân tích cấu trúc chi phí ở nguồn [3], với hầu hết bậc giá năm 2026, lượng dữ liệu chỉ chiếm 5–10% hóa đơn, còn cardinality chiếm 50–70%. Nghĩa là một dự án "giảm ingest" làm hết sức cũng chỉ với tới được khoảng 5%, trong khi 60% đang nằm ở chỗ khác.<sup><a href="https://dev.to/zop_8abedcc7e12/the-90k-observability-bill-why-your-cardinality-limit-is-the-one-knob-that-matters-4h43" target="_blank">[3]</a></sup> Hai đại lượng này còn khác nhau ở <em>hình dạng tăng trưởng</em>, và đó mới là phần khó chịu. Lượng dữ liệu tăng tuyến tính theo hệ thống: nhiều request hơn thì nhiều dòng log hơn, tăng đều. Cardinality tăng theo phép nhân: mỗi nhãn mới nhân với số chuỗi đang có. Nên một đội chỉ cắt volume sẽ thấy hóa đơn giảm một nhịp rồi tiếp tục leo, và leo nhanh hơn trước. Bản tin nói thẳng chỗ này: bạn không cắt được đường cong bằng cách hạ điểm xuất phát. Bạn phải đổi cái nhân.</div>
+
+    <p>Bài của Samson Tanimawo là bằng chứng thực nghiệm cho đúng luận điểm đó, từ một hướng khác. Đội anh bị yêu cầu cắt đôi hóa đơn Datadog 38.000 USD/tháng và kéo được xuống 15.000. Anh liệt kê năm việc đã làm, và ghi lại một câu đáng nhớ: đi mặc cả giảm giá với sales chỉ được 5–10% nếu bạn dọa rời đi, còn cắt thật thì được 60%.<sup><a href="https://dev.to/samson_tanimawo/how-we-cut-datadog-bills-by-60-without-losing-observability-3d9d" target="_blank">[2]</a></sup></p>
+
+    <table class="tbl">
+      <tr><th>Việc đã làm</th><th>Bản chất</th><th>Kết quả ghi trong nguồn</th></tr>
+      <tr><td>Bỏ custom metric không ai tham chiếu</td><td>2.400 metric, chỉ 600 được vẽ hoặc cảnh báo; ngừng gửi 1.800 cái còn lại</td><td>tiết kiệm 30%</td></tr>
+      <tr><td>Phân tầng lưu trữ log</td><td>nóng 3 ngày, ấm 7 ngày, rồi lạnh — phần lớn chi phí log đến từ việc đánh chỉ mục đầy đủ log debug mà sau 24 giờ không ai truy vấn</td><td>không tách riêng</td></tr>
+      <tr><td>Hạ cardinality của nhãn</td><td>đang gắn user_id vào metric; chuyển phần theo người dùng sang trace, metric chỉ giữ mức tổng hợp</td><td>không tách riêng</td></tr>
+      <tr><td>Bỏ synthetic monitor cho môi trường dev</td><td>đang chạy hơn 200 API check trên dev trong khi chỉ cần trên production</td><td>không tách riêng</td></tr>
+      <tr><td>Gộp chính sách sampling APM</td><td>thay vì sample 100% mọi thứ: 10% với trace khỏe mạnh, 100% với lỗi và request chậm</td><td>giảm 85% dung lượng APM, tác giả ghi là không mất tín hiệu</td></tr>
+    </table>
+    <p style="font-size:13px;color:#6b7280;margin-top:-6px">Bảng do bản tin lập lại từ danh sách trong nguồn [2]; cột "bản chất" là diễn đạt của bản tin. Nguồn chỉ tách riêng con số cho hai dòng, các dòng còn lại gộp trong tổng 60% — bản tin ghi rõ để bạn không cộng nhầm.</p>
+
+    <div class="mech"><b>Cơ chế — 2.400 metric mà chỉ 600 có người dùng, vì sao con số này gần như phổ quát (phân tích của bản tin):</b> chú ý cấu trúc khuyến khích trong đội. Thêm một metric: một dòng code, không cần ai duyệt kỹ, và nếu sau này cần thì đã có sẵn — phần thưởng rõ, rủi ro cảm thấy bằng không. Xoá một metric: phải chứng minh không ai dùng, phải chịu trách nhiệm nếu ba tháng sau có sự cố mà thiếu đúng cái metric đó, và nếu xoá đúng thì không ai khen. Phần thưởng bằng không, rủi ro rõ. Với cặp khuyến khích lệch như vậy, tỷ lệ metric mồ côi sẽ tăng đơn điệu ở <em>mọi</em> đội, không phụ thuộc kỷ luật. Kết luận thực hành: đừng trông vào ý thức cá nhân để dọn chỗ này. Hãy đổi cấu trúc — hoặc bằng một báo cáo định kỳ đưa số chuỗi của từng metric ra trước mắt cả đội, hoặc bằng hạn mức cho từng metric để việc vượt mức buộc phải thành một quyết định có người ký. Chỉ cần <em>nhìn thấy được</em> đã đủ đổi hành vi, vì cái đang thiếu không phải động lực mà là thông tin.</div>
+
+    <h3 class="sub">Cái gì được lên metric, cái gì phải xuống trace và log</h3>
+
+    <p>Bài Buildkite đưa ra một quy tắc ngón tay cái đáng dán lên tường, và nó hay vì không cần biết gì về giá của nhà cung cấp: nếu bạn không nói được cận trên số giá trị của một nhãn ngay trên bảng trắng, nhãn đó không được lên metric.<sup><a href="https://dev.to/claire_nguyen/the-prometheus-label-that-blew-our-monitoring-bill-out-6x-57hj" target="_blank">[1]</a></sup></p>
+
+    <table class="tbl">
+      <tr><th>Nhãn</th><th>Số giá trị</th><th>Cho lên metric?</th></tr>
+      <tr><td>status</td><td>khoảng 5</td><td>Được</td></tr>
+      <tr><td>region</td><td>khoảng 6</td><td>Được</td></tr>
+      <tr><td>instance_type</td><td>khoảng 15</td><td>Được</td></tr>
+      <tr><td>agent_queue</td><td>khoảng 200</td><td>Thường vẫn ổn</td></tr>
+      <tr><td>build_id</td><td>khoảng 40.000 mỗi ngày</td><td>Không — đưa vào trace</td></tr>
+      <tr><td>user_email</td><td>không có cận trên</td><td>Không, không bao giờ</td></tr>
+    </table>
+    <p style="font-size:13px;color:#6b7280;margin-top:-6px">Bảng lấy từ nguồn [1], dịch sang tiếng Việt.</p>
+
+    <div class="mech"><b>Cơ chế — vì sao trace nuốt được thứ mà metric không nuốt nổi (phân tích của bản tin):</b> đây là chỗ hay bị hiểu là "chuyển dữ liệu sang chỗ rẻ hơn", nhưng thật ra là hai mô hình lưu trữ khác hẳn nhau. Một metric là một <em>chuỗi</em>: hệ thống phải giữ một dòng dữ liệu sống theo thời gian cho mỗi tổ hợp nhãn, kể cả tổ hợp chỉ xuất hiện đúng một lần. Thêm một định danh duy nhất vào metric tức là bạn yêu cầu hệ tạo và duy trì hàng triệu chuỗi, mỗi chuỗi chứa đúng một điểm. Một trace là một <em>sự kiện</em>: nó xảy ra, được ghi, rồi hết hạn theo chính sách lưu trữ. Định danh duy nhất trên trace là chuyện bình thường, vì đằng nào mỗi trace cũng đã là duy nhất. Hệ quả cho công việc hằng ngày: câu hỏi cần trả lời không phải "cái này có quan trọng không" — quan trọng thì đằng nào cũng ghi — mà là "<em>câu hỏi tôi sẽ hỏi về cái này thuộc loại nào</em>". Hỏi "tỷ lệ này đang tăng hay giảm theo thời gian" thì đó là metric. Hỏi "request số 84213 đã xảy ra chuyện gì" thì đó là trace. Nhét câu hỏi loại hai vào công cụ loại một là chỗ sinh ra hóa đơn.</div>
+
+    <h3 class="sub">Ba chỗ sửa được, và cái rẻ nhất nằm ở thượng nguồn</h3>
+
+    <p>Buildkite chọn cách gỡ nhãn ngay lúc thu thập, trước khi dữ liệu chạm tới kho lưu trữ — nghĩa là không phải đụng vào code ứng dụng.<sup><a href="https://dev.to/claire_nguyen/the-prometheus-label-that-blew-our-monitoring-bill-out-6x-57hj" target="_blank">[1]</a></sup> Chi tiết theo bản tin còn quan trọng hơn cách làm cụ thể: bạn luôn có ba chỗ để can thiệp, và chúng khác nhau về giá.</p>
+
+    <table class="tbl">
+      <tr><th>Chỗ sửa</th><th>Nghĩa là gì</th><th>Đánh đổi</th></tr>
+      <tr><td>Trong ứng dụng (SDK)</td><td>không phát nhãn đó ra nữa</td><td>rẻ nhất về tài nguyên, nhưng phải sửa code, review, deploy — chậm nhất về thời gian</td></tr>
+      <tr><td>Ở tầng thu thập / collector</td><td>gỡ hoặc biến đổi nhãn khi dữ liệu đi qua</td><td>đổi cấu hình là xong, áp dụng cho mọi service cùng lúc; nhưng dữ liệu vẫn được sinh ra và truyền đi</td></tr>
+      <tr><td>Ở backend</td><td>đặt hạn mức cardinality, chặn khi vượt</td><td>làm được cả khi không kiểm soát nguồn phát; nhưng khi chặn thì bạn <em>mất</em> dữ liệu và thường không biết mất cái gì</td></tr>
+    </table>
+    <p style="font-size:13px;color:#6b7280;margin-top:-6px">Bảng do bản tin tổng hợp từ cách làm mô tả trong [1] và [3]; các cột đánh đổi là nhận định của bản tin.</p>
+
+    <p>Điều bản tin đánh giá cao nhất ở bài Buildkite là phần nói về cái giá phải trả — phần mà hầu hết bài "chúng tôi đã tối ưu thế nào" bỏ qua. Bỏ nhãn <em>build_id</em> nghĩa là không còn soi được một build cụ thể ngay trong Prometheus nữa; những câu hỏi kiểu "build 84213 làm gì vậy" giờ phải sang công cụ trace hoặc log, và tác giả ghi thẳng là có người cằn nhằn chuyện đổi cửa sổ suốt một tuần. Cách chữa bằng recording rule cũng không miễn phí: nó thêm tải tính toán cho Prometheus, và nếu viết ẩu thì bạn lặng lẽ tái tạo đúng cái cardinality vừa định giết — nên phải kiểm số chuỗi đầu ra trước khi ship. Cách dùng exemplar thì đòi backend hỗ trợ và đòi đã có hệ tracing; chưa có thì đó là một dự án to hơn nhiều so với một dòng cấu hình gỡ nhãn. Và gỡ nhãn là dao cùn: mất rồi là mất, muốn giữ lại ở dạng bị giới hạn thì phải instrument lại từ đầu.<sup><a href="https://dev.to/claire_nguyen/the-prometheus-label-that-blew-our-monitoring-bill-out-6x-57hj" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — cái bẫy đang mở rộng vì agent AI (phân tích của bản tin, dựa trên [1] và [3]):</b> chỗ này đáng để ý vì nó mới. Bất kỳ dịch vụ nào phát ra metric đều mắc đúng bẫy này, và các thành phần trong chuỗi AI — gateway, router, hàng đợi gọi model — thường phát metric sẵn ra khỏi hộp, rất tiện.<sup><a href="https://dev.to/claire_nguyen/the-prometheus-label-that-blew-our-monitoring-bill-out-6x-57hj" target="_blank">[1]</a></sup> Cái tiện đi kèm cám dỗ: gắn nhãn theo request ID hoặc theo từng khóa API ảo để dễ truy vết. Đó là đúng cái footgun. Đội Buildkite chỉ giữ hai nhãn — nhà cung cấp và tên model — và thế là đủ để có chi phí theo nhà cung cấp cùng độ trễ theo model, mà không đúc một chuỗi mới cho mỗi lần gọi.<sup><a href="https://dev.to/claire_nguyen/the-prometheus-label-that-blew-our-monitoring-bill-out-6x-57hj" target="_blank">[1]</a></sup> Phép tính đằng sau: một đội agent nhỏ, gắn nhãn theo agent và theo request, với vài triệu request mỗi ngày, có thể sinh ra hàng trăm triệu chuỗi mỗi ngày từ <em>một</em> metric.<sup><a href="https://dev.to/zop_8abedcc7e12/the-90k-observability-bill-why-your-cardinality-limit-is-the-one-knob-that-matters-4h43" target="_blank">[3]</a></sup> Thay bằng một counter và một histogram theo agent, gộp theo phút, bạn vẫn trả lời được đúng hai câu hỏi ban đầu — agent nào chạy nhiều, độ trễ phân bố ra sao — với số chuỗi nhỏ hơn hàng nghìn lần.<sup><a href="https://dev.to/zop_8abedcc7e12/the-90k-observability-bill-why-your-cardinality-limit-is-the-one-knob-that-matters-4h43" target="_blank">[3]</a></sup></div>
+
+    <div class="scale">
+      <div class="col small"><h4>Đội nhỏ / startup dưới 10 người</h4>
+        <ul>
+          <li>Chạy đúng hai câu hỏi trong tuần này: metric nào nhiều chuỗi nhất, và nhãn nào sinh nhiều giá trị nhất trong metric đó. Mất mười lăm phút, và rất có thể bạn thấy ngay một cái tên không nên ở đó.</li>
+          <li>Dán quy tắc bảng trắng lên tài liệu review: không nói được cận trên của một nhãn thì nhãn đó không lên metric.<sup><a href="https://dev.to/claire_nguyen/the-prometheus-label-that-blew-our-monitoring-bill-out-6x-57hj" target="_blank">[1]</a></sup></li>
+          <li>Chưa có tracing thì đừng bắt đầu bằng exemplar. Gỡ nhãn ở tầng thu thập trước, ghi lại mình vừa mất khả năng soi gì, rồi tính sau.</li>
+          <li>Đừng cắt log trước. Ở cấu trúc giá phổ biến, đó là cái van chỉ mở ra được 5–10%.<sup><a href="https://dev.to/zop_8abedcc7e12/the-90k-observability-bill-why-your-cardinality-limit-is-the-one-knob-that-matters-4h43" target="_blank">[3]</a></sup></li>
+        </ul>
+      </div>
+      <div class="col"><h4>Đội đã có sản phẩm chạy production</h4>
+        <ul>
+          <li>Dựng một báo cáo định kỳ liệt kê top metric theo số chuỗi, kèm mức tăng so với tuần trước, và đẩy vào một kênh chat mà cả đội thấy. Nó biến một khoản chi vô hình thành một con số có người nhìn.</li>
+          <li>Rà lại danh mục metric và hỏi cái câu khó: bao nhiêu phần trăm đang có mặt trên một dashboard hoặc trong một rule cảnh báo. Ở đội của Tanimawo, tỷ lệ đó là một phần tư.<sup><a href="https://dev.to/samson_tanimawo/how-we-cut-datadog-bills-by-60-without-losing-observability-3d9d" target="_blank">[2]</a></sup></li>
+          <li>Soát chính sách sampling APM. Sample 100% trace khỏe mạnh gần như luôn là lãng phí; giữ 100% cho lỗi và request chậm là chỗ tín hiệu thật nằm.<sup><a href="https://dev.to/samson_tanimawo/how-we-cut-datadog-bills-by-60-without-losing-observability-3d9d" target="_blank">[2]</a></sup></li>
+          <li>Soát riêng các thành phần AI mới thêm vào. Chúng là nơi nhãn theo request dễ lọt nhất, vì thường được bật lên "cho có quan sát" rồi không ai review.</li>
+          <li>Trước khi tính chuyện đổi nhà cung cấp cho rẻ: cardinality là thuộc tính của <em>instrumentation của bạn</em>, nên nó đi theo bạn sang nhà mới.<sup><a href="https://dev.to/zop_8abedcc7e12/the-90k-observability-bill-why-your-cardinality-limit-is-the-one-knob-that-matters-4h43" target="_blank">[3]</a></sup></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> hóa đơn giám sát của bạn nhiều khả năng không phải vấn đề giá, mà là vấn đề vệ sinh dữ liệu — đó là câu kết của bài Tanimawo và nó khớp với case của Buildkite.<sup><a href="https://dev.to/samson_tanimawo/how-we-cut-datadog-bills-by-60-without-losing-observability-3d9d" target="_blank">[2]</a></sup> Thêm một nhãn vào metric là một phép nhân được viết dưới hình dạng một dòng code, và không có gì trong quy trình review nói cho bạn biết điều đó. Cách rẻ nhất để sửa là làm cho số chuỗi của từng metric trở thành một con số có người nhìn hằng tuần — không phải một con số bạn gặp lần đầu trên hóa đơn.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo bài 1:</strong> [1] Claire Nguyen (Buildkite) — <a href="https://dev.to/claire_nguyen/the-prometheus-label-that-blew-our-monitoring-bill-out-6x-57hj" target="_blank">"The Prometheus label that blew our monitoring bill out 6x", DEV Community, 29/05/2026</a> · [2] Samson Tanimawo — <a href="https://dev.to/samson_tanimawo/how-we-cut-datadog-bills-by-60-without-losing-observability-3d9d" target="_blank">"How We Cut Datadog Bills by 60% Without Losing Observability", DEV Community, 09/05/2026</a> · [3] zop.dev — <a href="https://dev.to/zop_8abedcc7e12/the-90k-observability-bill-why-your-cardinality-limit-is-the-one-knob-that-matters-4h43" target="_blank">"The $90k Observability Bill: Why Your Cardinality Limit Is the One Knob That Matters", DEV Community, 18/05/2026</a> (tiếp thị nội dung; bản tin chỉ dùng phần số học và tỷ trọng chi phí).</div>
+  </article>
+
+  <!-- BÀI 2 -->
+  <article class="card" id="bai2">
+    <span class="tag legacy">Tối ưu hệ đang chạy · cơ sở dữ liệu</span>
+    <h2 class="head">Bài 2 · "PgBouncer đi, chuẩn ngành mà" — 20 phút sau khi lên production họ phải rút ra, và thứ thật sự sửa được vấn đề thì chán ngắt</h2>
+    <p class="src">Nguồn chính: Devrim Ozcay — <a href="https://medium.com/codetodeploy/connection-pooling-with-pgbouncer-made-things-worse-12799610c2a3" target="_blank">"Connection Pooling With PgBouncer Made Things Worse."</a>, CodeToDeploy trên Medium, 21/01/2026. <strong>Lưu ý nguồn quan trọng:</strong> đây là bài tự thuật của một kỹ sư, <em>không nêu tên công ty</em>, và các con số là do tác giả thuật lại chứ không có bên thứ ba kiểm chứng. Bản tin chọn bài này vì <em>cơ chế</em> mà nó mô tả là cơ chế có thật và kiểm tra được từ tài liệu PgBouncer, không vì bộ số. Hãy đọc các phần trăm như một trường hợp cụ thể, không như một chuẩn để so. Tác giả còn bán tài liệu trên trang riêng; bản tin không dẫn phần đó.</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">+45% / 2,3%</div><div class="lab">thời gian phản hồi trung bình tăng 45% và tỷ lệ lỗi lên 2,3% (từ 0,1%) trong vòng 20 phút sau khi bật PgBouncer ở production <a href="https://medium.com/codetodeploy/connection-pooling-with-pgbouncer-made-things-worse-12799610c2a3" target="_blank">(Ozcay, 21/01/2026)</a></div></div>
+      <div class="box"><div class="num">CPU database −30%</div><div class="lab">cùng lúc đó, tải CPU trên database <em>giảm</em> 30% — chỉ số máy chủ đẹp lên trong khi người dùng thì chậm đi <a href="https://medium.com/codetodeploy/connection-pooling-with-pgbouncer-made-things-worse-12799610c2a3" target="_blank">(cùng nguồn)</a></div></div>
+      <div class="box"><div class="num">p95: 450 → 140 ms</div><div class="lab">kết quả cuối cùng, đạt được bằng cách sửa index, sửa cấu hình pool và nâng giới hạn kết nối — không dùng PgBouncer <a href="https://medium.com/codetodeploy/connection-pooling-with-pgbouncer-made-things-worse-12799610c2a3" target="_blank">(cùng nguồn)</a></div></div>
+    </div>
+
+    <p>Triệu chứng ban đầu quen tới mức ai cũng nhận ra: thời gian phản hồi API bò lên, số kết nối tới database chạm trần, người dùng báo timeout. Và câu trả lời cũng quen không kém — PgBouncer, connection pooling, chuẩn ngành, chuyện này giải quyết xong lâu rồi.<sup><a href="https://medium.com/codetodeploy/connection-pooling-with-pgbouncer-made-things-worse-12799610c2a3" target="_blank">[4]</a></sup></p>
+
+    <p>Hai ngày sau họ deploy lên staging. Mọi thứ chậm đi. Không phải chậm một chút: p95 từ 180 ms lên 280 ms, p99 chạm 800 ms, một số request timeout hẳn. Câu trả lời cho kết quả đó là câu mà rất nhiều người đọc đến đây sẽ thấy quen: staging không phải production, hình dạng tải khác, lên thật sẽ ổn.<sup><a href="https://medium.com/codetodeploy/connection-pooling-with-pgbouncer-made-things-worse-12799610c2a3" target="_blank">[4]</a></sup></p>
+
+    <p>Lên thật không ổn. Trong 20 phút: thời gian phản hồi trung bình tăng 45%, thời gian chờ kết nối tăng 400%, tỷ lệ lỗi từ 0,1% lên 2,3%. Và một con số lạc lõng giữa đám kia — CPU của database <em>giảm</em> 30%. Họ rollback, mất 30 phút để về bình thường.<sup><a href="https://medium.com/codetodeploy/connection-pooling-with-pgbouncer-made-things-worse-12799610c2a3" target="_blank">[4]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — con số lạc lõng đó mới là manh mối, không phải nhiễu (phân tích của bản tin):</b> CPU database giảm 30% trong khi người dùng chậm đi 45% không hề mâu thuẫn. Nó nói cho bạn biết nút thắt đã <em>dời chỗ</em>. Trước đó, công việc nằm ở database và database bận. Sau khi thêm một lớp trung gian, công việc nằm ở hàng đợi chờ kết nối trước cái lớp đó — mà hàng đợi thì không tiêu CPU của database, nó chỉ tiêu thời gian của người dùng. Đây là một trong những dạng tín hiệu dễ đọc nhầm nhất khi vận hành: một chỉ số hạ tầng đẹp lên ngay sau một thay đổi thường bị đọc là "thay đổi có tác dụng", trong khi nó có thể đang nói "tải đã bị đẩy sang chỗ bạn không đo". Quy tắc thực hành rút ra: khi một chỉ số máy chủ cải thiện mà chỉ số phía người dùng xấu đi, luôn tin chỉ số phía người dùng, và đi tìm xem công việc đã chuyển sang đâu. Thời gian chờ kết nối tăng 400% chính là câu trả lời, nằm ngay trong cùng bảng.</div>
+
+    <h3 class="sub">Nguyên nhân: chọn nhầm chế độ, và chế độ còn lại thì không giải quyết vấn đề</h3>
+
+    <p>PgBouncer có hai chế độ gộp kết nối chính, và đội này chọn chế độ theo giao dịch. Ở chế độ đó, một kết nối chỉ được gán cho client trong thời gian một giao dịch; xong là trả về hồ. Nghe rất hiệu quả.<sup><a href="https://medium.com/codetodeploy/connection-pooling-with-pgbouncer-made-things-worse-12799610c2a3" target="_blank">[4]</a></sup></p>
+
+    <p>Vấn đề là ứng dụng của họ dùng prepared statement, dùng biến cấu hình ở mức phiên, và dùng bảng tạm. Mỗi lần PgBouncer gán lại kết nối cho một client khác, cả ba thứ đó biến mất: prepared statement phải chuẩn bị lại, biến phiên phải đặt lại, bảng tạm thì không còn. Theo mô tả của tác giả, mỗi kết nối "được gộp" phải trả thêm 2–3 vòng đi-về tới database; ở quy mô 5.000 request mỗi giây, đó là 10.000–15.000 vòng đi-về thừa mỗi giây. PgBouncer không giảm tải cho database, nó làm tăng.<sup><a href="https://medium.com/codetodeploy/connection-pooling-with-pgbouncer-made-things-worse-12799610c2a3" target="_blank">[4]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao "dùng chế độ kia" không phải lối thoát (phân tích của bản tin):</b> chế độ theo phiên giữ nguyên kết nối cho client tới khi client ngắt, nên bảo toàn được prepared statement, biến phiên và bảng tạm. Nhưng chính vì giữ lâu, nó để lại rất ít kết nối cho người khác dùng chung — tức là nó không giải được bài toán thiếu kết nối, mà thiếu kết nối mới là lý do họ tìm đến PgBouncer ngay từ đầu.<sup><a href="https://medium.com/codetodeploy/connection-pooling-with-pgbouncer-made-things-worse-12799610c2a3" target="_blank">[4]</a></sup> Đây là một thế kẹt có hình dạng rất đặc trưng và đáng nhận diện: <em>hai lựa chọn của một công cụ, mỗi lựa chọn hỏng ở một đầu khác nhau</em>. Khi bạn rơi vào thế đó, kết luận thường không phải "cần tinh chỉnh thêm" mà là "công cụ này đang giả định một thứ mà hệ của mình không có". Ở đây giả định là: ứng dụng không mang trạng thái giữa các câu lệnh. Rất nhiều ứng dụng Java, .NET hay Rails dùng ORM đều mang trạng thái mà không ai để ý, vì chính ORM tạo prepared statement hộ bạn. Nên câu hỏi nên hỏi <em>trước</em> khi cài là một câu hỏi về ứng dụng, không phải về database: giữa hai câu lệnh trong một request, ứng dụng của tôi có đang giữ thứ gì ở phía server không.</div>
+
+    <h3 class="sub">Thứ thật sự sửa được vấn đề, và nó chán tới mức không ai viết bài</h3>
+
+    <p>Sau khi bỏ hướng PgBouncer, họ đi tìm nguyên nhân thật của việc cạn kết nối. Kết luận: kết nối bị giữ quá lâu vì query chạy chậm. Họ profile 10 query chậm nhất, thêm index, viết lại các chỗ N+1, thêm cache kết quả. Thời gian truy vấn giảm 60%, kết nối được trả về nhanh hơn, và tình trạng thiếu kết nối biến mất.<sup><a href="https://medium.com/codetodeploy/connection-pooling-with-pgbouncer-made-things-worse-12799610c2a3" target="_blank">[4]</a></sup></p>
+
+    <p>Việc thứ hai còn cơ bản hơn, và cũng khó tin hơn. Giới hạn kết nối tối đa của PostgreSQL vẫn để ở mặc định 100. Trong khi đó họ chạy 10 instance ứng dụng, mỗi instance mở tối đa 20 kết nối theo mặc định của thư viện pool — tức là cần tới 200. Họ đang tranh nhau một nguồn tài nguyên mà chính họ cấu hình vượt gấp đôi. Nâng giới hạn lên 300 thì áp lực kết nối biến mất.<sup><a href="https://medium.com/codetodeploy/connection-pooling-with-pgbouncer-made-things-worse-12799610c2a3" target="_blank">[4]</a></sup></p>
+
+    <p>Việc thứ ba: đo xem thật sự cần bao nhiêu kết nối mỗi instance. Con số thật là 8, không phải 20 như mặc định. Họ hạ pool xuống, và cần ít hơn 50% số kết nối so với trước, dư chỗ cho những lúc tải vọt.<sup><a href="https://medium.com/codetodeploy/connection-pooling-with-pgbouncer-made-things-worse-12799610c2a3" target="_blank">[4]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — phép nhân mà gần như đội nào cũng quên làm (phân tích của bản tin):</b> số instance × kích thước pool mỗi instance phải nhỏ hơn hoặc bằng giới hạn kết nối của database. Nghe hiển nhiên đến mức buồn cười, nhưng nó bị bỏ sót một cách có hệ thống, và lý do thì mang tính tổ chức chứ không phải kỹ thuật. Kích thước pool nằm trong cấu hình ứng dụng, do đội làm sản phẩm đặt. Giới hạn kết nối nằm trong cấu hình database, do đội hạ tầng đặt. Mỗi bên nhìn thấy một nửa phép nhân. Và cái làm nó nguy hiểm là số instance <em>thay đổi theo autoscaler</em> — nghĩa là hệ có thể chạy đúng nhiều tháng rồi vỡ đúng vào lúc tải cao, khi autoscaler nhân thêm instance. Ba thông số này cần nằm cùng một chỗ, được một người rà, và lý tưởng là có một cảnh báo khi tích của chúng chạm ngưỡng. Nếu tuần này bạn chỉ làm được một việc từ bài 2, hãy làm phép nhân này.</div>
+
+    <table class="tbl">
+      <tr><th>Chỉ số</th><th>Trước</th><th>Sau (không dùng PgBouncer)</th></tr>
+      <tr><td>Thời gian phản hồi trung bình</td><td>220 ms</td><td>85 ms</td></tr>
+      <tr><td>p95</td><td>450 ms</td><td>140 ms</td></tr>
+      <tr><td>Số kết nối database đang dùng</td><td>180–200 (kịch trần)</td><td>60–80</td></tr>
+      <tr><td>Thời gian chờ kết nối</td><td>15–30 ms</td><td>dưới 1 ms</td></tr>
+      <tr><td>Số query chậm mỗi giờ</td><td>hơn 500</td><td>12</td></tr>
+    </table>
+    <p style="font-size:13px;color:#6b7280;margin-top:-6px">Bảng lấy từ nguồn [4]. Nhắc lại: số do tác giả tự thuật, không nêu tên công ty, không kiểm chứng độc lập được.</p>
+
+    <h3 class="sub">Vậy PgBouncer có sai không — không, và đó mới là bài học</h3>
+
+    <p>Tác giả nói rõ anh không cho rằng PgBouncer tệ; anh cho rằng nó không phổ quát. Bài viết liệt kê điều kiện nó hợp và điều kiện nó phản tác dụng, và danh sách đó đáng đọc chậm.<sup><a href="https://medium.com/codetodeploy/connection-pooling-with-pgbouncer-made-things-worse-12799610c2a3" target="_blank">[4]</a></sup></p>
+
+    <div class="doslist">
+      <div>✅ <strong>Hợp khi:</strong> ứng dụng không dùng nhiều prepared statement · không cần biến ở mức phiên · bạn thật sự bị chặn bởi giới hạn kết nối, ví dụ dịch vụ database có trần thấp · truy vấn đơn giản, không mang trạng thái · bạn chấp nhận được các giới hạn của chế độ gộp theo giao dịch.<sup><a href="https://medium.com/codetodeploy/connection-pooling-with-pgbouncer-made-things-worse-12799610c2a3" target="_blank">[4]</a></sup></div>
+      <div>❌ <strong>Làm mọi thứ tệ hơn khi:</strong> ORM của bạn dựa vào prepared statement (phần lớn ứng dụng kiểu JPA/Hibernate) · bạn dùng biến phiên hoặc bảng tạm · query của bạn vốn đã chậm — gộp kết nối không sửa được query chậm · ứng dụng không được thiết kế để tái dùng kết nối · bạn đang dùng nó để né việc sửa vấn đề thật.<sup><a href="https://medium.com/codetodeploy/connection-pooling-with-pgbouncer-made-things-worse-12799610c2a3" target="_blank">[4]</a></sup></div>
+    </div>
+
+    <div class="mech"><b>Cơ chế — vì sao "chuẩn ngành" hay dẫn bạn đi sai (phân tích của bản tin):</b> tác giả nêu một điểm bản tin thấy đắt giá: các công ty lớn dùng PgBouncer vì họ chạm trần kết nối ở quy mô rất lớn, chứ không phải vì pooling là điều tốt phổ quát; và họ có thể đã sửa kiến trúc ứng dụng để hợp với nó.<sup><a href="https://medium.com/codetodeploy/connection-pooling-with-pgbouncer-made-things-worse-12799610c2a3" target="_blank">[4]</a></sup> Cái bị mất trong quá trình truyền miệng là <em>điều kiện</em>, không phải giải pháp. Bài blog của công ty lớn viết về cái họ làm, không viết về cái họ đã phải thay đổi trước đó để cái đó chạy được, và gần như không ai viết bài "khi nào thứ này làm mọi thứ tệ hơn". Nên thứ đến tai bạn là một mệnh đề trần trụi "dùng X đi", đã rụng hết ràng buộc. Cách phòng khá đơn giản và làm được ngay: trước khi nhận một giải pháp chuẩn ngành, hãy viết ra <em>điều kiện để nó đúng</em>, rồi kiểm từng điều kiện với hệ của mình. Nếu bạn không viết ra nổi điều kiện nào, đó là dấu hiệu bạn đang chép kết luận chứ chưa hiểu lập luận.</div>
+
+    <div class="scale">
+      <div class="col small"><h4>Đội nhỏ / startup dưới 10 người</h4>
+        <ul>
+          <li>Làm phép nhân trước khi làm gì khác: số instance × pool size mỗi instance, so với giới hạn kết nối của database. Nếu tích lớn hơn, bạn đã tìm ra vấn đề mà chưa cần cài gì.</li>
+          <li>Đo số kết nối thật sự dùng mỗi instance thay vì để mặc định. Trong case này con số thật là 8 trên mặc định 20.<sup><a href="https://medium.com/codetodeploy/connection-pooling-with-pgbouncer-made-things-worse-12799610c2a3" target="_blank">[4]</a></sup></li>
+          <li>Profile mười query chậm nhất trước khi thêm bất kỳ lớp trung gian nào. Kết nối cạn thường là <em>triệu chứng</em> của query chậm giữ kết nối quá lâu.</li>
+        </ul>
+      </div>
+      <div class="col"><h4>Đội đã có sản phẩm chạy production</h4>
+        <ul>
+          <li>Đặt cảnh báo cho thời gian <em>chờ</em> kết nối, tách khỏi thời gian thực thi query. Đây là chỉ số phát hiện nút thắt dời chỗ, và ở case này nó tăng 400% ngay lúc sự cố.<sup><a href="https://medium.com/codetodeploy/connection-pooling-with-pgbouncer-made-things-worse-12799610c2a3" target="_blank">[4]</a></sup></li>
+          <li>Khi staging cho kết quả xấu, đừng giải thích nó — hãy làm staging giống production hơn rồi chạy lại. Ở đây câu "staging khác production" đúng về mặt kỹ thuật nhưng đã bị dùng để bỏ qua một kết quả thật.</li>
+          <li>Viết ra điều kiện áp dụng cho mọi thành phần hạ tầng bạn đang cân nhắc, trước khi cài. Một trang là đủ, và nó phải nói được là hệ của bạn thỏa hay không thỏa.</li>
+          <li>Kiểm xem autoscaler có thể nhân số instance tới mức làm vỡ phép nhân kết nối không. Đây là loại lỗi chỉ xuất hiện vào giờ cao điểm.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> khi một chỉ số hạ tầng đẹp lên ngay sau một thay đổi mà người dùng lại chậm đi, tải không biến mất — nó vừa dời sang chỗ bạn chưa gắn đồng hồ. Và trước khi thêm bất kỳ lớp nào vào giữa ứng dụng với database, hãy trả lời hai câu rẻ tiền: query chậm nhất của tôi đang giữ kết nối bao lâu, và tích của số instance với kích thước pool có vượt giới hạn kết nối không. Hai câu đó rẻ hơn một cuộc rollback rất nhiều.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo bài 2:</strong> [4] Devrim Ozcay — <a href="https://medium.com/codetodeploy/connection-pooling-with-pgbouncer-made-things-worse-12799610c2a3" target="_blank">"Connection Pooling With PgBouncer Made Things Worse.", CodeToDeploy trên Medium, 21/01/2026</a> (tự thuật, không nêu tên công ty; số liệu không kiểm chứng độc lập).</div>
+  </article>
+
+  <!-- GÓC NHÌN -->
+  <article class="card" id="gocnhin">
+    <span class="tag legacy">Góc nhìn</span>
+    <h2 class="head">Góc nhìn · Hai lần vặn nhầm cái van, và cách nhận ra trước khi vặn</h2>
+
+    <p>Hai bài hôm nay là hai nửa của cùng một sai lầm. Bài 1: hóa đơn tăng, đội đi cắt lượng dữ liệu — cái van dễ thấy nhất, cũng là cái chỉ mở ra được 5–10%.<sup><a href="https://dev.to/zop_8abedcc7e12/the-90k-observability-bill-why-your-cardinality-limit-is-the-one-knob-that-matters-4h43" target="_blank">[3]</a></sup> Bài 2: kết nối cạn, đội đi cài pooler — cái van mà cả ngành chỉ vào, cũng là cái làm mọi thứ tệ hơn với ứng dụng đó.<sup><a href="https://medium.com/codetodeploy/connection-pooling-with-pgbouncer-made-things-worse-12799610c2a3" target="_blank">[4]</a></sup> Trong cả hai, triệu chứng được nhìn thấy đúng. Cái sai nằm ở bước giữa: từ triệu chứng nhảy thẳng sang giải pháp, bỏ qua câu hỏi <em>cơ chế nào đang tạo ra triệu chứng này</em>.</p>
+
+    <p><strong>Thứ nhất: cả hai đội đều bị dẫn đường bởi thứ hiển thị sẵn.</strong> Dashboard của nhà cung cấp giám sát để lượng dữ liệu ở chỗ to nhất, nên người ta cắt lượng dữ liệu. Cộng đồng kỹ thuật để PgBouncer ở chỗ to nhất khi nói về kết nối Postgres, nên người ta cài PgBouncer. Cả hai lần, cái hiển thị sẵn không phải cái đang gây ra vấn đề. Nó chỉ là cái dễ chỉ vào nhất.</p>
+
+    <p><strong>Thứ hai: trong cả hai trường hợp, phép đo đúng rẻ hơn hẳn hành động sai.</strong> Ở bài 1, hai câu truy vấn trong mười lăm phút đủ để tìm ra cái nhãn thủ phạm.<sup><a href="https://dev.to/claire_nguyen/the-prometheus-label-that-blew-our-monitoring-bill-out-6x-57hj" target="_blank">[1]</a></sup> Ở bài 2, một phép nhân trên giấy — 10 instance × 20 kết nối so với giới hạn 100 — đủ để thấy vấn đề, và phép nhân đó không tốn phút nào.<sup><a href="https://medium.com/codetodeploy/connection-pooling-with-pgbouncer-made-things-worse-12799610c2a3" target="_blank">[4]</a></sup> Đổi lại, con đường sai tốn một tháng hóa đơn nhân sáu ở một bên, và ở bên kia là một sự cố production, một lần rollback và ba tuần tranh cãi. Tỷ lệ chi phí giữa "đo trước" và "làm rồi tính" không phải hai hay ba lần. Nó là hai bậc độ lớn.</p>
+
+    <div class="mech"><b>Cơ chế — quy tắc chung rút ra từ hai bài (phân tích của bản tin):</b> cả hai câu chuyện đều mắc ở cùng một chỗ trong chuỗi suy luận. Chuỗi đầy đủ có bốn mắt: triệu chứng → phép đo → cơ chế → hành động. Cả hai đội nhảy từ mắt thứ nhất sang mắt thứ tư. Và cái làm cú nhảy đó hấp dẫn là vì ở cả hai trường hợp đều <em>có sẵn một hành động chính đáng</em> để nhảy sang: giảm log là việc tốt, gộp kết nối là việc tốt. Không ai nhảy sang một hành động ngớ ngẩn — người ta nhảy sang một hành động hợp lý nhưng không nối với cơ chế đang gây ra triệu chứng của mình. Cách kiểm rẻ nhất mà bản tin đề xuất là một câu hỏi duy nhất, hỏi ngay trước khi bắt tay làm: <em>nếu việc này có tác dụng, con số nào sẽ đổi, đổi bao nhiêu, và vì sao</em>. Nếu bạn trả lời được cả ba vế thì bạn đang có một cơ chế. Nếu bạn chỉ trả lời được vế đầu, bạn đang chép giải pháp.</div>
+
+    <p><strong>Thứ ba: hai bài cùng chỉ vào một loại chi phí mà không ai ghi sổ.</strong> Hóa đơn giám sát và giới hạn kết nối đều là thứ tích tụ bằng những quyết định nhỏ, mỗi quyết định hợp lý trong bối cảnh của nó: thêm một nhãn để gỡ một lần deploy hỏng, để nguyên pool size mặc định vì nó chạy được. Không quyết định nào đáng bị phản đối lúc nó được đưa ra. Chúng chỉ trở thành vấn đề khi cộng dồn, và không ai được giao việc cộng dồn. Đó là lý do cả hai bài đều dẫn tới cùng một loại khuyến nghị: không phải "hãy cẩn thận hơn", mà là <em>hãy đặt một con số tổng ở chỗ có người nhìn</em> — tổng số chuỗi metric, hoặc tích số instance với pool size.</p>
+
+    <h3 class="sub">Ba việc làm được trong tuần này</h3>
+
+    <div class="doslist">
+      <div><strong>1 · Chạy hai câu truy vấn cardinality trên hệ giám sát của bạn.</strong> Metric nào nhiều chuỗi nhất, và trong đó nhãn nào nhiều giá trị nhất. Mười lăm phút. Nếu thấy một định danh theo request, theo build hay theo người dùng nằm trên một metric, bạn vừa tìm ra phần lớn hóa đơn.<sup><a href="https://dev.to/claire_nguyen/the-prometheus-label-that-blew-our-monitoring-bill-out-6x-57hj" target="_blank">[1]</a></sup></div>
+      <div><strong>2 · Làm phép nhân kết nối và viết ba con số đó vào cùng một chỗ.</strong> Số instance tối đa mà autoscaler có thể lên, kích thước pool mỗi instance, giới hạn kết nối của database. Nếu tích lớn hơn giới hạn, bạn đang có một sự cố hẹn giờ vào giờ cao điểm.<sup><a href="https://medium.com/codetodeploy/connection-pooling-with-pgbouncer-made-things-worse-12799610c2a3" target="_blank">[4]</a></sup></div>
+      <div><strong>3 · Với mỗi việc tối ưu đang nằm trong backlog, viết một dòng trả lời "nếu việc này có tác dụng thì con số nào đổi, bao nhiêu, vì sao".</strong> Việc nào không viết nổi dòng đó thì chưa đủ chín để làm — nó cần một phép đo trước, không cần một sprint.</div>
+    </div>
+
+    <div class="takeaway">💡 <strong>Một câu để nhớ:</strong> cái van dễ thấy nhất hiếm khi là cái van đang mở. Ở bài 1 nó là lượng dữ liệu trong khi thủ phạm là số chuỗi; ở bài 2 nó là lớp gộp kết nối trong khi thủ phạm là query chậm và một phép nhân không ai làm. Trước khi vặn, hãy nói trước xem con số nào sẽ nhúc nhích và nhúc nhích bao nhiêu — câu đó rẻ hơn một lần rollback, và rẻ hơn rất nhiều một tháng hóa đơn.</div>
+  </article>
+
+  <div class="foot">Bản tin sáng · Số 19/09/2026 · Toàn bộ nội dung là phân tích của bản tin dựa trên các nguồn dẫn nội dòng.</div>
+</div>
+</body>
+</html>
