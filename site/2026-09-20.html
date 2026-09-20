@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Xoá một tài khoản làm sập cả nền tảng &middot; 20/09/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 20/09/2026</div>
+    <h1 class="title">Một khách hàng bấm gỡ cài đặt, và cả nền tảng mất database trong 24 phút — rồi 22 phút nữa ngay giữa lúc đang vá</h1>
+    <div class="meta">20/09/2026 · Đọc khoảng 13 phút · Nguồn chính: Inngest Engineering — báo cáo sự cố ngày 18/09/2026, đăng 18/09/2026; đối chiếu cơ chế với một tường thuật sự cố Postgres trên myDBA.dev (08/08/2026, cập nhật 16/09/2026)</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: hôm nay bản tin chỉ có <b>một bài</b>, đào sâu. Lý do: nguồn chính là một báo cáo sự cố cấp một mới hai ngày, đủ chi tiết để mổ tới tận cơ chế, và thêm bài thứ hai sẽ chỉ làm loãng. Nguồn phụ dùng bên trong bài là một tường thuật sự cố Postgres trên blog của một công cụ giám sát database — bản tin dùng nó cho <em>cơ chế</em> và các phép đo có thể tự kiểm lại được, không dùng như một case doanh nghiệp có kiểm toán; công ty trong bài đó không nêu tên. Các khối gắn nhãn <b style="color:#1e40af">Cơ chế</b>, bảng đối chiếu và phần "Rút ra theo quy mô" là phân tích tổng hợp của bản tin — <em>không trích nguyên văn từ nguồn</em>. Mọi con số đều dẫn nguồn ngay cạnh câu. Không chèn code minh họa; mọi thứ kỹ thuật viết bằng lời.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1"><strong>Bài duy nhất</strong> — Xoá một tài khoản làm sập cả nền tảng: giải phẫu một sự cố hai nhịp<br><span style="font-size:13.5px;color:#6b7280">· dòng thời gian: 15:39 bấm gỡ, 16:18 hết kết nối · vì sao một DELETE nở ra khắp schema · vì sao cascade chậm tới mức đó: khóa ngoại không có index, 48 giây cho <em>một</em> dòng · vì sao khóa biến thành "hết kết nối" cho cả những service không liên quan · retry không khuếch đại mà xếp hàng · pooler không hồi phục cùng database — 10 phút lệch · vá vào hệ đang rối thì không đọc được tín hiệu · sáu thứ kiểm được sáng thứ Hai</span></a></li>
+    </ol>
+  </nav>
+
+  <!-- BÀI DUY NHẤT -->
+  <article class="card" id="bai1">
+    <span class="tag legacy">Tối ưu hệ đang chạy · cơ sở dữ liệu &amp; bán kính ảnh hưởng</span>
+    <h2 class="head">Một thao tác quản trị nội bộ không được phép làm gián đoạn khách hàng khác — nhưng nó đã làm, hai lần trong một buổi chiều</h2>
+    <p class="src">Nguồn chính: Jakob Evangelista, Muzammil A., Albert Chae, Bruno Scheufler — <a href="https://www.inngest.com/blog/2026-09-18-incident-report-for-september-18-2026" target="_blank">"Incident report for September 18, 2026 — When Deletion Cascades Exhausted Our Database Connections"</a>, Inngest Blog, 18/09/2026. Nguồn phụ dùng để mổ cơ chế: <a href="https://mydba.dev/blog/cascading-delete-slow-postgres" target="_blank">"Why ON DELETE CASCADE Slows Postgres to a Crawl"</a>, myDBA.dev, 08/08/2026 (cập nhật 16/09/2026). <strong>Lưu ý nguồn:</strong> nguồn chính là công ty tự công bố sự cố của chính mình, nên nó vừa là bên trong cuộc vừa là bên kể; bản tin đọc nó như một báo cáo tự thuật trung thực nhưng không độc lập. Nguồn phụ nằm trên blog của một sản phẩm giám sát Postgres và có phần giới thiệu công cụ ở cuối — bản tin chỉ lấy phần tường thuật kỹ thuật và các phép đo, phần nào cũng kiểm lại được bằng tài liệu Postgres.</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">24 + 22 phút</div><div class="lab">hai cửa sổ mất database: 16:18–16:42 và 17:50–18:12 UTC ngày 18/09 <a href="https://www.inngest.com/blog/2026-09-18-incident-report-for-september-18-2026" target="_blank">(Inngest, 18/09/2026)</a></div></div>
+      <div class="box"><div class="num">~14×</div><div class="lab">số client connection vào PgBouncer so với mức bình thường — gần như toàn bộ đang không làm gì, chỉ đứng chờ khóa <a href="https://www.inngest.com/blog/2026-09-18-incident-report-for-september-18-2026" target="_blank">(cùng nguồn)</a></div></div>
+      <div class="box"><div class="num">48 giây / 1 dòng</div><div class="lab">ở sự cố thứ hai: xoá <em>một</em> dòng cha mất 48 giây, trong đó phần lệnh chỉ mất 0,09 ms — 48 giây còn lại nằm trong trigger khóa ngoại <a href="https://mydba.dev/blog/cascading-delete-slow-postgres" target="_blank">(myDBA.dev, 08/08/2026)</a></div></div>
+    </div>
+
+    <p>Chiều 18/09, một khách hàng của Inngest gỡ cài đặt tích hợp Vercel Marketplace. Một thao tác bình thường, ở rìa hệ thống, không dính gì tới việc chạy job của ai. Bốn mươi phút sau, cả nền tảng không nói chuyện được với database: lịch chạy function dừng, sự kiện gửi lên không được xác nhận, nhiều service khởi động rồi chết vì không kết nối nổi.<sup><a href="https://www.inngest.com/blog/2026-09-18-incident-report-for-september-18-2026" target="_blank">[1]</a></sup></p>
+
+    <p>Bản tin chọn bài này vì nó là loại sự cố ít ai chuẩn bị. Không có deploy hỏng, không có spike traffic, không có ai đụng vào cấu hình. Chỉ có một đường code quản trị nội bộ — đường xoá tài khoản — vốn chạy êm suốt thời gian dài, đến một ngày nó gặp đúng tài khoản đủ to.</p>
+
+    <h3 class="sub">Dòng thời gian: từ một cú bấm tới hết kết nối</h3>
+
+    <p>15:39, tích hợp Vercel nhận lệnh xoá và bắt đầu gỡ tài khoản Inngest tương ứng. Từ 15:41 tới 15:56, thêm nhiều lệnh xoá nữa cho cùng tài khoản đó dội vào. 16:09, hàng đợi client của PgBouncer bắt đầu phình. 16:16, số khóa trong database vọt lên. 16:18–16:19, cả hai instance PgBouncer đầy và bắt đầu từ chối kết nối mới, đồng thời ngắt những client đang chờ.<sup><a href="https://www.inngest.com/blog/2026-09-18-incident-report-for-september-18-2026" target="_blank">[1]</a></sup></p>
+
+    <p>16:21 đội trực nhận page. 16:26 họ khởi động lại PgBouncer — và pool đầy lại ngay, vì các transaction đang giữ khóa vẫn còn đó. Cửa sổ ảnh hưởng đầu tiên chỉ thật sự kết thúc lúc 16:39, khi họ hủy các lệnh xoá đang xếp hàng cùng lệnh xoá tài khoản gốc. Khóa sạch lúc 16:42.<sup><a href="https://www.inngest.com/blog/2026-09-18-incident-report-for-september-18-2026" target="_blank">[1]</a></sup></p>
+
+    <p>Rồi nhịp thứ hai. Hủy lệnh xoá chỉ dọn triệu chứng, nguồn phát vẫn còn: yêu cầu xoá vẫn đến và vẫn được xử lý. Đội chuẩn bị một kill switch để chặn hẳn đường xoá đó. 17:45, đúng kiểu tranh chấp khóa cũ quay lại. 17:54 kill switch merge và bắt đầu rollout — vào một hệ thống đã đang tranh chấp. 18:00–18:05, PgBouncer bão hòa lần hai, nhỉnh hơn lần đầu. Lần này lan rộng hơn: executor, batches, pauses, new-runs, queue-proxy, debug-api và CDC đều rơi vào vòng lặp khởi động rồi chết; hai queue shard ngừng xử lý.<sup><a href="https://www.inngest.com/blog/2026-09-18-incident-report-for-september-18-2026" target="_blank">[1]</a></sup></p>
+
+    <p>Sự kiện đã nhận vẫn được lưu bền, và lịch chạy đuổi kịp sau đó — công việc bị <em>trễ</em> chứ không mất. Nhưng sự kiện gửi lên mà không nhận được xác nhận thì có thể chưa tới, và đội khuyến nghị khách hàng gửi lại.<sup><a href="https://www.inngest.com/blog/2026-09-18-incident-report-for-september-18-2026" target="_blank">[1]</a></sup></p>
+
+    <h3 class="sub">Cơ chế 1 — vì sao một lệnh xoá nở ra khắp schema</h3>
+
+    <p>Inngest dùng Postgres cho phần quản trị tài khoản: account, workspace và cấu hình hướng ra khách hàng. Đường xoá của Vercel Marketplace được viết theo kiểu <em>hard delete</em> — xoá thật — thay vì soft delete như mọi chỗ khác trong hệ, với một lý do hợp lý: gỡ cài đặt xong thì không được để lại dấu vết nào chặn khách hàng cài lại về sau. Nó xoá user trong một transaction, rồi phát một lệnh DELETE thật lên dòng account. Dòng account đó được hàng chục bảng tham chiếu tới bằng khóa ngoại, phần lớn khai báo cascade. Một lệnh xoá tài khoản do đó lan ra một phần lớn schema, trong <em>một</em> transaction, và giữ khóa trên mọi thứ nó chạm tới cho tới lúc commit.<sup><a href="https://www.inngest.com/blog/2026-09-18-incident-report-for-september-18-2026" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — "không có giới hạn" mới là từ khóa (phân tích của bản tin, dựa trên [1]):</b> điều khiến đường xoá này nguy hiểm không phải là nó chậm, mà là khối lượng công việc nó làm <em>tỉ lệ với dữ liệu của tài khoản bị xoá</em>, và không có trần nào cả. Một tài khoản dùng thử hai ngày thì xoá trong tích tắc. Một tài khoản chạy ba năm với hàng chục triệu bản ghi thì cũng đi qua đúng đường code đó, cùng một transaction, không chia nhỏ, không có checkpoint.<sup><a href="https://www.inngest.com/blog/2026-09-18-incident-report-for-september-18-2026" target="_blank">[1]</a></sup> Nói cách khác: đường code này đã đúng suốt nhiều tháng không phải vì nó an toàn, mà vì chưa có ai đủ to bấm nút. Đây là dạng bug mà test không bắt được, vì trong môi trường test tài khoản nào cũng bé. Bản tin gợi ý một câu hỏi để soi loại này trong hệ của bạn: <em>thao tác nào trong hệ có chi phí tỉ lệ với tuổi của khách hàng?</em> Xoá tài khoản, export dữ liệu, tính lại quyền, rebuild index cho một tenant — đó là danh sách đáng rà.</div>
+
+    <h3 class="sub">Cơ chế 2 — vì sao cascade chậm tới mức đó: khóa ngoại thiếu index</h3>
+
+    <p>Báo cáo của Inngest không đi vào lý do kỹ thuật khiến cascade tốn thời gian tới vậy. Chỗ đó có một tường thuật khác lấp được, và nó rất cụ thể. Một kỹ sư kể lại đêm bị page lúc 02:57 vì job dọn dẹp hằng đêm: job này xoá các tài khoản đã soft delete quá 180 ngày, bình thường xử lý 400–900 dòng và xong trong chưa tới bốn giây. Đêm đó nó chạy 42 phút và vẫn chưa xong, ứng dụng trả 504 trên gần như mọi endpoint có ghi.<sup><a href="https://mydba.dev/blog/cascading-delete-slow-postgres" target="_blank">[2]</a></sup></p>
+
+    <p>Nguyên nhân gọn tới mức khó chịu: Postgres tự tạo index cho phía <em>được tham chiếu</em> của khóa ngoại — tức khóa chính của bảng cha — nhưng không bao giờ tự tạo index cho phía <em>tham chiếu</em>, tức cột khóa ngoại nằm ở bảng con. Khi xoá một dòng cha có cascade, Postgres phải đi tìm các dòng con. Không có index trên cột đó thì cách duy nhất là quét toàn bộ bảng con. Một lần cho <em>mỗi</em> dòng cha bị xoá.<sup><a href="https://mydba.dev/blog/cascading-delete-slow-postgres" target="_blank">[2]</a></sup></p>
+
+    <p>Con số làm rõ quy mô. Bảng con có khoảng 204 triệu dòng, nặng 184 GB. Đêm đó job xoá 612 tài khoản, tức 612 lần quét tuần tự cả bảng. Tác giả dựng lại trên bản sao và đo thử xoá <em>một</em> dòng: phần lệnh mất 0,09 ms, còn trigger khóa ngoại mất 48,1 giây. Thống kê bảng xác nhận từ hướng ngược lại: số lần quét tuần tự tăng từ 19 lên 631 trong đúng cửa sổ sự cố, và số dòng đã đọc tăng từ 3,9 triệu lên gần 125 tỷ.<sup><a href="https://mydba.dev/blog/cascading-delete-slow-postgres" target="_blank">[2]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao chỗ này gần như không thể phát hiện khi review (phân tích của bản tin, dựa trên [2]):</b> chú ý một chi tiết trong bài: kế hoạch thực thi của câu lệnh xoá trông <em>hoàn hảo</em>. Nó dùng index scan trên khóa chính, chạm bốn trang bộ nhớ, mất 0,09 ms. Toàn bộ 48 giây nằm ở một dòng riêng biệt phía dưới kế hoạch, dòng báo thời gian của trigger khóa ngoại.<sup><a href="https://mydba.dev/blog/cascading-delete-slow-postgres" target="_blank">[2]</a></sup> Nghĩa là nếu bạn duyệt kế hoạch theo thói quen — nhìn có seq scan không, nhìn cost cao không — bạn sẽ thấy một câu lệnh sạch sẽ và duyệt qua. Công việc thật không nằm trong kế hoạch của câu lệnh, nó nằm trong trigger mà cascade sinh ra ngầm. Đây cũng là lý do bug loại này sống lâu: mọi tín hiệu quen thuộc đều báo "ổn". Hệ quả thực hành, và nó rất rẻ: có một câu truy vấn hệ thống liệt kê mọi khóa ngoại trong database đang thiếu index hỗ trợ, chạy hết vài chục mili giây. Trong case này nó chỉ ra ngay ba quả bom, bảng lớn nhất 184 GB.<sup><a href="https://mydba.dev/blog/cascading-delete-slow-postgres" target="_blank">[2]</a></sup> Một chi tiết nhỏ nhưng hay sai: index phức hợp chỉ giúp nếu cột khóa ngoại là cột <em>dẫn đầu</em> của index.</div>
+
+    <p>Có một tầng hỏng thứ hai đi kèm, và nó là thứ biến "chậm" thành "sập". Trong lúc cascade nghiền, nó cũng sinh dead tuple với tốc độ khổng lồ. Thống kê cho thấy gần 32 triệu dead tuple, và lần autovacuum thành công gần nhất là 90 phút trước khi sự cố bắt đầu. Một worker vacuum có chạy, nhưng mới quét được 883 nghìn trên 24,1 triệu block, và nó đang tranh đúng cái đĩa mà các lần quét cascade đang làm nghẹt. Tệ hơn: transaction xoá vẫn đang mở, nên những dòng chết nó tạo ra còn chưa được phép thu hồi.<sup><a href="https://mydba.dev/blog/cascading-delete-slow-postgres" target="_blank">[2]</a></sup> Vòng lặp khép lại ở đó — xoá nhanh hơn vacuum thì bảng phình, bảng phình thì lần quét sau chậm hơn lần trước.</p>
+
+    <h3 class="sub">Cơ chế 3 — vì sao tranh chấp khóa biến thành "hết kết nối" cho cả những service không liên quan</h3>
+
+    <p>Đây là chỗ bản tin cho là đáng nhớ nhất trong cả báo cáo Inngest, vì nó là bước nhảy mà nhiều đội không lường: từ "một vài bảng bị khóa" sang "không service nào chạm được database".</p>
+
+    <p>Inngest nói rõ cơ chế. Mọi service đều đi qua PgBouncer, và PgBouncer dồn nhiều kết nối ứng dụng xuống một số ít kết nối thật tới database. Mọi service rút từ <em>cùng</em> một pool chung. Một truy vấn đang chờ khóa thì không nhả kết nối — nó giữ nguyên chỗ của mình trong PgBouncer suốt thời gian chờ. Nên tranh chấp khóa trên vài bảng bị chuyển hóa thành cạn sạch kết nối cho tất cả mọi thứ dùng chung pool đó.<sup><a href="https://www.inngest.com/blog/2026-09-18-incident-report-for-september-18-2026" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — một chỗ ngồi bị chiếm không phải một chỗ ngồi đang làm việc (phân tích của bản tin, dựa trên [1]):</b> trực giác sai ở đây rất dễ mắc. Ta hay hình dung pool như một quầy phục vụ: kết nối bận nghĩa là database đang làm việc, và nếu database khỏe thì pool sẽ thông. Nhưng chỗ ngồi trong pooler được cấp theo <em>client đang mở</em>, không theo <em>việc đang làm</em>. Một client chờ khóa chiếm chỗ y hệt một client đang chạy truy vấn nặng, chỉ khác là nó chiếm chỗ đó lâu hơn nhiều và không tiêu tốn CPU nào. Đó là lý do trong sự cố này, số client connection lên khoảng 14 lần mức bình thường trong khi "gần như toàn bộ chỉ đứng chờ".<sup><a href="https://www.inngest.com/blog/2026-09-18-incident-report-for-september-18-2026" target="_blank">[1]</a></sup> Hệ quả cho cách bạn đọc dashboard: chỉ số CPU và IOPS của database có thể trông bình thường hoặc thậm chí đẹp, trong khi nền tảng đã chết. Nếu đội bạn chỉ cảnh báo trên tải database mà không cảnh báo trên <em>số khóa</em> và <em>thời gian client chờ trong pooler</em>, bạn sẽ biết tin qua kênh support chứ không qua kênh cảnh báo. Đúng đó cũng là một trong các việc Inngest ghi là đang làm.<sup><a href="https://www.inngest.com/blog/2026-09-18-incident-report-for-september-18-2026" target="_blank">[1]</a></sup></div>
+
+    <p>Nối chuyện này với bài thứ hai thì bức tranh đầy đủ hơn. Ở sự cố Postgres kia, chuỗi chờ cũng xếp thành tầng: một tiến trình chặn hai tiến trình khác, hai tiến trình đó lại chặn tiếp. Tác giả ghi một mẹo tìm gốc rất gọn — gốc luôn là tiến trình xuất hiện trong ô "đang bị chặn bởi" của người khác nhưng ô đó của chính nó thì rỗng.<sup><a href="https://mydba.dev/blog/cascading-delete-slow-postgres" target="_blank">[2]</a></sup> Nếu có sẵn một truy vấn dựng chuỗi chặn theo cách đó, việc tìm thủ phạm lúc ba giờ sáng rút từ hàng chục phút xuống vài giây.</p>
+
+    <h3 class="sub">Cơ chế 4 — retry không phải lúc nào cũng "thử lại", đôi khi là xếp hàng</h3>
+
+    <p>Yếu tố thứ hai trong bốn yếu tố mà Inngest liệt kê: các lần thử lại đã khuếch đại vấn đề thay vì được hấp thụ. Nhiều lệnh xoá lặp lại nhắm vào cùng một tài khoản. Vì công việc đó không idempotent ở mức transaction, và vì không có gì đứng trước để tuần tự hóa, mỗi lần thử mới lại xếp hàng sau lần trước và <em>kéo dài</em> cửa sổ khóa chứ không thay thế nó.<sup><a href="https://www.inngest.com/blog/2026-09-18-incident-report-for-september-18-2026" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — retry chỉ an toàn khi thất bại là nhanh (phân tích của bản tin):</b> chiến lược retry mà hầu hết chúng ta viết ngầm giả định một chuyện: lần gọi hỏng sẽ hỏng <em>nhanh</em>, rồi lần sau thử lại vào một hệ đã rảnh hơn. Giả định đó đúng với timeout mạng, sai hoàn toàn với tranh chấp khóa. Lần thử thứ hai không hỏng nhanh — nó ngồi chờ đúng những khóa mà lần thứ nhất đang giữ, và trong lúc chờ nó chiếm một chỗ trong pooler. Lần thứ ba cũng vậy. Bạn không "thử lại", bạn đang xây một hàng đợi mà mỗi phần tử tốn một kết nối. Cách chặn cũng không phức tạp: đặt khóa dedupe theo định danh công việc, để lần thử thứ hai cho cùng một tài khoản bị từ chối ngay tại cửa thay vì được đưa xuống database. Đây đúng là hướng Inngest ghi là đang làm — đưa hard delete ra khỏi đường request, chuyển thành công việc chạy theo lô, có giới hạn tốc độ và có khử trùng lặp.<sup><a href="https://www.inngest.com/blog/2026-09-18-incident-report-for-september-18-2026" target="_blank">[1]</a></sup></div>
+
+    <h3 class="sub">Cơ chế 5 — pooler không hồi phục cùng lúc với database</h3>
+
+    <p>Yếu tố thứ tư là thứ bản tin nghĩ ít người tính tới khi ước lượng thời gian hồi phục. Ở nhịp thứ hai, số khóa trong Postgres đã về mức nền lúc 18:00, nhưng PgBouncer còn bão hòa thêm khoảng mười phút nữa: hàng client đang chờ phải rút cạn thì service mới kết nối lại được. Hồi phục hoàn tất khoảng 18:12, và tới 18:15 thì không còn client nào chờ.<sup><a href="https://www.inngest.com/blog/2026-09-18-incident-report-for-september-18-2026" target="_blank">[1]</a></sup> Inngest viết thẳng ý nghĩa: thời gian hồi phục của họ bị chặn dưới bởi PgBouncer chứ không bởi lỗi gốc.<sup><a href="https://www.inngest.com/blog/2026-09-18-incident-report-for-september-18-2026" target="_blank">[1]</a></sup></p>
+
+    <p>Chi tiết 16:26 củng cố điều đó từ hướng khác: họ restart PgBouncer, và pool đầy lại ngay lập tức vì nguyên nhân gốc vẫn còn.<sup><a href="https://www.inngest.com/blog/2026-09-18-incident-report-for-september-18-2026" target="_blank">[1]</a></sup> Restart tầng giữa khi tầng dưới chưa sạch là một thao tác tốn thời gian mà không đổi được gì — và nó là phản xạ đầu tiên của gần như mọi đội trực.</p>
+
+    <div class="mech"><b>Cơ chế — vì sao có một độ trễ riêng ở tầng pooler (phân tích của bản tin, dựa trên [1]):</b> khi pool bão hòa, hàng client chờ trở thành một trạng thái <em>độc lập</em> với sức khỏe database. Database sạch không tự đẩy hàng đó đi; hàng phải tự rút, và nó rút chậm vì đằng sau còn hàng loạt service đang trong vòng lặp khởi động-rồi-chết, mỗi lần khởi động lại mở kết nối mới và lại xếp vào hàng. Bạn có hai đồng hồ đếm ngược, không phải một, và cái thứ hai chỉ bắt đầu chạy khi cái thứ nhất về không. Điều này đổi hai thứ trong thực hành. Thứ nhất, nếu cảnh báo của bạn tắt khi tải database về mức nền, bạn sẽ tuyên bố hết sự cố sớm hơn thực tế khoảng mười phút. Thứ hai, nó mở ra một câu hỏi hạ tầng đáng cân nhắc: có cách nào <em>chủ động</em> xả một pool đã bão hòa thay vì ngồi chờ nó cạn không — đúng câu hỏi Inngest ghi là đang xem xét.<sup><a href="https://www.inngest.com/blog/2026-09-18-incident-report-for-september-18-2026" target="_blank">[1]</a></sup></div>
+
+    <h3 class="sub">Chi tiết dễ bị lướt qua: vá vào một hệ đang rối thì không đọc được tín hiệu</h3>
+
+    <p>Inngest tự nhận một điểm mà bản tin thấy đáng học nhất trong cả báo cáo, dù nó không phải chuyện database. Kill switch merge lúc 17:54, giữa lúc database đã đang tranh chấp. Kết quả: họ không có tín hiệu sạch nào để biết bản vá đã ăn hay chưa, vì bản vá và lần tái phát chồng lên nhau. Họ ghi là đang siết lại cách sắp xếp thứ tự các biện pháp giảm nhẹ trong lúc sự cố, để một bản sửa và một lần tái phát không được phép trùng cửa sổ như vậy nữa.<sup><a href="https://www.inngest.com/blog/2026-09-18-incident-report-for-september-18-2026" target="_blank">[1]</a></sup></p>
+
+    <p>Chỗ này rất dễ đồng cảm, vì áp lực trong phòng sự cố luôn đẩy về phía ngược lại: có bản vá thì đẩy ngay, càng nhanh càng tốt. Nhưng một bản vá không quan sát được thì không khác gì chưa vá — bạn mất luôn khả năng trả lời câu hỏi quan trọng nhất lúc đó, là "tình hình đang tốt lên vì bản vá, hay vì thứ khác vừa tự hết?".</p>
+
+    <h3 class="sub">Bốn yếu tố, và chỗ nào sửa được bằng cái gì</h3>
+
+    <table class="tbl">
+      <tr><th>Yếu tố (theo [1])</th><th>Nó làm gì</th><th>Hướng sửa Inngest ghi là đang làm</th><th>Sửa ở tầng nào</th></tr>
+      <tr><td>Lệnh xoá không có trần</td><td>một hard delete lan qua hàng chục bảng trong một transaction; khối lượng và số khóa tỉ lệ với dữ liệu tài khoản, không được chia nhỏ</td><td>chuyển đường gỡ cài đặt sang soft delete, chỉ thu hồi vài bản ghi duy nhất vốn chặn việc cài lại</td><td>Thiết kế dữ liệu</td></tr>
+      <tr><td>Retry khuếch đại thay vì được hấp thụ</td><td>không idempotent ở mức transaction, không có tuần tự hóa phía trước; mỗi lần thử kéo dài cửa sổ khóa</td><td>đưa hard delete còn lại ra khỏi đường request, chạy theo lô có giới hạn tốc độ và có khử trùng lặp</td><td>Điều phối công việc</td></tr>
+      <tr><td>Truy vấn bị chặn vẫn chiếm chỗ trong pool</td><td>tranh chấp khóa trên vài bảng biến thành cạn kết nối cho mọi service dùng chung pool</td><td>chỉnh cấu hình PgBouncer, rà lại kích thước pool để một workload không nuốt hết phần của service khác</td><td>Cô lập hạ tầng</td></tr>
+      <tr><td>Pooler không hồi phục cùng database</td><td>database về mức nền trước nền tảng khoảng mười phút; thời gian hồi phục bị chặn bởi pooler</td><td>tìm cách xả pool bão hòa một cách chủ động thay vì chờ nó cạn</td><td>Vận hành lúc sự cố</td></tr>
+    </table>
+    <p style="font-size:13px;color:#6b7280;margin-top:-6px">Bảng do bản tin lập lại từ phần "Root Cause" và "What We're Doing Now" của [1]; cột "sửa ở tầng nào" là cách phân loại của bản tin, không có trong nguồn.</p>
+
+    <div class="mech"><b>Cơ chế — soft delete không phải là "lười xoá" (phân tích của bản tin, dựa trên [1]):</b> đáng nói rõ vì chỗ này hay bị hiểu nhầm thành đánh đổi giữa sạch dữ liệu và tiện. Đường xoá của Inngest chọn hard delete vì một yêu cầu nghiệp vụ cụ thể và chính đáng: gỡ cài đặt xong phải cài lại được, nên không được để lại bản ghi nào chặn. Nhưng để thoả yêu cầu đó, cái thật sự cần xoá chỉ là <em>vài bản ghi mang ràng buộc duy nhất</em> — thứ gây xung đột khi cài lại. Xoá cả cây dữ liệu là một cách rất đắt để đạt một mục tiêu rất hẹp, và đó chính là hướng sửa họ chọn.<sup><a href="https://www.inngest.com/blog/2026-09-18-incident-report-for-september-18-2026" target="_blank">[1]</a></sup> Bài học tổng quát hơn cho lúc thiết kế: khi có yêu cầu "phải xoá sạch", hãy hỏi lại <em>sạch để làm gì</em>. Nếu câu trả lời là "để không chặn thao tác X" thì phạm vi cần xoá thường rất nhỏ. Nếu câu trả lời là nghĩa vụ pháp lý về xoá dữ liệu cá nhân thì phạm vi thật sự rộng — nhưng khi đó nó là một quy trình có lịch, có lô, có nhật ký, chứ vẫn không phải một transaction đồng bộ nằm trên đường request.</div>
+
+    <h3 class="sub">Bên kia đường hầm: bản sửa đã cho ra số gì</h3>
+
+    <p>Báo cáo Inngest mới hai ngày nên chưa có số "sau khi sửa". Bài thứ hai thì có, và nó đáng chép lại vì nó cho thấy khoảng cách giữa hai trạng thái lớn đến mức nào.</p>
+
+    <p>Cách chữa gồm hai phần. Phần một là chia lô: xoá mỗi lần vài chục dòng cha, commit giữa các lô để writer khác có lượt, và chèn một khoảng nghỉ ngắn để autovacuum có cửa làm việc. Tác giả nói rõ chia lô <em>không</em> sửa được lần quét tuần tự — nó chỉ giới hạn thời gian mỗi transaction giữ khóa, và bạn vẫn cần index.<sup><a href="https://mydba.dev/blog/cascading-delete-slow-postgres" target="_blank">[2]</a></sup> Phần hai là tạo index cho cột khóa ngoại, bằng chế độ dựng index không chặn ghi. Việc dựng mất 1 giờ 52 phút, trong đó có 11 phút đứng chờ một truy vấn báo cáo chạy dài.<sup><a href="https://mydba.dev/blog/cascading-delete-slow-postgres" target="_blank">[2]</a></sup></p>
+
+    <table class="tbl">
+      <tr><th>Phép đo</th><th>Trước</th><th>Sau</th></tr>
+      <tr><td>Trigger khóa ngoại khi xoá một dòng cha</td><td>48,1 giây</td><td>31 mili giây</td></tr>
+      <tr><td>Truy vấn tìm dòng con của một cha</td><td>48,1 giây (quét tuần tự 204 triệu dòng)</td><td>0,041 mili giây (index scan)</td></tr>
+      <tr><td>Cả job dọn dẹp 612 tài khoản</td><td>42 phút và vẫn chưa xong</td><td>34,2 giây, gồm cả thời gian nghỉ giữa lô (2,41 triệu dòng con)</td></tr>
+      <tr><td>Dead tuple đỉnh điểm trong lúc chạy</td><td>~32 triệu, autovacuum tụt lại 90 phút</td><td>2,4 triệu, về dưới 300 nghìn trong 20 phút</td></tr>
+    </table>
+    <p style="font-size:13px;color:#6b7280;margin-top:-6px">Số lấy từ [2]. Đây là một hệ thống cụ thể; đừng đọc các tỷ lệ này như chuẩn cho hệ của bạn — hãy đọc chúng như bậc độ lớn của khoảng cách giữa "có index trên khóa ngoại" và "không".</p>
+
+    <p>Một chi tiết thao tác đáng ghi riêng, vì nó là cái bẫy thứ hai: sau khi dựng index ở chế độ không chặn ghi, phải kiểm lại index có hợp lệ không. Một lần dựng thất bại để lại một index không hợp lệ, và nó sẽ lặng lẽ không được dùng — bạn nghĩ mình đã vá xong trong khi chưa.<sup><a href="https://mydba.dev/blog/cascading-delete-slow-postgres" target="_blank">[2]</a></sup> Tác giả cũng cảnh báo một điều nữa: nếu index dựng mãi không xong ở giai đoạn chờ writer, thủ phạm thường là một phiên "idle in transaction" từ chính connection pool của ứng dụng, và nó giữ con tin vô thời hạn.<sup><a href="https://mydba.dev/blog/cascading-delete-slow-postgres" target="_blank">[2]</a></sup></p>
+
+    <div class="scale">
+      <div class="col small"><h4>Đội nhỏ / startup dưới 10 người</h4>
+        <ul>
+          <li>Chạy truy vấn liệt kê khóa ngoại thiếu index, cho <em>cả</em> database chứ không chỉ bảng bạn đang nghi. Mất vài chục mili giây. Trong case ở [2] nó lôi ra ba bảng, lớn nhất 184 GB.<sup><a href="https://mydba.dev/blog/cascading-delete-slow-postgres" target="_blank">[2]</a></sup></li>
+          <li>Liệt kê những thao tác có chi phí tỉ lệ với tuổi khách hàng: xoá tài khoản, export, tính lại quyền. Với mỗi cái, hỏi "khách hàng to nhất của mình mà bấm cái này thì sao".</li>
+          <li>Nếu đang có một job dọn dẹp hằng đêm chạy cascade: chia lô và commit giữa các lô ngay tuần này. Rẻ, không cần downtime, và nó chặn được kịch bản một transaction giữ khóa hàng chục phút.<sup><a href="https://mydba.dev/blog/cascading-delete-slow-postgres" target="_blank">[2]</a></sup></li>
+          <li>Lưu sẵn một truy vấn dựng chuỗi chặn — ai đang chờ ai, gốc là pid nào. Lúc ba giờ sáng bạn sẽ không muốn ngồi viết nó.<sup><a href="https://mydba.dev/blog/cascading-delete-slow-postgres" target="_blank">[2]</a></sup></li>
+        </ul>
+      </div>
+      <div class="col"><h4>Đội đã có sản phẩm chạy production</h4>
+        <ul>
+          <li>Cảnh báo trên <em>số khóa đang chờ</em> và <em>thời gian client chờ trong pooler</em>, không chỉ trên CPU database. Trong sự cố này, số client chờ lên ~14 lần mức nền trước khi pool cạn — đó là cửa sổ để được page sớm.<sup><a href="https://www.inngest.com/blog/2026-09-18-incident-report-for-september-18-2026" target="_blank">[1]</a></sup></li>
+          <li>Xem lại giả định "một pool chung cho mọi service". Đường ghi đắt nhất của bạn hiện đang có quyền từ chối database cho mọi service khác.<sup><a href="https://www.inngest.com/blog/2026-09-18-incident-report-for-september-18-2026" target="_blank">[1]</a></sup></li>
+          <li>Đưa mọi hard delete ra khỏi đường request: chạy theo lô, giới hạn tốc độ, khử trùng lặp theo định danh công việc để retry không xếp chồng.<sup><a href="https://www.inngest.com/blog/2026-09-18-incident-report-for-september-18-2026" target="_blank">[1]</a></sup></li>
+          <li>Viết vào runbook: khi pooler bão hòa, đừng restart pooler trước khi tầng dưới sạch — pool sẽ đầy lại ngay.<sup><a href="https://www.inngest.com/blog/2026-09-18-incident-report-for-september-18-2026" target="_blank">[1]</a></sup> Và đừng tuyên bố hết sự cố khi database về mức nền; đồng hồ thứ hai ở tầng pooler mới bắt đầu chạy.</li>
+          <li>Thêm một quy tắc cho phòng sự cố: không rollout bản vá vào cửa sổ đang tranh chấp nếu tránh được, vì bạn sẽ không đọc được tín hiệu nó có ăn hay không.<sup><a href="https://www.inngest.com/blog/2026-09-18-incident-report-for-september-18-2026" target="_blank">[1]</a></sup></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="doslist">
+      <div><strong>Sáu thứ kiểm được ngay sáng thứ Hai</strong></div>
+      <div>✅ Chạy truy vấn khóa ngoại thiếu index cho toàn database, sắp theo kích thước bảng con giảm dần.</div>
+      <div>✅ Với bảng con lớn nhất, đo thử xoá một dòng cha trên bản sao và <em>đọc dòng thời gian của trigger</em>, đừng chỉ nhìn kế hoạch thực thi.</div>
+      <div>✅ Tìm mọi đường code hard delete đang nằm đồng bộ trên đường request.</div>
+      <div>✅ Kiểm xem lớp retry phía trước những đường đó có khử trùng lặp theo định danh công việc không.</div>
+      <div>❌ Đừng dựa vào "job này chạy ổn cả năm nay" — nó ổn cho tới khi bảng con lớn qua một ngưỡng nào đó, và schema không đổi gì cả.<sup><a href="https://mydba.dev/blog/cascading-delete-slow-postgres" target="_blank">[2]</a></sup></div>
+      <div>❌ Đừng đo sức khỏe pool bằng tải database. Chỗ ngồi bị chiếm không phải chỗ ngồi đang làm việc.</div>
+    </div>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> câu kết của chính Inngest đáng để làm nguyên tắc thiết kế, không chỉ làm lời xin lỗi — một thao tác quản trị nội bộ không bao giờ được phép làm gián đoạn việc chạy function của khách hàng khác.<sup><a href="https://www.inngest.com/blog/2026-09-18-incident-report-for-september-18-2026" target="_blank">[1]</a></sup> Hai chỗ biến một thao tác hẹp thành sự cố toàn nền tảng đều không nằm trong đường code đó: một pool dùng chung không có cô lập, và một lớp retry giả định rằng thất bại sẽ đến nhanh. Cả hai đều rẻ để kiểm, và cả hai đều chỉ lộ ra khi đã quá muộn nếu bạn không đi tìm trước.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> [1] Jakob Evangelista, Muzammil A., Albert Chae, Bruno Scheufler — <a href="https://www.inngest.com/blog/2026-09-18-incident-report-for-september-18-2026" target="_blank">"Incident report for September 18, 2026 — When Deletion Cascades Exhausted Our Database Connections", Inngest Blog, 18/09/2026</a> · [2] myDBA.dev — <a href="https://mydba.dev/blog/cascading-delete-slow-postgres" target="_blank">"Why ON DELETE CASCADE Slows Postgres to a Crawl", 08/08/2026, cập nhật 16/09/2026</a> (blog của một sản phẩm giám sát Postgres, có phần giới thiệu công cụ ở cuối bài; công ty trong tường thuật không nêu tên — bản tin dùng phần cơ chế và các phép đo).</div>
+  </article>
+
+  <div class="foot">Bản tin sáng · Số 20/09/2026</div>
+</div>
+</body>
+</html>
