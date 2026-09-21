@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Giao cho bot quyền duyệt PR &middot; 21/09/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 21/09/2026</div>
+    <h1 class="title">Ba đội giao cho bot quyền duyệt PR — và ba con số rất khác nhau: 2,4× số PR merge, lead time giảm 74%, và 33% PR được duyệt tự động</h1>
+    <div class="meta">21/09/2026 · Đọc khoảng 15 phút · Nguồn chính: John Wang (CTO Assembled) — "Code review bottlenecks", 07/08/2026; Benjamin Stark — "How auto-approving low-risk PRs with AI cut our lead time by 74%", Ona, 09/04/2026; Bartosz Ocytko — "Agentic Engineering at Zalando: a snapshot", 14/08/2026</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: số hôm nay có <b>hai bài</b> về cùng một cơ chế nhưng hai góc khác nhau — bài 1 là <em>cách dựng và tinh chỉnh</em> một bộ duyệt tự động, bài 2 là <em>đọc con số và dựng khung quản trị</em> quanh nó. Ba nguồn đều là tường thuật cấp một do chính đội kỹ thuật viết. Lưu ý xung đột lợi ích: Ona bán đúng sản phẩm này (tiền thân Gitpod, nay thuộc OpenAI) nên số của họ là số tiếp thị-cũng-là-số-vận-hành; Assembled bán phần mềm hỗ trợ khách hàng và Zalando là công ty bán lẻ — cả hai không bán công cụ dev, nên số của họ ít động cơ hơn. Các khối gắn nhãn <b style="color:#1e40af">Cơ chế</b>, bảng đối chiếu và phần "Rút ra theo quy mô" là phân tích tổng hợp của bản tin — <em>không trích nguyên văn từ nguồn</em>. Mọi con số đều dẫn nguồn ngay cạnh câu. Không chèn code minh họa.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1"><strong>Bài 1</strong> — Dải hẹp giữa hai vách: Assembled dựng bộ duyệt tự động và tinh chỉnh chính sách<br><span style="font-size:13.5px;color:#6b7280">· thời gian chờ review đầu tiên từ 3,5 giờ lên hơn 16 giờ · hai reviewer độc lập + một trọng tài · vì sao chính sách quá chặt chết lặng lẽ hơn chính sách quá lỏng · kết quả ngược đời: bỏ PR nhỏ khỏi hàng thì PR to chạy nhanh gấp 3,5 lần · 3,57 USD mỗi lần review · nửa tuần đỉnh điểm là trả nợ kỹ thuật</span></a></li>
+      <li><a href="#bai2"><strong>Bài 2</strong> — Cùng một cái van, hai bối cảnh, hai mức số: Ona 74% và Zalando 33%<br><span style="font-size:13.5px;color:#6b7280">· sáu tiêu chí của Ona · vì sao "bot duyệt, người merge" là neo cho SOC 2 · Zalando rút luật từ chính các sự cố production của mình · vì sao 74% không chuyển được sang hệ của bạn · hiệu ứng phụ: kỹ sư tự chẻ PR cho lọt cửa</span></a></li>
+      <li><a href="#gocnhin"><strong>Góc nhìn</strong> — Ba thứ giống nhau ở cả ba đội, và ba việc làm được trong tuần</a></li>
+    </ol>
+  </nav>
+
+  <!-- BÀI 1 -->
+  <article class="card" id="bai1">
+    <span class="tag saas">Quy trình sản xuất · code review &amp; tự động hóa</span>
+    <h2 class="head">"Chính sách thưởng cái gì, bạn sẽ có nhiều cái đó": một CTO kể lại ba tuần tinh chỉnh bộ duyệt PR tự động</h2>
+    <p class="src">Nguồn: John Wang, đồng sáng lập &amp; CTO Assembled — <a href="https://www.assembled.com/blog/code-review-bottlenecks-how-we-hill-climbed-our-way-to-higher-pr-throughput" target="_blank">"Code review bottlenecks: How we hill climbed our way to higher PR throughput"</a>, Assembled Blog, 07/08/2026. <strong>Lưu ý nguồn:</strong> Assembled bán phần mềm quản lý lực lượng hỗ trợ khách hàng (khách gồm Salesforce, DoorDash, bang Georgia), không bán công cụ dev — nên bài này không phải bài bán hàng cho thứ nó mô tả. Tác giả tự ghi rõ đây là kết quả quan sát từ một đợt triển khai, không phải thử nghiệm đối chứng, và cửa sổ đo quá ngắn để kết luận về chất lượng dài hạn.</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">3,5 giờ → &gt;16 giờ</div><div class="lab">thời gian chờ review đầu tiên (median), từ 12/2025 tới 05/2026, sau khi đội dùng coding agent <a href="https://www.assembled.com/blog/code-review-bottlenecks-how-we-hill-climbed-our-way-to-higher-pr-throughput" target="_blank">(Assembled, 07/08/2026)</a></div></div>
+      <div class="box"><div class="num">2,4×</div><div class="lab">số PR được merge so với mức nền trước khi dùng agent; số dòng code tăng 2,8× <a href="https://www.assembled.com/blog/code-review-bottlenecks-how-we-hill-climbed-our-way-to-higher-pr-throughput" target="_blank">(cùng nguồn)</a></div></div>
+      <div class="box"><div class="num">3,57 USD</div><div class="lab">chi phí LLM ước tính cho mỗi lần review tự động, đo trên mẫu 14 ngày <a href="https://www.assembled.com/blog/code-review-bottlenecks-how-we-hill-climbed-our-way-to-higher-pr-throughput" target="_blank">(cùng nguồn)</a></div></div>
+    </div>
+
+    <p>Câu chuyện mở đầu bằng một cảm giác mà chắc nhiều bạn thấy quen. Kỹ sư ở Assembled nói với CTO rằng họ thấy nhanh hơn hẳn từ khi dùng coding agent. Nhưng nhìn vào số liệu giao hàng thì mức cải thiện nhỏ hơn nhiều so với kỳ vọng: viết nhiều code hơn, mở nhiều PR hơn, mà số PR merge chỉ nhích lên chút ít.<sup><a href="https://www.assembled.com/blog/code-review-bottlenecks-how-we-hill-climbed-our-way-to-higher-pr-throughput" target="_blank">[1]</a></sup></p>
+
+    <p>Bản tin từng chạm chủ đề "nút thắt dời từ viết sang duyệt" ở vài số trước. Lần này khác ở một điểm quan trọng: ba đội trong số hôm nay không dừng ở chỗ dựng bot <em>gợi ý</em>, họ giao cho bot <em>quyền duyệt</em>. Đó là một quyết định về tổ chức chứ không còn là quyết định về công cụ, và nó kéo theo cả một bộ câu hỏi về quản trị.</p>
+
+    <h3 class="sub">Chẩn đoán: bốn dấu hiệu cho thấy nút thắt nằm ở người duyệt</h3>
+
+    <p>Assembled đào vào dữ liệu năng suất kỹ thuật và tìm ra bốn thứ. Số PR đang mở lớn hơn trước nhiều, và phần lớn không được merge — hoặc có merge thì cũng chậm. Các chồng PR sâu hơn: kỹ sư chẻ tính năng lớn thành từng mảnh duyệt được, đó là phản xạ đúng, nhưng thường xuyên sinh ra chồng 20 PR cho một dự án. Thời gian chờ review đầu tiên tăng từ 3,5 giờ (12/2025) lên hơn 16 giờ (05/2026). Và kích thước PR tăng 2,5 lần, vì diff agent viết thường to hơn bản người viết cho cùng một thay đổi.<sup><a href="https://www.assembled.com/blog/code-review-bottlenecks-how-we-hill-climbed-our-way-to-higher-pr-throughput" target="_blank">[1]</a></sup></p>
+
+    <p>Tác giả còn kể hai khoản chi phí không hiện lên dashboard nào. Kỹ sư phải chạy song song nhiều phiên agent mới hiệu quả, nên người quen tập trung vào một việc giờ phải tung hứng nhiều việc. Và ngày càng nhiều người không phải kỹ sư mở PR — đội muốn điều đó — nhưng những PR ấy không phải lúc nào cũng theo quy ước của đội, nên duyệt chúng mang thêm gánh nặng cảm xúc.<sup><a href="https://www.assembled.com/blog/code-review-bottlenecks-how-we-hill-climbed-our-way-to-higher-pr-throughput" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao "mọi thuộc tính của agent đều chỉ về phía nhiều code hơn" (phân tích của bản tin, dựa trên [1]):</b> agent làm rẻ đi đúng một thứ — công sức viết. Nó không làm rẻ đi công sức <em>hiểu</em>. Mà công sức hiểu mới là thứ người duyệt phải bỏ ra, và nó tăng theo kích thước diff. Nên khi bạn lắp agent vào, bạn vừa tăng số đơn vị công việc cần duyệt vừa tăng chi phí duyệt mỗi đơn vị, trong khi số người duyệt giữ nguyên. Hai vế cùng xấu đi thì hàng đợi không nở tuyến tính, nó nở nhanh hơn. Đó là lý do một đội có thể thấy sản lượng cá nhân tăng rõ mà chỉ số giao hàng gần như đứng yên — thứ tăng thêm nằm hết trong hàng đợi chứ không đi qua nó. (Về chi phí hiểu theo kích cỡ lô hàng, bản tin đã bàn ở số 13/09.)</div>
+
+    <h3 class="sub">Kiến trúc: hai reviewer độc lập và một trọng tài</h3>
+
+    <p>Bước thử đầu tiên là bước an toàn nhất: tự động duyệt các PR chỉ đụng vào test. Nó chạy ổn nhưng loại PR đó quá ít, chỉ vài cái mỗi tuần, nên không nhúc nhích được gì.<sup><a href="https://www.assembled.com/blog/code-review-bottlenecks-how-we-hill-climbed-our-way-to-higher-pr-throughput" target="_blank">[1]</a></sup></p>
+
+    <p>Sau đó họ làm mạnh tay hơn. Hệ thống chạy <em>hai</em> lượt review độc lập: Codex (GPT-5.6-sol, mức high) và Claude Code (Claude Opus 5, mức high), mỗi bên review PR trong một sandbox riêng trên cloud. Prompt cố ý để đơn giản, dùng thẳng lệnh review có sẵn của từng công cụ — lập luận của tác giả là OpenAI và Anthropic đã bỏ rất nhiều nguồn lực để agent của họ review tốt, nên cứ tận dụng. Rồi một agent trọng tài (cũng GPT-5.6-sol, mức high) đọc cả hai bản review, áp chính sách duyệt, và quyết định PR có được tự động duyệt hay không.<sup><a href="https://www.assembled.com/blog/code-review-bottlenecks-how-we-hill-climbed-our-way-to-higher-pr-throughput" target="_blank">[1]</a></sup></p>
+
+    <p>Chính sách trộn hai loại luật. Luật xác định, kiểu "chỉ duyệt PR dưới 1.000 dòng thay đổi". Và luật do model phán đoán, kiểu "không duyệt bất kỳ thay đổi nào đụng vào xử lý credential, secret hay quản lý khóa mật mã".<sup><a href="https://www.assembled.com/blog/code-review-bottlenecks-how-we-hill-climbed-our-way-to-higher-pr-throughput" target="_blank">[1]</a></sup> Sau nhiều vòng chỉnh, bộ tiêu chí họ dừng lại gồm: mô tả PR viết tử tế; bằng chứng test chất lượng (ảnh chụp hoặc video cho thay đổi giao diện, hoặc bằng chứng trực tiếp rằng thay đổi làm đúng thứ nó nói); cài đặt theo đúng khuôn mẫu sẵn có của repo; không đụng vùng rủi ro như xác thực, thanh toán, phân quyền; không đưa vào khuôn mẫu kiến trúc mới.<sup><a href="https://www.assembled.com/blog/code-review-bottlenecks-how-we-hill-climbed-our-way-to-higher-pr-throughput" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao hai reviewer khác hãng, không phải một reviewer tốt hơn (phân tích của bản tin, dựa trên [1]):</b> tác giả ghi ở chú thích cuối bài rằng đội thấy Codex và Claude Code <em>cùng nhau</em> bắt bug tốt hơn một reviewer đơn.<sup><a href="https://www.assembled.com/blog/code-review-bottlenecks-how-we-hill-climbed-our-way-to-higher-pr-throughput" target="_blank">[1]</a></sup> Lý do dễ hiểu nếu nghĩ theo kiểu lỗi tương quan: hai model cùng dòng sẽ bỏ sót những thứ giống nhau, còn hai model khác nhà huấn luyện khác nhau thì phần bỏ sót ít chồng lên nhau hơn. Cái giá phải trả là bạn cần một tầng thứ ba để dung hòa khi hai bên nói ngược — và đó đúng là việc của agent trọng tài. Đáng chú ý là họ tách <em>ý kiến</em> khỏi <em>quyết định</em>: hai model chỉ nêu nhận xét, chỉ trọng tài mới áp chính sách. Tách như vậy làm chính sách trở thành một chỗ duy nhất để sửa, thay vì phải sửa prompt của từng reviewer.</div>
+
+    <h3 class="sub">Chỗ khó thật sự: dải hẹp giữa hai vách</h3>
+
+    <p>Đây là phần bản tin thấy đáng tiền nhất trong cả bài. Tác giả mượn câu của Greg Mankiw — "người ta phản ứng với động lực" — rồi nói chính sách duyệt tự động là phiên bản cực đoan của câu đó: kỹ sư bắt đầu nắn PR cho vừa chính sách, nên <em>chính sách thưởng cái gì, bạn sẽ có nhiều cái đó</em>.<sup><a href="https://www.assembled.com/blog/code-review-bottlenecks-how-we-hill-climbed-our-way-to-higher-pr-throughput" target="_blank">[1]</a></sup></p>
+
+    <p>Từ đó ra hai vách. Chính sách quá lỏng: người ta đẩy việc qua đường đó <em>chính vì</em> nó không soi kỹ, lỗi tích lại trong nhánh chính, và bạn có một đống bug xây lên rất nguy hiểm. Chính sách quá chặt: nó hỏng trong im lặng và bạn không bao giờ lấy lại được lượng dùng — kỹ sư thử hai lần, bị từ chối, rồi thôi không hỏi nữa; bạn không tiết kiệm được giờ review nào và cũng mất luôn dữ liệu để biết chính sách sai ở đâu.<sup><a href="https://www.assembled.com/blog/code-review-bottlenecks-how-we-hill-climbed-our-way-to-higher-pr-throughput" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — hai vách không đối xứng, và đó mới là chỗ khó (phân tích của bản tin, dựa trên [1]):</b> vách "quá lỏng" phát tín hiệu: bug xuất hiện, có người báo, bạn biết mình sai. Vách "quá chặt" thì không phát tín hiệu gì cả — nó chỉ hiện ra dưới dạng <em>không có dữ liệu</em>, vì người ta lặng lẽ ngừng dùng. Nghĩa là nếu bạn chỉ theo dõi chất lượng PR được duyệt, bạn có một hệ cảnh báo chỉ nhìn được một trong hai hướng hỏng. Đó là lý do đội này thêm một chỉ số mà nhiều nơi bỏ qua: <em>tỷ lệ bao phủ</em> — bộ duyệt có duyệt đủ nhiều thứ để đáng tồn tại không. Và điều bất ngờ họ ghi lại khi soi từng PR ở giai đoạn alpha là chính sách ban đầu của họ <em>quá bảo thủ</em>: nhiều ràng buộc chẳng mua được mức an toàn đáng kể nào, mà lại từ chối nhiều tới mức kỹ sư khó lòng dùng tiếp.<sup><a href="https://www.assembled.com/blog/code-review-bottlenecks-how-we-hill-climbed-our-way-to-higher-pr-throughput" target="_blank">[1]</a></sup> Nếu bạn định làm thứ này, hãy chuẩn bị tinh thần rằng trực giác đầu tiên của bạn sẽ lệch về phía chặt.</div>
+
+    <h3 class="sub">Cách mở rộng: alpha soi từng PR, rồi theo dõi tỷ lệ duyệt theo từng người</h3>
+
+    <p>Quy trình rollout của họ có ba nấc, và nấc nào cũng có một chi tiết đáng chép.</p>
+
+    <p>Nấc một, nhóm alpha tin cậy: nhóm nhỏ báo cả trường hợp duyệt nhầm lẫn từ chối nhầm, soi kỹ hơn hẳn với duyệt nhầm. Đội sở hữu chính sách tự review <em>mọi</em> PR khi nó đến rồi so quyết định của mình với quyết định của hệ thống.<sup><a href="https://www.assembled.com/blog/code-review-bottlenecks-how-we-hill-climbed-our-way-to-higher-pr-throughput" target="_blank">[1]</a></sup></p>
+
+    <p>Nấc hai, mở rộng dần kèm kiểm tra: ban đầu soi chất lượng duyệt hằng ngày, rồi giãn nhịp khi lượng dùng và độ tự tin lên. Họ cũng viết tự động hóa để quét các phiên review và nhận diện các kiểu hỏng lặp lại. Kỹ sư có thể xin review lại hoặc để lại phản hồi tự do ngay trên PR; bộ duyệt phân loại phản hồi đó cho quản trị viên quyết chính sách có cần đổi không.<sup><a href="https://www.assembled.com/blog/code-review-bottlenecks-how-we-hill-climbed-our-way-to-higher-pr-throughput" target="_blank">[1]</a></sup></p>
+
+    <p>Nấc ba là chỗ bản tin thấy tinh tế nhất: họ dựng một trang riêng theo dõi ai xin review tự động nhiều nhất và bao nhiêu phần trăm PR của người đó được duyệt. Lý do tác giả nêu rất thẳng — tỷ lệ duyệt gộp <em>che mất</em> những hành vi rất khác nhau. Có tỷ lệ theo người thì mới nói chuyện được với nhóm dùng nhiều (để hiểu họ dùng thế nào, và có đang tìm cách lách không) lẫn nhóm gần như không dùng (để hiểu cái gì đang cản họ).<sup><a href="https://www.assembled.com/blog/code-review-bottlenecks-how-we-hill-climbed-our-way-to-higher-pr-throughput" target="_blank">[1]</a></sup></p>
+
+    <h3 class="sub">Kết quả, và ba chỗ bất ngờ</h3>
+
+    <table class="tbl">
+      <tr><th>Phép đo</th><th>Kết quả sau khi mở cho cả đội</th></tr>
+      <tr><td>PR được merge</td><td>2,4× mức nền trước khi dùng agent; số dòng code 2,8× — tức không phải chẻ cùng một khối việc ra nhiều PR hơn</td></tr>
+      <tr><td>Tỷ trọng duyệt tự động</td><td>43% số lần merge, tính trong ba tuần sau khi mở cho toàn đội</td></tr>
+      <tr><td>PR lớn (từ 600 dòng)</td><td>throughput tăng 3,5×, thời gian chờ p90 giữ nguyên</td></tr>
+      <tr><td>Thành phần công việc</td><td>refactor 7,5× · test 3,4× · sửa bug 3,7× · tính năng mới 2,5×</td></tr>
+      <tr><td>Bug được báo mỗi tuần</td><td>giảm 27%; tỷ lệ revert trên mỗi PR giữ nguyên ở 0,8%</td></tr>
+      <tr><td>Người không phải kỹ sư</td><td>chiếm 13% tổng số PR (thiết kế, PM, hỗ trợ khách hàng — chính sách duyệt riêng, chặt hơn)</td></tr>
+      <tr><td>Thời gian và chi phí</td><td>median một lần review tự động 8 phút; ước tính 3,57 USD tiền LLM mỗi lần</td></tr>
+    </table>
+    <p style="font-size:13px;color:#6b7280;margin-top:-6px">Số lấy từ [1]. Tác giả tự ghi rõ: đây là kết quả quan sát từ một đợt triển khai, không phải thử nghiệm đối chứng; cửa sổ đo bug còn quá ngắn để kết luận, nhất là vì bug được báo có độ trễ.</p>
+
+    <p>Bất ngờ thứ nhất: <strong>gần một nửa tuần đỉnh điểm là trả nợ kỹ thuật</strong> — refactor tăng 7,5 lần trong khi tổng sản lượng chỉ tăng 2,4 lần. Giải thích của tác giả nằm ở tính <em>đoán trước được</em> của luồng nhanh: median tám phút, và quan trọng hơn, bạn biết khoảng khi nào nó tới và phải đạt chuẩn gì. Trước đây, kỹ sư thấy một chỗ cần refactor nhỏ hay một test còn thiếu thì phải cân nhắc xem nó có đáng tiêu của đồng nghiệp một lượt review không; loại PR đó rất dễ bị đẩy xuống cuối danh sách vì không gấp.<sup><a href="https://www.assembled.com/blog/code-review-bottlenecks-how-we-hill-climbed-our-way-to-higher-pr-throughput" target="_blank">[1]</a></sup></p>
+
+    <p>Bất ngờ thứ hai: <strong>CPU của database chính giảm 20%</strong>, vì các đội lắp tự động hóa để cải thiện những câu query chậm mà họ sở hữu.<sup><a href="https://www.assembled.com/blog/code-review-bottlenecks-how-we-hill-climbed-our-way-to-higher-pr-throughput" target="_blank">[1]</a></sup> Nói cách khác, một thay đổi trong quy trình review hiện ra ở biểu đồ hạ tầng. Đó là loại liên hệ rất khó tin trước khi nhìn thấy.</p>
+
+    <p>Bất ngờ thứ ba, và là chỗ ngược đời nhất: <strong>PR lớn chạy nhanh hơn 3,5 lần dù bộ duyệt hầu như không duyệt chúng</strong>. Giải thích tốt nhất của đội: năng lực review phụ thuộc vào sự <em>tập trung</em> không kém gì số giờ. Người duyệt không còn bị dội bom cả ngày bởi những PR nhỏ theo quy ước, nên khi một PR thật sự rơi vào hàng của họ, họ biết nó cần mình và dành thời gian thật cho nó.<sup><a href="https://www.assembled.com/blog/code-review-bottlenecks-how-we-hill-climbed-our-way-to-higher-pr-throughput" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao chất lượng PR <em>người</em> duyệt cũng lên theo (phân tích của bản tin, dựa trên [1]):</b> có một vòng thứ hai ít ai để ý. Để đủ điều kiện duyệt tự động, PR phải có mô tả thật, có bằng chứng test trực tiếp, và theo khuôn mẫu sẵn có. Kỹ sư thích nghi rất nhanh với ba yêu cầu đó — và họ áp dụng chúng cho <em>mọi</em> PR, kể cả những PR sẽ do người duyệt. Tác giả ghi đúng điều này: chuẩn nền của tất cả PR được nâng lên, và codebase bị đẩy về phía thay đổi nhỏ hơn, sạch hơn.<sup><a href="https://www.assembled.com/blog/code-review-bottlenecks-how-we-hill-climbed-our-way-to-higher-pr-throughput" target="_blank">[1]</a></sup> Điểm rút ra cho bạn: bộ tiêu chí duyệt tự động thực chất là một bản <em>định nghĩa "PR tốt"</em> được viết ra thành luật và được thi hành mỗi ngày. Phần lớn các đội có một định nghĩa như vậy trong đầu nhưng chưa bao giờ viết ra; viết ra rồi gắn phần thưởng vào nó là thứ làm đổi hành vi, chứ không phải bản thân con bot.</div>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> nếu bạn định làm một bộ duyệt tự động, thứ bạn thật sự thiết kế không phải một bộ lọc chất lượng mà một <em>hệ thống động lực</em>. Hãy bắt đầu bằng câu hỏi "mình muốn thấy nhiều loại PR nào hơn", rồi mới viết tiêu chí. Và hãy đo cả hai hướng hỏng: chất lượng thứ lọt qua, <em>và</em> tỷ lệ bao phủ. Vách "quá chặt" giết chương trình của bạn trong im lặng, nên nó nguy hiểm hơn vách kia.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> [1] John Wang — <a href="https://www.assembled.com/blog/code-review-bottlenecks-how-we-hill-climbed-our-way-to-higher-pr-throughput" target="_blank">"Code review bottlenecks: How we hill climbed our way to higher PR throughput", Assembled Blog, 07/08/2026</a>.</div>
+  </article>
+
+  <!-- BÀI 2 -->
+  <article class="card" id="bai2">
+    <span class="tag view">Quy trình sản xuất · quản trị &amp; đọc số</span>
+    <h2 class="head">Bot duyệt, người merge: cái neo quản trị giống nhau ở hai công ty rất khác nhau — và vì sao con số của họ lệch nhau ba lần</h2>
+    <p class="src">Nguồn: Benjamin Stark — <a href="https://ona.com/stories/auto-approving-low-risk-prs" target="_blank">"How auto-approving low-risk PRs with AI cut our lead time by 74%"</a>, Ona, 09/04/2026 · Bartosz Ocytko (Executive Principal Engineer) — <a href="https://engineering.zalando.com/posts/2026/08/agentic-engineering-at-zalando-a-snapshot.html" target="_blank">"Agentic Engineering at Zalando: a snapshot"</a>, Zalando Engineering Blog, 14/08/2026. <strong>Lưu ý nguồn:</strong> Ona (tiền thân Gitpod, nay thuộc OpenAI) bán đúng nền tảng agent và automation mà bài mô tả, và bài kết bằng lời mời dùng thử — số của họ là số thật của chính họ nhưng được chọn và trình bày theo hướng có lợi. Zalando không bán công cụ dev; bài của họ là bản tổng kết 2,5 năm cho hơn 250 đội kỹ thuật, ít động cơ tiếp thị hơn nhưng cũng ít số chi tiết hơn.</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">2 giờ 49 phút → 3,8 phút</div><div class="lab">thời gian chờ duyệt đầu tiên (median) ở Ona, so hai cửa sổ 4 tuần quanh ngày bật bot <a href="https://ona.com/stories/auto-approving-low-risk-prs" target="_blank">(Ona, 09/04/2026)</a></div></div>
+      <div class="box"><div class="num">33%</div><div class="lab">tỷ lệ PR ở Zalando được xếp loại rủi ro thấp và bot tự duyệt; lead time PR giảm 20–40% so với toàn bộ PR <a href="https://engineering.zalando.com/posts/2026/08/agentic-engineering-at-zalando-a-snapshot.html" target="_blank">(Zalando, 14/08/2026)</a></div></div>
+      <div class="box"><div class="num">34 → 96</div><div class="lab">số PR mỗi kỹ sư merge trong một tháng ở Ona, với 39 rồi 43 người đóng góp — đội gần như không đổi quy mô <a href="https://ona.com/stories/auto-approving-low-risk-prs" target="_blank">(Ona)</a></div></div>
+    </div>
+
+    <p>Hai công ty này ở hai đầu quang phổ. Ona là một đội sản phẩm dev, trung bình 10,8 PR mỗi kỹ sư mỗi tuần — họ tự đối chiếu con số đó với benchmark của DX và nói nó bằng 2,5 lần phân vị 90.<sup><a href="https://ona.com/stories/auto-approving-low-risk-prs" target="_blank">[2]</a></sup> Zalando có hơn 250 đội kỹ thuật trải khắp nhiều mảng kinh doanh, phần lớn dùng repo riêng cho từng microservice chứ không monorepo.<sup><a href="https://engineering.zalando.com/posts/2026/08/agentic-engineering-at-zalando-a-snapshot.html" target="_blank">[3]</a></sup> Vậy mà cả hai dừng lại ở gần như cùng một thiết kế. Chỗ đó đáng nhìn kỹ.</p>
+
+    <h3 class="sub">Sáu tiêu chí của Ona, và một nguyên tắc họ không nhượng bộ</h3>
+
+    <p>Ona đã chạy sẵn review tự động trên mọi PR từ trước: agent đọc diff, chạy code trong môi trường đầy đủ, đối chiếu ticket, để lại nhận xét nội dòng — với tỷ lệ chấp nhận 88% và giảm một nửa thời gian kỹ sư bỏ cho PR.<sup><a href="https://ona.com/stories/auto-approving-low-risk-prs" target="_blank">[2]</a></sup> Câu hỏi họ đặt ra rất tự nhiên: nếu người chấp nhận phản hồi của agent 88% số lần, agent có thể tự duyệt hẳn một số loại PR không?</p>
+
+    <p>Họ dành hai tuần theo dõi những PR mà agent đã review và người duyệt không thêm gì ngoài chữ "duyệt". Khuôn mẫu hiện ra đều đặn: thay đổi nhỏ, không chạm vùng nhạy cảm, test xanh, không động vào hạ tầng. Từ đó mới viết chính sách.<sup><a href="https://ona.com/stories/auto-approving-low-risk-prs" target="_blank">[2]</a></sup> Một thay đổi chỉ được coi là rủi ro thấp khi đạt <em>tất cả</em> sáu điều kiện: dưới 1.000 dòng thay đổi (cộng cả thêm và bớt); không thêm/sửa định nghĩa protobuf; không thêm/sửa migration database; không đổi hạ tầng hay cấu hình CI; không đổi logic xác thực hoặc phân quyền; không đổi phần audit log hay giám sát. Thiếu một điều kiện là đẩy sang người duyệt.<sup><a href="https://ona.com/stories/auto-approving-low-risk-prs" target="_blank">[2]</a></sup></p>
+
+    <p>Nguyên tắc họ nhấn mạnh và không nhượng bộ: <strong>kỹ sư không được tự khai PR của mình là rủi ro thấp</strong>. Một automation đánh giá mọi PR theo tiêu chí khách quan, tự động. Lý do họ nêu gọn: tự khai tạo động lực lách luật, và để máy vẽ ranh giới thì ranh giới đó kiểm toán được.<sup><a href="https://ona.com/stories/auto-approving-low-risk-prs" target="_blank">[2]</a></sup> Nguyên tắc thứ hai: agent review <em>mọi</em> PR bất kể xếp loại — câu hỏi không phải agent có review hay không, mà có cần thêm người review nữa hay không.<sup><a href="https://ona.com/stories/auto-approving-low-risk-prs" target="_blank">[2]</a></sup></p>
+
+    <h3 class="sub">Cái neo: bot duyệt, người bấm merge</h3>
+
+    <p>Phần quản trị mới là chỗ bản tin cho là quan trọng nhất trong bài của Ona, hơn cả con số 74%.</p>
+
+    <p>Agent được duyệt, nhưng người luôn là bên bấm nút merge. Chính cú merge đó là sự kiện phê duyệt truy vết được cho SOC 2: agent gánh khối lượng review, người kiểm soát cái gì được lên production. Nhận xét review của agent nằm lại trong lịch sử phiên bản cùng danh tính và dấu thời gian của kỹ sư đã merge.<sup><a href="https://ona.com/stories/auto-approving-low-risk-prs" target="_blank">[2]</a></sup> Đội nền tảng kỹ thuật sở hữu công cụ phân loại; mọi thay đổi với logic đánh giá, bộ tiêu chí hay prompt review của agent đều phải được Head of Product Design and Engineering duyệt riêng. Và họ ghi rõ một điều đáng chép: <strong>đổi model AI được tính là thay đổi trọng yếu của chính sách</strong>.<sup><a href="https://ona.com/stories/auto-approving-low-risk-prs" target="_blank">[2]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao tách "duyệt" khỏi "merge" lại quan trọng hơn vẻ ngoài của nó (phân tích của bản tin, dựa trên [2]):</b> nhìn thoáng qua thì đây là thao tác hình thức — nếu người chỉ bấm một nút mà không đọc, chốt chặn có ý nghĩa gì? Nhưng nó giải được một bài toán rất cụ thể trong tuân thủ. Khung kiểu SOC 2 cần một sự kiện phê duyệt gắn với một <em>danh tính chịu trách nhiệm</em>. Một bot không có danh tính chịu trách nhiệm theo nghĩa đó, nên nếu bot vừa duyệt vừa merge thì chuỗi bằng chứng đứt. Đặt cú merge vào tay người là cách giữ chuỗi bằng chứng nguyên vẹn <em>mà vẫn</em> bỏ được phần chờ. Và số liệu của chính Ona cho thấy phần chờ mới là thứ tốn thời gian: bot không tự merge, vậy mà lead time vẫn giảm 74% — vì trước đó kỹ sư mở PR xong là chuyển việc khác, biết rằng review sẽ mất hàng giờ; giờ duyệt về sau vài phút, họ còn đang trong mạch nên merge ngay.<sup><a href="https://ona.com/stories/auto-approving-low-risk-prs" target="_blank">[2]</a></sup> Ona viết thẳng: họ không cần tự động merge để có phần lợi về tốc độ. Đây là một tin tốt cho đội nào đang lo về tuân thủ — phần rủi ro nhất của tự động hóa lại là phần ít giá trị nhất.</div>
+
+    <h3 class="sub">Zalando: luật rút từ chính các sự cố của mình</h3>
+
+    <p>Zalando đi tới cùng thiết kế nhưng qua một cửa khác. Công cụ của họ chạy lúc PR được tạo và xếp mỗi PR vào một trong ba mức rủi ro triển khai: thấp, trung bình, cao. 33% số PR rơi vào mức thấp và được bot tự duyệt, sau đó tác giả PR có thể tự merge. Lead time PR giảm 20–40% so với toàn bộ PR.<sup><a href="https://engineering.zalando.com/posts/2026/08/agentic-engineering-at-zalando-a-snapshot.html" target="_blank">[3]</a></sup></p>
+
+    <p>Điểm khác biệt nằm ở nguồn gốc bộ luật. Zalando không xây tiêu chí từ lý thuyết về rủi ro, cũng không từ việc quan sát PR nào bị đóng dấu cho qua như Ona. Họ dựng nó từ <em>phân tích các sự cố production của chính mình</em> và những nguyên nhân hay gây gián đoạn nhất. Luật vì thế rất gắn với ngăn xếp cụ thể của họ: manifest triển khai, file cấu hình, và tương tự. Lỗi gõ nhầm làm hỏng cấu hình được xếp mức cao — tác giả nói thẳng là nó sẽ cứu được họ khỏi một sự cố cũ mà họ từng viết lại công khai. Phá vỡ tương thích ngược là mức trung bình, cần người khác nhìn để xác nhận lý do nghiệp vụ. Thay đổi chỉ đụng tài liệu là mức thấp.<sup><a href="https://engineering.zalando.com/posts/2026/08/agentic-engineering-at-zalando-a-snapshot.html" target="_blank">[3]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — hai cách hợp lệ để sinh ra bộ tiêu chí, và chúng trả lời hai câu hỏi khác nhau (phân tích của bản tin, dựa trên [1][2][3]):</b> Ona và Assembled đều bắt đầu bằng quan sát <em>hành vi người duyệt</em> — PR nào con người nhìn xong không nói gì. Zalando bắt đầu bằng <em>lịch sử sự cố</em> — thay đổi kiểu nào từng làm sập production. Hai cách cho ra hai bộ luật khác nhau về bản chất. Cách thứ nhất tối ưu cho việc không lãng phí sự chú ý của người: nó bắt đúng phần "người xem cũng chẳng thêm được gì". Cách thứ hai tối ưu cho việc không để lọt thứ nguy hiểm: nó bắt đúng phần "cái này từng cắn chúng ta". Đội nào có dữ liệu sự cố tử tế nên bắt đầu bằng cách của Zalando, vì nó neo vào hậu quả thật chứ không vào thói quen. Đội chưa có lịch sử sự cố đủ dày thì cách của Ona/Assembled rẻ hơn và cho tín hiệu trong vài tuần. Tốt nhất là làm cả hai: một bộ luật chặn theo sự cố, một bộ luật mở theo quan sát, và luật chặn luôn thắng.</div>
+
+    <h3 class="sub">Vì sao 74% không chuyển được sang hệ của bạn</h3>
+
+    <p>Đây là chỗ bản tin muốn bạn cẩn thận nhất. Ba con số — 74%, 2,4× và 33% — nghe như ba mức hiệu quả của cùng một thứ. Chúng không phải vậy.</p>
+
+    <table class="tbl">
+      <tr><th></th><th>Ona [2]</th><th>Assembled [1]</th><th>Zalando [3]</th></tr>
+      <tr><td>Con số nổi bật</td><td>lead time −74%; chờ duyệt đầu tiên −98%</td><td>PR merge 2,4× mức nền</td><td>33% PR tự duyệt; lead time −20–40%</td></tr>
+      <tr><td>So với cái gì</td><td>hai cửa sổ 4 tuần liền kề, chỉ tính PR do người viết</td><td>"mức nền trước khi dùng agent", ba tuần sau khi mở toàn đội</td><td>toàn bộ PR của tổ chức</td></tr>
+      <tr><td>Quy mô</td><td>39 → 43 người đóng góp</td><td>một đội sản phẩm, không nêu số</td><td>hơn 250 đội, nhiều mảng kinh doanh</td></tr>
+      <tr><td>Nguồn gốc bộ luật</td><td>quan sát PR bị đóng dấu cho qua, 2 tuần</td><td>quan sát + tinh chỉnh qua nhóm alpha</td><td>phân tích sự cố production</td></tr>
+      <tr><td>Thay đổi đi kèm cùng lúc</td><td>bỏ tự động gán người duyệt; tác giả tự chọn người duyệt</td><td>mở cho người không phải kỹ sư; nhiều vòng sửa chính sách</td><td>không nêu</td></tr>
+      <tr><td>Xung đột lợi ích</td><td>bán đúng sản phẩm này</td><td>không bán công cụ dev</td><td>không bán công cụ dev</td></tr>
+    </table>
+    <p style="font-size:13px;color:#6b7280;margin-top:-6px">Bảng do bản tin lập từ ba nguồn; cột "xung đột lợi ích" và cách phân loại là đánh giá của bản tin, không có trong nguồn.</p>
+
+    <p>Ba điều rút ra từ bảng này. Thứ nhất, mẫu số quyết định con số. Mức chờ ban đầu của Ona là 2 giờ 49 phút; chỗ nào chờ lâu thì cắt chờ cho ra phần trăm to. Nếu đội bạn đang chờ 20 phút, đừng mong 74%. Thứ hai, Ona thay đổi <em>ba</em> thứ cùng lúc: bật duyệt tự động, bỏ tự động gán người duyệt (vì nó tạo nhiễu chẳng ai xử lý), và giao cho tác giả PR tự chọn người duyệt.<sup><a href="https://ona.com/stories/auto-approving-low-risk-prs" target="_blank">[2]</a></sup> Họ nói rõ là duyệt tự động là đòn bẩy lớn nhất, nhưng bạn không tách được phần đóng góp của từng thứ từ dữ liệu này. Thứ ba, 33% của Zalando và 43% của Assembled thì so sánh được với nhau hơn hai con số kia, vì cùng đo một thứ: <em>tỷ trọng công việc đi qua luồng nhanh</em>. Hai con số đó rơi vào cùng một khoảng, và bản tin nghĩ đó mới là chỉ số bạn nên đặt kỳ vọng — chứ không phải phần trăm giảm lead time.</p>
+
+    <div class="mech"><b>Cơ chế — chỉ số nào chuyển được giữa các tổ chức, chỉ số nào không (phân tích của bản tin):</b> phần trăm cải thiện luôn mang theo mẫu số của nơi nó sinh ra, nên nó gần như không chuyển được. Tỷ trọng thì chuyển được tốt hơn nhiều, vì nó mô tả <em>cấu trúc công việc</em> chứ không mô tả mức tệ của trạng thái ban đầu. "Khoảng một phần ba tới hơn bốn phần mười thay đổi trong một codebase SaaS là thứ người duyệt không thêm giá trị" là một khẳng định bạn kiểm được trên repo của chính mình, trong hai tuần, không cần cài gì: chỉ cần đếm xem bao nhiêu phần trăm PR được duyệt mà không có một nhận xét nào ngoài lời chấp thuận. Nếu tỷ lệ đó ở đội bạn là 10%, thì dựng bộ duyệt tự động sẽ không đáng công. Nếu nó là 40%, bạn vừa tìm ra chỗ đáng làm nhất quý này.</div>
+
+    <h3 class="sub">Hiệu ứng phụ giống nhau ở cả ba nơi: kỹ sư tự chẻ PR</h3>
+
+    <p>Cả ba bài đều kể cùng một chuyện, và không bên nào nói đó là mục tiêu ban đầu.</p>
+
+    <p>Ona: thay đổi lớn và lan man dễ trượt tiêu chí và bị đẩy sang người duyệt, nên kỹ sư tự nhiên ngả về PR nhỏ và tập trung hơn — mà PR nhỏ thì dễ hơn cho cả người lẫn agent, và ship nhanh hơn.<sup><a href="https://ona.com/stories/auto-approving-low-risk-prs" target="_blank">[2]</a></sup> Assembled: thay đổi lớn được chẻ thành đơn vị nhỏ để từng mảnh có cơ hội lọt cửa.<sup><a href="https://www.assembled.com/blog/code-review-bottlenecks-how-we-hill-climbed-our-way-to-higher-pr-throughput" target="_blank">[1]</a></sup> Zalando ghi lại một biến thể tinh tế hơn: bằng chứng quan sát được cho thấy bot làm đổi hành vi kỹ sư theo hướng tăng xác suất có một PR rủi ro thấp — ví dụ, họ tách phần ship nhanh được (tương thích ngược, rủi ro thấp) khỏi phần kém quan trọng hơn (bỏ các trường không còn dùng, mức trung bình, cần thêm một lượt duyệt). Trước đây hai loại thay đổi đó hay bị trộn chung, làm chậm thời gian ra thị trường và tăng rủi ro triển khai.<sup><a href="https://engineering.zalando.com/posts/2026/08/agentic-engineering-at-zalando-a-snapshot.html" target="_blank">[3]</a></sup></p>
+
+    <p>Bối cảnh Zalando làm chi tiết này nặng hơn: chính họ đo được kích thước PR đang phình theo thời gian từ hai năm nay, với nhóm 100–500 dòng tăng đều và các nhóm 500–1.000 và 1.000–2.000 dòng cùng tăng kể từ quý 2/2025. Một số đội thấy PR to là vấn đề đã tự thỏa thuận nội bộ về giới hạn kích thước; ép cứng bằng hook trước commit thì ít được ưa chuộng.<sup><a href="https://engineering.zalando.com/posts/2026/08/agentic-engineering-at-zalando-a-snapshot.html" target="_blank">[3]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao cái van làm được thứ mà lệnh cấm không làm được (phân tích của bản tin, dựa trên [3]):</b> để ý sự đối lập trong chính dữ liệu Zalando. Ép giới hạn kích thước PR bằng hook thì "ít được ưa chuộng" — nó là một lệnh cấm, nó chặn người ta làm thứ họ đang muốn làm, và nó không cho lại gì. Bộ phân loại rủi ro thì ngược: nó không cấm bạn mở PR to, nó chỉ <em>thưởng</em> cho PR nhỏ bằng một thứ bạn muốn thật — được duyệt ngay lập tức. Cùng một hành vi mong muốn, hai cơ chế, và cơ chế thưởng thắng. Đây là chỗ đáng suy nghĩ với những chuẩn kỹ thuật khác mà đội bạn vẫn cố áp bằng linter và checklist: câu hỏi hay hơn "làm sao chặn được việc này" thường là "cái gì đang làm cho việc kia dễ hơn, và mình gắn phần thưởng vào đâu".</div>
+
+    <div class="scale">
+      <div class="col small"><h4>Đội nhỏ / startup dưới 10 người</h4>
+        <ul>
+          <li>Trước khi dựng gì, đo tỷ lệ "PR được duyệt mà không có nhận xét nào" trong 2–4 tuần gần nhất. Dưới ~20% thì chưa đáng làm; quanh 30–45% thì đó là phần việc bạn đang phí — mức Zalando và Assembled đo được là 33% và 43%.<sup><a href="https://engineering.zalando.com/posts/2026/08/agentic-engineering-at-zalando-a-snapshot.html" target="_blank">[3]</a></sup><sup><a href="https://www.assembled.com/blog/code-review-bottlenecks-how-we-hill-climbed-our-way-to-higher-pr-throughput" target="_blank">[1]</a></sup></li>
+          <li>Đừng bắt đầu bằng hai model và một trọng tài. Bắt đầu bằng vài luật xác định (số dòng, đường dẫn file nhạy cảm, có migration không) — chúng đã chặn được phần lớn rủi ro và không tốn tiền suy luận.</li>
+          <li>Giữ nguyên tắc người bấm merge ngay từ đầu, kể cả khi chưa cần SOC 2. Thêm nó về sau khó hơn nhiều so với có sẵn.<sup><a href="https://ona.com/stories/auto-approving-low-risk-prs" target="_blank">[2]</a></sup></li>
+          <li>Viết bộ tiêu chí ra thành văn bản, dù mới là bốn dòng. Đó là bản định nghĩa "PR tốt" của đội bạn, và nó đáng giá kể cả khi bạn chưa tự động hóa gì.</li>
+        </ul>
+      </div>
+      <div class="col"><h4>Đội đã có sản phẩm chạy production</h4>
+        <ul>
+          <li>Rút luật chặn từ lịch sử sự cố của chính bạn, không từ danh sách chung. Zalando ghim "gõ nhầm trong file cấu hình" vào mức rủi ro cao vì họ từng bị đúng chuyện đó.<sup><a href="https://engineering.zalando.com/posts/2026/08/agentic-engineering-at-zalando-a-snapshot.html" target="_blank">[3]</a></sup></li>
+          <li>Không cho kỹ sư tự khai mức rủi ro. Máy vẽ ranh giới thì ranh giới mới kiểm toán được, và mới không tạo động lực lách.<sup><a href="https://ona.com/stories/auto-approving-low-risk-prs" target="_blank">[2]</a></sup></li>
+          <li>Ghi vào chính sách rằng <em>đổi model là thay đổi trọng yếu</em>, cần duyệt lại. Nếu không, một lần nâng phiên bản lặng lẽ sẽ đổi ngưỡng duyệt mà không ai biết.<sup><a href="https://ona.com/stories/auto-approving-low-risk-prs" target="_blank">[2]</a></sup></li>
+          <li>Theo dõi tỷ lệ duyệt <em>theo từng người</em>, không chỉ tỷ lệ gộp — gộp che mất cả nhóm đang lách lẫn nhóm đã bỏ dùng.<sup><a href="https://www.assembled.com/blog/code-review-bottlenecks-how-we-hill-climbed-our-way-to-higher-pr-throughput" target="_blank">[1]</a></sup></li>
+          <li>Trong giai đoạn alpha, để đội sở hữu chính sách tự review mọi PR và so với quyết định của hệ thống. Assembled làm vậy và phát hiện chính sách của họ quá chặt, không phải quá lỏng.<sup><a href="https://www.assembled.com/blog/code-review-bottlenecks-how-we-hill-climbed-our-way-to-higher-pr-throughput" target="_blank">[1]</a></sup></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> đừng nhắm vào con số 74%, nhắm vào tỷ trọng. Câu hỏi đáng hỏi không phải "bot tiết kiệm được bao nhiêu phần trăm thời gian" mà "bao nhiêu phần công việc của đội mình hiện đang đi qua một lượt duyệt không tạo ra giá trị nào". Hai công ty không bán công cụ dev đo được con số đó ở mức 33% và 43%. Nếu ở đội bạn nó gần mức ấy, phần lớn lợi ích nằm ở việc <em>viết bộ tiêu chí ra</em> — con bot chỉ là cách thi hành nó mỗi ngày.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> [2] Benjamin Stark — <a href="https://ona.com/stories/auto-approving-low-risk-prs" target="_blank">"How auto-approving low-risk PRs with AI cut our lead time by 74%", Ona, 09/04/2026</a> (công ty bán nền tảng agent/automation cho kỹ thuật, tiền thân Gitpod, nay thuộc OpenAI — đọc như tường thuật cấp một có động cơ tiếp thị) · [3] Bartosz Ocytko — <a href="https://engineering.zalando.com/posts/2026/08/agentic-engineering-at-zalando-a-snapshot.html" target="_blank">"Agentic Engineering at Zalando: a snapshot", Zalando Engineering Blog, 14/08/2026</a>.</div>
+  </article>
+
+  <!-- GÓC NHÌN -->
+  <article class="card" id="gocnhin">
+    <span class="tag legacy">Góc nhìn</span>
+    <h2 class="head">Ba thứ giống nhau ở cả ba đội — và chúng đều không phải chuyện AI</h2>
+
+    <p>Ba công ty rất khác nhau: một đội sản phẩm dev khoảng 40 người, một công ty phần mềm hỗ trợ khách hàng, và một tập đoàn bán lẻ với hơn 250 đội kỹ thuật. Model khác nhau, hạ tầng khác nhau, cách sinh bộ luật khác nhau. Nhưng có ba thứ trùng khít, và cả ba đều là quyết định về tổ chức chứ không về công nghệ.</p>
+
+    <p><strong>Một — người viết code không được tự xếp loại rủi ro cho code của mình.</strong> Ona nói thẳng lý do: tự khai tạo động lực lách luật.<sup><a href="https://ona.com/stories/auto-approving-low-risk-prs" target="_blank">[2]</a></sup> Assembled chạm cùng vấn đề từ phía khác, khi họ theo dõi tỷ lệ duyệt theo từng người để phát hiện ai đang tìm cách lách.<sup><a href="https://www.assembled.com/blog/code-review-bottlenecks-how-we-hill-climbed-our-way-to-higher-pr-throughput" target="_blank">[1]</a></sup> Zalando đặt bộ phân loại ngay ở bước tạo PR, trước khi tác giả kịp làm gì.<sup><a href="https://engineering.zalando.com/posts/2026/08/agentic-engineering-at-zalando-a-snapshot.html" target="_blank">[3]</a></sup></p>
+
+    <p><strong>Hai — bot được duyệt, người vẫn bấm merge.</strong> Đây là thứ giữ chuỗi bằng chứng cho kiểm toán, và điều bất ngờ là bỏ nó đi cũng chẳng được thêm bao nhiêu tốc độ: Ona không tự động merge mà lead time vẫn giảm 74%, vì thứ tốn thời gian là <em>chờ</em>, không phải <em>merge</em>.<sup><a href="https://ona.com/stories/auto-approving-low-risk-prs" target="_blank">[2]</a></sup></p>
+
+    <p><strong>Ba — chính sách duyệt là một hệ thống động lực, và nó sẽ nắn hành vi dù bạn có muốn hay không.</strong> Cả ba nơi đều ghi nhận kỹ sư tự chẻ PR nhỏ lại sau khi bot chạy, và không nơi nào đặt đó làm mục tiêu ban đầu.<sup><a href="https://ona.com/stories/auto-approving-low-risk-prs" target="_blank">[2]</a></sup><sup><a href="https://www.assembled.com/blog/code-review-bottlenecks-how-we-hill-climbed-our-way-to-higher-pr-throughput" target="_blank">[1]</a></sup><sup><a href="https://engineering.zalando.com/posts/2026/08/agentic-engineering-at-zalando-a-snapshot.html" target="_blank">[3]</a></sup> Nên hãy chọn tiêu chí như thể bạn đang viết bảng lương, không phải viết bộ lọc.</p>
+
+    <p>Có một điều cả ba đều không trả lời được, và đáng nói ra. Không ai trong ba nơi này có dữ liệu chất lượng dài hạn. Assembled ghi số bug giảm 27% nhưng tự cảnh báo cửa sổ quá ngắn và bug có độ trễ khi được báo.<sup><a href="https://www.assembled.com/blog/code-review-bottlenecks-how-we-hill-climbed-our-way-to-higher-pr-throughput" target="_blank">[1]</a></sup> Ona không công bố số chất lượng nào. Zalando thì đang đo một thứ khác và hơi đáng lo: độ phức tạp vòng của codebase có điểm gãy trùng đúng lúc coding agent xuất hiện, và ở codebase dựng bằng agent từ đầu thì độ phức tạp tích lên rất nhanh rồi mới chững lại.<sup><a href="https://engineering.zalando.com/posts/2026/08/agentic-engineering-at-zalando-a-snapshot.html" target="_blank">[3]</a></sup> Đó là câu hỏi mở, và bản tin sẽ theo tiếp.</p>
+
+    <div class="doslist">
+      <div><strong>Ba việc làm được trong tuần này</strong></div>
+      <div>✅ Đếm tỷ lệ PR bốn tuần gần nhất được duyệt mà không kèm một nhận xét nào. Con số đó quyết định việc này có đáng làm ở đội bạn không — và nó lấy ra được từ API của GitHub hay GitLab trong một buổi chiều.</div>
+      <div>✅ Mở lại ba sự cố gần nhất và hỏi: thay đổi gây ra nó thuộc loại nào? Đó là danh sách luật chặn đầu tiên của bạn, và nó tốt hơn mọi danh sách đi mượn.<sup><a href="https://engineering.zalando.com/posts/2026/08/agentic-engineering-at-zalando-a-snapshot.html" target="_blank">[3]</a></sup></div>
+      <div>✅ Viết bộ tiêu chí "PR tốt" ra thành văn bản, dù chưa tự động hóa gì. Ở cả ba nơi, phần làm đổi hành vi là bộ tiêu chí được viết rõ và gắn phần thưởng, không phải bản thân con bot.</div>
+      <div>❌ Đừng hứa với sếp con số 74%. Mức chờ ban đầu của Ona là 2 giờ 49 phút; phần trăm đó là của mẫu số ấy, không phải của bạn.<sup><a href="https://ona.com/stories/auto-approving-low-risk-prs" target="_blank">[2]</a></sup></div>
+      <div>❌ Đừng bắt đầu bằng chính sách chặt rồi nới dần. Assembled thử đúng vậy và suýt mất người dùng — vách "quá chặt" không phát tín hiệu, nó chỉ làm chương trình chết lặng.<sup><a href="https://www.assembled.com/blog/code-review-bottlenecks-how-we-hill-climbed-our-way-to-higher-pr-throughput" target="_blank">[1]</a></sup></div>
+    </div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> [1] <a href="https://www.assembled.com/blog/code-review-bottlenecks-how-we-hill-climbed-our-way-to-higher-pr-throughput" target="_blank">Assembled, 07/08/2026</a> · [2] <a href="https://ona.com/stories/auto-approving-low-risk-prs" target="_blank">Ona, 09/04/2026</a> · [3] <a href="https://engineering.zalando.com/posts/2026/08/agentic-engineering-at-zalando-a-snapshot.html" target="_blank">Zalando Engineering, 14/08/2026</a>.</div>
+  </article>
+
+  <div class="foot">Bản tin sáng · Số 21/09/2026</div>
+</div>
+</body>
+</html>
