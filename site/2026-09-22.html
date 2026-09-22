@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hóa đơn AI và hóa đơn database &middot; 22/09/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 22/09/2026</div>
+    <h1 class="title">"Nhu cầu vượt xa kỳ vọng" — và đó là tin xấu: Canva hạ dự báo tăng trưởng một phần ba vì hóa đơn AI, rồi cắt 90% chi phí mỗi tác vụ</h1>
+    <div class="meta">22/09/2026 · Đọc khoảng 14 phút · Nguồn chính: Melania Watson — "Canva Cuts Revenue Forecast Following AI Cost Blowout", B&amp;T, 05/08/2026 (thuật lại thư gửi cổ đông của Melanie Perkins); Mia Osmonbekov — Fortune, 12/08/2026; Akshay Thusoo &amp; Gaurav Bansal — Arcesium Engineering, 22/04/2026</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: số hôm nay có <b>hai bài</b> về cùng một thứ nhìn từ hai đầu — <em>chi phí đơn vị của việc phục vụ một request</em>. Bài 1 là chi phí mỗi tác vụ AI ở quy mô một tỷ thiết kế mỗi tháng. Bài 2 là chi phí mỗi GB nằm trong database ở một công ty fintech. Lưu ý nguồn: số của Canva đến từ thư gửi cổ đông do chính công ty phát ra, báo chí thuật lại — công ty có động cơ trình bày phần cắt giảm cho đẹp, và các tỷ lệ "rẻ hơn 30 lần" không kèm phương pháp đo, không có bên thứ ba kiểm chứng. Số của Arcesium là blog kỹ thuật cấp một, không có thí nghiệm đối chứng, và "40–60%" là mức trung bình trên tập khách hàng chứ không phải con số tuyệt đối. Các khối gắn nhãn <b style="color:#1e40af">Cơ chế</b>, bảng đối chiếu và phần "Rút ra theo quy mô" là phân tích tổng hợp của bản tin — <em>không trích nguyên văn từ nguồn</em>. Mọi con số đều dẫn nguồn ngay cạnh câu. Không chèn code minh họa.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1"><strong>Bài 1</strong> — Canva &amp; Figma: hai công ty chạm cùng một bức tường cách nhau năm ngày<br><span style="font-size:13.5px;color:#6b7280">· dự báo tăng trưởng 30% → 20% · doanh thu quý 921,9 triệu USD · chi phí mỗi tác vụ AI giảm gần 90% trong ba tháng · model nhà rẻ hơn 17×/23×/30× · bậc thang bốn nấc để hạ chi phí suy luận · vì sao Figma lộ ở dòng tiền còn Canva lộ ở guidance</span></a></li>
+      <li><a href="#bai2"><strong>Bài 2</strong> — Một đội bê dữ liệu nguội ra S3 và cắt 40–60% tiền lưu trữ database<br><span style="font-size:13.5px;color:#6b7280">· 97–98% request chỉ chạm ba tháng gần nhất · ranh giới 95 ngày · bốn tuần shadow mode, ~10.000 lần so khớp, 0 sự cố · hai lỗi ngữ nghĩa mà unit test không bắt được · một lỗi họ không sửa được và ghi thẳng ra</span></a></li>
+      <li><a href="#gocnhin"><strong>Góc nhìn</strong> — Cả hai đều bắt đầu bằng một phép đếm phân bố, không phải một quyết định công nghệ</a></li>
+    </ol>
+  </nav>
+
+  <!-- BÀI 1 -->
+  <article class="card" id="bai1">
+    <span class="tag saas">AI trong SaaS · kinh tế đơn vị</span>
+    <h2 class="head">Khi "người dùng thích tính năng mới" trở thành một khoản lỗ: Canva làm chậm rollout AI để dựng lại hạ tầng</h2>
+    <p class="src">Nguồn: Melania Watson — <a href="https://www.bandt.com.au/canva-slashes-revenue-forecast-due-to-ai-spend-being-higher-than-expected/" target="_blank">"Canva Cuts Revenue Forecast Following AI Cost Blowout"</a>, B&amp;T, 05/08/2026, thuật lại thư gửi cổ đông của CEO Melanie Perkins · Mia Osmonbekov — <a href="https://fortune.com/2026/08/12/canva-startup-growth-ai-costs-revenue-forecast-by-third/" target="_blank">"AI was supposed to power Canva's next act. It also exposed software's most expensive problem"</a>, Fortune, 12/08/2026. <strong>Lưu ý nguồn:</strong> đây là số do công ty tự công bố, không phải báo cáo kiểm toán công khai. Canva là công ty tư nhân nên không có nghĩa vụ công bố biên lợi nhuận; phần "rẻ hơn 17×/23×/30×" không kèm phương pháp đo.</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">30% → ~20%</div><div class="lab">dự báo tăng trưởng doanh thu cả năm, hạ xuống sau khi hóa đơn AI vượt kế hoạch <a href="https://www.bandt.com.au/canva-slashes-revenue-forecast-due-to-ai-spend-being-higher-than-expected/" target="_blank">(B&amp;T, 05/08/2026)</a></div></div>
+      <div class="box"><div class="num">~90%</div><div class="lab">mức giảm chi phí xử lý một tác vụ AI sau ba tháng dựng lại hạ tầng <a href="https://www.bandt.com.au/canva-slashes-revenue-forecast-due-to-ai-spend-being-higher-than-expected/" target="_blank">(cùng nguồn)</a></div></div>
+      <div class="box"><div class="num">921,9 triệu USD</div><div class="lab">doanh thu quý, tăng 25% so với cùng kỳ — tăng trưởng vẫn tốt, guidance vẫn bị hạ <a href="https://www.bandt.com.au/canva-slashes-revenue-forecast-due-to-ai-spend-being-higher-than-expected/" target="_blank">(cùng nguồn)</a></div></div>
+    </div>
+
+    <p>Có một loại tin xấu rất lạ: sản phẩm mới được đón nhận nồng nhiệt hơn dự tính, và công ty phải hạ dự báo tăng trưởng vì chuyện đó. Canva vừa rơi đúng vào loại này.</p>
+
+    <p>Tháng 4, Canva phát hành Canva AI 2.0, bản nâng cấp dựng chiến dịch marketing chỉnh sửa được từ một câu prompt, kéo dữ liệu từ Slack và Gmail. Perkins gọi đó là thời khắc quan trọng nhất lịch sử công ty.<sup><a href="https://www.bandt.com.au/canva-slashes-revenue-forecast-due-to-ai-spend-being-higher-than-expected/" target="_blank">[1]</a></sup> Rồi người dùng đổ vào nhiều hơn mọi mô hình dự báo của họ. Perkins nói với Fortune rằng nhu cầu <em>"significantly exceeded"</em> — vượt đáng kể — kỳ vọng của công ty.<sup><a href="https://fortune.com/2026/08/12/canva-startup-growth-ai-costs-revenue-forecast-by-third/" target="_blank">[2]</a></sup> Mỗi người dùng Canva AI tạo ra số thiết kế gấp ba lần so với bản trước.<sup><a href="https://fortune.com/2026/08/12/canva-startup-growth-ai-costs-revenue-forecast-by-third/" target="_blank">[2]</a></sup></p>
+
+    <p>Và đó là lúc hóa đơn hiện ra. Trong thư gửi cổ đông, Perkins liệt kê ba chỗ hỏng cùng lúc: công ty dựa quá nhiều vào frontier model; nhiều model nhà chưa kịp sẵn sàng để phát hành; còn giá, mô hình tiêu thụ và cơ chế chặn mức dùng thì chưa theo kịp lượng cầu thực tế.<sup><a href="https://www.bandt.com.au/canva-slashes-revenue-forecast-due-to-ai-spend-being-higher-than-expected/" target="_blank">[1]</a></sup> Canva quyết định làm chậm rollout lại — không phải vì sản phẩm dở, mà vì càng phát rộng càng lỗ.</p>
+
+    <div class="mech"><b>Cơ chế — vì sao "adoption tăng" đổi dấu từ tốt sang xấu (phân tích của bản tin, dựa trên [1][2]):</b> trong SaaS kiểu cũ, người dùng dùng nhiều gần như luôn tốt. Chi phí phục vụ thêm một lần dùng xấp xỉ bằng không, nên dùng nhiều nghĩa là giữ chân tốt hơn, dễ bán thêm ghế hơn. Với tính năng AI, mỗi lần dùng là một lần trả tiền suy luận. Doanh thu từ thuê bao thì phẳng theo tháng, còn chi phí thì đi theo số lần bấm. Hai đường đó cắt nhau ở đâu tùy vào giá bạn đặt — và với gói freemium thì nhóm không trả tiền nằm hoàn toàn bên phần chi phí. Nên khi bạn đọc dashboard adoption của một tính năng AI, bạn đang đọc hai thứ trong cùng một con số: mức độ được yêu thích, và tốc độ đốt tiền. Chừng nào chưa có cột "chi phí mỗi tác vụ" nằm ngay cạnh cột "số lượt dùng", bạn chỉ đang nhìn một nửa.</div>
+
+    <h3 class="sub">Họ đã làm gì trong ba tháng đó</h3>
+
+    <p>Canva dành ba tháng dựng lại hạ tầng AI, tự phát triển thêm model của mình và giảm phụ thuộc vào nhà cung cấp bên thứ ba.<sup><a href="https://www.bandt.com.au/canva-slashes-revenue-forecast-due-to-ai-spend-being-higher-than-expected/" target="_blank">[1]</a></sup> Kết quả công ty công bố: chi phí xử lý một tác vụ AI giảm gần 90%. Model style-transfer tự làm rẻ hơn khoảng 23 lần so với frontier model tương đương; model sinh ảnh rẻ hơn 30 lần; model video rẻ hơn 17 lần.<sup><a href="https://www.bandt.com.au/canva-slashes-revenue-forecast-due-to-ai-spend-being-higher-than-expected/" target="_blank">[1]</a></sup></p>
+
+    <p>Có một chi tiết dễ lướt qua nhưng đáng dừng lại. Canva bắt đầu ưu tiên dùng nội dung họ đã sở hữu: kho hơn 165 triệu template và tài nguyên sáng tạo được tra trước, chỉ sinh nội dung AI hoàn toàn mới khi không tìm được thứ phù hợp.<sup><a href="https://www.bandt.com.au/canva-slashes-revenue-forecast-due-to-ai-spend-being-higher-than-expected/" target="_blank">[1]</a></sup> Đây không phải chuyện model rẻ hơn. Đây là chuyện không gọi model.</p>
+
+    <div class="mech"><b>Cơ chế — bậc thang bốn nấc của chi phí suy luận (phân tích của bản tin, tổng hợp từ thực hành phổ biến, gợi ý bởi [1]):</b> nấc rẻ nhất là <em>không sinh gì cả</em> — tra trong kho có sẵn và trả về. Nấc hai là <em>tái dùng kết quả đã sinh</em>: cache theo prompt đã chuẩn hóa, dùng lại cho người khác khi yêu cầu đủ giống. Nấc ba là <em>model nhà nhỏ hơn</em>, huấn luyện cho đúng một loại tác vụ hẹp. Nấc bốn là <em>frontier model</em>. Chênh lệch giá giữa nấc một và nấc bốn không phải vài chục phần trăm mà vài bậc độ lớn. Hầu hết đội chỉ tối ưu ở nấc ba và nấc bốn, vì đó là chỗ có nút bấm sẵn. Nhưng phần trăm lưu lượng bạn đẩy được xuống nấc một và nấc hai mới là thứ quyết định hóa đơn. Cái giá phải trả: nấc càng thấp thì kết quả càng ít cá nhân hóa, nên bạn phải biết tác vụ nào người dùng chấp nhận "gần đúng" và tác vụ nào không.</div>
+
+    <div class="mech"><b>Cơ chế — "rẻ hơn 30 lần" nghĩa là gì và không nghĩa là gì (phân tích của bản tin, dựa trên [1]):</b> đó là so chi phí chạy, không phải so chất lượng. Một model chuyên cho một tác vụ hẹp gần như luôn rẻ hơn model tổng quát, vì nó nhỏ hơn và không phải mang theo năng lực nó không dùng tới. Chỗ nó thua là phần đuôi — các trường hợp lệch khỏi phân bố huấn luyện. Đáng chú ý là Canva không thay hết: họ vẫn định tuyến công việc sang frontier model tùy loại tác vụ. Nghĩa là bài toán thật không phải "model nhà hay model thuê" mà "tác vụ nào chịu được model rẻ". Và câu trả lời đó chỉ có được bằng cách đo chất lượng trên từng loại tác vụ trước khi hạ model — chứ không phải hạ rồi chờ người dùng phàn nàn.</div>
+
+    <h3 class="sub">Figma chạm cùng bức tường, nhưng chỗ rò hiện ra ở chỉ số khác</h3>
+
+    <p>Điều làm chuyện này thành một xu hướng chứ không phải một sự cố riêng lẻ là Figma. Biên dòng tiền tự do của Figma rơi từ 27% ở quý 1 xuống 14% ở quý 2; dự báo tăng trưởng doanh thu quý 3 là 36%, giảm từ mức 48% của quý trước.<sup><a href="https://fortune.com/2026/08/12/canva-startup-growth-ai-costs-revenue-forecast-by-third/" target="_blank">[2]</a></sup> Derek Hernandez, chuyên viên phân tích của PitchBook, nói hai công ty này là tín hiệu lớn nhất cho thấy AI đang phá mô hình truyền thống của SaaS, và gọi chi phí biên bằng không là thứ "bí quyết" đã nuôi lợi nhuận phần mềm từ trước tới nay.<sup><a href="https://fortune.com/2026/08/12/canva-startup-growth-ai-costs-revenue-forecast-by-third/" target="_blank">[2]</a></sup> Hernandez nhận xét cả hai chạm cùng một bức tường cách nhau khoảng năm ngày, nhưng khai ra ở hai chỗ khác nhau.<sup><a href="https://fortune.com/2026/08/12/canva-startup-growth-ai-costs-revenue-forecast-by-third/" target="_blank">[2]</a></sup></p>
+
+    <table class="tbl">
+      <tr><th>&nbsp;</th><th>Canva (tư nhân, định giá 42 tỷ USD)</th><th>Figma (đã niêm yết)</th></tr>
+      <tr><td>Chỉ số bị ảnh hưởng</td><td>Dự báo tăng trưởng doanh thu: 30% → ~20% <sup><a href="https://www.bandt.com.au/canva-slashes-revenue-forecast-due-to-ai-spend-being-higher-than-expected/" target="_blank">[1]</a></sup></td><td>Biên dòng tiền tự do: 27% (Q1) → 14% (Q2) <sup><a href="https://fortune.com/2026/08/12/canva-startup-growth-ai-costs-revenue-forecast-by-third/" target="_blank">[2]</a></sup></td></tr>
+      <tr><td>Tăng trưởng thực tế</td><td>Doanh thu quý 921,9 triệu USD, +25% so với cùng kỳ <sup><a href="https://www.bandt.com.au/canva-slashes-revenue-forecast-due-to-ai-spend-being-higher-than-expected/" target="_blank">[1]</a></sup></td><td>Dự báo Q3 +36%, giảm từ +48% quý trước <sup><a href="https://fortune.com/2026/08/12/canva-startup-growth-ai-costs-revenue-forecast-by-third/" target="_blank">[2]</a></sup></td></tr>
+      <tr><td>Phản ứng công bố</td><td>Làm chậm rollout, dựng lại hạ tầng, hạ guidance <sup><a href="https://www.bandt.com.au/canva-slashes-revenue-forecast-due-to-ai-spend-being-higher-than-expected/" target="_blank">[1]</a></sup></td><td>Công bố biên giảm trong báo cáo quý <sup><a href="https://fortune.com/2026/08/12/canva-startup-growth-ai-costs-revenue-forecast-by-third/" target="_blank">[2]</a></sup></td></tr>
+    </table>
+
+    <div class="mech"><b>Cơ chế — vì sao cùng một lực lại hiện ra ở hai chỗ khác nhau (phân tích của bản tin, dựa trên [2]):</b> Figma đã lên sàn nên phải công bố biên theo quý, chi phí suy luận đội lên là hiện ngay ở dòng tiền. Canva là công ty tư nhân, không có nghĩa vụ đó, nên họ có một lựa chọn Figma không có: hãm tốc độ phát hành để giữ biên, và chỗ hở lộ ra ở guidance tăng trưởng. Hai phản ứng khác nhau, cùng một nguyên nhân. Với người làm sản phẩm, ý nghĩa thực tế là: nếu công ty bạn không công khai biên, sức ép chi phí AI sẽ không hiện lên ở báo cáo tài chính — nó sẽ hiện ở chỗ tính năng bị hoãn, gói freemium bị siết, hoặc hạn mức bị cắt mà không ai giải thích. Biết trước điều đó thì bạn đọc được các quyết định roadmap chính xác hơn.</div>
+
+    <p>Canva nói phiên bản Canva AI 2.1 đang được phát dần là bản đầu tiên dựng trên một mô hình kinh tế thiết kế để đỡ được chiến lược tăng trưởng freemium, và họ sẽ mở rộng quyền truy cập trong lúc theo dõi chất lượng, mức tương tác và kinh tế đơn vị.<sup><a href="https://www.bandt.com.au/canva-slashes-revenue-forecast-due-to-ai-spend-being-higher-than-expected/" target="_blank">[1]</a></sup> Đọc câu đó như một danh sách chỉ số vận hành thì rõ hơn: ba thứ được theo dõi cùng lúc trong một lần rollout, và <em>kinh tế đơn vị</em> đứng ngang hàng với chất lượng.</p>
+
+    <p>Về quy mô đội: Canva hiện có hơn 200 nhà nghiên cứu, kỹ sư và chuyên gia nền tảng làm về AI, trong đó hơn 140 người ở phòng lab nghiên cứu riêng.<sup><a href="https://www.bandt.com.au/canva-slashes-revenue-forecast-due-to-ai-spend-being-higher-than-expected/" target="_blank">[1]</a></sup> Con số này đáng để trong đầu khi đọc phần "tự làm model rẻ hơn 30 lần" — đó là kết quả của một khoản đầu tư mà phần lớn công ty không có cách nào bắt chước.</p>
+
+    <div class="scale">
+      <div class="col small">
+        <h4>Đội nhỏ / startup dưới 10 người</h4>
+        <ul>
+          <li>Gắn chi phí mỗi tác vụ vào cùng dashboard với số lượt dùng, ngay từ tính năng AI đầu tiên. Hai cột phải nằm cạnh nhau, nếu không bạn sẽ ăn mừng nhầm.</li>
+          <li>Đặt hạn mức theo người dùng và theo ngày <em>trước</em> khi mở, không phải sau khi hóa đơn về. Canva tự ghi rằng cơ chế chặn mức dùng của họ chưa theo kịp nhu cầu.<sup><a href="https://www.bandt.com.au/canva-slashes-revenue-forecast-due-to-ai-spend-being-higher-than-expected/" target="_blank">[1]</a></sup></li>
+          <li>Đừng mở tính năng AI đắt nhất cho gói miễn phí. Nhóm đó không có doanh thu đối ứng nào.</li>
+          <li>Trước khi nghĩ tới model nhà, làm hết nấc một và nấc hai: tra kho có sẵn, cache kết quả. Rẻ hơn nhiều và làm được trong một sprint.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Đội đã có sản phẩm chạy production</h4>
+        <ul>
+          <li>Coi "adoption tăng vọt" là một cảnh báo chi phí, không chỉ là tin vui. Đặt ngưỡng cảnh báo trên chi phí mỗi ngày giống như bạn đặt trên p99.</li>
+          <li>Định tuyến theo loại tác vụ, không theo người dùng. Câu hỏi là "tác vụ nào chịu được model rẻ", và cần đo chất lượng theo từng loại trước khi hạ.</li>
+          <li>Ghi rõ trong roadmap rằng hạ chi phí đơn vị là một hạng mục kỹ thuật có người chịu trách nhiệm — ba tháng của Canva không phải việc làm thêm buổi tối.<sup><a href="https://www.bandt.com.au/canva-slashes-revenue-forecast-due-to-ai-spend-being-higher-than-expected/" target="_blank">[1]</a></sup></li>
+          <li>Nếu mô hình giá của bạn là thuê bao phẳng còn chi phí đi theo lượt dùng, đó là một khoản nợ đang lớn dần. Sửa giá sớm rẻ hơn sửa muộn.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> chỗ đáng học ở Canva không phải con số 90%, mà là thứ tự các bước. Họ không hạ giá, không siết tính năng, không đổ lỗi cho nhà cung cấp — họ <em>làm chậm phát hành lại</em> để có thời gian sửa nền, rồi chấp nhận trả giá bằng một quý tăng trưởng. Đó là một quyết định rất khó bán với người trong công ty, vì nó nhìn như đang thua. Nếu tính năng AI của bạn đang được yêu thích mà bạn chưa biết nó tốn bao nhiêu mỗi lượt, bạn đang ở đúng chỗ Canva đứng hồi tháng 4.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> [1] Melania Watson — <a href="https://www.bandt.com.au/canva-slashes-revenue-forecast-due-to-ai-spend-being-higher-than-expected/" target="_blank">"Canva Cuts Revenue Forecast Following AI Cost Blowout", B&amp;T, 05/08/2026</a> · [2] Mia Osmonbekov — <a href="https://fortune.com/2026/08/12/canva-startup-growth-ai-costs-revenue-forecast-by-third/" target="_blank">"AI was supposed to power Canva's next act. It also exposed software's most expensive problem", Fortune, 12/08/2026</a>.</div>
+  </article>
+
+  <!-- BÀI 2 -->
+  <article class="card" id="bai2">
+    <span class="tag legacy">Tối ưu hệ đang chạy · lưu trữ &amp; chi phí</span>
+    <h2 class="head">97–98% request chỉ chạm ba tháng gần nhất — nên phần còn lại không cần nằm trong database</h2>
+    <p class="src">Nguồn: Akshay Thusoo &amp; Gaurav Bansal — <a href="https://medium.com/arcesium-engineering-blog/how-we-cut-our-database-costs-by-moving-cold-data-from-postgresql-to-amazon-s3-c30ec77d4f3a" target="_blank">"How We Cut Our Database Costs by Moving Cold Data from PostgreSQL to Amazon S3"</a>, Arcesium Engineering, 22/04/2026. Arcesium là công ty fintech làm phần mềm cho vòng đời đầu tư; bài do chính hai kỹ sư trong đội viết. <strong>Lưu ý nguồn:</strong> không có thí nghiệm đối chứng; mức tiết kiệm là khoảng trung bình trên tập khách hàng, không có con số USD tuyệt đối. Công cụ lõi (Swiftlake) là thư viện nội bộ do chính Arcesium làm, nên bài cũng là một bài giới thiệu công cụ nhà.</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">97–98%</div><div class="lab">số request kết quả đối soát chỉ truy cập dữ liệu trong ba tháng gần nhất <a href="https://medium.com/arcesium-engineering-blog/how-we-cut-our-database-costs-by-moving-cold-data-from-postgresql-to-amazon-s3-c30ec77d4f3a" target="_blank">(Arcesium, 22/04/2026)</a></div></div>
+      <div class="box"><div class="num">40–60%</div><div class="lab">mức giảm chi phí lưu trữ database trong ba tháng đầu sau khi chuyển <a href="https://medium.com/arcesium-engineering-blog/how-we-cut-our-database-costs-by-moving-cold-data-from-postgresql-to-amazon-s3-c30ec77d4f3a" target="_blank">(cùng nguồn)</a></div></div>
+      <div class="box"><div class="num">4 tuần · 0 sự cố</div><div class="lab">chạy shadow mode với khoảng 10.000 lần so khớp trước khi cắt chuyển thật <a href="https://medium.com/arcesium-engineering-blog/how-we-cut-our-database-costs-by-moving-cold-data-from-postgresql-to-amazon-s3-c30ec77d4f3a" target="_blank">(cùng nguồn)</a></div></div>
+    </div>
+
+    <p>Triệu chứng Arcesium mô tả chắc nhiều bạn nhận ra: bảng vượt vài trăm GB, truy vấn phân tích chậm dần, chu kỳ VACUUM và bảo trì kéo dài ra, chi phí lưu trữ và I/O leo lên, bản backup phình to.<sup><a href="https://medium.com/arcesium-engineering-blog/how-we-cut-our-database-costs-by-moving-cold-data-from-postgresql-to-amazon-s3-c30ec77d4f3a" target="_blank">[3]</a></sup> Phản xạ thông thường là nâng instance. Họ làm việc khác trước: đếm xem ai đang đọc cái gì.</p>
+
+    <p>Kết quả phép đếm đó là con số đáng giá nhất cả bài. Với nhóm khách hàng lớn nhất, 97–98% request kết quả đối soát chỉ chạm dữ liệu của ba tháng gần nhất.<sup><a href="https://medium.com/arcesium-engineering-blog/how-we-cut-our-database-costs-by-moving-cold-data-from-postgresql-to-amazon-s3-c30ec77d4f3a" target="_blank">[3]</a></sup> Có con số đó rồi thì đường ranh giữa nóng và nguội không còn là chuyện tranh luận nữa. Họ chốt ở 95 ngày: 0–95 ngày ở lại PostgreSQL, từ 95 ngày trở đi ra S3, còn dữ liệu rất cũ xuống Glacier để giữ cho đủ yêu cầu lưu trữ.<sup><a href="https://medium.com/arcesium-engineering-blog/how-we-cut-our-database-costs-by-moving-cold-data-from-postgresql-to-amazon-s3-c30ec77d4f3a" target="_blank">[3]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao 97–98% mới là con số quyết định, không phải 40–60% (phân tích của bản tin, dựa trên [3]):</b> tiết kiệm ở đây đến từ tích của hai thứ: phần dung lượng nằm ở lớp nguội, nhân với chênh lệch giá mỗi GB giữa hai lớp. Nhưng nó bị trừ đi bởi chi phí đọc lại lớp nguội. Nếu 30% request chạm dữ liệu cũ thay vì 2–3%, lớp "nguội" trở thành một lớp nóng chạy trên hạ tầng chậm hơn — bạn vừa tiết kiệm được tiền lưu trữ vừa mua thêm một vấn đề độ trễ. Nên phép đo phải làm trước phép chọn công nghệ, và nó là một truy vấn phân bố đơn giản: chia lượt truy cập theo tuổi của bản ghi. Nếu đường phân bố của bạn không dốc như của Arcesium, toàn bộ phần còn lại của bài này không áp dụng được.</div>
+
+    <h3 class="sub">Bốn điều kiện khiến dữ liệu này hợp — và dữ liệu của bạn có thể không</h3>
+
+    <p>Arcesium liệt kê thẳng vì sao dữ liệu đối soát của họ hợp với lưu trữ phân tầng: truy cập theo thời gian rõ rệt; phân vùng tự nhiên theo ngày đối soát (theo tháng hoặc theo ngày); dữ liệu gần như bất biến sau khi một đợt đối soát chốt xong; và có yêu cầu lưu trữ bắt buộc, tức là phải giữ nhưng không cần giữ cho nhanh.<sup><a href="https://medium.com/arcesium-engineering-blog/how-we-cut-our-database-costs-by-moving-cold-data-from-postgresql-to-amazon-s3-c30ec77d4f3a" target="_blank">[3]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — điều kiện nào là điều kiện gãy (phân tích của bản tin, dựa trên [3]):</b> trong bốn điều kiện trên, <em>bất biến</em> là thứ hay thiếu nhất và cũng là thứ đắt nhất khi thiếu. Định dạng cột kiểu Parquet trên object storage được thiết kế để ghi một lần đọc nhiều lần. Mỗi lần sửa một bản ghi cũ, bạn không sửa tại chỗ được mà phải viết lại cả file rồi cập nhật siêu dữ liệu bảng. Nếu hệ của bạn thường xuyên sửa lại số liệu cũ — chỉnh hóa đơn, gộp tài khoản, cập nhật trạng thái đơn hàng sau nhiều tháng — thì lớp nguội sẽ liên tục bị viết lại và phần tiết kiệm bốc hơi. Điều kiện <em>phân vùng tự nhiên</em> đứng thứ hai về mức quan trọng: nếu bảng của bạn chưa partition theo thời gian, việc đầu tiên không phải là chọn công nghệ lưu trữ mà là partition đã, vì không có ranh giới sạch thì mỗi lần dời dữ liệu là một lần quét cả bảng.</div>
+
+    <p>Có một câu hỏi tự nhiên mà bài cũng tự đặt ra: nếu S3 vừa rẻ vừa nhanh cho việc đọc phân tích, sao không để hết trên đó? Lý do họ đưa ra rất cụ thể: trong 95 ngày nóng, ứng dụng đối soát ghi rất nhiều, mà DuckDB là engine OLAP — nên tốt nhất giữ nó tránh xa luồng ghi dày. Đẩy ghi thường xuyên xuống S3 nghĩa là liên tục viết lại file Parquet, mất tính nhất quán giao dịch và làm phức tạp việc kiểm soát đồng thời.<sup><a href="https://medium.com/arcesium-engineering-blog/how-we-cut-our-database-costs-by-moving-cold-data-from-postgresql-to-amazon-s3-c30ec77d4f3a" target="_blank">[3]</a></sup></p>
+
+    <h3 class="sub">Phần khó nhất không phải kỹ thuật: làm sao tin được dữ liệu mới</h3>
+
+    <p>Đổi nguồn sự thật cho dữ liệu khách hàng tài chính là việc đáng sợ. Cách họ giải rất đáng chép lại. Mỗi lần API lấy dữ liệu từ S3, hệ thống kích một job so sánh chạy bất đồng bộ: job đó lấy cùng phần dữ liệu từ PostgreSQL, rồi diff hai kết quả theo từng dòng, từng cột. Chênh lệch nào cũng được ghi log, bắn cảnh báo và điều tra ngay.<sup><a href="https://medium.com/arcesium-engineering-blog/how-we-cut-our-database-costs-by-moving-cold-data-from-postgresql-to-amazon-s3-c30ec77d4f3a" target="_blank">[3]</a></sup> Điểm mấu chốt: việc so sánh nằm <em>ngoài</em> đường critical path. Khách vẫn nhận dữ liệu từ S3 ngay lập tức, không chậm đi chút nào; phần kiểm đúng chạy phía sau.<sup><a href="https://medium.com/arcesium-engineering-blog/how-we-cut-our-database-costs-by-moving-cold-data-from-postgresql-to-amazon-s3-c30ec77d4f3a" target="_blank">[3]</a></sup></p>
+
+    <p>Họ chạy như vậy bốn tuần trên toàn bộ các endpoint chính: khoảng 10.000 lần so khớp, chỉ tìm được vài chênh lệch và đều xử lý xong trước khi cắt chuyển, không sự cố nào.<sup><a href="https://medium.com/arcesium-engineering-blog/how-we-cut-our-database-costs-by-moving-cold-data-from-postgresql-to-amazon-s3-c30ec77d4f3a" target="_blank">[3]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao job so sánh phải có ngày hết hạn (phân tích của bản tin, dựa trên [3]):</b> đây là chi tiết dễ bỏ qua nhất trong cả bài. Sau bốn tuần, Arcesium tắt job so sánh — không phải vì đã đủ tự tin, mà vì họ tiếp tục xóa dữ liệu cũ khỏi PostgreSQL, nên không còn gì để đối chiếu nữa. Nói cách khác, cửa sổ kiểm chứng của một cuộc di trú kiểu này <em>tự đóng lại</em>. Bạn chỉ so được hai nguồn chừng nào cả hai còn giữ dữ liệu, và giữ cả hai chính là khoản tiền bạn đang muốn tiết kiệm. Hệ quả thực tế: phải quyết định trước "bao lâu là đủ" và "bao nhiêu lần so là đủ" ngay từ đầu, rồi lên lịch xóa theo lịch đó. Nếu để trôi, bạn sẽ hoặc trả tiền hai lớp lâu hơn cần thiết, hoặc xóa mất bên đối chứng trước khi kịp kiểm.</div>
+
+    <h3 class="sub">Hai lỗi họ bắt được — và một lỗi họ không sửa được</h3>
+
+    <p>Lỗi thứ nhất: độ chính xác timestamp. PostgreSQL lưu timestamp tới microsecond; DuckDB khi đọc từ Parquet đôi lúc làm tròn khác đi. Rất nhỏ, nhưng đủ để phép so bằng tuyệt đối trượt. Họ chuẩn hóa phép so về mức millisecond.<sup><a href="https://medium.com/arcesium-engineering-blog/how-we-cut-our-database-costs-by-moving-cold-data-from-postgresql-to-amazon-s3-c30ec77d4f3a" target="_blank">[3]</a></sup></p>
+
+    <p>Lỗi thứ hai: collation chuỗi khi gom nhóm MIN/MAX. PostgreSQL dùng collation theo locale, ví dụ en_US.UTF-8, nên nó xử lý khoảng trắng và chữ hoa chữ thường theo quy tắc ngôn ngữ. DuckDB mặc định sắp theo thứ tự nhị phân Unicode. Cùng một cột, hai bên trả về giá trị lớn nhất khác nhau.<sup><a href="https://medium.com/arcesium-engineering-blog/how-we-cut-our-database-costs-by-moving-cold-data-from-postgresql-to-amazon-s3-c30ec77d4f3a" target="_blank">[3]</a></sup> Và đây là chỗ bài này đáng tin hơn hẳn phần lớn bài kỹ thuật khác: họ ghi thẳng ra là không tìm được cách sửa, vì DuckDB chưa cho đổi collation lúc chạy; nó không ảnh hưởng tới trường hợp dùng nào của họ nên họ ghi nhận lại và để nguyên.<sup><a href="https://medium.com/arcesium-engineering-blog/how-we-cut-our-database-costs-by-moving-cold-data-from-postgresql-to-amazon-s3-c30ec77d4f3a" target="_blank">[3]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — vì sao unit test không bao giờ bắt được hai lỗi này (phân tích của bản tin, dựa trên [3]):</b> cả hai đều không phải lỗi logic. Cả hai bên đều chạy <em>đúng</em> theo chuẩn của mình — Postgres đúng theo locale, DuckDB đúng theo Unicode. Lỗi nằm ở chỗ giáp ranh giữa hai hệ ngữ nghĩa, và nó chỉ hiện ra khi có dữ liệu thật đi qua cả hai đường. Đó chính là lý do shadow mode không thay thế được bằng bộ test: test chỉ kiểm được những giả định bạn đã nghĩ ra để viết. Rút ra được: trước khi chạy so sánh, hãy định nghĩa "khớp" là gì — độ chính xác thời gian tới đâu, thứ tự sắp xếp theo chuẩn nào, số thập phân làm tròn ra sao, thứ tự dòng có tính hay không. Bốn thứ đó chiếm phần lớn số mismatch giả trong mọi cuộc di trú dữ liệu, và định nghĩa chúng trước giúp bạn không mất một tuần đuổi theo những khác biệt không quan trọng.</div>
+
+    <p>Một phần thưởng ngoài dự tính: độ bền. S3 cho độ bền 99,999999999% (11 số 9), và vì dữ liệu nguội được đăng ký thành bảng Iceberg nên họ có thêm time travel — truy vấn dữ liệu ở trạng thái bất kỳ thời điểm nào trong quá khứ — cùng khả năng quay lại một snapshot cũ nếu có dữ liệu xấu bị ghi đè hoặc một phân vùng bị xóa nhầm, mà không cần đụng tới backup.<sup><a href="https://medium.com/arcesium-engineering-blog/how-we-cut-our-database-costs-by-moving-cold-data-from-postgresql-to-amazon-s3-c30ec77d4f3a" target="_blank">[3]</a></sup> Đọc kỹ thì đây là một điểm hay: PostgreSQL vẫn lo độ bền cho dữ liệu nóng bằng WAL và point-in-time recovery, còn lớp nguội có cơ chế khôi phục riêng, nhẹ hơn và rẻ hơn.</p>
+
+    <div class="scale">
+      <div class="col small">
+        <h4>Đội nhỏ / startup dưới 10 người</h4>
+        <ul>
+          <li>Chạy một truy vấn đếm lượt truy cập theo tuổi bản ghi trước khi bàn bất cứ chuyện kiến trúc nào. Một buổi chiều là ra, và nó quyết định toàn bộ phần còn lại.</li>
+          <li>Nếu bảng lớn nhất chưa partition theo thời gian, đó là việc đầu tiên. Không có ranh giới sạch thì mọi phương án dời dữ liệu đều đắt.</li>
+          <li>Đừng dựng lakehouse. Bắt đầu bằng bảng archive trong chính database, hoặc tách phân vùng cũ ra — đủ để lấy phần lớn lợi ích mà không thêm một hệ thống phải vận hành.</li>
+          <li>Trước khi xóa gì, viết ra ai cần dữ liệu cũ và cần nhanh tới mức nào. Thường thì câu trả lời là "kế toán, mỗi quý một lần, chờ được".</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Đội đã có sản phẩm chạy production</h4>
+        <ul>
+          <li>Chạy shadow mode với ngày hết hạn ghi rõ từ đầu, vì cửa sổ so sánh tự đóng khi bạn bắt đầu xóa bên cũ.<sup><a href="https://medium.com/arcesium-engineering-blog/how-we-cut-our-database-costs-by-moving-cold-data-from-postgresql-to-amazon-s3-c30ec77d4f3a" target="_blank">[3]</a></sup></li>
+          <li>Định nghĩa "khớp" bằng văn bản trước khi so: độ chính xác thời gian, collation, làm tròn số, thứ tự dòng. Ghi luôn cái gì được phép lệch.</li>
+          <li>Giữ job so sánh ngoài critical path. Người dùng nhận dữ liệu từ nguồn mới ngay, kiểm đúng chạy sau — đó là cách Arcesium không phải đánh đổi độ trễ lấy sự an tâm.<sup><a href="https://medium.com/arcesium-engineering-blog/how-we-cut-our-database-costs-by-moving-cold-data-from-postgresql-to-amazon-s3-c30ec77d4f3a" target="_blank">[3]</a></sup></li>
+          <li>Kiểm tra giả định "bất biến" bằng dữ liệu, không bằng trí nhớ: đếm xem mỗi tháng có bao nhiêu bản ghi cũ hơn 90 ngày bị UPDATE. Con số đó quyết định phương án có chạy được không.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> bài này không kể chuyện viết lại hệ thống. Nó kể chuyện đổi đúng một thứ — chỗ dữ liệu cũ nằm — và chuỗi việc để đổi mà không ai bị ảnh hưởng. Thứ tự đáng chép: đếm phân bố truy cập → kiểm bốn điều kiện → chọn ranh giới bằng số chứ không bằng cảm giác → chạy shadow có hạn → định nghĩa "khớp" trước → cắt chuyển. Nếu database của bạn phình nhanh hơn sản phẩm, câu hỏi đầu tiên không phải "nâng instance nào" mà "bao nhiêu phần dung lượng này thực sự có người đọc trong tháng qua".</div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> [3] Akshay Thusoo &amp; Gaurav Bansal — <a href="https://medium.com/arcesium-engineering-blog/how-we-cut-our-database-costs-by-moving-cold-data-from-postgresql-to-amazon-s3-c30ec77d4f3a" target="_blank">"How We Cut Our Database Costs by Moving Cold Data from PostgreSQL to Amazon S3", Arcesium Engineering, 22/04/2026</a>.</div>
+  </article>
+
+  <!-- GÓC NHÌN -->
+  <article class="card" id="gocnhin">
+    <span class="tag view">Góc nhìn</span>
+    <h2 class="head">Một công ty 42 tỷ USD và một đội fintech làm giống nhau ba bước</h2>
+
+    <p>Hai câu chuyện hôm nay trông chẳng liên quan. Một bên là chi phí suy luận ở quy mô hơn một tỷ thiết kế mỗi tháng. Một bên là tiền lưu trữ của mấy bảng PostgreSQL. Nhưng cả hai đều là cùng một bài toán: <em>phục vụ một request tốn bao nhiêu, và mình có biết con số đó không</em>. Và cả hai giải nó theo ba bước giống nhau.</p>
+
+    <p><strong>Một — đo phân bố trước, chọn công nghệ sau.</strong> Arcesium không bàn Iceberg hay DuckDB cho tới khi biết 97–98% request chỉ chạm ba tháng gần nhất.<sup><a href="https://medium.com/arcesium-engineering-blog/how-we-cut-our-database-costs-by-moving-cold-data-from-postgresql-to-amazon-s3-c30ec77d4f3a" target="_blank">[3]</a></sup> Canva phát hiện ra vấn đề đúng lúc đo thấy nhu cầu thật vượt xa dự báo và chi phí mỗi tác vụ quá cao so với mô hình giá đang có.<sup><a href="https://www.bandt.com.au/canva-slashes-revenue-forecast-due-to-ai-spend-being-higher-than-expected/" target="_blank">[1]</a></sup> Ở cả hai nơi, con số làm đổi quyết định là một phép đếm đơn giản, không phải một benchmark phức tạp.</p>
+
+    <p><strong>Hai — dựng bậc thang, không thay một lần.</strong> Canva giữ frontier model cho phần tác vụ cần nó, đẩy phần còn lại xuống model nhà, và thêm một nấc rẻ hơn nữa là tra kho 165 triệu asset có sẵn.<sup><a href="https://www.bandt.com.au/canva-slashes-revenue-forecast-due-to-ai-spend-being-higher-than-expected/" target="_blank">[1]</a></sup> Arcesium giữ PostgreSQL cho 95 ngày nóng, S3 cho phần nguội, Glacier cho phần rất cũ.<sup><a href="https://medium.com/arcesium-engineering-blog/how-we-cut-our-database-costs-by-moving-cold-data-from-postgresql-to-amazon-s3-c30ec77d4f3a" target="_blank">[3]</a></sup> Không bên nào chọn một công nghệ duy nhất cho mọi thứ, vì hình dạng của tải không đồng nhất.</p>
+
+    <p><strong>Ba — giữ một đường lùi trong suốt quá trình.</strong> Arcesium chạy shadow mode bốn tuần với PostgreSQL vẫn là nguồn đối chứng.<sup><a href="https://medium.com/arcesium-engineering-blog/how-we-cut-our-database-costs-by-moving-cold-data-from-postgresql-to-amazon-s3-c30ec77d4f3a" target="_blank">[3]</a></sup> Canva làm chậm rollout thay vì phát rộng rồi rút lại, và nói rõ bản 2.1 sẽ mở dần trong lúc theo dõi chất lượng, mức tương tác và kinh tế đơn vị.<sup><a href="https://www.bandt.com.au/canva-slashes-revenue-forecast-due-to-ai-spend-being-higher-than-expected/" target="_blank">[1]</a></sup> Cả hai đều chấp nhận đi chậm hơn để không phải quay đầu.</p>
+
+    <p>Có một chỗ hai câu chuyện ngược nhau, và nó cũng đáng nói. Arcesium công bố cả lỗi họ không sửa được.<sup><a href="https://medium.com/arcesium-engineering-blog/how-we-cut-our-database-costs-by-moving-cold-data-from-postgresql-to-amazon-s3-c30ec77d4f3a" target="_blank">[3]</a></sup> Canva công bố các tỷ lệ "rẻ hơn 17 đến 30 lần" mà không kèm phương pháp đo, không nói chất lượng thay đổi ra sao khi hạ model.<sup><a href="https://www.bandt.com.au/canva-slashes-revenue-forecast-due-to-ai-spend-being-higher-than-expected/" target="_blank">[1]</a></sup> Đó là khác biệt giữa một blog kỹ thuật và một thư gửi cổ đông — và khi đọc con số, biết mình đang đọc loại tài liệu nào quan trọng không kém con số.</p>
+
+    <div class="doslist">
+      <div><strong>Ba việc làm được trong tuần này</strong></div>
+      <div>✅ Chạy một truy vấn chia lượt truy cập theo tuổi bản ghi trên bảng lớn nhất. Nếu đường phân bố dốc như của Arcesium, bạn vừa tìm ra khoản tiết kiệm lớn nhất trong quý.<sup><a href="https://medium.com/arcesium-engineering-blog/how-we-cut-our-database-costs-by-moving-cold-data-from-postgresql-to-amazon-s3-c30ec77d4f3a" target="_blank">[3]</a></sup></div>
+      <div>✅ Thêm cột "chi phí mỗi lượt dùng" vào đúng cái dashboard đang hiển thị "số lượt dùng" của tính năng AI. Hai cột phải nằm cạnh nhau thì mới đọc được đúng.</div>
+      <div>✅ Với mỗi tính năng AI đang chạy, hỏi một câu: có bao nhiêu phần trăm lượt gọi lẽ ra có thể trả về từ thứ đã có sẵn, không cần sinh mới? Đó là nấc rẻ nhất và thường bị bỏ qua nhất.<sup><a href="https://www.bandt.com.au/canva-slashes-revenue-forecast-due-to-ai-spend-being-higher-than-expected/" target="_blank">[1]</a></sup></div>
+      <div>❌ Đừng lấy con số 90% hay 40–60% đi hứa với sếp. Mức 90% của Canva là kết quả của ba tháng với hơn 200 người làm AI, trong đó hơn 140 người ở lab nghiên cứu riêng.<sup><a href="https://www.bandt.com.au/canva-slashes-revenue-forecast-due-to-ai-spend-being-higher-than-expected/" target="_blank">[1]</a></sup> Mức 40–60% của Arcesium đi kèm một phân bố truy cập rất dốc mà hệ của bạn có thể không có.<sup><a href="https://medium.com/arcesium-engineering-blog/how-we-cut-our-database-costs-by-moving-cold-data-from-postgresql-to-amazon-s3-c30ec77d4f3a" target="_blank">[3]</a></sup></div>
+      <div>❌ Đừng dời dữ liệu cũ đi khi chưa đếm số bản ghi cũ bị UPDATE mỗi tháng. Giả định "bất biến" mà sai thì toàn bộ phần tiết kiệm bốc hơi vì phải viết lại file liên tục.</div>
+    </div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> [1] <a href="https://www.bandt.com.au/canva-slashes-revenue-forecast-due-to-ai-spend-being-higher-than-expected/" target="_blank">B&amp;T, 05/08/2026</a> · [2] <a href="https://fortune.com/2026/08/12/canva-startup-growth-ai-costs-revenue-forecast-by-third/" target="_blank">Fortune, 12/08/2026</a> · [3] <a href="https://medium.com/arcesium-engineering-blog/how-we-cut-our-database-costs-by-moving-cold-data-from-postgresql-to-amazon-s3-c30ec77d4f3a" target="_blank">Arcesium Engineering, 22/04/2026</a>.</div>
+  </article>
+
+  <div class="foot">Bản tin sáng · Số 22/09/2026</div>
+</div>
+</body>
+</html>
