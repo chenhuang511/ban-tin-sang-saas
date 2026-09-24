@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Status page xanh, job vẫn không chạy &middot; 24/09/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 24/09/2026</div>
+    <h1 class="title">Status page xanh lúc 15:26, nhưng job 02:00 của bạn không bao giờ chạy lại: mổ sự cố Salesforce 16/09 từ hai phía</h1>
+    <div class="meta">24/09/2026 · Đọc khoảng 13 phút · Nguồn chính: dòng thời gian trên trang Trust của Salesforce (incident 20004433) qua bản tổng hợp của CloudCounsel/Software Insights (16/09/2026); The Register (16/09, cập nhật 18/09/2026); CIO.com (16/09/2026)</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: hôm nay bản tin chỉ có <b>một bài</b>, đào sâu. Salesforce <em>chưa công bố nguyên nhân gốc</em> — các trường rootCause/actionPlan trên trang Trust vẫn trống lúc sự cố được đóng. Vì vậy bài này không đoán nguyên nhân. Nó chỉ đọc những gì đã công khai: dòng thời gian, những gì đội vận hành đã thử và bỏ, và những gì khách hàng gặp sau khi "đã khôi phục". Các khối gắn nhãn <b style="color:#1e40af">Cơ chế</b>, bảng đối chiếu và phần "Rút ra theo quy mô" là phân tích tổng hợp của bản tin từ thực hành SRE phổ biến — <em>không trích nguyên văn từ nguồn</em>, và không phải khẳng định về hệ thống bên trong Salesforce. Mọi con số đều dẫn nguồn ngay cạnh câu. Một nguồn chính (Software Insights) là blog của một hãng tư vấn Salesforce; bản tin chỉ dùng phần họ chép lại từ trang Trust và phần cơ chế kiểm lại được trong tài liệu Salesforce. Salesforce đã xuất hiện ở số 28/08 (vụ Salesloft Drift) và 23/09 (Renovate) — đây là sự cố khác, dữ liệu mới.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1"><strong>Bài duy nhất</strong> — Một dịch vụ đăng nhập "đời cũ" chậm đi, 912 instance chao đảo 7 giờ 36 phút<br><span style="font-size:13.5px;color:#6b7280">· dòng thời gian theo giờ UTC và giờ Việt Nam · dependency chậm nguy hiểm hơn dependency chết · vì sao restart bị bỏ sau hai tiếng · fix đã kiểm xong lúc 10:56 mà 15:26 mới hạ cánh · con số "bán kính ảnh hưởng" đổi giữa chừng · phía khách hàng: sáu loại việc bất đồng bộ hỏng trong im lặng · câu hỏi bạn nên đặt cho bản RCA của nhà cung cấp — và cho chính mình</span></a></li>
+    </ol>
+  </nav>
+
+  <article class="card" id="bai1">
+    <span class="tag legacy">Tối ưu hệ đang chạy · độ tin cậy &amp; phụ thuộc</span>
+    <h2 class="head">Một dịch vụ đăng nhập chậm đi, 912 instance chao đảo 7 giờ 36 phút — và phần hỏng đắt nhất xảy ra <em>sau</em> khi đèn đã xanh</h2>
+    <p class="src">Nguồn: CloudCounsel — <a href="https://www.softwareinsights.dev/posts/salesforce-outage-september-2026-recovery-runbook/" target="_blank">"Salesforce Outage Recovery After Incident 20004433: What Fails Silently Once the Status Page Turns Green"</a>, Software Insights, 16/09/2026 (chép lại dòng thời gian trên trang Trust); Lindsay Clark — <a href="https://www.theregister.com/saas/2026/09/16/salesforce-staggers-back-to-feet-after-global-outage/5296800" target="_blank">"Salesforce staggers back to feet after global outage"</a>, The Register, 16/09/2026, cập nhật 18/09/2026; Taryn Plumb — <a href="https://www.cio.com/article/4223037/salesforces-massive-outage-exposes-the-hidden-risks-of-cloud-dependencies.html" target="_blank">"Salesforce's massive outage exposes the hidden risks of cloud dependencies"</a>, CIO.com, 16/09/2026; dẫn chứng phụ: David Cockrum — <a href="https://vantagepoint.io/blog/sf/salesforce-outage-september-2026" target="_blank">"Salesforce Outage September 2026: What Admins Should Do Now"</a>, Vantage Point, 16/09/2026. <strong>Lưu ý nguồn:</strong> CloudCounsel và Vantage Point đều là hãng tư vấn Salesforce, cuối bài có chào dịch vụ; bản tin chỉ lấy phần dữ kiện.</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">7 giờ 36 phút</div><div class="lab">cửa sổ ảnh hưởng: 07:50 → 15:26 UTC ngày 16/09 (14:50 → 22:26 giờ Việt Nam); đóng sự cố lúc 18:59 UTC <a href="https://www.softwareinsights.dev/posts/salesforce-outage-september-2026-recovery-runbook/" target="_blank">(Software Insights, 16/09/2026)</a></div></div>
+      <div class="box"><div class="num">912 / 3.243</div><div class="lab">instance bị ảnh hưởng trên toàn đội máy (~28%); lúc đang xảy ra con số công bố là 1.036 <a href="https://www.softwareinsights.dev/posts/salesforce-outage-september-2026-recovery-runbook/" target="_blank">(cùng nguồn)</a></div></div>
+      <div class="box"><div class="num">4 giờ 30 phút</div><div class="lab">từ lúc bản vá được xác nhận trên instance thử (10:56 UTC) tới lúc khôi phục (15:26 UTC) — phép tính của bản tin từ dòng thời gian <a href="https://www.softwareinsights.dev/posts/salesforce-outage-september-2026-recovery-runbook/" target="_blank">[1]</a></div></div>
+    </div>
+
+    <p>Sáng 16/09 giờ Mỹ — tức chiều tối ở Việt Nam — Salesforce bắt đầu trả lời chậm, lỗi lúc có lúc không, nhiều người không vào được. Sự cố rơi đúng ngày thứ hai của Dreamforce, hội nghị thường niên của hãng, với hơn 40.000 người dự trực tiếp.<sup><a href="https://www.theregister.com/saas/2026/09/16/salesforce-staggers-back-to-feet-after-global-outage/5296800" target="_blank">[2]</a></sup> Ảnh hưởng trải khắp Mỹ, Nhật, Ấn Độ, Anh, Pháp, Đức. Trên Downdetector, 69% báo lỗi là không vào được website, 16% là ứng dụng di động, 15% là đăng nhập.<sup><a href="https://vantagepoint.io/blog/sf/salesforce-outage-september-2026" target="_blank">[4]</a></sup></p>
+
+    <p>Bản tin chọn sự cố này không phải vì nó lớn. Nó đáng đọc vì dòng thời gian công khai cho thấy ba chuyện mà đội nào vận hành hệ thống cũng sẽ gặp: một dependency <em>chậm</em> kéo sập cả nền tảng, restart không chữa được, và một bản vá đã kiểm xong vẫn mất hơn bốn tiếng mới "hạ cánh" hết đội máy. Còn một chuyện thứ tư, đắt hơn cả, nằm ở phía khách hàng: nhiều thứ hỏng trong im lặng sau khi trang trạng thái đã xanh.</p>
+
+    <h3 class="sub">Dòng thời gian: 11 tiếng từ lúc bắt đầu tới lúc đóng</h3>
+    <p>Bảng dưới rút từ các cập nhật trên trang Trust mà CloudCounsel chép lại, đối chiếu với các lần cập nhật The Register ghi nhận.<sup><a href="https://www.softwareinsights.dev/posts/salesforce-outage-september-2026-recovery-runbook/" target="_blank">[1]</a></sup><sup><a href="https://www.theregister.com/saas/2026/09/16/salesforce-staggers-back-to-feet-after-global-outage/5296800" target="_blank">[2]</a></sup> Cột giờ Việt Nam do bản tin quy đổi (UTC+7).</p>
+    <table class="tbl">
+      <tr><th>UTC</th><th>Giờ VN</th><th>Salesforce nói gì / làm gì</th></tr>
+      <tr><td>07:50</td><td>14:50</td><td>Bắt đầu ảnh hưởng (mốc được xác nhận sau)</td></tr>
+      <tr><td>08:45</td><td>15:45</td><td>Công bố: nhiều instance ở mọi region, chậm nặng, lỗi chập chờn; tạo case hỗ trợ cũng hỏng</td></tr>
+      <tr><td>09:10</td><td>16:10</td><td>Request bị treo khi chờ một dịch vụ đăng nhập nội bộ, ngốn hết tài nguyên server; thử rolling restart một instance</td></tr>
+      <tr><td>09:57</td><td>16:57</td><td>Quy cho "lỗi dependency bên ngoài" ảnh hưởng máy chủ đăng nhập đời cũ; chặn một API endpoint; nhà cung cấp hạ tầng xác nhận phía họ không lỗi</td></tr>
+      <tr><td>10:01</td><td>17:01</td><td>Bỏ hẳn restart như một hướng khắc phục</td></tr>
+      <tr><td>10:18</td><td>17:18</td><td>Một thành phần lõi bị tải tăng, không xử lý kịp request</td></tr>
+      <tr><td>10:56</td><td>17:56</td><td>Bản vá xác nhận trên instance thử, bắt đầu rollout toàn đội máy</td></tr>
+      <tr><td>12:39</td><td>19:39</td><td>Đa số hồi phục, nhưng một số instance vẫn lỗi tới khi được restart tay</td></tr>
+      <tr><td>13:13</td><td>20:13</td><td>Phát hiện rollout chưa hoàn tất trên một số instance, phải áp lại bản vá; có người dùng phải xoá cache hoặc đăng nhập lại</td></tr>
+      <tr><td>14:00</td><td>21:00</td><td>Khách đã vào lại được báo job lập lịch không chạy</td></tr>
+      <tr><td>15:26</td><td>22:26</td><td>Khôi phục (mốc được xác nhận sau)</td></tr>
+      <tr><td>15:56</td><td>22:56</td><td>Thu hẹp bán kính ảnh hưởng, gỡ các instance thực ra không bị gì khỏi danh sách</td></tr>
+      <tr><td>18:59</td><td>01:59 (17/09)</td><td>Đóng sự cố; hứa điều tra đầy đủ</td></tr>
+    </table>
+
+    <h3 class="sub">Bài học 1 — dependency chậm nguy hiểm hơn dependency chết</h3>
+    <p>Cập nhật lúc 09:10 UTC là câu đáng giá nhất trong cả sự cố: request "treo" khi chờ dịch vụ đăng nhập, và việc chờ đó "ngốn hết tài nguyên server".<sup><a href="https://www.theregister.com/saas/2026/09/16/salesforce-staggers-back-to-feet-after-global-outage/5296800" target="_blank">[2]</a></sup> Để ý: không phải dịch vụ đăng nhập chết. Nó chậm. Và chính cái chậm làm cả nền tảng nghẹt.</p>
+    <div class="mech"><b>Cơ chế:</b> một dependency chết thì trả lỗi ngay, request hỏng nhanh và nhả tài nguyên. Một dependency <em>chậm</em> thì giữ request lại: mỗi request đang chờ chiếm một thread, một connection, một khe trong hàng đợi. Theo định luật Little, số request đang dở dang bằng tốc độ đến nhân thời gian xử lý. Thời gian chờ tăng 10 lần thì số chỗ bị chiếm cũng tăng 10 lần, dù lưu lượng không đổi. Tới khi hết chỗ, cả những request <em>không cần</em> đăng nhập cũng không còn chỗ chạy. Bản tin 20/09 đã gặp đúng hình dạng này ở tầng database: truy vấn chờ khóa vẫn chiếm chỗ trong pooler. Lần này nó ở tầng dịch vụ.</div>
+    <p>Chuyên gia Abbas Jaffery (Info-Tech Research Group) nói với CIO.com rằng tuổi của thành phần không quan trọng bằng <em>vị trí</em> của nó trong đồ thị phụ thuộc, bán kính ảnh hưởng và cách nó được cô lập.<sup><a href="https://www.cio.com/article/4223037/salesforces-massive-outage-exposes-the-hidden-risks-of-cloud-dependencies.html" target="_blank">[3]</a></sup> Một máy chủ đăng nhập "đời cũ" có thể nhỏ, ít ai nhớ tới, nhưng đứng trên đường đi của gần như mọi request. Câu hỏi của ông gọn: lỗi ở một dependency có ở yên trong dependency đó không, hay lan thành lỗi toàn nền tảng?</p>
+    <div class="mech"><b>Cơ chế — ba cái van rẻ nhất:</b> (1) <em>timeout ngắn hơn ngân sách của request gọi nó</em>. Nếu API của bạn có SLO 2 giây mà lời gọi sang dịch vụ xác thực có timeout 30 giây, thì timeout đó vô nghĩa. (2) <em>bulkhead</em> (vách ngăn): cho lời gọi sang mỗi dependency quan trọng một pool riêng có trần. Dependency chậm thì pool của nó đầy và từ chối nhanh, pool còn lại vẫn chạy. (3) <em>circuit breaker</em>: khi tỷ lệ timeout vượt ngưỡng thì ngừng gọi một lúc và trả lỗi ngay, thay vì tiếp tục xếp hàng. Cả ba đều biến "chậm" thành "lỗi nhanh" — và lỗi nhanh thì hệ còn thở được.</div>
+    <p>Một chi tiết nhỏ nữa: lúc 09:57 UTC, Salesforce chặn một API endpoint để giảm tải.<sup><a href="https://www.softwareinsights.dev/posts/salesforce-outage-september-2026-recovery-runbook/" target="_blank">[1]</a></sup> Đây là cắt tải bằng tay, giữa sự cố. Nếu hệ của bạn không có sẵn công tắc tắt từng endpoint hay từng tính năng, lúc cần bạn sẽ phải viết code và deploy ngay giữa sự cố — đúng lúc tệ nhất để deploy.</p>
+
+    <h3 class="sub">Bài học 2 — vì sao restart bị bỏ sau hai tiếng</h3>
+    <p>09:10 UTC thử rolling restart một instance. 10:01 UTC tuyên bố "không theo hướng restart nữa".<sup><a href="https://www.softwareinsights.dev/posts/salesforce-outage-september-2026-recovery-runbook/" target="_blank">[1]</a></sup> Tính từ lúc bắt đầu ảnh hưởng, đó là 2 giờ 11 phút.</p>
+    <div class="mech"><b>Cơ chế:</b> restart chữa được lỗi nằm <em>trong</em> tiến trình: rò bộ nhớ, thread kẹt, cache hỏng. Nó không chữa được lỗi nằm <em>ngoài</em>: dependency vẫn chậm thì tiến trình mới lên lại bị lấp đầy y như cũ, thường còn nhanh hơn vì cache lạnh và mọi client đồng loạt kết nối lại. Restart còn có giá: mỗi lần restart là một đợt request dở dang bị cắt, một đợt retry dồn về. Một phép thử nhanh để biết có nên restart: restart <em>một</em> instance, đo xem nó khỏe được bao lâu. Nếu vài phút sau nó lại đầy, nguyên nhân nằm ngoài, dừng restart. Salesforce làm đúng thứ tự này — thử trên một instance trước rồi mới quyết.</div>
+
+    <h3 class="sub">Bài học 3 — bản vá đã kiểm xong, mà hơn bốn tiếng mới hạ cánh</h3>
+    <p>Đây là chỗ bản tin thấy đáng học nhất. Bản vá được xác nhận trên instance thử lúc 10:56 UTC. Nhưng khôi phục thật sự là 15:26 UTC. Ở giữa: 12:39 một số instance vẫn lỗi tới khi được restart tay; 13:13 phát hiện rollout <em>chưa hoàn tất</em> trên một số instance và phải áp lại.<sup><a href="https://www.softwareinsights.dev/posts/salesforce-outage-september-2026-recovery-runbook/" target="_blank">[1]</a></sup> CloudCounsel tóm lại: phần lớn cửa sổ 7 giờ 36 phút là thời gian đưa một bản vá đã kiểm tra rồi đi cho sạch hết đội máy.<sup><a href="https://www.softwareinsights.dev/posts/salesforce-outage-september-2026-recovery-runbook/" target="_blank">[1]</a></sup></p>
+    <div class="mech"><b>Cơ chế:</b> "đã rollout" và "đã hội tụ" là hai trạng thái khác nhau. Công cụ deploy báo xong khi lệnh đã gửi tới mọi máy. Nó không nói máy nào đã thật sự chạy phiên bản mới, máy nào kẹt ở trạng thái cũ, máy nào cần restart để nạp cấu hình. Ở quy mô hàng nghìn instance, vài phần trăm không hội tụ nghĩa là vài chục instance vẫn hỏng — và mỗi instance là một nhóm khách hàng. Cách chữa: coi "tỷ lệ hội tụ" là một metric có đồng hồ riêng. Mỗi instance tự báo phiên bản đang chạy và một health check <em>theo đúng triệu chứng</em> của sự cố (ở đây là thời gian chờ dịch vụ đăng nhập), không phải health check chung chung "process còn sống".</div>
+    <p>Cũng để ý rằng CIO.com ghi lời Salesforce: bản vá lúc đó là biện pháp giảm thiểu, còn "bản vá cấp code lâu dài" vẫn đang làm.<sup><a href="https://www.cio.com/article/4223037/salesforces-massive-outage-exposes-the-hidden-risks-of-cloud-dependencies.html" target="_blank">[3]</a></sup> Nghĩa là thứ được đẩy ra khắp đội máy giữa sự cố là một thay đổi viết vội. Đó là lý do nó cần kênh deploy khẩn cấp đã được tập dượt, chứ không phải kênh deploy thường với đủ các bước chờ.</p>
+
+    <h3 class="sub">Bài học 4 — con số "bán kính ảnh hưởng" đổi giữa chừng</h3>
+    <p>Lúc đang xảy ra, danh sách công bố có 1.036 instance. Lúc 15:56 UTC, Salesforce gỡ bớt những instance hóa ra không bị gì; con số cuối là 912 trên tổng 3.243.<sup><a href="https://www.softwareinsights.dev/posts/salesforce-outage-september-2026-recovery-runbook/" target="_blank">[1]</a></sup> Chênh 124 instance, tức khoảng 12% danh sách ban đầu là báo động thừa. Chiều ngược lại cũng xảy ra: có instance đã "khôi phục" trên danh sách nhưng thực tế vẫn cần restart tay.</p>
+    <div class="mech"><b>Cơ chế:</b> giữa sự cố, bạn thường xác định phạm vi theo <em>cấu trúc</em> (instance nào nằm trong cụm dùng chung thành phần hỏng) chứ chưa kịp theo <em>triệu chứng</em> (instance nào thật sự có lỗi). Cách thứ nhất nhanh nhưng rộng. Đó là lựa chọn đúng lúc đầu — báo thừa ít hại hơn báo thiếu. Nhưng khách hàng dựa vào con số đó để quyết có bật kế hoạch dự phòng không. Bài học cho trang trạng thái của chính bạn: ghi rõ phạm vi đang là "có thể bị" hay "đã xác nhận bị", và thu hẹp sớm khi đo được triệu chứng.</div>
+
+    <h3 class="sub">Phía khách hàng — đèn xanh không có nghĩa là mọi việc đã chạy</h3>
+    <p>Lúc 14:00 UTC, khi nhiều khách đã vào lại được, Salesforce ghi nhận báo cáo "job lập lịch không chạy như mong đợi".<sup><a href="https://www.theregister.com/saas/2026/09/16/salesforce-staggers-back-to-feet-after-global-outage/5296800" target="_blank">[2]</a></sup> CloudCounsel đi tiếp từ đó: giao diện web là thứ hồi phục đầu tiên, và cũng là thứ nói với bạn ít nhất. Mọi thứ bất đồng bộ hồi phục muộn hơn, hồi phục một phần, hoặc không hồi phục.<sup><a href="https://www.softwareinsights.dev/posts/salesforce-outage-september-2026-recovery-runbook/" target="_blank">[1]</a></sup> Jaffery gọi đây là "bài toán dữ liệu theo thời gian": việc đáng lẽ xảy ra lúc này thì xảy ra muộn, không xảy ra, hoặc tới sai thứ tự.<sup><a href="https://www.cio.com/article/4223037/salesforces-massive-outage-exposes-the-hidden-risks-of-cloud-dependencies.html" target="_blank">[3]</a></sup></p>
+    <p>Bảng dưới gom sáu loại việc bất đồng bộ CloudCounsel liệt kê. Chúng là khái niệm của Salesforce, nhưng hệ nào có cron, batch, hàng đợi sự kiện và webhook cũng có đủ sáu loại này.</p>
+    <table class="tbl">
+      <tr><th>Loại việc</th><th>Hỏng thế nào khi nền tảng sập</th><th>Tương đương trong hệ của bạn</th></tr>
+      <tr><td>Job lập lịch</td><td>Lần chạy bị lỡ <strong>không được chạy bù</strong>; bộ lập lịch nhảy sang lần kế. Dấu vết duy nhất là "lần chạy trước" không nhích lên<sup><a href="https://www.softwareinsights.dev/posts/salesforce-outage-september-2026-recovery-runbook/" target="_blank">[1]</a></sup></td><td>Cron, scheduler trong app: có chính sách chạy bù hay bỏ qua?</td></tr>
+      <tr><td>Batch nhiều phần</td><td>Báo "Completed" dù chỉ xử lý một phần số chunk; nửa bản đối soát trông như đã xong<sup><a href="https://www.softwareinsights.dev/posts/salesforce-outage-september-2026-recovery-runbook/" target="_blank">[1]</a></sup></td><td>Job ETL, job đối soát: trạng thái "xong" có so số đã xử lý với tổng không?</td></tr>
+      <tr><td>Chuỗi job nối nhau</td><td>Một mắt xích hỏng thì mọi job sau không chạy, nhưng chỉ hiện <em>một</em> lỗi<sup><a href="https://www.softwareinsights.dev/posts/salesforce-outage-september-2026-recovery-runbook/" target="_blank">[1]</a></sup></td><td>Workflow nhiều bước, job A gọi job B</td></tr>
+      <tr><td>Sự kiện/CDC</td><td>Cửa sổ replay khoảng 72 giờ với sự kiện khối lượng lớn, ngắn hơn với loại thường; quá hạn là mất hẳn<sup><a href="https://www.softwareinsights.dev/posts/salesforce-outage-september-2026-recovery-runbook/" target="_blank">[1]</a></sup></td><td>Retention của Kafka/queue, webhook của nhà cung cấp</td></tr>
+      <tr><td>Tin nhắn gửi ra</td><td>Thử lại tối đa 24 giờ rồi <strong>bỏ vĩnh viễn</strong><sup><a href="https://www.softwareinsights.dev/posts/salesforce-outage-september-2026-recovery-runbook/" target="_blank">[1]</a></sup></td><td>Webhook bạn gửi đi cho khách: có dead-letter không?</td></tr>
+      <tr><td>Tích hợp tự retry</td><td>Retry vào một nền tảng chập chờn tạo bản ghi trùng nếu không có khóa idempotency; retry dồn dập còn làm sự cố sâu thêm<sup><a href="https://www.softwareinsights.dev/posts/salesforce-outage-september-2026-recovery-runbook/" target="_blank">[1]</a></sup></td><td>Mọi client gọi API bên ngoài của bạn</td></tr>
+    </table>
+    <div class="mech"><b>Cơ chế — vì sao "không chạy bù" là mặc định:</b> bộ lập lịch không biết job của bạn có an toàn để chạy hai lần không, cũng không biết chạy muộn ba tiếng có còn đúng nghiệp vụ không (báo cáo "cuối ngày" chạy lúc sáng hôm sau là sai). Nên nó chọn cách an toàn cho <em>nó</em>: bỏ qua. Hệ quả là trách nhiệm phát hiện chuyển sang bạn — và không có gì báo cho bạn biết. Cách CloudCounsel đề xuất rất thực dụng: <em>chụp danh sách lịch chạy ngay khi sự cố đang diễn ra</em>, vì sau khi hồi phục bộ lập lịch chỉ giữ lần chạy trước và lần kế, không giữ những lần đã lỡ; không có bản chụp thì không còn gì để so.<sup><a href="https://www.softwareinsights.dev/posts/salesforce-outage-september-2026-recovery-runbook/" target="_blank">[1]</a></sup></div>
+    <p>Có một lời khuyên trong bài của CloudCounsel đáng dán lên tường: lúc sự cố xảy ra ở đường đăng nhập, một lần làm mới token thất bại vì timeout là nạn nhân của sự cố, chưa chắc token đã chết. Đăng nhập lại ngay sẽ xoá mất bằng chứng. Hãy chờ nền tảng báo khôi phục rồi mới thử lại.<sup><a href="https://www.softwareinsights.dev/posts/salesforce-outage-september-2026-recovery-runbook/" target="_blank">[1]</a></sup> Nguyên tắc rộng hơn: giữa sự cố của người khác, đừng sửa hệ của mình. Mọi thay đổi lúc đó trở thành biến số bạn phải gỡ lại sau.<sup><a href="https://vantagepoint.io/blog/sf/salesforce-outage-september-2026" target="_blank">[4]</a></sup></p>
+
+    <h3 class="sub">Đọc bản RCA sắp tới thế nào — và dùng chính bộ câu hỏi đó cho mình</h3>
+    <p>Salesforce hứa điều tra "tác nhân kỹ thuật, nguyên nhân sâu xa và biện pháp phòng ngừa".<sup><a href="https://www.cio.com/article/4223037/salesforces-massive-outage-exposes-the-hidden-risks-of-cloud-dependencies.html" target="_blank">[3]</a></sup> Jaffery đưa ra sáu câu hỏi mà một bản RCA đáng tin phải trả lời.<sup><a href="https://www.cio.com/article/4223037/salesforces-massive-outage-exposes-the-hidden-risks-of-cloud-dependencies.html" target="_blank">[3]</a></sup> Bản tin diễn đạt lại và thêm cột "tự hỏi mình" — cột này là của biên tập, không phải của nguồn:</p>
+    <table class="tbl">
+      <tr><th>Câu hỏi cho nhà cung cấp</th><th>Tự hỏi với hệ của bạn</th></tr>
+      <tr><td>Lỗi khởi phát là gì, vì sao nó lan vào đường đăng nhập?</td><td>Đường đăng nhập/xác thực của bạn phụ thuộc những gì? Có ai vẽ ra chưa?</td></tr>
+      <tr><td>Vì sao một dependency ngốn được đủ năng lực để kéo cả dịch vụ lõi?</td><td>Lời gọi sang dependency nào không có timeout, không có pool riêng?</td></tr>
+      <tr><td>Vì sao cô lập hoặc failover không chặn được?</td><td>Failover của bạn có kích hoạt khi dependency <em>chậm</em>, hay chỉ khi nó <em>chết</em>?</td></tr>
+      <tr><td>Vì sao lần khắc phục đầu thất bại, vì sao rollout cần can thiệp thêm?</td><td>Bạn đo "đã hội tụ" bằng gì? Có kênh deploy khẩn đã tập dượt không?</td></tr>
+      <tr><td>Thêm biện pháp gì để không tái diễn?</td><td>Postmortem gần nhất của bạn có việc nào đã đóng thật?</td></tr>
+      <tr><td>Chứng minh biện pháp đó hiệu quả khi có lỗi thật bằng cách nào?</td><td>Bạn đã bao giờ cố ý làm chậm một dependency trên staging để xem chuyện gì xảy ra?</td></tr>
+    </table>
+    <p>Câu hỏi thứ sáu là câu hay bị bỏ nhất. "Đã thêm timeout" là một câu trong postmortem. "Đã tiêm độ trễ 5 giây vào dịch vụ xác thực trên staging và API vẫn trả lỗi nhanh trong 200 ms" là bằng chứng. Chỉ loại thứ hai mới đáng tin.</p>
+
+    <h3 class="sub">Nếu bạn là nhà cung cấp SaaS — khách của bạn cũng đang có sáu loại việc đó</h3>
+    <p>Góc nhìn này hay bị quên. Phần lớn người đọc bản tin vừa <em>dùng</em> SaaS vừa <em>bán</em> SaaS. Khách của bạn cũng có cron gọi API của bạn, cũng nhận webhook từ bạn, cũng retry khi bạn chập chờn. Sau một sự cố, bạn có nói cho họ biết webhook nào đã bị bỏ, khoảng thời gian nào cần đối soát, và retry nên giãn ra thế nào không? Jaffery nói gọn: câu hỏi quan trọng không phải "hệ đã lên lại chưa" mà là "doanh nghiệp đã <em>mong</em> điều gì xảy ra trong lúc sập, và có chứng minh được nó đã xảy ra không".<sup><a href="https://www.cio.com/article/4223037/salesforces-massive-outage-exposes-the-hidden-risks-of-cloud-dependencies.html" target="_blank">[3]</a></sup></p>
+
+    <div class="scale">
+      <div class="col small">
+        <h4>Đội nhỏ / startup &lt;10 người</h4>
+        <ul>
+          <li>Liệt kê mọi lời gọi ra ngoài trên đường request (xác thực, thanh toán, email, LLM). Mỗi lời gọi phải có timeout nhỏ hơn SLO của request gọi nó. Việc này mất một buổi chiều.</li>
+          <li>Với mỗi cron: ghi rõ trong code là "lỡ thì chạy bù" hay "lỡ thì bỏ", và có một cảnh báo khi lần chạy gần nhất cũ hơn chu kỳ × 2.</li>
+          <li>Mọi lời gọi tạo bản ghi sang bên ngoài phải mang khóa idempotency hoặc upsert theo ID ngoài.</li>
+          <li>Viết sẵn một trang "khi nhà cung cấp X sập": ai ra quyết định, tạm dừng job nào, chụp gì trước khi hồi phục.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Đội đã có sản phẩm production</h4>
+        <ul>
+          <li>Vách ngăn: pool riêng có trần cho từng dependency quan trọng; circuit breaker trả lỗi nhanh khi tỷ lệ timeout vượt ngưỡng.</li>
+          <li>Công tắc tắt từng endpoint/tính năng qua feature flag, dùng được mà không cần deploy.</li>
+          <li>Metric "tỷ lệ hội tụ" cho mọi rollout khẩn: phiên bản đang chạy + health check theo đúng triệu chứng, theo từng instance.</li>
+          <li>Trang trạng thái tách "có thể bị" và "đã xác nhận"; sau sự cố gửi khách danh sách webhook bị bỏ và khoảng thời gian cần đối soát.</li>
+          <li>Mỗi quý tiêm độ trễ (không phải lỗi) vào một dependency trên staging và đo.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="doslist">
+      <div><strong>Năm việc làm được trong tuần này</strong></div>
+      <div>✅ Grep toàn bộ HTTP client trong code: client nào đang dùng timeout mặc định (thường là vô hạn hoặc rất dài)?</div>
+      <div>✅ Chọn dependency quan trọng nhất, làm chậm nó 5 giây trên staging, xem API chính còn trả lời trong SLO không.</div>
+      <div>✅ Thêm cảnh báo "job lập lịch chưa chạy quá hai chu kỳ" — theo CloudCounsel, đây là lỗ giám sát rẻ nhất để bịt.<sup><a href="https://www.softwareinsights.dev/posts/salesforce-outage-september-2026-recovery-runbook/" target="_blank">[1]</a></sup></div>
+      <div>✅ Kiểm xem kênh báo lỗi lên nhà cung cấp của bạn có phụ thuộc chính nền tảng đó không — lần này, cổng tạo case hỗ trợ của Salesforce cũng hỏng theo.<sup><a href="https://www.theregister.com/saas/2026/09/16/salesforce-staggers-back-to-feet-after-global-outage/5296800" target="_blank">[2]</a></sup></div>
+      <div>❌ Đừng tuyên bố "đã khôi phục" chỉ vì trang web tải được. Trang web là thứ có ít việc phụ thuộc nhất đằng sau.</div>
+    </div>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> sự cố này chưa có nguyên nhân gốc, nhưng dòng thời gian đã đủ dạy ba điều. Một dependency <em>chậm</em> phải bị biến thành lỗi <em>nhanh</em> trước khi nó kịp chiếm hết chỗ. Restart chỉ chữa được lỗi nằm trong tiến trình, nên hãy thử trên một instance rồi mới quyết. Và "rollout xong" chưa phải "đã hội tụ" — ở đây khoảng cách đó là 4 tiếng rưỡi. Còn ở phía khách hàng, phần hỏng đắt nhất là những việc không chạy mà không ai báo. Nếu bạn cũng bán SaaS, khách của bạn đang có đúng những việc đó chạy trên hệ của bạn.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> [1] CloudCounsel — <a href="https://www.softwareinsights.dev/posts/salesforce-outage-september-2026-recovery-runbook/" target="_blank">"Salesforce Outage Recovery After Incident 20004433: What Fails Silently Once the Status Page Turns Green", Software Insights, 16/09/2026</a> (hãng tư vấn Salesforce; bản tin dùng phần dòng thời gian chép từ trang Trust và phần cơ chế) · [2] Lindsay Clark — <a href="https://www.theregister.com/saas/2026/09/16/salesforce-staggers-back-to-feet-after-global-outage/5296800" target="_blank">"Salesforce staggers back to feet after global outage", The Register, 16/09/2026, cập nhật 18/09/2026</a> · [3] Taryn Plumb — <a href="https://www.cio.com/article/4223037/salesforces-massive-outage-exposes-the-hidden-risks-of-cloud-dependencies.html" target="_blank">"Salesforce's massive outage exposes the hidden risks of cloud dependencies", CIO.com, 16/09/2026</a> (có trích Abbas Jaffery, Info-Tech Research Group) · [4] David Cockrum — <a href="https://vantagepoint.io/blog/sf/salesforce-outage-september-2026" target="_blank">"Salesforce Outage September 2026: What Admins Should Do Now", Vantage Point, 16/09/2026</a> (hãng tư vấn; dùng số Downdetector và lời khuyên không đổi cấu hình giữa sự cố).</div>
+  </article>
+
+  <div class="foot">Bản tin sáng · Số 24/09/2026</div>
+</div>
+</body>
+</html>
