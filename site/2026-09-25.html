@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ba benchmark, ba kết luận: full-text search trong Postgres &middot; 25/09/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 25/09/2026</div>
+    <h1 class="title">Ba hãng đo cùng một việc — tìm chữ trong Postgres — và ra ba kết luận ngược nhau: đọc benchmark full-text search trước khi bỏ GIN hay dựng thêm Elasticsearch</h1>
+    <div class="meta">25/09/2026 · Đọc khoảng 13 phút · Nguồn chính: PlanetScale — "Introducing TIN" (16/09/2026, đính chính 20/09/2026); Tiger Data — issue #497 trên GitHub của pg_textsearch (16/09/2026) và bài "pg_textsearch 1.0" (08/04/2026); ParadeDB — "Same Query, Three Results" (02/06/2026)</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: hôm nay bản tin chỉ có <b>một bài</b>, đào sâu. Cả ba nguồn chính đều là <b>nhà cung cấp tự đo sản phẩm của mình</b> với đối thủ: PlanetScale bán TIN, Tiger Data bán pg_textsearch, ParadeDB bán pg_search. Bản tin không chọn phe và không kết luận extension nào "nhanh nhất". Mục đích là đặt ba bộ số cạnh nhau để thấy <em>điều kiện đo</em> quyết định kết quả tới mức nào. Các khối <b style="color:#1e40af">Cơ chế</b>, bảng đối chiếu điều kiện đo và phần "Rút ra theo quy mô" là phân tích tổng hợp của bản tin — <em>không trích nguyên văn từ nguồn</em>. Mọi con số đều dẫn nguồn ngay cạnh câu. Số này quay lại mảng tối ưu hệ đang chạy, nhưng ở góc mới: tầng tìm kiếm trong database (khác sự cố Salesforce hôm qua, khác cold data 22/09 và connection pool 19–20/09).</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1"><strong>Bài duy nhất</strong> — pg_textsearch "nhanh gấp 8,7 lần" hồi tháng 4, chỉ còn 3,5 QPS trong benchmark tháng 9<br><span style="font-size:13.5px;color:#6b7280">· chuyện gì xảy ra tuần qua · bảng đặt ba benchmark cạnh nhau · bốn núm vặn làm lật kết quả: index có vừa RAM không, câu truy vấn trông thế nào, có ghi đồng thời không, tải đến theo kiểu gì · tính năng thiếu cũng là một con số · cách tự đo trên dữ liệu của bạn · nên làm gì theo quy mô đội</span></a></li>
+    </ol>
+  </nav>
+
+  <article class="card" id="bai1">
+    <span class="tag legacy">Tối ưu hệ đang chạy · cơ sở dữ liệu &amp; tìm kiếm</span>
+    <h2 class="head">pg_textsearch "nhanh gấp 8,7 lần" hồi tháng 4, chỉ còn 3,5 QPS trong benchmark tháng 9 — cả hai con số đều thật</h2>
+    <p class="src">Nguồn: Eric Ridge &amp; Patrick Reynolds — <a href="https://planetscale.com/blog/introducing-tin" target="_blank">"Introducing TIN: full-text search for Postgres"</a>, PlanetScale Blog, 16/09/2026 (đính chính 20/09/2026); tjgreen42 (Tiger Data) — <a href="https://github.com/timescale/pg_textsearch/issues/497" target="_blank">issue #497 "Investigate poor read-only disjunction performance in PlanetScale TIN benchmark"</a>, GitHub, 16/09/2026; Tiger Data — <a href="https://hackernoon.com/pg_textsearch-10-how-we-built-a-bm25-search-engine-on-postgres-pages" target="_blank">"pg_textsearch 1.0: How We Built a BM25 Search Engine on Postgres Pages"</a>, HackerNoon (bản gốc trên blog Tiger Data), 08/04/2026; James Blackwood-Sewell — <a href="https://www.paradedb.com/blog/benchmarker-iteration" target="_blank">"Same Query, Three Results: Benchmarking ParadeDB and Postgres FTS"</a>, ParadeDB Blog, 02/06/2026.</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">8,7×</div><div class="lab">throughput pg_textsearch hơn ParadeDB, 16 client, index nằm gọn trong RAM — Tiger Data tự đo <a href="https://hackernoon.com/pg_textsearch-10-how-we-built-a-bm25-search-engine-on-postgres-pages" target="_blank">[2]</a></div></div>
+      <div class="box"><div class="num">3,5 QPS</div><div class="lab">pg_textsearch 1.4.0 trong benchmark của PlanetScale, index lớn hơn RAM; TIN đạt 148 <a href="https://planetscale.com/blog/introducing-tin" target="_blank">[1]</a></div></div>
+      <div class="box"><div class="num">29×</div><div class="lab">throughput GIN tụt chỉ vì đổi từ 1 từ khóa sang 40 từ khóa luân phiên — ParadeDB đo <a href="https://www.paradedb.com/blog/benchmarker-iteration" target="_blank">[4]</a></div></div>
+    </div>
+
+    <h3 class="sub">Chuyện gì xảy ra tuần qua</h3>
+    <p>Ngày 16/09, PlanetScale ra mắt TIN, một extension full-text search cho Postgres. Họ công bố luôn ở bản GA cho các database Postgres và Neki trên nền tảng của mình.<sup><a href="https://planetscale.com/blog/introducing-tin" target="_blank">[1]</a></sup> Đi kèm là một bộ benchmark khá mạnh tay. So với ParadeDB trên câu truy vấn hỗn hợp, TIN báo throughput gấp 25 lần và p99 thấp hơn 26 lần. So với GIN có sẵn của Postgres trên truy vấn "phải chứa đủ các từ", throughput gấp 541 lần và p99 thấp hơn 1.356 lần.<sup><a href="https://planetscale.com/blog/introducing-tin" target="_blank">[1]</a></sup></p>
+    <p>Dòng làm người ta chú ý nhất lại nằm ở đối thủ thứ ba. Ở bài truy vấn "chứa ít nhất một từ" (disjunction), pg_textsearch 1.4.0 của Tiger Data chỉ đạt 3,5 QPS, p99 8,6 giây. Mỗi truy vấn đọc tới 11.639 MB dữ liệu. TIN trên cùng bài đạt 148 QPS, p99 324 ms, đọc 48 MB.<sup><a href="https://planetscale.com/blog/introducing-tin" target="_blank">[1]</a></sup></p>
+    <p>Trong khi đó, bài ra mắt pg_textsearch 1.0 hồi tháng 4 nói ngược lại. Tiger Data đo pg_textsearch nhanh hơn ParadeDB 2,3 lần ở p50 và gấp 8,7 lần về throughput khi có 16 client chạy song song.<sup><a href="https://hackernoon.com/pg_textsearch-10-how-we-built-a-bm25-search-engine-on-postgres-pages" target="_blank">[2]</a></sup> Cùng ngày TIN ra mắt, một kỹ sư Tiger Data mở issue #497 để tái hiện kết quả. Issue ghi rõ con số 11,6 GB mỗi truy vấn là "đặc biệt đáng lo". Nó cũng tách riêng chuyện này khỏi một vấn đề khác: ghi bị đói khi có đọc liên tục.<sup><a href="https://github.com/timescale/pg_textsearch/issues/497" target="_blank">[3]</a></sup> Tới lúc bản tin viết, issue vẫn mở, chưa ai được giao.</p>
+    <p>Có một chi tiết nhỏ nhưng đáng để ý. Ngày 20/09, PlanetScale thêm đính chính: benchmark Stack Exchange dùng 3.762 truy vấn chứ không phải 1.719 như bản đầu.<sup><a href="https://planetscale.com/blog/introducing-tin" target="_blank">[1]</a></sup> Sai số kiểu này không làm lật kết quả. Nhưng nó cho thấy bạn nên đọc lại benchmark vài ngày sau khi công bố, chứ đừng chụp màn hình ngày đầu.</p>
+
+    <h3 class="sub">Đặt ba benchmark cạnh nhau</h3>
+    <p>Trước khi hỏi ai đúng, hãy xem mỗi bên đã đo trong điều kiện nào. Bảng dưới gom các thông số mà chính các bài gốc công bố.</p>
+    <table class="tbl">
+      <tr><th></th><th>Tiger Data (04/2026) <a href="https://hackernoon.com/pg_textsearch-10-how-we-built-a-bm25-search-engine-on-postgres-pages" target="_blank">[2]</a></th><th>ParadeDB (06/2026) <a href="https://www.paradedb.com/blog/benchmarker-iteration" target="_blank">[4]</a></th><th>PlanetScale (09/2026) <a href="https://planetscale.com/blog/introducing-tin" target="_blank">[1]</a></th></tr>
+      <tr><td>Dữ liệu</td><td>MS-MARCO v2, 138 triệu đoạn văn</td><td>Hacker News, 1 triệu dòng</td><td>Stack Exchange, 85 GB, 150 triệu tài liệu</td></tr>
+      <tr><td>Máy &amp; bộ nhớ</td><td>8 core, 123 GB RAM, shared_buffers 31 GB</td><td>4 core, 8 GB mỗi container</td><td>8 vCPU, 32 GB, shared_buffers 24 GB</td></tr>
+      <tr><td>Index có vừa bộ nhớ?</td><td>Có — cả hai index nằm gọn trong buffer cache, đo khi cache đã nóng</td><td>Có — không xóa cache của hệ điều hành giữa các lượt</td><td>Không — chọn cấu hình nhỏ có chủ đích để index không vừa buffer (index 28–52 GB)</td></tr>
+      <tr><td>Ghi đồng thời</td><td>Không đo</td><td>Không đo</td><td>Có, 1.000 UPDATE/giây ở một số bài</td></tr>
+      <tr><td>Kiểu tải</td><td>16 client chạy liên tục</td><td>Cả hai: vòng kín 16 client và vòng mở 50 QPS</td><td>Benchmarker của ParadeDB (bản fork thêm bước làm nóng)</td></tr>
+      <tr><td>Phiên bản đối thủ</td><td>ParadeDB v0.21.6</td><td>GIN của Postgres</td><td>ParadeDB v0.25.2, pg_textsearch v1.4.0, GIN trên Postgres 18.6</td></tr>
+      <tr><td>Kết luận chính</td><td>pg_textsearch hơn ParadeDB 2,3× (p50), 8,7× (throughput)</td><td>Từ "ngang nhau trong 10%" đến "p99 chênh 47×", tùy cách đo</td><td>TIN nhanh hơn mọi đối thủ ít nhất 8×</td></tr>
+    </table>
+    <p>Nhìn bảng là thấy ngay: ba bên gần như không đo cùng một thứ. Họ khác nhau ở dữ liệu, ở chuyện index có vừa bộ nhớ không, ở phiên bản đối thủ, và ở chuyện có ghi đồng thời hay không. Mỗi khác biệt đó đều đủ sức lật kết quả. Phần dưới đi qua từng cái.</p>
+
+    <h3 class="sub">Núm vặn 1: index có nằm vừa bộ nhớ không</h3>
+    <p>Tiger Data tự ghi giới hạn của mình: mọi phép đo đều chạy khi cache đã nóng, dữ liệu vừa trong page cache và shared_buffers. Họ viết thẳng rằng chưa đo trường hợp index lớn hơn bộ nhớ.<sup><a href="https://hackernoon.com/pg_textsearch-10-how-we-built-a-bm25-search-engine-on-postgres-pages" target="_blank">[2]</a></sup> PlanetScale thì làm ngược lại có chủ đích. Họ giới hạn container ở 32 GB RAM, "đủ nhỏ" để index không vừa buffer.<sup><a href="https://planetscale.com/blog/introducing-tin" target="_blank">[1]</a></sup> Issue #497 cũng chép lại đúng điều kiện này khi lên kế hoạch tái hiện.<sup><a href="https://github.com/timescale/pg_textsearch/issues/497" target="_blank">[3]</a></sup></p>
+    <div class="mech"><b>Cơ chế:</b> khi index nằm hết trong RAM, benchmark đo thuật toán và CPU. Khi index tràn ra đĩa, benchmark đo <em>số byte phải kéo lên</em> cho mỗi truy vấn. Đây là hai cuộc thi khác nhau. Cột MB/query trong bảng của PlanetScale là chìa khóa: TIN đọc 48 MB, ParadeDB 303 MB, pg_textsearch 11.639 MB cho cùng loại truy vấn.<sup><a href="https://planetscale.com/blog/introducing-tin" target="_blank">[1]</a></sup> Chênh vài trăm lần về byte đọc sẽ không lộ ra khi mọi thứ đã nằm trong RAM. Nhưng nó thành chênh vài chục lần về latency khi phải đọc đĩa. Còn một hệ quả nữa hay bị bỏ qua: truy vấn đọc nhiều sẽ đẩy trang khác ra khỏi cache, nên <em>các truy vấn không liên quan trên cùng server</em> cũng chậm theo. PlanetScale nêu đúng ý này khi giải thích vì sao họ công bố cột MB/query.<sup><a href="https://planetscale.com/blog/introducing-tin" target="_blank">[1]</a></sup></div>
+    <p>Với bạn, câu hỏi thực tế rất đơn giản: index search của bạn to bao nhiêu so với RAM của primary? Nếu nó nằm gọn và còn dư nhiều, benchmark kiểu cache nóng gần với đời thật hơn. Nếu nó lớn hơn, hoặc phải tranh cache với bảng giao dịch, thì cột byte đọc mỗi truy vấn mới là cột bạn cần nhìn.</p>
+
+    <h3 class="sub">Núm vặn 2: câu truy vấn trông thế nào</h3>
+    <p>Bài của ParadeDB là ví dụ sạch nhất cho núm này. Họ giữ nguyên dữ liệu, phần cứng và câu truy vấn, rồi chạy ba lượt.<sup><a href="https://www.paradedb.com/blog/benchmarker-iteration" target="_blank">[4]</a></sup> Lượt 1 chỉ tìm một từ hiếm, khớp 390 tài liệu. ParadeDB đạt khoảng 3.650 QPS, GIN khoảng 3.300 QPS, chênh chưa tới 10%. Lượt 2 chỉ đổi đúng một thứ: luân phiên 40 từ khóa thật, từ loại khớp 272 dòng đến loại khớp 27.336 dòng. ParadeDB gần như đứng yên ở 3.373 QPS. GIN rơi còn 115 QPS, tức tụt 29 lần.<sup><a href="https://www.paradedb.com/blog/benchmarker-iteration" target="_blank">[4]</a></sup></p>
+    <div class="mech"><b>Cơ chế:</b> với câu "lấy 10 kết quả liên quan nhất", hàm ts_rank của Postgres phải chấm điểm <em>mọi</em> dòng khớp rồi mới sắp xếp để lấy 10. Từ khớp 390 dòng thì rẻ. Từ khớp 27.000 dòng thì đắt gấp chừng ấy lần.<sup><a href="https://www.paradedb.com/blog/benchmarker-iteration" target="_blank">[4]</a></sup> Các engine BM25 mới dùng kỹ thuật cắt tỉa top-k tên là Block-Max WAND. Index lưu sẵn điểm trần cho từng khối 128 tài liệu. Khi đã có 10 kết quả tạm, engine bỏ qua nguyên khối nào có điểm trần thấp hơn kết quả thứ 10, không cần giải nén.<sup><a href="https://hackernoon.com/pg_textsearch-10-how-we-built-a-bm25-search-engine-on-postgres-pages" target="_blank">[2]</a></sup> Nghĩa là chi phí của GIN tăng theo <em>số dòng khớp</em>, còn chi phí của engine có cắt tỉa tăng chậm hơn nhiều. Một benchmark chỉ dùng từ hiếm sẽ giấu đi đúng khác biệt này.</div>
+    <p>Độ dài câu truy vấn cũng là một núm. Trong số của Tiger Data, lợi thế của pg_textsearch là 11,7 lần với truy vấn một từ, rồi thu hẹp dần còn 1,1 lần ở truy vấn từ 8 từ trở lên.<sup><a href="https://hackernoon.com/pg_textsearch-10-how-we-built-a-bm25-search-engine-on-postgres-pages" target="_blank">[2]</a></sup> Họ lấy trọng số theo bộ truy vấn Bing trong MS-MARCO, nơi 72,6% truy vấn có 2–4 từ sau khi bỏ stopword. Con số "2,3 lần" là trung bình có trọng số đó.<sup><a href="https://hackernoon.com/pg_textsearch-10-how-we-built-a-bm25-search-engine-on-postgres-pages" target="_blank">[2]</a></sup> Nếu người dùng của bạn gõ câu dài, kiểu dán cả đoạn lỗi vào ô tìm kiếm, thì con số 2,3 lần đó không áp dụng cho bạn.</p>
+    <p>Còn một chiều ngược lại ít ai nhắc. Chú thích cuối bài ParadeDB thừa nhận: với từ cực hiếm, chỉ khớp 1–10 tài liệu, GIN lại nhanh hơn ParadeDB vì chi phí khởi động thấp hơn.<sup><a href="https://www.paradedb.com/blog/benchmarker-iteration" target="_blank">[4]</a></sup> Nếu sản phẩm của bạn chủ yếu tìm theo mã đơn, email hay SKU, GIN có thể đã là lựa chọn đúng.</p>
+
+    <h3 class="sub">Núm vặn 3: có ai đang ghi cùng lúc không</h3>
+    <p>Cả Tiger Data lẫn ParadeDB đều không đo tải ghi trong các bài trên. Tiger Data ghi rõ điều đó trong phần giới hạn.<sup><a href="https://hackernoon.com/pg_textsearch-10-how-we-built-a-bm25-search-engine-on-postgres-pages" target="_blank">[2]</a></sup> PlanetScale thì có đo, với một client bắn 1.000 UPDATE mỗi giây trong 10 phút. Kết quả: TIN hoàn tất 270.279 update, ParadeDB 185.584, còn pg_textsearch chỉ 735.<sup><a href="https://planetscale.com/blog/introducing-tin" target="_blank">[1]</a></sup> Theo PlanetScale, lý do là đọc liên tục khiến phía ghi không bao giờ lấy được khóa cần thiết, nên ghi đứng lại sau vài giây. ParadeDB thì ngược lại: ghi được, nhưng throughput đọc tụt từ 17 xuống 2,2 QPS.<sup><a href="https://planetscale.com/blog/introducing-tin" target="_blank">[1]</a></sup></p>
+    <div class="mech"><b>Cơ chế:</b> index full-text không sửa tại chỗ được như B-tree. Hầu hết engine gom ghi vào một vùng tạm (memtable hoặc segment "mutable"), rồi định kỳ gộp thành segment bất biến để đọc cho nhanh. Tiger Data mô tả pg_textsearch đúng theo kiểu LSM đó, và ghi rằng bản 1.0 <em>chưa có compaction chạy nền</em>: việc gộp segment chạy đồng bộ ngay lúc xả memtable.<sup><a href="https://hackernoon.com/pg_textsearch-10-how-we-built-a-bm25-search-engine-on-postgres-pages" target="_blank">[2]</a></sup> Mỗi engine chọn một chỗ để trả giá: hoặc chặn ghi, hoặc làm đọc chậm đi, hoặc đẩy việc gộp ra nền. Benchmark chỉ đọc sẽ không bao giờ cho bạn thấy engine đã chọn trả giá ở đâu. Với SaaS, bảng cần tìm kiếm (ticket, tin nhắn, ghi chú) thường cũng là bảng bị ghi nhiều nhất.</div>
+
+    <h3 class="sub">Núm vặn 4: tải đến theo kiểu gì</h3>
+    <p>ParadeDB chạy lượt thứ ba để tách chuyện "chậm vì quá tải" khỏi chuyện "chậm thật". Họ giữ 40 từ khóa luân phiên nhưng đổi sang vòng mở: bắn đều 50 truy vấn mỗi giây, chưa tới một nửa mức GIN đã chịu được ở lượt 2. GIN vẫn trả đủ 100% truy vấn. Nhưng p99 của GIN là 238 ms so với 5,11 ms, chênh 47 lần. CPU dao động từ một đến bốn core, bộ nhớ khoảng 1,2 GB so với 400 MB.<sup><a href="https://www.paradedb.com/blog/benchmarker-iteration" target="_blank">[4]</a></sup></p>
+    <div class="mech"><b>Cơ chế:</b> ở vòng kín, mỗi client chờ kết quả rồi mới gửi truy vấn tiếp. Database chậm thì client tự gửi chậm lại, nên throughput là <em>kết quả đo</em>, và latency cao dễ bị gạt đi là "do đang bão hòa". Ở vòng mở, truy vấn đến theo lịch cố định, giống người dùng thật: họ không đợi người trước tìm xong mới bấm. Nếu latency vẫn cao khi tải còn xa mức trần, đó là chi phí thật của mỗi truy vấn chứ không phải do hàng đợi. Một benchmark chỉ có vòng kín sẽ trả lời câu "chịu được bao nhiêu QPS". Nó không trả lời câu "người dùng đợi bao lâu ở giờ cao điểm".</div>
+
+    <h3 class="sub">Tính năng thiếu cũng là một con số</h3>
+    <p>Có những ô trống trong bảng benchmark không phải vì chậm, mà vì không chạy được. Trong bài của PlanetScale, GIN hết bộ nhớ ở các bài top-10 có truy vấn "chứa ít nhất một từ" trên bộ Stack Exchange. pg_textsearch vắng mặt ở các bài cụm từ và bài đếm, vì nó chỉ hỗ trợ truy vấn OR và chỉ trả top-k.<sup><a href="https://planetscale.com/blog/introducing-tin" target="_blank">[1]</a></sup> Điều này khớp với danh sách giới hạn mà Tiger Data tự công bố cho bản 1.0: không có truy vấn cụm từ vì không lưu vị trí từ, mọi từ mặc định nối bằng OR, không có tìm gần đúng hay chịu lỗi gõ, và phải khai báo trong shared_preload_libraries nên cần restart server.<sup><a href="https://hackernoon.com/pg_textsearch-10-how-we-built-a-bm25-search-engine-on-postgres-pages" target="_blank">[2]</a></sup></p>
+    <p>Một chi tiết nữa cho thấy các con số phụ cũng cần đọc kỹ. Tiger Data báo index của pg_textsearch nhỏ hơn ParadeDB 19–26%, nhưng chính họ ghi so sánh này "không cùng điều kiện". ParadeDB lưu vị trí từ để hỗ trợ cụm từ, còn pg_textsearch thì không.<sup><a href="https://hackernoon.com/pg_textsearch-10-how-we-built-a-bm25-search-engine-on-postgres-pages" target="_blank">[2]</a></sup> Thời gian build index cũng đảo chiều tùy bài. Trong số của Tiger Data, ParadeDB build nhanh gần gấp đôi.<sup><a href="https://hackernoon.com/pg_textsearch-10-how-we-built-a-bm25-search-engine-on-postgres-pages" target="_blank">[2]</a></sup> Trong số của PlanetScale, TIN build xong trong 8 phút 10 giây với 32 GB RAM. Ba engine còn lại cần 64–128 GB RAM chỉ để build, và GIN mất hơn hai tiếng.<sup><a href="https://planetscale.com/blog/introducing-tin" target="_blank">[1]</a></sup></p>
+    <div class="mech"><b>Cơ chế:</b> vì sao TIN đọc ít byte như vậy? Theo giải thích của PlanetScale, TIN dùng thẳng ctid (địa chỉ vật lý của dòng trong heap) làm mã tài liệu. Các engine khác đánh số tài liệu riêng rồi phải tra ngược sang ctid. TIN mã hóa danh sách tài liệu thành bitmap hai tầng, theo trang rồi theo vị trí trong trang, nên phép AND/OR thành lệnh vector trên CPU.<sup><a href="https://planetscale.com/blog/introducing-tin" target="_blank">[1]</a></sup> Pg_textsearch cũng thấy chi phí tra ctid, nhưng xử lý theo cách khác: chỉ tra cho 10 kết quả cuối cùng.<sup><a href="https://hackernoon.com/pg_textsearch-10-how-we-built-a-bm25-search-engine-on-postgres-pages" target="_blank">[2]</a></sup> Bản tin không kiểm được giải thích nào đúng hơn khi dữ liệu tràn RAM. Đó chính là việc issue #497 đang làm: tìm xem 11,6 GB mỗi truy vấn đến từ đâu — đọc posting, số segment, tra ctid hay đọc heap.<sup><a href="https://github.com/timescale/pg_textsearch/issues/497" target="_blank">[3]</a></sup></div>
+
+    <h3 class="sub">Đọc một benchmark vendor: sáu câu nên hỏi</h3>
+    <p>Bảng dưới là khung biên tập, rút từ chính những khác biệt ở trên. Nó không trích từ nguồn nào.</p>
+    <table class="tbl">
+      <tr><th>Câu hỏi</th><th>Vì sao quan trọng (ví dụ trong ba bài)</th><th>Tự hỏi cho hệ của bạn</th></tr>
+      <tr><td>Index có vừa RAM không?</td><td>Tiger Data đo khi cache nóng, PlanetScale cố tình cho tràn; kết quả pg_textsearch lật từ nhanh nhất thành chậm nhất</td><td>Index search chiếm bao nhiêu phần shared_buffers, và đang tranh cache với bảng nào?</td></tr>
+      <tr><td>Từ khóa khớp bao nhiêu dòng?</td><td>Đổi từ 1 từ hiếm sang 40 từ thật, GIN tụt 29×</td><td>Lấy log tìm kiếm thật, xem từ phổ biến nhất khớp bao nhiêu dòng</td></tr>
+      <tr><td>Câu truy vấn dài mấy từ, AND hay OR?</td><td>Lợi thế pg_textsearch từ 11,7× (1 từ) còn 1,1× (8+ từ)</td><td>Phân bố số từ mỗi truy vấn của người dùng bạn</td></tr>
+      <tr><td>Có ghi đồng thời không?</td><td>735 so với 270.279 update trong 10 phút</td><td>Bảng được tìm kiếm có bị ghi nhiều không, bao nhiêu dòng/giây ở giờ cao điểm</td></tr>
+      <tr><td>Vòng kín hay vòng mở?</td><td>Ở 50 QPS, dưới mức trần, p99 vẫn chênh 47×</td><td>QPS tìm kiếm thật ở giờ cao điểm là bao nhiêu</td></tr>
+      <tr><td>Đối thủ bản nào, cấu hình mặc định hay đã tinh chỉnh?</td><td>ParadeDB v0.21.6 (tháng 4) so với v0.25.2 (tháng 9); ParadeDB còn tự tắt parallel worker vì lỗi chọn worker cho top-k</td><td>Bản bạn sẽ chạy thật là bản nào</td></tr>
+    </table>
+    <p>Nói cho công bằng, bài ParadeDB chỉ ra một thói quen tốt. Họ cho tải dữ liệu và kịch bản benchmark để ai cũng tái hiện được.<sup><a href="https://www.paradedb.com/blog/benchmarker-iteration" target="_blank">[4]</a></sup> PlanetScale dùng lại chính công cụ đó, công bố bản fork và chọn một loại máy EC2 cụ thể để người khác chạy lại được.<sup><a href="https://planetscale.com/blog/introducing-tin" target="_blank">[1]</a></sup> Tiger Data thì mở issue công khai để kiểm lại thay vì phản bác bằng bài blog.<sup><a href="https://github.com/timescale/pg_textsearch/issues/497" target="_blank">[3]</a></sup> Ba hãng cạnh tranh nhau, nhưng cả ba đều để lại đủ dấu vết cho bạn tự kiểm. Đó là thứ đáng giá hơn bất kỳ con số "gấp N lần" nào.</p>
+
+    <h3 class="sub">Rút ra theo quy mô</h3>
+    <div class="editnote">Phần này là khuyến nghị biên tập, tổng hợp từ các cơ chế ở trên — không trích từ nguồn.</div>
+    <div class="scale">
+      <div class="col small">
+        <h4>Đội nhỏ / startup &lt;10 người</h4>
+        <ul>
+          <li>Nếu search chỉ là một tính năng phụ, cứ dùng GIN có sẵn. Nhưng hãy log mọi truy vấn tìm kiếm cùng số dòng khớp và thời gian chạy ngay từ đầu.</li>
+          <li>Đặt một ngưỡng rõ để chuyển: ví dụ p99 tìm kiếm vượt SLO, hoặc từ phổ biến nhất khớp quá nhiều dòng. Đừng đổi engine chỉ vì đọc một bài benchmark.</li>
+          <li>Trước khi dựng thêm Elasticsearch làm "sidecar", hãy tính cả chi phí đồng bộ dữ liệu hai hệ. Ba bài này cho thấy trong Postgres giờ đã có nhiều lựa chọn đáng thử.</li>
+          <li>Kiểm yêu cầu tính năng trước tốc độ: cần tìm cụm từ không, cần chịu lỗi gõ không, nền tảng database của bạn có cho cài extension đó không.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Đội đã có sản phẩm production</h4>
+        <ul>
+          <li>Lấy một tuần log tìm kiếm thật, giữ nguyên phân bố độ dài và độ phổ biến của từ. Đó là bộ truy vấn cho benchmark của bạn, không phải bộ của vendor.</li>
+          <li>Chạy cả vòng mở ở đúng QPS giờ cao điểm, kèm tải ghi thật lên cùng bảng. Đo p99 và số buffer đọc mỗi truy vấn, không chỉ QPS.</li>
+          <li>Đo khi index ở đúng tỷ lệ với RAM như trên production. Nếu production dùng chung primary, hãy đo xem các truy vấn giao dịch khác chậm đi bao nhiêu.</li>
+          <li>Ghim phiên bản đối thủ và ghi lại cấu hình. Theo dõi issue #497 trước khi ra quyết định về pg_textsearch: kết quả tái hiện có thể đổi bức tranh.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="doslist">
+      <div>✅ Khi đọc benchmark, nhìn cột byte đọc mỗi truy vấn và điều kiện "index có vừa RAM không" trước cột QPS.</div>
+      <div>✅ Hỏi benchmark có tải ghi đồng thời không. Bảng bạn cần tìm kiếm thường là bảng bị ghi nhiều nhất.</div>
+      <div>✅ Đọc lại bài benchmark sau vài ngày để xem đính chính và phản hồi của đối thủ. Tuần này có cả hai.</div>
+      <div>❌ Đừng lấy con số "gấp N lần" của một vendor làm lý do đổi engine. Ba vendor, ba điều kiện đo, ba người thắng.</div>
+      <div>❌ Đừng benchmark bằng một từ khóa lặp lại. Ở lượt đó GIN và ParadeDB chênh chưa tới 10%, còn với tải thật thì chênh 29 lần.</div>
+    </div>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> tuần này có một dịp hiếm để thấy điều kiện đo quyết định kết quả tới mức nào. Cùng một extension, được chính hãng đo "nhanh gấp 8,7 lần", lại chỉ đạt 3,5 QPS trong bài đo của hãng khác. Không ai nói dối: một bên đo khi index nằm gọn trong RAM, bên kia cố tình cho tràn ra đĩa và thêm tải ghi. Bốn núm vặn đáng nhớ là: index có vừa bộ nhớ không, từ khóa khớp bao nhiêu dòng, có ghi đồng thời không, và tải đến theo kiểu vòng kín hay vòng mở. Trước khi đổi tầng tìm kiếm của hệ đang chạy, hãy vặn bốn núm đó trên dữ liệu của chính bạn.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> [1] Eric Ridge &amp; Patrick Reynolds — <a href="https://planetscale.com/blog/introducing-tin" target="_blank">"Introducing TIN: full-text search for Postgres", PlanetScale Blog, 16/09/2026 (đính chính 20/09/2026)</a> (nhà cung cấp TIN, tự benchmark với đối thủ) · [2] Tiger Data — <a href="https://hackernoon.com/pg_textsearch-10-how-we-built-a-bm25-search-engine-on-postgres-pages" target="_blank">"pg_textsearch 1.0: How We Built a BM25 Search Engine on Postgres Pages", HackerNoon, 08/04/2026</a> (bản gốc trên blog Tiger Data; nhà cung cấp pg_textsearch) · [3] tjgreen42 (Tiger Data) — <a href="https://github.com/timescale/pg_textsearch/issues/497" target="_blank">Issue #497 "Investigate poor read-only disjunction performance in PlanetScale TIN benchmark", GitHub timescale/pg_textsearch, 16/09/2026</a> (còn mở lúc bản tin viết) · [4] James Blackwood-Sewell — <a href="https://www.paradedb.com/blog/benchmarker-iteration" target="_blank">"Same Query, Three Results: Benchmarking ParadeDB and Postgres FTS", ParadeDB Blog, 02/06/2026</a> (nhà cung cấp ParadeDB).</div>
+  </article>
+
+  <div class="foot">Bản tin sáng · Số 25/09/2026</div>
+</div>
+</body>
+</html>
