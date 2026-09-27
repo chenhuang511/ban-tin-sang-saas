@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Redis giấu một vòng N+1: Vercel đổi kho state của build warm pool &middot; 27/09/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 27/09/2026</div>
+    <h1 class="title">Redis nhanh tới mức giấu được một vòng N+1 suốt nhiều năm: Vercel chuyển state của warm pool sang DynamoDB — chép dữ liệu thì dễ, cái khó là những giả định về latency không ai viết ra</h1>
+    <div class="meta">27/09/2026 · Đọc khoảng 13 phút · Nguồn chính: Melkey Moksyakov, Janos Szathmary &amp; Andrew Healey — "How we migrated the database behind every Vercel build", Vercel Blog (11/08/2026); đối chiếu tài liệu DynamoDB về TTL (AWS)</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: hôm nay bản tin chỉ có <b>một bài</b>, đào sâu. Nguồn chính là bài Vercel tự kể về hệ của mình, đăng ngày 11/08/2026, tức đã hơn sáu tuần. Bản tin vẫn chọn vì đây là một case hiếm: đội kể cả hai lần vấp, kèm số đo latency trước/sau. Tuần này bản tin không tìm được case mới hơn đủ chi tiết ở mảng AI cho SaaS hay năng suất, nên quay lại mảng tối ưu hệ đang chạy, ở góc chưa làm: <em>đổi kho lưu state thì những giả định nào vỡ</em> (khác full-text search 25/09, sự cố Salesforce 24/09, cold data 22/09). Các khối <b style="color:#1e40af">Cơ chế</b>, bảng "giả định ngầm", phép tính minh họa và phần "Rút ra theo quy mô" là phân tích của bản tin — <em>không trích nguyên văn từ nguồn</em>. Mọi con số của Vercel đều dẫn nguồn ngay cạnh câu.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1"><strong>Bài duy nhất</strong> — Vercel bê state của build warm pool từ Redis sang DynamoDB ngay dưới tải production — và phát hiện vòng lặp của mình chỉ chạy được nhờ mỗi lần đọc mất 1 ms<br><span style="font-size:13.5px;color:#6b7280">· vì sao phải chuyển: state nào mất được, state nào không · thiết kế schema từ danh sách việc code thật sự hỏi · năm pha sau feature flag · cú vấp 1: chính cỗ máy so sánh làm sập build một region · cú vấp 2: 1 ms thành 5 ms, vòng lặp đứng hình · vì sao họ bỏ batch để chọn chạy song song · bảng giả định ngầm khi đổi store · nên làm gì theo quy mô đội</span></a></li>
+    </ol>
+  </nav>
+
+  <article class="card" id="bai1">
+    <span class="tag legacy">Tối ưu hệ đang chạy · state, latency &amp; migration an toàn</span>
+    <h2 class="head">1 ms thành 5 ms, và vòng lặp cấp container cho mọi build của Vercel đứng hình: bài học khi đổi kho lưu state dưới tải production</h2>
+    <p class="src">Nguồn: Melkey Moksyakov, Janos Szathmary &amp; Andrew Healey (đóng góp: Kevin Corbett) — <a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">"How we migrated the database behind every Vercel build"</a>, Vercel Blog, 11/08/2026 [1]; AWS — <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/TTL.html" target="_blank">"Using time to live (TTL) in DynamoDB"</a>, Amazon DynamoDB Developer Guide [2].</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">1,29 → 5,13 ms</div><div class="lab">p95 của lệnh đếm token trong warm pool, Redis so với DynamoDB <a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></div></div>
+      <div class="box"><div class="num">~17×</div><div class="lab">khoảng cách latency ở p90, chỗ chênh rộng nhất giữa hai store <a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></div></div>
+      <div class="box"><div class="num">5 pha</div><div class="lab">Redis-only → ghi kép → đọc bóng → DynamoDB làm chính → DynamoDB-only, mỗi pha một flag <a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></div></div>
+    </div>
+
+    <h3 class="sub">Chuyện gì xảy ra</h3>
+    <p>Mọi build trên Vercel bắt đầu trong "build warm pool". Đó là một nhóm container đã khởi động sẵn, để build chạy ngay mà không phải chờ cấp máy mới.<sup><a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></sup> Pool này sống nhờ một ít state: container nào đang sẵn sàng, token mỗi container dùng để xác thực, và bảng nối từng build đang chạy với deployment sẽ bị tính tiền. Từ đầu, toàn bộ state đó nằm trong Redis.<sup><a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></sup></p>
+    <p>Đội quyết định chuyển nó sang DynamoDB. Việc chạy từ tháng 2 tới tháng 4/2026, hoàn toàn live, dưới tải thật: pool không bao giờ ngừng, nên không thể dừng hệ, chép dữ liệu rồi bật lại.<sup><a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></sup> Bài kể lại không dừng ở phần suôn sẻ. Họ kể một lần chính hạ tầng so sánh của mình làm sập build ở một region. Họ kể một vòng lặp đứng hình vì mỗi lần đọc chậm thêm vài mili giây. Và họ kể phát hiện rằng vòng lặp đó đã từng kẹt ngay cả khi còn dùng Redis.</p>
+    <p>Câu chốt trong buổi retro tháng 4 của họ là thứ đáng dán lên tường: chỉ cần query ở p90 chậm từ 1 ms lên 15 ms là đủ quật ngã logic quản lý warm pool. Và <em>không ai viết câu đó ra</em> hồi tháng 2, lúc bắt đầu dự án.<sup><a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></sup></p>
+
+    <h3 class="sub">Vì sao phải chuyển: state nào mất được, state nào không</h3>
+    <p>Lý do chuyển không phải Redis chậm hay đắt. Lý do là state đã trở nên quan trọng hơn cái kho chứa nó. Vercel chạy Redis như một cache tạm, nhưng bên trong đã có dữ liệu không được phép mất.<sup><a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></sup> Bài viết phân biệt rất gọn: mất token thì pool tự dựng lại trong khoảng mười phút. Mất bảng nối build–deployment thì build đó <em>không bao giờ được tính tiền</em>, vì không nơi nào khác ghi lại nó thuộc deployment nào.<sup><a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></sup></p>
+    <table class="tbl">
+      <tr><th>Loại state</th><th>Mất thì sao (theo Vercel)</th><th>Hệ quả thiết kế (nhận xét biên tập)</th></tr>
+      <tr><td>Token xác thực của container</td><td>Pool tự dựng lại trong ~10 phút <a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></td><td>Có thể nằm ở kho tạm; mất chỉ gây chậm, không gây sai</td></tr>
+      <tr><td>Trạng thái vòng đời container (pending / polling / building)</td><td>Dựng lại được <a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></td><td>Như trên; cái cần là đếm nhanh và đúng</td></tr>
+      <tr><td>Nối build với deployment bị tính tiền</td><td>Không dựng lại được; build không bao giờ được tính tiền <a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></td><td>Phải nằm ở kho bền, đọc nhất quán; đây là thứ quyết định cả cuộc chuyển</td></tr>
+    </table>
+    <div class="mech"><b>Cơ chế:</b> hầu như hệ nào cũng có một cái Redis "chỉ để cache" rồi dần dần nhận thêm vài thứ không còn là cache. Đó có thể là session, khóa phân tán, bộ đếm hạn mức, trạng thái job, hay như ở đây là dữ liệu tính tiền. Mỗi lần thêm đều hợp lý vì Redis nhanh và sẵn đó. Vercel mô tả đúng quá trình này: pool lớn dần "từng lần ghi dễ dàng một", tới khi dữ liệu cần giữ nằm trong cấu trúc chỉ được xây cho tốc độ.<sup><a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></sup> Câu hỏi để phân loại rất đơn giản: <em>nếu key này biến mất lúc 3 giờ sáng, có cách nào dựng lại nó từ nguồn khác không?</em> Nếu không, key đó không phải cache, bất kể nó đang nằm ở đâu. Đáng chú ý là cả kho phải đổi chỉ vì một loại state nhỏ nhất, loại mà hỏng thì không ai thấy ngay: build vẫn chạy, chỉ là doanh thu lặng lẽ rơi mất.</div>
+
+    <h3 class="sub">Thiết kế schema từ danh sách việc code thật sự hỏi</h3>
+    <p>Trước khi vẽ schema, đội liệt kê mọi thứ code thật sự đòi hỏi ở phần state này. Danh sách có tám việc: kiểm token khi container xin việc, thêm token khi container mới lên, cho token quá hạn hết hiệu lực, đếm token để định cỡ pool, chuyển container giữa các trạng thái, đếm container theo trạng thái, tra deployment từ callback của container, và dọn container hết hạn.<sup><a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></sup></p>
+    <p>Trong Redis, mỗi thứ có một cấu trúc riêng. Token nằm trong một set để kiểm có-mặt và một sorted set để cho hết hạn. Mỗi trạng thái vòng đời có một sorted set riêng, nên đổi trạng thái là rút khỏi set này, bỏ vào set kia. Một chuỗi nối container với deployment.<sup><a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></sup> Mọi thao tác đều tốn khoảng một mili giây.</p>
+    <p>Đội nhận ra gần như mọi thao tác đã biết mình đang chạm vào container nào. Chỉ có bước xin việc là bắt đầu từ token. Vì vậy họ đặt container làm trung tâm: mỗi warm pool là một partition, mã container là sort key. Token thành một trường trong bản ghi, và chỉ lưu dạng hash. Ba sorted set trạng thái gộp thành một trường "status". Kiểm token giờ là tra container rồi so hash.<sup><a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></sup></p>
+    <p>Hai việc không giải được bằng tra key. Đếm theo trạng thái phải bỏ qua container đã quá hạn, nên cần một index biết thời gian. Còn bảng nối deployment phục vụ tính tiền, nên cần đọc nhất quán và được tách ra một bảng nhỏ riêng.<sup><a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></sup></p>
+    <div class="mech"><b>Cơ chế — vì sao phải "đếm có lọc hạn":</b> Redis xóa key hết hạn gần như ngay. TTL của DynamoDB thì không. Tài liệu AWS ghi rõ: item hết hạn bị xóa "trong vòng vài ngày", và trong lúc chờ xóa, item vẫn hiện ra trong mọi lần đọc, query và scan. AWS khuyên tự lọc bằng điều kiện "thời điểm hết hạn lớn hơn hiện tại".<sup><a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/TTL.html" target="_blank">[2]</a></sup> Nếu bê nguyên logic đếm từ Redis sang, số container "đang chờ" sẽ gồm cả container đã chết từ hôm qua, và pool sẽ tưởng mình đủ máy trong khi thiếu. Cùng một chữ "TTL" nhưng hai kho hứa hai chuyện khác nhau. Đây là loại khác biệt không nằm trong bảng so sánh tính năng nào, chỉ lộ ra khi bạn ngồi viết từng access pattern.</div>
+    <p>Lưu token dạng hash cũng đáng để ý dù bài không nhấn mạnh. Theo Vercel, đọc bảng sẽ không bao giờ lấy được một credential dùng được.<sup><a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></sup> Một cuộc migration vì lý do độ bền đã tiện tay đóng luôn một rủi ro bảo mật. Chuyện này chỉ xảy ra vì đội thiết kế lại từ access pattern, chứ không dịch từng cấu trúc Redis sang cấu trúc tương ứng.</p>
+
+    <h3 class="sub">Năm pha, mỗi pha một flag, và cái mà so khớp không đo được</h3>
+    <p>Rollout đi qua năm pha: chỉ Redis, ghi kép, đọc bóng (shadow read), DynamoDB làm chính, rồi chỉ còn DynamoDB. Mỗi pha nằm sau một feature flag và giữ đường rollback càng lâu càng tốt.<sup><a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></sup> Trình tự cụ thể:</p>
+    <div class="doslist">
+      <div>① Đo nền trước: số lần gọi và latency của từng thao tác Redis, để dashboard có mốc "bình thường" mà so.<sup><a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></sup></div>
+      <div>② Merge các hàm DynamoDB vài ngày trước khi có ai gọi chúng.<sup><a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></sup></div>
+      <div>③ Ghi kép: Redis vẫn là nguồn sự thật; lỗi ghi DynamoDB chỉ log, không làm hỏng request.<sup><a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></sup></div>
+      <div>④ Đọc bóng: đọc cả hai kho và so kết quả. Dashboard theo dõi tỷ lệ khớp, lỗi ghi, latency từng query và số lần hết hạn.<sup><a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></sup></div>
+      <div>⑤ Lật đọc chính sang DynamoDB, nhưng vẫn ghi Redis cho tới khi đường mới chứng minh được mình.<sup><a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></sup></div>
+      <div>⑥ Bỏ ghi Redis — bước duy nhất không rollback dễ, nhưng token nào còn sót cũng tự hết hạn trong mười phút.<sup><a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></sup></div>
+    </div>
+    <p>Phần so khớp kiểm những thứ rất cụ thể. Mọi lần ghi có vào đủ cả hai kho không. Thời điểm hết hạn có tiếp tục lùi khi container đổi trạng thái không, để state cũ không chất đống. Xóa token có giữ nguyên phần còn lại của bản ghi không. Số đếm có đủ gần để lái pool không. Mỗi lần lệch đều được truy tới cùng: hoặc là bug thật, hoặc race khi ghi kép, hoặc là khác biệt đã biết trước.<sup><a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></sup></p>
+    <p>Nhưng bài viết tự chỉ ra giới hạn: so khớp cho biết hai kho có đồng ý về <em>giá trị</em> không. Nó không nói gì về <em>thời gian</em>.<sup><a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></sup> Shadow mode đã được giải thích ở số <a href="/2026-09-22">22/09</a> (Arcesium). Điểm mới ở đây là nó có một điểm mù cố hữu, và cả hai cú vấp bên dưới đều rơi đúng vào điểm mù đó.</p>
+
+    <h3 class="sub">Cú vấp 1: chính cỗ máy so sánh làm sập build một region</h3>
+    <p>Tháng 3, build ở một region sập. Điều tra chỉ về chính phần so sánh hai kho: tải thêm từ việc kiểm hai store chéo nhau.<sup><a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></sup> Kịch bản này đã được nêu lúc review thiết kế, và đội đã giới hạn tần suất so sánh vì đúng lý do đó. Nhưng giới hạn chưa đủ. Bốn ngày sau, một PR dẫn chiếu sự cố đã thêm index mà phép đếm theo trạng thái cần. Thiếu index, mỗi lần đếm là việc O(n), và phần so sánh thì đếm liên tục.<sup><a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></sup></p>
+    <div class="mech"><b>Cơ chế:</b> đọc bóng thường được coi là "an toàn vì không ảnh hưởng kết quả trả về". Điều đó đúng về giá trị, sai về tải. Mỗi lần đọc bóng là ít nhất một lần đọc thêm vào kho mới, cộng CPU để so. Nếu thao tác được so là một phép đếm chưa có index, mỗi lần so là một lần quét cả partition. Hàm này đang được gọi hàng trăm lần mỗi vòng. Kết quả là tải thêm không tăng theo số request, mà tăng theo <em>số request nhân kích cỡ dữ liệu</em>. Throttle theo tỷ lệ phần trăm chỉ cắt được hệ số thứ nhất. Bài học thực tế: trước khi bật shadow, hãy tính chi phí của đường so sánh như tính chi phí một tính năng production. Kiểm từng query trong đường đó đã có index chưa, và đặt một nút tắt nhanh riêng cho nó, tách khỏi flag của pha.</div>
+    <p>Cú vấp này còn một mặt đáng suy nghĩ. Ở số <a href="/2026-09-22">22/09</a>, Arcesium chạy shadow bốn tuần, không sự cố nào. Vercel thì gặp sự cố ngay trong shadow. Khác biệt không nằm ở chỗ ai cẩn thận hơn. Arcesium so khớp trên dữ liệu đối soát, nơi đọc thưa. Vercel so khớp trên một vòng lặp điều khiển đọc liên tục. Cùng một kỹ thuật, rủi ro phụ thuộc vào <em>tần suất gọi</em> của thứ bạn đặt dưới bóng.</p>
+
+    <h3 class="sub">Một bằng chứng ngược chiều: Redis sập giữa chừng, phần đã chuyển thì sống</h3>
+    <p>Cuối tháng 3, chính hạ tầng Redis mà đội đang rời bỏ bị sập. Warm pool và phần xử lý token vẫn chạy, vì lúc đó cả hai đã đọc DynamoDB làm nguồn sự thật. Build vẫn bị ảnh hưởng, nhưng qua các service phía trên pipeline chưa được chuyển.<sup><a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></sup></p>
+    <div class="mech"><b>Cơ chế:</b> đây là lý lẽ mạnh nhất cho migration theo pha. Nếu làm kiểu "big bang", lợi ích độ bền chỉ đến vào ngày cut-over. Làm theo pha thì mỗi phần đã chuyển bắt đầu được bảo vệ ngay. Nhưng nó cũng cho thấy giới hạn: độ bền của cả hệ bằng độ bền của mắt xích <em>chưa chuyển</em>. Nếu bạn đang chuyển nhiều service khỏi một kho dùng chung, hãy xếp thứ tự theo "phần nào hỏng thì mất gì" — như bảng phân loại state ở trên — chứ đừng theo "phần nào dễ làm trước".</div>
+
+    <h3 class="sub">Cú vấp 2: 1 ms thành 5 ms, và vòng lặp đứng hình</h3>
+    <p>Tháng 4, "supply loop" bắt đầu kẹt. Đây là vòng lặp lần lượt bơm thêm container cho từng warm pool. Dữ liệu shadow trông khỏe, latency từng query trên dashboard trông chấp nhận được. Cái hỏng là một hành vi mà không chỉ số nào đo.<sup><a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></sup></p>
+    <p>Vòng lặp được viết theo kiểu: đọc state, tạo một container, đọc state, tạo container tiếp. Mỗi lượt chạy gọi đếm hàng trăm lần chỉ để cộng số container đang chờ và đang xin việc.<sup><a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></sup> Ở p95, lệnh đếm token đo được 1,29 ms trên Redis và 5,13 ms trên DynamoDB. Lúc đó đội ước "chậm gấp hai, ba lần mỗi query", và sau này tự nhận đó là ước thấp.<sup><a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></sup> Theo chính số của họ, tỷ lệ ở p95 là khoảng 4 lần. Ở p90, khoảng cách rộng nhất, lên tới khoảng 17 lần.<sup><a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></sup> Vài mili giây thêm không đáng gì nếu trả một lần. Nhưng vòng lặp trả nó trước mỗi container, hàng trăm lần mỗi lượt. Lượt chạy kéo dài tới vài phút ở trường hợp xấu nhất, và pool không còn đi trước được nhu cầu.<sup><a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></sup></p>
+    <p>Chính đội viết thẳng: vòng lặp là một N+1 query, và Redis chỉ đơn giản là đủ nhanh để giấu nó.<sup><a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></sup> N+1 ở đây không phải chuyện ORM kinh điển. Nó là một vòng lặp điều khiển đọc lại state trước mỗi hành động, thay vì đọc một lần cho cả mẻ.</p>
+    <div class="mech"><b>Cơ chế — phép tính minh họa của bản tin (không phải số của Vercel):</b> bài chỉ nói "hàng trăm" lần gọi mỗi lượt, không cho con số chính xác. Giả sử 300 lần đọc tuần tự. Ở 1 ms mỗi lần, riêng phần đọc tốn khoảng 0,3 giây. Ở 5 ms là 1,5 giây. Ở 15 ms — con số p90 mà retro của Vercel nhắc tới — là 4,5 giây. Và đó mới là trung bình. Với 300 lần gọi nối tiếp, xác suất <em>ít nhất một</em> lần rơi vào 1% chậm nhất là 1 − 0,99<sup>300</sup> ≈ 95%. Nghĩa là gần như lượt nào cũng dính p99 ít nhất một lần, thường là vài lần. Thời gian mỗi lượt vì thế bị quyết định bởi đuôi phân phối, không phải trung vị. Đây là lý do "latency từng query trông ổn" trên dashboard vẫn có thể đi cùng "vòng lặp đứng hình". Dashboard đo một lần gọi. Người dùng — ở đây là pool — trải qua tổng của hàng trăm lần gọi.</div>
+    <p>Điều làm case này có giá trị là câu tự thú của đội: không ai từng viết "vòng lặp này cần đọc trong một mili giây". Nhưng giả định đó sống trong thiết kế, và ở mức một mili giây, không có gì buộc ai phải dừng lại nhìn.<sup><a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></sup></p>
+
+    <h3 class="sub">Vì sao họ bỏ batch để chọn chạy song song</h3>
+    <p>Cách sửa đầu tiên là batch: đọc state một lần cho mỗi 17 container, trải chi phí một lần đọc ra cả mẻ. Hằng số 17 lấy thẳng từ tỷ lệ latency đo được ở p90.<sup><a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></sup> Và cũng chính vì hằng số đó mà đội bỏ cách này. Nó cứng hóa một tỷ lệ latency sẽ còn trôi theo tải, tức là thêm một phụ thuộc ngầm nữa vào tốc độ của kho.<sup><a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></sup></p>
+    <p>Bản được ship cho các lời gọi bơm container chạy đồng thời. Mỗi warm pool không còn phải xếp hàng sau pool trước nó, và mỗi lời gọi làm việc với state gần nhất nó thấy. Trường hợp xấu nhất là tạo dư vài container từ một bức tranh hơi cũ. Chi phí đó được ghi rõ trong PR như một cái giá chấp nhận.<sup><a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></sup></p>
+    <div class="mech"><b>Cơ chế:</b> batch và chạy song song giải cùng một bài theo hai cách rất khác. Batch giảm <em>số lần</em> phải chờ, nhưng kích cỡ mẻ đúng lại phụ thuộc latency. Latency đổi thì mẻ sai, và sẽ lại không ai nhớ vì sao là 17. Chạy song song không giảm số lần đọc, nó <em>chồng thời gian chờ</em> lên nhau. Tổng thời gian một lượt không còn là tổng các lần đọc, mà gần với lần đọc chậm nhất của từng nhánh. Cái giá là mất tính chính xác: các nhánh có thể cùng thấy "thiếu máy" và cùng tạo thêm. Đội chấp nhận vì cân hai loại lỗi. Dư vài container là tốn ít tiền. Pool tụt sau nhu cầu nghĩa là build của khách phải chờ. Khi quyết định kiểu này, hãy viết rõ lỗi nào rẻ hơn, như Vercel đã ghi vào PR, để người sau không "sửa" nó thành chính xác tuyệt đối rồi làm vòng lặp kẹt lại.</div>
+
+    <h3 class="sub">Phát hiện ngược: vòng lặp đã kẹt từ thời Redis</h3>
+    <p>Trong lúc chẩn đoán vấn đề với DynamoDB, đội phát hiện supply loop cũng từng kẹt khi còn dùng Redis, có lúc một phút hoặc hơn. Bằng chứng đã nằm trong telemetry từ lâu. Nhưng pool đứng <em>trước</em> nhu cầu chứ không nằm trên đường đi của request, nên chưa có gì buộc ai phải vào xem.<sup><a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></sup> Bản thiết kế lại cuối cùng gỡ luôn một lỗi còn cũ hơn cả dự án.<sup><a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></sup></p>
+    <div class="mech"><b>Cơ chế:</b> SLO thường được đặt cho những thứ người dùng chạm trực tiếp: latency API, tỷ lệ lỗi. Các vòng lặp nền — bơm pool, dọn dẹp, đồng bộ, tái cân bằng — có "vùng đệm". Chúng kẹt một phút thì pool chỉ vơi bớt chứ chưa cạn, nên không alert nào kêu. Vùng đệm che triệu chứng cho tới ngày có thứ khác làm chậm thêm, như một lần đổi kho, rồi đệm cạn cùng lúc. Chỉ số nên có cho loại vòng lặp này là <em>thời gian mỗi lượt</em> (p99 và max) và <em>khoảng đệm còn lại</em> (bao nhiêu container dư so với nhu cầu), kèm ngưỡng cảnh báo. Không nên chỉ đo "vòng lặp còn sống".</div>
+    <p>Liên hệ nội bộ: ở số <a href="/2026-09-15">15/09</a>, một đội tối ưu SQL ba tuần mà p99 gần như đứng yên, vì 94% thời gian nằm ở chỗ không ai gắn đồng hồ. Ở số <a href="/2026-09-19">19/09</a>, thêm PgBouncer vào giữa làm thời gian chờ kết nối tăng vọt. Case Vercel là mặt kia của cùng bài học. Mỗi lần bạn thêm một chặng vào đường đọc — proxy, pooler, kho ở AZ khác, hay đổi sang kho chậm hơn — mọi vòng lặp gọi nó tuần tự sẽ nhân phần chậm đó lên.</p>
+
+    <h3 class="sub">Bảng giả định ngầm khi đổi kho lưu state</h3>
+    <p>Bảng dưới là khung biên tập, rút từ chính những chỗ vỡ trong case Vercel và tài liệu DynamoDB. Nó không trích từ nguồn. Mục đích là biến những câu "không ai viết ra" thành câu hỏi bạn phải trả lời <em>trước</em> khi bật pha đầu tiên.</p>
+    <table class="tbl">
+      <tr><th>Giả định ngầm</th><th>Trong case Vercel</th><th>Cách lôi nó ra trước khi chuyển</th></tr>
+      <tr><td>Mỗi lần đọc gần như miễn phí</td><td>Hàng trăm lần đếm mỗi lượt, p95 1,29 → 5,13 ms làm vòng lặp kéo dài tới vài phút <a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></td><td>Đếm số lần gọi kho <em>mỗi đơn vị công việc</em> (mỗi request, mỗi lượt lặp), không chỉ tổng QPS; nhân với p99 của kho mới</td></tr>
+      <tr><td>Đếm là thao tác rẻ</td><td>Redis đếm sorted set rất rẻ; DynamoDB thiếu index thì đếm là O(n), góp phần làm sập một region <a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></td><td>Liệt kê mọi phép đếm và tổng hợp; mỗi phép phải có index hoặc bộ đếm duy trì sẵn trước khi bật shadow</td></tr>
+      <tr><td>Hết hạn là biến mất</td><td>TTL DynamoDB xóa trong vài ngày, item hết hạn vẫn hiện trong query <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/TTL.html" target="_blank">[2]</a>; Vercel cần index biết thời gian <a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></td><td>Đọc kỹ ngữ nghĩa TTL của kho mới; mọi truy vấn đọc state có hạn phải tự lọc theo thời điểm hết hạn</td></tr>
+      <tr><td>Đổi trạng thái là một bước</td><td>Redis: rút khỏi set này, bỏ vào set kia; DynamoDB: một trường status + ghi có điều kiện <a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></td><td>Viết ra mỗi thay đổi trạng thái cần nguyên tử tới đâu, và kho mới bảo đảm điều đó bằng cơ chế nào</td></tr>
+      <tr><td>Shadow mode không tốn gì</td><td>Tải so sánh làm sập build một region dù đã throttle <a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></td><td>Tính chi phí đường so sánh như một tính năng; có nút tắt riêng; bật dần theo region</td></tr>
+      <tr><td>So khớp giá trị là đủ</td><td>Shadow khớp, latency từng query ổn, vòng lặp vẫn kẹt <a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></td><td>Thêm chỉ số ở mức hành vi: thời gian mỗi lượt lặp, độ trễ tới khi pool đủ máy — đo ở pha đọc bóng bằng cách chạy song song một bản vòng lặp "khô" trên kho mới</td></tr>
+    </table>
+
+    <h3 class="sub">Rút ra theo quy mô</h3>
+    <div class="editnote">Phần này là khuyến nghị biên tập, tổng hợp từ các cơ chế ở trên — không trích từ nguồn.</div>
+    <div class="scale">
+      <div class="col small">
+        <h4>Đội nhỏ / startup &lt;10 người</h4>
+        <ul>
+          <li>Mở Redis của bạn, liệt kê các nhóm key và hỏi từng nhóm: mất lúc 3 giờ sáng thì dựng lại từ đâu? Nhóm nào không trả lời được là dữ liệu cần kho bền. Việc này mất một buổi chiều.</li>
+          <li>Nếu thấy dữ liệu tính tiền, hạn mức hay trạng thái job nằm trong Redis không bật persistence, ưu tiên chuyển riêng nhóm đó. Chưa cần đụng phần cache thật.</li>
+          <li>Trước khi đổi kho hay thêm proxy, grep các vòng lặp gọi kho bên trong vòng lặp. Đó là chỗ đầu tiên sẽ vỡ khi mỗi lần gọi chậm thêm vài ms.</li>
+          <li>Dùng feature flag cho từng pha, kể cả khi chỉ có một service. Điều đáng học ở Vercel là mỗi bước đều có đường lui, chứ không phải có một hệ thống flag xịn.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Đội đã có sản phẩm production</h4>
+        <ul>
+          <li>Trước pha shadow: viết "ngân sách latency" cho từng vòng lặp nền và luồng nóng, gồm số lần gọi kho mỗi đơn vị công việc nhân p99 của kho mới. Đưa nó vào tài liệu thiết kế như một yêu cầu.</li>
+          <li>Đo nền cả số lần gọi lẫn latency của kho cũ trước khi đụng code. Vercel làm bước này đầu tiên, và nhờ nó mới biết con số 1,29 ms.</li>
+          <li>Coi đường so sánh shadow là code production: index đủ, throttle, nút tắt riêng, bật theo từng region.</li>
+          <li>Đặt SLO cho các vòng lặp nền nằm ngoài đường request: thời gian mỗi lượt và khoảng đệm còn lại. Chúng có thể đang kẹt ngay lúc này mà chưa ai thấy.</li>
+          <li>Khi sửa bằng cách chấp nhận sai số (dư vài container, đọc state hơi cũ), ghi cái giá đó vào PR và runbook để người sau không "sửa" ngược lại.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="doslist">
+      <div>✅ Phân loại state theo "mất thì dựng lại được không" trước khi chọn kho. Một nhóm key nhỏ có thể quyết định cả cuộc chuyển.</div>
+      <div>✅ Thiết kế schema kho mới từ danh sách access pattern thật, đừng dịch từng cấu trúc cũ sang. Vercel nhờ vậy gộp ba sorted set thành một trường, và tiện tay hash luôn token.</div>
+      <div>✅ Khi đo latency của kho mới, xem nhiều percentile. Tỷ lệ chênh ở p95 (~4×) và ở p90 (~17×) kể hai câu chuyện khác nhau.</div>
+      <div>❌ Đừng coi "shadow khớp 100%" là bằng chứng sẵn sàng cut-over. Nó chỉ chứng minh giá trị đúng, không chứng minh thời gian đủ.</div>
+      <div>❌ Đừng sửa vòng lặp chậm bằng một hằng số lấy từ tỷ lệ latency hôm nay. Tải đổi thì hằng số sai, và sẽ không ai nhớ nó từ đâu ra.</div>
+    </div>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> phần khó của cuộc chuyển này không phải chép dữ liệu. Chính Vercel viết rằng chép dữ liệu là phần dễ.<sup><a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">[1]</a></sup> Phần khó là tìm ra những giả định đã mọc lên quanh kho cũ: đọc gần như miễn phí, đếm rẻ, hết hạn là biến mất. Kho càng nhanh thì các giả định đó càng dễ mọc và càng khó thấy. Nếu tuần này bạn định thêm một proxy, đổi sang database managed ở AZ khác, hay chuyển thứ gì khỏi Redis, hãy làm một việc trước: đếm số lần gọi kho mỗi đơn vị công việc, nhân với p99 của đường mới, rồi xem con số đó có còn nằm trong ngân sách thời gian không.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> [1] Melkey Moksyakov, Janos Szathmary &amp; Andrew Healey (đóng góp: Kevin Corbett) — <a href="https://vercel.com/blog/how-we-migrated-the-database-behind-every-vercel-build" target="_blank">"How we migrated the database behind every Vercel build", Vercel Blog, 11/08/2026</a> (công ty tự kể về hệ của mình; mọi số latency và mốc thời gian lấy từ bài này) · [2] Amazon Web Services — <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/TTL.html" target="_blank">"Using time to live (TTL) in DynamoDB", Amazon DynamoDB Developer Guide</a> (tài liệu chính thức, dùng để giải thích ngữ nghĩa TTL). Liên kết nội bộ: số <a href="/2026-09-22">22/09</a> (shadow mode ở Arcesium), <a href="/2026-09-19">19/09</a> (PgBouncer), <a href="/2026-09-15">15/09</a> (94% thời gian chờ không được đo).</div>
+  </article>
+
+  <div class="foot">Bản tin sáng · Số 27/09/2026</div>
+</div>
+</body>
+</html>
