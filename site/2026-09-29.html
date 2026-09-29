@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Một byte thừa = 250 GB: Cloudflare cắt 100 TB RAM khỏi cache DNS 1.1.1.1 &middot; 29/09/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 29/09/2026</div>
+    <h1 class="title">Một byte thừa mỗi entry là 250 GB RAM: Cloudflare cắt 100 TB bộ nhớ khỏi cache DNS của 1.1.1.1, và cache còn nhanh hơn — năm thay đổi nhỏ, không đổi kiến trúc</h1>
+    <div class="meta">29/09/2026 · Đọc khoảng 13 phút · Nguồn chính: Sebastiaan Neuteboom — "How we saved 100 terabytes of memory by optimizing 1.1.1.1's DNS cache", Cloudflare Blog (27/08/2026); đối chiếu tường thuật của Leela Kumili trên InfoQ (23/09/2026)</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: hôm nay bản tin chỉ có <b>một bài</b>, đào sâu. Nguồn chính là bài Cloudflare tự kể về hệ của mình, đăng 27/08/2026, tức đã hơn bốn tuần; InfoQ tường thuật lại ngày 23/09. Bản tin vẫn chọn vì đây là kiểu case hiếm: mỗi thay đổi nhỏ đều có số byte tiết kiệm, có số benchmark trước/sau và có số production theo percentile. Tuần này bản tin chưa tìm được case mới đủ chi tiết ở mảng AI cho SaaS, nên ở lại mảng tối ưu hệ đang chạy nhưng đổi góc: không phải database hay migration như các số 25–27/09, mà là <em>bộ nhớ của một cache in-memory</em>. Các khối <b style="color:#1e40af">Cơ chế</b>, các phép nhân "byte × số entry", bảng ánh xạ sang hệ SaaS và phần "Rút ra theo quy mô" là phân tích của bản tin — <em>không trích nguyên văn từ nguồn</em>. Mọi con số của Cloudflare đều dẫn nguồn ngay cạnh câu.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1"><strong>Bài duy nhất</strong> — Cloudflare thu nhỏ từng entry trong cache DNS của 1.1.1.1 từ 953 xuống 420 byte, giải phóng ~100 TB RAM, insert nhanh hơn 43% và lookup nhanh hơn 19%<br><span style="font-size:13.5px;color:#6b7280">· vì sao vài byte lại đáng một dự án · họ đo thế nào trước khi sửa · năm thay đổi, mỗi cái đổi đúng một thứ · cú rẽ ngược: box biến thể lớn rồi bỏ · vì sao số production (−43%) thấp hơn số benchmark (−56%) · 100 TB dùng để làm gì · ánh xạ sang Redis và cache của đội bạn · nên làm gì theo quy mô</span></a></li>
+    </ol>
+  </nav>
+
+  <article class="card" id="bai1">
+    <span class="tag legacy">Tối ưu hệ đang chạy · bộ nhớ, cache &amp; chi phí hạ tầng</span>
+    <h2 class="head">953 byte thành 420 byte mỗi entry: Cloudflare không đổi thuật toán cache, chỉ đổi cách xếp dữ liệu trong RAM — và lấy lại 100 TB</h2>
+    <p class="src">Nguồn: Sebastiaan Neuteboom — <a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">"How we saved 100 terabytes of memory by optimizing 1.1.1.1's DNS cache"</a>, Cloudflare Blog, 27/08/2026 [1]; Leela Kumili — <a href="https://www.infoq.com/news/2026/09/cloudflare-dns-cache/" target="_blank">"Cloudflare Cuts 100 TB of Memory from 1.1.1.1 DNS Cache"</a>, InfoQ, 23/09/2026 [2].</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">953 → 420 B</div><div class="lab">kích thước ròng mỗi entry trong benchmark, giảm 56% <a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></div></div>
+      <div class="box"><div class="num">~100 TB</div><div class="lab">RAM working-set giải phóng trên toàn fleet, bằng RAM của ~130 máy chủ Gen 13 <a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></div></div>
+      <div class="box"><div class="num">9,3 → 5,3 GB</div><div class="lab">bộ nhớ resident mỗi instance ở p99, giảm 43% <a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></div></div>
+    </div>
+
+    <h3 class="sub">Chuyện gì xảy ra</h3>
+    <p>Big Pineapple là nền tảng DNS đứng sau 1.1.1.1, Gateway DNS, DNS Firewall và vài dịch vụ DNS khác của Cloudflare. Lúc nào nó cũng giữ hơn 250 tỷ entry trong cache.<sup><a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></sup> Ở quy mô đó, chính đội viết rằng thừa một byte mỗi entry là mất hơn 250 GB RAM trên toàn fleet.<sup><a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></sup></p>
+    <p>Họ không thay thuật toán eviction, không đổi kiến trúc, không thêm tầng cache. Họ làm năm thay đổi nối tiếp nhau về <em>cách một entry nằm trong bộ nhớ</em>. Kết quả: mỗi entry giảm từ 953 xuống 420 byte, số byte cấp phát mỗi entry giảm từ 1,1 KB xuống 461 byte.<sup><a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></sup> Cache cũng nhanh hơn chứ không chậm đi: insert từ 625.000 lên 893.000 entry/giây (+43%), lookup từ 828 ns xuống 670 ns (−19%).<sup><a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></sup></p>
+    <p>Đợt rollout chạy từ 18/05 tới 06/07/2026, qua nhiều release. Mỗi release mang một hoặc vài thay đổi, nên bộ nhớ giảm theo bậc chứ không rơi một lần.<sup><a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></sup> Cloudflare không dùng 100 TB đó để cắt máy. Họ định dồn lại cho cache chứa nhiều hơn mà tổng bộ nhớ không tăng.<sup><a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế:</b> đây là phép nhân mà đội SaaS nào cũng nên làm một lần. Chi phí bộ nhớ của cache = byte mỗi entry × số entry. Hầu hết chúng ta chỉ nhìn thừa số thứ hai (bao nhiêu key, hit rate bao nhiêu) và gần như không bao giờ nhìn thừa số thứ nhất. Thử nhân theo số của Cloudflare: bớt 533 byte mỗi entry × 250 tỷ entry ra khoảng 133 TB trên lý thuyết. Con số thực tế họ báo là ~100 TB. Khoảng chênh đó có lý do, bản tin sẽ quay lại ở mục "Vì sao số production thấp hơn". Điều đáng nhớ trước tiên: khi số entry đủ lớn, vài chục byte "thừa theo thói quen" của ngôn ngữ lập trình trở thành một dòng đáng kể trên hóa đơn.</div>
+
+    <h3 class="sub">Đo trước khi sửa: một allocator biết đếm và một bộ dữ liệu giống traffic thật</h3>
+    <p>Trước khi đổi gì, đội dựng cách đo. Họ nạp cache bằng entry sinh ngẫu nhiên nhưng theo đúng phân bố production: 56% bản ghi A, 25% AAAA, 19% TXT. Mỗi entry có từ một tới bốn bản ghi. TXT được dùng làm đại diện cho mọi loại bản ghi dài thay đổi, kích thước ngẫu nhiên từ 64 tới 224 byte, gần với cỡ trung bình họ thấy thật.<sup><a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></sup></p>
+    <p>Để đo bộ nhớ, họ viết một allocator tùy biến bọc quanh allocator hệ thống. Nó ghi lại số lần cấp phát và số byte cấp phát cho từng entry. Cùng lúc, họ đo throughput insert và latency lookup trên toàn luồng cache, để chắc rằng tiết kiệm bộ nhớ không phải trả bằng tốc độ.<sup><a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></sup> Họ cũng nói thẳng giới hạn của benchmark: dữ liệu chỉ xấp xỉ production, và bộ nhớ của process còn phụ thuộc traffic, độ đầy cache, trạng thái allocator và phần bộ nhớ nằm ngoài cache. Vì vậy họ đo thêm resident memory trên các instance thật trong suốt đợt rollout.<sup><a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></sup></p>
+    <div class="mech"><b>Cơ chế:</b> hai lớp đo này trả lời hai câu hỏi khác nhau. Benchmark với allocator đếm được trả lời "thay đổi này bớt bao nhiêu byte mỗi entry", đủ nhỏ để so từng thay đổi một. Số production trả lời "máy thật nhẹ đi bao nhiêu", là con số để bàn với người trả tiền. Đội nào chỉ có lớp thứ hai sẽ thấy RAM giảm mà không biết nhờ thay đổi nào. Đội nào chỉ có lớp thứ nhất sẽ hứa quá tay. Chi tiết đáng học nhất là <em>phân bố dữ liệu thử lấy từ traffic thật</em>. Nếu benchmark toàn bản ghi TXT dài, thay đổi thứ tư ở dưới sẽ trông như thảm họa. Nếu toàn bản ghi A, nó sẽ trông như phép màu.</div>
+
+    <h3 class="sub">Năm thay đổi, mỗi cái đổi đúng một thứ</h3>
+    <p>Dưới đây là năm thay đổi theo thứ tự bài gốc, diễn đạt lại bằng lời. Bản tin cố ý bỏ tên kiểu dữ liệu Rust khi không cần, vì ý tưởng áp dụng được cho mọi ngôn ngữ.</p>
+    <table class="tbl">
+      <tr><th>#</th><th>Đổi cái gì</th><th>Bớt được (theo Cloudflare)</th><th>Cái giá</th></tr>
+      <tr><td>1</td><td>Dữ liệu không bao giờ sửa sau khi vào cache → bỏ kiểu mảng/chuỗi "co giãn được", dùng kiểu cố định kích thước</td><td>8 byte mỗi trường × 8 trường = 64 byte/entry, cộng phần heap dự trữ bị bỏ phí; tổng hơn 15 TB <a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></td><td>Gần như không có, vì entry vốn bất biến</td></tr>
+      <tr><td>2</td><td>Ba danh sách answer/authority/additional gộp thành một danh sách + hai offset 2 byte; gói các cờ boolean vào một bitflag</td><td>28 byte/entry từ việc gộp danh sách; bitflag bớt thêm phần padding quanh các boolean <a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></td><td>Code đọc phải tính offset thay vì lấy thẳng từng danh sách</td></tr>
+      <tr><td>3</td><td>Bỏ tên "owner" của bản ghi khi nó trùng tên miền đang hỏi; lúc dựng response thì lấy lại từ cache key</td><td>Đa số bản ghi không cần cấp phát heap cho owner nữa (bài không nêu số byte riêng) <a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></td><td>Bản ghi không còn tự đủ nghĩa, phải đi kèm key</td></tr>
+      <tr><td>4</td><td>Kiểu "một trong nhiều loại bản ghi" luôn to bằng loại lớn nhất (144 byte) → đẩy các loại lớn ra heap riêng</td><td>120 byte mỗi bản ghi A/AAAA <a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></td><td>Thêm cấp phát riêng, allocator làm tròn lên, dữ liệu rải rác → về sau bị thay</td></tr>
+      <tr><td>5</td><td>Lưu dữ liệu bản ghi thành một khối byte liền nhau theo đúng định dạng DNS trên dây (wire format), mỗi bản ghi có 2 byte độ dài phía trước</td><td>Bỏ overhead của kiểu "nhiều loại" và các cấp phát lẻ; riêng thay đổi này: lookup −5%, insert +13% <a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></td><td>Không truy cập ngẫu nhiên từng bản ghi được, phải duyệt tuần tự</td></tr>
+    </table>
+
+    <div class="mech"><b>Cơ chế — thay đổi 1:</b> các kiểu mảng động ở hầu hết ngôn ngữ đều giữ ba thứ: con trỏ tới dữ liệu, độ dài hiện tại và dung lượng đã cấp. Dung lượng tồn tại để lần thêm phần tử sau khỏi phải cấp phát lại. Nó thường lớn hơn độ dài, nghĩa là có một đoạn heap nằm chờ. Nhưng entry cache DNS một khi đã ghi thì không bao giờ sửa, nên cả trường dung lượng lẫn đoạn dự trữ đều vô dụng.<sup><a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></sup> Bài học chung: <em>kiểu dữ liệu tối ưu cho lúc đang dựng khác kiểu tối ưu cho lúc lưu lâu</em>. Dựng bằng kiểu co giãn, lưu bằng kiểu cố định. Ở Java, Go hay Python, ý tưởng tương đương là "đóng băng" và thu gọn cấu trúc trước khi nhét vào cache sống lâu.</div>
+
+    <div class="mech"><b>Cơ chế — thay đổi 2 và padding:</b> CPU đọc dữ liệu nhanh nhất khi mỗi trường nằm ở địa chỉ chia hết cho kích thước của nó. Vì vậy trình biên dịch chèn byte đệm (padding) giữa các trường và làm tròn kích thước struct lên bội số phù hợp. Cloudflare lưu ý rằng bỏ một trường nhỏ có khi bớt được nhiều hơn kích thước của chính nó, vì kéo theo cả phần đệm.<sup><a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></sup> Ví dụ của họ: gói vài boolean vào một bitflag làm struct nhỏ đi nhiều hơn tổng kích thước các boolean. Còn chuyện gộp danh sách: mỗi danh sách riêng tốn 16 byte (con trỏ 8 + độ dài 8). Số bản ghi mỗi phần của một response DNS vừa trong 2 byte, nên hai danh sách bị bỏ được thay bằng hai offset 2 byte.<sup><a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></sup> Nhân thử: 28 byte × 250 tỷ entry ≈ 7 TB (phép tính của bản tin).</div>
+
+    <div class="mech"><b>Cơ chế — thay đổi 3, "đừng lưu thứ suy ra được":</b> trên dây, DNS đã có cách nén tên lặp lại: lần xuất hiện sau chỉ là con trỏ 2 byte về lần đầu. Nhưng đi theo con trỏ nén mỗi lần lookup thì tốn, nên cache của Cloudflare vốn lưu nguyên tên owner cạnh từng bản ghi, đổi bộ nhớ lấy tốc độ.<sup><a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></sup> Họ để ý rằng phần lớn bản ghi có owner trùng đúng tên đang hỏi, mà tên đó đã nằm sẵn trong cache key. Vậy trường hợp trùng thì không lưu gì. Trường hợp khác (ví dụ các bản ghi A đứng sau một CNAME) thì mới lưu tên đầy đủ.<sup><a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></sup> Trong hệ SaaS, mẫu này xuất hiện liên tục: value trong Redis lặp lại tenant ID, user ID hay locale vốn đã nằm trong key. Mỗi bản sao vài chục byte, nhân với vài chục triệu key.</div>
+
+    <h3 class="sub">Cú rẽ ngược: sửa đúng một vấn đề, sinh ra hai vấn đề khác</h3>
+    <p>Thay đổi thứ tư là đoạn đáng đọc nhất, vì đội kể cả lúc giải pháp của mình không đủ tốt. Dữ liệu bản ghi được biểu diễn bằng một kiểu "một trong nhiều loại": A, AAAA, TXT, NAPTR, SVCB… Kiểu này luôn chiếm chỗ bằng loại lớn nhất. Loại lớn nhất là NAPTR, 136 byte, khiến cả kiểu thành 144 byte kể cả phần đánh dấu loại và padding.<sup><a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></sup> Trong khi đó bản ghi A chỉ cần 4 byte, AAAA cần 16 byte, và hai loại này chiếm hơn 80% traffic. Nghĩa là phần lớn bản ghi phí hơn 120 byte cho khoảng trống.<sup><a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></sup></p>
+    <p>Cách sửa đầu tiên là đẩy các loại lớn ra heap, để kiểu chính chỉ giữ một con trỏ 8 byte. A và AAAA bớt được 120 byte mỗi bản ghi. NAPTR thì tốn hơn một chút, nhưng NAPTR hiếm nên chấp nhận được.<sup><a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></sup> Rồi hai cái giá lộ ra. Một: mỗi loại bị đẩy ra là một lần cấp phát riêng, và allocator jemalloc làm tròn lên ngăn kích thước gần nhất. TXT xin 32 byte vừa khít ngăn 32. MX xin 40 byte bị làm tròn thành 48, phí 8 byte.<sup><a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></sup> Hai: dữ liệu của một entry giờ nằm rải rác trên heap. Đọc nó phải đi theo con trỏ, và mỗi lần con trỏ rơi xa phần còn lại là CPU phải nạp một cache line mới.<sup><a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></sup></p>
+    <p>Thay đổi thứ năm xử lý cả hai: gom toàn bộ dữ liệu bản ghi của một entry vào một khối byte liền, đúng định dạng DNS trên dây. Họ cân nhắc một phương án xa hơn là lưu nguyên cả message DNS, chỉ vá message ID lúc trả. Phương án đó bị loại vì bản ghi DNSSEC chỉ được trả khi client bật cờ DO: hoặc phải lưu hai bản, hoặc phải lọc trên message đã dựng. Parse cả message mỗi lần lookup cũng tốn.<sup><a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></sup> Nên họ chọn điểm giữa: chỉ phần dữ liệu bản ghi là byte thô, phần còn lại của entry vẫn là trường có cấu trúc.</p>
+
+    <div class="mech"><b>Cơ chế — vì sao wire format vừa nhỏ hơn vừa nhanh hơn:</b> có ba lý do chồng lên nhau. Thứ nhất, một cấp phát cho cả khối thay vì một cấp phát cho mỗi bản ghi lớn, nên không còn phí làm tròn ngăn và không còn overhead của kiểu "nhiều loại". Thứ hai, dữ liệu liền nhau nên CPU đọc một mạch, ít cache miss. Thứ ba, lúc dựng response, các loại A, AAAA, TXT và toàn bộ bản ghi DNSSEC được chép thẳng byte ra message, không phải serialize lại từng trường. Chỉ những bản ghi chứa tên miền như CNAME, NS, MX, SOA mới phải parse để nén tên.<sup><a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></sup> Có một chi tiết nhỏ mà hay: họ ghi vào một vùng đệm tạm dùng lại giữa các lần insert, biết đúng kích thước rồi mới cấp phát một lần và chép vào. Cách này tránh kiểu "cấp dư rồi thu nhỏ", vì khi thu nhỏ allocator chưa chắc lấy lại được phần đuôi thừa. Riêng thay đổi này làm insert nhanh hơn 13%.<sup><a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></sup></div>
+
+    <p>Cái giá của wire format cũng được ghi rõ: không lấy ngẫu nhiên bản ghi thứ n được, phải duyệt tuần tự. Việc xoay vòng thứ tự bản ghi A/AAAA (round-robin) vì thế phức tạp hơn, nhưng mỗi entry chỉ có vài bản ghi nên chi phí không đáng kể.<sup><a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></sup> Và một bình luận trên Reddit mà InfoQ dẫn lại là lời nhắc đúng lúc: nhiều mẹo bộ nhớ kiểu này chỉ đáng khi bạn ở quy mô request như Cloudflare. Ở quy mô nhỏ, việc đẩy dữ liệu ra heap có thể làm hỏng locality nhiều hơn phần nó tiết kiệm.<sup><a href="https://www.infoq.com/news/2026/09/cloudflare-dns-cache/" target="_blank">[2]</a></sup></p>
+
+    <h3 class="sub">Vì sao số production (−43%) thấp hơn số benchmark (−56%)</h3>
+    <p>Trên production, bộ nhớ resident mỗi instance ở p99 giảm từ 9,3 GB xuống 5,3 GB (−43%). Ở p90 là từ 6,5 GB xuống 3,8 GB (−42%). Instance nào cache càng đầy thì tiết kiệm tuyệt đối càng lớn.<sup><a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></sup> Cloudflare giải thích khoảng chênh so với con số 56% của benchmark khá gọn: resident memory gồm cả cache lẫn mọi dữ liệu khác của process.<sup><a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></sup></p>
+    <table class="tbl">
+      <tr><th>Thước đo</th><th>Trước</th><th>Sau</th><th>Đổi</th><th>Đo ở đâu</th></tr>
+      <tr><td>Byte ròng mỗi entry</td><td>953 B</td><td>420 B</td><td>−56%</td><td>Benchmark <a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></td></tr>
+      <tr><td>Byte cấp phát mỗi entry</td><td>1,1 KB</td><td>461 B</td><td>−58%</td><td>Benchmark <a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></td></tr>
+      <tr><td>Insert</td><td>625.000/s</td><td>893.000/s</td><td>+43%</td><td>Benchmark <a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></td></tr>
+      <tr><td>Lookup</td><td>828 ns</td><td>670 ns</td><td>−19%</td><td>Benchmark <a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></td></tr>
+      <tr><td>Resident memory p99 / instance</td><td>9,3 GB</td><td>5,3 GB</td><td>−43%</td><td>Production <a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></td></tr>
+      <tr><td>Resident memory p90 / instance</td><td>6,5 GB</td><td>3,8 GB</td><td>−42%</td><td>Production <a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></td></tr>
+    </table>
+    <div class="mech"><b>Cơ chế — đọc biểu đồ rollout cho đúng:</b> Cloudflare lưu ý rằng mỗi lần release, instance khởi động lại với cache rỗng rồi đầy dần. Vì thế những cú tụt ngay sau deploy không phản ánh hiệu quả thật. Mức ổn định (plateau) sau đó mới là bộ nhớ lúc chạy bình thường.<sup><a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></sup> Đây là cái bẫy rất phổ biến khi báo cáo kết quả tối ưu: chụp dashboard 15 phút sau deploy, thấy RAM giảm 70%, rồi báo cáo con số đó. Muốn so sánh công bằng, hãy chờ cache về lại độ đầy cũ, rồi so plateau với plateau ở cùng percentile. Với cache có TTL dài, việc này có thể mất vài giờ tới vài ngày.</div>
+    <div class="mech"><b>Cơ chế — vì sao 133 TB "lý thuyết" thành ~100 TB:</b> phép nhân 533 byte × 250 tỷ entry của bản tin giả định mọi entry giống entry benchmark và mọi instance đều đầy. Thực tế thì phân bố loại bản ghi mỗi nơi một khác. Có instance chưa đầy cache. Allocator giữ lại một phần bộ nhớ đã trả. Phần bộ nhớ ngoài cache thì không đổi. Bài gốc không bóc tách khoảng chênh này thành số, nên đây là suy luận của bản tin. Bài học thực dụng: khi ước tiết kiệm để xin thời gian làm, hãy lấy số benchmark nhân với một hệ số chiết khấu, và nói rõ hệ số đó với người duyệt.</div>
+
+    <h3 class="sub">100 TB để làm gì: cắt máy hay mua hit rate</h3>
+    <p>Cloudflare chọn không trả lại máy. Họ định dùng bộ nhớ vừa lấy lại để tăng sức chứa cache mà tổng RAM không tăng. Cache chứa nhiều hơn thì hit rate cao hơn và số query phải hỏi lên các máy chủ authoritative giảm đi.<sup><a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></sup> Bài cũng nhắc một yếu tố làm việc này đáng giá hơn ở một số data center: khi dùng EDNS Client Subnet (ECS — máy chủ authoritative trả lời khác nhau tùy mạng của client), cùng một câu hỏi phải cache nhiều phiên bản. Số entry và bộ nhớ mỗi entry đều tăng, nên những nơi dùng nhiều ECS hưởng lợi nhiều nhất.<sup><a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">[1]</a></sup></p>
+    <div class="mech"><b>Cơ chế:</b> đây là một quyết định sản phẩm chứ không chỉ là quyết định hạ tầng. Với cache nằm trước một thứ chậm hoặc đắt (máy chủ ngoài, database chính, API bên thứ ba tính tiền theo lượt, LLM), mỗi điểm phần trăm hit rate tăng thêm là bớt tải và bớt latency cho phía sau. Khi đó "cùng RAM, chứa nhiều hơn" thường đáng hơn "cùng số entry, bớt RAM". Ngược lại, nếu hit rate đã gần trần và miss chủ yếu do key mới tinh, thì RAM dư nên đổi thành tiền. Trước khi bắt tay tối ưu, hãy quyết định trước bạn sẽ tiêu phần tiết kiệm vào đâu. Câu trả lời quyết định bạn đo thành công bằng chỉ số nào.</div>
+
+    <h3 class="sub">Ánh xạ sang hệ của bạn</h3>
+    <p>Phần lớn đội SaaS không có 250 tỷ entry. Nhưng nhiều đội có một cụm Redis hay Memcached vài chục đến vài trăm GB, cache in-process trong từng pod, hoặc heap JVM phình ra vì cache. Bảng dưới là ánh xạ của bản tin từ năm ý của Cloudflare sang các chỗ hay gặp. Đây là thực hành phổ biến, không trích từ nguồn.</p>
+    <table class="tbl">
+      <tr><th>Ý của Cloudflare</th><th>Chỗ tương ứng trong hệ SaaS</th><th>Câu hỏi để tự kiểm</th></tr>
+      <tr><td>Bỏ dung lượng dự trữ của dữ liệu bất biến</td><td>Object cache in-process dựng bằng list/map co giãn rồi giữ hàng giờ</td><td>Có bước "thu gọn/đóng băng" trước khi đưa vào cache không?</td></tr>
+      <tr><td>Gộp danh sách, gói cờ, bớt padding</td><td>Value JSON trong Redis với nhiều trường boolean và mảng con</td><td>Tên trường JSON có đang dài hơn giá trị không? Có đổi sang định dạng nhị phân gọn hơn được không?</td></tr>
+      <tr><td>Không lưu thứ suy ra được từ key</td><td>Value lặp lại tenant ID, user ID, locale đã có trong key</td><td>Bỏ trường nào mà lúc đọc vẫn dựng lại được từ key?</td></tr>
+      <tr><td>Kiểu "nhiều loại" to bằng loại lớn nhất</td><td>Một schema cache chung cho mọi loại object, đa số trường để trống</td><td>Loại chiếm 80% số entry có đang trả chỗ cho loại chiếm 1%?</td></tr>
+      <tr><td>Lưu ở dạng gần với dạng trả ra</td><td>Cache kết quả đã serialize sẵn thay vì object rồi serialize lại mỗi lần</td><td>Mỗi lần hit, CPU có đang làm lại việc đã làm lúc ghi không?</td></tr>
+    </table>
+    <p>Với Redis, bạn không cần viết allocator như Cloudflare. Redis có sẵn lệnh báo số byte một key đang chiếm (MEMORY USAGE) và lệnh báo tổng quan bộ nhớ theo từng thành phần. Lấy mẫu vài nghìn key mỗi nhóm, nhân với số key của nhóm, là ra bảng "byte × số entry" của riêng bạn trong một buổi chiều.</p>
+
+    <h3 class="sub">Rút ra theo quy mô</h3>
+    <div class="scale">
+      <div class="col small">
+        <h4>Đội nhỏ / startup &lt;10 người</h4>
+        <ul>
+          <li>Đừng tối ưu layout bộ nhớ ở mức byte. Như bình luận InfoQ dẫn lại, ở quy mô nhỏ các mẹo này có thể phản tác dụng.<sup><a href="https://www.infoq.com/news/2026/09/cloudflare-dns-cache/" target="_blank">[2]</a></sup> Việc đáng làm là phép nhân "byte × số key" cho từng nhóm key Redis trước khi nâng gói.</li>
+          <li>Tìm các trường trong value lặp lại thông tin đã có trong key. Đây là thay đổi rẻ nhất và an toàn nhất trong năm ý trên.</li>
+          <li>Nếu cache value dạng JSON, xem tỷ lệ byte dành cho tên trường. Với object nhỏ, tên trường có thể chiếm phần lớn value.</li>
+          <li>Khi báo "đã giảm RAM", chụp plateau sau khi cache đầy lại, không chụp ngay sau deploy.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Đội đã có sản phẩm production</h4>
+        <ul>
+          <li>Dựng hai lớp đo như Cloudflare: benchmark theo phân bố dữ liệu thật (có đếm byte và số lần cấp phát mỗi entry) và resident memory theo percentile trên production.</li>
+          <li>Đo tốc độ cùng lúc với bộ nhớ. Cloudflare coi "không đổi tốc độ lấy chỗ" là điều kiện, và nhờ vậy mới phát hiện cách đẩy dữ liệu ra heap làm hỏng locality.</li>
+          <li>Rollout từng thay đổi một, mỗi release một bậc. Nếu RAM không giảm như benchmark, bạn biết ngay thay đổi nào có vấn đề.</li>
+          <li>Quyết định trước khi làm: tiết kiệm sẽ thành tiền (cắt node) hay thành hit rate (tăng sức chứa). Chọn chỉ số thành công theo đó.</li>
+          <li>Ghi lại cái giá của từng thay đổi trong tài liệu, ví dụ "bản ghi không còn tự đủ nghĩa, phải đi kèm key", để người sau không vô tình phá.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="doslist">
+      <div>✅ Nhân byte mỗi entry với số entry trước khi nâng cấp máy. Ở Cloudflare, một byte là 250 GB; ở hệ bạn có thể là vài GB, nhưng phép tính giống nhau.</div>
+      <div>✅ Tách kiểu dữ liệu lúc dựng với kiểu dữ liệu lúc lưu lâu. Dữ liệu bất biến không cần chỗ để lớn thêm.</div>
+      <div>✅ Lấy phân bố dữ liệu thử từ traffic thật. Loại chiếm 80% quyết định kết quả tối ưu.</div>
+      <div>❌ Đừng báo cáo mức RAM ngay sau deploy khi cache vừa rỗng. So plateau với plateau.</div>
+      <div>❌ Đừng hứa với người duyệt bằng số benchmark. Ở đây benchmark nói −56%, production nói −42% tới −43%.</div>
+    </div>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> case này không dạy bạn viết Rust. Nó dạy một quy trình: đo cho đúng thứ cần đo, đổi từng thứ một, đo lại cả bộ nhớ lẫn tốc độ, rồi đọc production ở mức ổn định chứ không phải ngay sau deploy. Cloudflare không cần kiến trúc mới để lấy lại 100 TB. Họ chỉ nhìn kỹ một entry đơn lẻ trông như thế nào trong RAM, một việc gần như không ai làm vì mỗi entry "chỉ có vài trăm byte". Thứ Hai này, chọn nhóm key lớn nhất trong Redis của bạn, lấy mẫu vài nghìn key xem mỗi key tốn bao nhiêu byte, và đếm xem bao nhiêu byte trong đó là thông tin đã có sẵn trong key.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> [1] Sebastiaan Neuteboom — <a href="https://blog.cloudflare.com/dns-cache-memory-optimization-1111/" target="_blank">"How we saved 100 terabytes of memory by optimizing 1.1.1.1's DNS cache", Cloudflare Blog, 27/08/2026</a> (công ty tự kể về hệ của mình; mọi số byte, benchmark, mốc rollout và số production lấy từ bài này) · [2] Leela Kumili — <a href="https://www.infoq.com/news/2026/09/cloudflare-dns-cache/" target="_blank">"Cloudflare Cuts 100 TB of Memory from 1.1.1.1 DNS Cache", InfoQ, 23/09/2026</a> (tường thuật thứ cấp; dùng cho bình luận Reddit về giới hạn của các mẹo bộ nhớ ở quy mô nhỏ). Phép tính 133 TB, 7 TB và bảng ánh xạ sang hệ SaaS là của bản tin. Liên kết nội bộ: số <a href="/2026-09-27">27/09</a> (giả định latency ngầm khi đổi kho state), <a href="/2026-09-22">22/09</a> (bê dữ liệu nguội ra S3), <a href="/2026-09-19">19/09</a> (hóa đơn giám sát vì cardinality).</div>
+  </article>
+
+  <div class="foot">Bản tin sáng · Số 29/09/2026</div>
+</div>
+</body>
+</html>
