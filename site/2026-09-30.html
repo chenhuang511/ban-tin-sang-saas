@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zapier dựng outbox 50 file SQLite mỗi pod rồi tự gỡ nó &middot; 30/09/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+@media (max-width:560px){h1.title{font-size:25px}.card{padding:20px 18px}.tbl{display:block;overflow-x:auto}}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 30/09/2026</div>
+    <h1 class="title">Kafka sập vẫn phải nhận event: Zapier đặt một outbox 50 file SQLite trong mỗi pod, chạy êm ở 15.000 event/giây — rồi tự tay gỡ nó ra khỏi đường ghi nóng</h1>
+    <div class="meta">30/09/2026 · Đọc khoảng 14 phút · Nguồn chính: Sugat Mahanti — "Lessons from using the outbox pattern at scale", Zapier Engineering (30/03/2026); Aaron Kosel — "Reducing Kafka connections by 10x with a sidecar pattern", Zapier Engineering (31/10/2025)</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: số này chỉ có <b>một bài đào sâu</b>, thuộc mảng "tối ưu hệ đang chạy" (Kafka, hàng đợi, ghi bền). Hai bài gốc của đội Events ở Zapier đăng cách đây 6 và 11 tháng, không nằm trong cửa sổ 7 ngày. Bản tin vẫn chọn vì hiếm có đội nào tự kể trọn một vòng: dựng bộ đệm bền, chạy nó ở quy mô lớn, liệt kê cái giá, rồi quyết định gỡ. Tìm kiếm tuần này cho mảng bảo mật quy trình chỉ ra bài hướng dẫn chung chung, không có case cấp một, nên không có bài thứ hai. Zapier viết service bằng Go và Python, chạy trên Kubernetes/AWS. Các khối <b style="color:#1e40af">Cơ chế</b>, bảng ánh xạ sang SQL Server/Spring Boot/RabbitMQ và phần "Rút ra theo quy mô" là phân tích của bản tin — <em>không trích nguyên văn từ nguồn</em>. Mọi con số của Zapier đều dẫn nguồn cạnh câu.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1"><strong>Bài duy nhất</strong> — Outbox cục bộ của Zapier: dựng, mở nút, trả giá, rồi gỡ<br><span style="font-size:13.5px;color:#6b7280">· vì sao cần nhận event khi Kafka sập · bản đầu gãy ngay vì SQLite chỉ cho một writer · bốn bước mở nút: WAL, 50 shard, mutex, dọn đĩa · năm cái giá của bộ đệm nằm trên đường nóng · sidecar: số connection nhân lên theo process và heap của broker · đường mới: chỉ trả tiền bền khi có lỗi · ánh xạ sang bảng task log trên SQL Server, HikariCP, RabbitMQ · nên làm gì theo quy mô</span></a></li>
+    </ol>
+  </nav>
+
+  <article class="card" id="bai1">
+    <span class="tag legacy">Tối ưu hệ đang chạy · Kafka &amp; ghi bền</span>
+    <h2 class="head">Bộ đệm bền đặt trên đường ghi nóng: an tâm lúc sự cố, trả tiền mọi lúc khác</h2>
+    <p class="src">Nguồn: Sugat Mahanti (Senior Backend Engineer, Zapier) — <a href="https://zapier.com/blog/lessons-from-using-outbox-pattern-at-scale/" target="_blank">"Lessons from using the outbox pattern at scale"</a>, 30/03/2026 [1]; Aaron Kosel (Senior SRE, Zapier) — <a href="https://zapier.com/blog/reducing-kafka-connections-sidecar/" target="_blank">"Reducing Kafka connections by 10x with a sidecar pattern"</a>, 31/10/2025 [2].</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">~15.000/s</div><div class="lab">event ở đỉnh đi qua outbox SQLite của Events API <a href="https://zapier.com/blog/lessons-from-using-outbox-pattern-at-scale/" target="_blank">[1]</a></div></div>
+      <div class="box"><div class="num">50 file</div><div class="lab">SQLite mỗi pod — gần trần CPU/RAM máy chủ lúc đó <a href="https://zapier.com/blog/lessons-from-using-outbox-pattern-at-scale/" target="_blank">[1]</a></div></div>
+      <div class="box"><div class="num">~10×</div><div class="lab">connection của producer ở đỉnh giảm sau khi dùng sidecar <a href="https://zapier.com/blog/reducing-kafka-connections-sidecar/" target="_blank">[2]</a></div></div>
+      <div class="box"><div class="num">−70 điểm %</div><div class="lab">heap của broker Kafka lúc đỉnh <a href="https://zapier.com/blog/reducing-kafka-connections-sidecar/" target="_blank">[2]</a></div></div>
+    </div>
+
+    <h3 class="sub">Chuyện gì xảy ra</h3>
+    <p>Zapier có một Events API viết bằng Go. Các đội trong công ty gọi API này để đẩy event (định dạng Avro) vào một cluster Kafka managed rất lớn trên AWS, không cần biết chi tiết bên dưới.<sup><a href="https://zapier.com/blog/lessons-from-using-outbox-pattern-at-scale/" target="_blank">[1]</a></sup> Vấn đề: latency của producer thường vọt lên mỗi lần cluster được vá bảo mật hay nâng cấp, và request bị timeout. Cluster cũng là điểm chết duy nhất. Nếu Kafka sập, event quan trọng có thể mất.<sup><a href="https://zapier.com/blog/lessons-from-using-outbox-pattern-at-scale/" target="_blank">[1]</a></sup></p>
+    <p>Yêu cầu họ đặt ra khá gắt: kể cả khi Kafka sập hoàn toàn, API vẫn phải nhận event. Lời giải là một outbox.<sup><a href="https://zapier.com/blog/lessons-from-using-outbox-pattern-at-scale/" target="_blank">[1]</a></sup> Nhưng tác giả nói rõ đây không phải outbox kiểu sách giáo khoa. Bước cần nguyên tử (atomic) chỉ là ghi vào database cục bộ. Chỉ những dòng đã ghi thành công mới được gửi sang Kafka sau đó.<sup><a href="https://zapier.com/blog/lessons-from-using-outbox-pattern-at-scale/" target="_blank">[1]</a></sup></p>
+    <p>Họ chọn SQLite thay vì một database RDS dùng chung vì hai lý do. Một, nó là bộ đệm bền nằm ngay cạnh service: không phải cấp database, không thêm một bước mạng, dễ triển khai qua nhiều region và nhiều tài khoản AWS. Hai, hạ tầng database quan hệ của công ty lúc đó đang chuyển đổi, và họ không muốn service này dính vào việc đó.<sup><a href="https://zapier.com/blog/lessons-from-using-outbox-pattern-at-scale/" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — outbox "giáo khoa" và outbox của Zapier giải hai bài toán khác nhau:</b> outbox giáo khoa (đã nói ở số <a href="/2026-09-29">29/09</a>) ghi event vào một bảng cùng transaction với dữ liệu nghiệp vụ. Nó chống lỗi <em>ghi lệch</em>: đơn hàng đã lưu mà event không đi, hoặc ngược lại. Outbox của Zapier không có dữ liệu nghiệp vụ nào đi kèm. Nó chống lỗi <em>broker không sẵn sàng</em>: nhận trước, ghi bền trước, gửi sau. Đây thực chất là một bộ đệm store-and-forward. Phân biệt hai loại này quan trọng vì cái giá khác nhau. Loại thứ nhất bắt buộc phải nằm trong database nghiệp vụ. Loại thứ hai thì có thể đặt ở đâu cũng được, kể cả ở chỗ chỉ dùng khi có lỗi. Đó chính là chỗ Zapier quay lại sau này.</div>
+
+    <h3 class="sub">Bản đầu gãy ngay khi nhận tải thật</h3>
+    <p>Bản đầu tiên đơn giản. Mỗi event đã validate được ghi vào một bảng SQLite gồm key, timestamp, payload, event ID và trạng thái. Một job định kỳ quét các dòng đang chờ và thử gửi lại sang Kafka. Về sau họ thay job đó bằng một poller dùng Go channel, liên tục lấy dòng đang chờ, gửi đi, gửi xong thì xóa. Cam kết giao nhận vẫn là at-least-once, như trước khi có outbox.<sup><a href="https://zapier.com/blog/lessons-from-using-outbox-pattern-at-scale/" target="_blank">[1]</a></sup></p>
+    <p>File SQLite nằm trên một volume EBS gắn vào từng pod của một StatefulSet (kiểu workload Kubernetes giữ nguyên danh tính và ổ đĩa cho từng pod). Pod chết thì dữ liệu vẫn còn. Pod lên lại thì Kubernetes gắn lại đúng volume đó, poller chạy tiếp từ trạng thái cũ.<sup><a href="https://zapier.com/blog/lessons-from-using-outbox-pattern-at-scale/" target="_blank">[1]</a></sup></p>
+    <p>Rồi tải thật đổ vào. Lượng event quá lớn cho một outbox, và lỗi SQLITE_BUSY xuất hiện ngay. SQLite lúc đó chạy ở chế độ rollback journal mặc định, vốn xử lý đọc và ghi đồng thời rất kém.<sup><a href="https://zapier.com/blog/lessons-from-using-outbox-pattern-at-scale/" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — một bảng hàng đợi luôn có một "điểm nóng":</b> SQLite chỉ cho một writer mỗi file, nên nút thắt lộ ra ngay. Trên SQL Server, bạn không gặp lỗi rõ ràng như SQLITE_BUSY, nhưng bảng task log hay bảng outbox vẫn có đúng kiểu điểm nóng đó, chỉ kín hơn. Mọi thread insert vào một bảng có clustered key tăng dần (IDENTITY, thời gian) đều tranh nhau trang cuối cùng của index. Triệu chứng là wait type PAGELATCH_EX tăng vọt khi tải cao, dù CPU và đĩa còn thừa. Thêm vào đó là poller: nó vừa quét dòng "đang chờ", vừa update trạng thái, vừa xóa. Ba thao tác này chạm đúng vùng mà insert đang ghi. Vậy nên bảng hàng đợi trong database là một trong số ít chỗ mà "đọc và ghi cùng một chỗ nóng" là thiết kế, không phải tai nạn.</div>
+
+    <h3 class="sub">Bốn bước mở nút</h3>
+    <p><em>Một, bật WAL.</em> Ở chế độ write-ahead log, writer ghi nối vào file WAL, còn reader đọc trên một snapshot ổn định. Đọc và ghi không còn chặn nhau.<sup><a href="https://zapier.com/blog/lessons-from-using-outbox-pattern-at-scale/" target="_blank">[1]</a></sup></p>
+    <p><em>Hai, chia shard.</em> Với SQLite, chia shard nghĩa là tách thành nhiều file database. Họ chia mỗi pod thành 50 file, và đó gần như là trần máy chủ chịu được trước khi CPU và bộ nhớ thành vấn đề. Mỗi shard có file riêng, khóa ghi riêng, WAL riêng. Event được băm (hash) để chọn shard, rải đều lượt ghi.<sup><a href="https://zapier.com/blog/lessons-from-using-outbox-pattern-at-scale/" target="_blank">[1]</a></sup> Tác giả ghi chú thêm: nếu đổi hàm băm để event liên quan luôn vào cùng shard, họ có thể giữ được thứ tự sau này.</p>
+    <p><em>Ba, thêm mutex cho từng shard.</em> Chia shard giúp nhiều, nhưng SQLITE_BUSY vẫn còn: hai request vẫn có thể băm trúng cùng một file, trong khi SQLite chỉ muốn một writer mỗi file. SQLite khuyên xử lý bằng khóa ở tầng ứng dụng, nên họ thêm một mutex cho mỗi shard trong service. Tranh chấp ghi còn lại biến mất.<sup><a href="https://zapier.com/blog/lessons-from-using-outbox-pattern-at-scale/" target="_blank">[1]</a></sup></p>
+    <p><em>Bốn, giữ ổ đĩa không phình.</em> Dưới tải nặng, volume EBS cứ lớn dần. Dòng trong outbox sống rất ngắn: ghi, gửi, xóa. Nhưng xóa dòng không tự trả lại dung lượng đĩa. Họ chỉnh ba chỗ: cắt file WAL về kích thước tối thiểu sau mỗi checkpoint, bật auto-vacuum ở mức đầy đủ, và chạy VACUUM mỗi lần pod khởi động để nén lại file. VACUUM làm pod khởi động chậm hơn, nên họ phải thêm một startup probe tính đến khoảng thời gian đó.<sup><a href="https://zapier.com/blog/lessons-from-using-outbox-pattern-at-scale/" target="_blank">[1]</a></sup></p>
+
+    <table class="tbl">
+      <tr><th>Bước ở Zapier</th><th>Chữa bệnh gì</th><th>Bản tương đương trên SQL Server (biên tập)</th></tr>
+      <tr><td>Bật WAL</td><td>Reader chặn writer và ngược lại</td><td>RCSI/snapshot isolation: poller đọc phiên bản đã commit, không giữ shared lock chặn insert. Đổi lại tempdb phải gánh version store</td></tr>
+      <tr><td>50 shard mỗi pod, chọn theo hash</td><td>Một writer mỗi file</td><td>Không cần tách bảng. Điểm nóng là trang cuối của clustered index: dùng tùy chọn OPTIMIZE_FOR_SEQUENTIAL_KEY (có từ SQL Server 2019), hoặc đặt khóa đầu clustered index là một cột "bucket" băm từ ID để rải insert ra nhiều trang</td></tr>
+      <tr><td>Mutex mỗi shard</td><td>Hai request trúng cùng shard</td><td>Nhiều consumer cùng lấy việc: dùng kiểu đọc bỏ qua dòng đang bị khóa (READPAST) kèm UPDLOCK/ROWLOCK, để mỗi worker nhận một lô khác nhau thay vì xếp hàng chờ nhau</td></tr>
+      <tr><td>Cắt WAL, auto-vacuum, VACUUM lúc khởi động</td><td>File phình vì dòng xóa không trả chỗ</td><td>Dòng xóa thành ghost record, chờ tiến trình ghost cleanup dọn. Xóa hàng loạt nhanh hơn tốc độ dọn thì scan chậm dần. Log file phình nếu transaction xóa quá to hoặc log backup chậm</td></tr>
+    </table>
+
+    <div class="mech"><b>Cơ chế — vì sao bước bốn đáng để ý nhất:</b> ba bước đầu chữa nút thắt lúc chạy. Bước bốn chữa hậu quả của chính mẫu thiết kế "ghi rồi xóa ngay". Một bảng hàng đợi có lượng dòng tồn tại tại một thời điểm rất nhỏ, nhưng lượng dòng đi qua trong một ngày rất lớn. Mọi database đều phải trả tiền dọn dẹp cho khối lượng đi qua, không phải cho kích thước đang thấy. Trên SQL Server, bạn nhìn bảng task log thấy chỉ vài nghìn dòng và nghĩ nó nhẹ. Nhưng nếu mỗi ngày có 50 triệu dòng đi qua, index của nó có thể đầy ghost record, và câu query "lấy 100 việc cũ nhất" phải lướt qua cả đống trang rỗng. Cách phổ biến: xóa theo lô nhỏ thay vì một lệnh lớn, theo dõi số ghost record trên index, và với bảng log chỉ để tra cứu thì partition theo ngày rồi switch/truncate cả partition thay vì xóa từng dòng.</div>
+
+    <h3 class="sub">Kết quả: đúng thứ họ cần</h3>
+    <p>Tác giả đánh giá thẳng: thiết kế này chạy tốt, và các bước tối ưu không tốn nhiều thời gian thử và làm.<sup><a href="https://zapier.com/blog/lessons-from-using-outbox-pattern-at-scale/" target="_blank">[1]</a></sup> API vẫn nhận event bình thường khi latency của producer Kafka vọt lên, và điều đó gỡ đi rất nhiều việc vận hành. Ở đỉnh, hệ xử lý khoảng 15.000 event mỗi giây. Outbox hứng được các đợt dồn event khi hệ phía sau lỗi, và vẫn nhận event cả khi cluster Kafka hỏng nặng.<sup><a href="https://zapier.com/blog/lessons-from-using-outbox-pattern-at-scale/" target="_blank">[1]</a></sup> Theo tác giả, thiết kế này đã cho đội "rất nhiều sự yên tâm" trong nhiều năm.</p>
+
+    <h3 class="sub">Năm cái giá của một bộ đệm nằm trên đường nóng</h3>
+    <p>Phần đáng đọc nhất của bài là danh sách hạn chế. Tác giả kể năm cái:<sup><a href="https://zapier.com/blog/lessons-from-using-outbox-pattern-at-scale/" target="_blank">[1]</a></sup></p>
+    <table class="tbl">
+      <tr><th>#</th><th>Cái giá</th><th>Vì sao đau</th></tr>
+      <tr><td>1</td><td>Khó tăng số shard</td><td>Shard được chọn bằng phép chia lấy dư đơn giản. Đổi số shard thì event đang có bị ánh xạ sang file khác, phải viết đường migration riêng</td></tr>
+      <tr><td>2</td><td>Bị trói vào StatefulSet</td><td>Deploy chậm hơn, bị ràng buộc availability zone, và không scale pod nhanh được khi traffic dồn đột ngột</td></tr>
+      <tr><td>3</td><td>Hồi phục chậm sau sự cố</td><td>Khi outbox đã dồn backlog lớn mà pod crash hay restart, VACUUM lúc khởi động phải xử lý file to hơn nhiều</td></tr>
+      <tr><td>4</td><td>Producer phải gọi đồng bộ</td><td>Phải chờ Kafka xác nhận rồi mới được xóa dòng, nên không dùng được producer bất đồng bộ trên đường gửi</td></tr>
+      <tr><td>5</td><td>EBS là điểm hỏng chính</td><td>Volume lỗi hay chậm thì app bất ổn, dữ liệu outbox trên đó có thể gặp rủi ro. Tác giả nói rủi ro giảm ở tầng EBS cao nhất nhưng không hết, dù tới nay họ chưa gặp sự cố nào với EBS</td></tr>
+    </table>
+
+    <div class="mech"><b>Cơ chế — cái giá số 3 là một vòng lặp xấu:</b> backlog của outbox lớn nhất đúng vào lúc hệ phía sau vừa sự cố. Đó cũng là lúc pod dễ bị restart nhất (OOM, deploy vá lỗi, node bị drain). Và restart lại đúng lúc phải VACUUM file to nhất, nên pod lên chậm nhất. Nói cách khác, bộ đệm làm hồi phục chậm nhất ở đúng thời điểm bạn cần hồi phục nhanh nhất. Bản tương đương ở stack của bạn: một bảng task log trên SQL Server bị dồn vài triệu dòng sau khi RabbitMQ hay một service phía sau chết nửa tiếng. Khi mọi thứ lên lại, poller quét bảng to, index đầy ghost, và cùng lúc mọi consumer bắt đầu chạy bù. Cần tính trước tốc độ xả backlog: nếu backlog là 2 triệu dòng mà poller xả 500 dòng/giây, bạn cần hơn một giờ để về bình thường, chưa tính traffic mới.</div>
+
+    <div class="mech"><b>Cơ chế — cái giá số 1 và số 4 là chuyện bạn cũng gặp:</b> "chọn shard bằng chia lấy dư" giống hệt việc phân chia tenant theo CompanyID chia lấy dư cho số partition hay số database. Nó chạy êm cho tới ngày bạn cần đổi số chia. Lúc đó gần như mọi tenant phải dời chỗ. Cách phổ biến là dùng một bảng ánh xạ tenant → vị trí, hoặc consistent hashing, để thêm chỗ mới chỉ phải dời một phần nhỏ. Còn "phải gửi đồng bộ để được phép xóa" là cái giá chung của mọi cam kết at-least-once. Với RabbitMQ, bản tương đương là publisher confirm: chỉ đánh dấu dòng outbox là "đã gửi" khi broker xác nhận. Nếu chờ confirm từng message một, throughput rơi mạnh. Nên gửi theo lô rồi chờ confirm cho cả lô.</div>
+
+    <h3 class="sub">Câu chuyện thứ hai: số connection nhân lên theo số process</h3>
+    <p>Trước bài outbox, cùng đội Events đã giải một vấn đề khác của Kafka. Client Kafka mở một TCP connection tới mỗi broker giữ partition mà nó phải ghi. Service nào chạy nhiều process con thì số connection nhân lên, vì thư viện Kafka họ dùng không an toàn khi fork, nên mỗi process con giữ connection riêng.<sup><a href="https://zapier.com/blog/reducing-kafka-connections-sidecar/" target="_blank">[2]</a></sup> Ví dụ minh họa của tác giả: 1.000 pod × 10 process × 10 broker = 100.000 connection. Ở quy mô thật, lúc cao điểm con số lên tới hàng trăm nghìn connection sống.<sup><a href="https://zapier.com/blog/reducing-kafka-connections-sidecar/" target="_blank">[2]</a></sup></p>
+    <p>Mỗi connection tốn socket buffer và metadata trên broker. Cộng lại, heap của broker tăng. Heap căng thì garbage collection chạy dồn dập, GC làm CPU vọt, CPU vọt làm broker chậm, dẫn tới timeout và có thể mất dữ liệu.<sup><a href="https://zapier.com/blog/reducing-kafka-connections-sidecar/" target="_blank">[2]</a></sup></p>
+    <p>Bài liệt kê bốn cách đã loại, và lý do loại mới là phần có giá trị:<sup><a href="https://zapier.com/blog/reducing-kafka-connections-sidecar/" target="_blank">[2]</a></sup></p>
+    <table class="tbl">
+      <tr><th>Cách nghe hợp lý</th><th>Vì sao không giải được</th></tr>
+      <tr><td>Thêm broker</td><td>Tải mỗi broker giảm, nhưng partition rải ra nhiều broker hơn, nên mỗi producer lại nối tới nhiều broker hơn. Tổng số connection của cluster có thể còn tăng</td></tr>
+      <tr><td>Dùng broker to hơn</td><td>Broker Kafka thường chạy JVM heap nhỏ, khoảng 4–8 GB, và dựa vào page cache của hệ điều hành. Thêm RAM chủ yếu tăng page cache chứ không tăng heap. Tăng heap quá 6–8 GB thường không có lợi vì GC</td></tr>
+      <tr><td>Đặt proxy kiểu PgBouncer</td><td>Pool database chạy được vì session SQL có thể dùng chung ở ranh giới transaction. Giao thức Kafka giữ trạng thái suốt phiên client, nên không gộp kiểu đó được</td></tr>
+      <tr><td>Chỉnh tham số client</td><td>Chỉnh linger, timeout connection rảnh, batching, buffer mạng có đỡ một chút, nhưng không đụng tới phép nhân do nhiều process</td></tr>
+    </table>
+    <p>Lời giải là một sidecar gRPC trong mỗi pod, chạy đúng một Kafka producer. Các process của ứng dụng gọi RPC tới sidecar thay vì tự mở connection tới broker. Chuyển sang sidecar chỉ cần đổi cấu hình, không phải sửa code.<sup><a href="https://zapier.com/blog/reducing-kafka-connections-sidecar/" target="_blank">[2]</a></sup> Nếu sidecar chết, client quay về gửi thẳng tới Kafka để không mất dữ liệu; chuyện này hiếm và chỉ ảnh hưởng một pod.<sup><a href="https://zapier.com/blog/reducing-kafka-connections-sidecar/" target="_blank">[2]</a></sup></p>
+    <p>Kết quả sau khi chuyển các deployment lớn nhất: số connection của producer lúc đỉnh giảm khoảng 10 lần trên toàn cluster, heap của broker lúc đỉnh giảm khoảng 70 điểm phần trăm, và các đợt CPU vọt lặp lại trong những khung giờ cao điểm biến mất.<sup><a href="https://zapier.com/blog/reducing-kafka-connections-sidecar/" target="_blank">[2]</a></sup></p>
+    <p>Có một thứ bị mất: delivery report, tức callback báo broker đã nhận event. Callback giờ nằm ở producer trong sidecar, process ứng dụng không thấy nữa. Họ thêm một endpoint streaming: sidecar giữ một ring buffer và đẩy liên tục các report về worker, worker chạy một thread riêng để xử lý callback.<sup><a href="https://zapier.com/blog/reducing-kafka-connections-sidecar/" target="_blank">[2]</a></sup> Họ cũng dựng "emission quality tracking": ghi một lần thử khi gửi và một lần thành công khi broker ack, gom theo app và topic. Họ đo mốc cho cách gửi cũ trước, rồi so với sidecar trong lúc rollout để chắc không tụt.<sup><a href="https://zapier.com/blog/reducing-kafka-connections-sidecar/" target="_blank">[2]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — đếm connection, đừng chỉ đếm throughput:</b> đây là bài học tác giả đặt lên đầu.<sup><a href="https://zapier.com/blog/reducing-kafka-connections-sidecar/" target="_blank">[2]</a></sup> Nó áp thẳng vào SQL Server. Mỗi pod Spring Boot có một pool HikariCP. Tổng connection tới instance bằng số pod × maximum-pool-size × số datasource trong pod. Ví dụ minh họa: 12 service, mỗi service 6 pod, pool mặc định 10 connection, là 720 connection. Bật autoscale lên 15 pod lúc cao điểm thì thành 1.800, trong khi traffic thật chỉ tăng gấp đôi. Mỗi connection đang chạy query giữ một worker thread của SQL Server, và số worker thread có trần. Khi chạm trần, bạn thấy wait THREADPOOL và mọi thứ đứng hình, dù CPU chưa đầy. Trên AlwaysOn, nếu các service đọc báo cáo nối vào readable secondary, replica đó cũng có trần riêng. Cách chữa giống Zapier: gom lại. Giảm pool size mỗi pod (Hikari thường cần ít connection hơn bạn nghĩ), tách các job nặng ra một service riêng có pool riêng, và đặt cảnh báo trên tổng số session theo từng tên ứng dụng.</div>
+
+    <div class="mech"><b>Cơ chế — "heap to hơn không phải lúc nào cũng tốt hơn":</b> lý do Zapier không tăng heap broker cũng đúng với service Spring Boot. Heap to thì mỗi lần GC phải dọn nhiều hơn. Với các collector cũ, một lần full GC trên heap to là một lần p99 nhảy vọt. Nếu p99 của bạn có những đỉnh đều đặn mà không khớp với traffic, hãy mở GC log trước khi mở query plan. Triệu chứng hay gặp: heap tăng dần vì nhiều đối tượng sống lâu (cache trong bộ nhớ, session, buffer của consumer), GC chạy dày hơn, và CPU vọt đúng như broker của Zapier.</div>
+
+    <h3 class="sub">Đường mới: chỉ trả tiền bền khi có lỗi</h3>
+    <p>Vì năm cái giá kể trên, và vì yêu cầu về latency và deploy đã đổi, đội Events quyết định bỏ outbox SQLite. Một lý do nữa: hạ tầng dự phòng dựa trên S3 và SQS của họ đã chắc hơn nhiều.<sup><a href="https://zapier.com/blog/lessons-from-using-outbox-pattern-at-scale/" target="_blank">[1]</a></sup> Trong chế độ sidecar mới, event gửi Kafka thất bại được ghi vào S3, kèm một message SQS trỏ tới object đó để phát lại sau. Theo tác giả, cách này bỏ được bước ghi SQLite khỏi đường gửi nóng, bỏ gánh EBS và StatefulSet, và dựa vào hạ tầng replay/redrive mà đội vận hành đã tin dùng.<sup><a href="https://zapier.com/blog/lessons-from-using-outbox-pattern-at-scale/" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — hai kiểu "bền", hai kiểu hóa đơn:</b> outbox cũ bắt <em>mọi</em> event trả phí bền: một lần ghi đĩa, một lần xóa, một phần tiền dọn dẹp, cộng ràng buộc StatefulSet. Đường mới chỉ bắt event <em>gửi hỏng</em> trả phí đó. Nếu 99,9% event gửi thẳng thành công, bạn cắt gần hết chi phí ở đường nóng. Nhưng có một cái giá mới mà bài gốc không bàn: đường lỗi chỉ chạy khi có lỗi, nên rất ít được chạy thật. Một đường dự phòng không ai thử là một đường dự phòng có thể không chạy. Đội nào chọn hướng này cần diễn tập: định kỳ cố ý làm hỏng đường chính trên staging (hoặc một phần nhỏ production), rồi kiểm tra event có vào kho dự phòng, có phát lại được, và có bị trùng không. Ghi chú thêm: cách làm mới này <em>không</em> thay được outbox giáo khoa. Nếu event phải khớp với dữ liệu nghiệp vụ, như hóa đơn đã lưu thì phải có event "hóa đơn tạo", bạn vẫn cần bảng outbox trong cùng transaction trên SQL Server.</div>
+
+    <h3 class="sub">Ánh xạ sang stack của bạn</h3>
+    <table class="tbl">
+      <tr><th>Ở Zapier</th><th>Ở hệ SQL Server / Spring Boot / RabbitMQ / Kafka</th><th>Câu hỏi nên tự hỏi</th></tr>
+      <tr><td>Outbox cục bộ để chịu broker sập</td><td>Bảng task log/outbox trên SQL Server, poller đẩy sang RabbitMQ hoặc Kafka</td><td>Bảng này chống ghi lệch hay chống broker sập? Nếu chỉ chống broker sập, có cần nằm trên OLTP chính không?</td></tr>
+      <tr><td>SQLITE_BUSY, một writer</td><td>PAGELATCH_EX ở trang cuối clustered index của bảng hàng đợi</td><td>Wait stats giờ cao điểm có PAGELATCH_EX trên bảng này không?</td></tr>
+      <tr><td>Xóa dòng không trả đĩa, VACUUM</td><td>Ghost record, log phình, index scan chậm dần</td><td>Mỗi ngày bao nhiêu dòng đi qua bảng? Xóa theo lô hay một lệnh to?</td></tr>
+      <tr><td>Backlog lớn làm khởi động chậm</td><td>Poller quét bảng dồn triệu dòng sau khi RabbitMQ/Kafka hay service phía sau sự cố</td><td>Tốc độ xả backlog là bao nhiêu dòng/giây? Đã đo sau một sự cố thật chưa?</td></tr>
+      <tr><td>Chia shard bằng chia lấy dư</td><td>Chia tenant theo CompanyID chia lấy dư</td><td>Nếu mai phải thêm một database, bao nhiêu tenant phải dời?</td></tr>
+      <tr><td>Producer đồng bộ để được xóa</td><td>Publisher confirm của RabbitMQ; acks=all của Kafka</td><td>Đang chờ confirm từng message hay theo lô?</td></tr>
+      <tr><td>Connection nhân theo process</td><td>Pod × pool HikariCP × datasource, chạm trần worker thread của SQL Server</td><td>Tổng connection lúc autoscale tối đa là bao nhiêu? Có cảnh báo trên tổng session theo app chưa?</td></tr>
+      <tr><td>Emission quality tracking</td><td>Đếm "đã thử gửi" và "đã được ack" theo service và queue/topic</td><td>Nếu hôm nay mất 0,1% message, bạn có biết không?</td></tr>
+    </table>
+
+    <h3 class="sub">Rút ra theo quy mô</h3>
+    <div class="scale">
+      <div class="col small">
+        <h4>Đội nhỏ / startup &lt;10 người</h4>
+        <ul>
+          <li>Chưa cần sidecar hay outbox riêng. Một bảng outbox trong cùng database, ghi cùng transaction nghiệp vụ, là đủ cho đa số trường hợp.</li>
+          <li>Ngay từ đầu, xóa dòng đã gửi theo lô nhỏ bằng job riêng, không xóa trong vòng lặp gửi.</li>
+          <li>Bật publisher confirm với RabbitMQ và gửi theo lô. Đừng tự tin "gửi xong là tới".</li>
+          <li>Tính tổng connection tới database khi autoscale tối đa. Viết con số đó vào README của hạ tầng.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Đội đã có sản phẩm production</h4>
+        <ul>
+          <li>Kiểm kê các bảng hàng đợi trên SQL Server: bảng nào chống ghi lệch (phải giữ), bảng nào chỉ chống broker sập (có thể chuyển ra đường lỗi).</li>
+          <li>Xem wait stats giờ cao điểm: PAGELATCH_EX trên bảng hàng đợi thì thử OPTIMIZE_FOR_SEQUENTIAL_KEY hoặc khóa có bucket băm trước khi nghĩ tới chia bảng.</li>
+          <li>Đo tốc độ xả backlog sau sự cố thật gần nhất. Đặt SLO cho nó.</li>
+          <li>Dựng số đếm "thử gửi / được ack" theo từng queue/topic, như Zapier, trước khi đổi bất cứ gì trên đường gửi.</li>
+          <li>Nếu có đường dự phòng chỉ chạy khi lỗi, lên lịch diễn tập mỗi quý.</li>
+          <li>Rà HikariCP: pool size mỗi pod × số pod tối đa so với trần worker thread của primary và readable secondary.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="doslist">
+      <div>✅ Phân biệt outbox chống ghi lệch với bộ đệm chống broker sập. Hai thứ này có chỗ đặt và cái giá khác nhau.</div>
+      <div>✅ Tính tiền dọn dẹp theo lượng dòng đi qua mỗi ngày, không theo số dòng đang thấy trong bảng.</div>
+      <div>✅ Đếm connection, không chỉ đếm throughput, mỗi khi thêm pod, process hay service.</div>
+      <div>✅ Đo mốc "thử gửi / được ack" trước khi đổi đường gửi, rồi so trong lúc rollout.</div>
+      <div>❌ Đừng chia shard hay chia tenant bằng chia lấy dư nếu có khả năng phải đổi số chia.</div>
+      <div>❌ Đừng tin một đường dự phòng chưa từng được chạy thật.</div>
+    </div>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> câu chuyện của Zapier không phải "outbox tệ". Outbox đã làm đúng việc của nó trong nhiều năm, ở 15.000 event mỗi giây. Bài học là mọi thứ nằm trên đường ghi nóng đều thu phí từng request, kể cả lúc không có sự cố nào. Khi hạ tầng xung quanh đã chắc hơn, họ chuyển phí đó sang đường lỗi. Thứ Hai này, hãy mở bảng task log hay outbox lớn nhất trên SQL Server của bạn và trả lời hai câu: mỗi ngày bao nhiêu dòng đi qua nó, và nó đang chống ghi lệch hay chỉ chống broker sập. Hai câu trả lời đó quyết định bảng này nên được tối ưu tại chỗ hay nên dời ra khỏi đường nóng.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> [1] Sugat Mahanti — <a href="https://zapier.com/blog/lessons-from-using-outbox-pattern-at-scale/" target="_blank">"Lessons from using the outbox pattern at scale", Zapier Engineering, 30/03/2026</a> (đội Events tự kể; lý do chọn outbox và SQLite, bốn bước mở nút, ~15.000 event/giây, năm hạn chế, đường mới S3 + SQS). [2] Aaron Kosel — <a href="https://zapier.com/blog/reducing-kafka-connections-sidecar/" target="_blank">"Reducing Kafka connections by 10x with a sidecar pattern", Zapier Engineering, 31/10/2025</a> (phép nhân connection, bốn cách đã loại, heap broker 4–8 GB, sidecar gRPC, −10× connection, −70 điểm % heap, delivery report qua stream). Các ví dụ "12 service × 6 pod", "2 triệu dòng / 500 dòng mỗi giây", các tùy chọn SQL Server (RCSI, OPTIMIZE_FOR_SEQUENTIAL_KEY, READPAST, ghost cleanup, THREADPOOL) và bảng ánh xạ là phân tích của bản tin. Liên kết nội bộ: số <a href="/2026-09-29">29/09</a> (outbox giáo khoa, ghi bền trước khi ack), <a href="/2026-09-19">19/09</a> (connection pool), <a href="/2026-09-27">27/09</a> (N+1 lộ ra khi đổi kho state).</div>
+  </article>
+
+  <div class="foot">Bản tin sáng · Số 30/09/2026</div>
+</div>
+</body>
+</html>
