@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Query 200 ms thành 92 giây vì parameter sniffing &middot; 01/10/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+@media (max-width:560px){h1.title{font-size:25px}.card{padding:20px 18px}.tbl{display:block;overflow-x:auto}}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 01/10/2026</div>
+    <h1 class="title">Không ai sửa code, query 200 ms thành 92 giây: một lần biên dịch lại plan lúc 23:14 Chủ nhật — và vì sao bảng multi-tenant theo CompanyID là nơi parameter sniffing ra tay nặng nhất</h1>
+    <div class="meta">01/10/2026 · Đọc khoảng 13 phút · Nguồn chính: vgupta — "Parameter Sniffing in Production: How a 200ms Query Became a 90-Second Outage", SQLServerCentral (29/06/2026); phụ: Microsoft Learn — Parameter Sensitive Plan optimization (cập nhật 11/02/2026); Paul White — "Parameter Sensitive Plan Optimization Thresholds", sql.kiwi (18/01/2025)</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: số này chỉ có <b>một bài đào sâu</b>, thuộc mảng "tối ưu hệ đang chạy", và bám thẳng vào SQL Server. Bài gốc trên SQLServerCentral đăng cách đây ba tháng, nằm ngoài cửa sổ 7 ngày. Bản tin vẫn chọn vì đây là một case kể trọn vòng: sự cố, các đoán sai, cách tìm ra, cách chữa tạm, cách chữa gốc, và cách cảnh báo về sau. Quan trọng hơn, kiểu dữ liệu lệch trong case (vài khách hàng lớn chiếm phần lớn số dòng) giống hệt bảng hóa đơn multi-tenant theo CompanyID. Tác giả chỉ ký tên "vgupta" và không nêu tên công ty. Tài liệu Microsoft và bài của Paul White dùng để kiểm tra phần PSP optimization trên SQL Server 2022. Các khối <b style="color:#1e40af">Cơ chế</b>, phép tính theo định luật Little, ví dụ CompanyID, bảng ánh xạ sang Spring Boot/HikariCP/AlwaysOn và phần "Rút ra theo quy mô" là phân tích của bản tin — <em>không trích nguyên văn từ nguồn</em>. Mọi con số của case đều dẫn nguồn cạnh câu. Theo yêu cầu, bài không chèn câu lệnh SQL; mọi thao tác được tả bằng lời.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1"><strong>Bài duy nhất</strong> — Một plan cũ hai năm, một lần biên dịch lại, chín mươi hai giây<br><span style="font-size:13.5px;color:#6b7280">· chuyện xảy ra sáng thứ Hai · bốn lần đoán sai và vì sao cập nhật statistics "chữa được" 20 phút · dấu vân tay: SSMS nhanh, app chậm · từ 187 ms lên 84 giây nhìn qua định luật Little: HikariCP cạn trong vài giây · năm cách chữa và giá của từng cách · PSP optimization của SQL Server 2022: ngưỡng 100.000 lần và vì sao nó hay "không bật" với CompanyID · cảnh báo hồi quy plan trong 15 phút thay vì 10 giờ · ánh xạ sang AlwaysOn, Spring/JPA, migration · nên làm gì theo quy mô</span></a></li>
+    </ol>
+  </nav>
+
+  <article class="card" id="bai1">
+    <span class="tag legacy">Tối ưu hệ đang chạy · SQL Server &amp; plan regression</span>
+    <h2 class="head">Plan "ổn định suốt hai năm" thật ra chỉ ổn định tới lần biên dịch lại kế tiếp</h2>
+    <p class="src">Nguồn: vgupta — <a href="https://www.sqlservercentral.com/articles/parameter-sniffing-in-production-how-a-200ms-query-became-a-90-second-outage" target="_blank">"Parameter Sniffing in Production: How a 200ms Query Became a 90-Second Outage"</a>, SQLServerCentral, 29/06/2026 [1]; Microsoft Learn — <a href="https://learn.microsoft.com/en-us/sql/relational-databases/performance/parameter-sensitive-plan-optimization?view=sql-server-ver17" target="_blank">"Parameter Sensitive Plan optimization"</a>, cập nhật 11/02/2026 [2]; Paul White — <a href="https://www.sql.kiwi/2025/01/parameter-sensitive-opt-thresholds/" target="_blank">"Parameter Sensitive Plan Optimization Thresholds"</a>, sql.kiwi, 18/01/2025 [3].</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">200 ms → 92 s</div><div class="lab">thời gian chạy trung bình của một stored procedure không ai đụng tới nhiều năm <a href="https://www.sqlservercentral.com/articles/parameter-sniffing-in-production-how-a-200ms-query-became-a-90-second-outage" target="_blank">[1]</a></div></div>
+      <div class="box"><div class="num">~10 giờ</div><div class="lab">plan xấu chạy âm thầm qua đêm trước khi có người phát hiện <a href="https://www.sqlservercentral.com/articles/parameter-sniffing-in-production-how-a-200ms-query-became-a-90-second-outage" target="_blank">[1]</a></div></div>
+      <div class="box"><div class="num">120.000/giờ</div><div class="lab">số lần procedure này chạy — lý do tác giả không dùng RECOMPILE <a href="https://www.sqlservercentral.com/articles/parameter-sniffing-in-production-how-a-200ms-query-became-a-90-second-outage" target="_blank">[1]</a></div></div>
+      <div class="box"><div class="num">100.000×</div><div class="lab">độ lệch tối thiểu giữa giá trị phổ biến nhất và ít nhất để PSP optimization chịu bật (ngưỡng không công bố chính thức) <a href="https://www.sql.kiwi/2025/01/parameter-sensitive-opt-thresholds/" target="_blank">[3]</a></div></div>
+    </div>
+
+    <h3 class="sub">Chuyện gì xảy ra</h3>
+    <p>Procedure này phục vụ màn hình tìm khách hàng của đội hỗ trợ nội bộ. Nó đọc bảng lịch sử đơn hàng để lấy hoạt động gần đây của khách mà nhân viên đang mở. Hai năm liền nó trả về dưới 200 ms.<sup><a href="https://www.sqlservercentral.com/articles/parameter-sniffing-in-production-how-a-200ms-query-became-a-90-second-outage" target="_blank">[1]</a></sup></p>
+    <p>Sáng thứ Hai, 8:47, hàng đợi ticket đứng im. Log ứng dụng đầy timeout trên đúng procedure đó. Thời gian chạy trung bình nhảy từ 200 ms lên 92 giây. CPU của SQL Server chạm 94%.<sup><a href="https://www.sqlservercentral.com/articles/parameter-sniffing-in-production-how-a-200ms-query-became-a-90-second-outage" target="_blank">[1]</a></sup> Dữ liệu không đổi, code không đổi, schema không đổi, index vẫn là bộ index cũ. Thứ duy nhất đổi là execution plan.</p>
+    <p>Đa số khách của hệ thống có 50 đến 500 đơn. Nhưng ba, bốn khách enterprise có hàng trăm nghìn đơn mỗi khách.<sup><a href="https://www.sqlservercentral.com/articles/parameter-sniffing-in-production-how-a-200ms-query-became-a-90-second-outage" target="_blank">[1]</a></sup> Nếu bạn đang chạy phần mềm kế toán/hóa đơn multi-tenant theo CompanyID, hình dạng dữ liệu này chắc rất quen.</p>
+
+    <div class="mech"><b>Cơ chế — một plan cho mọi tenant.</b> Lần đầu biên dịch một query có tham số, SQL Server nhìn giá trị tham số thật đang truyền vào, đối chiếu với histogram của statistics, rồi ước lượng số dòng và chọn plan: seek hay scan, nested loops hay hash join. Plan đó vào cache và được dùng lại cho mọi lần chạy sau, bất kể tham số là gì. Với CompanyID, một công ty nhỏ có 80 hóa đơn và một tập đoàn có 2 triệu hóa đơn dùng chung một plan. Plan seek + nested loops rất nhanh cho công ty nhỏ, nhưng thảm họa cho tập đoàn. Plan hash join + scan ngược lại: chịu được tập đoàn nhưng đốt thừa CPU và I/O cho 99% công ty còn lại. Trong cache là plan của <em>ai được biên dịch trước</em>. Lưu ý: query do JPA/Hibernate sinh ra qua JDBC cũng là query có tham số, nên chịu y hệt, không riêng gì stored procedure.</div>
+
+    <h3 class="sub">Bốn lần đoán sai — và lần "chữa được" nguy hiểm nhất</h3>
+    <p>Đội đi qua các nghi phạm quen thuộc của mọi buổi sáng thứ Hai.<sup><a href="https://www.sqlservercentral.com/articles/parameter-sniffing-in-production-how-a-200ms-query-became-a-90-second-outage" target="_blank">[1]</a></sup></p>
+    <table class="tbl">
+      <tr><th>Nghi phạm</th><th>Kiểm tra thấy gì</th><th>Bài học</th></tr>
+      <tr><td>Index phân mảnh</td><td>Dưới 8%. Rebuild vẫn làm, không cải thiện gì <a href="https://www.sqlservercentral.com/articles/parameter-sniffing-in-production-how-a-200ms-query-became-a-90-second-outage" target="_blank">[1]</a></td><td>Tác giả gọi rebuild index là kiểu "khởi động lại router" của DBA: làm cho yên tâm.</td></tr>
+      <tr><td>Statistics cũ</td><td>Không cũ lắm. Cập nhật FULLSCAN xong thì hết lỗi khoảng 20 phút <a href="https://www.sqlservercentral.com/articles/parameter-sniffing-in-production-how-a-200ms-query-became-a-90-second-outage" target="_blank">[1]</a></td><td>Đây là lần "chữa" dắt đội đi sai đường lâu nhất.</td></tr>
+      <tr><td>Blocking</td><td>Query chạy một mình, ăn CPU, không chờ lock <a href="https://www.sqlservercentral.com/articles/parameter-sniffing-in-production-how-a-200ms-query-became-a-90-second-outage" target="_blank">[1]</a></td><td>CPU cao mà không wait lock là gợi ý mạnh về plan xấu.</td></tr>
+      <tr><td>Deploy cuối tuần</td><td>Không có. Bản release gần nhất cách đó 11 ngày <a href="https://www.sqlservercentral.com/articles/parameter-sniffing-in-production-how-a-200ms-query-became-a-90-second-outage" target="_blank">[1]</a></td><td>"Không ai deploy" không có nghĩa là "không có gì đổi".</td></tr>
+    </table>
+
+    <div class="mech"><b>Cơ chế — vì sao cập nhật statistics "chữa" được 20 phút.</b> Cập nhật statistics làm plan cũ mất hiệu lực, buộc biên dịch lại. Lần biên dịch đó may mắn gặp một khách nhỏ, nên ra plan tốt. Tới lần biên dịch xui kế tiếp, plan xấu quay lại.<sup><a href="https://www.sqlservercentral.com/articles/parameter-sniffing-in-production-how-a-200ms-query-became-a-90-second-outage" target="_blank">[1]</a></sup> Nói cách khác, đội đang tung xúc xắc mà tưởng mình đang sửa. Đây là cái bẫy tệ nhất: một thao tác ngẫu nhiên trông giống một bản sửa, rồi được ghi vào runbook thành "khi chậm thì update stats". Lần sau bạn thấy "update stats xong là hết" thì hãy nghi parameter sniffing trước.</div>
+
+    <h3 class="sub">Dấu vân tay: chạy trong SSMS thì nhanh, app gọi thì chậm</h3>
+    <p>Bước ngoặt đến từ một quan sát. Chạy procedure bằng tay trong SSMS với một tham số bình thường thì ra ngay. App chạy đúng procedure đó, đúng tham số đó, thì mất 90 giây. Chênh nhau khoảng 400 lần.<sup><a href="https://www.sqlservercentral.com/articles/parameter-sniffing-in-production-how-a-200ms-query-became-a-90-second-outage" target="_blank">[1]</a></sup></p>
+    <div class="mech"><b>Cơ chế — vì sao SSMS "nói dối".</b> Cache plan phân biệt theo cả các SET option của connection. SSMS và app thường khác nhau ít nhất một option (tác giả nhắc ARITHABORT), nên SSMS có entry cache riêng và tự biên dịch plan mới cho tham số bạn gõ.<sup><a href="https://www.sqlservercentral.com/articles/parameter-sniffing-in-production-how-a-200ms-query-became-a-90-second-outage" target="_blank">[1]</a></sup> App thì vẫn dùng plan đã biên dịch cho tham số của người khác. Hệ quả thực tế: "tôi chạy thử thấy nhanh mà" không chứng minh được gì. Muốn tái hiện đúng, bạn phải xem plan đang nằm trong cache của app (hoặc trong Query Store), không phải plan SSMS vừa tạo ra.</div>
+
+    <h3 class="sub">Tìm ra thủ phạm bằng Query Store</h3>
+    <p>Query Store đang bật cho database này. Tác giả nói đó là lý do duy nhất khiến chẩn đoán mất một giờ thay vì một ngày.<sup><a href="https://www.sqlservercentral.com/articles/parameter-sniffing-in-production-how-a-200ms-query-became-a-90-second-outage" target="_blank">[1]</a></sup> Đội liệt kê mọi plan của procedure kèm số lần chạy, thời gian trung bình và logical read. Kết quả: cùng một query có hai plan. Plan cũ chạy 18 tháng, trung bình 187 ms qua hàng triệu lần chạy. Plan mới được biên dịch lúc 23:14 tối hôm trước, trung bình 84.000 ms qua vài nghìn lần chạy.<sup><a href="https://www.sqlservercentral.com/articles/parameter-sniffing-in-production-how-a-200ms-query-became-a-90-second-outage" target="_blank">[1]</a></sup></p>
+    <p>Chuỗi sự kiện: tối Chủ nhật, lượng thay đổi trên bảng đơn hàng vượt ngưỡng, kích hoạt tự động cập nhật statistics. Statistics mới làm query bị biên dịch lại. Đúng lúc đó, một job batch đêm chạm vào ba tài khoản lớn nhất vừa bắt đầu. Tham số đầu tiên đi vào là một khách enterprise có 380.000 dòng khớp. Optimizer chọn hash join + scan toàn index và cache plan đó cho mọi người.<sup><a href="https://www.sqlservercentral.com/articles/parameter-sniffing-in-production-how-a-200ms-query-became-a-90-second-outage" target="_blank">[1]</a></sup> Trong plan thực tế, optimizer ước lượng 400.000 dòng nhưng thực tế trả về 73 dòng. Lệch ba, bốn bậc độ lớn giữa ước lượng và thực tế là chữ ký của parameter sniffing.<sup><a href="https://www.sqlservercentral.com/articles/parameter-sniffing-in-production-how-a-200ms-query-became-a-90-second-outage" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — job batch đêm là "kẻ biên dịch" nguy hiểm nhất.</b> Trên hệ multi-tenant, job đêm (chốt sổ, tính công nợ, đồng bộ hóa đơn) hay chạy theo những tenant lớn nhất trước. Nếu job đó gọi đúng query mà màn hình người dùng ban ngày cũng gọi, thì mỗi lần cache bị xóa vào ban đêm, job đêm sẽ "đặt" plan cho cả ngày hôm sau. Các sự kiện làm plan bị biên dịch lại, theo tác giả: khởi động lại server, cập nhật statistics, áp lực bộ nhớ, rebuild index.<sup><a href="https://www.sqlservercentral.com/articles/parameter-sniffing-in-production-how-a-200ms-query-became-a-90-second-outage" target="_blank">[1]</a></sup> Với AlwaysOn, hãy thêm một sự kiện nữa: <strong>failover</strong>. Plan cache nằm trong bộ nhớ của từng instance, nên replica vừa lên làm primary bắt đầu với cache gần như trống cho tải ghi. Hàng nghìn query sẽ được biên dịch lại trong vài phút đầu, mỗi cái theo tham số tình cờ tới trước. Đó là lý do một failover "êm" đôi khi để lại một buổi chiều chậm khó giải thích.</div>
+
+    <h3 class="sub">Từ 187 ms lên 84 giây: nhìn qua định luật Little</h3>
+    <p>Bài gốc nói procedure chạy 120.000 lần mỗi giờ.<sup><a href="https://www.sqlservercentral.com/articles/parameter-sniffing-in-production-how-a-200ms-query-became-a-90-second-outage" target="_blank">[1]</a></sup> Áp định luật Little (đã giải thích ở số <a href="/2026-09-12">12/09</a>): số lần chạy dở dang cùng lúc bằng tốc độ đến nhân thời gian xử lý.</p>
+    <table class="tbl">
+      <tr><th></th><th>Plan tốt</th><th>Plan xấu</th></tr>
+      <tr><td>Tốc độ đến</td><td colspan="2">120.000/giờ ≈ 33 lần mỗi giây <a href="https://www.sqlservercentral.com/articles/parameter-sniffing-in-production-how-a-200ms-query-became-a-90-second-outage" target="_blank">[1]</a></td></tr>
+      <tr><td>Thời gian trung bình</td><td>187 ms <a href="https://www.sqlservercentral.com/articles/parameter-sniffing-in-production-how-a-200ms-query-became-a-90-second-outage" target="_blank">[1]</a></td><td>84.000 ms <a href="https://www.sqlservercentral.com/articles/parameter-sniffing-in-production-how-a-200ms-query-became-a-90-second-outage" target="_blank">[1]</a></td></tr>
+      <tr><td>Số lần chạy đồng thời (tính của bản tin)</td><td>~6</td><td>~2.800 nếu không có gì chặn</td></tr>
+    </table>
+    <div class="mech"><b>Cơ chế — vì sao một query chậm làm sập cả service.</b> Không connection pool nào giữ nổi 2.800 query đồng thời. Giả sử service Spring Boot của bạn chạy 6 pod, HikariCP mỗi pod 20 connection, tổng cộng 120 connection. Với plan xấu, 120 connection đó bị chiếm hết chỉ sau khoảng 4 giây (120 chia 33). Từ đó mọi request khác của service, kể cả những request không đụng tới query này, đứng chờ connection tới khi hết connectionTimeout rồi báo lỗi. Vòng retry của client lại đẩy thêm tải. Phía SQL Server, hàng trăm query hash join cùng chạy làm CPU chạm trần (case gốc là 94%) và kéo chậm cả các query vô can. Ví dụ 6 pod × 20 là giả định của bản tin, không lấy từ nguồn. Bài học: với query chạy dày, hồi quy plan không làm "một màn hình chậm", nó làm cả service mất connection.</div>
+
+    <h3 class="sub">Năm cách chữa — và giá của từng cách</h3>
+    <p>Tác giả liệt kê năm lựa chọn, kèm điểm yếu của mỗi cái.<sup><a href="https://www.sqlservercentral.com/articles/parameter-sniffing-in-production-how-a-200ms-query-became-a-90-second-outage" target="_blank">[1]</a></sup> Cột cuối là gợi ý của bản tin cho hệ multi-tenant theo CompanyID.</p>
+    <table class="tbl">
+      <tr><th>Cách</th><th>Làm gì</th><th>Giá phải trả (theo nguồn)</th><th>Khi nào hợp với multi-tenant</th></tr>
+      <tr><td>Hint RECOMPILE</td><td>Biên dịch mới ở mọi lần chạy</td><td>Tốn CPU biên dịch mỗi lần. Ở 120.000 lần/giờ thì đáng kể <a href="https://www.sqlservercentral.com/articles/parameter-sniffing-in-production-how-a-200ms-query-became-a-90-second-outage" target="_blank">[1]</a></td><td>Báo cáo, tra cứu hiếm, vài lần mỗi phút. Không dùng cho màn hình nóng.</td></tr>
+      <tr><td>Hint OPTIMIZE FOR một giá trị</td><td>Ghim plan theo một tham số bạn chọn</td><td>Phân bố dữ liệu đổi theo năm; giá trị "đại diện" hai năm trước có thể không còn đúng <a href="https://www.sqlservercentral.com/articles/parameter-sniffing-in-production-how-a-200ms-query-became-a-90-second-outage" target="_blank">[1]</a></td><td>Ít khi hợp: tenant lớn nhất hôm nay chưa chắc là tenant lớn nhất năm sau.</td></tr>
+      <tr><td>Hint OPTIMIZE FOR UNKNOWN</td><td>Dùng mật độ trung bình thay vì giá trị cụ thể</td><td>Plan "tàm tạm" cho mọi tham số; nhưng tàm tạm mà ổn định đôi khi hơn lúc tuyệt lúc thảm <a href="https://www.sqlservercentral.com/articles/parameter-sniffing-in-production-how-a-200ms-query-became-a-90-second-outage" target="_blank">[1]</a></td><td>Query có nhiều tenant cỡ vừa, ít ngoại lệ cực lớn.</td></tr>
+      <tr><td>Ép plan qua Query Store</td><td>Ghim plan tốt mà không sửa code</td><td>Plan bị ép mãi tới khi gỡ; dữ liệu đổi đủ nhiều thì lại kẹt kiểu khác <a href="https://www.sqlservercentral.com/articles/parameter-sniffing-in-production-how-a-200ms-query-became-a-90-second-outage" target="_blank">[1]</a></td><td>Cầm máu ngay lập tức. Hợp với query do ORM sinh ra, không sửa được text.</td></tr>
+      <tr><td>Viết lại, rẽ nhánh theo kích cỡ</td><td>Hai đường query riêng cho khách nhỏ và khách lớn</td><td>Tốn công nhất, nhưng bền nhất khi độ lệch đã biết <a href="https://www.sqlservercentral.com/articles/parameter-sniffing-in-production-how-a-200ms-query-became-a-90-second-outage" target="_blank">[1]</a></td><td>Bảng hóa đơn/chứng từ có vài chục tenant lớn đã biết tên.</td></tr>
+    </table>
+    <p>Đội làm hai bước. Lúc 9:02 sáng, họ ép plan 187 ms qua Query Store; hàng đợi hỗ trợ chạy lại trong vòng một phút. Sprint sau, họ viết lại procedure: tra một bảng nhỏ đã cache chứa ID các "tài khoản lớn", rồi rẽ sang một trong hai đường query. Khi đã kiểm chứng đường mới chạy tốt cho cả hai nhóm, họ gỡ plan bị ép.<sup><a href="https://www.sqlservercentral.com/articles/parameter-sniffing-in-production-how-a-200ms-query-became-a-90-second-outage" target="_blank">[1]</a></sup> Điều họ cố ý không làm: gắn RECOMPILE rồi bỏ đi. Tác giả gọi đó là kiểu sửa nhanh nhưng dời chi phí, hai năm sau thành sự cố của người khác.<sup><a href="https://www.sqlservercentral.com/articles/parameter-sniffing-in-production-how-a-200ms-query-became-a-90-second-outage" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — plan bị ép có thể "gãy" âm thầm.</b> Plan bị ép tham chiếu tới những index cụ thể. Nếu một migration (Flyway, Liquibase, script tay) xóa hay đổi tên index đó, SQL Server không ép được nữa. Nó tăng bộ đếm lỗi ép plan, ghi lý do, rồi quay về tự chọn plan.<sup><a href="https://www.sqlservercentral.com/articles/parameter-sniffing-in-production-how-a-200ms-query-became-a-90-second-outage" target="_blank">[1]</a></sup> Nếu không ai theo dõi bộ đếm đó, bạn quay lại đúng chỗ cũ mà không biết. Mặt tốt: Query Store nằm trong chính database, nên danh sách plan bị ép đi theo database sang replica và còn hiệu lực sau failover AlwaysOn. Nhưng vì thế nó cũng dễ bị quên. Hãy giữ một danh sách "plan đang ép, ép vì sự cố nào, khi nào gỡ" như giữ danh sách feature flag.</div>
+
+    <h3 class="sub">SQL Server 2022 có PSP optimization — sao không để nó tự lo?</h3>
+    <p>Từ SQL Server 2022, ở compatibility level 160, có tính năng Parameter Sensitive Plan (PSP) optimization. Nó cho phép một query có nhiều plan cùng lúc trong cache. Khi biên dịch, SQL Server dùng histogram tìm tối đa ba vị từ có tham số bị lệch nặng nhất. Nó tạo một "dispatcher plan", chia giá trị tham số thành ba khoảng (ít dòng, vừa, nhiều dòng) và mỗi khoảng có plan riêng.<sup><a href="https://learn.microsoft.com/en-us/sql/relational-databases/performance/parameter-sensitive-plan-optimization?view=sql-server-ver17" target="_blank">[2]</a></sup> Tác giả bài gốc cũng nhắc tính năng này, gọi nó là chưa giải quyết trọn vẹn nhưng đáng thử trước khi rải hint khắp nơi.<sup><a href="https://www.sqlservercentral.com/articles/parameter-sniffing-in-production-how-a-200ms-query-became-a-90-second-outage" target="_blank">[1]</a></sup></p>
+    <p>Vấn đề là PSP rất kén. Theo tài liệu Microsoft, nó chỉ làm việc với vị từ so sánh bằng.<sup><a href="https://learn.microsoft.com/en-us/sql/relational-databases/performance/parameter-sensitive-plan-optimization?view=sql-server-ver17" target="_blank">[2]</a></sup> Paul White đo thêm một số ngưỡng mà Microsoft không công bố (có thể đổi bất cứ lúc nào):<sup><a href="https://www.sql.kiwi/2025/01/parameter-sensitive-opt-thresholds/" target="_blank">[3]</a></sup></p>
+    <table class="tbl">
+      <tr><th>Điều kiện để PSP bật</th><th>Theo nguồn</th><th>Đối chiếu với query theo CompanyID (bản tin)</th></tr>
+      <tr><td>Độ lệch tối thiểu</td><td>Giá trị phổ biến nhất trong histogram phải nhiều gấp ít nhất 100.000 lần giá trị ít nhất <a href="https://www.sql.kiwi/2025/01/parameter-sensitive-opt-thresholds/" target="_blank">[3]</a></td><td>Tenant nhỏ nhất trong histogram có 20 dòng thì tenant lớn nhất phải ≥ 2 triệu dòng. Hệ có tenant lớn nhất 500.000 dòng sẽ không đạt.</td></tr>
+      <tr><td>Vị từ AND không có tham số</td><td>Nếu ước lượng riêng các vị từ hằng (không tham số) dưới 100.000 dòng thì PSP tắt <a href="https://www.sql.kiwi/2025/01/parameter-sensitive-opt-thresholds/" target="_blank">[3]</a></td><td>Query kiểu "CompanyID bằng tham số VÀ trạng thái bằng hằng số" dễ rơi vào trường hợp này nếu trạng thái đó hiếm.</td></tr>
+      <tr><td>Thứ tự hai vế</td><td>Cột phải nằm bên trái, tham số bên phải; đảo lại là không bật <a href="https://www.sql.kiwi/2025/01/parameter-sensitive-opt-thresholds/" target="_blank">[3]</a></td><td>Code ORM thường viết đúng chiều; SQL viết tay thì nên rà.</td></tr>
+      <tr><td>Thời gian biên dịch</td><td>Quá 1.000 ms thì bỏ qua <a href="https://www.sql.kiwi/2025/01/parameter-sensitive-opt-thresholds/" target="_blank">[3]</a></td><td>Query báo cáo nhiều join, nhiều view lồng là ứng viên bị loại.</td></tr>
+      <tr><td>Khoảng thời gian</td><td>Chỉ vị từ bằng <a href="https://learn.microsoft.com/en-us/sql/relational-databases/performance/parameter-sensitive-plan-optimization?view=sql-server-ver17" target="_blank">[2]</a></td><td>Phần lọc theo ngày hóa đơn (từ ngày – đến ngày) không được PSP xét; độ lệch kiểu "một ngày vs cả năm" vẫn sniff như cũ.</td></tr>
+    </table>
+    <div class="mech"><b>Cơ chế — vì sao ngưỡng 100.000 lần lại khó với CompanyID.</b> Histogram có tối đa khoảng 200 bậc. Thứ được so là số dòng mỗi giá trị ở các bậc đó, không phải toàn bảng. Hệ có hàng nghìn tenant siêu nhỏ (dùng thử, đã nghỉ) thì dễ đạt tỷ lệ. Hệ chỉ có khách hàng doanh nghiệp đang trả tiền, tenant nhỏ nhất vài nghìn dòng, thì gần như không bao giờ đạt. Đáng chú ý: case gốc lệch giữa "50–500 đơn" và "380.000 dòng", tức khoảng 760 tới 7.600 lần. Mức lệch đó đủ gây sự cố 92 giây nhưng có thể chưa chạm ngưỡng của PSP, tùy histogram thực tế. Đừng mặc định "đã lên 2022 thì hết sniffing". Cách kiểm chứng là bật Extended Event ghi lý do PSP bị bỏ qua. Lý do hay gặp nhất là "SkewnessThresholdNotMet".<sup><a href="https://www.sql.kiwi/2025/01/parameter-sensitive-opt-thresholds/" target="_blank">[3]</a></sup></div>
+    <p>Hai lưu ý vận hành từ tài liệu Microsoft. Một: SQL Server 2022 từng có lỗi access violation trong Query Store khi PSP chạy cùng Query Store, đã sửa ở CU7 (8/2023).<sup><a href="https://learn.microsoft.com/en-us/sql/relational-databases/performance/parameter-sensitive-plan-optimization?view=sql-server-ver17" target="_blank">[2]</a></sup> Nếu bạn còn ở CU thấp hơn, đây là lý do để nâng. Hai: mỗi query trong Query Store giữ tối đa 200 plan, tính cả các biến thể PSP. Query lệch nặng có thể chạm trần này.<sup><a href="https://learn.microsoft.com/en-us/sql/relational-databases/performance/parameter-sensitive-plan-optimization?view=sql-server-ver17" target="_blank">[2]</a></sup> Ngoài ra, mỗi biến thể PSP có query_id riêng trong Query Store, nên script cảnh báo theo query_id phải tính tới điều đó.<sup><a href="https://learn.microsoft.com/en-us/sql/relational-databases/performance/parameter-sensitive-plan-optimization?view=sql-server-ver17" target="_blank">[2]</a></sup></p>
+
+    <h3 class="sub">Thất bại thật: 10 giờ không ai biết</h3>
+    <p>Tác giả nói thẳng: bản sửa là một chuyện, thất bại thật là không có cách nào phát hiện hồi quy plan trước khi người dùng kêu.<sup><a href="https://www.sqlservercentral.com/articles/parameter-sniffing-in-production-how-a-200ms-query-became-a-90-second-outage" target="_blank">[1]</a></sup> Sau sự cố, đội dựng một job chạy mỗi 15 phút trên Query Store. Job so thời gian trung bình của mỗi query trong một giờ gần nhất với mốc bảy ngày trước đó. Query nào chậm gấp 5 lần trở lên và chạy ít nhất 100 lần trong giờ đó thì báo động.<sup><a href="https://www.sqlservercentral.com/articles/parameter-sniffing-in-production-how-a-200ms-query-became-a-90-second-outage" target="_blank">[1]</a></sup> Sáng hôm sự cố, job này sẽ trả về đúng một dòng với tỷ lệ khoảng 449 lần. Nó sẽ bắt được plan xấu trong 15 phút, thay vì 10 giờ.<sup><a href="https://www.sqlservercentral.com/articles/parameter-sniffing-in-production-how-a-200ms-query-became-a-90-second-outage" target="_blank">[1]</a></sup></p>
+    <div class="mech"><b>Cơ chế — vì sao hai ngưỡng "5 lần" và "100 lần chạy" phải đi cùng nhau.</b> Chỉ dùng ngưỡng tỷ lệ thì một query báo cáo chạy hai lần, một lần cho tenant lớn, sẽ báo động giả liên tục. Chỉ dùng ngưỡng số lần chạy thì không bắt được gì cụ thể. Ghép hai ngưỡng lại thì báo động tập trung vào đúng loại nguy hiểm nhất: query chạy dày, đang chậm hẳn. Với hệ multi-tenant, bản tin gợi ý thêm một điều: so p95 hoặc thời gian lớn nhất chứ đừng chỉ so trung bình. Plan xấu cho tenant nhỏ làm trung bình nhảy rõ. Còn plan xấu cho tenant lớn (seek + nested loops trên 2 triệu dòng) có thể chỉ làm vài request rất chậm, trung bình không nhúc nhích. Query Store có lưu cả giá trị lớn nhất và độ lệch chuẩn theo từng khoảng, đủ để làm việc này.</div>
+
+    <h3 class="sub">Ánh xạ sang stack của bạn</h3>
+    <p class="editnote" style="font-style:normal">Bảng dưới là phân tích của bản tin, không trích từ nguồn.</p>
+    <table class="tbl">
+      <tr><th>Chỗ trong stack</th><th>Parameter sniffing lộ ra thế nào</th><th>Nên kiểm tra gì</th></tr>
+      <tr><td>Bảng hóa đơn/chứng từ theo CompanyID</td><td>Tenant lớn và tenant nhỏ dùng chung plan; job đêm theo tenant lớn "đặt" plan cho ban ngày</td><td>Danh sách 20 tenant lớn nhất theo số dòng mỗi bảng chính; query nào vừa chạy trong job đêm vừa chạy trên màn hình</td></tr>
+      <tr><td>Partition theo thời gian</td><td>Lọc "từ ngày – đến ngày" lệch giữa khoảng hẹp và khoảng cả năm; PSP không xét vị từ khoảng</td><td>Màn hình báo cáo có cho chọn khoảng thời gian dài không; nếu có, tách đường query hoặc chuyển sang ClickHouse</td></tr>
+      <tr><td>AlwaysOn failover</td><td>Primary mới bắt đầu với cache trống cho tải ghi, biên dịch lại hàng loạt</td><td>Sau mỗi failover, chạy ngay job hồi quy plan; theo dõi CPU và compile mỗi giây 30 phút đầu</td></tr>
+      <tr><td>Readable secondary</td><td>Plan của query đọc trên secondary là cache riêng của instance đó</td><td>Xác nhận query báo cáo chạy trên secondary có được giám sát hồi quy không, vì cảnh báo trên primary không thấy</td></tr>
+      <tr><td>Spring Boot / JPA</td><td>Query JPA cũng có tham số, chịu sniffing như procedure; không thêm hint dễ dàng</td><td>Dùng ép plan hoặc Query Store hints (SQL Server 2022) để gắn hint mà không sửa code Java</td></tr>
+      <tr><td>HikariCP</td><td>Một query chậm 400 lần chiếm hết pool trong vài giây</td><td>connectionTimeout và giới hạn thời gian query (query timeout) có đặt ngắn hơn timeout phía client không; có bulkhead tách pool cho đường báo cáo không</td></tr>
+      <tr><td>Migration index</td><td>Xóa/đổi tên index làm plan bị ép gãy âm thầm</td><td>Trước mỗi migration index, đối chiếu danh sách plan đang ép; sau migration, xem bộ đếm lỗi ép plan</td></tr>
+      <tr><td>Test hiệu năng</td><td>Test luôn chạy cùng tham số nên luôn gặp cùng plan</td><td>Test với cả tenant nhỏ nhất và lớn nhất, và test cả hai thứ tự biên dịch: lớn trước rồi nhỏ, nhỏ trước rồi lớn</td></tr>
+    </table>
+
+    <h3 class="sub">Rút ra theo quy mô</h3>
+    <div class="scale">
+      <div class="col small">
+        <h4>Đội nhỏ / startup &lt;10 người</h4>
+        <ul>
+          <li>Bật Query Store cho mọi database production, lưu 30 ngày, chế độ capture AUTO, như tác giả làm cho mọi database sau sự cố <a href="https://www.sqlservercentral.com/articles/parameter-sniffing-in-production-how-a-200ms-query-became-a-90-second-outage" target="_blank">[1]</a>. Database tạo mới trên 2022 đã bật sẵn <a href="https://learn.microsoft.com/en-us/sql/relational-databases/performance/parameter-sensitive-plan-optimization?view=sql-server-ver17" target="_blank">[2]</a>, nhưng database nâng cấp từ bản cũ thì chưa chắc.</li>
+          <li>Viết vào runbook: "update stats xong thấy hết" là dấu hiệu nghi sniffing, không phải bản sửa.</li>
+          <li>Chép job cảnh báo "5 lần, 100 lần chạy, mỗi 15 phút" và nối vào kênh on-call. Vài giờ công là xong.</li>
+          <li>Ghi chú ngay trong procedure hoặc repository class: query này lệch theo CompanyID, đang chữa bằng cách nào.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Đội đã có sản phẩm production</h4>
+        <ul>
+          <li>Lập danh sách query nóng lọc theo CompanyID, xếp theo số lần chạy mỗi giờ. Với mỗi query, tính số đồng thời khi chậm 100 lần và so với tổng pool HikariCP.</li>
+          <li>Rà compat level và CU: đang ở 160 chưa, CU có từ 7 trở lên không. Bật Extended Event lý do PSP bị bỏ qua trong một tuần để biết PSP thực sự giúp được query nào.</li>
+          <li>Với vài chục tenant lớn đã biết tên, cân nhắc rẽ nhánh hẳn ở tầng service: bảng "tenant tier" cache trong app, hai repository method cho hai nhóm.</li>
+          <li>Thêm bước "kiểm tra hồi quy plan" vào checklist sau failover AlwaysOn và sau mỗi đợt rebuild index lớn.</li>
+          <li>Giữ sổ "plan đang ép": query, plan, sự cố, người chịu trách nhiệm, ngày dự kiến gỡ.</li>
+          <li>Bổ sung test hiệu năng có tham số ngẫu nhiên theo phân bố thật, gồm cả tenant lớn nhất.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="doslist">
+      <div>✅ So plan đang chạy trong cache/Query Store, không so plan SSMS vừa tạo.</div>
+      <div>✅ Cầm máu bằng ép plan, rồi chữa gốc trong sprint kế và gỡ ép plan.</div>
+      <div>✅ Cảnh báo theo tỷ lệ so với mốc lịch sử, có ngưỡng số lần chạy tối thiểu.</div>
+      <div>✅ Coi failover, cập nhật statistics tự động và rebuild index là những sự kiện "có thể đổi plan".</div>
+      <div>❌ Đừng gắn RECOMPILE lên query chạy hàng chục lần mỗi giây rồi coi như xong.</div>
+      <div>❌ Đừng mặc định PSP của SQL Server 2022 đã lo sniffing cho bạn.</div>
+      <div>❌ Đừng rebuild index như một nghi lễ mỗi khi chậm.</div>
+    </div>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> câu nguy hiểm nhất trong sự cố này là "nó đã chạy ổn hai năm". Một plan chỉ ổn định tới lần biên dịch lại kế tiếp, và trên hệ multi-tenant theo CompanyID thì lần biên dịch đó có thể rơi đúng vào tham số của khách lớn nhất. Thứ Hai này, hãy làm ba việc: mở Query Store xem 20 query chạy nhiều nhất có query nào đang có từ hai plan trở lên với thời gian chênh nhau lớn; kiểm tra job cảnh báo hồi quy plan đã có chưa; và hỏi đội vận hành lần failover AlwaysOn gần nhất, buổi chiều hôm đó CPU trông thế nào.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> [1] vgupta — <a href="https://www.sqlservercentral.com/articles/parameter-sniffing-in-production-how-a-200ms-query-became-a-90-second-outage" target="_blank">"Parameter Sniffing in Production: How a 200ms Query Became a 90-Second Outage", SQLServerCentral, 29/06/2026</a> (case tự kể; 200 ms → 92 s, CPU 94%, bốn lần đoán sai, SSMS vs app ~400×, hai plan 187 ms / 84.000 ms, biên dịch lại lúc 23:14, 380.000 dòng, ước lượng 400.000 vs thực tế 73, ép plan lúc 9:02, rẽ nhánh theo "tài khoản lớn", 120.000 lần/giờ, cảnh báo 5×/100 lần chạy/15 phút, tỷ lệ ~449, ~10 giờ không phát hiện). [2] Microsoft Learn — <a href="https://learn.microsoft.com/en-us/sql/relational-databases/performance/parameter-sensitive-plan-optimization?view=sql-server-ver17" target="_blank">"Parameter Sensitive Plan optimization", cập nhật 11/02/2026</a> (tối đa ba vị từ, ba khoảng, chỉ vị từ bằng, compat 160, Query Store bật mặc định từ 2022, 200 plan mỗi query, lỗi access violation sửa ở CU7). [3] Paul White — <a href="https://www.sql.kiwi/2025/01/parameter-sensitive-opt-thresholds/" target="_blank">"Parameter Sensitive Plan Optimization Thresholds", sql.kiwi, 18/01/2025</a> (ngưỡng không công bố: tỷ lệ 100.000, vị từ AND hằng ≥100.000 dòng, cột phải bên trái, biên dịch ≤1.000 ms, lý do SkewnessThresholdNotMet). Phép tính định luật Little, ví dụ 6 pod × 20 connection, ví dụ tenant 20 dòng / 2 triệu dòng, các nhận định về failover AlwaysOn, readable secondary, JPA, Query Store hints và bảng ánh xạ là phân tích của bản tin. Liên kết nội bộ: số <a href="/2026-09-12">12/09</a> (định luật Little, cắt tải), <a href="/2026-09-19">19/09</a> (connection pool), <a href="/2026-09-15">15/09</a> (đo trước khi tối ưu SQL).</div>
+  </article>
+
+  <div class="foot">Bản tin sáng · Số 01/10/2026</div>
+</div>
+</body>
+</html>
