@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Readable secondary và redo bị chặn &middot; 02/10/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+@media (max-width:560px){h1.title{font-size:25px}.card{padding:20px 18px}.tbl{display:block;overflow-x:auto}}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 02/10/2026</div>
+    <h1 class="title">Đẩy báo cáo sang readable secondary không hề miễn phí: một báo cáo chạy lâu có thể giữ chân redo của cả database — còn lời khuyên "bật snapshot isolation" đang lan trên mạng thì chữa nhầm chỗ</h1>
+    <div class="meta">02/10/2026 · Đọc khoảng 13 phút · Nguồn chính: Microsoft — "Troubleshoot recovery (redo) queuing in an Always On availability group" (cập nhật 20/05/2026) và "Offload read-only workload to secondary replica" (cập nhật 19/01/2026); phụ: Paul Randal — SQLskills SQL101 (2017, sửa 03/2025); bodwyer2014 — MS SQL Struggles (09/01/2024); Rakesh Kishore — Tuned Instance (16/06/2026)</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: số này chỉ có <b>một bài đào sâu</b>, thuộc mảng "tối ưu hệ đang chạy", bám vào AlwaysOn Availability Group trên SQL Server. Ba số gần nhất cũng thuộc mảng này; bản tin vẫn chọn vì readable secondary là chỗ hệ kế toán/hóa đơn multi-tenant hay đẩy báo cáo sang, và đây là chủ đề chưa từng đụng tới. Không có post-mortem mới trong 7 ngày đủ chi tiết, nên bài dựng trên hai tài liệu Microsoft cập nhật năm 2026, một case tự kể của một DBA (redo queue phình tới hàng TB) và bài kinh điển của Paul Randal. Một bài hướng dẫn đăng tháng 6/2026 được dùng làm <em>đối chứng</em> vì mô tả cơ chế lệch với tài liệu Microsoft. Các khối <b style="color:#1e40af">Cơ chế</b>, phép tính RTO, bảng ánh xạ sang Spring Boot/HikariCP/CDC/ClickHouse và phần "Rút ra theo quy mô" là phân tích của bản tin — <em>không trích nguyên văn từ nguồn</em>. Mọi con số đều dẫn nguồn cạnh câu. Bài không chèn câu lệnh SQL; mọi thao tác được tả bằng lời.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1"><strong>Bài duy nhất</strong> — Readable secondary: ba khoản phí ẩn và một lời khuyên sai<br><span style="font-size:13.5px;color:#6b7280">· redo là gì và vì sao "trễ vài giây" có thể thành "trễ cả buổi" · chuyện hiểu nhầm: báo cáo không chặn redo bằng shared lock · thủ phạm thật: Sch-S chặn DDL — migration, rebuild index, partition switch · một báo cáo trên một bảng làm trễ cả database · case "redo queue hàng TB" sau khi khởi động lại secondary, và vì sao SQL Server 2022 đã gỡ bẫy này · khoản 14 byte: bạn đang dùng RCSI thì đã trả từ lâu · ghost cleanup bị giữ, log không truncate được · statistics tạm trong tempdb mất khi failover · đo gì, báo động khi nào · ánh xạ sang Spring Boot, HikariCP, CDC → ClickHouse · nên làm gì theo quy mô</span></a></li>
+    </ol>
+  </nav>
+
+  <article class="card" id="bai1">
+    <span class="tag legacy">Tối ưu hệ đang chạy · SQL Server AlwaysOn</span>
+    <h2 class="head">Readable secondary: báo cáo không chặn redo bằng shared lock — nó chặn bằng một thứ ít ai để ý hơn</h2>
+    <p class="src">Nguồn: Microsoft — <a href="https://github.com/MicrosoftDocs/SupportArticles-docs/blob/main/support/sql/database-engine/availability-groups/troubleshooting-recovery-queuing-in-alwayson-availability-group.md" target="_blank">"Troubleshoot recovery (redo) queuing in an Always On availability group"</a>, cập nhật 20/05/2026 [1]; Microsoft Learn — <a href="https://learn.microsoft.com/en-us/sql/database-engine/availability-groups/windows/active-secondaries-readable-secondary-replicas-always-on-availability-groups?view=sql-server-ver17" target="_blank">"Offload read-only workload to secondary replica of an Always On availability group"</a>, cập nhật 19/01/2026 [2]; Paul Randal — <a href="https://www.sqlskills.com/blogs/paul/sqlskills-sql101-readable-secondary-performance-problems/" target="_blank">"SQLskills SQL101: Readable secondary performance problems"</a>, 16/08/2017, sửa 08/03/2025 [3]; bodwyer2014 — <a href="https://bodwyerdfw.wordpress.com/2024/01/09/resolving-issues-with-parallel-redo-threads-in-secondary-availability-group-replicas-on-highly-active-databases/" target="_blank">"Resolving Issues with Parallel Redo Threads in Secondary Availability Group Replicas on highly active databases"</a>, MS SQL Struggles, 09/01/2024 [4]; Rakesh Kishore — <a href="https://tunedinstance.com/optimizing-alwayson-availability-groups-diagnosing-data-synchronization-lag-and-redo-bottlenecks" target="_blank">"Optimizing AlwaysOn Availability Groups: Diagnosing Data Synchronization Lag and REDO Bottlenecks"</a>, Tuned Instance, 16/06/2026 [5] (đối chứng).</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">vài giây</div><div class="lab">độ trễ thông thường giữa primary và readable secondary — "trong nhiều trường hợp" <a href="https://learn.microsoft.com/en-us/sql/database-engine/availability-groups/windows/active-secondaries-readable-secondary-replicas-always-on-availability-groups?view=sql-server-ver17" target="_blank">[2]</a></div></div>
+      <div class="box"><div class="num">hàng TB</div><div class="lab">redo queue một DBA từng gặp, phải tách database khỏi AG rồi restore lại <a href="https://bodwyerdfw.wordpress.com/2024/01/09/resolving-issues-with-parallel-redo-threads-in-secondary-availability-group-replicas-on-highly-active-databases/" target="_blank">[4]</a></div></div>
+      <div class="box"><div class="num">100 thread</div><div class="lab">trần thread parallel redo mỗi instance ở SQL Server 2016–2019; vượt trần thì có database phải redo đơn luồng <a href="https://github.com/MicrosoftDocs/SupportArticles-docs/blob/main/support/sql/database-engine/availability-groups/troubleshooting-recovery-queuing-in-alwayson-availability-group.md" target="_blank">[1]</a></div></div>
+      <div class="box"><div class="num">14 byte</div><div class="lab">thêm vào mỗi dòng bị insert/update/delete trên primary khi bật đọc ở secondary <a href="https://learn.microsoft.com/en-us/sql/database-engine/availability-groups/windows/active-secondaries-readable-secondary-replicas-always-on-availability-groups?view=sql-server-ver17" target="_blank">[2]</a></div></div>
+    </div>
+
+    <h3 class="sub">Redo là gì, và vì sao nó là thứ bạn phải canh</h3>
+    <p>Mỗi thay đổi trên primary được gửi sang từng secondary. Tới nơi, log được ghi cứng (harden) vào file log của database trên secondary. Sau đó một tiến trình gọi là <em>redo</em> mới áp các log record đó vào file dữ liệu. Nếu log tới nhanh hơn tốc độ redo, một hàng đợi hình thành: redo queue (Microsoft gọi là recovery queue).<sup><a href="https://github.com/MicrosoftDocs/SupportArticles-docs/blob/main/support/sql/database-engine/availability-groups/troubleshooting-recovery-queuing-in-alwayson-availability-group.md" target="_blank">[1]</a></sup></p>
+    <p>Hàng đợi này gây ba hậu quả. Một, query trên secondary đọc dữ liệu cũ, vì thay đổi đã nằm trong log nhưng chưa vào file dữ liệu. Hai, khi failover, replica mới phải redo xong hàng đợi rồi database mới lên làm primary, nên RTO dài ra. Ba, dashboard AlwaysOn trong SSMS có thể báo AG "unhealthy".<sup><a href="https://github.com/MicrosoftDocs/SupportArticles-docs/blob/main/support/sql/database-engine/availability-groups/troubleshooting-recovery-queuing-in-alwayson-availability-group.md" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — synchronous commit không cứu được bạn ở đây.</b> Nhiều đội nghĩ "replica đồng bộ thì dữ liệu luôn mới". Synchronous commit chỉ bảo đảm log đã được <em>ghi cứng</em> trên secondary trước khi primary báo commit xong. Nó không chờ redo. Nên redo có thể tụt lại rất xa mà transaction trên primary vẫn commit nhanh như thường, không ai thấy gì. Hệ quả là redo queue là loại nợ âm thầm: nó không làm chậm đường ghi, nó chỉ hiện ra lúc bạn cần secondary nhất — lúc failover, hoặc lúc kế toán trưởng hỏi "sao báo cáo thiếu hóa đơn vừa xuất".</div>
+
+    <div class="mech"><b>Cơ chế — tính nhanh RTO thật từ hai con số.</b> Microsoft cho bạn hai số trong DMV trạng thái replica: kích thước redo queue (KB) và tốc độ redo (KB/giây).<sup><a href="https://github.com/MicrosoftDocs/SupportArticles-docs/blob/main/support/sql/database-engine/availability-groups/troubleshooting-recovery-queuing-in-alwayson-availability-group.md" target="_blank">[1]</a></sup> Lấy queue chia rate là ra số giây replica cần để đuổi kịp, tức phần RTO cộng thêm nếu failover ngay lúc đó. Ví dụ minh họa của bản tin (không phải số từ nguồn): queue 30 GB, redo 60 MB/giây thì cần khoảng 8,5 phút. Nếu SLA của bạn hứa "failover dưới 1 phút", con số này nói thật hơn mọi tờ thiết kế. Theo dõi tỷ số này thay vì chỉ theo dõi queue, vì queue 5 GB trên một replica redo 200 MB/giây vô hại hơn queue 1 GB trên replica đang bị chặn với rate bằng 0.</div>
+
+    <h3 class="sub">Hiểu nhầm phổ biến: "báo cáo giữ shared lock nên chặn redo"</h3>
+    <p>Một bài hướng dẫn đăng tháng 6/2026 giải thích thế này: báo cáo chạy trên secondary lấy shared lock để đọc nhất quán. Redo cần exclusive lock để sửa trang, nên bị chặn. Bài khuyên bật snapshot isolation ở database primary để "đọc không lấy shared lock".<sup><a href="https://tunedinstance.com/optimizing-alwayson-availability-groups-diagnosing-data-synchronization-lag-and-redo-bottlenecks" target="_blank">[5]</a></sup> Nghe rất hợp lý. Nhưng nó lệch với tài liệu của Microsoft.</p>
+    <p>Microsoft viết rõ: mọi query chạy trên database secondary đều <em>tự động</em> chạy ở mức snapshot isolation, kể cả khi bạn đặt mức isolation khác, và mọi locking hint bị bỏ qua. Mục đích chính là xóa tranh chấp giữa người đọc và người ghi.<sup><a href="https://learn.microsoft.com/en-us/sql/database-engine/availability-groups/windows/active-secondaries-readable-secondary-replicas-always-on-availability-groups?view=sql-server-ver17" target="_blank">[2]</a></sup> Paul Randal nói cùng ý: vì chạy snapshot isolation, query trên readable secondary không cần shared lock nên không chặn redo.<sup><a href="https://www.sqlskills.com/blogs/paul/sqlskills-sql101-readable-secondary-performance-problems/" target="_blank">[3]</a></sup> Bài tháng 6 còn nhắc trace flag 3449 để ép redo đơn luồng.<sup><a href="https://tunedinstance.com/optimizing-alwayson-availability-groups-diagnosing-data-synchronization-lag-and-redo-bottlenecks" target="_blank">[5]</a></sup> Trong khi cờ mà case thực tế dùng để tắt parallel redo là 3459.<sup><a href="https://bodwyerdfw.wordpress.com/2024/01/09/resolving-issues-with-parallel-redo-threads-in-secondary-availability-group-replicas-on-highly-active-databases/" target="_blank">[4]</a></sup></p>
+
+    <table class="tbl">
+      <tr><th>Câu hỏi</th><th>Bài hướng dẫn 06/2026 [5]</th><th>Tài liệu Microsoft [1][2]</th></tr>
+      <tr><td>Query trên secondary lấy lock gì?</td><td>Shared lock, chặn exclusive lock của redo <a href="https://tunedinstance.com/optimizing-alwayson-availability-groups-diagnosing-data-synchronization-lag-and-redo-bottlenecks" target="_blank">[5]</a></td><td>Không lấy shared lock nhờ row versioning; nhưng vẫn lấy schema stability (Sch-S) <a href="https://learn.microsoft.com/en-us/sql/database-engine/availability-groups/windows/active-secondaries-readable-secondary-replicas-always-on-availability-groups?view=sql-server-ver17" target="_blank">[2]</a></td></tr>
+      <tr><td>Redo bị chặn khi nào?</td><td>Khi redo sửa trang dữ liệu mà báo cáo đang đọc <a href="https://tunedinstance.com/optimizing-alwayson-availability-groups-diagnosing-data-synchronization-lag-and-redo-bottlenecks" target="_blank">[5]</a></td><td>Khi redo áp một thay đổi DDL (ALTER TABLE, ALTER INDEX, DROP…) cần Sch-M trên bảng đang có query đọc <a href="https://github.com/MicrosoftDocs/SupportArticles-docs/blob/main/support/sql/database-engine/availability-groups/troubleshooting-recovery-queuing-in-alwayson-availability-group.md" target="_blank">[1]</a></td></tr>
+      <tr><td>Chữa bằng gì?</td><td>Bật snapshot isolation ở primary <a href="https://tunedinstance.com/optimizing-alwayson-availability-groups-diagnosing-data-synchronization-lag-and-redo-bottlenecks" target="_blank">[5]</a></td><td>Đã là snapshot sẵn; việc cần làm là xếp lịch query dài vào lúc ít hoạt động <a href="https://learn.microsoft.com/en-us/sql/database-engine/availability-groups/windows/active-secondaries-readable-secondary-replicas-always-on-availability-groups?view=sql-server-ver17" target="_blank">[2]</a> (và, theo bản tin, xếp lịch DDL)</td></tr>
+    </table>
+
+    <div class="mech"><b>Cơ chế — vì sao hiểu sai chỗ này lại tốn kém.</b> Nếu tin rằng thủ phạm là shared lock, đội sẽ đi bật snapshot isolation, thấy "đã bật rồi mà vẫn bị", rồi kết luận "AG chập chờn". Trong lúc đó thủ phạm thật — một migration Flyway/Liquibase hay job bảo trì index chạy trên primary đúng lúc báo cáo cuối tháng chạy trên secondary — vẫn lặp lại mỗi tháng. Chẩn đoán sai đẻ ra runbook sai, giống bài học "update stats xong là hết" ở số <a href="/2026-10-01">01/10</a>.</div>
+
+    <h3 class="sub">Thủ phạm thật: Sch-S của người đọc gặp Sch-M của DDL</h3>
+    <p>Query đọc trên secondary không lấy shared lock, nhưng vẫn lấy khóa schema stability (Sch-S). Khóa này chỉ có một việc: không cho ai đổi cấu trúc bảng trong lúc query đang đọc. Khi primary chạy một lệnh DDL, log record của lệnh đó tới secondary. Redo phải lấy khóa schema modification (Sch-M) để áp nó. Sch-M không đi chung được với Sch-S, nên redo đứng chờ tới khi query đọc xong.<sup><a href="https://github.com/MicrosoftDocs/SupportArticles-docs/blob/main/support/sql/database-engine/availability-groups/troubleshooting-recovery-queuing-in-alwayson-availability-group.md" target="_blank">[1]</a></sup> DDL ở đây gồm ALTER/DROP bảng và view, nhưng không gồm ALTER/DROP stored procedure.<sup><a href="https://learn.microsoft.com/en-us/sql/database-engine/availability-groups/windows/active-secondaries-readable-secondary-replicas-always-on-availability-groups?view=sql-server-ver17" target="_blank">[2]</a></sup></p>
+    <p>Microsoft dựng lại tình huống: chạy một query dài trên một bảng ở secondary, rồi chạy ALTER TABLE ALTER COLUMN trên chính bảng đó ở primary. Bộ đếm "Redo blocked/sec" vọt lên ngay lúc lệnh ALTER chạy. Trong suốt thời gian query dài còn chạy, mọi thay đổi tiếp theo trên primary chỉ làm redo queue phình thêm. Wait LCK_M_SCH_M của redo tăng dần.<sup><a href="https://github.com/MicrosoftDocs/SupportArticles-docs/blob/main/support/sql/database-engine/availability-groups/troubleshooting-recovery-queuing-in-alwayson-availability-group.md" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — một báo cáo trên một bảng làm trễ cả database.</b> Đây là chỗ dễ đọc nhầm nhất. Redo áp log theo thứ tự. Khi nó kẹt ở log record DDL của bảng hóa đơn, các log record phía sau — của bảng khách hàng, bảng công nợ, bảng task log — cũng nằm chờ, vì Microsoft ghi rõ redo bị chặn thì không áp được log record nào cho tới khi được nhả.<sup><a href="https://github.com/MicrosoftDocs/SupportArticles-docs/blob/main/support/sql/database-engine/availability-groups/troubleshooting-recovery-queuing-in-alwayson-availability-group.md" target="_blank">[1]</a></sup> Hệ quả thực tế: một báo cáo "doanh thu năm" chạy 40 phút trên bảng hóa đơn làm <em>mọi</em> màn hình đọc từ secondary thấy dữ liệu cũ 40 phút, kể cả màn hình chẳng liên quan gì tới hóa đơn. Con số 40 phút là ví dụ của bản tin.</div>
+
+    <div class="mech"><b>Cơ chế — DDL nào trong hệ của bạn sẽ đụng phải?</b> Phần này là suy luận của bản tin từ quy tắc "DDL cần Sch-M". Ba nguồn DDL hay gặp nhất ở một hệ kế toán/hóa đơn: (1) migration lúc deploy, như thêm cột, đổi kiểu cột, tạo/xóa index; (2) job bảo trì index, vì Microsoft liệt kê ALTER INDEX trong nhóm gây chặn<sup><a href="https://github.com/MicrosoftDocs/SupportArticles-docs/blob/main/support/sql/database-engine/availability-groups/troubleshooting-recovery-queuing-in-alwayson-availability-group.md" target="_blank">[1]</a></sup>; (3) partition switch để lưu trữ dữ liệu cũ theo tháng, vì switch là một lệnh ALTER TABLE. Cả ba thường được xếp vào "giờ thấp điểm" — mà giờ thấp điểm của OLTP lại hay trùng với giờ chạy báo cáo lớn và ETL đêm trên secondary. Hai lịch "ngoài giờ" đâm nhau đúng ở replica.</div>
+
+    <h3 class="sub">Một cái bẫy ít ai ngờ: script đo phân mảnh chạy trên secondary</h3>
+    <p>Microsoft có một ghi chú riêng: nếu bạn gọi DMV đo phân mảnh index (index physical stats) trên instance đang giữ readable secondary, bạn có thể chặn redo. DMV này lấy khóa IS trên bảng, và khóa đó chặn được yêu cầu khóa X của redo.<sup><a href="https://learn.microsoft.com/en-us/sql/database-engine/availability-groups/windows/active-secondaries-readable-secondary-replicas-always-on-availability-groups?view=sql-server-ver17" target="_blank">[2]</a></sup> Nhiều bộ script bảo trì và công cụ giám sát chạy kiểm tra phân mảnh trên <em>mọi</em> replica cho "đầy đủ". Trên readable secondary, việc đó vừa vô ích (secondary là bản sao vật lý của primary, phân mảnh y hệt<sup><a href="https://www.sqlskills.com/blogs/paul/sqlskills-sql101-readable-secondary-performance-problems/" target="_blank">[3]</a></sup>) vừa có hại.</p>
+
+    <h3 class="sub">Case: khởi động lại secondary, redo queue phình tới hàng TB</h3>
+    <p>Một DBA viết blog dưới tên bodwyer2014 kể lại chuyện của chính mình. Sau mỗi lần khởi động lại SQL Server trên secondary, redo queue của một database bận bắt đầu tăng, dù trước đó vẫn ổn. Nhìn bề ngoài, thay đổi này ngẫu nhiên và không có lời giải thích.<sup><a href="https://bodwyerdfw.wordpress.com/2024/01/09/resolving-issues-with-parallel-redo-threads-in-secondary-availability-group-replicas-on-highly-active-databases/" target="_blank">[4]</a></sup></p>
+    <p>Lý do: ở SQL Server 2016–2019, cả instance chỉ có tối đa 100 thread cho parallel redo. Thread được chia theo số CPU và số database. Hết thread thì database còn lại chỉ được redo đơn luồng.<sup><a href="https://github.com/MicrosoftDocs/SupportArticles-docs/blob/main/support/sql/database-engine/availability-groups/troubleshooting-recovery-queuing-in-alwayson-availability-group.md" target="_blank">[1]</a></sup> Theo tác giả, thread được giao cho database nào khởi động trước — thường là các database nhỏ. Database lớn và bận nhất lên sau cùng, nên rơi vào nhóm đơn luồng.<sup><a href="https://bodwyerdfw.wordpress.com/2024/01/09/resolving-issues-with-parallel-redo-threads-in-secondary-availability-group-replicas-on-highly-active-databases/" target="_blank">[4]</a></sup> Redo queue có lúc lên tới hàng TB. Anh phải tách database khỏi AG rồi restore log để đuổi kịp, có khi phải dựng lại từ full + diff + log backup vì nhanh hơn restore hàng nghìn file log.<sup><a href="https://bodwyerdfw.wordpress.com/2024/01/09/resolving-issues-with-parallel-redo-threads-in-secondary-availability-group-replicas-on-highly-active-databases/" target="_blank">[4]</a></sup></p>
+    <p>Cách anh gỡ: bật cờ 3459 để đưa cả instance về redo đơn luồng, tạo-rồi-xóa một bảng tạm trên primary của từng database còn giữ thread để nó nhả ra, rồi tắt cờ để thread được chia lại. Lần chia lại này (trên SQL Server 2019 CU22) có tính tới tải, nên database bận được ưu tiên. Máy 32 CPU cho 6 database chạy song song, mỗi cái 16 thread. Máy 16 core cho 11 database, mỗi cái 8 thread.<sup><a href="https://bodwyerdfw.wordpress.com/2024/01/09/resolving-issues-with-parallel-redo-threads-in-secondary-availability-group-replicas-on-highly-active-databases/" target="_blank">[4]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — tin tốt cho người chạy SQL Server 2022.</b> Microsoft xác nhận từ SQL Server 2022, thuật toán parallel recovery giao worker theo tải, nên "không còn khả năng một database bận bị kẹt ở redo đơn luồng".<sup><a href="https://github.com/MicrosoftDocs/SupportArticles-docs/blob/main/support/sql/database-engine/availability-groups/troubleshooting-recovery-queuing-in-alwayson-availability-group.md" target="_blank">[1]</a></sup> Bạn đang ở 2022 Enterprise, nên đúng cái bẫy trong case trên đã được gỡ. Nhưng hai bài học vẫn giữ nguyên. Một, "khởi động lại secondary" là một sự kiện thay đổi hiệu năng, đáng có bước kiểm tra sau đó, giống failover. Hai, nếu còn instance 2019 nào trong hệ (môi trường DR cũ, server báo cáo phụ), hãy đếm số database trên instance đó: hàng chục database nhỏ đứng chung với một database OLTP cỡ TB là đúng hình dạng của case.</div>
+
+    <h3 class="sub">Khoản phí thứ hai: 14 byte mỗi dòng — và vì sao có thể bạn đã trả rồi</h3>
+    <p>Để secondary chạy được snapshot isolation, mỗi dòng cần một tag versioning 14 byte. Nhưng secondary phải là bản sao vật lý của primary. Nên khi bật đọc ở secondary, primary bắt đầu thêm 14 byte trống vào mỗi dòng bị insert, update hay delete, để không gian đó được ghi vào log và tái hiện ở secondary.<sup><a href="https://www.sqlskills.com/blogs/paul/sqlskills-sql101-readable-secondary-performance-problems/" target="_blank">[3]</a></sup> Dòng dài ra thì trang đầy có thể bị tách (page split). Microsoft cũng cảnh báo điều này.<sup><a href="https://learn.microsoft.com/en-us/sql/database-engine/availability-groups/windows/active-secondaries-readable-secondary-replicas-always-on-availability-groups?view=sql-server-ver17" target="_blank">[2]</a></sup> Paul Randal liệt kê hậu quả: mật độ trang thấp (tốn đĩa và buffer pool), phân mảnh logic, và thêm nhiều log record đắt tiền từ chính các lần tách trang. Ông khuyên đặt fillfactor cho index.<sup><a href="https://www.sqlskills.com/blogs/paul/sqlskills-sql101-readable-secondary-performance-problems/" target="_blank">[3]</a></sup> Một người bình luận dưới bài kể rằng ông gặp chuyện này ở <em>mọi</em> khách hàng có bật readable secondary, nặng thêm vì index nào cũng để fillfactor mặc định 0.<sup><a href="https://www.sqlskills.com/blogs/paul/sqlskills-sql101-readable-secondary-performance-problems/" target="_blank">[3]</a></sup></p>
+    <p>Chi tiết quan trọng nằm trong bảng của Microsoft. Nếu database primary <em>đã bật</em> snapshot isolation hoặc RCSI, thì primary vốn đã có row version và 14 byte. Bật thêm readable secondary không thêm overhead kích thước dòng nào trên primary nữa.<sup><a href="https://learn.microsoft.com/en-us/sql/database-engine/availability-groups/windows/active-secondaries-readable-secondary-replicas-always-on-availability-groups?view=sql-server-ver17" target="_blank">[2]</a></sup></p>
+
+    <table class="tbl">
+      <tr><th>Readable secondary?</th><th>RCSI/snapshot ở primary?</th><th>Primary</th><th>Secondary</th></tr>
+      <tr><td>Không</td><td>Không</td><td>Không row version, không 14 byte</td><td>Không row version, không 14 byte</td></tr>
+      <tr><td>Không</td><td>Có</td><td>Row version + 14 byte</td><td>Không row version, nhưng có 14 byte</td></tr>
+      <tr><td>Có</td><td>Không</td><td>Không row version, nhưng có 14 byte</td><td>Row version + 14 byte</td></tr>
+      <tr><td><b>Có</b></td><td><b>Có</b> (stack của bạn)</td><td>Row version + 14 byte</td><td>Row version + 14 byte</td></tr>
+    </table>
+    <p class="editnote" style="font-style:normal">Bảng dịch lại từ tài liệu Microsoft Learn [2]; dòng in đậm và chú thích "stack của bạn" là của bản tin.</p>
+
+    <div class="mech"><b>Cơ chế — vậy khoản 14 byte đáng lo ở đâu với bạn?</b> Database OLTP chính đã chạy RCSI thì khoản này đã trả từ ngày bật RCSI. Nó không phải lý do để ngại readable secondary. Nhưng hãy kiểm tra hai chỗ (suy luận của bản tin). Một, các database phụ <em>chưa</em> bật RCSI nhưng nằm chung AG có bật đọc, như database log, database cấu hình, database task log: chúng đang âm thầm nhận 14 byte mà không ai tính fillfactor. Hai, bảng có kiểu "insert rồi update nhiều lần" như hóa đơn đi từ nháp → đã ký → đã gửi → đã đối soát. Insert vào cuối bảng theo khóa tăng dần thì không tách trang. Update một dòng cũ nằm trên trang đã đầy 100% thì có thể tách. Đây là nhóm đáng hạ fillfactor xuống trước, thay vì hạ cho toàn bộ database.</div>
+
+    <h3 class="sub">Khoản phí thứ ba: ghost cleanup, log, tempdb và statistics tạm</h3>
+    <p>Vì query trên secondary chạy snapshot isolation, nó cần các phiên bản dòng cũ còn tồn tại. Hệ quả: tiến trình dọn ghost record trên <em>primary</em> có thể bị chặn bởi transaction đang chạy trên secondary. Ghost record chiếm chỗ trong file dữ liệu. Nếu tình trạng này kéo dài, log trên primary cũng không truncate được, và Microsoft khuyên gỡ database secondary đó khỏi AG. Trong trường hợp nặng, bạn phải kill query đọc chạy lâu trên secondary.<sup><a href="https://learn.microsoft.com/en-us/sql/database-engine/availability-groups/windows/active-secondaries-readable-secondary-replicas-always-on-availability-groups?view=sql-server-ver17" target="_blank">[2]</a></sup> Lệnh shrink file trên primary cũng có thể thất bại nếu file còn ghost record mà secondary cần.<sup><a href="https://learn.microsoft.com/en-us/sql/database-engine/availability-groups/windows/active-secondaries-readable-secondary-replicas-always-on-availability-groups?view=sql-server-ver17" target="_blank">[2]</a></sup></p>
+    <p>Về tempdb của secondary: row version nằm ở đó, và statistics tạm cũng nằm ở đó. Secondary không cập nhật được statistics thật, nên nó tự tạo statistics tạm (tên có hậu tố _readonly_database_statistic) cho các query báo cáo. Statistics tạm mất khi khởi động lại service, và bị xóa trên mọi secondary khi AG failover.<sup><a href="https://learn.microsoft.com/en-us/sql/database-engine/availability-groups/windows/active-secondaries-readable-secondary-replicas-always-on-availability-groups?view=sql-server-ver17" target="_blank">[2]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — một ETL chạy lâu trên secondary làm phình primary.</b> Nghe ngược đời nhưng đúng theo tài liệu trên: secondary "chỉ đọc" vẫn kéo được tài nguyên của primary. Một job ETL đọc CDC để nạp sang ClickHouse, chạy thành một transaction đọc dài hai tiếng trên secondary, sẽ giữ ghost record ở primary suốt hai tiếng. Bảng có nhiều delete (bảng hàng đợi, bảng task log — xem thuật ngữ ghost record ở số <a href="/2026-09-30">30/09</a>) chịu nặng nhất. Cách chữa của bản tin: chia ETL thành nhiều lô ngắn theo khoảng LSN hoặc theo thời gian, mỗi lô một transaction ngắn, thay vì một lần đọc dài. Lưu ý thêm: CDC không bật riêng trên secondary được, nhưng đọc bảng CDC qua các hàm CDC trên secondary thì được.<sup><a href="https://learn.microsoft.com/en-us/sql/database-engine/availability-groups/windows/active-secondaries-readable-secondary-replicas-always-on-availability-groups?view=sql-server-ver17" target="_blank">[2]</a></sup> Change tracking thì bị tắt hẳn trên secondary.<sup><a href="https://learn.microsoft.com/en-us/sql/database-engine/availability-groups/windows/active-secondaries-readable-secondary-replicas-always-on-availability-groups?view=sql-server-ver17" target="_blank">[2]</a></sup></div>
+
+    <div class="mech"><b>Cơ chế — failover làm đổi plan báo cáo, không chỉ plan OLTP.</b> Số 01/10 đã nói failover làm primary mới biên dịch lại hàng loạt. Phía secondary cũng có chuyện riêng: statistics tạm bị xóa khi failover.<sup><a href="https://learn.microsoft.com/en-us/sql/database-engine/availability-groups/windows/active-secondaries-readable-secondary-replicas-always-on-availability-groups?view=sql-server-ver17" target="_blank">[2]</a></sup> Query báo cáo lần đầu chạy sau failover sẽ tạo lại statistics tạm và biên dịch lại plan. Báo cáo cuối tháng chạy đúng ngày sau một lần failover có thể chậm khác thường mà không ai đổi gì. Statistics thật chỉ sửa được trên primary; cập nhật xong, chúng tự được đẩy sang secondary và thay cho statistics tạm.<sup><a href="https://learn.microsoft.com/en-us/sql/database-engine/availability-groups/windows/active-secondaries-readable-secondary-replicas-always-on-availability-groups?view=sql-server-ver17" target="_blank">[2]</a></sup></div>
+
+    <h3 class="sub">Đo gì, báo động khi nào</h3>
+    <p>Microsoft gợi ý theo dõi redo queue và redo rate mỗi 30 giây từ primary (lọc dòng của secondary). Trên chính secondary, dùng hai bộ đếm Performance Monitor là Recovery Queue và Redone Bytes/sec. Muốn biết redo có bị chặn không, thêm bộ đếm "Redo blocked/sec". Muốn tìm bằng chứng cũ, mở trace AlwaysOn_health trên secondary và tìm sự kiện lock_redo_blocked.<sup><a href="https://github.com/MicrosoftDocs/SupportArticles-docs/blob/main/support/sql/database-engine/availability-groups/troubleshooting-recovery-queuing-in-alwayson-availability-group.md" target="_blank">[1]</a></sup> Microsoft cũng nói rõ: redo queue dao động quanh một số khác 0 là bình thường ở hệ bận. Thứ cần điều tra là queue <em>tăng theo thời gian</em>. Một lệnh UPDATE một triệu dòng, một lần rebuild index trên bảng 1 TB hay một batch ETL hàng triệu dòng đều làm queue tăng, và đó là chuyện được dự kiến.<sup><a href="https://github.com/MicrosoftDocs/SupportArticles-docs/blob/main/support/sql/database-engine/availability-groups/troubleshooting-recovery-queuing-in-alwayson-availability-group.md" target="_blank">[1]</a></sup></p>
+    <p>Microsoft khuyên ghi lại redo rate "khỏe mạnh" trong giờ hành chính và trong cửa sổ bảo trì, để khi queue tăng thì có mốc so.<sup><a href="https://github.com/MicrosoftDocs/SupportArticles-docs/blob/main/support/sql/database-engine/availability-groups/troubleshooting-recovery-queuing-in-alwayson-availability-group.md" target="_blank">[1]</a></sup> Khi queue đang tăng, xem wait của các thread redo trên secondary. Wait kiểu PAGEIOLATCH cho thấy redo đang chờ I/O. Wait LCK_M_SCH_M cho thấy redo đang bị một query chặn.<sup><a href="https://github.com/MicrosoftDocs/SupportArticles-docs/blob/main/support/sql/database-engine/availability-groups/troubleshooting-recovery-queuing-in-alwayson-availability-group.md" target="_blank">[1]</a></sup></p>
+
+    <div class="mech"><b>Cơ chế — ba ngưỡng báo động đáng đặt (đề xuất của bản tin).</b> (1) <em>Redo blocked/sec &gt; 0 kéo dài quá vài phút</em>: báo ngay cho on-call kèm danh sách query đang chạy lâu nhất trên secondary, vì cách gỡ thường là kill đúng một query. (2) <em>Thời gian đuổi kịp</em> (queue chia rate) vượt RTO đã cam kết: đây là chỉ số nói với ban giám đốc. (3) <em>Độ trễ dữ liệu</em> (secondary lag tính bằng giây) vượt ngưỡng mà ứng dụng chịu được: đây là chỉ số nói với đội sản phẩm. Ba con số trả lời ba câu hỏi khác nhau; gộp chung một cảnh báo "AG unhealthy" thì không ai biết phải làm gì.</div>
+
+    <h3 class="sub">Ánh xạ sang stack của bạn</h3>
+    <p class="editnote" style="font-style:normal">Bảng dưới là phân tích của bản tin, không trích từ nguồn; các quy tắc nền (snapshot isolation tự động, Sch-S chặn DDL, ghost cleanup, statistics tạm) dẫn từ [1][2].</p>
+    <table class="tbl">
+      <tr><th>Chỗ trong stack</th><th>Readable secondary lộ ra thế nào</th><th>Nên làm gì</th></tr>
+      <tr><td>Spring Boot định tuyến đọc sang secondary (transaction chỉ-đọc đi pool riêng có ApplicationIntent=ReadOnly qua listener)</td><td>Người dùng vừa xuất hóa đơn, màn hình danh sách đọc từ secondary chưa thấy hóa đơn đó — "đọc không thấy cái mình vừa ghi"</td><td>Đường đọc ngay sau ghi (redirect sau khi lưu, màn hình chi tiết vừa tạo) đi primary; chỉ báo cáo và tra cứu chấp nhận trễ mới đi secondary</td></tr>
+      <tr><td>HikariCP pool đọc</td><td>Pool báo cáo giữ connection với query chạy hàng chục phút, vừa giữ Sch-S vừa giữ phiên bản dòng</td><td>Đặt query timeout cho pool báo cáo; pool riêng, nhỏ, có giới hạn; đừng dùng chung pool với API tra cứu nhanh</td></tr>
+      <tr><td>Flyway/Liquibase lúc deploy</td><td>ALTER TABLE trên bảng lớn bị redo kẹt sau một báo cáo dài; secondary trễ suốt thời gian đó</td><td>Thêm bước "liệt kê query &gt; 5 phút trên secondary" vào checklist deploy có migration; chọn khung giờ không trùng lịch báo cáo</td></tr>
+      <tr><td>Job bảo trì index</td><td>ALTER INDEX trên primary đụng báo cáo đêm; script đo phân mảnh chạy trên secondary tự chặn redo</td><td>Chỉ đo phân mảnh trên primary; lệch lịch bảo trì với lịch báo cáo/ETL đêm</td></tr>
+      <tr><td>Partition theo tháng + switch lưu trữ</td><td>Lệnh switch là ALTER TABLE, cần Sch-M trên bảng hóa đơn mà báo cáo năm đang đọc</td><td>Chạy switch khi secondary không có query dài trên bảng đó; theo dõi Redo blocked/sec trong lúc switch</td></tr>
+      <tr><td>CDC → ETL → ClickHouse</td><td>ETL đọc dài trên secondary giữ ghost record ở primary, phình tempdb secondary</td><td>Đọc theo lô ngắn; đặt trần thời gian cho mỗi lô; ưu tiên chuyển hẳn báo cáo nặng sang ClickHouse</td></tr>
+      <tr><td>Failover AG</td><td>Mất statistics tạm; RTO cộng thêm thời gian đuổi kịp redo queue</td><td>Đo "queue chia rate" trước mỗi lần failover có kế hoạch; chạy thử báo cáo chính sau failover</td></tr>
+      <tr><td>Database phụ không bật RCSI trong cùng AG</td><td>Nhận 14 byte mỗi dòng bị sửa, tách trang mà không ai để ý</td><td>Xem mật độ trang các bảng hay update; đặt fillfactor có chủ đích</td></tr>
+    </table>
+
+    <h3 class="sub">Rút ra theo quy mô</h3>
+    <div class="scale">
+      <div class="col small">
+        <h4>Đội nhỏ / startup &lt;10 người</h4>
+        <ul>
+          <li>Nếu báo cáo cần số "tới từng giây", để nó trên primary. Microsoft nói thẳng: tải đọc quan trọng không chịu được trễ thì chạy ở primary <a href="https://learn.microsoft.com/en-us/sql/database-engine/availability-groups/windows/active-secondaries-readable-secondary-replicas-always-on-availability-groups?view=sql-server-ver17" target="_blank">[2]</a>.</li>
+          <li>Thêm ba bộ đếm Recovery Queue, Redone Bytes/sec, Redo blocked/sec vào dashboard hiện có. Vài giờ công.</li>
+          <li>Viết vào runbook: "AG trễ" → xem Redo blocked/sec trước, xem query dài trên secondary trước; đừng đi bật snapshot isolation.</li>
+          <li>Ghi lịch DDL (deploy có migration, bảo trì index, switch partition) và lịch báo cáo lớn lên cùng một tờ lịch.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Đội đã có sản phẩm production</h4>
+        <ul>
+          <li>Đo redo rate nền trong giờ hành chính và trong cửa sổ bảo trì; lưu thành mốc như Microsoft gợi ý <a href="https://github.com/MicrosoftDocs/SupportArticles-docs/blob/main/support/sql/database-engine/availability-groups/troubleshooting-recovery-queuing-in-alwayson-availability-group.md" target="_blank">[1]</a>.</li>
+          <li>Đưa "thời gian đuổi kịp = queue / rate" vào SLO nội bộ cho RTO, kiểm tra trước mỗi failover có kế hoạch.</li>
+          <li>Rà định tuyến đọc trong Spring: liệt kê endpoint nào đi secondary, đánh dấu endpoint nào đọc-ngay-sau-ghi.</li>
+          <li>Đặt query timeout cho pool báo cáo và chia ETL CDC thành lô ngắn để không giữ ghost record trên primary.</li>
+          <li>Tắt mọi script đo phân mảnh đang chạy trên secondary.</li>
+          <li>Nếu còn instance 2016–2019 trong hệ, kiểm tra database nào đang redo đơn luồng sau mỗi lần khởi động lại <a href="https://bodwyerdfw.wordpress.com/2024/01/09/resolving-issues-with-parallel-redo-threads-in-secondary-availability-group-replicas-on-highly-active-databases/" target="_blank">[4]</a>.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="doslist">
+      <div>✅ Coi redo queue là nợ RTO, đo bằng thời gian đuổi kịp chứ không chỉ bằng KB.</div>
+      <div>✅ Khi secondary trễ, tìm wait LCK_M_SCH_M và sự kiện lock_redo_blocked trước tiên.</div>
+      <div>✅ Xếp lịch DDL và lịch báo cáo dài sao cho không chồng lên nhau.</div>
+      <div>✅ Kiểm tra lại các database phụ chưa bật RCSI nhưng nằm trong AG có bật đọc.</div>
+      <div>❌ Đừng bật snapshot isolation ở primary với hy vọng "báo cáo thôi chặn redo" — query trên secondary vốn đã chạy snapshot.</div>
+      <div>❌ Đừng đo phân mảnh trên readable secondary.</div>
+      <div>❌ Đừng cho màn hình đọc-ngay-sau-ghi đi qua secondary.</div>
+    </div>
+
+    <div class="takeaway">💡 <strong>Rút ra cho bạn:</strong> readable secondary không làm chậm đường ghi, nên chi phí của nó rất khó thấy. Nó hiện ra ở ba chỗ: dữ liệu cũ khi một báo cáo dài đụng một lệnh DDL, RTO dài hơn bạn tưởng, và ghost record bị giữ trên primary. Thứ Hai này, hãy làm ba việc. Mở AlwaysOn_health trên secondary, đếm số sự kiện lock_redo_blocked trong 30 ngày qua và đối chiếu giờ xảy ra với lịch deploy. Tính "queue chia rate" vào giờ cao điểm để biết RTO thật. Và hỏi đội backend: endpoint nào đang đọc từ secondary ngay sau khi ghi.</div>
+
+    <div class="refs"><strong>Nguồn tham khảo:</strong> [1] Microsoft — <a href="https://github.com/MicrosoftDocs/SupportArticles-docs/blob/main/support/sql/database-engine/availability-groups/troubleshooting-recovery-queuing-in-alwayson-availability-group.md" target="_blank">"Troubleshoot recovery (redo) queuing in an Always On availability group", SupportArticles-docs, cập nhật 20/05/2026</a> (redo queue là gì; dữ liệu cũ, RTO, dashboard unhealthy; theo dõi mỗi 30 giây; bộ đếm Recovery Queue, Redone Bytes/sec, Redo blocked/sec; sự kiện lock_redo_blocked; Sch-S chặn Sch-M khi áp DDL; ví dụ ALTER TABLE ALTER COLUMN; UPDATE một triệu dòng / rebuild index bảng 1 TB; trần 100 thread ở 2016–2019; 2022 giao thread theo tải). [2] Microsoft Learn — <a href="https://learn.microsoft.com/en-us/sql/database-engine/availability-groups/windows/active-secondaries-readable-secondary-replicas-always-on-availability-groups?view=sql-server-ver17" target="_blank">"Offload read-only workload to secondary replica of an Always On availability group", cập nhật 19/01/2026</a> (snapshot isolation tự động, bỏ locking hint; Sch-S chặn DDL; DMV đo phân mảnh lấy IS chặn redo; ghost cleanup, log truncation, shrink; statistics tạm trong tempdb mất khi restart/failover; CDC và change tracking trên secondary; 14 byte và bảng theo RCSI; độ trễ thường vài giây; tải không chịu được trễ thì chạy ở primary). [3] Paul Randal — <a href="https://www.sqlskills.com/blogs/paul/sqlskills-sql101-readable-secondary-performance-problems/" target="_blank">"SQLskills SQL101: Readable secondary performance problems", 16/08/2017, sửa 08/03/2025</a> (tag 14 byte trống trên primary, page split, mật độ trang, fillfactor; bình luận về fillfactor mặc định 0). [4] bodwyer2014 — <a href="https://bodwyerdfw.wordpress.com/2024/01/09/resolving-issues-with-parallel-redo-threads-in-secondary-availability-group-replicas-on-highly-active-databases/" target="_blank">"Resolving Issues with Parallel Redo Threads in Secondary Availability Group Replicas on highly active databases", MS SQL Struggles, 09/01/2024</a> (case tự kể: redo queue hàng TB sau khi khởi động lại secondary; cờ 3459; 32 CPU → 6 database × 16 thread, 16 core → 11 database × 8 thread; SQL Server 2019 CU22). [5] Rakesh Kishore — <a href="https://tunedinstance.com/optimizing-alwayson-availability-groups-diagnosing-data-synchronization-lag-and-redo-bottlenecks" target="_blank">"Optimizing AlwaysOn Availability Groups: Diagnosing Data Synchronization Lag and REDO Bottlenecks", Tuned Instance, 16/06/2026</a> (dùng làm đối chứng: mô tả shared lock chặn redo, khuyên bật snapshot isolation, nhắc cờ 3449). Phép tính RTO, ví dụ 30 GB/60 MB/giây, ví dụ báo cáo 40 phút, ba ngưỡng báo động, bảng ánh xạ sang Spring Boot/HikariCP/Flyway/partition switch/CDC/ClickHouse là phân tích của bản tin. Liên kết nội bộ: số <a href="/2026-10-01">01/10</a> (parameter sniffing, failover làm biên dịch lại plan), <a href="/2026-09-30">30/09</a> (ghost record).</div>
+  </article>
+
+  <div class="foot">Bản tin sáng · Số 02/10/2026</div>
+</div>
+</body>
+</html>
