@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ghim SHA cho GitHub Actions và cạn pool vì log &middot; 03/10/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+@media (max-width:560px){h1.title{font-size:25px}.card{padding:20px 18px}.tbl{display:block;overflow-x:auto}}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 03/10/2026</div>
+    <h1 class="title">Ghim SHA cho 350 repo trong hai ngày, và một chứng chỉ Graylog hết hạn làm cạn 50 connection HikariCP: hai thứ "mặc định" không ai chọn mà ai cũng đang chạy</h1>
+    <div class="meta">03/10/2026 · Đọc khoảng 13 phút · Nguồn chính: Leif Dreizler — Semgrep, "Speedrunning SHA pinning for GitHub Actions org-wide" (12/08/2026); Flavius Zichil — "How a Simple Log Message Took Down Our Production", Level Up Coding (14/09/2026); đối chiếu tài liệu GitHub Docs, Logback, HikariCP</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: số này có <b>hai bài</b> — một bài quy trình phát triển an toàn (mảng 4), một bài vận hành Spring Boot (mảng 3) — vì ba số gần nhất đều về SQL Server/Kafka/tách monolith. Bài 2 có một giới hạn cần nói thẳng: bài gốc của Zichil nằm sau tường trả phí của Medium, bản tin chỉ đọc được phần mở đầu (thông báo lỗi, số pool, mô tả bài). Phần cơ chế sau đó được dựng lại từ tài liệu Logback và HikariCP và <em>chỉ là suy luận biên tập</em>, không phải lời kể của tác giả. Các khối <b style="color:#1e40af">Cơ chế</b>, bảng ánh xạ và phần "Rút ra theo quy mô" là phân tích của bản tin, <em>không trích nguyên văn từ nguồn</em>. Mọi con số đều dẫn nguồn cạnh câu. Không chèn code hay cấu hình; mọi thao tác được tả bằng lời.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1"><strong>Bài 1</strong> — Ghim SHA cho GitHub Actions toàn tổ chức: 350 repo, 80 PR, 2 ngày<br><span style="font-size:13.5px;color:#6b7280">· vì sao tag là thứ có thể bị dời · ba loại tham chiếu chưa ghim · các cái bẫy: transitive, action nội bộ, CODEOWNERS · cách bật dần để không gãy CI · nên làm gì theo quy mô</span></a></li>
+      <li><a href="#bai2"><strong>Bài 2</strong> — Một chứng chỉ hết hạn, 50 connection, 26 request chờ<br><span style="font-size:13.5px;color:#6b7280">· thông báo lỗi nói gì và không nói gì · cơ chế: log đồng bộ trong transaction giữ connection · mặc định Logback và HikariCP khiến chuyện này dễ xảy ra · ánh xạ sang stack của bạn · nên làm gì</span></a></li>
+      <li><a href="#goc"><strong>Góc nhìn</strong> — Mặc định là quyết định của người khác<br><span style="font-size:13.5px;color:#6b7280">· ba việc cho tuần này</span></a></li>
+    </ol>
+  </nav>
+
+  <article class="card" id="bai1">
+    <span class="tag view">Quy trình phát triển an toàn · CI/CD</span>
+    <h2 class="head">Ghim SHA cho GitHub Actions toàn tổ chức: ~350 repo, ~80 PR, hai ngày — và những cái bẫy nằm ngoài danh sách</h2>
+    <p class="src">Nguồn: Leif Dreizler — <a href="https://semgrep.dev/blog/2026/sha-pinning-for-github-actions-org-wide" target="_blank">"Speedrunning SHA pinning for GitHub Actions org-wide"</a>, Semgrep, 12/08/2026 [1]; GitHub Docs — <a href="https://docs.github.com/en/actions/reference/security/secure-use" target="_blank">"Secure use reference"</a> [2].</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">~350</div><div class="lab">repo trong tổ chức; ~80 repo cần sửa thật <a href="https://semgrep.dev/blog/2026/sha-pinning-for-github-actions-org-wide" target="_blank">[1]</a></div></div>
+      <div class="box"><div class="num">~80 PR</div><div class="lab">tạo trong khoảng 2 ngày <a href="https://semgrep.dev/blog/2026/sha-pinning-for-github-actions-org-wide" target="_blank">[1]</a></div></div>
+      <div class="box"><div class="num">~100</div><div class="lab">repo chưa từng chạy GitHub Actions — bật chính sách trước, gần như không rủi ro <a href="https://semgrep.dev/blog/2026/sha-pinning-for-github-actions-org-wide" target="_blank">[1]</a></div></div>
+      <div class="box"><div class="num">2–3</div><div class="lab">lỗi CI do ghim, ghi nhận trong giai đoạn theo dõi <a href="https://semgrep.dev/blog/2026/sha-pinning-for-github-actions-org-wide" target="_blank">[1]</a></div></div>
+    </div>
+
+    <h3 class="sub">Vì sao một cái tag "v4" không đủ</h3>
+    <p>Khi workflow viết "uses: một-action@v4", bạn đang tin rằng tag v4 mãi trỏ vào đúng đoạn code lúc bạn đọc. Tag chỉ là con trỏ, và ai chiếm được quyền ghi vào repo của action có thể dời nó sang commit khác. Tài liệu GitHub nói thẳng: ghim vào commit SHA đầy đủ hiện là cách duy nhất để dùng action như một bản phát hành bất biến, vì kẻ tấn công muốn giả mạo phải tạo được một bản va chạm SHA-1 cho đúng đối tượng Git hợp lệ <sup><a href="https://docs.github.com/en/actions/reference/security/secure-use" target="_blank">[2]</a></sup>. Semgrep mở bài bằng vụ tj-actions/changed-files đầu 2025: tag bị dời sang commit độc, và mọi repo tham chiếu bằng tag kéo code độc về <sup><a href="https://semgrep.dev/blog/2026/sha-pinning-for-github-actions-org-wide" target="_blank">[1]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế:</b> workflow chạy với quyền của job — thường có token ghi repo và secret của môi trường. Một action bị đầu độc chạy ngay trong job đó, nên nó đọc được hết những gì job đọc được. Ghim SHA không làm action "an toàn", nó chỉ đảm bảo bạn chạy đúng thứ bạn đã review. Muốn nâng cấp thì phải chủ động đổi SHA — và đó chính là chỗ cần bot (Renovate/Dependabot) để việc đổi không thành gánh nặng.</div>
+
+    <h3 class="sub">Ba loại tham chiếu chưa ghim — và cách xử lý từng loại</h3>
+    <p>GitHub có sẵn một chính sách bắt buộc mọi action phải ghim bằng SHA đầy đủ, đặt được ở cấp repo hoặc cấp tổ chức <sup><a href="https://docs.github.com/en/actions/reference/security/secure-use" target="_blank">[2]</a></sup>. Cái khó không phải bật nút, mà là dọn trước khi bật. Đội Semgrep chia ba loại: tham chiếu thẳng bằng tag, tham chiếu thẳng bằng nhánh, và tham chiếu gián tiếp (action của bạn gọi một action khác chưa ghim) <sup><a href="https://semgrep.dev/blog/2026/sha-pinning-for-github-actions-org-wide" target="_blank">[1]</a></sup>. Với loại đầu, họ dùng công cụ pinact để đổi tag thành SHA và giữ lại chú thích phiên bản, để Renovate còn đọc được và đề xuất nâng cấp. Khoảng 60 repo xong chỉ bằng bước này. Với tham chiếu nhánh, họ đưa repo vào Renovate để bot tự đổi sang SHA và cập nhật về sau, có thể đặt thời gian chờ (cooldown) trước khi nhận bản mới <sup><a href="https://semgrep.dev/blog/2026/sha-pinning-for-github-actions-org-wide" target="_blank">[1]</a></sup>.</p>
+
+    <h3 class="sub">Những cái bẫy mà tác giả tự kể</h3>
+    <p>Phần đáng đọc nhất là danh sách chỗ vấp, vì chính sách chỉ báo lỗi sau khi bật <sup><a href="https://semgrep.dev/blog/2026/sha-pinning-for-github-actions-org-wide" target="_blank">[1]</a></sup>:</p>
+    <div class="doslist">
+      <div>⚠️ <b>Transitive:</b> ghim xong action của mình, nhưng action đó lại gọi tiếp một action chưa ghim — repo vẫn gãy khi chính sách bật. Cách xử lý là nâng bản, gửi PR cho tác giả, hoặc tự viết lại phần đó.</div>
+      <div>⚠️ <b>Action nội bộ:</b> đổi tham chiếu từ nhánh main sang SHA làm hỏng việc tự cập nhật; phải chuyển sang Renovate để theo dõi.</div>
+      <div>⚠️ <b>Hiểu nhầm composite và reusable workflow:</b> theo tác giả, chỉ composite action cần ghim; reusable workflow thì không, nhưng các action bên trong nó vẫn phải ghim. Công cụ dò ban đầu bỏ sót phần này.</div>
+      <div>⚠️ <b>CODEOWNERS:</b> app tự động không thỏa được yêu cầu CODEOWNERS nên một số repo không auto-merge được PR ghim.</div>
+      <div>⚠️ <b>SLSA GitHub Generator:</b> không tham chiếu bằng SHA được — phải có cách vòng riêng.</div>
+    </div>
+    <div class="mech"><b>Cơ chế:</b> điểm chung của cả năm bẫy là chính sách GitHub chỉ "được hoặc không" — theo bài, không có chế độ đánh giá thử, không có bảng thống kê vi phạm, và ở cấp tổ chức không cho ngoại lệ cho từng repo <sup><a href="https://semgrep.dev/blog/2026/sha-pinning-for-github-actions-org-wide" target="_blank">[1]</a></sup>. Vì vậy đội phải tự dựng bước "bật thử" bằng script dò và bật dần ở cấp repo trước.</div>
+
+    <h3 class="sub">Thứ tự bật để CI không gãy hàng loạt</h3>
+    <p>Trình tự của Semgrep: thử tay trên khoảng 8 repo đa dạng để lộ ca lạ; quét song song toàn bộ ~350 repo; lưu trữ khoảng 20 repo bỏ hoang để giảm phạm vi; ghim hàng loạt; bật chính sách ở cấp repo cho từng repo; theo dõi lỗi CI trong giai đoạn chuyển; cuối cùng mới bật cấp tổ chức <sup><a href="https://semgrep.dev/blog/2026/sha-pinning-for-github-actions-org-wide" target="_blank">[1]</a></sup>. Họ còn khuyên bật trước cho những repo chưa từng chạy Actions, đưa bước ghim vào hướng dẫn cho trợ lý code, và chọn ngày bật khi người xử lý sự cố có mặt <sup><a href="https://semgrep.dev/blog/2026/sha-pinning-for-github-actions-org-wide" target="_blank">[1]</a></sup>.</p>
+    <p>Có một lưu ý từ tài liệu GitHub mà bài Semgrep không nhấn: Dependabot chỉ tạo cảnh báo cho action dùng semantic versioning, và <em>không</em> tạo cảnh báo cho action đã ghim SHA <sup><a href="https://docs.github.com/en/actions/reference/security/secure-use" target="_blank">[2]</a></sup>. Nghĩa là sau khi ghim, bạn mất một tầng báo động miễn phí; lúc đó bot cập nhật (và việc đọc changelog) mới là thứ giữ bạn khỏi dùng bản cũ có lỗ hổng.</p>
+
+    <div class="scale">
+      <div class="col small"><h4>Đội nhỏ / startup (&lt;10 người)</h4><ul>
+        <li>Chạy pinact một lần trên mọi repo đang có workflow, nhờ bot giữ cập nhật; không cần viết công cụ riêng.</li>
+        <li>Bật chính sách "bắt buộc SHA" ở cấp repo ngay — với vài repo, tự dọn lỗi trong một buổi.</li>
+        <li>Review các action ngoài ở mức tối thiểu: ai là tác giả, bao nhiêu người dùng, có cần quyền ghi không.</li>
+      </ul></div>
+      <div class="col"><h4>Đội đã có production (nhiều repo)</h4><ul>
+        <li>Quét toàn bộ để biết đâu là tag, đâu là nhánh, đâu là transitive <em>trước</em> khi bật.</li>
+        <li>Thử trên một nhóm repo đa dạng (có reusable workflow, có action nội bộ, có CODEOWNERS) rồi mới nhân rộng.</li>
+        <li>Chọn bot nâng cấp và đặt cooldown trước khi bật chính sách, không phải sau.</li>
+        <li>Để người trực sẵn sàng ngày bật cấp tổ chức.</li>
+      </ul></div>
+    </div>
+    <div class="takeaway">💡 <b>Rút ra cho bạn:</b> ghim SHA là việc một-lần-rồi-bảo-trì, không phải dự án lớn: Semgrep làm xong ~350 repo trong khoảng hai ngày <sup><a href="https://semgrep.dev/blog/2026/sha-pinning-for-github-actions-org-wide" target="_blank">[1]</a></sup>. Phần tốn công là bẫy transitive và chính sách "được hoặc không", nên bật dần ở cấp repo.</div>
+    <div class="refs"><b>Nguồn tham khảo:</b> [1] <a href="https://semgrep.dev/blog/2026/sha-pinning-for-github-actions-org-wide" target="_blank">Leif Dreizler, Semgrep, 12/08/2026</a> · [2] <a href="https://docs.github.com/en/actions/reference/security/secure-use" target="_blank">GitHub Docs — Secure use reference</a></div>
+  </article>
+
+  <article class="card" id="bai2">
+    <span class="tag legacy">Tối ưu hệ đang chạy · Spring Boot / HikariCP</span>
+    <h2 class="head">Một chứng chỉ Graylog hết hạn, 50 connection, 26 request chờ: khi dòng log chặn cả transaction</h2>
+    <p class="src">Nguồn: Flavius Zichil — <a href="https://levelup.gitconnected.com/how-a-simple-log-message-took-down-our-production-9c636bc68851" target="_blank">"How a Simple Log Message Took Down Our Production"</a>, Level Up Coding, 14/09/2026 [3] (chỉ đọc được phần mở đầu); đối chiếu <a href="https://logback.qos.ch/manual/appenders.html" target="_blank">Logback manual — Appenders</a> [4], <a href="https://github.com/brettwooldridge/HikariCP" target="_blank">HikariCP README</a> [5], <a href="https://github.com/brettwooldridge/HikariCP/wiki/About-Pool-Sizing" target="_blank">HikariCP wiki — About Pool Sizing</a> [6].</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">50 / 50</div><div class="lab">pool: total=50, active=50, idle=0 lúc sự cố <a href="https://levelup.gitconnected.com/how-a-simple-log-message-took-down-our-production-9c636bc68851" target="_blank">[3]</a></div></div>
+      <div class="box"><div class="num">26</div><div class="lab">request đang chờ connection <a href="https://levelup.gitconnected.com/how-a-simple-log-message-took-down-our-production-9c636bc68851" target="_blank">[3]</a></div></div>
+      <div class="box"><div class="num">30.000 ms</div><div class="lab">timeout xin connection (cũng là mặc định của HikariCP) <a href="https://github.com/brettwooldridge/HikariCP" target="_blank">[5]</a></div></div>
+      <div class="box"><div class="num">256</div><div class="lab">queueSize mặc định của AsyncAppender trong Logback <a href="https://logback.qos.ch/manual/appenders.html" target="_blank">[4]</a></div></div>
+    </div>
+
+    <h3 class="sub">Điều bài gốc cho thấy — và điều nó chưa cho tôi thấy</h3>
+    <p>Sự cố bắt đầu vào sáng thứ Hai, khoảng 9 giờ: nhiều ứng dụng chậm tới mức gần như không phản hồi. Khi tác giả mở Graylog để xem log thì gặp lỗi chứng chỉ; khi đọc log trực tiếp trên server thì thấy thông báo HikariPool không cấp được connection sau 30.000 ms, với pool 50 đã dùng hết, 0 rảnh, 26 request chờ <sup><a href="https://levelup.gitconnected.com/how-a-simple-log-message-took-down-our-production-9c636bc68851" target="_blank">[3]</a></sup>. Mô tả bài ghi nguyên nhân là chứng chỉ Graylog hết hạn làm backpressure của AsyncAppender khóa các connection HikariCP bên trong một ranh giới @Transactional của Spring <sup><a href="https://levelup.gitconnected.com/how-a-simple-log-message-took-down-our-production-9c636bc68851" target="_blank">[3]</a></sup>. Phần thân giải thích và cách sửa nằm sau tường trả phí nên bản tin không đọc được; bài này không kể lại phần đó.</p>
+    <p>Bài học duy nhất tôi đọc được nguyên văn từ tác giả: đừng bỏ qua bất kỳ lỗi nào gặp trong lúc điều tra, vì chính lỗi chứng chỉ Graylog là manh mối <sup><a href="https://levelup.gitconnected.com/how-a-simple-log-message-took-down-our-production-9c636bc68851" target="_blank">[3]</a></sup>. Phần dưới là suy luận của bản tin về cơ chế, dựa trên tài liệu của hai thư viện.</p>
+
+    <h3 class="sub">Cơ chế dựng lại từ tài liệu Logback và HikariCP</h3>
+    <div class="mech"><b>Cơ chế (suy luận biên tập):</b> khi một method @Transactional chạy, Spring lấy một connection từ pool và giữ nó đến lúc commit. Nếu giữa chừng method gọi logger, và logger đẩy event vào hàng đợi của AsyncAppender, thì thread gọi chỉ chờ khi hàng đợi đầy. Hàng đợi mặc định chỉ 256 event; khi neverBlock giữ mặc định false và hàng đợi đầy, thread gọi sẽ bị chặn tới khi có chỗ <sup><a href="https://logback.qos.ch/manual/appenders.html" target="_blank">[4]</a></sup>. Nếu đầu ra (Graylog) không nhận, hàng đợi không bao giờ vơi: mỗi thread nghiệp vụ lần lượt kẹt ở dòng log, và connection nó đang giữ không được trả. Pool 50 cạn, request mới chờ 30 giây rồi báo lỗi.</div>
+    <p>Điểm đáng chú ý nằm ở mặc định. Logback chỉ tự bỏ event khi hàng đợi còn dưới 20% chỗ trống, và chỉ bỏ mức TRACE, DEBUG, INFO; WARN và ERROR được giữ <sup><a href="https://logback.qos.ch/manual/appenders.html" target="_blank">[4]</a></sup>. Nghĩa là khi Graylog hỏng, chính những log cảnh báo — thứ bạn cần xem nhất — là thứ đẩy thread vào chỗ bị chặn. Còn HikariCP mặc định để connectionTimeout 30 giây và leakDetectionThreshold bằng 0 (tắt), mức bật tối thiểu là 2.000 ms <sup><a href="https://github.com/brettwooldridge/HikariCP" target="_blank">[5]</a></sup>; nên nếu bạn chưa bật, pool sẽ không cho bạn thấy ai đang cầm connection quá lâu.</p>
+
+    <h3 class="sub">Vì sao pool 50 không cứu được</h3>
+    <p>Người ta hay phản xạ "pool đầy thì tăng pool". Wiki HikariCP đi hướng ngược lại: công thức tham khảo là số core nhân hai cộng số ổ đĩa — ví dụ máy 4 core, một ổ đĩa ra 9 connection, và tài liệu nói pool cỡ đó phục vụ được hàng nghìn người dùng ở 6.000 TPS cho query đơn giản; trong video của Oracle, giảm pool làm thời gian phản hồi từ khoảng 100 ms xuống 2 ms <sup><a href="https://github.com/brettwooldridge/HikariCP/wiki/About-Pool-Sizing" target="_blank">[6]</a></sup>. Vậy trong sự cố này, tăng pool từ 50 lên 200 chỉ thêm 150 thread có thể kẹt cùng chỗ — và đẩy thêm 150 session sang phía database.</p>
+    <div class="mech"><b>Cơ chế:</b> thời gian giữ connection = thời gian query + mọi thứ khác nằm trong transaction. Gọi mạng ra ngoài (log từ xa, HTTP, message broker) bên trong transaction biến thời gian giữ thành "không giới hạn". Pool hết connection là <em>triệu chứng</em>; chỗ cần sửa là những thứ đang nằm sai bên trong transaction.</div>
+
+    <h3 class="sub">Ánh xạ sang stack của bạn</h3>
+    <table class="tbl">
+      <tr><th>Chỗ nhìn</th><th>Vì sao liên quan</th><th>Việc nên kiểm</th></tr>
+      <tr><td>Appender log từ xa (GELF, Logstash, syslog TCP)</td><td>Cùng cơ chế: đầu ra tắc thì hàng đợi đầy</td><td>Mọi appender gửi qua mạng phải qua AsyncAppender; xem neverBlock đang là gì</td></tr>
+      <tr><td>Method @Transactional gọi RabbitMQ/HTTP/log</td><td>Giữ connection trong lúc chờ mạng</td><td>Chuyển log nghiệp vụ và publish ra sau commit</td></tr>
+      <tr><td>HikariCP</td><td>Thấy được ai giữ connection lâu</td><td>Bật leakDetectionThreshold; theo dõi số request đang chờ</td></tr>
+      <tr><td>SQL Server</td><td>Session có transaction mở nhưng nằm yên là dấu hiệu của đúng kiểu sự cố này</td><td>Cảnh báo transaction mở lâu theo từng service</td></tr>
+    </table>
+    <div class="editnote">Bảng trên là ánh xạ biên tập từ thực hành phổ biến, không phải trích từ bài gốc.</div>
+
+    <div class="scale">
+      <div class="col small"><h4>Đội nhỏ / startup (&lt;10 người)</h4><ul>
+        <li>Kiểm một lần xem appender log từ xa có chạy sau AsyncAppender với neverBlock bật chưa — nếu chưa, đây là việc nửa buổi.</li>
+        <li>Bật leakDetectionThreshold ở staging để quen với hình dạng log của nó.</li>
+        <li>Đặt cảnh báo khi pool có request chờ kéo dài, trước khi chạm 30 giây.</li>
+      </ul></div>
+      <div class="col"><h4>Đội đã có production</h4><ul>
+        <li>Lập danh sách method @Transactional có gọi ra ngoài (HTTP, broker, log từ xa) và chuyển dần ra sau commit.</li>
+        <li>Tách giám sát hạ tầng log thành phụ thuộc hạng nhất: hết hạn chứng chỉ phải có cảnh báo trước hạn.</li>
+        <li>Diễn tập: tắt đầu ra log trên staging và xem service nào kẹt.</li>
+      </ul></div>
+    </div>
+    <div class="takeaway">💡 <b>Rút ra cho bạn:</b> vào thứ Hai tới, mở cấu hình logging của một service Spring Boot và trả lời hai câu: appender từ xa có đứng sau AsyncAppender không, và khi hàng đợi đầy nó chặn hay bỏ event?</div>
+    <div class="refs"><b>Nguồn tham khảo:</b> [3] <a href="https://levelup.gitconnected.com/how-a-simple-log-message-took-down-our-production-9c636bc68851" target="_blank">Flavius Zichil, 14/09/2026 (phần đọc được)</a> · [4] <a href="https://logback.qos.ch/manual/appenders.html" target="_blank">Logback manual — Appenders</a> · [5] <a href="https://github.com/brettwooldridge/HikariCP" target="_blank">HikariCP README</a> · [6] <a href="https://github.com/brettwooldridge/HikariCP/wiki/About-Pool-Sizing" target="_blank">HikariCP wiki — About Pool Sizing</a></div>
+  </article>
+
+  <article class="card" id="goc">
+    <span class="tag saas">Góc nhìn</span>
+    <h2 class="head">Mặc định là quyết định của người khác</h2>
+    <p>Hai bài kể cùng một chuyện: tag mutable và hàng đợi log chặn thread đều là mặc định, không ai trong đội chọn chúng, và cả hai chỉ lộ ra khi có sự cố. Semgrep chủ động đổi mặc định khi chưa có sự cố, mất khoảng hai ngày <sup><a href="https://semgrep.dev/blog/2026/sha-pinning-for-github-actions-org-wide" target="_blank">[1]</a></sup>; đội của Zichil biết mặc định của mình lúc 9 giờ sáng thứ Hai <sup><a href="https://levelup.gitconnected.com/how-a-simple-log-message-took-down-our-production-9c636bc68851" target="_blank">[3]</a></sup>. Chênh lệch giữa hai trải nghiệm đó là một buổi đọc cấu hình.</p>
+    <div class="doslist">
+      <div>✅ Tuần này: liệt kê workflow đang dùng tag hoặc nhánh (một lệnh quét), chọn một repo để ghim thử.</div>
+      <div>✅ Tuần này: kiểm cấu hình AsyncAppender và leakDetectionThreshold của một service Spring Boot.</div>
+      <div>✅ Tuần này: thêm cảnh báo hết hạn chứng chỉ cho mọi hệ log/giám sát bạn phụ thuộc.</div>
+    </div>
+  </article>
+
+  <p class="foot">Bản tin sáng · 03/10/2026 · Số liệu dẫn nguồn nội dòng; phần "Cơ chế" và bảng ánh xạ là biên tập của bản tin.</p>
+</div>
+</body>
+</html>
