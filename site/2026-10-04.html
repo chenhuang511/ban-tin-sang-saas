@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Virtual threads không làm DB nhanh hơn &middot; 04/10/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+@media (max-width:560px){h1.title{font-size:25px}.card{padding:20px 18px}.tbl{display:block;overflow-x:auto}}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 04/10/2026</div>
+    <h1 class="title">Bật virtual threads, throughput tăng 147% nhưng 37% request vẫn lỗi: cái trần không biến mất, nó chỉ dời xuống HikariCP</h1>
+    <div class="meta">04/10/2026 · Đọc khoảng 12 phút · Nguồn chính: Sandeep Bharadwaj — "Virtual Threads After JDK 24", InfoQ (31/07/2026); Avaneesh Yadav — "We Replaced Spring WebFlux with Virtual Threads", DEV (08/2025); đối chiếu OpenJDK JEP 491</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: số này chỉ có <b>một bài</b>, đào sâu một chủ đề vận hành Java/Spring Boot. Số liệu benchmark lấy từ bài của InfoQ và chạy trong môi trường tác giả tự dựng (máy 8 vCPU, downstream giả lập độ trễ 300 ms), không phải hệ thống thật của một công ty. Case của Yadav là số tự báo cáo trên DEV, chưa có kiểm chứng độc lập. Các khối <b style="color:#1e40af">Cơ chế</b>, bảng ánh xạ sang stack của bạn và phần "Rút ra theo quy mô" là phân tích của bản tin, <em>không trích nguyên văn từ nguồn</em>. Không chèn code hay cấu hình; mọi thao tác được tả bằng lời.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1"><strong>Bài 1</strong> — Virtual threads trên Spring Boot: cái gì thật sự được gỡ, cái gì chỉ bị dời chỗ<br><span style="font-size:13.5px;color:#6b7280">· JDK 24 sửa lỗi pinning nào · hai benchmark: ThreadLocal và JDBC/HikariCP · một case bỏ WebFlux · ánh xạ sang SQL Server, RabbitMQ, Kafka · nên làm gì thứ Hai</span></a></li>
+    </ol>
+  </nav>
+
+  <article class="card" id="bai1">
+    <span class="tag legacy">Tối ưu hệ đang chạy · Spring Boot &amp; JVM</span>
+    <h2 class="head">Virtual threads: gỡ trần thread pool của Tomcat, rồi va vào trần connection pool</h2>
+    <p class="src">Nguồn: Sandeep Bharadwaj — <a href="https://www.infoq.com/articles/virtual-threads-after-jdk24/" target="_blank">"Virtual Threads After JDK 24: What Changed for Production Java"</a>, InfoQ, 31/07/2026 [1]; OpenJDK — <a href="https://openjdk.org/jeps/491" target="_blank">JEP 491</a> [2]; Avaneesh Yadav — <a href="https://dev.to/avaneeshyadav/we-replaced-spring-webflux-with-virtual-threads-heres-the-honest-result-49ab" target="_blank">"We Replaced Spring WebFlux with Virtual Threads. Here's the Honest Result."</a>, DEV, 08/2025 [3].</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">+147%</div><div class="lab">throughput ở kịch bản JDBC: 624 → 1.539 req/s <a href="https://www.infoq.com/articles/virtual-threads-after-jdk24/" target="_blank">[1]</a></div></div>
+      <div class="box"><div class="num">~37%</div><div class="lab">tỷ lệ lỗi gần như y hệt ở cả hai mô hình (36,91% và 37,08%) <a href="https://www.infoq.com/articles/virtual-threads-after-jdk24/" target="_blank">[1]</a></div></div>
+      <div class="box"><div class="num">2.216×</div><div class="lab">số lần khởi tạo ThreadLocal: 200 → 443.267 <a href="https://www.infoq.com/articles/virtual-threads-after-jdk24/" target="_blank">[1]</a></div></div>
+      <div class="box"><div class="num">−34%</div><div class="lab">p99 của một đội bỏ WebFlux: 187 → 123 ms (tự báo cáo) <a href="https://dev.to/avaneeshyadav/we-replaced-spring-webflux-with-virtual-threads-heres-the-honest-result-49ab" target="_blank">[3]</a></div></div>
+    </div>
+
+    <h3 class="sub">Điều JDK 24 thật sự sửa</h3>
+    <p>Virtual thread là luồng nhẹ do JVM lập lịch, chạy trên một nhóm nhỏ "carrier thread" (luồng nền thật). Khi virtual thread chờ I/O, nó nhả carrier cho thread khác. Lỗi hay gặp ở JDK 21 là pinning: gặp khối synchronized thì virtual thread bị đóng đinh vào carrier, nên chờ I/O trong đó là giữ luôn luồng nền. Đủ nhiều thread bị đóng đinh thì cả nhóm carrier tắc. JEP 491, chốt ở JDK 24, cho virtual thread nhả carrier ngay cả khi đang ở trong synchronized <sup><a href="https://openjdk.org/jeps/491" target="_blank">[2]</a></sup>.</p>
+    <p>Hai ca vẫn còn pinning: đang chạy native code có chặn hoặc giữ monitor, và đang khởi tạo class có thao tác chặn <sup><a href="https://openjdk.org/jeps/491" target="_blank">[2]</a></sup>. Sự kiện JFR jdk.VirtualThreadPinned vẫn tồn tại nhưng giờ chỉ báo các ca còn lại. Bài InfoQ kết luận gọn: JDK 25 là bản LTS đầu tiên có sửa lỗi này, nên nếu còn kẹt ở Java 21 thì rủi ro pinning chưa hết <sup><a href="https://www.infoq.com/articles/virtual-threads-after-jdk24/" target="_blank">[1]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế:</b> trước đây "bật virtual threads" ở Java 21 là cược vào việc không ai trong chuỗi gọi (driver, pool, thư viện log) dùng synchronized quanh I/O. Sau JDK 24 cược đó nhỏ đi nhiều, nhưng chưa về không. Với bạn câu hỏi thực tế là: JDK nào đang chạy production, và thư viện nào còn gọi native hoặc chặn trong khởi tạo class. Cách trả lời duy nhất đáng tin là bật sự kiện JFR trên môi trường tải thật trước khi bật virtual threads.</div>
+
+    <h3 class="sub">Benchmark thứ nhất: ThreadLocal, chỗ cache âm thầm hỏng</h3>
+    <p>Ở bài kiểm tra 500 người dùng đồng thời trong 60 giây, virtual threads cho throughput 7.426 req/s so với 3.594 req/s (tăng 107%) và p99 từ 147 ms xuống 53 ms <sup><a href="https://www.infoq.com/articles/virtual-threads-after-jdk24/" target="_blank">[1]</a></sup>. Nhưng số khởi tạo ThreadLocal nhảy từ 200 lên 443.267. Tác giả dùng đối tượng SimpleDateFormat làm ví dụ. Nó được cache trong ThreadLocal theo kiểu "mỗi thread một bản".</p>
+    <div class="mech"><b>Cơ chế:</b> cache ThreadLocal chỉ có lợi khi thread sống lâu và được tái dùng, như thread của Tomcat. Virtual thread sinh ra cho từng request rồi chết, nên mỗi request dựng lại đối tượng từ đầu và không bao giờ trúng cache. Code vẫn đúng, kết quả vẫn đúng, chỉ có CPU và GC tăng lên. Lỗi này không báo gì cả, nên bài khuyên đếm số lần gọi hàm khởi tạo bằng bộ đếm Micrometer trước khi lên production <sup><a href="https://www.infoq.com/articles/virtual-threads-after-jdk24/" target="_blank">[1]</a></sup>. Mặt kia của ThreadLocal là InheritableThreadLocal: ngữ cảnh mất khi chia việc sang task con bằng StructuredTaskScope. Cái này đáng để ý nếu bạn truyền CompanyID hay trace id qua ThreadLocal.</div>
+
+    <h3 class="sub">Benchmark thứ hai: JDBC qua HikariCP, nơi cái trần quay lại</h3>
+    <p>Kịch bản này đáng đọc kỹ nhất với bạn. Môi trường là Postgres qua HikariCP, Spring Boot 3.4, Temurin 25, máy 8 vCPU, downstream giả lập 300 ms <sup><a href="https://www.infoq.com/articles/virtual-threads-after-jdk24/" target="_blank">[1]</a></sup>. Hai cấu hình cạnh nhau như sau.</p>
+    <table class="tbl">
+      <tr><th></th><th>Thread truyền thống (pool 20)</th><th>Virtual threads (pool 50)</th></tr>
+      <tr><td>Throughput</td><td>624 req/s</td><td>1.539 req/s</td></tr>
+      <tr><td>p99</td><td>1.363 ms</td><td>613 ms</td></tr>
+      <tr><td>Tỷ lệ lỗi</td><td>36,91%</td><td>37,08%</td></tr>
+    </table>
+    <p>Nhìn cột đầu tiên thì virtual threads thắng gấp 2,5 lần. Nhìn dòng cuối thì không có gì đổi: khoảng 37% request vẫn lỗi ở cả hai <sup><a href="https://www.infoq.com/articles/virtual-threads-after-jdk24/" target="_blank">[1]</a></sup>. Bài InfoQ diễn giải rằng nút thắt đã chuyển từ thread pool của Tomcat sang connection của database <sup><a href="https://www.infoq.com/articles/virtual-threads-after-jdk24/" target="_blank">[1]</a></sup>. Lưu ý hai cấu hình dùng pool khác nhau (20 và 50) nên đây không phải so sánh "chỉ đổi một thứ"; đọc nó như minh họa về hiện tượng chứ không phải con số để chép.</p>
+    <div class="mech"><b>Cơ chế:</b> với thread truyền thống, pool của Tomcat (mặc định vài trăm thread) tự giới hạn số request đang xử lý, và vô tình bảo vệ luôn database. Virtual threads bỏ giới hạn đó: hàng nghìn request cùng được nhận, cùng đi xin connection. Pool 50 connection thì 50 request chạy, các request còn lại đứng chờ trong Hikari cho tới khi hết connectionTimeout rồi lỗi. Request chờ vẫn nằm trong bộ nhớ, vẫn giữ socket phía client, nên bạn đổi một hàng đợi gọn (thread pool) lấy một hàng đợi dài vô hình. Định luật Little (số request dở dang = tốc độ đến × thời gian ở lại, đã nhắc ở số 24/09) cho thấy vì sao: tốc độ đến không bị chặn nữa, nên hễ database chậm đi một chút thì số request dở dang phình ra theo.</div>
+
+    <h3 class="sub">Một case thật hơn: bốn service bỏ WebFlux</h3>
+    <p>Avaneesh Yadav kể một đội chuyển bốn Spring Boot microservice từ WebFlux (Netty) sang Spring MVC với virtual threads: p99 từ 187 xuống 123 ms, throughput từ 2.100 lên 2.690 req/s, số dòng code từ 8.400 xuống 4.960, heap từ 340 xuống 290 MB <sup><a href="https://dev.to/avaneeshyadav/we-replaced-spring-webflux-with-virtual-threads-heres-the-honest-result-49ab" target="_blank">[3]</a></sup>. Lý do họ đổi là chi phí con người: stack trace của Reactor khó đọc, truyền ngữ cảnh (MDC, tracing, security) phải viết thêm, người mới mất nhiều tuần học. Họ chuyển R2DBC về JDBC, đổi WebClient thành RestClient, và đặt giới hạn tường minh cho HikariCP vì virtual threads tăng nhanh còn connection thì không <sup><a href="https://dev.to/avaneeshyadav/we-replaced-spring-webflux-with-virtual-threads-heres-the-honest-result-49ab" target="_blank">[3]</a></sup>. Họ giữ WebFlux cho phần phát sự kiện (SSE) và xử lý luồng Kafka <sup><a href="https://dev.to/avaneeshyadav/we-replaced-spring-webflux-with-virtual-threads-heres-the-honest-result-49ab" target="_blank">[3]</a></sup>.</p>
+    <div class="editnote">Đây là số tự báo cáo của một bài trên DEV, không nêu tải và phương pháp đo chi tiết; chiều giảm 34% p99 có thể phần lớn đến từ bỏ chi phí của Reactor chứ không phải từ virtual threads. Đọc nó như dấu hiệu về chiều hướng, không phải benchmark.</div>
+
+    <h3 class="sub">Ánh xạ sang stack của bạn</h3>
+    <table class="tbl">
+      <tr><th>Chỗ trong hệ thống</th><th>Virtual threads thay đổi gì</th><th>Việc nên kiểm</th></tr>
+      <tr><td>Tomcat → HikariCP → SQL Server</td><td>Bỏ trần thread, request chờ connection nhiều hơn</td><td>Đo thời gian chờ lấy connection của Hikari và số request đang chờ, không chỉ số active</td></tr>
+      <tr><td>SQL Server OLTP cỡ TB</td><td>Pool càng to càng dễ đè lên worker và lock của server</td><td>Giữ pool theo sức của SQL Server, không theo số thread ứng dụng</td></tr>
+      <tr><td>Listener RabbitMQ</td><td>Song song hóa theo số consumer/prefetch, không theo số thread</td><td>Prefetch vẫn là van chính; virtual threads không thay nó</td></tr>
+      <tr><td>Consumer Kafka</td><td>Song song tối đa bằng số partition được gán</td><td>Không kỳ vọng tăng throughput nếu nút thắt là partition</td></tr>
+      <tr><td>ThreadLocal chứa CompanyID/trace</td><td>Cache mất tác dụng, ngữ cảnh có thể không sang task con</td><td>Đếm lần khởi tạo; cân nhắc ScopedValue ở JDK 25</td></tr>
+    </table>
+    <div class="editnote">Bảng trên là suy luận biên tập từ cơ chế đã nêu, không có trong nguồn. Các dòng về SQL Server, RabbitMQ và Kafka chưa được nguồn nào ở trên kiểm chứng; hãy đo trên hệ của bạn.</div>
+
+    <h3 class="sub">Rút ra theo quy mô</h3>
+    <div class="scale">
+      <div class="col small"><h4>Đội nhỏ, &lt;10 người</h4><ul>
+        <li>Nếu đang chạy Spring MVC thông thường và chưa có vấn đề thread, đừng bật virtual threads chỉ vì thấy đang hot.</li>
+        <li>Nếu đang cân nhắc WebFlux cho dịch vụ chủ yếu chờ I/O, bài InfoQ cho rằng đó là ca có lý do rõ nhất để chọn MVC cộng virtual threads <sup><a href="https://www.infoq.com/articles/virtual-threads-after-jdk24/" target="_blank">[1]</a></sup>.</li>
+        <li>Chọn JDK 25 trước, sau đó mới bật.</li>
+      </ul></div>
+      <div class="col"><h4>Đội đã có production</h4><ul>
+        <li>Bật sự kiện pinning của JFR trên môi trường tải thật; nó mặc định ngưỡng 20 ms ở JDK 25 <sup><a href="https://www.infoq.com/articles/virtual-threads-after-jdk24/" target="_blank">[1]</a></sup>.</li>
+        <li>Thêm một giới hạn đồng thời tường minh (semaphore) ở mỗi tài nguyên dùng chung, đặt nhỏ hơn hoặc bằng pool, để request dư bị từ chối nhanh thay vì chờ 30 giây trong Hikari <sup><a href="https://www.infoq.com/articles/virtual-threads-after-jdk24/" target="_blank">[1]</a></sup>.</li>
+        <li>Đếm khởi tạo ThreadLocal bằng Micrometer trước khi mở cho toàn bộ lưu lượng <sup><a href="https://www.infoq.com/articles/virtual-threads-after-jdk24/" target="_blank">[1]</a></sup>.</li>
+        <li>Canary theo tenant lớn nhất trước, theo dõi p99 và thời gian chờ connection.</li>
+      </ul></div>
+    </div>
+
+    <div class="takeaway">💡 <b>Rút ra cho bạn:</b> virtual threads không làm database nhanh hơn, chúng chỉ làm ứng dụng nhận được nhiều việc hơn mức database chịu nổi. Trước khi bật, hãy quyết định rõ cái gì sẽ giới hạn số việc: đó phải là một con số bạn chọn, không phải một timeout 30 giây.</div>
+
+    <div class="doslist">
+      <div>✅ Chạy JDK 25 (hoặc ít nhất 24) rồi mới bật virtual threads.</div>
+      <div>✅ Thêm panel Grafana cho thời gian chờ connection của Hikari và số thread chờ.</div>
+      <div>✅ Rà soát mọi chỗ dùng ThreadLocal, nhất là cache định dạng và ngữ cảnh tenant.</div>
+      <div>❌ Không tăng pool Hikari chỉ để làm lỗi biến mất; SQL Server là bên trả giá.</div>
+      <div>❌ Không bỏ WebFlux ở chỗ cần streaming hay backpressure thật sự.</div>
+    </div>
+
+    <div class="refs"><b>Nguồn tham khảo</b><br>
+      [1] <a href="https://www.infoq.com/articles/virtual-threads-after-jdk24/" target="_blank">Sandeep Bharadwaj — Virtual Threads After JDK 24, InfoQ, 31/07/2026</a><br>
+      [2] <a href="https://openjdk.org/jeps/491" target="_blank">OpenJDK — JEP 491: Synchronize Virtual Threads without Pinning</a><br>
+      [3] <a href="https://dev.to/avaneeshyadav/we-replaced-spring-webflux-with-virtual-threads-heres-the-honest-result-49ab" target="_blank">Avaneesh Yadav — We Replaced Spring WebFlux with Virtual Threads, DEV, 08/2025</a></div>
+  </article>
+
+  <div class="foot">Bản tin sáng · tổng hợp từ nguồn công khai đã xác minh</div>
+</div>
+</body>
+</html>
