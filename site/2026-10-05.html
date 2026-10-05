@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Một transaction ngủ chặn partition switch hai tiếng &middot; 05/10/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+@media (max-width:560px){h1.title{font-size:25px}.card{padding:20px 18px}.tbl{display:block;overflow-x:auto}}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 05/10/2026</div>
+    <h1 class="title">Một session "đang ngủ" giữ transaction mở làm ALTER TABLE SWITCH chờ hơn 2 tiếng; và một consumer chậm kéo cả nhóm 100 consumer Kafka vào vòng rebalance</h1>
+    <div class="meta">05/10/2026 · Đọc khoảng 13 phút · Nguồn chính: Amine Haloui — dbi-services (14/05/2026); Ramin Ranjbar &amp; Jimit Patel — VGS Engineering (11/06/2025); đối chiếu tài liệu Microsoft và Confluent</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: số này có <b>hai bài</b>, cùng mảng vận hành và cùng một mô-típ: một bên im lặng làm kẹt cả cấu trúc dùng chung. Cả hai đều là case tự thuật của kỹ sư, không phải benchmark. Bài dbi-services tả nguyên nhân là nghi vấn có bằng chứng gián tiếp, tác giả không chứng minh trực tiếp; bài VGS đổi nhiều thông số cùng lúc nên không tách được phần đóng góp của từng thay đổi. Case VGS chạy trên client Python (aiokafka), không phải JVM. Các khối <b style="color:#1e40af">Cơ chế</b>, bảng ánh xạ sang stack của bạn và phần "Rút ra theo quy mô" là phân tích của bản tin, <em>không trích nguyên văn từ nguồn</em>. Không chèn code hay câu lệnh; mọi thao tác được tả bằng lời.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1"><strong>Bài 1</strong> — Transaction mở trên một bảng 244 triệu dòng chặn partition switch<br><span style="font-size:13.5px;color:#6b7280">· Sch-S và Sch-M va nhau thế nào · vì sao autocommit tắt là mồi lửa · WAIT_AT_LOW_PRIORITY · phép tương đương bên JDBC/Hikari</span></a></li>
+      <li><a href="#bai2"><strong>Bài 2</strong> — 100 consumer, 100 partition, và vòng rebalance không dứt<br><span style="font-size:13.5px;color:#6b7280">· eager vs cooperative · bốn thông số đổi, 13 → 135 req/s · cái bẫy "thêm consumer cho nhanh" · ánh xạ sang Spring Kafka</span></a></li>
+      <li><a href="#goc-nhin"><strong>Góc nhìn</strong> — Kẻ chậm nói to hơn kẻ chết, và ba việc cho tuần này</a></li>
+    </ol>
+  </nav>
+
+  <article class="card" id="bai1">
+    <span class="tag legacy">Tối ưu hệ đang chạy · SQL Server</span>
+    <h2 class="head">Partition switch là thao tác "nhẹ" nhất của bạn, cho tới khi một session ngủ giữ nó lại</h2>
+    <p class="src">Nguồn: Amine Haloui — <a href="https://www.dbi-services.com/blog/when-a-python-driver-configuration-issue-may-cause-blocking-in-sql-server/" target="_blank">"When a Python driver configuration issue may cause blocking in SQL Server"</a>, dbi-services, 14/05/2026 [1]; Microsoft Learn — <a href="https://learn.microsoft.com/en-us/sql/t-sql/statements/alter-table-transact-sql?view=sql-server-ver16" target="_blank">ALTER TABLE (Transact-SQL)</a> [2].</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">7.770.160 ms</div><div class="lab">thời gian ALTER TABLE…SWITCH chờ khóa: hơn 2 tiếng <sup><a href="https://www.dbi-services.com/blog/when-a-python-driver-configuration-issue-may-cause-blocking-in-sql-server/" target="_blank">[1]</a></sup></div></div>
+      <div class="box"><div class="num">244 triệu</div><div class="lab">dòng trong bảng partition bị truy vấn không lọc ngày <sup><a href="https://www.dbi-services.com/blog/when-a-python-driver-configuration-issue-may-cause-blocking-in-sql-server/" target="_blank">[1]</a></sup></div></div>
+      <div class="box"><div class="num">~49,1 giây</div><div class="lab">trung bình mỗi lần chạy, 30 lần trong một giờ, tối đa ~57 giây <sup><a href="https://www.dbi-services.com/blog/when-a-python-driver-configuration-issue-may-cause-blocking-in-sql-server/" target="_blank">[1]</a></sup></div></div>
+      <div class="box"><div class="num">1</div><div class="lab">open_tran_count của session đang "sleeping" giữ khóa <sup><a href="https://www.dbi-services.com/blog/when-a-python-driver-configuration-issue-may-cause-blocking-in-sql-server/" target="_blank">[1]</a></sup></div></div>
+    </div>
+
+    <h3 class="sub">Chuyện gì đã xảy ra</h3>
+    <p>Một tiến trình ETL nạp hàng triệu dòng vào bảng partition và dùng ALTER TABLE…SWITCH để đưa dữ liệu vào. Ngày hôm đó lệnh SWITCH không chạy. Nó đứng chờ khóa schema modification (Sch-M) tới 7.770.160 ms, tức hơn hai tiếng <sup><a href="https://www.dbi-services.com/blog/when-a-python-driver-configuration-issue-may-cause-blocking-in-sql-server/" target="_blank">[1]</a></sup>. Tác giả nhìn bằng sp_WhoIsActive và thấy session 167: trạng thái sleeping, nhưng open_tran_count bằng 1. Session này đến từ driver Python, chạy một câu SELECT dạng CTE, không lọc ngày, trên bảng 244 triệu dòng <sup><a href="https://www.dbi-services.com/blog/when-a-python-driver-configuration-issue-may-cause-blocking-in-sql-server/" target="_blank">[1]</a></sup>.</p>
+    <p>Query Store xác nhận câu truy vấn đó chạy 30 lần trong một giờ chiều ngày 05/05/2026. Mỗi lần trung bình khoảng 49,1 giây, lâu nhất khoảng 57 giây, tổng cộng chừng 24 phút trong một giờ <sup><a href="https://www.dbi-services.com/blog/when-a-python-driver-configuration-issue-may-cause-blocking-in-sql-server/" target="_blank">[1]</a></sup>. Cách chữa tác giả đưa ra là bật autocommit trong cấu hình driver. Với autocommit bật, câu đọc không còn dính vào một transaction mở mặc định. Tác giả khuyên thêm: đóng cursor và đọc hết result set trước khi trả connection về pool, và đừng cho các pipeline chạy song song để một job kẹt không kéo job sau kẹt theo <sup><a href="https://www.dbi-services.com/blog/when-a-python-driver-configuration-issue-may-cause-blocking-in-sql-server/" target="_blank">[1]</a></sup>.</p>
+    <div class="editnote">Nguồn tự nói phần nguyên nhân là chưa chắc chắn hẳn: không nêu mức isolation của session Python, không nêu loại wait cụ thể của session bị chặn, và không nêu cấu hình nào đã được sửa sau cùng ngoài khuyến nghị bật autocommit. Đọc đây là một ca chẩn đoán hợp lý, chưa phải kết luận đóng.</div>
+
+    <h3 class="sub">Vì sao một câu SELECT lại chặn được lệnh DDL</h3>
+    <p>Microsoft ghi rõ: ALTER TABLE…SWITCH lấy khóa Sch-M trên cả bảng nguồn lẫn bảng đích <sup><a href="https://learn.microsoft.com/en-us/sql/t-sql/statements/alter-table-transact-sql?view=sql-server-ver16" target="_blank">[2]</a></sup>. Sch-M không tương thích với gần như mọi khóa khác trên bảng, kể cả khóa Sch-S (schema stability) mà mọi truy vấn đọc đều lấy. Bài viết nhắc đúng điểm này: truy vấn vẫn lấy Sch-S khi biên dịch và khi chạy, và Sch-M không lấy được khi một session còn tham chiếu tới đối tượng <sup><a href="https://www.dbi-services.com/blog/when-a-python-driver-configuration-issue-may-cause-blocking-in-sql-server/" target="_blank">[1]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế:</b> phần khó nhận ra là <em>thời điểm khóa được nhả</em>. Khi connection ở chế độ autocommit, mỗi câu lệnh là một transaction nhỏ, xong là thôi. Khi autocommit tắt (nhiều driver Python theo chuẩn DB-API mặc định như vậy), câu SELECT đầu tiên mở một transaction ngầm mà không ai đóng. Session quay về trạng thái "sleeping" trong pool, nhưng transaction vẫn mở. Trong transaction mở, khóa schema không được nhả sau câu lệnh mà giữ tới khi commit hoặc rollback (đây là hành vi chuẩn của SQL Server với khóa trong transaction; nguồn không diễn giải sâu tới mức này). Vì vậy một câu đọc 50 giây có thể giữ Sch-S nhiều giờ nếu không ai đóng transaction, và Sch-M của SWITCH chỉ biết xếp hàng.</div>
+    <div class="mech"><b>Cơ chế:</b> còn một lớp nữa: hàng chờ khóa của SQL Server xếp theo thứ tự đến. Khi SWITCH đã đứng chờ Sch-M, các truy vấn mới muốn lấy Sch-S trên cùng bảng có thể xếp <em>sau</em> nó và cũng phải chờ. Nghĩa là một session ngủ không chỉ chặn ETL, nó còn có thể kéo theo cả những query đọc bình thường của người dùng. Đây là suy luận biên tập từ cách hàng chờ khóa hoạt động; bài dbi-services không kể tới hậu quả này, nên bạn hãy tự kiểm trên hệ của mình trước khi tin nó.</div>
+
+    <h3 class="sub">Cái van mà SQL Server 2022 đã có sẵn</h3>
+    <p>Tài liệu Microsoft mô tả tùy chọn WAIT_AT_LOW_PRIORITY cho lệnh SWITCH. MAX_DURATION là số phút lệnh chờ với độ ưu tiên thấp. Hết thời gian đó thì một trong ba hành động ABORT_AFTER_WAIT chạy: NONE (tiếp tục chờ với ưu tiên thường), SELF (thoát lệnh SWITCH, không làm gì thêm) và BLOCKERS (kill các transaction của người dùng đang chặn, cần quyền ALTER ANY CONNECTION) <sup><a href="https://learn.microsoft.com/en-us/sql/t-sql/statements/alter-table-transact-sql?view=sql-server-ver16" target="_blank">[2]</a></sup>.</p>
+    <table class="tbl">
+      <tr><th>Chọn</th><th>Khi nào hợp</th><th>Cái giá</th></tr>
+      <tr><td>SELF, MAX_DURATION vài phút</td><td>ETL ban đêm, ca nào hôm đó bị kẹt thì thử lại sau</td><td>Job phải có vòng thử lại và báo động rõ ràng</td></tr>
+      <tr><td>BLOCKERS</td><td>Cửa sổ bảo trì cứng, chấp nhận hủy session đọc</td><td>Có thể kill nhầm báo cáo đang chạy dài của người dùng</td></tr>
+      <tr><td>NONE (hành vi như mặc định)</td><td>Hầu như không nên cho job tự động</td><td>Chờ vô hạn, đúng ca hai tiếng ở bài này</td></tr>
+    </table>
+    <div class="editnote">Bảng trên là lựa chọn biên tập dựa trên mô tả của tài liệu Microsoft, không có trong bài dbi-services. Bài dbi-services không nhắc tới WAIT_AT_LOW_PRIORITY; việc nối hai nguồn này là của bản tin.</div>
+
+    <h3 class="sub">Ánh xạ sang stack của bạn</h3>
+    <p>Bạn chạy SQL Server 2022 Enterprise, bảng OLTP cỡ TB, partition theo thời gian, có CDC. Partition switch (đưa phân vùng cũ ra bảng lưu trữ) chính là loại thao tác Sch-M này. Phía Java không phải Python, nhưng cùng một câu hỏi áp dụng: connection nào đang trả về pool mà còn transaction mở?</p>
+    <table class="tbl">
+      <tr><th>Chỗ trong hệ thống</th><th>Rủi ro tương đương</th><th>Việc nên kiểm</th></tr>
+      <tr><td>Job lưu trữ / partition switch</td><td>Sch-M chờ vô hạn nếu không có WAIT_AT_LOW_PRIORITY</td><td>Mọi lệnh SWITCH và rebuild online đều có MAX_DURATION</td></tr>
+      <tr><td>Spring Boot + HikariCP</td><td>Connection trả về pool khi còn dính transaction nếu code tự tắt auto-commit</td><td>Tìm chỗ gọi tắt auto-commit thủ công; đặt cảnh báo cho session sleeping có transaction mở lâu</td></tr>
+      <tr><td>Báo cáo, script ad-hoc, công cụ BI</td><td>Công cụ bên ngoài mặc định tắt autocommit</td><td>Dùng tài khoản riêng cho báo cáo, ghi chú application name để lần ra session nào</td></tr>
+      <tr><td>CDC → ClickHouse</td><td>Log reader cũng nhạy với transaction mở lâu (giữ log không cắt được)</td><td>Cùng cảnh báo transaction mở lâu bảo vệ cả CDC</td></tr>
+    </table>
+    <div class="editnote">Bảng này là suy luận biên tập; nguồn không nhắc tới Java, Hikari hay CDC. Hãy xác nhận từng dòng trên hệ của bạn trước khi coi là đúng.</div>
+
+    <h3 class="sub">Rút ra theo quy mô</h3>
+    <div class="scale">
+      <div class="col small"><h4>Đội nhỏ, &lt;10 người</h4><ul>
+        <li>Bật autocommit làm mặc định ở mọi driver, chỉ mở transaction tường minh ở chỗ cần.</li>
+        <li>Đặt MAX_DURATION cho mọi lệnh SWITCH trong script bảo trì ngay tuần này.</li>
+        <li>Một câu truy vấn kiểm tra session sleeping có open_transaction_count lớn hơn 0, chạy theo lịch, là đủ để bắt ca này.</li>
+      </ul></div>
+      <div class="col"><h4>Đội đã có production</h4><ul>
+        <li>Chuẩn hóa application name trong chuỗi kết nối theo service để biết ngay session ngủ thuộc về ai.</li>
+        <li>Cảnh báo theo tuổi của transaction mở nhất, không chỉ theo số blocking session.</li>
+        <li>Tách tài khoản và tài nguyên cho báo cáo và ETL khỏi tài khoản OLTP.</li>
+        <li>Job SWITCH phải idempotent và biết thử lại sau khi ABORT_AFTER_WAIT bỏ cuộc.</li>
+      </ul></div>
+    </div>
+
+    <div class="takeaway">💡 <b>Rút ra cho bạn:</b> blocking không luôn do query chậm. Ở đây câu SELECT chỉ chạy 49 giây, còn transaction mở sống hàng giờ. Cái đáng đo là tuổi transaction, không phải thời gian query.</div>
+
+    <div class="doslist">
+      <div>✅ Mọi lệnh SWITCH và rebuild online có WAIT_AT_LOW_PRIORITY và MAX_DURATION.</div>
+      <div>✅ Cảnh báo session sleeping còn transaction mở quá vài phút.</div>
+      <div>✅ Ghi application name trong chuỗi kết nối để truy ra chủ session.</div>
+      <div>❌ Không chữa bằng cách kill session mỗi lần mà không sửa cấu hình driver.</div>
+      <div>❌ Không để job lưu trữ chờ khóa vô hạn.</div>
+    </div>
+
+    <div class="refs"><b>Nguồn tham khảo</b><br>
+      [1] <a href="https://www.dbi-services.com/blog/when-a-python-driver-configuration-issue-may-cause-blocking-in-sql-server/" target="_blank">Amine Haloui — When a Python driver configuration issue may cause blocking in SQL Server, dbi-services, 14/05/2026</a><br>
+      [2] <a href="https://learn.microsoft.com/en-us/sql/t-sql/statements/alter-table-transact-sql?view=sql-server-ver16" target="_blank">Microsoft Learn — ALTER TABLE (Transact-SQL), SWITCH PARTITION và low priority lock wait</a></div>
+  </article>
+
+  <article class="card" id="bai2">
+    <span class="tag legacy">Tối ưu hệ đang chạy · Kafka</span>
+    <h2 class="head">100 consumer chung một nhóm: khi một người chậm, cả nhóm dừng làm việc để họp lại</h2>
+    <p class="src">Nguồn: Ramin Ranjbar, Jimit Patel — <a href="https://www.verygoodsecurity.com/blog/posts/solving-kafka-rebalancing-issues-a-case-study" target="_blank">"Solving Kafka Rebalancing Issues: A Case Study"</a>, VGS Engineering, 11/06/2025 [3]; Confluent — <a href="https://www.confluent.io/blog/cooperative-rebalancing-in-kafka-streams-consumer-ksqldb/" target="_blank">"Cooperative Rebalancing in Kafka Streams, Consumer, ksqlDB"</a> [4].</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">13 → 135</div><div class="lab">req/s sau khi chỉnh, ổn định thay vì dao động <sup><a href="https://www.verygoodsecurity.com/blog/posts/solving-kafka-rebalancing-issues-a-case-study" target="_blank">[3]</a></sup></div></div>
+      <div class="box"><div class="num">100 / 100</div><div class="lab">consumer và partition (25 pod × 4 process) <sup><a href="https://www.verygoodsecurity.com/blog/posts/solving-kafka-rebalancing-issues-a-case-study" target="_blank">[3]</a></sup></div></div>
+      <div class="box"><div class="num">30 → 60 s</div><div class="lab">session timeout, heartbeat đặt 20 s <sup><a href="https://www.verygoodsecurity.com/blog/posts/solving-kafka-rebalancing-issues-a-case-study" target="_blank">[3]</a></sup></div></div>
+      <div class="box"><div class="num">−90%</div><div class="lab">thời gian dừng khi rolling bounce: 37.138 → 3.522 ms (benchmark Confluent, Kafka Streams 10 instance) <sup><a href="https://www.confluent.io/blog/cooperative-rebalancing-in-kafka-streams-consumer-ksqldb/" target="_blank">[4]</a></sup></div></div>
+    </div>
+
+    <h3 class="sub">Hiện trường</h3>
+    <p>Hệ của VGS chạy Kafka 2.8.1, 3 broker, một topic webhook với 100 partition và replication factor 3. Có 100 consumer: 25 pod, mỗi pod 4 process, dùng thư viện Python aiokafka trên Kubernetes ở AWS <sup><a href="https://www.verygoodsecurity.com/blog/posts/solving-kafka-rebalancing-issues-a-case-study" target="_blank">[3]</a></sup>. Triệu chứng là lỗi CommitFailedError và RequestTimedOutError khi consumer xin vào nhóm, nhóm kẹt ở trạng thái "rebalancing", thông báo webhook dồn ứ. Broker 2, nơi làm group coordinator, nhận lượng gói tin vào gấp đôi hai broker kia, CPU đỉnh 8,9% so với 2-4% ở hai broker còn lại <sup><a href="https://www.verygoodsecurity.com/blog/posts/solving-kafka-rebalancing-issues-a-case-study" target="_blank">[3]</a></sup>.</p>
+    <p>Đội truy ra một chuỗi: vài consumer bận lâu vì CPU hoặc bộ nhớ cao, bị Kafka coi là đã chết và loại khỏi nhóm. Khi quay lại, chúng kích hoạt rebalance cả 100 consumer. Phần lớn thời gian nhóm không xử lý được tin nhắn nào mà chỉ lo thương lượng lại kết nối. Session timeout mặc định 30 giây không đủ khi 100 consumer cùng xin vào nhóm một lúc, và chiến lược chia partition round-robin dùng eager rebalancing, nghĩa là mọi consumer phải trả hết partition rồi chia lại <sup><a href="https://www.verygoodsecurity.com/blog/posts/solving-kafka-rebalancing-issues-a-case-study" target="_blank">[3]</a></sup>.</p>
+
+    <h3 class="sub">Bốn thay đổi và kết quả</h3>
+    <table class="tbl">
+      <tr><th>Thông số</th><th>Trước</th><th>Sau</th></tr>
+      <tr><td>session_timeout_ms</td><td>30.000</td><td>60.000 (heartbeat 20.000, bằng 1/3)</td></tr>
+      <tr><td>request_timeout_ms</td><td>60.000</td><td>120.000</td></tr>
+      <tr><td>max_poll_interval_ms</td><td>300.000</td><td>600.000</td></tr>
+      <tr><td>max_poll_records</td><td>10</td><td>5</td></tr>
+      <tr><td>Chiến lược chia partition</td><td>roundrobin (eager)</td><td>CooperativeSticky (cần nâng aiokafka 0.8.0 lên ≥0.12.0)</td></tr>
+    </table>
+    <p>Kết quả họ báo: nhóm ở trạng thái Stable ổn định, hết RequestTimedOutError và CommitFailedError, throughput từ 13 lên 135 request mỗi giây và duy trì đều. Với cooperative, khi có sự cố "chỉ những consumer bị ảnh hưởng mới đổi partition" <sup><a href="https://www.verygoodsecurity.com/blog/posts/solving-kafka-rebalancing-issues-a-case-study" target="_blank">[3]</a></sup>. Một chi tiết đáng chép: họ từng thử tăng consumer lên 300 để giảm áp lực, và điều đó làm tình hình tệ hơn; quay lại 100 consumer cho 100 partition mới đúng <sup><a href="https://www.verygoodsecurity.com/blog/posts/solving-kafka-rebalancing-issues-a-case-study" target="_blank">[3]</a></sup>.</p>
+    <div class="editnote">Bài VGS đổi nhiều thông số cùng lúc nên con số 10× (13 → 135) là hiệu ứng gộp, không quy được cho riêng timeout hay riêng assignor. Bài cũng không nêu thời gian đo hay tải; đọc đây là kể chuyện của một đội, không phải benchmark.</div>
+
+    <h3 class="sub">Hiểu vì sao cooperative đỡ đau</h3>
+    <p>Confluent mô tả: với giao thức eager, mọi consumer phải bỏ hết partition đang giữ trước khi vào lại nhóm, nên "không thành viên nào làm được việc" trong lúc rebalance. Với cooperative, consumer giữ partition của mình ở vòng đầu, chỉ những partition phải chuyển chủ mới bị thu hồi, và vòng thứ hai mới gán chúng <sup><a href="https://www.confluent.io/blog/cooperative-rebalancing-in-kafka-streams-consumer-ksqldb/" target="_blank">[4]</a></sup>. Confluent đo trên ứng dụng Kafka Streams 10 instance khi rolling bounce: tổng thời gian dừng 37.138 ms với eager so với 3.522 ms với cooperative, giảm khoảng 90% <sup><a href="https://www.confluent.io/blog/cooperative-rebalancing-in-kafka-streams-consumer-ksqldb/" target="_blank">[4]</a></sup>. Để bật, đặt chiến lược chia partition là CooperativeStickyAssignor, và theo đúng đường nâng cấp khuyến nghị, vì nếu nửa nhóm chạy giao thức cũ, nửa chạy giao thức mới ở giữa lúc rebalance thì hỏng <sup><a href="https://www.confluent.io/blog/cooperative-rebalancing-in-kafka-streams-consumer-ksqldb/" target="_blank">[4]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế:</b> eager giống một cuộc họp mà ai cũng phải đứng dậy, trả ghế, rồi bốc thăm chỗ ngồi lại. Cooperative thì chỉ người phải đổi chỗ mới đứng dậy. Lợi ích lớn nhất khi nhóm đông và một thành viên rớt rồi quay lại liên tục. Cái giá nhỏ: phải có hai vòng, và mọi thành viên phải hỗ trợ giao thức mới. Con số của Confluent đo trên Kafka Streams có state, nên mức giảm với consumer không state của bạn có thể khác; hãy đo lại bằng cách rolling restart ở môi trường staging.</div>
+    <div class="mech"><b>Cơ chế:</b> bộ ba thông số hay bị nhầm. Heartbeat báo "tôi còn sống" từ một luồng nền, session timeout là thời gian coordinator chờ heartbeat trước khi loại thành viên. Max poll interval là thời gian tối đa giữa hai lần gọi poll, tức là thời gian xử lý một lô. Một consumer xử lý quá lâu bị loại <em>dù vẫn gửi heartbeat đều</em>. Vì thế VGS vừa tăng max_poll_interval vừa giảm max_poll_records: lô nhỏ hơn thì mỗi vòng ngắn hơn. Tăng timeout chỉ mua thêm thời gian, không làm consumer chậm đi hết chậm; đó là suy luận biên tập, nguồn VGS chỉ nói rằng tăng timeout giúp ổn định trong lúc điều tra nguyên nhân.</div>
+
+    <h3 class="sub">Ánh xạ sang stack của bạn</h3>
+    <table class="tbl">
+      <tr><th>Chỗ trong hệ thống</th><th>Vấn đề tương đương</th><th>Việc nên kiểm</th></tr>
+      <tr><td>Spring Kafka listener</td><td>Cùng ba thông số timeout và chiến lược chia partition</td><td>Xem assignor đang dùng; thử CooperativeSticky ở staging trước, theo đường nâng cấp rolling</td></tr>
+      <tr><td>Xử lý mỗi message có gọi SQL Server</td><td>Query chậm hoặc chờ lock làm consumer vượt max poll interval, bị loại</td><td>So thời gian xử lý lô lớn nhất với max poll interval; giảm kích thước lô trước khi tăng timeout</td></tr>
+      <tr><td>Deploy rolling của service</td><td>Mỗi pod khởi động lại là một lần rebalance</td><td>Đo thời gian lag tăng lên trong lúc deploy</td></tr>
+      <tr><td>Bảng queue/task log trong DB</td><td>Rebalance đẩy partition sang consumer khác giữa lúc xử lý dở</td><td>Xử lý idempotent theo khóa nghiệp vụ; nhận message hai lần phải vô hại</td></tr>
+    </table>
+    <div class="editnote">Bảng này là suy luận biên tập; VGS dùng Python, nguồn không nhắc tới Spring, SQL Server hay bảng queue. Hãy đo trên hệ của bạn trước khi tin các dòng trên.</div>
+
+    <h3 class="sub">Rút ra theo quy mô</h3>
+    <div class="scale">
+      <div class="col small"><h4>Đội nhỏ, &lt;10 người</h4><ul>
+        <li>Giữ số consumer nhỏ hơn hoặc bằng số partition; thêm consumer vượt mức chỉ làm hại, VGS tự vấp ở đây <sup><a href="https://www.verygoodsecurity.com/blog/posts/solving-kafka-rebalancing-issues-a-case-study" target="_blank">[3]</a></sup>.</li>
+        <li>Xử lý một lô nhỏ trong thời gian ngắn hơn nhiều so với max poll interval.</li>
+        <li>Khi nâng phiên bản client, thử cooperative ở môi trường staging trước.</li>
+      </ul></div>
+      <div class="col"><h4>Đội đã có production</h4><ul>
+        <li>Theo dõi số lần rebalance mỗi giờ và thời gian ở trạng thái rebalancing, không chỉ consumer lag.</li>
+        <li>Xem tải của group coordinator (CPU, gói tin vào) như VGS đã làm <sup><a href="https://www.verygoodsecurity.com/blog/posts/solving-kafka-rebalancing-issues-a-case-study" target="_blank">[3]</a></sup>.</li>
+        <li>Chuyển sang CooperativeSticky theo đường nâng cấp rolling, hai bước, không đổi giữa chừng <sup><a href="https://www.confluent.io/blog/cooperative-rebalancing-in-kafka-streams-consumer-ksqldb/" target="_blank">[4]</a></sup>.</li>
+        <li>Gắn tuổi xử lý message vào metric để thấy consumer chậm trước khi bị loại.</li>
+      </ul></div>
+    </div>
+
+    <div class="takeaway">💡 <b>Rút ra cho bạn:</b> consumer lag cao chưa chắc là thiếu consumer; có thể nhóm đang mất thời gian họp lại. Nếu số lần rebalance mỗi giờ nhiều hơn một, hãy sửa nhịp xử lý trước khi thêm máy.</div>
+
+    <div class="doslist">
+      <div>✅ Đếm số rebalance mỗi giờ và gắn cảnh báo.</div>
+      <div>✅ Thử CooperativeSticky ở staging với rolling restart, đo thời gian dừng.</div>
+      <div>✅ Giảm kích thước lô trước khi tăng timeout.</div>
+      <div>❌ Không thêm consumer vượt số partition để "cho nhanh".</div>
+      <div>❌ Không đổi assignor ở production giữa chừng một đợt deploy.</div>
+    </div>
+
+    <div class="refs"><b>Nguồn tham khảo</b><br>
+      [3] <a href="https://www.verygoodsecurity.com/blog/posts/solving-kafka-rebalancing-issues-a-case-study" target="_blank">Ramin Ranjbar, Jimit Patel — Solving Kafka Rebalancing Issues: A Case Study, VGS Engineering, 11/06/2025</a><br>
+      [4] <a href="https://www.confluent.io/blog/cooperative-rebalancing-in-kafka-streams-consumer-ksqldb/" target="_blank">Confluent — Cooperative Rebalancing in Kafka Streams, Consumer, ksqlDB</a></div>
+  </article>
+
+  <article class="card" id="goc-nhin">
+    <span class="tag view">Góc nhìn</span>
+    <h2 class="head">Kẻ chậm nói to hơn kẻ chết</h2>
+    <p>Hai case khác công nghệ nhưng cùng hình dạng. Ở SQL Server, một session "sleeping" giữ khóa schema và chặn lệnh SWITCH. Ở Kafka, một consumer bận quá lâu bị coi là chết và kéo cả nhóm vào rebalance. Cả hai lần, cấu trúc dùng chung (bảng partition, consumer group) trả giá thay cho một thành viên đơn lẻ.</p>
+    <p>Chỗ khác nhau cũng đáng nhìn. Ở bài 1, thành viên gây hại im lặng và vô hình với mọi cảnh báo về query chậm. Ở bài 2, thành viên gây hại ồn ào và có triệu chứng rõ, nhưng nguyên nhân gốc vẫn bị che sau chuyện "thêm consumer". Cả hai đều hợp một quy tắc thực tế: đo <em>tuổi</em> của thứ đang giữ tài nguyên chung (transaction mở, một lô đang xử lý), không chỉ đo tốc độ.</p>
+    <div class="editnote">Đoạn Góc nhìn là diễn giải của bản tin, không trích từ hai nguồn trên.</div>
+    <h3 class="sub">Ba việc làm tuần này</h3>
+    <div class="doslist">
+      <div>1. Viết một truy vấn kiểm tra session sleeping có transaction mở quá 5 phút, chạy mỗi phút, báo vào kênh on-call.</div>
+      <div>2. Rà các script SWITCH và rebuild online: thêm WAIT_AT_LOW_PRIORITY với MAX_DURATION và hành động sau khi hết hạn.</div>
+      <div>3. Lập dashboard số lần rebalance mỗi giờ cho mọi consumer group; so với thời gian deploy.</div>
+    </div>
+  </article>
+
+  <div class="foot">Bản tin sáng · tổng hợp từ nguồn công khai đã xác minh</div>
+</div>
+</body>
+</html>
