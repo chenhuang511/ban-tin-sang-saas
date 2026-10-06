@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CI 60 phút còn 15 &middot; 06/10/2026</title>
+<title>AI trong SDLC &middot; 06/10/2026</title>
 <style>
 :root{color-scheme:light}
 *{box-sizing:border-box}
@@ -65,15 +65,17 @@ hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
   <header class="masthead">
     <div class="kicker">Bản tin sáng · Số 06/10/2026</div>
     <h1 class="title">Pipeline CI từ 60 phút xuống 22 phút, rồi một năm sau lại vọt quá 30 phút: Marks &amp; Spencer và bài học "tốc độ CI cần một người chịu trách nhiệm"</h1>
-    <div class="meta">06/10/2026 · Đọc khoảng 13 phút · Nguồn chính: Serhii Yakovenko (Marks &amp; Spencer) — "We halved our continuous integration pipeline", LeadDev (07/09/2026)</div>
+    <div class="meta">06/10/2026 · Đọc khoảng 18 phút · Nguồn: Serhii Yakovenko (Marks &amp; Spencer), LeadDev (07/09/2026); Jim Young, New Relic (10/06/2026); đối chứng arXiv 2601.17413</div>
   </header>
 
-  <div class="editnote">Ghi chú biên tập: số này chỉ có <b>một bài</b>, đào sâu một case CI/CD của một công ty bán lẻ lớn. Mọi con số về M&amp;S lấy từ bài gốc do chính kỹ sư quản lý của họ kể, nên là số tự báo cáo, chưa có bên thứ ba kiểm. Các khối "Cơ chế", bảng ánh xạ sang stack của bạn và phần "Rút ra theo quy mô" là biên tập tổng hợp từ thực hành phổ biến, không trích nguyên văn từ nguồn.</div>
+  <div class="editnote">Ghi chú biên tập: số này có <b>hai bài</b> về AI trong vòng đời phát triển phần mềm. Bài 1 là case CI/CD của Marks &amp; Spencer, số tự báo cáo của chính kỹ sư quản lý của họ. Bài 2 là khảo sát 200 lãnh đạo do New Relic (nhà bán công cụ observability) thuê thực hiện, nên số liệu là cảm nhận và cần đọc có chọn lọc. Các khối "Cơ chế", bảng ánh xạ sang stack của bạn và phần "Rút ra theo quy mô" là biên tập tổng hợp từ thực hành phổ biến, không trích nguyên văn từ nguồn.</div>
 
   <nav class="toc">
     <h2>Trong số này</h2>
     <ol>
       <li><a href="#bai1"><strong>Bài 1</strong> — Một pipeline CI 60 phút: sửa năm 2025, tụt lại năm 2026, cứu lại trong sáu tuần<br><span style="font-size:13.5px;color:#6b7280">· vì sao 60 phút đắt hơn bạn nghĩ · bốn thay đổi năm 2025 và cơ chế từng cái · vì sao AI làm CI quá tải · hồi phục bằng cách bỏ bớt, không thêm máy · ánh xạ sang Spring Boot/SQL Server · việc làm thứ Hai</span></a></li>
+      <li><a href="#bai2"><strong>Bài 2</strong> — AI viết code qua review rồi gãy ở production: ai trả giá<br><span style="font-size:13.5px;color:#6b7280">· khảo sát New Relic n=200 · vì sao 94% khen mà 78% thấy sự cố · đối chứng 8.031 PR của agent · khuyến nghị và việc làm</span></a></li>
+      <li><a href="#gocnhin"><strong>Góc nhìn</strong> — chi phí rơi xuống hạ nguồn · ba việc làm tuần này</a></li>
     </ol>
   </nav>
 
@@ -181,6 +183,82 @@ hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
 
     <div class="refs"><b>Nguồn tham khảo</b><br>
       [1] <a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">Serhii Yakovenko — We halved our continuous integration pipeline, LeadDev, 07/09/2026</a></div>
+  </article>
+
+  <article class="card" id="bai2">
+    <span class="tag legacy">Tối ưu hệ đang chạy · AI trong SDLC</span>
+    <h2 class="head">AI viết code qua được review, rồi gãy ở production: ai trả giá, và đọc khảo sát này thế nào cho đúng</h2>
+    <p class="src">Nguồn: Jim Young (New Relic) — <a href="https://newrelic.com/blog/ai/state-of-ai-coding-2026" target="_blank">"2026 State of AI Coding"</a>, 10/06/2026 [2]; đối chứng: Taher A. Ghaleb (Trent University) — <a href="https://arxiv.org/html/2601.17413v1" target="_blank">"When AI Agents Touch CI/CD Configurations"</a>, arXiv, 24/01/2026 [3]. Đây là khảo sát do nhà cung cấp công cụ quan sát hệ thống thuê thực hiện, nên cần đọc có chọn lọc.</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">78%</div><div class="lab">lãnh đạo kỹ thuật thấy sự cố production tăng, gắn với code do AI viết <a href="https://newrelic.com/blog/ai/state-of-ai-coding-2026" target="_blank">[2]</a></div></div>
+      <div class="box"><div class="num">94%</div><div class="lab">chấm code AI tốt hơn code người ở khâu review, nhưng đó là nhận định lúc review <a href="https://newrelic.com/blog/ai/state-of-ai-coding-2026" target="_blank">[2]</a></div></div>
+      <div class="box"><div class="num">62%</div><div class="lab">thừa nhận đội thường ship code AI mà không soi từng dòng <a href="https://newrelic.com/blog/ai/state-of-ai-coding-2026" target="_blank">[2]</a></div></div>
+      <div class="box"><div class="num">200</div><div class="lab">người trả lời: quản lý trở lên tại các công ty công nghệ Mỹ <a href="https://newrelic.com/blog/ai/state-of-ai-coding-2026" target="_blank">[2]</a></div></div>
+    </div>
+
+    <h3 class="sub">Báo cáo nói gì</h3>
+    <p>New Relic thuê Hanover Research hỏi 200 người ra quyết định kỹ thuật ở Mỹ, cấp quản lý trở lên <sup><a href="https://newrelic.com/blog/ai/state-of-ai-coding-2026" target="_blank">[2]</a></sup>. Hai phần ba (67%) nói AI sinh hoặc refactor đáng kể 51-75% code mỗi tuần. 94% chấm code AI chất lượng cao hơn code người tại thời điểm review. Nhưng 78% thấy sự cố production tăng rõ rệt gắn với code AI, 86% thấy kỹ sư senior phải chữa cháy nhiều hơn, 74% nói ít nhất một phần tư code AI cần sửa lớn sau khi deploy, và 82% đã gặp ít nhất một sự cố production lớn từ code AI trong sáu tháng qua <sup><a href="https://newrelic.com/blog/ai/state-of-ai-coding-2026" target="_blank">[2]</a></sup>.</p>
+    <p>Về loại lỗi, các tỷ lệ gần nhau: lỗi tích hợp như lệch schema hoặc vi phạm hợp đồng API 30%, vấn đề tuân thủ và kiểm toán 30%, lỗi toàn vẹn dữ liệu 29%, lỗ hổng bảo mật mới 28% <sup><a href="https://newrelic.com/blog/ai/state-of-ai-coding-2026" target="_blank">[2]</a></sup>. Bốn con số cộng lại vượt 100%, nên người trả lời chắc đã chọn được nhiều đáp án; bài không nói rõ điều đó.</p>
+    <div class="mech"><b>Cơ chế:</b> luận điểm trung tâm của báo cáo là review chỉ nhìn được mã nguồn đứng yên. Code AI thường sạch, đúng style, qua được phân tích tĩnh. Cái nó không thấy là hành vi khi chạy: mạng chập chờn, race condition, API bị khai tử, nhiều tenant ghi cùng lúc, đồ thị phụ thuộc thật <sup><a href="https://newrelic.com/blog/ai/state-of-ai-coding-2026" target="_blank">[2]</a></sup>. Với hệ multi-tenant theo CompanyID, SQL Server và hàng đợi như của bạn, đó chính là loại lỗi mà code đọc rất đẹp vẫn trúng. Đây là lập luận của tác giả, không phải kết quả đo.</div>
+
+    <h3 class="sub">Chỗ phải đọc chậm</h3>
+    <p>Thứ nhất, đây là khảo sát cảm nhận của 200 người, không phải số đo từ hệ thống. Bài không nêu thời điểm khảo sát, cách chọn mẫu hay khoảng sai số <sup><a href="https://newrelic.com/blog/ai/state-of-ai-coding-2026" target="_blank">[2]</a></sup>. Thứ hai, New Relic bán công cụ observability, và kết luận của bài là observability là "bắt buộc". Điều này không làm số liệu sai, nhưng nghĩa là câu hỏi và cách diễn giải có chỗ nghiêng. Thứ ba, hai con số nổi nhất trong bài không phải của khảo sát: mức "1,7 lần nhiều lỗi runtime nghiêm trọng hơn" được dẫn từ báo cáo của CodeRabbit, và ý "kỹ sư senior mất tới một phần ba tuần làm việc để xử lý" là nhận định của tác giả, không kèm số đo <sup><a href="https://newrelic.com/blog/ai/state-of-ai-coding-2026" target="_blank">[2]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế:</b> con số 94% và con số 78% không mâu thuẫn nhau. Cùng một nhóm người chấm code AI tốt ở khâu review và vẫn thấy sự cố tăng ở production, vì hai khâu đo hai thứ khác nhau: review đo "đọc có ổn không", production đo "chạy có chịu nổi không". Đây là lý do lời khuyên "review kỹ hơn" không đủ; cần thêm tín hiệu ở khâu chạy thật (canary, trace, rollback nhanh).</div>
+
+    <h3 class="sub">Đối chứng: agent hiếm khi đụng vào CI, nên tải CI đến từ khối lượng</h3>
+    <p>Bài arXiv phân tích 8.031 pull request do agent mở trên 1.605 repo GitHub (Copilot, Cursor, Devin, Claude Code, Codex), với 99.930 lần chạy workflow <sup><a href="https://arxiv.org/html/2601.17413v1" target="_blank">[3]</a></sup>. File cấu hình CI/CD chỉ chiếm 3,25% số file agent sửa. PR có sửa CI merge hơi thấp hơn (67,77% so với 71,80%), còn tỷ lệ build thành công gần như bằng nhau (75,59% so với 74,87%) <sup><a href="https://arxiv.org/html/2601.17413v1" target="_blank">[3]</a></sup>. Đọc cùng bài M&amp;S ở trên: agent hiếm khi làm hỏng cấu hình CI, nhưng chúng làm CI quá tải bằng số PR. Rủi ro nằm ở khối lượng chạy qua pipeline, không ở file cấu hình.</p>
+
+    <h3 class="sub">Bốn khuyến nghị của báo cáo, và phần nào đáng nhận</h3>
+    <table class="tbl">
+      <tr><th>Khuyến nghị</th><th>Nội dung</th><th>Đánh giá biên tập</th></tr>
+      <tr><td>Cân lại sổ chi phí vận hành</td><td>Phần doanh thu từ giao nhanh nên chia một phần cho giám sát, trả nợ kỹ thuật, ngân sách sửa của senior <a href="https://newrelic.com/blog/ai/state-of-ai-coding-2026" target="_blank">[2]</a></td><td>Đáng nhận: tính cả chi phí hạ nguồn khi đo năng suất</td></tr>
+      <tr><td>Một chính sách quản trị chung</td><td>SAST, test hồi quy khi deploy, ghi vết thay đổi, canary trước production cho mọi code, bất kể ai viết <a href="https://newrelic.com/blog/ai/state-of-ai-coding-2026" target="_blank">[2]</a></td><td>Đáng nhận: không cần luật riêng cho code AI</td></tr>
+      <tr><td>Gộp nền tảng giám sát</td><td>Log, metric, event, trace chung một schema <a href="https://newrelic.com/blog/ai/state-of-ai-coding-2026" target="_blank">[2]</a></td><td>Nghiêng về lợi ích người bán; cần cân theo chi phí thật</td></tr>
+      <tr><td>Đẩy telemetry lên thượng nguồn</td><td>Template prompt buộc code sinh ra có log hook và span attribute theo OpenTelemetry <a href="https://newrelic.com/blog/ai/state-of-ai-coding-2026" target="_blank">[2]</a></td><td>Ý hay, rẻ; báo cáo cho biết 78% đã làm vậy</td></tr>
+    </table>
+    <div class="editnote">Cột "Đánh giá biên tập" là nhận định của bản tin, không trích từ nguồn.</div>
+
+    <h3 class="sub">Rút ra theo quy mô</h3>
+    <div class="scale">
+      <div class="col small"><h4>Đội nhỏ, &lt;10 người</h4><ul>
+        <li>Đừng chờ bộ công cụ giám sát đắt tiền. Bắt đầu bằng một việc: mọi PR có AI tham gia phải có cách rollback trong vài phút (feature flag hoặc revert sạch).</li>
+        <li>Ghi lại số PR phải revert hoặc sửa gấp trong 7 ngày sau merge. Số này rẻ để đo và nói lên nhiều hơn khảo sát.</li>
+      </ul></div>
+      <div class="col"><h4>Đội đã có production</h4><ul>
+        <li>Gắn nhãn PR có AI tham gia, rồi so tỷ lệ revert và sự cố sau merge với PR không có nhãn, theo từng service.</li>
+        <li>Buộc canary theo tenant nhỏ trước, kèm trace cho đường ghi vào SQL Server và đường publish RabbitMQ/Kafka.</li>
+        <li>Review có checklist hành vi chạy: timeout, retry, idempotency, thứ tự ghi nhiều tenant, không chỉ style.</li>
+      </ul></div>
+    </div>
+
+    <div class="takeaway">💡 <b>Rút ra cho bạn:</b> review giỏi chưa đủ. Code AI qua review dễ hơn code người, nên điểm kiểm phải dời về phía "chạy thật": canary, trace, rollback. Còn con số của khảo sát này, hãy coi là dấu hiệu chiều hướng, rồi đo trên chính hệ của bạn.</div>
+
+    <div class="doslist">
+      <div>✅ Gắn nhãn PR có AI, đo tỷ lệ revert trong 7 và 30 ngày.</div>
+      <div>✅ Canary theo tenant cho thay đổi chạm vào đường ghi dữ liệu.</div>
+      <div>✅ Yêu cầu log và span có CompanyID trong template prompt dùng chung.</div>
+      <div>❌ Không dùng "94% thấy code AI tốt" làm lý do bớt review hành vi chạy.</div>
+      <div>❌ Không lấy con số "1,7 lần" hay "một phần ba tuần" làm số của bạn; chúng không đo trên hệ của bạn.</div>
+    </div>
+
+    <div class="refs"><b>Nguồn tham khảo</b><br>
+      [2] <a href="https://newrelic.com/blog/ai/state-of-ai-coding-2026" target="_blank">Jim Young, New Relic — 2026 State of AI Coding, 10/06/2026 (khảo sát Hanover Research, n=200)</a><br>
+      [3] <a href="https://arxiv.org/html/2601.17413v1" target="_blank">Taher A. Ghaleb — When AI Agents Touch CI/CD Configurations: Frequency and Success, arXiv, 24/01/2026</a></div>
+  </article>
+
+  <article class="card" id="gocnhin">
+    <span class="tag view">Góc nhìn</span>
+    <h2 class="head">AI nới rộng đầu vào, còn chi phí rơi xuống hạ nguồn</h2>
+    <p>Hai bài hôm nay nhìn cùng một hiện tượng từ hai phía. Ở M&amp;S, tải đỉnh của pipeline tăng gấp bốn khi phát triển có AI hỗ trợ, trong lúc năng lực máy chỉ tăng 7% <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup>. Trong khảo sát của New Relic, 86% lãnh đạo thấy senior phải chữa cháy nhiều hơn <sup><a href="https://newrelic.com/blog/ai/state-of-ai-coding-2026" target="_blank">[2]</a></sup>. Một bên là hàng đợi CI, một bên là đội vận hành. Cả hai là hạ nguồn của một khâu viết code vừa nhanh hơn.</p>
+    <p>Khác biệt đáng nhớ: M&amp;S có số đo của chính họ và một cách chữa cụ thể (bỏ bớt e2e khỏi đường merge, fail-fast, giao chỉ số cho một nhóm). Khảo sát thì mạnh ở chẩn đoán, yếu ở số liệu. Hãy lấy chẩn đoán từ cái thứ hai, lấy cách làm từ cái thứ nhất.</p>
+    <div class="editnote">Phần Góc nhìn là tổng hợp biên tập, không trích nguyên văn từ nguồn.</div>
+    <h3 class="sub">Ba việc làm tuần này</h3>
+    <div class="doslist">
+      <div>1. Đo percentile 75 thời gian pipeline và số run bị hủy theo nguyên nhân trong tháng qua; ghi lên một chỗ cả đội thấy.</div>
+      <div>2. Bắt đầu gắn nhãn PR có AI tham gia; hẹn ngày xem tỷ lệ revert sau 30 ngày.</div>
+      <div>3. Chọn một service ghi vào SQL Server và thêm canary theo tenant nhỏ nhất trước khi mở cho mọi CompanyID.</div>
+    </div>
   </article>
 
   <div class="foot">Bản tin sáng · tổng hợp từ nguồn công khai đã xác minh</div>
