@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CI 60 phút còn 15 &middot; 06/10/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+@media (max-width:560px){h1.title{font-size:25px}.card{padding:20px 18px}.tbl{display:block;overflow-x:auto}}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 06/10/2026</div>
+    <h1 class="title">Pipeline CI từ 60 phút xuống 22 phút, rồi một năm sau lại vọt quá 30 phút: Marks &amp; Spencer và bài học "tốc độ CI cần một người chịu trách nhiệm"</h1>
+    <div class="meta">06/10/2026 · Đọc khoảng 13 phút · Nguồn chính: Serhii Yakovenko (Marks &amp; Spencer) — "We halved our continuous integration pipeline", LeadDev (07/09/2026)</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: số này chỉ có <b>một bài</b>, đào sâu một case CI/CD của một công ty bán lẻ lớn. Mọi con số về M&amp;S lấy từ bài gốc do chính kỹ sư quản lý của họ kể, nên là số tự báo cáo, chưa có bên thứ ba kiểm. Các khối "Cơ chế", bảng ánh xạ sang stack của bạn và phần "Rút ra theo quy mô" là biên tập tổng hợp từ thực hành phổ biến, không trích nguyên văn từ nguồn.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1"><strong>Bài 1</strong> — Một pipeline CI 60 phút: sửa năm 2025, tụt lại năm 2026, cứu lại trong sáu tuần<br><span style="font-size:13.5px;color:#6b7280">· vì sao 60 phút đắt hơn bạn nghĩ · bốn thay đổi năm 2025 và cơ chế từng cái · vì sao AI làm CI quá tải · hồi phục bằng cách bỏ bớt, không thêm máy · ánh xạ sang Spring Boot/SQL Server · việc làm thứ Hai</span></a></li>
+    </ol>
+  </nav>
+
+  <article class="card" id="bai1">
+    <span class="tag saas">Quy trình &amp; năng suất · CI/CD</span>
+    <h2 class="head">CI chậm không phải một lần sửa là xong: nó là một chỉ số cần chủ sở hữu và mục tiêu</h2>
+    <p class="src">Nguồn: Serhii Yakovenko, software engineering manager tại Marks &amp; Spencer — <a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">"We halved our continuous integration pipeline"</a>, LeadDev, 07/09/2026 [1]. Công ty có khoảng 400 nhân sự, hơn 200 developer <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup>.</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">60 → 22 phút</div><div class="lab">pipeline sau đợt sửa 2025 (−64%) <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup></div></div>
+      <div class="box"><div class="num">4× so với +7%</div><div class="lab">tải đỉnh của pipeline (có AI hỗ trợ viết code) so với năng lực compute năm 2026 <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup></div></div>
+      <div class="box"><div class="num">1:3 → 25:1</div><div class="lab">tỷ lệ thành công/thất bại của merge train ngay ngày đầu cắt e2e <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup></div></div>
+      <div class="box"><div class="num">−40% / −70%</div><div class="lab">chi phí runner CI / chi phí do run bị hủy sau đợt hồi phục <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup></div></div>
+    </div>
+
+    <h3 class="sub">Bối cảnh: 60 phút nhân với 340 lần chạy mỗi ngày</h3>
+    <p>Năm 2025, đội của Yakovenko có 45 lần merge và 340 lần chạy pipeline mỗi ngày. Pipeline kéo dài một tiếng. Tác giả quy ra khoảng sáu giờ kỹ sư bị chặn mỗi ngày <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup>. Cơ chế merge ở đây là merge train: mỗi thay đổi xếp hàng, và nếu một run đỏ thì các run đứng sau nó bị hủy rồi xếp lại <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế:</b> với hàng đợi kiểu này, một run đỏ không chỉ tốn thời gian của người viết thay đổi đó. Nó đá luôn những người xếp sau ra khỏi hàng. Thời gian chờ của một người gần bằng số người đứng trước nhân với thời gian mỗi run. Vì vậy rút ngắn pipeline có lợi hơn nhiều so với con số "giảm bao nhiêu phút" nhìn bề ngoài: mỗi phút bớt đi được nhân lên cho cả hàng người đang chờ, và số run đỏ giảm thì hàng ngắn lại.</div>
+
+    <h3 class="sub">Đợt sửa 2025: bốn thay đổi, mỗi cái có lý do riêng</h3>
+    <table class="tbl">
+      <tr><th>Đổi cái gì</th><th>Lý do / cơ chế</th><th>Kết quả tác giả báo</th></tr>
+      <tr><td>Chọn dòng máy ổn định hơn: C7i (Intel) thay vì C7a (AMD), thêm số worker</td><td>C7a nhanh hơn trung bình khoảng 90 giây nhưng dao động tới 10 phút; C7i dao động chừng 6 phút <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup></td><td>Tiết kiệm khoảng 12 phút mỗi run, tốn thêm khoảng 2,5% chi phí <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup></td></tr>
+      <tr><td>Tách pipeline làm hai pha: lint, unit test, quét bảo mật chạy trước</td><td>Phần lớn lỗi lộ ra trong 8 phút đầu, nên không cần đốt cả bộ test đắt tiền cho một thay đổi vốn đã hỏng <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup></td><td>Là một phần của mức giảm 64%</td></tr>
+      <tr><td>Bỏ trình duyệt khỏi worker không cần, thêm quét coverage</td><td>Worker không chạy e2e thì khỏi tốn RAM cho trình duyệt (khoảng 0,5 GB mỗi worker); coverage chặn test bị bỏ rơi <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup></td><td>Tiết kiệm RAM mỗi worker</td></tr>
+      <tr><td>Cache linter, bỏ các lệnh metric đã lỗi thời</td><td>Việc nhỏ nhưng chạy 340 lần mỗi ngày <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup></td><td>Khoảng 3,5 phút <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup></td></tr>
+    </table>
+    <p>Điểm đáng chú ý là lựa chọn máy. Nhanh trung bình không phải mục tiêu. Với merge train, đuôi phân phối mới là thứ làm cả hàng đứng chờ: một run chậm thất thường kéo theo mọi run sau nó. Đội chấp nhận trả thêm 2,5% tiền máy để lấy độ ổn định <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup>.</p>
+
+    <h3 class="sub">Test flaky: cách ly rồi để máy phân loại</h3>
+    <p>Quy tắc của đội khá đơn giản. Test fail ba lần trong nửa ngày thì bị cách ly 24 giờ. Bên cạnh đó, một công cụ dùng LLM (khoảng 100 USD mỗi tháng) đọc log lỗi ngay sau lần fail đầu tiên, không đợi tới lần thứ ba <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup>. Tỷ lệ thành công của merge train tăng từ mức thấp nhất 82% lên trên 90%, và 150 lần chạy lại lãng phí mỗi tháng biến mất <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế:</b> flaky test đắt vì nó sinh ra retry, và retry trong merge train là một lần nữa cả hàng đứng chờ. Cách ly chỉ chữa phần hậu quả. Phần còn lại là rút ngắn thời gian từ "lần fail đầu" đến "biết nó là flaky": đội làm việc này bằng máy thay vì người đọc log. Ý này đáng giữ: không cần LLM mới làm được, chỉ cần có ai đó (hoặc cái gì đó) phán quyết ngay từ lần đỏ đầu tiên.</div>
+
+    <h3 class="sub">Ước tính lợi ích năm 2025</h3>
+    <p>Chi phí hạ tầng tăng khoảng 1.680 USD mỗi tháng (xấp xỉ 10%). Tác giả ước tính tiết kiệm khoảng 1.300 giờ kỹ sư mỗi tháng, tương đương khoảng 65.000 USD nếu tính 50 USD một giờ <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup>. Đây là ước tính của tác giả, không phải số kế toán. Nhưng thứ tự độ lớn thì rõ: tiền máy chỉ bằng khoảng 2,6% giá trị thời gian được trả lại.</p>
+
+    <h3 class="sub">Năm 2026: pipeline tụt lại, và lần này lỗi nằm ở tải chứ không ở cấu hình</h3>
+    <p>Đến tháng 5/2026, pipeline vượt 30 phút và chỉ khoảng 25% run của merge train thành công. Hàng đợi có lúc quá 50 run. Một developer đứng thứ 14 phải chờ gần hai tiếng <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup>. Trong tháng 5, khoảng 4.000 run bị hủy vì hết bộ nhớ và lỗi exit 137 (tiến trình bị hệ điều hành giết). Khoảng một phần tư run khác đỏ vì hạ tầng không ổn định, phần còn lại bị hủy <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup>.</p>
+    <table class="tbl">
+      <tr><th>Đại lượng</th><th>2025</th><th>2026</th></tr>
+      <tr><td>Backend test</td><td>2.338</td><td>4.100 <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup></td></tr>
+      <tr><td>Frontend test</td><td>—</td><td>gấp ba <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup></td></tr>
+      <tr><td>Số lần merge hằng tháng</td><td>—</td><td>gấp đôi <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup></td></tr>
+      <tr><td>Tải đỉnh của pipeline</td><td>—</td><td>gấp bốn, do phát triển có AI hỗ trợ <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup></td></tr>
+      <tr><td>Năng lực compute</td><td>—</td><td>tăng 7% <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup></td></tr>
+    </table>
+    <div class="mech"><b>Cơ chế:</b> khi tải đỉnh gấp bốn mà máy chỉ nhiều hơn 7%, mỗi worker phải chạy dày hơn, bộ nhớ cạn, tiến trình bị giết (exit 137), run bị hủy và xếp lại, tải lại tăng thêm. Tức là vòng xoáy tự nuôi: thất bại sinh ra chạy lại, chạy lại làm hệ quá tải thêm. Tác giả cho biết chi phí của các run bị hủy từng vượt cả chi phí máy chạy test <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup>. Nghĩa là tiền không mất vào việc kiểm tra mà mất vào việc làm đi làm lại.</div>
+    <p>Câu then chốt của bài, theo cách tôi diễn đạt lại: đội đã coi đợt sửa 2025 như một dự án xong việc, không ai giữ con số đó sau khi dự án đóng <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup>. AI viết code nhanh hơn chỉ làm lộ chuyện này sớm hơn.</p>
+
+    <h3 class="sub">Hồi phục sáu tuần với ba kỹ sư: bỏ bớt trước, thêm máy sau</h3>
+    <p>Thay vì mua thêm máy, đội cắt khối lượng chạy trong merge train. Bước đầu tiên là chia test end-to-end thành hai nhóm. Nhóm quan trọng chiếm 15% tổng số test e2e và vẫn bắt buộc cho mỗi merge. Phần còn lại chuyển sang chạy theo lịch, hai giờ một lần, trên nhánh chính. Độ phủ test backend lúc này đạt 80%, nên có thể dần thay các test e2e cũ bằng test rẻ hơn <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup>.</p>
+    <p>Kết quả ngay lập tức: thời gian chạy trung bình từ 31 xuống 18 phút (giảm 42%), và tỷ lệ thành công/thất bại của merge train từ 1:3 lên 25:1 ngay ngày đầu <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế:</b> gate của merge train nên trả lời câu hỏi "thay đổi này có phá cái quan trọng không?", không phải "toàn bộ hệ có còn đúng không?". Câu thứ hai vẫn cần, nhưng chạy sau merge, theo lịch, và nếu đỏ thì có người truy theo khoảng thời gian chứ không chặn cả hàng. Cái giá là có lúc một lỗi lọt vào nhánh chính và chỉ lộ ra sau tối đa hai giờ. Đây là đánh đổi có chủ ý, và đội phải chịu nó.</div>
+    <p>Ba bước tiếp theo nhỏ hơn nhưng cộng dồn. Một là cân lại các nhóm test chạy song song bằng dữ liệu thời gian thật trên production, giảm nhóm dài nhất khoảng một phần ba, đưa pipeline về 15-17 phút. Hai là fail-fast: tự động dừng một phút sau khi job đầu tiên fail, thay vì để tới 70 job test chạy hết rồi mới báo. Ba là tự động hóa hoàn toàn việc phát hiện, phân loại, mở ticket và bỏ qua test flaky <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup>.</p>
+    <table class="tbl">
+      <tr><th>Chỉ số</th><th>Trước hồi phục</th><th>Sau hồi phục</th></tr>
+      <tr><td>Thời gian pipeline</td><td>trên 30 phút (trung bình 31)</td><td>15-16 phút <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup></td></tr>
+      <tr><td>Tỷ lệ run hoàn tất thành công</td><td>khoảng 25%</td><td>khoảng 95% <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup></td></tr>
+      <tr><td>Percentile 75 thời gian chạy</td><td>33 phút</td><td>20 phút <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup></td></tr>
+      <tr><td>Công suất merge</td><td>hàng đợi trên 50 run</td><td>130 merge/ngày, khoảng 22 merge/giờ <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup></td></tr>
+      <tr><td>Chi phí runner CI</td><td>—</td><td>giảm 40% <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup></td></tr>
+      <tr><td>Chi phí do run bị hủy</td><td>—</td><td>giảm 70% <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup></td></tr>
+    </table>
+    <p>Một chi tiết trung thực của tác giả: hệ vẫn còn khoảng 20 sự kiện flaky mỗi ngày. Ông coi flaky như thời tiết, không phải lỗi sửa một lần là hết <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup>. Vì thế quy trình xử lý phải chạy tự động chứ không dựa vào chiến dịch dọn dẹp.</p>
+
+    <h3 class="sub">Chủ sở hữu và mục tiêu: phần quan trọng nhất</h3>
+    <p>Sau đợt hồi phục, một platform team nhận trách nhiệm với chỉ số percentile 75 của thời gian pipeline: mục tiêu 15 phút ở quý 3 và 10 phút vào cuối năm <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup>. Kết luận của bài là tốc độ CI cần một chủ sở hữu và một mục tiêu, không phải một lần sửa <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup>.</p>
+
+    <h3 class="sub">Ánh xạ sang stack của bạn</h3>
+    <table class="tbl">
+      <tr><th>Triệu chứng ở M&amp;S</th><th>Chỗ tương đương trong hệ Spring Boot + SQL Server + RabbitMQ/Kafka</th><th>Việc nên kiểm</th></tr>
+      <tr><td>Run bị giết vì hết RAM, exit 137</td><td>JVM + Testcontainers (SQL Server, RabbitMQ, Kafka) trên cùng một runner dễ vượt bộ nhớ</td><td>Đếm số run hủy theo nguyên nhân; đặt giới hạn heap tường minh cho test</td></tr>
+      <tr><td>Test e2e chiếm phần lớn thời gian</td><td>Test tích hợp dựng cả SQL Server, restore database mẫu, chờ consumer xử lý</td><td>Chia "đường nóng": hợp đồng API, migration, luồng hóa đơn cốt lõi; phần còn lại chạy theo lịch</td></tr>
+      <tr><td>Flaky test</td><td>Test có chờ message bất đồng bộ (RabbitMQ/Kafka), phụ thuộc thứ tự hoặc thời gian</td><td>Log lần fail đầu kèm nguyên nhân phân loại; cách ly sau lần fail thứ hai hoặc ba</td></tr>
+      <tr><td>Hàng đợi merge dài khi tải gấp bốn</td><td>Bất kỳ gate chung nào chạy tuần tự cho mọi đội</td><td>Đo thời gian chờ trong hàng đợi, không chỉ thời gian chạy</td></tr>
+    </table>
+    <div class="editnote">Bảng trên là suy luận biên tập, không có trong bài gốc. Bài của M&amp;S không nói gì về SQL Server, Spring Boot, RabbitMQ hay Kafka. Chỉ dùng như danh sách câu hỏi để tự đo.</div>
+
+    <h3 class="sub">Rút ra theo quy mô</h3>
+    <div class="scale">
+      <div class="col small"><h4>Đội nhỏ, &lt;10 người</h4><ul>
+        <li>Chưa cần merge train. Quan trọng hơn là giữ pipeline dưới ngưỡng bạn chịu chờ (ví dụ 10 phút) và tách lint/unit test chạy trước, theo đúng ý "lỗi lộ ra sớm" của bài <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup>.</li>
+        <li>Chọn runner có thời gian ổn định thay vì chỉ nhìn tốc độ trung bình.</li>
+        <li>Ghi con số thời gian pipeline vào một chỗ ai cũng thấy (README hoặc kênh chat). Có số thì mới có người nhớ nó.</li>
+      </ul></div>
+      <div class="col"><h4>Đội đã có production</h4><ul>
+        <li>Giao percentile 75 (và thời gian chờ trong hàng) cho một nhóm cụ thể, kèm mục tiêu theo quý, như bài đã làm <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup>.</li>
+        <li>Phân loại test e2e: chỉ giữ phần quan trọng (bài nêu mức 15%) làm gate; phần còn lại chạy theo lịch trên nhánh chính <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup>.</li>
+        <li>Bật fail-fast: dừng sớm sau job fail đầu tiên thay vì chạy hết mọi job <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup>.</li>
+        <li>Đo riêng chi phí của run bị hủy. Nếu nó lớn hơn chi phí máy chạy test thật, vấn đề là ổn định hạ tầng, không phải tốc độ test <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup>.</li>
+        <li>Nếu đội đang bắt đầu dùng AI viết code nhiều hơn, tính trước tải đỉnh của CI: bài ghi nhận gấp bốn trong khi máy chỉ tăng 7% <sup><a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">[1]</a></sup>.</li>
+      </ul></div>
+    </div>
+
+    <div class="takeaway">💡 <b>Rút ra cho bạn:</b> CI nhanh là trạng thái cần giữ, không phải thành tích đạt một lần. Muốn nó không tụt lại, hãy gắn nó với một người, một con số và một mục tiêu theo quý. Và khi quá tải, thử bỏ bớt việc chạy trước khi nghĩ tới thêm máy.</div>
+
+    <div class="doslist">
+      <div>✅ Đo percentile 75 thời gian pipeline và thời gian chờ trong hàng, hiển thị công khai.</div>
+      <div>✅ Chia test thành "bắt buộc để merge" và "chạy theo lịch"; xem lại tỷ lệ này mỗi quý.</div>
+      <div>✅ Tự động phân loại flaky từ lần fail đầu; cách ly có thời hạn rồi mở ticket.</div>
+      <div>✅ Thêm fail-fast cho các job song song.</div>
+      <div>❌ Không coi một đợt tối ưu CI là dự án đã xong.</div>
+      <div>❌ Không thêm máy trước khi biết bao nhiêu run bị hủy và vì sao.</div>
+    </div>
+
+    <div class="refs"><b>Nguồn tham khảo</b><br>
+      [1] <a href="https://leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline" target="_blank">Serhii Yakovenko — We halved our continuous integration pipeline, LeadDev, 07/09/2026</a></div>
+  </article>
+
+  <div class="foot">Bản tin sáng · tổng hợp từ nguồn công khai đã xác minh</div>
+</div>
+</body>
+</html>
