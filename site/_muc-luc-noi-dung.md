@@ -10,7 +10,7 @@
 > 2. Trước khi giải thích một thuật ngữ: xem phần **C. Từ điển thuật ngữ** — nếu đã giải thích ở số trước thì chỉ nhắc gọn/nối link, không giải thích lại dài dòng.
 > 3. Sau khi viết xong: thêm 1 khối vào phần **B. Mục lục theo số** và cập nhật phần A + C nếu có nguồn/thuật ngữ mới (dùng mẫu ở cuối file).
 >
-> _Cập nhật lần cuối: 06/10/2026 — 76 số (24/07 → 06/10/2026; gồm 1 số song song 09/08 chuyên đề An toàn thông tin)._
+> _Cập nhật lần cuối: 07/10/2026 — 77 số (24/07 → 07/10/2026; gồm 1 số song song 09/08 chuyên đề An toàn thông tin)._
 
 ---
 
@@ -18,6 +18,7 @@
 
 ### Domain nguồn đã trích dẫn (đừng lặp cùng một bài)
 
+rabbitmq.com/blog/2023/03/02/quorum-queues-migration · rabbitmq.com/blog/2025/07/29/latest-benefits-of-rmq-and-migrating-to-qq-along-the-way (Perez & Klishin) · rabbitmq.com/docs/quorum-queues · rabbitmq.com/blog/2026/04/23/rabbitmq-4.3-release · dev.to/daemonicc/a-rabbitmq-upgrade-exposed-the-reliability-assumptions-hidden-in-our-messaging-system-3c77 (Emmanuel Igunnu, 07/2026) · qarote.io/blog/rabbitmq-quorum-queues-migration (Brice Tessier, 25/04/2026; vendor)
 newrelic.com/blog/ai/state-of-ai-coding-2026 (Jim Young, 10/06/2026; khảo sát Hanover n=200, vendor-thuê; 78% sự cố tăng/94% khen ở review) · arxiv.org/2601.17413 (Ghaleb; agent PR & CI/CD) · leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline (Serhii Yakovenko, Marks & Spencer, 07/09/2026; CÔNG TY TỰ KỂ; pipeline CI 60→22→30+→15–16 phút, merge train, flaky, e2e quan trọng 15%, tải đỉnh ×4 vs compute +7%)
 dbi-services.com/blog/when-a-python-driver-configuration-issue-may-cause-blocking-in-sql-server (Amine Haloui, 14/05/2026; SWITCH chờ Sch-M 7.770.160 ms, 244 triệu dòng, open_tran_count=1) · verygoodsecurity.com/blog/posts/solving-kafka-rebalancing-issues-a-case-study (Ranjbar & Patel, 11/06/2025; 13→135 req/s) · confluent.io/blog/cooperative-rebalancing-in-kafka-streams-consumer-ksqldb (eager 37.138 vs cooperative 3.522 ms) · learn.microsoft.com ALTER TABLE (Sch-M, WAIT_AT_LOW_PRIORITY)
 infoq.com/articles/virtual-threads-after-jdk24 (Sandeep Bharadwaj, 31/07/2026; virtual threads sau JDK 24; benchmark ThreadLocal 2.216× và JDBC/Hikari 624→1.539 req/s, lỗi ~37%) · dev.to/avaneeshyadav/we-replaced-spring-webflux-with-virtual-threads (08/2025; 4 service WebFlux→MVC, p99 187→123 ms) · openjdk.org/jeps/491 (pinning, giao 04/02/2025) · semgrep.dev/blog/2026/sha-pinning-for-github-actions-org-wide (Leif Dreizler, 12/08/2026; TỰ KỂ; ghim SHA GitHub Actions toàn tổ chức; ~350 repo, ~100 ban đầu cần làm, ~20 lưu trữ, ~80 cần sửa thật, ~60 xong chỉ bằng pinact, ~80 PR trong ~2 ngày, ~100 repo chưa từng chạy Actions, 2–3 lỗi CI khi theo dõi; thử tay ~8 repo; pinact + Renovate [cooldown]; 3 loại: tag/nhánh/transitive; bẫy: transitive, action nội bộ @main, composite vs reusable workflow, CODEOWNERS chặn auto-merge, SLSA generator không ghim SHA; chính sách GitHub chỉ được/không, không evaluate mode, cấp tổ chức không ngoại lệ) · docs.github.com/en/actions/reference/security/secure-use (ghim SHA đầy đủ là cách duy nhất dùng action như bản bất biến; chính sách cấp repo/tổ chức; Dependabot không cảnh báo action đã ghim SHA) · levelup.gitconnected.com/how-a-simple-log-message-took-down-our-production-9c636bc68851 (Flavius Zichil, 14/09/2026; bài sau paywall, chỉ đọc phần mở đầu: chứng chỉ Graylog hết hạn, HikariPool-4 total=50 active=50 idle=0 waiting=26, timeout 30000 ms; mô tả: AsyncAppender backpressure khóa connection trong @Transactional; phần cơ chế trong số là SUY LUẬN BIÊN TẬP) · logback.qos.ch/manual/appenders.html (AsyncAppender queueSize 256, discardingThreshold bỏ TRACE/DEBUG/INFO khi còn <20% chỗ, neverBlock mặc định false) · github.com/brettwooldridge/HikariCP (connectionTimeout 30000 ms, maximumPoolSize 10, leakDetectionThreshold 0 = tắt, tối thiểu 2000 ms) · github.com/brettwooldridge/HikariCP/wiki/About-Pool-Sizing (core×2+spindle; 4 core → 9; ~6000 TPS; Oracle 100 ms → 2 ms) — 03/10/2026
@@ -158,6 +159,13 @@ LegacyCodeBench 200 tác vụ/4 bậc · Legacy Insights 94%/tài liệu 96% · 
 ---
 
 ## B. Mục lục theo số (mới → cũ)
+
+### 07/10/2026 — Chuyển RabbitMQ sang quorum queue không phải đổi một cái nhãn: poison message, prefetch, RPC và bộ nhớ đều đổi hành vi (tài liệu/blog RabbitMQ + DEV; đối chiếu Qarote)
+- **Chủ đề:** Mảng 3 — vận hành/độ tin cậy RabbitMQ (quorum queue, giao lại, dead-letter, prefetch, bộ nhớ). MỘT bài, không có Góc nhìn. Không có case có số trước/sau; nguồn chủ yếu là tài liệu chính thức (ghi rõ trong editnote).
+- **Nguồn:** RabbitMQ blog "Migrating from Mirrored Classic Queues to Quorum Queues" (02/03/2023); Aitor Perez & Michael Klishin, "Migrating from Classic Mirrored Queues to Quorum Queues in 2025" (29/07/2025); rabbitmq.com/docs/quorum-queues; "RabbitMQ 4.3 Highlights" (23/04/2026); Emmanuel Igunnu, DEV (07/2026, dev.to/daemonicc/...); Brice Tessier, Qarote (25/04/2026, qarote.io; vendor, vài nhận định không dẫn chứng).
+- **Số chính:** ~30.000 msg/s (1 queue/1 publisher/1 consumer, 1 KB; mirrored ≈ 1/3); delivery limit mặc định 20; WAL 512 MB, RAM ≥3× WAL (4× tải cao); ≥3 node, tối đa 7; 32 byte metadata/message; 4.3: −50% bộ nhớ cho message ≤32 KiB, 32 mức ưu tiên, acquired-count vs delivery-count, retry trễ tuyến tính, classic hết xét consumer timeout; mirrored deprecated từ 3.9, dự kiến gỡ ở 4.0.
+- **Thực thể:** RabbitMQ (Raft, Khepri, federation, Perf Test), Emmanuel Igunnu, Qarote, Spring AMQP (ánh xạ biên tập).
+- **Ghi chú tránh lặp:** quorum queue/dead-letter/prefetch/idempotency đã giải thích; mảng 3 đã dùng dày 29/09–07/10, số kế nên chuyển mảng 1 hoặc 4 (lần tìm mảng 4 này chỉ ra nguồn vendor yếu; CRA 11/09/2026 là ứng viên nếu có nguồn cấp một).
 
 ### 06/10/2026 — Pipeline CI từ 60 phút xuống 22 phút, rồi một năm sau lại vọt quá 30 phút: Marks & Spencer và bài học "tốc độ CI cần một người chịu trách nhiệm" (LeadDev / Serhii Yakovenko)
 - **Chủ đề:** Mảng 2 — AI trong SDLC: CI/CD, merge train, flaky, AI làm tăng tải CI (bài 1) + code AI qua review nhưng gãy ở production (bài 2, khảo sát New Relic). 2 bài + Góc nhìn ("chi phí rơi xuống hạ nguồn").
@@ -676,6 +684,9 @@ LegacyCodeBench 200 tác vụ/4 bậc · Legacy Insights 94%/tài liệu 96% · 
 
 ## C. Từ điển thuật ngữ (đã giải thích ở các số — chỉ nhắc gọn khi tái dùng)
 
+- **Quorum queue (RabbitMQ):** queue nhân bản bằng đồng thuận Raft, leader ghi WAL trước khi xác nhận; thay mirrored queue; cần ≥3 node (07/10).
+- **Delivery limit / poison message:** giới hạn giao lại mặc định 20; quá thì bỏ hoặc dead-letter; 4.3 tách acquired-count và delivery-count (07/10).
+- **Prefetch là quyết định rủi ro:** số message chưa ack ở một consumer; cao = throughput cao nhưng giao lại hàng loạt khi consumer chết; quorum chỉ hỗ trợ prefetch theo consumer, không global QoS (07/10).
 - **Merge train (hàng đợi merge tuần tự):** mỗi thay đổi xếp hàng, một run đỏ làm các run sau bị hủy và xếp lại, nên lỗi của một người thành thời gian chờ của cả hàng (06/10).
 - **Exit 137 / run bị hủy vì hết RAM:** tiến trình bị hệ điều hành giết do cạn bộ nhớ; run hủy rồi chạy lại làm tải CI tăng thêm (06/10).
 - **Gate "đường nóng" vs chạy theo lịch (critical e2e):** chỉ bắt buộc phần test e2e quan trọng trước merge, phần còn lại chạy định kỳ trên nhánh chính (06/10).

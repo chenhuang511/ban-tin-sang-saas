@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chuyển RabbitMQ sang quorum queue: bốn chỗ đổi hành vi &middot; 07/10/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+@media (max-width:560px){h1.title{font-size:25px}.card{padding:20px 18px}.tbl{display:block;overflow-x:auto}}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 07/10/2026</div>
+    <h1 class="title">Chuyển RabbitMQ sang quorum queue không phải đổi một cái nhãn: poison message, prefetch, RPC và bộ nhớ đều đổi hành vi</h1>
+    <div class="meta">07/10/2026 · Đọc khoảng 12 phút · Nguồn chính: tài liệu và blog chính thức của RabbitMQ (2023, 2025, 2026); Emmanuel Igunnu — DEV (07/2026); đối chiếu Brice Tessier — Qarote (25/04/2026)</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: số này chỉ có <b>một bài</b>, đào sâu một mảng người đọc dùng nhưng sổ nội dung ít đụng tới (RabbitMQ). Hãy đọc kỹ độ tin cậy của nguồn: phần lớn là tài liệu và blog của chính đội RabbitMQ, nên rất đúng về cơ chế nhưng gần như <b>không có số đo thực tế từ một công ty cụ thể</b>. Bài kể chuyện duy nhất (DEV) là một bài tự thuật không có số liệu; bài Qarote là blog của một nhà cung cấp công cụ, có vài nhận định không dẫn chứng. Tôi không tìm được một case có số "trước/sau" cho đúng chủ đề này, và không bịa. Các khối <b style="color:#1e40af">Cơ chế</b>, bảng ánh xạ sang Spring/SQL Server và phần "Rút ra theo quy mô" là phân tích của bản tin, <em>không trích nguyên văn từ nguồn</em>. Không chèn code hay câu lệnh.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1"><strong>Bài duy nhất</strong> — Sang quorum queue: bốn chỗ hành vi đổi và việc cần làm trước khi chuyển<br><span style="font-size:13.5px;color:#6b7280">· Raft thay mirroring · vòng redelivery và giới hạn 20 · dead-letter at-least-once · prefetch là quyết định rủi ro · RPC không hợp · bộ nhớ 3× WAL · ánh xạ sang Spring AMQP và bảng task log</span></a></li>
+    </ol>
+  </nav>
+
+  <article class="card" id="bai1">
+    <span class="tag legacy">Tối ưu hệ đang chạy · RabbitMQ</span>
+    <h2 class="head">Nâng RabbitMQ không chỉ là nâng phiên bản: những giả định "ngầm" về độ tin cậy sẽ lộ ra</h2>
+    <p class="src">Nguồn: đội RabbitMQ — <a href="https://www.rabbitmq.com/blog/2023/03/02/quorum-queues-migration" target="_blank">"Migrating from Mirrored Classic Queues to Quorum Queues"</a> (02/03/2023) [1]; Aitor Perez &amp; Michael Klishin — <a href="https://www.rabbitmq.com/blog/2025/07/29/latest-benefits-of-rmq-and-migrating-to-qq-along-the-way" target="_blank">"Migrating from Classic Mirrored Queues to Quorum Queues in 2025"</a> (29/07/2025) [2]; <a href="https://www.rabbitmq.com/docs/quorum-queues" target="_blank">tài liệu Quorum Queues</a> [3]; <a href="https://www.rabbitmq.com/blog/2026/04/23/rabbitmq-4.3-release" target="_blank">RabbitMQ 4.3 Highlights</a> (23/04/2026) [4]; Emmanuel Igunnu — <a href="https://dev.to/daemonicc/a-rabbitmq-upgrade-exposed-the-reliability-assumptions-hidden-in-our-messaging-system-3c77" target="_blank">"A RabbitMQ upgrade exposed the reliability assumptions hidden in our messaging system"</a>, DEV, 07/2026 [5]; Brice Tessier — <a href="https://qarote.io/blog/rabbitmq-quorum-queues-migration/" target="_blank">Qarote</a>, 25/04/2026 [6].</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">~30.000 msg/s</div><div class="lab">quorum queue, 1 queue/1 publisher/1 consumer, message 1 KB; queue mirrored cũ cho khoảng 1/3 <sup><a href="https://www.rabbitmq.com/blog/2023/03/02/quorum-queues-migration" target="_blank">[1]</a></sup></div></div>
+      <div class="box"><div class="num">20</div><div class="lab">giới hạn giao lại (delivery limit) mặc định trước khi message bị bỏ hoặc dead-letter <sup><a href="https://www.rabbitmq.com/docs/quorum-queues" target="_blank">[3]</a></sup></div></div>
+      <div class="box"><div class="num">512 MB → 3×</div><div class="lab">WAL tối đa mặc định; khuyến nghị cấp RAM ít nhất gấp 3 lần mức đó (4× nếu tải cao) <sup><a href="https://www.rabbitmq.com/docs/quorum-queues" target="_blank">[3]</a></sup></div></div>
+      <div class="box"><div class="num">−50%</div><div class="lab">bộ nhớ cho message tới 32 KiB, theo bản 4.3 <sup><a href="https://www.rabbitmq.com/blog/2026/04/23/rabbitmq-4.3-release" target="_blank">[4]</a></sup></div></div>
+    </div>
+
+    <h3 class="sub">Câu chuyện duy nhất có hiện trường, và nó không có số</h3>
+    <p>Igunnu kể một lần nâng RabbitMQ từ dòng 3.x lên 4.x làm lộ ra những thứ hệ thống của họ tưởng là đã chắc. Bài không nêu con số nào: không có số message, thời gian ngừng hay tỷ lệ lỗi <sup><a href="https://dev.to/daemonicc/a-rabbitmq-upgrade-exposed-the-reliability-assumptions-hidden-in-our-messaging-system-3c77" target="_blank">[5]</a></sup>. Cái bài có là một danh sách chỗ vỡ. Connection bị đóng giữa lúc broker bảo trì. Handler đang xử lý dở thì channel chết. Định tuyến dead-letter không nhất quán giữa các service. Lệnh ack gọi vào channel đã đóng và ném lỗi <sup><a href="https://dev.to/daemonicc/a-rabbitmq-upgrade-exposed-the-reliability-assumptions-hidden-in-our-messaging-system-3c77" target="_blank">[5]</a></sup>.</p>
+    <p>Hai ý của bài đáng giữ. Thứ nhất, reconnect chỉ cứu việc <em>tương lai</em> (nhận message mới), không cứu handler <em>đang chạy</em>: khi nó xử lý xong và ack, channel cũ đã chết và RabbitMQ đã tự quyết số phận message đó <sup><a href="https://dev.to/daemonicc/a-rabbitmq-upgrade-exposed-the-reliability-assumptions-hidden-in-our-messaging-system-3c77" target="_blank">[5]</a></sup>. Thứ hai, tác giả coi prefetch là quyết định về rủi ro chứ không phải núm vặn hiệu năng: prefetch bằng 1 hợp với luồng tiền hoặc đổi trạng thái, giá trị cao chỉ hợp với việc idempotent, độc lập, nhanh <sup><a href="https://dev.to/daemonicc/a-rabbitmq-upgrade-exposed-the-reliability-assumptions-hidden-in-our-messaging-system-3c77" target="_blank">[5]</a></sup>.</p>
+    <div class="editnote">Bài DEV là tự thuật, không nêu quy mô hệ thống, phiên bản chính xác hay kết quả đo. Hãy đọc nó như một danh sách câu hỏi để tự kiểm, không phải bằng chứng cho một con số nào.</div>
+    <div class="mech"><b>Cơ chế:</b> ack là lời nói với <em>một channel cụ thể</em>. Message đã giao qua channel A thì chỉ ack được trên channel A. Nếu A chết giữa chừng, broker coi message chưa được xác nhận và giao lại cho consumer khác, còn handler cũ vừa làm xong việc. Kết quả là việc được làm hai lần. Hệ quả cho bạn: xử lý trùng không phải sự cố hiếm mà là hành vi bình thường của at-least-once sau mỗi lần connection rớt. Đây là diễn giải biên tập, nguồn chỉ nói tới lỗi ack trên channel đã đóng.</div>
+
+    <h3 class="sub">Quorum queue đổi gì so với mirrored queue</h3>
+    <p>Đội RabbitMQ nêu lý do chuyển: mirrored queue đã bị đánh dấu lỗi thời từ bản 3.9 và dự kiến gỡ ở 4.0, còn quorum queue được mô tả là đáng tin và dễ đoán hơn, nhanh hơn với phần lớn tải, ít phải bảo trì hơn <sup><a href="https://www.rabbitmq.com/blog/2023/03/02/quorum-queues-migration" target="_blank">[1]</a></sup>. Cơ chế nhân bản khác hẳn: quorum queue dùng đồng thuận Raft, replicate song song, leader ghi vào write-ahead log trước khi xác nhận; mirrored queue dùng kiểu replicate theo chuỗi tự chế <sup><a href="https://www.rabbitmq.com/blog/2025/07/29/latest-benefits-of-rmq-and-migrating-to-qq-along-the-way" target="_blank">[2]</a></sup>. Con số ~30.000 msg/s gấp khoảng ba lần mirrored là từ một bài test đơn giản của chính đội phát triển (một queue, một publisher, một consumer, message 1 KB), nên chỉ để thấy cỡ, đừng dùng làm dự báo cho tải của bạn <sup><a href="https://www.rabbitmq.com/blog/2023/03/02/quorum-queues-migration" target="_blank">[1]</a></sup>. Bài 2025 không nêu số đo nào, chỉ nói bản 4.x nhanh hơn 3.13 và gần tương đương tính năng với classic queue <sup><a href="https://www.rabbitmq.com/blog/2025/07/29/latest-benefits-of-rmq-and-migrating-to-qq-along-the-way" target="_blank">[2]</a></sup>.</p>
+    <p>Cái giá được ghi rõ trong tài liệu: quorum queue đánh đổi độ trễ lấy throughput, throughput giảm khi message lớn hơn và khi có thêm thành viên, và cần đĩa nhanh nhất có thể <sup><a href="https://www.rabbitmq.com/docs/quorum-queues" target="_blank">[3]</a></sup>. Cần tối thiểu 3 node; nhóm quorum nên là số lẻ, tối đa 7 <sup><a href="https://www.rabbitmq.com/docs/quorum-queues" target="_blank">[3]</a></sup>.</p>
+
+    <h3 class="sub">Bốn chỗ hành vi đổi</h3>
+    <h3 class="sub" style="font-size:15px;color:#4338ca">1. Message "độc" không còn xoay vòng vô hạn</h3>
+    <p>Quorum queue đếm số lần giao lại. Mặc định sau 20 lần, message bị bỏ hoặc chuyển sang dead-letter; có thể tắt giới hạn nhưng tài liệu không khuyên <sup><a href="https://www.rabbitmq.com/docs/quorum-queues" target="_blank">[3]</a></sup>. Dead-letter mặc định là at-most-once (có thể mất). Muốn at-least-once phải đặt chiến lược dead-letter tương ứng, bắt buộc kèm overflow là reject-publish, và bật feature flag liên quan stream queue <sup><a href="https://www.rabbitmq.com/docs/quorum-queues" target="_blank">[3]</a></sup>. Cảnh báo đáng nhớ: message đang chờ dead-letter vẫn chiếm giới hạn tài nguyên của queue nguồn; nếu queue đích không có mặt, queue nguồn có thể đầy toàn message chưa được xác nhận <sup><a href="https://www.rabbitmq.com/docs/quorum-queues" target="_blank">[3]</a></sup>.</p>
+    <p>Bản 4.3 làm mịn thêm: có hai bộ đếm, acquired-count tăng mỗi lần message bị trả lại, delivery-count chỉ tăng khi lần giao <em>thất bại</em>. Message trả lại mà không đánh dấu thất bại không còn bị tính vào giới hạn 20; 4.3 cũng thêm retry có trễ tăng dần tuyến tính <sup><a href="https://www.rabbitmq.com/blog/2026/04/23/rabbitmq-4.3-release" target="_blank">[4]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế:</b> với classic queue, một message làm consumer ném lỗi và bị requeue có thể quay vòng mãi, ăn CPU và che các message tốt phía sau. Giới hạn 20 biến vòng đó thành có đáy, nhưng đáy ấy dẫn tới một thùng dead-letter mà phải có người đọc. Nếu không ai theo dõi thùng đó, bạn đã đổi "vòng xoay thấy được qua CPU" thành "message mất lặng lẽ sau 20 lần". Phần Spring AMQP bên dưới là suy luận biên tập: theo mặc định, lỗi ném từ listener thường khiến message bị requeue, nên bạn rất dễ chạm giới hạn này.</div>
+
+    <h3 class="sub" style="font-size:15px;color:#4338ca">2. Prefetch toàn cục không còn, chỉ còn prefetch theo từng consumer</h3>
+    <p>Tài liệu liệt kê tính năng không hỗ trợ: queue không bền (non-durable), queue độc quyền (exclusive), queue do server đặt tên, và global QoS prefetch; thay bằng prefetch theo từng consumer <sup><a href="https://www.rabbitmq.com/docs/quorum-queues" target="_blank">[3]</a></sup>. Bài 2023 cũng liệt kê priority queue, chế độ overflow reject-publish-dlx và x-cancel-on-ha-failover là những thứ cần sửa code khi chuyển <sup><a href="https://www.rabbitmq.com/blog/2023/03/02/quorum-queues-migration" target="_blank">[1]</a></sup>. Cần lưu ý bài 2023 là tình trạng lúc đó; bản 4.3 đã bổ sung 32 mức ưu tiên nghiêm ngặt cho quorum queue <sup><a href="https://www.rabbitmq.com/blog/2026/04/23/rabbitmq-4.3-release" target="_blank">[4]</a></sup>, nên hãy đọc đúng phiên bản bạn chạy.</p>
+    <div class="mech"><b>Cơ chế:</b> prefetch là số message chưa ack mà broker cho phép nằm ở một consumer. Số này càng lớn thì càng ít vòng đi vòng lại giữa broker và client, nên throughput cao hơn. Đổi lại, khi consumer chết, ngần ấy message bị giao lại cùng lúc, và trong lúc chờ chúng không ai khác xử lý được. Với việc nhanh, idempotent thì đáng đổi. Với việc chậm, gọi SQL Server, giữ khóa, thì prefetch cao chỉ gom hàng đợi vào một nơi và làm lệch tải giữa các consumer. Quy tắc biên tập: bắt đầu từ prefetch nhỏ rồi tăng theo số đo, chứ không bắt đầu từ mặc định của thư viện.</div>
+
+    <h3 class="sub" style="font-size:15px;color:#4338ca">3. Không phải queue nào cũng nên là quorum</h3>
+    <p>Bài 2025 nói thẳng: quorum queue không hợp cho queue tạm dùng trong RPC (request-reply), kiểu bắn rồi quên, ứng dụng không ack thủ công, và dữ liệu sống rất ngắn; classic queue không mirror vẫn là lựa chọn tốt cho RPC <sup><a href="https://www.rabbitmq.com/blog/2025/07/29/latest-benefits-of-rmq-and-migrating-to-qq-along-the-way" target="_blank">[2]</a></sup>. Với phần lớn queue bền từng được mirror thì không cần sửa code; ứng dụng nào khai báo kiểu queue tường minh thì phải chỉnh cấu hình <sup><a href="https://www.rabbitmq.com/blog/2025/07/29/latest-benefits-of-rmq-and-migrating-to-qq-along-the-way" target="_blank">[2]</a></sup>. Một chi tiết nhỏ: từ bản 4.3, classic queue không còn tự xét consumer timeout; tính năng đó chỉ còn ở quorum và queue kiểu JMS <sup><a href="https://www.rabbitmq.com/blog/2026/04/23/rabbitmq-4.3-release" target="_blank">[4]</a></sup>.</p>
+
+    <h3 class="sub" style="font-size:15px;color:#4338ca">4. Bộ nhớ và đĩa có công thức riêng</h3>
+    <p>Write-ahead log mặc định tối đa 512 MB; khi đầy mới được ghi xuống file segment, và bộ nhớ vẫn bị giữ tới lúc đó. Tài liệu khuyên cấp RAM ít nhất 3 lần dung lượng WAL hiệu dụng, 4 lần với hệ tải cao <sup><a href="https://www.rabbitmq.com/docs/quorum-queues" target="_blank">[3]</a></sup>. Mỗi message tốn tối thiểu 32 byte metadata, nhiều hơn nếu có TTL hoặc bị trả lại, và nên giữ queue ngắn, message nhỏ để bộ nhớ thấp <sup><a href="https://www.rabbitmq.com/docs/quorum-queues" target="_blank">[3]</a></sup>. Bản 4.3 giảm bộ nhớ khoảng 50% cho message tới 32 KiB <sup><a href="https://www.rabbitmq.com/blog/2026/04/23/rabbitmq-4.3-release" target="_blank">[4]</a></sup>, nguồn không nói giảm so với cái gì hay đo trên tải nào.</p>
+    <div class="mech"><b>Cơ chế:</b> classic queue có thể tràn xuống đĩa để giữ RAM thấp. Quorum queue đặt cả hàng đợi đã replicate vào một log chung nên "backlog lớn" tốn RAM và đĩa nhanh hơn. Đây là lý do một queue dồn ứ vài triệu message, từng chịu được, có thể làm node quorum cạn bộ nhớ. Suy luận biên tập từ hướng dẫn "giữ queue ngắn" của tài liệu; hãy thử với backlog thật ở staging trước khi coi là đúng với tải của bạn.</div>
+
+    <h3 class="sub">Cách chuyển: hai kiểu, hai cái giá</h3>
+    <table class="tbl">
+      <tr><th>Cách</th><th>Các bước (tóm tắt)</th><th>Hợp khi</th><th>Cái giá</th></tr>
+      <tr><td>Blue-green cả cụm (bài 2025)</td><td>Xuất định nghĩa cụm cũ có biến đổi, nhập sang cụm mới, nối federation giữa hai cụm, chuyển consumer, rồi producer, xóa chính sách và upstream tạm <sup><a href="https://www.rabbitmq.com/blog/2025/07/29/latest-benefits-of-rmq-and-migrating-to-qq-along-the-way" target="_blank">[2]</a></sup></td><td>Nhiều queue, nhiều service, muốn chuyển một lần có đường lui</td><td>Chạy hai cụm song song; cần thử bằng RabbitMQ Perf Test trước</td></tr>
+      <tr><td>Từng queue (bài Qarote)</td><td>Kiểm kê queue, tạo queue quorum mới, chuyển publisher sang tên mới, consumer đọc cả hai trong lúc xả, xóa queue cũ khi rỗng <sup><a href="https://qarote.io/blog/rabbitmq-quorum-queues-migration/" target="_blank">[6]</a></sup></td><td>Ít queue, muốn từng bước nhỏ</td><td>Bài là blog của nhà cung cấp công cụ; thứ tự message giữa hai queue không được đảm bảo (suy luận biên tập)</td></tr>
+    </table>
+    <div class="editnote">Bài Qarote có hai nhận định không dẫn chứng trong chính bài: rằng requeue là nguyên nhân số một của sự cố sau chuyển đổi, và rằng chi phí Raft "không đáng kể" ở tải thấp đến vừa. Tôi không dùng hai nhận định đó làm điểm nhấn.</div>
+
+    <h3 class="sub">Ánh xạ sang stack của bạn</h3>
+    <table class="tbl">
+      <tr><th>Chỗ trong hệ thống</th><th>Vấn đề tương đương</th><th>Việc nên kiểm</th></tr>
+      <tr><td>Spring Boot listener ghi vào SQL Server</td><td>Lỗi khi ghi DB làm message requeue; sau 20 lần vào dead-letter</td><td>Quyết định từng loại lỗi nào được thử lại, loại nào đẩy thẳng vào dead-letter; có người đọc thùng dead-letter</td></tr>
+      <tr><td>Prefetch của listener</td><td>Giá trị mặc định của thư viện thường là hàng trăm; kiểm giá trị ở phiên bản Spring AMQP bạn dùng</td><td>Đặt prefetch theo thời gian xử lý một message; nhỏ nếu có gọi DB nặng</td></tr>
+      <tr><td>Bảng queue/task log trong DB</td><td>Message được giao lại sau khi connection rớt, handler cũ vẫn commit</td><td>Idempotency theo khóa nghiệp vụ (ví dụ CompanyID + mã chứng từ), để xử lý hai lần vô hại</td></tr>
+      <tr><td>RPC qua RabbitMQ (nếu có)</td><td>Queue trả lời tạm, exclusive: quorum không hợp <sup><a href="https://www.rabbitmq.com/blog/2025/07/29/latest-benefits-of-rmq-and-migrating-to-qq-along-the-way" target="_blank">[2]</a></sup></td><td>Để classic không mirror, hoặc chuyển sang gọi đồng bộ</td></tr>
+      <tr><td>Queue dồn ứ khi consumer hỏng</td><td>Quorum tốn bộ nhớ theo độ dài queue</td><td>Giới hạn độ dài, đặt cảnh báo theo tuổi message cũ nhất chứ không chỉ số lượng</td></tr>
+    </table>
+    <div class="editnote">Bảng này là suy luận biên tập; các nguồn không nhắc tới Spring, SQL Server hay CompanyID. Hãy xác nhận từng dòng trên hệ của bạn trước khi coi là đúng.</div>
+
+    <h3 class="sub">Rút ra theo quy mô</h3>
+    <div class="scale">
+      <div class="col small"><h4>Đội nhỏ, &lt;10 người</h4><ul>
+        <li>Chạy bản RabbitMQ mới nhất còn được hỗ trợ; đừng ở lại cụm mirrored chỉ vì nó đang chạy.</li>
+        <li>Chuyển từng queue bền quan trọng; để RPC và queue tạm ở classic.</li>
+        <li>Đặt một quy ước tên dead-letter nhàm chán (tên queue + hậu tố dlq) và một cảnh báo khi thùng đó có message <sup><a href="https://dev.to/daemonicc/a-rabbitmq-upgrade-exposed-the-reliability-assumptions-hidden-in-our-messaging-system-3c77" target="_blank">[5]</a></sup>.</li>
+      </ul></div>
+      <div class="col"><h4>Đội đã có production</h4><ul>
+        <li>Kiểm kê toàn bộ queue theo loại, độ bền, priority, exclusive, global QoS trước khi chuyển.</li>
+        <li>Thử với RabbitMQ Perf Test và backlog thật ở staging; đo RAM theo công thức 3× WAL <sup><a href="https://www.rabbitmq.com/docs/quorum-queues" target="_blank">[3]</a></sup>.</li>
+        <li>Coi khai báo queue là hợp đồng hạ tầng dùng chung, không để mỗi service tự khai báo một kiểu <sup><a href="https://dev.to/daemonicc/a-rabbitmq-upgrade-exposed-the-reliability-assumptions-hidden-in-our-messaging-system-3c77" target="_blank">[5]</a></sup>.</li>
+        <li>Alert phải nói rõ nguyên nhân (sai credential, DNS, timeout, TLS), không chỉ "không kết nối được" <sup><a href="https://dev.to/daemonicc/a-rabbitmq-upgrade-exposed-the-reliability-assumptions-hidden-in-our-messaging-system-3c77" target="_blank">[5]</a></sup>.</li>
+      </ul></div>
+    </div>
+
+    <div class="takeaway">💡 <b>Rút ra cho bạn:</b> trước khi hỏi "quorum nhanh hơn bao nhiêu", hãy hỏi "message lỗi của tôi đi đâu sau lần giao thứ 20, và ai đọc nó". Đổi loại queue là việc của một buổi chiều; đổi cách xử lý lỗi và xử lý trùng mới là việc thật.</div>
+
+    <div class="doslist">
+      <div>✅ Kiểm kê queue theo loại, độ bền, priority, exclusive, global QoS trước khi chuyển.</div>
+      <div>✅ Đặt dead-letter at-least-once cho luồng quan trọng, và có người đọc thùng dead-letter.</div>
+      <div>✅ Đặt prefetch theo từng consumer, nhỏ cho việc gọi DB nặng.</div>
+      <div>✅ Làm xử lý idempotent theo khóa nghiệp vụ; message đến hai lần phải vô hại.</div>
+      <div>❌ Không chuyển queue RPC tạm sang quorum.</div>
+      <div>❌ Không tắt giới hạn giao lại để "cho hết lỗi".</div>
+    </div>
+
+    <h3 class="sub">Ba việc làm tuần này</h3>
+    <div class="doslist">
+      <div>1. Liệt kê mọi queue của bạn kèm loại, độ bền và có dead-letter hay không; đánh dấu queue nào đang dùng priority, exclusive hoặc global QoS.</div>
+      <div>2. Với mỗi listener Spring, ghi lại prefetch hiện tại và thời gian xử lý trung bình một message; chỗ nào có gọi SQL Server thì thử hạ prefetch ở staging.</div>
+      <div>3. Chọn một luồng quan trọng và thử giết connection giữa lúc handler đang chạy, xem hệ thống có xử lý hai lần mà vẫn đúng không.</div>
+    </div>
+
+    <div class="refs"><b>Nguồn tham khảo</b><br>
+      [1] <a href="https://www.rabbitmq.com/blog/2023/03/02/quorum-queues-migration" target="_blank">RabbitMQ — Migrating from Mirrored Classic Queues to Quorum Queues, 02/03/2023</a><br>
+      [2] <a href="https://www.rabbitmq.com/blog/2025/07/29/latest-benefits-of-rmq-and-migrating-to-qq-along-the-way" target="_blank">Aitor Perez, Michael Klishin — Migrating from Classic Mirrored Queues to Quorum Queues in 2025, 29/07/2025</a><br>
+      [3] <a href="https://www.rabbitmq.com/docs/quorum-queues" target="_blank">RabbitMQ — tài liệu Quorum Queues</a><br>
+      [4] <a href="https://www.rabbitmq.com/blog/2026/04/23/rabbitmq-4.3-release" target="_blank">RabbitMQ 4.3 Highlights, 23/04/2026</a><br>
+      [5] <a href="https://dev.to/daemonicc/a-rabbitmq-upgrade-exposed-the-reliability-assumptions-hidden-in-our-messaging-system-3c77" target="_blank">Emmanuel Igunnu — A RabbitMQ upgrade exposed the reliability assumptions hidden in our messaging system, DEV, 07/2026</a><br>
+      [6] <a href="https://qarote.io/blog/rabbitmq-quorum-queues-migration/" target="_blank">Brice Tessier — RabbitMQ Quorum Queues: When to Migrate and How to Do It Safely, Qarote, 25/04/2026</a></div>
+  </article>
+
+  <div class="foot">Bản tin sáng · tổng hợp từ nguồn công khai đã xác minh</div>
+</div>
+</body>
+</html>
