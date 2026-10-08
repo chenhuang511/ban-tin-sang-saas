@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>N+1 trên Hibernate: giảm 94% câu lệnh nhưng chỉ nhanh 23% &middot; 08/10/2026</title>
+<title>N+1 trên Hibernate và AI-native SDLC: đo đúng thứ cần đo &middot; 08/10/2026</title>
 <style>
 :root{color-scheme:light}
 *{box-sizing:border-box}
@@ -65,15 +65,17 @@ hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
   <header class="masthead">
     <div class="kicker">Bản tin sáng · Số 08/10/2026</div>
     <h1 class="title">Giảm 94% số câu lệnh SQL mà API chỉ nhanh hơn 23%: cái bẫy khi đo N+1 trên Hibernate bằng máy local</h1>
-    <div class="meta">08/10/2026 · Đọc khoảng 12 phút · Nguồn chính: Taras Antoniuk — DEV (15/12/2025); Rajdeep Dabral — TO THE NEW (02/09/2026); đối chiếu tài liệu Hibernate ORM</div>
+    <div class="meta">08/10/2026 · Đọc khoảng 18 phút · Nguồn: Taras Antoniuk — DEV (15/12/2025); Rajdeep Dabral — TO THE NEW (02/09/2026); tài liệu Hibernate ORM; Matthew Canham (01/10/2026) và Robbie Geoghegan &amp; Fan Jiang (31/05/2026) — Inside Atlassian</div>
   </header>
 
-  <div class="editnote">Ghi chú biên tập: số này chỉ có <b>một bài</b>. Nguồn chính là một case nhỏ do chính tác giả tự đo trên máy local, nên tôi dùng nó để học cách <b>đọc</b> con số chứ không để rút ra "JOIN FETCH nhanh hơn bao nhiêu" cho hệ của bạn. Các khối "Cơ chế", bảng ánh xạ sang SQL Server/Spring/HikariCP và khuyến nghị là phần biên tập tổng hợp từ thực hành phổ biến, <b>không trích nguyên văn từ nguồn</b>. Mọi con số đều có dẫn nguồn nội dòng.</div>
+  <div class="editnote">Ghi chú biên tập: số này có <b>hai bài</b> và một Góc nhìn. Bài 1 dựa trên một case nhỏ do chính tác giả tự đo trên máy local, nên tôi dùng nó để học cách <b>đọc</b> con số chứ không để rút ra "JOIN FETCH nhanh hơn bao nhiêu" cho hệ của bạn. Các khối "Cơ chế", bảng ánh xạ sang SQL Server/Spring/HikariCP và khuyến nghị là phần biên tập tổng hợp từ thực hành phổ biến, <b>không trích nguyên văn từ nguồn</b>. Mọi con số đều có dẫn nguồn nội dòng.</div>
 
   <nav class="toc">
     <h2>Trong số này</h2>
     <ol>
-      <li><a href="#bai1"><strong>Bài duy nhất</strong> — N+1 trên Hibernate: 94% ít câu lệnh hơn nhưng chỉ nhanh 23%<br><span style="font-size:13.5px;color:#6b7280">· case Spring Boot 3.5 + PostgreSQL · vì sao số câu lệnh và số mili-giây lệch nhau · JOIN FETCH vỡ ở đâu · sáu cách chữa và cái giá · ánh xạ sang Spring + SQL Server + HikariCP · ngân sách số query trong CI</span></li>
+      <li><a href="#bai1"><strong>Bài 1</strong> — N+1 trên Hibernate: 94% ít câu lệnh hơn nhưng chỉ nhanh 23%<br><span style="font-size:13.5px;color:#6b7280">· case Spring Boot 3.5 + PostgreSQL · vì sao số câu lệnh và số mili-giây lệch nhau · JOIN FETCH vỡ ở đâu · sáu cách chữa và cái giá · ánh xạ sang Spring + SQL Server + HikariCP · ngân sách số query trong CI</span></li>
+    <li><a href="#bai2"><strong>Bài 2</strong> — AI-native SDLC ở Atlassian: 3.400 repo, +19% PR, "2–3 giờ" và những chiều chưa đo<br><span style="font-size:13.5px;color:#6b7280">· khung bảy trụ · bán thực nghiệm và propensity matching · phân vị 20 của số tự báo cáo · ánh xạ sang stack của bạn</span></li>
+      <li><a href="#gocnhin"><strong>Góc nhìn</strong> — con số bạn đang nhìn đo cái gì? · ba việc làm tuần này</a></li>
     </ol>
   </nav>
 
@@ -163,6 +165,87 @@ hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
       [2] <a href="https://www.tothenew.com/blog/hibernate-n1-query-problem-causes-solutions-and-production-best-practices/" target="_blank">Rajdeep Dabral — Hibernate N+1 Query Problem: Causes, Solutions and Production Best Practices, TO THE NEW, 02/09/2026</a><br>
       [3] <a href="https://docs.hibernate.org/orm/7.3/javadocs/org/hibernate/annotations/BatchSize.html" target="_blank">Hibernate ORM 7.3 — Annotation Interface BatchSize</a><br>
       [4] <a href="https://docs.hibernate.org/orm/7.3/javadocs/org/hibernate/cfg/FetchSettings.html" target="_blank">Hibernate ORM 7.3 — Interface FetchSettings</a></div>
+  </article>
+
+  <article class="card" id="bai2">
+    <span class="tag saas">Quy trình sản xuất · AI-native SDLC</span>
+    <h2 class="head">AI-native SDLC: Atlassian đo 3.400 repo và rút "2–3 giờ mỗi tuần" ra sao — và những con số nào chưa đo</h2>
+    <p class="src">Nguồn: Matthew Canham — <a href="https://www.atlassian.com/blog/ai-at-work/ai-sdlc-transformation-playbook" target="_blank">"The AI SDLC transformation playbook"</a>, Inside Atlassian (01/10/2026) [5]; Robbie Geoghegan &amp; Fan Jiang — <a href="https://www.atlassian.com/blog/ai-at-work/ai-native-sdlc-paying-off-per-developer-per-week" target="_blank">"The AI-native SDLC is paying off: 19% more PRs and 2–3 hours saved per developer per week"</a>, Inside Atlassian (31/05/2026) [6]. Cả hai là Atlassian tự viết về sản phẩm của mình (Rovo Dev), nên hãy đọc như case nhà cung cấp tự công bố.</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">+19%</div><div class="lab">số PR merge mỗi tháng của repo dùng Rovo Dev so với repo tương tự không dùng; mẫu 3.400 repo, 2.500 khách hàng <sup><a href="https://www.atlassian.com/blog/ai-at-work/ai-native-sdlc-paying-off-per-developer-per-week" target="_blank">[6]</a></sup></div></div>
+      <div class="box"><div class="num">2–3 giờ</div><div class="lab">tiết kiệm mỗi dev mỗi tuần, ước lượng cho khách hàng bên ngoài; bằng khoảng 10% của ~24 giờ code và review trong tuần 40 giờ <sup><a href="https://www.atlassian.com/blog/ai-at-work/ai-native-sdlc-paying-off-per-developer-per-week" target="_blank">[6]</a></sup></div></div>
+      <div class="box"><div class="num">11,5 → 6,7 ngày</div><div class="lab">chu kỳ xử lý một issue ở khâu phát triển, theo số Atlassian nêu cho chính mình <sup><a href="https://www.atlassian.com/blog/ai-at-work/ai-sdlc-transformation-playbook" target="_blank">[5]</a></sup></div></div>
+      <div class="box"><div class="num">51%</div><div class="lab">lỗ hổng tiềm ẩn do vòng lặp agent có quản trị xử lý xong, ở khâu bảo trì <sup><a href="https://www.atlassian.com/blog/ai-at-work/ai-sdlc-transformation-playbook" target="_blank">[5]</a></sup></div></div>
+    </div>
+
+    <h3 class="sub">Khung bảy trụ: hai khoản đầu tư nền, năm bước đổi cách làm</h3>
+    <p>Canham mô tả quá trình Atlassian tự chuyển sang SDLC "AI-native" thành bảy trụ. Hai trụ là nền tảng: một đồ thị ngữ cảnh (Teamwork Graph, gộp dữ liệu từ hơn 50 nguồn, phân quyền ngay ở tầng dữ liệu) và một hệ đo lường (dùng DX để ghép số liệu từ Jira, Cursor, Claude Code với phản hồi của dev). Năm trụ còn lại là năm khâu: lập kế hoạch, thiết kế, phát triển, review và bảo trì <sup><a href="https://www.atlassian.com/blog/ai-at-work/ai-sdlc-transformation-playbook" target="_blank">[5]</a></sup>.</p>
+    <p>Hai con số do Atlassian nêu cho trụ ngữ cảnh: agent dùng Teamwork Graph cho kết quả chính xác hơn 44% và tốn ít hơn 48% token, trong benchmark nội bộ <sup><a href="https://www.atlassian.com/blog/ai-at-work/ai-sdlc-transformation-playbook" target="_blank">[5]</a></sup>. Bài không nêu phương pháp chấm, nên hãy xem đây là lời mời thử, chưa phải bằng chứng.</p>
+    <div class="mech"><b>Cơ chế:</b> điểm đáng giữ nhất của khung này nằm ở phần "sai lầm". Canham liệt kê: coi AI-native là việc mua sắm (chọn agent, giấy phép, IDE) thì chỉ ra lợi ích nhỏ; thiếu ngữ cảnh có phân quyền thì thay đổi quy trình không hiệu quả; viết yêu cầu mà không biết codebase thì sinh làm lại và bỏ sót ràng buộc; agent khởi đầu sai chỗ làm mọi thứ chậm và đắt hơn <sup><a href="https://www.atlassian.com/blog/ai-at-work/ai-sdlc-transformation-playbook" target="_blank">[5]</a></sup>. Gom lại là một ý: agent giỏi đến đâu cũng chỉ bằng ngữ cảnh nó được đưa lúc <em>bắt đầu</em> một việc. Nên khâu rẻ nhất để cải thiện là khâu viết yêu cầu và cắt việc, không phải khâu sinh code.</div>
+
+    <h3 class="sub">Cách họ tính ra con số 19%: đáng học hơn chính con số</h3>
+    <p>Geoghegan và Jiang không thể giao ngẫu nhiên repo vào nhóm dùng hoặc không dùng. Họ chọn thiết kế bán thực nghiệm: so sự thay đổi PR throughput trước/sau khi nhận công cụ ở nhóm dùng với sự thay đổi ở nhóm đối chứng, và dùng propensity score matching để ghép mỗi repo dùng với một repo tương tự không dùng. Kết quả: nhóm dùng merge nhiều hơn 19% PR mỗi tháng. Repo hoạt động thấp và vừa (5–9 và 10–19 PR mỗi tháng) tăng 37–51%; nếu chỉ có 3–5 người dùng Rovo Dev, mức tăng ở repo cỡ này là 59–87% <sup><a href="https://www.atlassian.com/blog/ai-at-work/ai-native-sdlc-paying-off-per-developer-per-week" target="_blank">[6]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế:</b> propensity score matching là cách ghép "sinh đôi": thay vì so repo dùng với <em>mọi</em> repo không dùng, mỗi repo dùng được ghép với repo không dùng có đặc điểm gần giống (cỡ, mức hoạt động...). Việc này loại bỏ phần chênh do "đội giỏi hơn thì vừa dùng AI vừa merge nhiều hơn". Nhưng nó chỉ ghép được những gì họ đo; phần còn lại (văn hóa, chất lượng review) vẫn có thể lẫn vào. Chính các tác giả nói kết quả chỉ chứng minh <em>tương quan với việc áp dụng</em>, chưa chứng minh nhân quả, và bài không nêu rõ khoảng thời gian của dữ liệu PR <sup><a href="https://www.atlassian.com/blog/ai-at-work/ai-native-sdlc-paying-off-per-developer-per-week" target="_blank">[6]</a></sup>. Mức tăng lớn hơn ở repo ít hoạt động là điều tự nhiên: nền thấp thì cộng thêm vài PR đã thành phần trăm lớn (suy luận biên tập, không phải kết luận của nguồn).</div>
+
+    <h3 class="sub">"2–3 giờ" không phải số đo, mà là số khảo sát đã hạ thấp và quy đổi</h3>
+    <p>Mảng tiết kiệm thời gian dựa vào khảo sát hơn 6.200 dev Atlassian (96% dùng Rovo Dev). Để tránh phóng đại, các tác giả không lấy trung vị mà lấy phân vị thứ 20 của số giờ tự báo cáo: 2–4 giờ mỗi tuần, trong khi trung vị là 4–6 và phân vị 80 là 6–8. Sau đó họ điều chỉnh theo cường độ dùng: dev Atlassian trung bình có 2,15 PR merge có Rovo Dev hỗ trợ mỗi tuần, khách hàng chỉ 1,59 (tức dev nội bộ dùng gấp 1,35 lần), nên con số công bố cho khách hàng là 2–3 giờ <sup><a href="https://www.atlassian.com/blog/ai-at-work/ai-native-sdlc-paying-off-per-developer-per-week" target="_blank">[6]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế:</b> đây là ba lớp suy diễn xếp chồng: (1) tự báo cáo, (2) chọn mốc thận trọng, (3) quy đổi sang một nhóm khác theo cường độ dùng. Mỗi lớp hợp lý, nhưng tổng thể vẫn là <em>ước lượng</em>. Với hệ của bạn, cách an toàn là chỉ mượn khung (lấy mốc thấp, quy đổi theo mức dùng thật) chứ không mượn con số. Ngoài ra bài của Canham nêu chu kỳ issue giảm từ 11,5 xuống 6,7 ngày và gọi là "gần một nửa"; phép chia cho ra mức giảm khoảng 42%, gần một nửa chứ chưa phải một nửa <sup><a href="https://www.atlassian.com/blog/ai-at-work/ai-sdlc-transformation-playbook" target="_blank">[5]</a></sup>. Con số đó lại không đi kèm mẫu hay cách đo trong bài.</div>
+
+    <h3 class="sub">Hai chiều chưa đo: chất lượng và độ hài lòng</h3>
+    <p>Khung đo của họ có bốn chiều: tốc độ (PR throughput), hiệu quả (giờ tiết kiệm), chất lượng (tỷ lệ thay đổi gây lỗi) và độ hài lòng của dev. Chỉ hai chiều đầu có dữ liệu trong bài. Chất lượng và hài lòng được mô tả là "có vẻ ổn định" nhưng chưa được đo chặt, và các tác giả cảnh báo hiệu ứng tân trang có thể thổi phồng kết quả sớm, nên nên đo sau khi triển khai 2–3 tháng <sup><a href="https://www.atlassian.com/blog/ai-at-work/ai-native-sdlc-paying-off-per-developer-per-week" target="_blank">[6]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế:</b> PR throughput đo "bao nhiêu thứ được đẩy ra", còn change failure rate đo "bao nhiêu trong số đó phải quay lại". Throughput tăng mà change failure rate tăng cùng lúc thì lợi ích thật có thể bằng không, chỉ dời chi phí sang on-call. Với hệ chạy SQL Server, thứ đắt nhất của một thay đổi hỏng thường là migration khó rollback hoặc plan regression, không phải số phút review (ánh xạ biên tập).</div>
+
+    <h3 class="sub">Ánh xạ sang đội của bạn</h3>
+    <table class="tbl">
+      <tr><th>Khâu</th><th>Việc Atlassian làm</th><th>Phiên bản cho stack Spring + SQL Server + RabbitMQ</th></tr>
+      <tr><td>Lập kế hoạch</td><td>Agent tổng hợp nhu cầu và ngữ cảnh codebase thành yêu cầu để người tinh chỉnh <sup><a href="https://www.atlassian.com/blog/ai-at-work/ai-sdlc-transformation-playbook" target="_blank">[5]</a></sup></td><td>Cho agent đọc sơ đồ phụ thuộc giữa service, các bảng theo CompanyID và hợp đồng queue trước khi viết yêu cầu</td></tr>
+      <tr><td>Phát triển</td><td>Agent lấy ngữ cảnh từ đồ thị và ghi quyết định ngược về đó <sup><a href="https://www.atlassian.com/blog/ai-at-work/ai-sdlc-transformation-playbook" target="_blank">[5]</a></sup></td><td>Một file chuẩn về convention (transaction, timeout, idempotency) mà agent luôn nạp; nhớ bài 16/09 cảnh báo file ngữ cảnh quá dài có thể phản tác dụng</td></tr>
+      <tr><td>Review</td><td>AI review trước theo chuẩn chung, người giữ phán quyết cuối <sup><a href="https://www.atlassian.com/blog/ai-at-work/ai-sdlc-transformation-playbook" target="_blank">[5]</a></sup></td><td>Danh mục kiểm riêng cho thay đổi chạm migration, index, hợp đồng message; người duyệt bắt buộc cho các thay đổi đó</td></tr>
+      <tr><td>Bảo trì</td><td>Vòng lặp agent có quản trị cho việc bảo trì rõ ràng, xử lý 51% lỗ hổng tiềm ẩn <sup><a href="https://www.atlassian.com/blog/ai-at-work/ai-sdlc-transformation-playbook" target="_blank">[5]</a></sup></td><td>Giao agent nâng phụ thuộc có kiểm thử; không giao migration schema</td></tr>
+    </table>
+    <div class="editnote">Bảng này là suy luận biên tập. Nguồn không nhắc Spring, SQL Server hay RabbitMQ.</div>
+
+    <div class="scale">
+      <div class="col small"><h4>Đội nhỏ, &lt;10 người</h4><ul>
+        <li>Làm như lời khuyên của chính nguồn: bắt đầu ở một repo có 3–5 người thật sự dùng, đi sâu một workflow rồi mới mở rộng <sup><a href="https://www.atlassian.com/blog/ai-at-work/ai-native-sdlc-paying-off-per-developer-per-week" target="_blank">[6]</a></sup>.</li>
+        <li>Chưa cần đồ thị ngữ cảnh: một thư mục tài liệu kiến trúc ngắn, cập nhật cùng PR, đã là phiên bản nhỏ của nó.</li>
+        <li>Ghi số PR merge và số lần revert mỗi tháng trước khi bật công cụ, để có mốc.</li>
+      </ul></div>
+      <div class="col"><h4>Đội đã có production</h4><ul>
+        <li>Chạy đối chiếu kiểu "repo dùng vs repo chưa dùng" ngay trong công ty bạn, ghép theo cỡ và mức hoạt động, và đợi 2–3 tháng rồi mới đọc <sup><a href="https://www.atlassian.com/blog/ai-at-work/ai-native-sdlc-paying-off-per-developer-per-week" target="_blank">[6]</a></sup>.</li>
+        <li>Đo cả change failure rate, không chỉ throughput; đặt hai số cạnh nhau trên một bảng.</li>
+        <li>Khảo sát tiết kiệm thời gian thì lấy mốc thấp (phân vị 20), đừng lấy trung bình.</li>
+      </ul></div>
+    </div>
+
+    <div class="takeaway">💡 <b>Rút ra cho bạn:</b> giá trị mang về từ Atlassian không phải "+19%", mà là cách họ <em>hạ thấp</em> con số của chính mình (nhóm đối chứng, mốc thấp, thừa nhận chưa đo chất lượng). Hãy copy cách đo, đừng copy kết quả.</div>
+
+    <div class="doslist">
+      <div>✅ Có nhóm đối chứng và chờ 2–3 tháng trước khi kết luận.</div>
+      <div>✅ Đo chất lượng (change failure rate, revert) song song với tốc độ.</div>
+      <div>✅ Cho agent ngữ cảnh đúng ngay từ khâu viết yêu cầu và cắt việc.</div>
+      <div>❌ Không coi AI-native là việc mua công cụ.</div>
+      <div>❌ Không lấy số tự báo cáo hoặc số của nhà cung cấp làm mục tiêu nội bộ.</div>
+    </div>
+
+    <div class="refs"><b>Nguồn tham khảo (bài 2)</b><br>
+      [5] <a href="https://www.atlassian.com/blog/ai-at-work/ai-sdlc-transformation-playbook" target="_blank">Matthew Canham — The AI SDLC transformation playbook, Inside Atlassian, 01/10/2026</a><br>
+      [6] <a href="https://www.atlassian.com/blog/ai-at-work/ai-native-sdlc-paying-off-per-developer-per-week" target="_blank">Robbie Geoghegan, Fan Jiang — The AI-native SDLC is paying off: 19% more PRs and 2–3 hours saved per developer per week, Inside Atlassian, 31/05/2026</a></div>
+  </article>
+
+  <article class="card" id="gocnhin">
+    <span class="tag view">Góc nhìn</span>
+    <h2 class="head">Hai bài, một câu hỏi: con số bạn đang nhìn đo cái gì?</h2>
+    <p>Bài 1 cho thấy số câu lệnh SQL giảm 94% nhưng thời gian chỉ giảm 23% <sup><a href="https://dev.to/taras_antoniuk_ea6a2fe7ee/how-join-fetch-reduced-database-load-by-94-a-real-world-case-study-40c" target="_blank">[1]</a></sup>. Bài 2 cho thấy số PR merge tăng 19% còn chất lượng thì chưa đo <sup><a href="https://www.atlassian.com/blog/ai-at-work/ai-native-sdlc-paying-off-per-developer-per-week" target="_blank">[6]</a></sup>. Cả hai đều là chỉ số <em>thay thế</em>: nó dễ đếm và đi cùng chiều với thứ ta quan tâm, nhưng không phải thứ ta quan tâm. Thứ ta quan tâm là p99 và số connection bị giữ ở bài 1, là lỗi chạy ra production ở bài 2.</p>
+    <p>Điểm chung thứ hai: cả hai tác giả đều tự nói giới hạn của mình (dữ liệu local, nhóm chưa ngẫu nhiên). Hãy đọc kỹ phần đó trước phần tiêu đề. Phần tiêu đề thường là con số đẹp nhất, còn phần giới hạn là chỗ bạn biết có áp được vào hệ của mình không.</p>
+    <div class="editnote">Phần Góc nhìn là tổng hợp biên tập, không trích nguyên văn từ nguồn.</div>
+    <h3 class="sub">Ba việc làm tuần này</h3>
+    <div class="doslist">
+      <div>1. Với mỗi chỉ số tốc độ đang theo dõi (PR throughput, thời gian build, số query), ghi bên cạnh chỉ số chất lượng đối ứng: revert, change failure rate, p99.</div>
+      <div>2. Chọn một repo đang dùng công cụ AI và một repo tương tự chưa dùng; ghi mốc hiện tại để so lại sau 2–3 tháng.</div>
+      <div>3. Rà ba con số bạn từng báo lên cấp trên; nếu đó là số đếm hoạt động chứ không phải kết quả, thêm một dòng nói rõ nó đo gì.</div>
+    </div>
   </article>
 
   <div class="foot">Bản tin sáng · tổng hợp từ nguồn công khai đã xác minh</div>
