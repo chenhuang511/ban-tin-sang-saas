@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>N+1 trên Hibernate: giảm 94% câu lệnh nhưng chỉ nhanh 23% &middot; 08/10/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+@media (max-width:560px){h1.title{font-size:25px}.card{padding:20px 18px}.tbl{display:block;overflow-x:auto}}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 08/10/2026</div>
+    <h1 class="title">Giảm 94% số câu lệnh SQL mà API chỉ nhanh hơn 23%: cái bẫy khi đo N+1 trên Hibernate bằng máy local</h1>
+    <div class="meta">08/10/2026 · Đọc khoảng 12 phút · Nguồn chính: Taras Antoniuk — DEV (15/12/2025); Rajdeep Dabral — TO THE NEW (02/09/2026); đối chiếu tài liệu Hibernate ORM</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: số này chỉ có <b>một bài</b>. Nguồn chính là một case nhỏ do chính tác giả tự đo trên máy local, nên tôi dùng nó để học cách <b>đọc</b> con số chứ không để rút ra "JOIN FETCH nhanh hơn bao nhiêu" cho hệ của bạn. Các khối "Cơ chế", bảng ánh xạ sang SQL Server/Spring/HikariCP và khuyến nghị là phần biên tập tổng hợp từ thực hành phổ biến, <b>không trích nguyên văn từ nguồn</b>. Mọi con số đều có dẫn nguồn nội dòng.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1"><strong>Bài duy nhất</strong> — N+1 trên Hibernate: 94% ít câu lệnh hơn nhưng chỉ nhanh 23%<br><span style="font-size:13.5px;color:#6b7280">· case Spring Boot 3.5 + PostgreSQL · vì sao số câu lệnh và số mili-giây lệch nhau · JOIN FETCH vỡ ở đâu · sáu cách chữa và cái giá · ánh xạ sang Spring + SQL Server + HikariCP · ngân sách số query trong CI</span></li>
+    </ol>
+  </nav>
+
+  <article class="card" id="bai1">
+    <span class="tag legacy">Tối ưu hệ đang chạy · Spring Boot &amp; JPA</span>
+    <h2 class="head">N+1 không nằm ở số câu lệnh, mà ở số vòng đi-về tới database</h2>
+    <p class="src">Nguồn: Taras Antoniuk — <a href="https://dev.to/taras_antoniuk_ea6a2fe7ee/how-join-fetch-reduced-database-load-by-94-a-real-world-case-study-40c" target="_blank">"How JOIN FETCH Reduced Database Load by 94%: A Real-World Case Study"</a>, DEV (15/12/2025) [1]; Rajdeep Dabral — <a href="https://www.tothenew.com/blog/hibernate-n1-query-problem-causes-solutions-and-production-best-practices/" target="_blank">"Hibernate N+1 Query Problem: Causes, Solutions and Production Best Practices"</a>, TO THE NEW (02/09/2026) [2]; tài liệu Hibernate ORM 7.3 về <a href="https://docs.hibernate.org/orm/7.3/javadocs/org/hibernate/annotations/BatchSize.html" target="_blank">@BatchSize</a> [3] và <a href="https://docs.hibernate.org/orm/7.3/javadocs/org/hibernate/cfg/FetchSettings.html" target="_blank">FetchSettings</a> [4].</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">33 → 2</div><div class="lab">câu lệnh JDBC cho một endpoint, giảm 94% <sup><a href="https://dev.to/taras_antoniuk_ea6a2fe7ee/how-join-fetch-reduced-database-load-by-94-a-real-world-case-study-40c" target="_blank">[1]</a></sup></div></div>
+      <div class="box"><div class="num">48 → 37 ms</div><div class="lab">thời gian phản hồi của chính endpoint đó, chỉ nhanh hơn 23% <sup><a href="https://dev.to/taras_antoniuk_ea6a2fe7ee/how-join-fetch-reduced-database-load-by-94-a-real-world-case-study-40c" target="_blank">[1]</a></sup></div></div>
+      <div class="box"><div class="num">31 → 0</div><div class="lab">lần Hibernate phải nạp lười (lazy load) thêm một entity <sup><a href="https://dev.to/taras_antoniuk_ea6a2fe7ee/how-join-fetch-reduced-database-load-by-94-a-real-world-case-study-40c" target="_blank">[1]</a></sup></div></div>
+      <div class="box"><div class="num">7 / 48</div><div class="lab">module và method được áp cùng cách sửa sau khi đo một endpoint <sup><a href="https://dev.to/taras_antoniuk_ea6a2fe7ee/how-join-fetch-reduced-database-load-by-94-a-real-world-case-study-40c" target="_blank">[1]</a></sup></div></div>
+    </div>
+
+    <h3 class="sub">Case: một endpoint tỷ giá, hai quan hệ lazy</h3>
+    <p>Antoniuk viết một hệ kế toán chạy Java 21, Spring Boot 3.5.5 và PostgreSQL, có đồng bộ tỷ giá từ ECB. Entity tỷ giá bên ngoài có hai quan hệ many-to-one kiểu lazy tới entity tiền tệ: tiền gốc và tiền đích. Lấy 15 tỷ giá rồi duyệt vòng lặp, mỗi dòng kéo thêm hai lần nạp, nên ra khoảng 31 câu lệnh thay vì 1 <sup><a href="https://dev.to/taras_antoniuk_ea6a2fe7ee/how-join-fetch-reduced-database-load-by-94-a-real-world-case-study-40c" target="_blank">[1]</a></sup>.</p>
+    <p>Anh đổi đúng một thứ: viết method repository mới dùng LEFT JOIN FETCH cho hai quan hệ đó, rồi sửa service gọi method mới. Bảng đo của chính anh trên endpoint "tỷ giá mới nhất" cho thấy số câu lệnh JDBC từ 33 còn 2, thời gian chuẩn bị câu lệnh từ khoảng 413 μs còn 61 μs, nhưng thời gian thực thi chỉ từ khoảng 15 ms còn 14 ms, và tổng thời gian phản hồi từ 48 ms còn 37 ms <sup><a href="https://dev.to/taras_antoniuk_ea6a2fe7ee/how-join-fetch-reduced-database-load-by-94-a-real-world-case-study-40c" target="_blank">[1]</a></sup>.</p>
+    <p>Điểm đáng quý là tác giả tự nói rõ ba giới hạn của con số. Một, 94% là đếm câu lệnh SQL, không phải đo tải thật lên database. Hai, mức nhanh hơn 23% khiêm tốn vì chỉ có 15 bản ghi và PostgreSQL chạy local. Ba, con số "2001 query còn 2" cho 1.000 bản ghi chỉ là ước tính, chưa đo <sup><a href="https://dev.to/taras_antoniuk_ea6a2fe7ee/how-join-fetch-reduced-database-load-by-94-a-real-world-case-study-40c" target="_blank">[1]</a></sup>. Ngoài ra bài còn lệch nhẹ: ví dụ viết 31 query, bảng đo ghi 33 statement. Đó là lý do tôi coi đây là bài tập đọc số, không phải bảng benchmark.</p>
+
+    <div class="mech"><b>Cơ chế:</b> thời gian một request ≈ (số vòng đi-về) × (độ trễ mỗi vòng) + (thời gian database chạy thật). Trên máy local, độ trễ mỗi vòng gần bằng 0, nên bỏ 31 vòng chỉ tiết kiệm khoảng 11 ms, tức cỡ 0,35 ms mỗi câu lệnh (phép tính thô của tôi từ 48 − 37 ms chia cho 31). Trên production, app và database cách nhau ít nhất một chặng mạng, và mỗi câu lệnh còn giữ một connection trong pool suốt thời gian chờ. Con số 0,35 ms vì thế chỉ là <em>cận dưới</em>. Nhưng đừng nhân bừa lên: bạn phải đo trên mạng thật của mình.</div>
+
+    <h3 class="sub">Đo cái gì để thấy N+1 trước khi nó thành sự cố</h3>
+    <p>Dabral nhấn mạnh một điều mà đội vận hành hay bỏ qua: latency, CPU và bộ nhớ riêng lẻ <em>không</em> lộ ra N+1. Thứ lộ ra là số câu lệnh SQL trên mỗi request. Anh gợi ý bật Hibernate statistics và log SQL ở môi trường dev, dùng p6spy, datasource-proxy hoặc OpenTelemetry/APM để đếm, tìm cùng một câu con lặp lại một lần cho mỗi bản ghi cha, và đặt ngân sách số query cho các API quan trọng ngay trong CI. Anh cũng dặn đừng để log SQL chi tiết bật vĩnh viễn trên production, và phải thử với dữ liệu cỡ production, vì 10 khách hàng cho 11 query nhưng 10.000 khách hàng cho 10.001 <sup><a href="https://www.tothenew.com/blog/hibernate-n1-query-problem-causes-solutions-and-production-best-practices/" target="_blank">[2]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế:</b> N+1 là lỗi <em>tỷ lệ theo dữ liệu</em>. Test với 15 dòng sẽ cho ra 31 câu lệnh và một con số trông vô hại. Khách enterprise có 50.000 hóa đơn mới là lúc nó nổ. Ngân sách query trong CI chỉ có ý nghĩa nếu dữ liệu test đủ lớn để số câu lệnh phụ thuộc vào kích thước kết quả. Nếu test cố định 3 dòng thì ngân sách nào cũng qua.</div>
+
+    <h3 class="sub">JOIN FETCH vỡ ở đâu</h3>
+    <p>Antoniuk khuyên JOIN FETCH cho quan hệ many-to-one "phẳng", không phải cho collection. Với one-to-many, Hibernate ghi cảnh báo HHH000104 và phân trang trong bộ nhớ, còn câu COUNT đếm theo dòng đã join nên sai. Một hóa đơn 10 dòng hàng cho ra 10 dòng kết quả, nên phải thêm DISTINCT và tập kết quả phình ra <sup><a href="https://dev.to/taras_antoniuk_ea6a2fe7ee/how-join-fetch-reduced-database-load-by-94-a-real-world-case-study-40c" target="_blank">[1]</a></sup>. Dabral thêm hai điều: tránh JOIN FETCH khi có phân trang trên collection, và tránh khi kéo nhiều collection kiểu List (bag) cùng lúc <sup><a href="https://www.tothenew.com/blog/hibernate-n1-query-problem-causes-solutions-and-production-best-practices/" target="_blank">[2]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế:</b> phân trang là "lấy N dòng đầu". Nhưng sau khi join với collection, một entity cha chiếm nhiều dòng, nên database không biết dừng ở đâu để ra đủ N cha. Hibernate đành kéo hết rồi cắt trong heap của JVM. Với bảng của một tenant lớn, đó là cả nghìn entity nằm trong bộ nhớ chỉ để trả 20 dòng. Chỗ này mới là rủi ro thật của "cách sửa phổ biến nhất": GC pause và p99 tăng, trong khi câu SQL nhìn vẫn sạch.</div>
+
+    <h3 class="sub">Sáu cách chữa và cái giá của từng cách</h3>
+    <table class="tbl">
+      <tr><th>Cách</th><th>Hợp khi</th><th>Cái giá</th></tr>
+      <tr><td>JOIN FETCH</td><td>Cha cộng một quan hệ phẳng hoặc một collection, số lượng có giới hạn <sup><a href="https://www.tothenew.com/blog/hibernate-n1-query-problem-causes-solutions-and-production-best-practices/" target="_blank">[2]</a></sup></td><td>Nhân dòng, cần DISTINCT; hỏng phân trang collection <sup><a href="https://dev.to/taras_antoniuk_ea6a2fe7ee/how-join-fetch-reduced-database-load-by-94-a-real-world-case-study-40c" target="_blank">[1]</a></sup></td></tr>
+      <tr><td>EntityGraph</td><td>Muốn kế hoạch nạp riêng theo từng method repository, mapping vẫn để lazy <sup><a href="https://www.tothenew.com/blog/hibernate-n1-query-problem-causes-solutions-and-production-best-practices/" target="_blank">[2]</a></sup></td><td>Vẫn là join, nên chịu cùng giới hạn về nhân dòng</td></tr>
+      <tr><td>DTO projection</td><td>API chỉ đọc: SQL nhỏ nhất, ít bộ nhớ, không lazy load ngoài ý muốn <sup><a href="https://www.tothenew.com/blog/hibernate-n1-query-problem-causes-solutions-and-production-best-practices/" target="_blank">[2]</a></sup></td><td>Không hợp khi cần entity được quản lý để cập nhật</td></tr>
+      <tr><td>@BatchSize / batch fetching</td><td>Sửa nhanh code có sẵn; gom các lần nạp thành câu lệnh có danh sách khóa chính <sup><a href="https://docs.hibernate.org/orm/7.3/javadocs/org/hibernate/annotations/BatchSize.html" target="_blank">[3]</a></sup></td><td>Vẫn nhiều query; yếu cho đường nóng <sup><a href="https://www.tothenew.com/blog/hibernate-n1-query-problem-causes-solutions-and-production-best-practices/" target="_blank">[2]</a></sup></td></tr>
+      <tr><td>FetchMode.SUBSELECT</td><td>Đồ thị rộng trong cùng một session <sup><a href="https://www.tothenew.com/blog/hibernate-n1-query-problem-causes-solutions-and-production-best-practices/" target="_blank">[2]</a></sup></td><td>Kém chính xác cho API cần chọn đúng cột</td></tr>
+      <tr><td>Hai bước (query riêng)</td><td>Nhiều collection, hoặc cha–con có phân trang: phân trang cha trước, rồi nạp con theo danh sách khóa <sup><a href="https://www.tothenew.com/blog/hibernate-n1-query-problem-causes-solutions-and-production-best-practices/" target="_blank">[2]</a></sup></td><td>Thêm một vòng đi-về, thêm code</td></tr>
+    </table>
+    <p>Về @BatchSize, tài liệu Hibernate mô tả đơn giản: nó đặt số tối đa entity hoặc collection chưa nạp được nạp chung trong một lần đi-về, bằng cách thay điều kiện một khóa bằng danh sách khóa chính <sup><a href="https://docs.hibernate.org/orm/7.3/javadocs/org/hibernate/annotations/BatchSize.html" target="_blank">[3]</a></sup>. Mặc định, Hibernate chỉ dùng batch fetching cho entity và collection được gắn @BatchSize rõ ràng <sup><a href="https://docs.hibernate.org/orm/7.3/javadocs/org/hibernate/cfg/FetchSettings.html" target="_blank">[4]</a></sup>. Trang tài liệu không nêu giá trị mặc định của cỡ batch, nên hãy kiểm tra cấu hình thực tế của dự án thay vì đoán.</p>
+    <div class="mech"><b>Cơ chế:</b> batch fetching đổi N+1 thành khoảng 1 + N/cỡ-batch. Với 1.000 con và cỡ batch 100, còn khoảng 11 câu lệnh, không phải 2. Đổi lại, nó không đụng vào phân trang và không nhân dòng, nên an toàn nhất khi bạn <em>chưa biết</em> các màn hình khác đang đi qua quan hệ đó thế nào. Đây là nút giảm nhiệt cho cả codebase; JOIN FETCH hay DTO mới là dao mổ cho đường nóng.</div>
+
+    <h3 class="sub">Ánh xạ sang stack của bạn</h3>
+    <table class="tbl">
+      <tr><th>Chỗ trong hệ</th><th>N+1 gây ra gì</th><th>Việc nên kiểm</th></tr>
+      <tr><td>HikariCP</td><td>Mỗi lazy load chạy trong lúc transaction còn mở, nên connection bị giữ lâu hơn nhiều so với một câu join</td><td>Đặt chỉ số "số query mỗi request" cạnh chỉ số connection đang dùng; nếu hai đường cùng leo thì nghi N+1 trước khi tăng pool</td></tr>
+      <tr><td>SQL Server, bảng theo CompanyID</td><td>Tenant lớn nhân N lên đúng bằng số bản ghi của họ; khách nhỏ trong staging không bao giờ lộ</td><td>Dữ liệu test phải có ít nhất một tenant cỡ lớn nhất của bạn</td></tr>
+      <tr><td>Plan cache và Query Store</td><td>Một câu con lặp hàng nghìn lần là ứng viên đứng đầu danh sách "tổng số lần thực thi", dù từng lần chỉ vài ms</td><td>Sắp theo tổng thời gian và số lần thực thi, không chỉ theo thời gian mỗi lần</td></tr>
+      <tr><td>RCSI / readable secondary</td><td>Hàng nghìn câu đọc nhỏ cũng là hàng nghìn lần đọc phiên bản dòng và hàng nghìn lần chờ mạng nếu báo cáo được chuyển sang secondary</td><td>Đo số câu lệnh của đường báo cáo trước khi đẩy nó sang replica</td></tr>
+    </table>
+    <div class="editnote">Bảng này là suy luận biên tập. Các nguồn trên dùng PostgreSQL và không nhắc SQL Server, HikariCP hay CompanyID. Hãy kiểm từng dòng trên hệ của bạn trước khi hành động.</div>
+
+    <div class="scale">
+      <div class="col small"><h4>Đội nhỏ, &lt;10 người</h4><ul>
+        <li>Bật log số câu lệnh mỗi request ở môi trường dev; chỉ cần một con số trên mỗi API.</li>
+        <li>Với màn hình danh sách, mặc định dùng DTO projection; chỉ trả entity khi cần cập nhật.</li>
+        <li>Đặt một cỡ batch mặc định hợp lý làm lưới an toàn, rồi sửa dần các đường nóng bằng JOIN FETCH cho quan hệ phẳng.</li>
+      </ul></div>
+      <div class="col"><h4>Đội đã có production</h4><ul>
+        <li>Thêm ngân sách số query vào test tích hợp của vài API quan trọng nhất, với dữ liệu đủ lớn <sup><a href="https://www.tothenew.com/blog/hibernate-n1-query-problem-causes-solutions-and-production-best-practices/" target="_blank">[2]</a></sup>.</li>
+        <li>Lấy từ Query Store/APM danh sách câu lệnh có số lần thực thi cao nhất theo tenant; mỗi câu lặp bất thường là một ứng viên N+1.</li>
+        <li>Trước khi bê JOIN FETCH lên collection, kiểm tra cảnh báo phân trang trong bộ nhớ trong log; nó là báo động về heap, không phải lời nhắc vô hại.</li>
+        <li>Đo lại trên mạng thật và dữ liệu thật; đừng lấy 94% hay 23% của bài này làm kỳ vọng.</li>
+      </ul></div>
+    </div>
+
+    <div class="takeaway">💡 <b>Rút ra cho bạn:</b> "số câu lệnh giảm bao nhiêu phần trăm" là một chỉ số nội bộ, còn p99 và số connection bị giữ mới là thứ khách hàng cảm nhận. Hãy báo cáo cả hai, trên dữ liệu có cỡ của tenant lớn nhất, và đừng tin một lần sửa trên máy local.</div>
+
+    <div class="doslist">
+      <div>✅ Đếm số câu lệnh SQL trên mỗi request, đặt ngưỡng trong CI cho API quan trọng.</div>
+      <div>✅ Dùng JOIN FETCH cho quan hệ phẳng; DTO projection cho API chỉ đọc.</div>
+      <div>✅ Phân trang cha trước, nạp con theo danh sách khóa khi có collection.</div>
+      <div>❌ Không JOIN FETCH collection kèm phân trang mà không xem cảnh báo HHH000104.</div>
+      <div>❌ Không kết luận "đã sửa xong" từ một phép đo 15 dòng trên máy local.</div>
+    </div>
+
+    <h3 class="sub">Ba việc làm tuần này</h3>
+    <div class="doslist">
+      <div>1. Chọn ba API chậm nhất của một tenant lớn, ghi lại số câu lệnh SQL mỗi request; chỗ nào lệch hẳn so với kích thước kết quả thì đánh dấu N+1.</div>
+      <div>2. Tìm trong log hoặc Query Store các câu con có số lần thực thi cao bất thường, đối chiếu với entity mapping lazy tương ứng.</div>
+      <div>3. Với một màn hình danh sách, thử thay entity bằng DTO projection trên staging và so p99 cùng số connection đang dùng trước/sau, trên mạng thật.</div>
+    </div>
+
+    <div class="refs"><b>Nguồn tham khảo</b><br>
+      [1] <a href="https://dev.to/taras_antoniuk_ea6a2fe7ee/how-join-fetch-reduced-database-load-by-94-a-real-world-case-study-40c" target="_blank">Taras Antoniuk — How JOIN FETCH Reduced Database Load by 94%: A Real-World Case Study, DEV, 15/12/2025</a><br>
+      [2] <a href="https://www.tothenew.com/blog/hibernate-n1-query-problem-causes-solutions-and-production-best-practices/" target="_blank">Rajdeep Dabral — Hibernate N+1 Query Problem: Causes, Solutions and Production Best Practices, TO THE NEW, 02/09/2026</a><br>
+      [3] <a href="https://docs.hibernate.org/orm/7.3/javadocs/org/hibernate/annotations/BatchSize.html" target="_blank">Hibernate ORM 7.3 — Annotation Interface BatchSize</a><br>
+      [4] <a href="https://docs.hibernate.org/orm/7.3/javadocs/org/hibernate/cfg/FetchSettings.html" target="_blank">Hibernate ORM 7.3 — Interface FetchSettings</a></div>
+  </article>
+
+  <div class="foot">Bản tin sáng · tổng hợp từ nguồn công khai đã xác minh</div>
+</div>
+</body>
+</html>

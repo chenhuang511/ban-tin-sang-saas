@@ -10,13 +10,15 @@
 > 2. Trước khi giải thích một thuật ngữ: xem phần **C. Từ điển thuật ngữ** — nếu đã giải thích ở số trước thì chỉ nhắc gọn/nối link, không giải thích lại dài dòng.
 > 3. Sau khi viết xong: thêm 1 khối vào phần **B. Mục lục theo số** và cập nhật phần A + C nếu có nguồn/thuật ngữ mới (dùng mẫu ở cuối file).
 >
-> _Cập nhật lần cuối: 07/10/2026 — 77 số (24/07 → 07/10/2026; gồm 1 số song song 09/08 chuyên đề An toàn thông tin)._
+> _Cập nhật lần cuối: 08/10/2026 — 78 số (24/07 → 08/10/2026; gồm 1 số song song 09/08 chuyên đề An toàn thông tin)._
 
 ---
 
 ## A. Danh sách nguồn / thực thể ĐÃ DÙNG (tránh lặp)
 
 ### Domain nguồn đã trích dẫn (đừng lặp cùng một bài)
+
+dev.to/taras_antoniuk_ea6a2fe7ee (Taras Antoniuk, "How JOIN FETCH Reduced Database Load by 94%", 15/12/2025; Spring Boot 3.5.5/PostgreSQL local; 33→2 statement, 48→37 ms) · tothenew.com/blog/hibernate-n1-query-problem (Rajdeep Dabral, 02/09/2026; detect/solutions) · docs.hibernate.org/orm/7.3 (BatchSize, FetchSettings) — ĐÃ DÙNG 08/10/2026
 
 rabbitmq.com/blog/2023/03/02/quorum-queues-migration · rabbitmq.com/blog/2025/07/29/latest-benefits-of-rmq-and-migrating-to-qq-along-the-way (Perez & Klishin) · rabbitmq.com/docs/quorum-queues · rabbitmq.com/blog/2026/04/23/rabbitmq-4.3-release · dev.to/daemonicc/a-rabbitmq-upgrade-exposed-the-reliability-assumptions-hidden-in-our-messaging-system-3c77 (Emmanuel Igunnu, 07/2026) · qarote.io/blog/rabbitmq-quorum-queues-migration (Brice Tessier, 25/04/2026; vendor)
 newrelic.com/blog/ai/state-of-ai-coding-2026 (Jim Young, 10/06/2026; khảo sát Hanover n=200, vendor-thuê; 78% sự cố tăng/94% khen ở review) · arxiv.org/2601.17413 (Ghaleb; agent PR & CI/CD) · leaddev.com/technical-direction/we-halved-our-continuous-integration-pipeline (Serhii Yakovenko, Marks & Spencer, 07/09/2026; CÔNG TY TỰ KỂ; pipeline CI 60→22→30+→15–16 phút, merge train, flaky, e2e quan trọng 15%, tải đỉnh ×4 vs compute +7%)
@@ -65,6 +67,7 @@ assembled.com/blog (John Wang, đồng sáng lập & CTO Assembled — "Code rev
 
 ### Công ty / báo cáo / case study đã khai thác (KHÔNG viết lại trừ khi có số liệu mới)
 
+- **Tối ưu hệ đang chạy / N+1 Hibernate (08/10/2026):** Antoniuk (hệ kế toán Spring Boot, JOIN FETCH, −94% statement nhưng −23% thời gian vì đo local 15 bản ghi) + Dabral (6 cách chữa, ngân sách query trong CI) + tài liệu Hibernate; tác giả tự nêu 94% là đếm câu lệnh.
 - **CI/CD & năng suất:** Marks & Spencer (LeadDev, 07/09/2026) — pipeline CI 60→22 phút rồi tụt >30 phút, hồi phục 6 tuần xuống 15–16 phút; 06/10/2026.
 - **SQL Server partition SWITCH bị transaction mở chặn (05/10/2026):** dbi-services/Amine Haloui (Python autocommit=0, 244 triệu dòng, Sch-M chờ >2 giờ); Microsoft WAIT_AT_LOW_PRIORITY (MAX_DURATION, ABORT_AFTER_WAIT NONE/SELF/BLOCKERS).
 - **Kafka consumer group rebalance (05/10/2026):** VGS (Kafka 2.8.1, 100 partition/100 consumer, aiokafka, 4 thay đổi, 13→135 req/s) + Confluent cooperative rebalancing (37.138→3.522 ms).
@@ -130,6 +133,7 @@ Buildkite — case cardinality explosion (nhãn build_id làm hóa đơn metric 
 - **Quy trình phát triển an toàn / least-privilege CI/CD trên AWS (bộ khung + tự thuật):** Alexey Vidanov (AWS Community Builders) — "Least-Privilege CI/CD on AWS: The 4-Layer Pattern That Scales", DEV Community, 12/05/2026, dev.to/aws-builders (phần 1 của series 3 bài). "Pipeline chỉ là một principal gọi API AWS"; ranh giới tin cậy là ROLE không phải repo; OIDC token ~1 giờ thay access key; điều kiện `sub` ghim repo+nhánh là cổng an toàn duy nhất (thiếu = role assumable bởi bất kỳ ai trên GitHub, mà vẫn chạy đúng); 4 tầng SCP / permission boundary / identity policy / resource policy; `iam:PassRole` phải ghim cả role đích lẫn dịch vụ đích; Learning role (dev, rộng nhưng có boundary, bị CloudTrail quan sát) → Access Analyzer đọc ~90 ngày → chính sách vào Git → Operations role ở prod; 3 khoảng trống Access Analyzer (PassRole không vào CloudTrail, S3 data event mặc định tắt, hành động hiếm ngoài cửa sổ 90 ngày) → `known-gaps.tf`, "90% không phải 100%"; vòng fail-forward (AccessDenied → alarm → Lambda mở PR → người duyệt → merge); role vending machine (Terraform module / CDK construct); lộ trình 90 ngày 4 pha; bảng quy mô 1–5 / 5–15 / 15–50 / 50–200 pipeline; dấu hiệu "chính sách quá rộng" = AccessDenied KHÔNG BAO GIỜ xảy ra; 3 hằng số mọi quy mô (OIDC / boundary trên mọi role / trust policy ghim repo+nhánh). Bối cảnh mối đe dọa anh dẫn: Trivy GitHub Action 3/2026 (force-push 75/76 thẻ, CanisterWorm — đã mổ ở số 05/09), chiến dịch 4/2026 475 PR độc trong 26 giờ qua `pull_request_target` (Wiz), tj-actions/changed-files 3/2025 >23.000 repo, CircleCI 2022, Codecov 2021.
 
 ### Số liệu "đầu bài" đã dùng (đừng lặp làm điểm nhấn chính)
+- 08/10/2026: N+1 Hibernate — 33→2 statement (−94%) nhưng 48→37 ms (−23%); 31→0 lazy load; ~0,35 ms/câu lệnh (phép tính biên tập); 10→11/10.000→10.001 query (Antoniuk, Dabral)
 - 02/10/2026: readable secondary — trễ thường vài giây; 14 byte/dòng; trần 100 thread parallel redo (2016–2019); redo queue hàng TB (bodwyer); 32 CPU → 6 DB × 16 thread / 16 core → 11 DB × 8 thread. Ví dụ biên tập: 30 GB / 60 MB/giây ≈ 8,5 phút RTO cộng thêm; báo cáo 40 phút.
 - 01/10/2026: query 200 ms → 92 giây vì parameter sniffing (SQLServerCentral, vgupta); ~10 giờ không phát hiện; 120.000 lần/giờ; ngưỡng PSP 100.000× (Paul White).
 - Zapier ~15.000 event/giây qua outbox; 50 file SQLite mỗi pod; connection producer −~10×; heap broker Kafka −~70 điểm % — 30/09/2026
@@ -159,6 +163,13 @@ LegacyCodeBench 200 tác vụ/4 bậc · Legacy Insights 94%/tài liệu 96% · 
 ---
 
 ## B. Mục lục theo số (mới → cũ)
+
+### 08/10/2026 — Giảm 94% số câu lệnh SQL mà API chỉ nhanh hơn 23%: cái bẫy khi đo N+1 trên Hibernate bằng máy local (Taras Antoniuk/DEV + Rajdeep Dabral/TO THE NEW; đối chiếu tài liệu Hibernate ORM 7.3)
+- **Chủ đề:** Mảng 3 — tối ưu hệ đang chạy, Spring Boot/JPA: N+1, JOIN FETCH, EntityGraph, DTO projection, @BatchSize, ngân sách số query trong CI. MỘT bài, không có Góc nhìn. Case nhỏ tự đo trên máy local (ghi rõ trong editnote).
+- **Nguồn:** Taras Antoniuk, "How JOIN FETCH Reduced Database Load by 94%: A Real-World Case Study" (DEV, 15/12/2025, dev.to); Rajdeep Dabral, "Hibernate N+1 Query Problem: Causes, Solutions and Production Best Practices" (TO THE NEW, 02/09/2026, tothenew.com); docs.hibernate.org/orm/7.3 (BatchSize, FetchSettings).
+- **Số chính:** 33 → 2 statement JDBC (−94%); 48 → 37 ms (−23%); 31 → 0 lazy load; prepare ~413 → ~61 μs, execute ~15 → ~14 ms; 7 module/48 method; 15 bản ghi, PostgreSQL local, Java 21, Spring Boot 3.5.5; "2001 → 2 query" cho 1.000 bản ghi chỉ là ước tính; 10 → 11, 100 → 101, 10.000 → 10.001 query (Dabral); HHH000104.
+- **Thực thể:** Taras Antoniuk, Rajdeep Dabral (TO THE NEW), Hibernate ORM, Spring Boot, PostgreSQL, p6spy, datasource-proxy, OpenTelemetry (ánh xạ biên tập sang HikariCP, SQL Server, Query Store, RCSI).
+- **Ghi chú tránh lặp:** mảng 3 đã dùng dày 29/09–08/10; số kế nên chuyển sang mảng 1, 2 hoặc 4 (tìm nguồn mảng 4 lần này chỉ ra bài vendor/GRC yếu, như Drata customer story 26/09/2026 không có số). Chưa dùng: Semgrep triage AI 60% (vendor), SQLServerCentral index fragmentation (Sanket Parmar, 22/06/2026; test non-production).
 
 ### 07/10/2026 — Chuyển RabbitMQ sang quorum queue không phải đổi một cái nhãn: poison message, prefetch, RPC và bộ nhớ đều đổi hành vi (tài liệu/blog RabbitMQ + DEV; đối chiếu Qarote)
 - **Chủ đề:** Mảng 3 — vận hành/độ tin cậy RabbitMQ (quorum queue, giao lại, dead-letter, prefetch, bộ nhớ). MỘT bài, không có Góc nhìn. Không có case có số trước/sau; nguồn chủ yếu là tài liệu chính thức (ghi rõ trong editnote).
@@ -683,6 +694,8 @@ LegacyCodeBench 200 tác vụ/4 bậc · Legacy Insights 94%/tài liệu 96% · 
 ---
 
 ## C. Từ điển thuật ngữ (đã giải thích ở các số — chỉ nhắc gọn khi tái dùng)
+
+- **N+1 query / JOIN FETCH / @BatchSize / DTO projection (Hibernate):** giải thích ở số 08/10/2026 — N+1 là 1 câu lấy cha + N câu lấy con; JOIN FETCH gộp vào một join nhưng vỡ phân trang collection (HHH000104); @BatchSize gom thành ~1 + N/cỡ-batch; DTO projection cho API chỉ đọc.
 
 - **Quorum queue (RabbitMQ):** queue nhân bản bằng đồng thuận Raft, leader ghi WAL trước khi xác nhận; thay mirrored queue; cần ≥3 node (07/10).
 - **Delivery limit / poison message:** giới hạn giao lại mặc định 20; quá thì bỏ hoặc dead-letter; 4.3 tách acquired-count và delivery-count (07/10).
