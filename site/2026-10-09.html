@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tempdb SQL Server 2022 và chuyển báo cáo sang ClickHouse: cái giá được dời đi đâu &middot; 09/10/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+@media (max-width:560px){h1.title{font-size:25px}.card{padding:20px 18px}.tbl{display:block;overflow-x:auto}}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 09/10/2026</div>
+    <h1 class="title">Tempdb nghẽn không phải lúc nào cũng chữa bằng một công tắc; và báo cáo chạy khỏi OLTP: từ 20–30 phút còn 2–3 giây, cùng cái giá ít ai kể</h1>
+    <div class="meta">09/10/2026 · Đọc khoảng 14 phút · Nguồn: Simon Liew — MSSQLTips (19/06/2024); Ben Johnston — Simple Talk (08/01/2025); Microsoft Learn; Haripriya — GoHigh; Ray Antonius (Verihubs) — ClickHouse blog (06/07/2026)</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: số này có <b>hai bài</b> và một Góc nhìn. Bài 1 dựa trên benchmark của một tác giả chạy trên laptop và một bài kể chuyện không có số trước/sau, nên tôi dùng chúng để hiểu <b>cơ chế</b>, không để dự đoán con số cho hệ của bạn. Bài 2 là bài của chính ClickHouse (bên bán sản phẩm) kể lại bài trình bày của khách hàng. Các khối "Cơ chế", bảng ánh xạ và khuyến nghị là phần biên tập tổng hợp từ thực hành phổ biến, <b>không trích nguyên văn từ nguồn</b>. Mọi con số đều có dẫn nguồn nội dòng.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1"><strong>Bài 1</strong> — Tempdb trên SQL Server 2022: ba loại nghẽn, ba cách chữa khác nhau<br><span style="font-size:13.5px;color:#6b7280">· allocation vs metadata contention · số đo 2019 so với 2022 · công tắc memory-optimized metadata và cái giá bộ nhớ · cách tự phân biệt trước khi bật</span></li>
+      <li><a href="#bai2"><strong>Bài 2</strong> — Verihubs chuyển báo cáo khỏi Postgres sang ClickHouse: 20–30 phút còn 2–3 giây<br><span style="font-size:13.5px;color:#6b7280">· Kafka + Debezium + MergeTree · ReplacingMergeTree và chuyện "update chưa thấy ngay" · materialized view không tự backfill · ánh xạ sang CDC của SQL Server</span></li>
+      <li><a href="#gocnhin"><strong>Góc nhìn</strong> — chữa triệu chứng bằng cách dời chỗ tốn kém · ba việc làm tuần này</a></li>
+    </ol>
+  </nav>
+
+  <article class="card" id="bai1">
+    <span class="tag legacy">Tối ưu hệ đang chạy · SQL Server 2022</span>
+    <h2 class="head">Nghẽn ở tempdb có ít nhất ba dạng, và mỗi dạng có một cách chữa riêng</h2>
+    <p class="src">Nguồn: Simon Liew — <a href="https://mssqltips.com/sqlservertip/8025/sql-server-2022-tempdb-contention-enhancements" target="_blank">"SQL Server 2022 TempDB Contention Enhancements"</a>, MSSQLTips (19/06/2024) [1]; Ben Johnston — <a href="https://www.red-gate.com/simple-talk/databases/sql-server/a-use-case-for-memory-optimized-tempdb-metadata/" target="_blank">"A use case for memory-optimized tempdb metadata"</a>, Simple Talk (08/01/2025) [2]; <a href="https://learn.microsoft.com/en-us/sql/relational-databases/databases/tempdb-database?view=sql-server-ver17" target="_blank">tài liệu tempdb của Microsoft Learn</a> [3]; Haripriya — <a href="https://gohigh.substack.com/p/metadata-contention-on-tempdb" target="_blank">"Metadata contention on tempdb"</a>, GoHigh (không ghi ngày) [4].</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">~3.100 → ~4.800</div><div class="lab">batch request/giây ở mức đỉnh, SQL Server 2019 so với 2022, cùng workload tạo temp table, 100 thread <sup><a href="https://mssqltips.com/sqlservertip/8025/sql-server-2022-tempdb-contention-enhancements" target="_blank">[1]</a></sup></div></div>
+      <div class="box"><div class="num">~10 → ~7 s</div><div class="lab">thời gian chạy cả bài đo (300 vòng lặp) <sup><a href="https://mssqltips.com/sqlservertip/8025/sql-server-2022-tempdb-contention-enhancements" target="_blank">[1]</a></sup></div></div>
+      <div class="box"><div class="num">~3 → ~1 s</div><div class="lab">khi bỏ sp_executesql để temp table được cache lại, trên 2019 và 2022 <sup><a href="https://mssqltips.com/sqlservertip/8025/sql-server-2022-tempdb-contention-enhancements" target="_blank">[1]</a></sup></div></div>
+      <div class="box"><div class="num">8 file</div><div class="lab">số data file tempdb Microsoft khuyên bắt đầu khi máy có hơn 8 logical processor <sup><a href="https://learn.microsoft.com/en-us/sql/relational-databases/databases/tempdb-database?view=sql-server-ver17" target="_blank">[3]</a></sup></div></div>
+    </div>
+
+    <h3 class="sub">Hai cái tên hay bị gọi chung là "tempdb contention"</h3>
+    <p>Khi query chờ PAGELATCH trong tempdb, người ta hay nói gọn "tempdb nghẽn". Thật ra có hai chỗ nghẽn khác nhau. Chỗ thứ nhất là các trang cấp phát (PFS, GAM, SGAM): nhiều session cùng xin trang mới hoặc extent mới. Chỗ thứ hai là bảng hệ thống chứa metadata của object tạm: nhiều session cùng tạo và xóa temp table, nên cùng giành latch trên các bảng như sysobjvalues <sup><a href="https://gohigh.substack.com/p/metadata-contention-on-tempdb" target="_blank">[4]</a></sup>. Bài của Haripriya nhấn mạnh rằng ở SQL Server 2022, mặc định chỉ có phía cấp phát được cải thiện; phía metadata vẫn có thể nghẽn <sup><a href="https://gohigh.substack.com/p/metadata-contention-on-tempdb" target="_blank">[4]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế.</b> Latch là khóa nhẹ, giữ rất ngắn, bảo vệ cấu trúc bên trong trang bộ nhớ. Một câu <i>tạo temp table</i> phải ghi vào bảng metadata và xin trang cấp phát. Ở tải thấp, việc đó nhanh tới mức không ai thấy. Ở tải cao, hàng chục session cùng đập vào đúng một vài trang, và chúng xếp hàng trên latch. Đặc điểm nhận ra: CPU rất cao nhưng không có blocking hay deadlock, disk không quá bận. Chính Johnston mô tả đúng triệu chứng này: CPU báo 100%, query chậm hơn thường lệ, không thấy deadlock hay blocking, và wait stats cho thấy một làn sóng page latch trong tempdb <sup><a href="https://www.red-gate.com/simple-talk/databases/sql-server/a-use-case-for-memory-optimized-tempdb-metadata/" target="_blank">[2]</a></sup>.</div>
+
+    <h3 class="sub">SQL Server 2022 sửa gì, và sửa tới đâu</h3>
+    <p>Microsoft ghi rằng bản 2022 cải thiện việc cập nhật đồng thời lên trang GAM và SGAM, làm giảm tranh chấp latch khi cấp phát và giải phóng trang, extent; cải tiến này áp dụng cho mọi database và đặc biệt có lợi cho tempdb nặng <sup><a href="https://learn.microsoft.com/en-us/sql/relational-databases/databases/tempdb-database?view=sql-server-ver17" target="_blank">[3]</a></sup>. Liew đo thử: cùng một thủ tục tạo và đổ dữ liệu vào temp table, chạy 100 thread, mỗi thread 300 vòng, đã bật memory-optimized tempdb metadata ở cả hai phiên bản. Trên 2019 vẫn còn PAGELATCH, thời gian ~10 giây và đỉnh ~3.100 batch/giây. Trên 2022 không còn loại PAGELATCH nào, ~7 giây và đỉnh ~4.800 batch/giây <sup><a href="https://mssqltips.com/sqlservertip/8025/sql-server-2022-tempdb-contention-enhancements" target="_blank">[1]</a></sup>. Con số này đo trên một laptop, tempdb chỉ có một data file, tải giả lập; chính tác giả cũng nói vậy. Nó cho biết <i>hướng</i> cải thiện, không cho biết bạn sẽ được bao nhiêu.</p>
+    <div class="mech"><b>Cơ chế.</b> Đọc kỹ chi tiết này: kết luận của Liew là trên 2019, bật memory-optimized metadata <b>không</b> chữa được tranh chấp GAM; tính năng đó chỉ lo phần metadata <sup><a href="https://mssqltips.com/sqlservertip/8025/sql-server-2022-tempdb-contention-enhancements" target="_blank">[1]</a></sup>. Nghĩa là cùng một triệu chứng "PAGELATCH trong tempdb" có thể cần ba hướng khác nhau: nâng phiên bản (cho GAM/SGAM), thêm data file đồng cỡ (cho cấp phát), hoặc bật metadata trong bộ nhớ (cho bảng hệ thống). Bật nhầm công tắc thì tốn một lần restart và không đổi gì.</div>
+
+    <h3 class="sub">Chữa rẻ nhất: đừng để temp table bị tạo lại mỗi lần gọi</h3>
+    <p>Trong chính bài đo của Liew, việc chạy nhanh hơn nhiều không đến từ cấu hình. Khi bỏ sp_executesql (thứ ngăn SQL Server cache temp table), thời gian tụt còn ~3 giây trên 2019 và ~1 giây trên 2022, dù vẫn còn một ít PAGELATCH <sup><a href="https://mssqltips.com/sqlservertip/8025/sql-server-2022-tempdb-contention-enhancements" target="_blank">[1]</a></sup>. Haripriya cũng xếp hai việc này lên đầu: đừng drop temp table một cách tường minh để SQL Server dọn bất đồng bộ, và để temp object được cache lại <sup><a href="https://gohigh.substack.com/p/metadata-contention-on-tempdb" target="_blank">[4]</a></sup>. Bài ấy không đưa số đo, nên tôi chỉ dùng nó như một danh sách thứ tự thử.</p>
+    <div class="mech"><b>Cơ chế.</b> Temp table được cache nghĩa là SQL Server giữ lại cấu trúc và chỉ dọn dữ liệu khi procedure kết thúc, thay vì xóa và dựng lại object mỗi lần gọi. Mỗi lần dựng lại là một lượt ghi vào bảng metadata. Gọi 100 lần/giây thì là 100 lượt ghi và 100 lượt xóa vào cùng vài trang. Với stored procedure Java gọi qua JDBC, câu hỏi thực tế là: procedure có tạo temp table ở đầu và bị gọi hàng nghìn lần mỗi phút không?</div>
+
+    <h3 class="sub">Công tắc memory-optimized metadata: chữa được, nhưng có hóa đơn</h3>
+    <p>Johnston bật tùy chọn này sau khi đã loại các hướng thông thường (index, thống kê, tối ưu query, kiểm tra deadlock và blocking). Cách làm là bật tùy chọn, rồi restart dịch vụ SQL Server; không cần restart cả máy. Muốn quay lại thì tắt rồi restart tiếp. Bài không đưa số trước/sau, chỉ nói hiệu năng được cải thiện và latch contention biến mất <sup><a href="https://www.red-gate.com/simple-talk/databases/sql-server/a-use-case-for-memory-optimized-tempdb-metadata/" target="_blank">[2]</a></sup>. Phần đáng đọc hơn nằm ở tài liệu Microsoft: hãng khuyên chỉ bật khi tranh chấp metadata thật sự ảnh hưởng đến tải, vì còn hạn chế <sup><a href="https://learn.microsoft.com/en-us/sql/relational-databases/databases/tempdb-database?view=sql-server-ver17" target="_blank">[3]</a></sup>. Các hạn chế được nêu:</p>
+    <table class="tbl">
+      <tr><th>Điểm cần để ý</th><th>Tài liệu Microsoft ghi</th><th>Với hệ của bạn</th></tr>
+      <tr><td>Bộ nhớ</td><td>Có thể thấy MEMORYCLERK_XTP chiếm nhiều bộ nhớ gây lỗi out-of-memory; nên gắn tempdb vào một resource pool có trần bộ nhớ, hoặc chạy định kỳ thủ tục dọn rác của XTP <sup><a href="https://learn.microsoft.com/en-us/sql/relational-databases/databases/tempdb-database?view=sql-server-ver17" target="_blank">[3]</a></sup></td><td>Máy OLTP cỡ TB thường đã dùng gần hết RAM cho buffer pool; cần đặt trần trước khi bật</td></tr>
+      <tr><td>Giao dịch chéo database</td><td>Một transaction không được chạm vào bảng memory-optimized ở hơn một database; nếu đang đụng vào bảng như vậy ở database người dùng, truy cập view hệ thống tempdb trong cùng transaction báo lỗi 41317 <sup><a href="https://learn.microsoft.com/en-us/sql/relational-databases/databases/tempdb-database?view=sql-server-ver17" target="_blank">[3]</a></sup></td><td>Chỉ ảnh hưởng nếu bạn dùng bảng memory-optimized; kế toán truyền thống thường không</td></tr>
+      <tr><td>Columnstore</td><td>Không tạo được columnstore index trên temp table khi bật <sup><a href="https://learn.microsoft.com/en-us/sql/relational-databases/databases/tempdb-database?view=sql-server-ver17" target="_blank">[3]</a></sup></td><td>Kiểm tra các job ETL có tạo columnstore trên temp table không</td></tr>
+      <tr><td>Restart</td><td>Bật hoặc tắt đều cần restart dịch vụ; đổi resource pool cũng vậy <sup><a href="https://learn.microsoft.com/en-us/sql/relational-databases/databases/tempdb-database?view=sql-server-ver17" target="_blank">[3]</a></sup></td><td>Với Availability Group, lên kế hoạch failover từng node, đừng restart cùng lúc</td></tr>
+    </table>
+    <p>Một bình luận dưới bài của Liew kể rằng trên một instance 2019 production, bộ nhớ "stolen" tăng từ khoảng 50 GB lên hơn 700 GB sau khi bật tính năng, cuối cùng làm sập máy; tác giả trả lời rằng tính năng không hợp với tải có transaction mở lâu kèm DDL trên temp table, hoặc nhiều query dài dùng temp table, spill, sort <sup><a href="https://mssqltips.com/sqlservertip/8025/sql-server-2022-tempdb-contention-enhancements" target="_blank">[1]</a></sup>. Đây là lời kể của một người bình luận, không kiểm chứng được, và tôi dùng nó như một lý do để đặt trần bộ nhớ, không như một thống kê.</p>
+
+    <h3 class="sub">Số file tempdb: việc nhàm chán nhưng đáng làm trước</h3>
+    <p>Microsoft khuyên: nếu máy có từ 8 logical processor trở xuống thì dùng bằng ấy số data file; nếu hơn 8 thì bắt đầu với 8, nếu vẫn còn tranh chấp cấp phát thì tăng theo bội số của 4. Mọi file phải cùng kích thước ban đầu và cùng mức tăng, vì thuật toán proportional-fill ưu tiên file còn nhiều chỗ trống, nên file lệch size sẽ nhận nhiều cấp phát hơn <sup><a href="https://learn.microsoft.com/en-us/sql/relational-databases/databases/tempdb-database?view=sql-server-ver17" target="_blank">[3]</a></sup>. Bài đo của Liew dùng một file duy nhất, và tác giả tự nhận đó là điều xa thực hành tốt <sup><a href="https://mssqltips.com/sqlservertip/8025/sql-server-2022-tempdb-contention-enhancements" target="_blank">[1]</a></sup>; vì thế đừng đem con số 4.800 batch/giây của anh ấy làm chuẩn.</p>
+
+    <div class="scale">
+      <div class="col small"><h4>Đội nhỏ / mới có production</h4><ul>
+        <li>Kiểm tra số data file tempdb và kích thước từng file; sửa cho đồng đều trước mọi thứ khác.</li>
+        <li>Chụp wait stats lúc ổn định để có mốc. Chưa có mốc thì chưa biết "nghẽn" là gì.</li>
+        <li>Đừng bật memory-optimized metadata chỉ vì đọc được một bài khen.</li>
+      </ul></div>
+      <div class="col"><h4>Đội đã có OLTP cỡ TB trên AG</h4><ul>
+        <li>Khi thấy PAGELATCH trong tempdb, xác định trang thuộc loại nào: cấp phát (PFS/GAM/SGAM) hay bảng hệ thống (metadata). Chỉ khi là metadata mới cân nhắc công tắc.</li>
+        <li>Tìm procedure tạo temp table và bị gọi dày; thử bỏ drop tường minh và để cache hoạt động trước khi chạm vào cấu hình server.</li>
+        <li>Nếu bật: đặt resource pool giới hạn bộ nhớ, thử trên môi trường giống production có tải tương tự, và đặt cảnh báo cho MEMORYCLERK_XTP.</li>
+      </ul></div>
+    </div>
+
+    <div class="takeaway">💡 <b>Rút ra cho bạn:</b> trước khi bật bất cứ gì, hãy xem trang nào đang bị latch. Cùng một chữ "PAGELATCH" có thể là cấp phát hoặc metadata, và hai thứ này có hai cách chữa khác nhau. Cách rẻ nhất vẫn là để temp table được cache.</div>
+
+    <div class="doslist">
+      <div>✅ Chụp wait stats lúc bình thường, rồi so lại sau mỗi thay đổi.</div>
+      <div>✅ Kiểm tra data file tempdb đồng size, đồng mức tăng.</div>
+      <div>❌ Không bật memory-optimized metadata khi chưa đặt trần bộ nhớ và chưa lên kế hoạch restart từng node.</div>
+      <div>❌ Không lấy số đo laptop (4.800 batch/giây) làm kỳ vọng cho production.</div>
+    </div>
+
+    <div class="refs"><b>Nguồn tham khảo:</b><br>
+      [1] Simon Liew, <a href="https://mssqltips.com/sqlservertip/8025/sql-server-2022-tempdb-contention-enhancements" target="_blank">SQL Server 2022 TempDB Contention Enhancements</a>, MSSQLTips, 19/06/2024.<br>
+      [2] Ben Johnston, <a href="https://www.red-gate.com/simple-talk/databases/sql-server/a-use-case-for-memory-optimized-tempdb-metadata/" target="_blank">A use case for memory-optimized tempdb metadata</a>, Simple Talk (Redgate), 08/01/2025.<br>
+      [3] Microsoft Learn, <a href="https://learn.microsoft.com/en-us/sql/relational-databases/databases/tempdb-database?view=sql-server-ver17" target="_blank">tempdb database</a>.<br>
+      [4] Haripriya, <a href="https://gohigh.substack.com/p/metadata-contention-on-tempdb" target="_blank">Metadata contention on tempdb</a>, GoHigh (không ghi ngày).</div>
+  </article>
+
+  <article class="card" id="bai2">
+    <span class="tag legacy">Tối ưu hệ đang chạy · Postgres → ClickHouse</span>
+    <h2 class="head">Chuyển báo cáo khỏi OLTP: Verihubs đổi batch hằng đêm sang streaming, và học được vài điều về "update chưa thấy ngay"</h2>
+    <p class="src">Nguồn: <a href="https://clickhouse.com/blog/verihubs-data-warehouse" target="_blank">bài trên blog ClickHouse</a> (06/07/2026) kể lại phần trình bày của Ray Antonius, trưởng nhóm kỹ thuật phần mềm của Verihubs, tại meetup ClickHouse ở Jakarta (12/2025) [5]. Lưu ý: đây là blog của nhà cung cấp, kể về khách hàng của họ.</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">20–30 phút → 2–3 s</div><div class="lab">thời gian query báo cáo, trên tập tới 18 triệu dòng <sup><a href="https://clickhouse.com/blog/verihubs-data-warehouse" target="_blank">[5]</a></sup></div></div>
+      <div class="box"><div class="num">đến 50%</div><div class="lab">chi phí cloud giảm (bài không nêu số tuyệt đối) <sup><a href="https://clickhouse.com/blog/verihubs-data-warehouse" target="_blank">[5]</a></sup></div></div>
+      <div class="box"><div class="num">~6 tháng</div><div class="lab">thời gian dựng lại warehouse, chia hai pha <sup><a href="https://clickhouse.com/blog/verihubs-data-warehouse" target="_blank">[5]</a></sup></div></div>
+      <div class="box"><div class="num">~50 triệu</div><div class="lab">API call mỗi tháng của các dịch vụ <sup><a href="https://clickhouse.com/blog/verihubs-data-warehouse" target="_blank">[5]</a></sup></div></div>
+    </div>
+
+    <h3 class="sub">Trước khi đổi: Airflow kéo dữ liệu mỗi sáng</h3>
+    <p>Verihubs là công ty Indonesia làm hạ tầng định danh (nhận diện khuôn mặt, liveness, eKYC, OTP qua WhatsApp) cho ngân hàng và fintech. Hệ cũ có một service chạy trong Docker nối vào Postgres, và Airflow kéo dữ liệu theo từng đợt mỗi sáng vào warehouse, rồi nhiều job Airflow khác chế biến tiếp và đẩy lên Metabase. Một service mất 2 đến 6 giờ để xử lý, job hay timeout phải chạy lại. Callback từ nhà cung cấp có khi đến muộn tới 20 ngày, buộc phải tạo lại hóa đơn. Những lần backfill làm query trên Postgres chậm đi rõ rệt <sup><a href="https://clickhouse.com/blog/verihubs-data-warehouse" target="_blank">[5]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế.</b> Dòng cuối là chỗ đáng chú ý nhất với bạn. Backfill đọc lượng lớn dữ liệu lịch sử trên chính database đang phục vụ giao dịch, nên nó giành buffer pool và I/O với OLTP. Bạn đã thấy cùng cơ chế ở SQL Server: một báo cáo nặng trên bảng nóng làm các query giao dịch chậm theo. Chuyển báo cáo sang kho riêng không chỉ làm báo cáo nhanh hơn, mà còn lấy bớt một nguồn gây nhiễu cho OLTP.</div>
+
+    <h3 class="sub">Đổi gì: streaming qua Kafka, hai loại bảng, rollup bằng materialized view</h3>
+    <p>Nhóm làm trong khoảng sáu tháng, hai pha: nạp realtime rồi hậu xử lý. Dữ liệu chảy qua Kafka Connect, dùng Debezium làm CDC cho các bảng cần cập nhật về sau; Kafka đóng vai bộ đệm nên insert lỗi có thể thử lại. Log giao dịch chỉ-thêm (append-only) vào bảng MergeTree. Bộ dữ liệu cần cập nhật thì vào bảng ReplacingMergeTree, để các dòng đã sửa được hòa giải dần theo thời gian. Rollup theo ngày, theo tháng dùng materialized view; projection giúp tăng tốc query mà không đổi bảng người dùng đang truy vấn. Dagster lo logic phức tạp, như phát hiện mẫu đáng ngờ (ví dụ SMS spam đi tuần tự qua nhiều số điện thoại), rồi báo qua Slack <sup><a href="https://clickhouse.com/blog/verihubs-data-warehouse" target="_blank">[5]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế.</b> Chia hai loại bảng là quyết định thiết kế đáng bắt chước. Dữ liệu chỉ-thêm (log, sự kiện) không bao giờ cần sửa, nên ghi thẳng, rẻ nhất. Dữ liệu có đời sống (đơn hàng, trạng thái hóa đơn) sẽ đổi, nên mỗi lần đổi là một dòng mới và hệ thống giữ dòng mới nhất khi gộp. Cái giá của lựa chọn thứ hai là phần dưới đây. Đó là suy luận biên tập từ mô tả engine trong bài, không phải nhận định của nguồn.</div>
+
+    <h3 class="sub">Những cái bẫy họ nói ra</h3>
+    <p>Bài kể bốn bài học. Một, schema và khóa sắp xếp (ordering key) rất khó đổi sau này; chọn sai sớm có thể phải xóa và dựng lại bảng. Hai, engine quyết định cách backfill, query và insert về sau. Ba, update và delete được áp dụng dần như mutation, nên thay đổi chưa hiện ngay, và điều này làm người dùng bên tài chính bất ngờ. Bốn, cú pháp ClickHouse khác Postgres, nhất là JOIN và ORDER BY; và materialized view không tự backfill như projection, nên chuỗi materialized view nối tầng có thể phải backfill lặp lại <sup><a href="https://clickhouse.com/blog/verihubs-data-warehouse" target="_blank">[5]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế.</b> Điểm thứ ba cắt thẳng vào kế toán. Một báo cáo đối soát sáng nay có thể không khớp với báo cáo chạy năm phút sau, vì bản ghi sửa chưa gộp xong. Muốn dùng ClickHouse cho báo cáo hóa đơn, bạn cần chốt trước: báo cáo nào chấp nhận "gần đây nhất có thể", báo cáo nào phải đúng tuyệt đối (khi đó đọc từ nguồn, hoặc ép đọc bản đã gộp và chấp nhận chậm hơn). Suy luận biên tập.</div>
+
+    <h3 class="sub">Ánh xạ sang stack của bạn</h3>
+    <table class="tbl">
+      <tr><th>Verihubs làm</th><th>Việc tương ứng khi nguồn là SQL Server</th><th>Chỗ cần hỏi</th></tr>
+      <tr><td>Debezium CDC từ Postgres vào Kafka</td><td>Dùng CDC của SQL Server làm nguồn cho Debezium (hướng suy luận, bài không nói)</td><td>CDC tốn log và job cleanup trên OLTP; cần đo trước khi mở rộng sang nhiều bảng</td></tr>
+      <tr><td>Bảng chỉ-thêm vào MergeTree</td><td>Bảng sự kiện, task log, audit</td><td>Giữ bao lâu, partition theo tháng hay theo CompanyID?</td></tr>
+      <tr><td>Bảng cập nhật vào ReplacingMergeTree</td><td>Hóa đơn, chứng từ, số dư</td><td>Báo cáo nào chịu được độ trễ gộp?</td></tr>
+      <tr><td>Kafka làm bộ đệm</td><td>Kafka đã có trong stack</td><td>Retention đủ dài để backfill lại khi sai schema</td></tr>
+      <tr><td>Materialized view cho rollup ngày/tháng</td><td>Báo cáo cuối kỳ</td><td>Ai chịu trách nhiệm backfill khi đổi logic?</td></tr>
+    </table>
+
+    <div class="scale">
+      <div class="col small"><h4>Đội nhỏ / chưa có kho báo cáo</h4><ul>
+        <li>Chạy báo cáo nặng trên một replica đọc trước; đây là bước rẻ nhất để tách tải khỏi OLTP.</li>
+        <li>Chỉ dựng kho riêng khi có báo cáo thật sự chạy hàng chục phút.</li>
+        <li>Chọn ordering key cẩn thận ngay từ đầu, vì sửa sau là dựng lại.</li>
+      </ul></div>
+      <div class="col"><h4>Đội đã có OLTP cỡ TB và CDC</h4><ul>
+        <li>Chọn một báo cáo nặng, đo đầu-cuối trên đường mới: độ trễ từ lúc ghi trên OLTP đến lúc hiện trong báo cáo.</li>
+        <li>Phân loại bảng thành chỉ-thêm và có-cập-nhật trước khi chọn engine.</li>
+        <li>Viết sẵn quy ước cho báo cáo tài chính: đọc bản đã gộp hay chấp nhận trễ.</li>
+      </ul></div>
+    </div>
+
+    <div class="takeaway">💡 <b>Rút ra cho bạn:</b> con số 20–30 phút còn 2–3 giây là con số của nhà cung cấp kể lại; cái đáng mang về là cách chia bảng theo "có sửa hay không" và việc ghi rõ báo cáo nào chấp nhận trễ.</div>
+
+    <div class="doslist">
+      <div>✅ Thử đường mới với một báo cáo trước, không chuyển cả kho.</div>
+      <div>✅ Ghi rõ độ trễ chấp nhận được cho từng loại báo cáo.</div>
+      <div>❌ Không cho kế toán đối soát trên dữ liệu chưa gộp mà không báo trước.</div>
+    </div>
+
+    <div class="refs"><b>Nguồn tham khảo:</b><br>
+      [5] Ray Antonius (Verihubs) qua <a href="https://clickhouse.com/blog/verihubs-data-warehouse" target="_blank">blog ClickHouse</a>, 06/07/2026.</div>
+  </article>
+
+  <article class="card" id="gocnhin">
+    <span class="tag view">Góc nhìn</span>
+    <h2 class="head">Hai bài, một câu hỏi: cái giá được dời đi đâu?</h2>
+    <p>Bài 1 chữa nghẽn metadata bằng cách đưa bảng hệ thống vào bộ nhớ; cái giá là bộ nhớ và một lần restart <sup><a href="https://learn.microsoft.com/en-us/sql/relational-databases/databases/tempdb-database?view=sql-server-ver17" target="_blank">[3]</a></sup>. Bài 2 chữa báo cáo chậm bằng cách đưa nó sang một kho khác; cái giá là dữ liệu cập nhật chưa hiện ngay <sup><a href="https://clickhouse.com/blog/verihubs-data-warehouse" target="_blank">[5]</a></sup>. Cả hai bài đều có kết quả tốt, và cả hai đều kèm một khoản chi phí nằm ở chỗ khác, ít được nhắc trong tiêu đề.</p>
+    <p>Khi đọc một case "đổi đúng một thứ", hãy tìm câu hỏi: thứ này tốn ở đâu bây giờ? Nếu bài không trả lời, bạn phải tự đo.</p>
+    <div class="editnote">Phần Góc nhìn là tổng hợp biên tập, không trích nguyên văn từ nguồn.</div>
+    <h3 class="sub">Ba việc làm tuần này</h3>
+    <div class="doslist">
+      <div>1. Kiểm tra tempdb ở production: số data file, kích thước từng file, và wait stats lúc bình thường; lưu lại làm mốc.</div>
+      <div>2. Liệt kê các procedure tạo temp table và được gọi nhiều nhất; xem cái nào bị drop tường minh hoặc dùng sp_executesql.</div>
+      <div>3. Chọn một báo cáo nặng đang chạy trên OLTP và ghi: ai dùng, chấp nhận trễ bao lâu, nếu chuyển sang kho riêng thì độ lệch nào là không được phép.</div>
+    </div>
+  </article>
+
+  <div class="foot">Bản tin sáng · tổng hợp từ nguồn công khai đã xác minh</div>
+</div>
+</body>
+</html>

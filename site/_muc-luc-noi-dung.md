@@ -10,13 +10,15 @@
 > 2. Trước khi giải thích một thuật ngữ: xem phần **C. Từ điển thuật ngữ** — nếu đã giải thích ở số trước thì chỉ nhắc gọn/nối link, không giải thích lại dài dòng.
 > 3. Sau khi viết xong: thêm 1 khối vào phần **B. Mục lục theo số** và cập nhật phần A + C nếu có nguồn/thuật ngữ mới (dùng mẫu ở cuối file).
 >
-> _Cập nhật lần cuối: 08/10/2026 — 78 số (24/07 → 08/10/2026; gồm 1 số song song 09/08 chuyên đề An toàn thông tin)._
+> _Cập nhật lần cuối: 09/10/2026 — 79 số (24/07 → 09/10/2026; gồm 1 số song song 09/08 chuyên đề An toàn thông tin)._
 
 ---
 
 ## A. Danh sách nguồn / thực thể ĐÃ DÙNG (tránh lặp)
 
 ### Domain nguồn đã trích dẫn (đừng lặp cùng một bài)
+
+mssqltips.com/sqlservertip/8025 (Simon Liew, 19/06/2024; laptop i9, 1 data file tempdb, Ostress 100 thread×300 vòng; 2019 vs 2022: ~10→~7 s, đỉnh ~3.100→~4.800 batch/s, 2022 không còn PAGELATCH; bỏ sp_executesql: ~3 s/~1 s; bình luận: stolen memory 50→700+ GB trên 2019 production — không kiểm chứng) · red-gate.com/simple-talk/.../a-use-case-for-memory-optimized-tempdb-metadata (Ben Johnston, 08/01/2025; CPU 100%, page latch tempdb, bật tùy chọn + restart dịch vụ, KHÔNG có số trước/sau) · learn.microsoft.com/.../tempdb-database (memory-optimized tempdb metadata: chỉ bật khi metadata contention; restart; resource pool; MEMORYCLERK_XTP; lỗi 41317; columnstore trên temp table; số data file 8 + bội 4, đồng size; SQL Server 2022 GAM/SGAM latch concurrency) · gohigh.substack.com/p/metadata-contention-on-tempdb (Haripriya, không ngày; 12 bảng metadata, sysobjvalues; 3 cách: không drop tường minh, cache temp object, memory-optimized metadata; 2019 cần CU2; không số) · clickhouse.com/blog/verihubs-data-warehouse (Ray Antonius/Verihubs, 06/07/2026; vendor blog; Postgres+Airflow batch → Kafka Connect + Debezium + MergeTree/ReplacingMergeTree + materialized view + projection + Dagster; query 20–30 phút → 2–3 s trên ≤18 triệu dòng; chi phí cloud tới −50%; ~6 tháng; ~50 triệu API call/tháng; bẫy: ordering key, mutation chưa hiện ngay, MV không tự backfill) — ĐÃ DÙNG 09/10/2026
 
 dev.to/taras_antoniuk_ea6a2fe7ee (Taras Antoniuk, "How JOIN FETCH Reduced Database Load by 94%", 15/12/2025; Spring Boot 3.5.5/PostgreSQL local; 33→2 statement, 48→37 ms) · tothenew.com/blog/hibernate-n1-query-problem (Rajdeep Dabral, 02/09/2026; detect/solutions) · docs.hibernate.org/orm/7.3 (BatchSize, FetchSettings) — ĐÃ DÙNG 08/10/2026
 
@@ -165,6 +167,14 @@ LegacyCodeBench 200 tác vụ/4 bậc · Legacy Insights 94%/tài liệu 96% · 
 ---
 
 ## B. Mục lục theo số (mới → cũ)
+
+### 09/10/2026 — Tempdb trên SQL Server 2022: ba loại nghẽn, ba cách chữa, cái giá của công tắc memory-optimized metadata; & Verihubs chuyển báo cáo khỏi Postgres sang ClickHouse (Liew/MSSQLTips + Johnston/Simple Talk + Microsoft Learn + Haripriya; Antonius/ClickHouse blog)
+- **Chủ đề:** Cả hai bài mảng 3. Bài 1: tempdb contention (allocation PFS/GAM/SGAM vs metadata), temp table caching, số data file, memory-optimized tempdb metadata và cái giá bộ nhớ. Bài 2: tách báo cáo khỏi OLTP sang ClickHouse qua Kafka+Debezium; MergeTree vs ReplacingMergeTree; mutation; MV không tự backfill. Góc nhìn: cái giá được dời đi đâu.
+- **Nguồn:** [1] Simon Liew, MSSQLTips, 19/06/2024; [2] Ben Johnston, Simple Talk, 08/01/2025; [3] Microsoft Learn tempdb database; [4] Haripriya, GoHigh (không ngày); [5] Ray Antonius (Verihubs) qua blog ClickHouse, 06/07/2026.
+- **Số chính:** ~3.100→~4.800 batch/s (2019→2022, laptop, 100 thread); ~10→~7 s; bỏ sp_executesql ~3→~1 s; 8 data file khuyên bắt đầu; Verihubs: 20–30 phút→2–3 s (≤18 triệu dòng), chi phí cloud tới −50%, ~6 tháng, ~50 triệu API call/tháng, job cũ 2–6 giờ, callback trễ tới 20 ngày.
+- **Thực thể:** Simon Liew, Ben Johnston, Haripriya, Microsoft (SQL Server 2019/2022), Verihubs (Indonesia, eKYC), Ray Antonius, ClickHouse, Debezium, Kafka Connect, Airflow, Dagster, Metabase.
+- **Cấu trúc:** 2 bài + Góc nhìn.
+- **Không lặp lại ở số sau:** bốn bài tempdb ở trên và blog Verihubs; cặp 3.100→4.800 batch/s; 20–30 phút→2–3 giây.
 
 ### 08/10/2026 — N+1 trên Hibernate: giảm 94% số câu lệnh SQL mà API chỉ nhanh hơn 23%; & AI-native SDLC ở Atlassian: +19% PR, "2–3 giờ" mỗi tuần và những chiều chưa đo (Antoniuk/DEV + Dabral/TO THE NEW + tài liệu Hibernate; & Canham + Geoghegan/Jiang, Inside Atlassian)
 - **Chủ đề:** Bài 1 — mảng 3, Spring Boot/JPA N+1 (JOIN FETCH, EntityGraph, DTO projection, @BatchSize, ngân sách query trong CI). Bài 2 (thêm theo yêu cầu người dùng) — mảng 2, AI-native SDLC. Góc nhìn: chỉ số thay thế vs thứ thật cần đo.
@@ -697,6 +707,9 @@ LegacyCodeBench 200 tác vụ/4 bậc · Legacy Insights 94%/tài liệu 96% · 
 ---
 
 ## C. Từ điển thuật ngữ (đã giải thích ở các số — chỉ nhắc gọn khi tái dùng)
+
+- **Tempdb contention (allocation vs metadata) / memory-optimized tempdb metadata:** giải thích ở số 09/10/2026 — PAGELATCH trong tempdb có thể ở trang cấp phát (PFS/GAM/SGAM; 2022 cải thiện GAM/SGAM) hoặc bảng metadata (cần bật memory-optimized metadata, restart, đặt trần bộ nhớ); temp table được cache là cách rẻ nhất.
+- **ReplacingMergeTree / mutation / materialized view (ClickHouse):** giải thích ở số 09/10/2026 — bảng chỉ-thêm vs bảng có cập nhật (giữ dòng mới nhất khi gộp), update/delete áp dụng dần nên chưa hiện ngay, MV không tự backfill.
 
 - **Propensity score matching / bán thực nghiệm (quasi-experiment):** giải thích ở số 08/10/2026 — ghép mỗi đơn vị dùng công cụ với một đơn vị tương tự không dùng để so, khi không thể giao ngẫu nhiên; chỉ chứng minh tương quan, không phải nhân quả. Cũng: dùng phân vị 20 của số tự báo cáo làm mốc thận trọng.
 
