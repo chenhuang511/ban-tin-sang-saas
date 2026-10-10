@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Khóa hàng thành khóa bảng, và threat modeling cho đội 15 người &middot; 10/10/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+@media (max-width:560px){h1.title{font-size:25px}.card{padding:20px 18px}.tbl{display:block;overflow-x:auto}}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 10/10/2026</div>
+    <h1 class="title">Lock escalation: 5.000 khóa hàng biến thành một khóa bảng, và cái van "theo partition" không miễn phí; cùng cách một đội 15 người bắt đầu threat modeling mà không cần chuyên gia bảo mật</h1>
+    <div class="meta">10/10/2026 · Đọc khoảng 14 phút · Nguồn chính: Microsoft Learn (cập nhật 04/08/2026); Erik Darling — Brent Ozar Unlimited (30/11/2017); Paul Randal — SQLskills (14/01/2008); Joe Alamo-Keilty — One Utility Bill Engineering (01/02/2024)</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: số này có <b>hai bài</b>. Bài 1 dựa chủ yếu vào tài liệu chính thức của Microsoft và hai bài thực nghiệm cũ của Randal (2008) và Darling (2017); <b>không có case production kèm số trước/sau</b>, nên các con số là ngưỡng và kết quả demo, không phải kết quả đo trên hệ thật. Trang Netdata không ghi tác giả hay ngày. Bài 2 là tự thuật của một đội, nguồn nói rõ <b>không có số đo định lượng</b>, chỉ có nhận xét sau khoảng ba tháng. Các khối <b style="color:#1e40af">Cơ chế</b>, bảng ánh xạ sang stack của bạn và phần "Rút ra theo quy mô" là phân tích của bản tin, <em>không trích nguyên văn từ nguồn</em>. Không chèn code hay câu lệnh; mọi thao tác được tả bằng lời.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1"><strong>Bài 1</strong> — Lock escalation trên SQL Server<br><span style="font-size:13.5px;color:#6b7280">· hai ngưỡng kích hoạt · vì sao nó không phải deadlock · chia lô, index, LOCK_ESCALATION · cái giá của AUTO trên bảng partition · ánh xạ sang RCSI và job lưu trữ</span></a></li>
+      <li><a href="#bai2"><strong>Bài 2</strong> — Threat modeling cho đội 15 người<br><span style="font-size:13.5px;color:#6b7280">· ba điểm chèn vào quy trình · bốn câu hỏi · chuyện thời điểm · những gì nguồn không chứng minh được</span></a></li>
+      <li><a href="#goc-nhin"><strong>Góc nhìn</strong> — Trả giá sớm hay trả giá muộn, và ba việc cho tuần này</a></li>
+    </ol>
+  </nav>
+
+  <article class="card" id="bai1">
+    <span class="tag legacy">Tối ưu hệ đang chạy · SQL Server</span>
+    <h2 class="head">Một câu DELETE chạy vừa đủ lâu có thể khóa cả bảng, dù bạn chỉ định xóa vài dòng mỗi lần</h2>
+    <p class="src">Nguồn: Microsoft Learn — <a href="https://learn.microsoft.com/en-us/troubleshoot/sql/database-engine/performance/resolve-blocking-problems-caused-lock-escalation" target="_blank">"Resolve blocking problems caused by lock escalation in SQL Server"</a>, cập nhật 04/08/2026 [1]; Netdata — <a href="https://www.netdata.cloud/guides/microsoft-sql-server/microsoft-sql-server-lock-escalation/" target="_blank">hướng dẫn lock escalation</a>, không ghi tác giả và ngày [2]; Erik Darling — <a href="https://www.brentozar.com/?p=96871" target="_blank">"Partition Level Locking: Explanations From Outer Space"</a>, Brent Ozar Unlimited, 30/11/2017 [3]; Paul Randal — <a href="https://www.sqlskills.com/blogs/paul/?p=1104" target="_blank">partition-level lock escalation</a>, SQLskills, 14/01/2008 [4]; Microsoft Learn — <a href="https://learn.microsoft.com/en-us/sql/t-sql/statements/alter-table-transact-sql" target="_blank">ALTER TABLE (Transact-SQL)</a> [5].</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">&gt; 5.000</div><div class="lab">khóa trên một bảng hoặc index trong cùng một câu lệnh là ngưỡng đếm theo tài liệu Microsoft <sup><a href="https://learn.microsoft.com/en-us/troubleshoot/sql/database-engine/performance/resolve-blocking-problems-caused-lock-escalation" target="_blank">[1]</a></sup></div></div>
+      <div class="box"><div class="num">24%</div><div class="lab">buffer pool: khi bộ nhớ khóa chạm mức này (40% của trần 60%), escalation cũng kích hoạt dù chưa đủ 5.000 khóa <sup><a href="https://learn.microsoft.com/en-us/troubleshoot/sql/database-engine/performance/resolve-blocking-problems-caused-lock-escalation" target="_blank">[1]</a></sup></div></div>
+      <div class="box"><div class="num">10.866</div><div class="lab">khóa PAGE X trong một demo của Darling khi cập nhật vượt mọi ranh giới partition <sup><a href="https://www.brentozar.com/?p=96871" target="_blank">[3]</a></sup></div></div>
+      <div class="box"><div class="num">Lỗi 1204</div><div class="lab">xuất hiện nếu tắt escalation mà bộ nhớ khóa cạn: transaction bị rollback <sup><a href="https://learn.microsoft.com/en-us/troubleshoot/sql/database-engine/performance/resolve-blocking-problems-caused-lock-escalation" target="_blank">[1]</a></sup></div></div>
+    </div>
+
+    <h3 class="sub">Chuyện gì xảy ra khi khóa hàng "leo thang"</h3>
+    <p>Microsoft tả như sau. SQL Server giữ khóa ở mức hàng hoặc page cho từng câu lệnh. Khi một câu lệnh giữ quá nhiều khóa trên cùng một bảng hoặc index, engine đổi chúng thành một khóa duy nhất ở mức bảng. Khóa này là loại S hoặc X, giữ tới khi transaction kết thúc <sup><a href="https://learn.microsoft.com/en-us/troubleshoot/sql/database-engine/performance/resolve-blocking-problems-caused-lock-escalation" target="_blank">[1]</a></sup>. Mọi session khác muốn đụng bảng đó phải xếp hàng.</p>
+    <p>Có hai ngưỡng kích hoạt. Một là số khóa: nếu bảng hoặc index hiện tại có hơn 5.000 khóa thì escalation bắt đầu. Hai là bộ nhớ: bộ nhớ dành cho khóa bị giới hạn ở 60% buffer pool nhìn thấy được, và ngưỡng escalation là 40% của mức đó, tức khoảng 24% buffer pool <sup><a href="https://learn.microsoft.com/en-us/troubleshoot/sql/database-engine/performance/resolve-blocking-problems-caused-lock-escalation" target="_blank">[1]</a></sup>. Trang Netdata nói thêm rằng trong thực tế khóa leo thang gần mốc 6.250 hơn, vì engine chỉ kiểm theo chu kỳ và bộ đếm không tính khóa bảng cùng khóa đang xin <sup><a href="https://www.netdata.cloud/guides/microsoft-sql-server/microsoft-sql-server-lock-escalation/" target="_blank">[2]</a></sup>. Con số 6.250 chỉ có ở Netdata, tài liệu Microsoft không nhắc, nên đừng coi nó là cam kết.</p>
+    <p>Điểm Microsoft nhấn mạnh là phần lớn blocking <em>không</em> do escalation. Bước đầu tiên là mở một phiên Extended Events với sự kiện lock_escalation. Nếu không có sự kiện nào, bài này không áp dụng. Nếu có, bạn còn phải xác nhận khóa bảng loại S hoặc X đang thật sự chặn người khác. Khóa ý định (IS, IU, IX) không phải do escalation sinh ra <sup><a href="https://learn.microsoft.com/en-us/troubleshoot/sql/database-engine/performance/resolve-blocking-problems-caused-lock-escalation" target="_blank">[1]</a></sup>. Netdata ghi thêm một chi tiết hay bị quên: phiên system_health mặc định không bắt sự kiện này, nên bạn phải tự dựng một phiên riêng <sup><a href="https://www.netdata.cloud/guides/microsoft-sql-server/microsoft-sql-server-lock-escalation/" target="_blank">[2]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế:</b> đây không phải deadlock. Deadlock có vòng tròn chờ nhau nên SQL Server tự chọn nạn nhân và giết bớt. Escalation chỉ là một khóa to nằm đó, không có vòng nào, nên không ai đứng ra dọn <sup><a href="https://www.netdata.cloud/guides/microsoft-sql-server/microsoft-sql-server-lock-escalation/" target="_blank">[2]</a></sup>. Triệu chứng điển hình là rất nhiều session cùng chờ LCK_M_*, trong khi CPU và I/O nhìn vẫn hiền, rồi worker thread cạn dần <sup><a href="https://www.netdata.cloud/guides/microsoft-sql-server/microsoft-sql-server-lock-escalation/" target="_blank">[2]</a></sup>. Chính vì CPU hiền nên đội vận hành hay nhìn nhầm thành "database đang rảnh mà vẫn đứng".</div>
+    <div class="mech"><b>Cơ chế:</b> một chi tiết dễ hiểu sai: nếu escalation <em>thất bại</em> vì có session khác giữ khóa xung đột, câu lệnh không dừng. Microsoft nói nó tiếp tục xin khóa ở mức chi tiết cũ và thỉnh thoảng thử leo thang lại <sup><a href="https://learn.microsoft.com/en-us/troubleshoot/sql/database-engine/performance/resolve-blocking-problems-caused-lock-escalation" target="_blank">[1]</a></sup>. Nghĩa là một job lớn có thể vừa ôm hàng chục nghìn khóa nhỏ, vừa tiêu bộ nhớ khóa, rồi tới ngưỡng bộ nhớ thì bị buộc leo thang vào đúng lúc tệ nhất. Đây là suy luận biên tập từ hai ngưỡng ở trên; nguồn không kể một ca nào như vậy.</div>
+
+    <h3 class="sub">Ba cách chữa, theo thứ tự nên thử</h3>
+    <p>Microsoft xếp thứ tự rõ: phòng bằng cách đổi cách viết thao tác, tắt escalation chỉ là biện pháp sau cùng. Thứ nhất, cắt thao tác lớn thành các lô nhỏ. Ví dụ trong tài liệu xóa mỗi lần 1.000 dòng rồi lặp, thấp hơn nhiều so với 5.000 <sup><a href="https://learn.microsoft.com/en-us/troubleshoot/sql/database-engine/performance/resolve-blocking-problems-caused-lock-escalation" target="_blank">[1]</a></sup>. Thứ hai, làm cho câu lệnh chạm ít dòng hơn: bỏ scan bằng index phù hợp, tránh tính toán hay ép kiểu trên cột trong điều kiện lọc, vì chúng ép engine quét và giữ nhiều khóa hơn <sup><a href="https://learn.microsoft.com/en-us/troubleshoot/sql/database-engine/performance/resolve-blocking-problems-caused-lock-escalation" target="_blank">[1]</a></sup>. Thứ ba, nếu thấy plan đổi và số logical read nhảy từ hàng nghìn lên hàng triệu, Netdata gợi ý ép plan cũ qua Query Store, hoặc xử lý thống kê và parameter sniffing về lâu dài <sup><a href="https://www.netdata.cloud/guides/microsoft-sql-server/microsoft-sql-server-lock-escalation/" target="_blank">[2]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế:</b> hai thứ đáng để ý ở cách chia lô. Một, kích thước lô phải tính theo <em>số khóa</em>, không theo số dòng: xóa 1.000 dòng trên bảng có nhiều index không cluster có thể giữ nhiều khóa hơn 1.000, vì mỗi index lại có khóa riêng. Hai, giữa các lô phải commit thật, vì khóa chỉ nhả khi transaction kết thúc <sup><a href="https://learn.microsoft.com/en-us/troubleshoot/sql/database-engine/performance/resolve-blocking-problems-caused-lock-escalation" target="_blank">[1]</a></sup>. Cả hai điểm là diễn giải biên tập từ cách khóa hoạt động; ví dụ chính thức của Microsoft chỉ dùng 1.000 dòng, không bàn về số index.</div>
+    <p>Một mẹo trong tài liệu Microsoft đáng biết nhưng đừng dùng làm mặc định: giữ một khóa ý định IX trên bảng ở một connection khác trong cửa sổ bảo trì, vì IX chặn việc leo thang lên S hoặc X. Chính tài liệu khuyên ưu tiên sửa truy vấn và transaction <sup><a href="https://learn.microsoft.com/en-us/troubleshoot/sql/database-engine/performance/resolve-blocking-problems-caused-lock-escalation" target="_blank">[1]</a></sup>. Gợi ý ROWLOCK cũng không giúp: nó chỉ đổi kế hoạch khóa ban đầu, không cấm escalation <sup><a href="https://learn.microsoft.com/en-us/troubleshoot/sql/database-engine/performance/resolve-blocking-problems-caused-lock-escalation" target="_blank">[1]</a></sup>.</p>
+
+    <h3 class="sub">Cái van partition-level: LOCK_ESCALATION = AUTO</h3>
+    <p>Bạn có bảng partition theo thời gian, nên có một lựa chọn khác. Tùy chọn LOCK_ESCALATION của từng bảng có ba giá trị. TABLE là mặc định: leo lên cả bảng. DISABLE: ngăn escalation trong hầu hết trường hợp, nhưng không tuyệt đối, ví dụ quét bảng heap ở mức SERIALIZABLE vẫn cần khóa bảng. AUTO: trên bảng partition, khóa leo lên mức partition (HoBT) thay vì cả bảng, và sau khi đã ở mức partition thì không leo tiếp lên bảng <sup><a href="https://learn.microsoft.com/en-us/sql/t-sql/statements/alter-table-transact-sql" target="_blank">[5]</a></sup>. Mục đích là để các partition khác vẫn dùng được.</p>
+    <p>Paul Randal làm demo từ năm 2008 trên một bảng ba partition cắt tại 8000 và 16000, nạp 16.999 dòng. Với TABLE, một câu UPDATE chỉ đụng các dòng dưới 7500 vẫn lấy khóa X cả bảng và truy vấn khác thất bại. Với AUTO, bảng chỉ có khóa IX và partition 1 có khóa X. Một connection khác cập nhật partition 2 vẫn chạy được <sup><a href="https://www.sqlskills.com/blogs/paul/?p=1104" target="_blank">[4]</a></sup>. Randal cũng dựng một ca deadlock: mỗi connection giữ khóa X ở một partition rồi đọc dòng nằm ở partition kia. Một bên bị chọn làm nạn nhân (lỗi 1205). Ông kết luận ngắn: đừng bật thẳng trên production mà chưa thử, và đây là lý do tùy chọn không thành mặc định <sup><a href="https://www.sqlskills.com/blogs/paul/?p=1104" target="_blank">[4]</a></sup>.</p>
+    <p>Erik Darling lặp lại thí nghiệm năm 2017 trên bảng Votes của Stack Overflow, partition theo CreationDate từng năm 2007-2017. Ông trích tài liệu Microsoft: khóa mức HoBT thường tăng độ đồng thời nhưng có nguy cơ deadlock <sup><a href="https://www.brentozar.com/?p=96871" target="_blank">[3]</a></sup>. Kết quả của ông: khi cập nhật gọn trong một partition, chỉ có một khóa HoBT X cộng khóa IX mức bảng, và truy vấn vào partition năm khác không bị chặn. Cập nhật vắt qua một ranh giới thì có hai khóa HoBT X. Vắt qua mọi ranh giới thì ông thấy 7 khóa HoBT IX, 3 khóa HoBT X, 3.356 khóa KEY X và 10.866 khóa PAGE X. Khi lọc theo một cột không phải khóa partition, các partition vẫn nhận lẫn lộn mức khóa hàng và page <sup><a href="https://www.brentozar.com/?p=96871" target="_blank">[3]</a></sup>. Quan điểm của ông: nhiều đội dùng partition vì lý do sai, và hành vi khóa giữa các partition khó đoán hơn người ta tưởng <sup><a href="https://www.brentozar.com/?p=96871" target="_blank">[3]</a></sup>.</p>
+    <table class="tbl">
+      <tr><th>Cấu hình</th><th>Khóa leo tới đâu</th><th>Cái được</th><th>Cái giá (theo nguồn)</th></tr>
+      <tr><td>TABLE (mặc định)</td><td>Cả bảng</td><td>Hành vi dễ đoán, chặn tường minh</td><td>Một câu lệnh lớn chặn mọi partition <sup><a href="https://www.sqlskills.com/blogs/paul/?p=1104" target="_blank">[4]</a></sup></td></tr>
+      <tr><td>AUTO, bảng partition</td><td>Một partition (HoBT), không lên bảng nữa</td><td>Partition khác vẫn chạy <sup><a href="https://learn.microsoft.com/en-us/sql/t-sql/statements/alter-table-transact-sql" target="_blank">[5]</a></sup><sup><a href="https://www.sqlskills.com/blogs/paul/?p=1104" target="_blank">[4]</a></sup></td><td>Nguy cơ deadlock giữa các partition; ứng dụng từng dựa vào chặn kiểu khóa bảng có thể bắt đầu deadlock <sup><a href="https://www.brentozar.com/?p=96871" target="_blank">[3]</a></sup><sup><a href="https://www.sqlskills.com/blogs/paul/?p=1104" target="_blank">[4]</a></sup></td></tr>
+      <tr><td>DISABLE</td><td>Hầu như không leo</td><td>Không bị khóa bảng</td><td>Khóa hàng dồn lên, bộ nhớ khóa phình, lỗi 1204 và rollback nếu cạn <sup><a href="https://learn.microsoft.com/en-us/troubleshoot/sql/database-engine/performance/resolve-blocking-problems-caused-lock-escalation" target="_blank">[1]</a></sup></td></tr>
+      <tr><td>Trace flag 1211 / 1224</td><td>Cả instance</td><td>Giảm blocking cấp bách</td><td>Ảnh hưởng mọi database; Microsoft chỉ khuyên làm giải pháp tạm <sup><a href="https://learn.microsoft.com/en-us/troubleshoot/sql/database-engine/performance/resolve-blocking-problems-caused-lock-escalation" target="_blank">[1]</a></sup><sup><a href="https://www.netdata.cloud/guides/microsoft-sql-server/microsoft-sql-server-lock-escalation/" target="_blank">[2]</a></sup></td></tr>
+    </table>
+    <div class="editnote">Các nguồn về AUTO là hai bài 2008 và 2017, viết cho SQL Server 2008-2016; tài liệu hiện hành xác nhận cơ chế nhưng bản tin chưa tìm được bài đo AUTO trên SQL Server 2022. Hãy tự thử trên bản sao.</div>
+    <p>Netdata còn nhắc Optimized Locking của SQL Server 2025, yêu cầu Accelerated Database Recovery và giảm mạnh số khóa phải giữ <sup><a href="https://www.netdata.cloud/guides/microsoft-sql-server/microsoft-sql-server-lock-escalation/" target="_blank">[2]</a></sup>. Bạn đang chạy 2022 nên đây chỉ là thông tin để biết hướng đi, chưa dùng được.</p>
+
+    <h3 class="sub">Ánh xạ sang stack của bạn</h3>
+    <table class="tbl">
+      <tr><th>Chỗ trong hệ thống</th><th>Rủi ro tương đương</th><th>Việc nên kiểm</th></tr>
+      <tr><td>Job lưu trữ / xóa dữ liệu cũ trên bảng OLTP cỡ TB</td><td>Xóa hoặc cập nhật hàng loạt vượt 5.000 khóa, leo lên khóa bảng X</td><td>Kích thước lô theo số khóa; commit giữa lô; đo sự kiện lock_escalation trong đêm chạy job</td></tr>
+      <tr><td>Bảng multi-tenant theo CompanyID</td><td>Một tenant chạy job lớn khóa bảng của mọi tenant</td><td>Xem job có lọc theo CompanyID và có index dẫn đường theo cột đó không; nếu không, nó quét và giữ nhiều khóa hơn cần</td></tr>
+      <tr><td>RCSI đang bật</td><td>Reader dùng row version nên không đòi khóa S hàng; thường không bị khóa bảng X chặn</td><td>Escalation vẫn chặn <em>writer</em> khác; kiểm bằng thử nghiệm, vì đây là suy luận biên tập</td></tr>
+      <tr><td>Partition theo thời gian</td><td>AUTO chỉ có ích nếu thao tác nằm gọn trong một partition; vắt qua nhiều partition thì mất lợi và thêm rủi ro deadlock</td><td>Chạy thử job lưu trữ thật trên bản sao với AUTO; đếm lỗi 1205</td></tr>
+      <tr><td>Spring Boot / JPA batch</td><td>Một @Transactional bao cả vòng xử lý hàng chục nghìn bản ghi</td><td>Giữ transaction ngắn, flush và commit theo lô; xem Hibernate batch size</td></tr>
+    </table>
+    <div class="editnote">Bảng ánh xạ là suy luận biên tập; các nguồn không nhắc tới RCSI, CompanyID hay Spring. Dòng RCSI đặc biệt cần tự kiểm trên instance của bạn.</div>
+
+    <h3 class="sub">Rút ra theo quy mô</h3>
+    <div class="scale">
+      <div class="col small"><h4>Đội nhỏ, &lt;10 người</h4><ul>
+        <li>Chia mọi lệnh xóa hoặc cập nhật hàng loạt thành lô vài nghìn dòng, commit giữa lô. Đó là cách Microsoft đặt lên đầu <sup><a href="https://learn.microsoft.com/en-us/troubleshoot/sql/database-engine/performance/resolve-blocking-problems-caused-lock-escalation" target="_blank">[1]</a></sup>.</li>
+        <li>Dựng một phiên Extended Events lock_escalation nhẹ và để chạy; không có sự kiện nào nghĩa là bạn chưa có vấn đề này <sup><a href="https://learn.microsoft.com/en-us/troubleshoot/sql/database-engine/performance/resolve-blocking-problems-caused-lock-escalation" target="_blank">[1]</a></sup>.</li>
+        <li>Chưa đụng vào trace flag hay DISABLE.</li>
+      </ul></div>
+      <div class="col"><h4>Đội đã có production</h4><ul>
+        <li>Lập danh sách job đêm chạm các bảng lớn nhất và thêm kiểm tra: đã chia lô chưa, có index phục vụ điều kiện lọc chưa.</li>
+        <li>Thử AUTO trên bản sao của bảng partition với đúng job lưu trữ, đo cả blocking và deadlock trước khi quyết <sup><a href="https://www.sqlskills.com/blogs/paul/?p=1104" target="_blank">[4]</a></sup>.</li>
+        <li>Đặt cảnh báo khi LCK_M_* chiếm phần lớn wait; Netdata gợi ý mốc 30-40% tổng wait là tín hiệu, nhưng đó là mốc gợi ý, không phải số đo <sup><a href="https://www.netdata.cloud/guides/microsoft-sql-server/microsoft-sql-server-lock-escalation/" target="_blank">[2]</a></sup>.</li>
+        <li>Giữ trace flag 1211/1224 như phương án khẩn cấp có thời hạn, ghi rõ ai gỡ và khi nào <sup><a href="https://learn.microsoft.com/en-us/troubleshoot/sql/database-engine/performance/resolve-blocking-problems-caused-lock-escalation" target="_blank">[1]</a></sup>.</li>
+      </ul></div>
+    </div>
+
+    <div class="takeaway">💡 <b>Rút ra cho bạn:</b> bước đầu không phải sửa gì mà là xác nhận. Nếu sự kiện lock_escalation không xuất hiện thì blocking của bạn đến từ chỗ khác. Nếu có, hãy chia lô và thêm index trước khi nghĩ tới AUTO hay trace flag.</div>
+
+    <div class="doslist">
+      <div>✅ Bắt sự kiện lock_escalation và xác nhận khóa bảng loại S/X đang chặn thật.</div>
+      <div>✅ Chia lô theo số khóa, commit giữa lô.</div>
+      <div>✅ Thử AUTO trên bản sao và đếm deadlock trước khi bật.</div>
+      <div>❌ Không tắt escalation cả instance để chữa một job.</div>
+      <div>❌ Không tin ROWLOCK sẽ ngăn khóa leo thang.</div>
+    </div>
+
+    <div class="refs"><b>Nguồn tham khảo</b><br>
+      [1] <a href="https://learn.microsoft.com/en-us/troubleshoot/sql/database-engine/performance/resolve-blocking-problems-caused-lock-escalation" target="_blank">Microsoft Learn — Resolve blocking problems caused by lock escalation in SQL Server (cập nhật 04/08/2026)</a><br>
+      [2] <a href="https://www.netdata.cloud/guides/microsoft-sql-server/microsoft-sql-server-lock-escalation/" target="_blank">Netdata — SQL Server lock escalation (không ghi tác giả, ngày)</a><br>
+      [3] <a href="https://www.brentozar.com/?p=96871" target="_blank">Erik Darling — Partition Level Locking: Explanations From Outer Space, Brent Ozar Unlimited, 30/11/2017</a><br>
+      [4] <a href="https://www.sqlskills.com/blogs/paul/?p=1104" target="_blank">Paul Randal — SQL Server 2008: Partition-level lock escalation details and examples, SQLskills, 14/01/2008</a><br>
+      [5] <a href="https://learn.microsoft.com/en-us/sql/t-sql/statements/alter-table-transact-sql" target="_blank">Microsoft Learn — ALTER TABLE (Transact-SQL), tùy chọn LOCK_ESCALATION</a></div>
+  </article>
+
+  <article class="card" id="bai2">
+    <span class="tag view">Quy trình phát triển an toàn · Startup</span>
+    <h2 class="head">Threat modeling không cần chuyên gia: ba chỗ chèn vào quy trình sẵn có của một đội 15 người</h2>
+    <p class="src">Nguồn: Joe Alamo-Keilty (Principal DevOps Engineer) — <a href="https://engineering.oneutilitybill.co/how-we-started-threat-modelling-as-a-startup-9e4357a8946b" target="_blank">"How we started threat modelling as a startup"</a>, One Utility Bill Engineering (Medium), 01/02/2024 [6].</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">~15</div><div class="lab">kỹ sư trong đội phát triển của một startup <sup><a href="https://engineering.oneutilitybill.co/how-we-started-threat-modelling-as-a-startup-9e4357a8946b" target="_blank">[6]</a></sup></div></div>
+      <div class="box"><div class="num">3</div><div class="lab">điểm chèn vào vòng đời: tài liệu đề xuất, buổi threat modeling, mẫu merge request <sup><a href="https://engineering.oneutilitybill.co/how-we-started-threat-modelling-as-a-startup-9e4357a8946b" target="_blank">[6]</a></sup></div></div>
+      <div class="box"><div class="num">4</div><div class="lab">câu hỏi làm khung cho mọi buổi (theo Threat Modeling Manifesto) <sup><a href="https://engineering.oneutilitybill.co/how-we-started-threat-modelling-as-a-startup-9e4357a8946b" target="_blank">[6]</a></sup></div></div>
+      <div class="box"><div class="num">~3 tháng</div><div class="lab">sau triển khai mới có nhận xét; không có số đo định lượng <sup><a href="https://engineering.oneutilitybill.co/how-we-started-threat-modelling-as-a-startup-9e4357a8946b" target="_blank">[6]</a></sup></div></div>
+    </div>
+
+    <h3 class="sub">Vì sao họ bắt đầu</h3>
+    <p>Tác giả kể bốn lý do: đã từng có sự cố bảo mật, lỗ hổng bị phát hiện quá muộn (sau khi ra mắt hoặc khi đã build sâu nên phải làm lại), chuyên môn bảo mật dồn vào một người nên thành nút thắt, và đội ngày càng nhiều dev junior nên có khoảng trống kỹ năng <sup><a href="https://engineering.oneutilitybill.co/how-we-started-threat-modelling-as-a-startup-9e4357a8946b" target="_blank">[6]</a></sup>. Ý tưởng đến từ một buổi nói chuyện tại OWASP Newcastle vào tháng 5/2023 mà ông và hai developer cùng dự <sup><a href="https://engineering.oneutilitybill.co/how-we-started-threat-modelling-as-a-startup-9e4357a8946b" target="_blank">[6]</a></sup>.</p>
+    <p>Ông xin được sự ủng hộ bằng cách gắn việc này vào mục tiêu "shift left" đã có sẵn trong chương trình DevOps của đội, nhờ hai senior developer vốn quan tâm bảo mật, rồi chỉnh kế hoạch cùng trưởng bộ phận phát triển <sup><a href="https://engineering.oneutilitybill.co/how-we-started-threat-modelling-as-a-startup-9e4357a8946b" target="_blank">[6]</a></sup>. Đáng chú ý là bài không đặt nó như một dự án bảo mật mới. Nó chỉ là vài ô thêm vào quy trình mà đội đã làm.</p>
+
+    <h3 class="sub">Ba điểm chèn vào quy trình</h3>
+    <table class="tbl">
+      <tr><th>Điểm</th><th>Làm gì</th><th>Ai làm</th></tr>
+      <tr><td>1. Tài liệu đề xuất (pitch doc)</td><td>Thêm mục bắt buộc "Security Concerns and Threats" cho công việc cần từ hai developer trở lên và hơn vài tuần; tập trung mối đe dọa tác động lớn, khả năng cao, ở mức kiến trúc <sup><a href="https://engineering.oneutilitybill.co/how-we-started-threat-modelling-as-a-startup-9e4357a8946b" target="_blank">[6]</a></sup></td><td>Người viết đề xuất</td></tr>
+      <tr><td>2. Buổi threat modeling</td><td>Thảo luận mối đe dọa ở kick-off, rồi một buổi riêng sau khi chốt thiết kế nhưng trước khi viết code; ghi theo mẫu: mối đe dọa chính, rủi ro mở rộng, cách giảm thiểu <sup><a href="https://engineering.oneutilitybill.co/how-we-started-threat-modelling-as-a-startup-9e4357a8946b" target="_blank">[6]</a></sup></td><td>Đội build, cộng DevOps hoặc UI/UX nếu liên quan</td></tr>
+      <tr><td>3. Mẫu merge request</td><td>Thêm mục bảo mật vào mẫu của GitLab cho mọi thay đổi code <sup><a href="https://engineering.oneutilitybill.co/how-we-started-threat-modelling-as-a-startup-9e4357a8946b" target="_blank">[6]</a></sup></td><td>Tác giả MR</td></tr>
+    </table>
+    <p>Buổi thảo luận dùng bốn câu hỏi: đang làm gì, có thể sai ở đâu, sẽ làm gì với nó, và đã làm đủ tốt chưa <sup><a href="https://engineering.oneutilitybill.co/how-we-started-threat-modelling-as-a-startup-9e4357a8946b" target="_blank">[6]</a></sup>. Tác giả không gắn vào STRIDE hay sơ đồ luồng dữ liệu cụ thể, và nhấn mạnh "không có quy trình sao chép nguyên được" <sup><a href="https://engineering.oneutilitybill.co/how-we-started-threat-modelling-as-a-startup-9e4357a8946b" target="_blank">[6]</a></sup>. Đầu ra là ticket hoặc ghi chú vào ticket có sẵn. Đội còn có một trang Notion với hai hướng dẫn, một về việc cần nghĩ tới và một về các mối đe dọa phổ biến, để làm gợi ý và để soi xem có sót gì không <sup><a href="https://engineering.oneutilitybill.co/how-we-started-threat-modelling-as-a-startup-9e4357a8946b" target="_blank">[6]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế:</b> chỗ đáng học là <em>thời điểm</em>. Bài nói rõ: họp quá sớm thì developer chưa đủ chi tiết để nêu mối đe dọa cụ thể, họp quá muộn thì sửa là làm lại <sup><a href="https://engineering.oneutilitybill.co/how-we-started-threat-modelling-as-a-startup-9e4357a8946b" target="_blank">[6]</a></sup>. Vì thế buổi riêng đặt giữa hai mốc: thiết kế đã chốt, code chưa viết. Ba điểm chèn còn bổ trợ nhau: mục trong pitch doc buộc người viết nghĩ trước, buổi họp mở rộng bằng nhiều đầu óc, mẫu MR kéo suy nghĩ ấy xuống từng thay đổi nhỏ. Đây là diễn giải biên tập, nguồn chỉ mô tả các bước.</div>
+    <div class="mech"><b>Cơ chế:</b> vì sao nên làm cho cả đội thay vì giao cho một người bảo mật? Bài nêu hai lợi ích: bảo mật không còn phụ thuộc một người, và developer có thể tự dẫn buổi, thậm chí xin họp ngoài lịch chuẩn <sup><a href="https://engineering.oneutilitybill.co/how-we-started-threat-modelling-as-a-startup-9e4357a8946b" target="_blank">[6]</a></sup>. Với đội nhiều người mới, nghĩ về "điều gì có thể sai" cũng là cách dạy bảo mật rẻ nhất. Vế "rẻ nhất" là nhận định biên tập, bài không so sánh chi phí.</div>
+
+    <h3 class="sub">Cái nguồn không chứng minh được</h3>
+    <p>Bài thẳng thắn về giới hạn. Tác giả không có số đo định lượng. Sau khoảng ba tháng, họ thấy lỗi bảo mật được phát hiện và xử lý sớm hơn, chủ yếu trong lúc threat modeling và review merge request. Review MR chậm đi chút ở vài thay đổi, nhưng đội nâng được tiêu chuẩn. Đội bắt đầu tự dẫn buổi, đưa mối đe dọa vào ước lượng và ticket nên bảo mật hiện rõ hơn <sup><a href="https://engineering.oneutilitybill.co/how-we-started-threat-modelling-as-a-startup-9e4357a8946b" target="_blank">[6]</a></sup>. Các rủi ro tác giả tự nêu: làm theo quy trình một cách mù quáng, danh sách mối đe dọa dài đến mức choáng ngợp nếu không xếp ưu tiên, họp sai thời điểm, và dev coi nó là việc bắt buộc tẻ nhạt <sup><a href="https://engineering.oneutilitybill.co/how-we-started-threat-modelling-as-a-startup-9e4357a8946b" target="_blank">[6]</a></sup>. Bước tiếp theo họ dự định: để developer dẫn buổi, mẫu ghi chú, cách xếp ưu tiên mối đe dọa, mẫu issue gợi ý bảo mật, và threat model hồi tố cho hệ thống đang chạy <sup><a href="https://engineering.oneutilitybill.co/how-we-started-threat-modelling-as-a-startup-9e4357a8946b" target="_blank">[6]</a></sup>.</p>
+    <div class="editnote">Đây là một nguồn, ở một công ty, từ 2024, tự thuật. Bản tin không tìm được số liệu nào chứng minh hiệu quả. Hãy đọc như một công thức khởi đầu có thể thử, không phải bằng chứng rằng nó hiệu quả.</div>
+
+    <h3 class="sub">Ánh xạ sang đội của bạn</h3>
+    <table class="tbl">
+      <tr><th>Chỗ trong quy trình</th><th>Cách áp dụng</th><th>Ví dụ trong stack của bạn</th></tr>
+      <tr><td>Đề xuất thiết kế</td><td>Thêm một mục "điều gì có thể sai" cho thay đổi lớn</td><td>Tách một module khỏi monolith: service mới gọi gì, dữ liệu tenant đi qua đâu, ai được đọc</td></tr>
+      <tr><td>Buổi họp sau khi chốt thiết kế</td><td>30-60 phút, đội build tham gia, ghi ba cột: mối đe dọa, rủi ro, cách giảm</td><td>Một API báo cáo mới đọc từ readable secondary, một consumer RabbitMQ mới xử lý dữ liệu theo CompanyID</td></tr>
+      <tr><td>Mẫu pull request</td><td>Vài câu hỏi cố định về dữ liệu, quyền, input</td><td>Truy vấn có lọc CompanyID chưa; log có lộ dữ liệu khách không</td></tr>
+    </table>
+    <div class="editnote">Cột cuối là ví dụ của bản tin, không có trong bài gốc. Thời lượng 30-60 phút cũng là gợi ý biên tập vì nguồn không nêu thời gian mỗi buổi.</div>
+
+    <h3 class="sub">Rút ra theo quy mô</h3>
+    <div class="scale">
+      <div class="col small"><h4>Đội nhỏ, &lt;10 người</h4><ul>
+        <li>Chỉ làm điểm 1 và 3: một mục trong mẫu đề xuất và vài câu hỏi trong mẫu PR. Tốn gần như không có thời gian <sup><a href="https://engineering.oneutilitybill.co/how-we-started-threat-modelling-as-a-startup-9e4357a8946b" target="_blank">[6]</a></sup>.</li>
+        <li>Chỉ họp riêng cho thay đổi lớn, sau khi chốt thiết kế.</li>
+        <li>Dùng bốn câu hỏi, đừng mua công cụ trước <sup><a href="https://engineering.oneutilitybill.co/how-we-started-threat-modelling-as-a-startup-9e4357a8946b" target="_blank">[6]</a></sup>.</li>
+      </ul></div>
+      <div class="col"><h4>Đội đã có production</h4><ul>
+        <li>Thêm buổi riêng cho thay đổi chạm dữ liệu khách hoặc ranh giới tenant.</li>
+        <li>Xoay vòng người dẫn buổi để bảo mật không dồn vào một người <sup><a href="https://engineering.oneutilitybill.co/how-we-started-threat-modelling-as-a-startup-9e4357a8946b" target="_blank">[6]</a></sup>.</li>
+        <li>Thêm cách xếp ưu tiên mối đe dọa ngay từ đầu, chính đội nguồn mới coi đó là việc cần bổ sung <sup><a href="https://engineering.oneutilitybill.co/how-we-started-threat-modelling-as-a-startup-9e4357a8946b" target="_blank">[6]</a></sup>.</li>
+        <li>Đo thủ công vài thứ nguồn không đo: số lỗi bảo mật tìm thấy trước khi viết code so với trong review.</li>
+      </ul></div>
+    </div>
+
+    <div class="takeaway">💡 <b>Rút ra cho bạn:</b> bắt đầu bằng một ô trong mẫu có sẵn, không bằng một chương trình mới. Thứ nên thử tuần này là thêm mục "điều gì có thể sai" vào mẫu đề xuất thiết kế.</div>
+
+    <div class="doslist">
+      <div>✅ Thêm mục mối đe dọa vào mẫu đề xuất và mẫu PR.</div>
+      <div>✅ Họp sau khi chốt thiết kế, trước khi viết code.</div>
+      <div>✅ Biến kết quả thành ticket có chủ.</div>
+      <div>❌ Không bắt đầu bằng danh sách mối đe dọa dài không xếp hạng.</div>
+      <div>❌ Không để một người bảo mật duy nhất dẫn mọi buổi.</div>
+    </div>
+
+    <div class="refs"><b>Nguồn tham khảo</b><br>
+      [6] <a href="https://engineering.oneutilitybill.co/how-we-started-threat-modelling-as-a-startup-9e4357a8946b" target="_blank">Joe Alamo-Keilty — How we started threat modelling as a startup, One Utility Bill Engineering, 01/02/2024</a></div>
+  </article>
+
+  <article class="card" id="goc-nhin">
+    <span class="tag view">Góc nhìn</span>
+    <h2 class="head">Trả giá sớm hay trả giá muộn</h2>
+    <p>Hai bài khác hẳn nhau, nhưng cùng hỏi một câu: chi phí sẽ rơi ở đâu. Lock escalation là SQL Server đổi bộ nhớ lấy tốc độ. Nó gộp hàng nghìn khóa nhỏ thành một khóa to để đỡ tốn bộ nhớ, và người trả giá là mọi session đứng sau khóa đó, vào lúc không ai chuẩn bị. LOCK_ESCALATION = AUTO dời giá đó sang chỗ khác: ít chặn hơn nhưng thêm nguy cơ deadlock. Threat modeling cũng là chọn thời điểm trả giá: một buổi họp trước khi viết code, thay vì một lần làm lại sau khi ra mắt.</p>
+    <p>Ở cả hai bài, chỗ dễ sai là coi cái giá biến mất khi ta không nhìn. Tắt escalation không xóa chi phí, nó đẩy sang bộ nhớ khóa và lỗi 1204. Bỏ họp thiết kế không xóa chi phí bảo mật, nó dồn vào review hoặc sự cố. Cả hai bài đều không có số đo trước và sau, nên đừng coi đây là bằng chứng hiệu quả; đây là hai mô hình để bạn tự đặt câu hỏi.</p>
+    <div class="editnote">Đoạn Góc nhìn là diễn giải của bản tin, không trích từ các nguồn trên.</div>
+    <h3 class="sub">Ba việc làm tuần này</h3>
+    <div class="doslist">
+      <div>1. Dựng một phiên Extended Events bắt lock_escalation trên instance chính (hoặc bản sao), để chạy qua một đêm có job lưu trữ, rồi xem có sự kiện nào không.</div>
+      <div>2. Rà các job xóa hoặc cập nhật hàng loạt lớn nhất: ghi lại kích thước lô, nơi commit và index phục vụ điều kiện lọc.</div>
+      <div>3. Thêm một mục "điều gì có thể sai" vào mẫu đề xuất thiết kế và vài câu hỏi bảo mật vào mẫu PR, thử với thay đổi lớn kế tiếp.</div>
+    </div>
+  </article>
+
+  <div class="foot">Bản tin sáng · tổng hợp từ nguồn công khai đã xác minh</div>
+</div>
+</body>
+</html>
