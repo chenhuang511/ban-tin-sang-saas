@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Partition Kafka bị bỏ rơi và page split trên SQL Server &middot; 11/10/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+@media (max-width:560px){h1.title{font-size:25px}.card{padding:20px 18px}.tbl{display:block;overflow-x:auto}}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 11/10/2026</div>
+    <h1 class="title">Kafka đứng một nửa partition suốt 16 tiếng mà dashboard vẫn xanh; và 44.868 lần page split làm một lần chèn tốn gấp 2,5 lần I/O</h1>
+    <div class="meta">11/10/2026 · Đọc khoảng 13 phút · Nguồn chính: Socure — status page và postmortem (25–26/06/2026, đăng 09/07/2026); LinkedIn Engineering — Burrow (12/06/2015); Spring for Apache Kafka — tài liệu; Mike Byrd — SQLServerCentral (03/03/2020)</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: số này có <b>hai bài</b>, cả hai thuộc mảng vận hành hệ đang chạy. Lý do: hai số gần nhất đã dày mảng này, nhưng lần tìm kiếm hôm nay không ra nguồn tốt cho mảng AI-SaaS hay quy trình an toàn (kết quả toàn bài quảng cáo hoặc bài cũ), nên bản tin chọn hai nguồn kiểm chứng được thay vì lấp chỗ. Bài 1 là báo cáo sự cố cấp một của Socure, <b>có mốc giờ nhưng không có số partition hay số event cụ thể</b>, và Socure ghi rõ nguyên nhân gốc của lỗi rebalance <b>vẫn đang điều tra</b>. Bài 2 là thí nghiệm trên một laptop từ năm 2020, <b>tác giả tự nói số đo chỉ cho thấy xu hướng</b>, và bài có một chỗ số CPU không khớp nhau (tôi nêu rõ ở dưới). Các khối <b style="color:#1e40af">Cơ chế</b>, bảng ánh xạ sang stack của bạn và phần "Rút ra theo quy mô" là phân tích của bản tin, <em>không trích nguyên văn từ nguồn</em>. Kafka rebalance (eager và cooperative) đã giải thích ở số 05/10, hôm nay chỉ nhắc gọn. Không chèn code hay câu lệnh.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1"><strong>Bài 1</strong> — Socure: scale-up xong, một nửa webhook trễ gần 16 giờ<br><span style="font-size:13.5px;color:#6b7280">· lag tổng hợp nói dối thế nào · vì sao không ai bị đánh thức · ba lớp phòng thủ Socure thêm · ánh xạ sang Spring Kafka, RabbitMQ và bảng queue trong DB</span></a></li>
+      <li><a href="#bai2"><strong>Bài 2</strong> — Page split trên SQL Server: số đo trước và sau<br><span style="font-size:13.5px;color:#6b7280">· chèn cuối index và chèn giữa index · 3 so với 44.868 lần split · 5,8 I/O mỗi lần · fillfactor chưa được thử · ánh xạ sang khóa CompanyID và AG</span></a></li>
+      <li><a href="#goc-nhin"><strong>Góc nhìn</strong> — Đo ở đơn vị nhỏ nhất, và ba việc cho tuần này</a></li>
+    </ol>
+  </nav>
+
+  <article class="card" id="bai1">
+    <span class="tag legacy">Tối ưu hệ đang chạy · Kafka</span>
+    <h2 class="head">Thêm worker để chịu tải, rồi một nửa partition không còn ai đọc, còn biểu đồ lag vẫn nằm dưới ngưỡng</h2>
+    <p class="src">Nguồn: Socure — <a href="https://status.socure.com/incidents/167ly5ws2xsk" target="_blank">"RETROACTIVE: [Sev2] RiskOS Delayed Webhook Deliveries"</a>, status page, sự cố 25–26/06/2026, postmortem đăng 09/07/2026 [1]; LinkedIn Data Infrastructure Streaming SRE — <a href="https://engineering.linkedin.com/apache-kafka/burrow-kafka-consumer-monitoring-reinvented" target="_blank">"Burrow: Kafka Consumer Monitoring Reinvented"</a>, 12/06/2015 [2]; Spring for Apache Kafka — <a href="https://docs.spring.io/spring-kafka/reference/kafka/receiving-messages/rebalance-listeners.html" target="_blank">tài liệu rebalance listeners</a> [3].</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">~½</div><div class="lab">số webhook event bị trễ; không event nào mất <sup><a href="https://status.socure.com/incidents/167ly5ws2xsk" target="_blank">[1]</a></sup></div></div>
+      <div class="box"><div class="num">14:06 → 06:03</div><div class="lab">giờ ET: từ lúc scale-up tới lúc hết trễ (khoảng 16 giờ, bản tin tính từ hai mốc giờ) <sup><a href="https://status.socure.com/incidents/167ly5ws2xsk" target="_blank">[1]</a></sup></div></div>
+      <div class="box"><div class="num">~20 giờ</div><div class="lab">từ lúc scale-up tới lúc on-call đối chiếu số liệu với báo cáo của khách (10:00 ngày hôm sau); bản tin tính từ các mốc giờ <sup><a href="https://status.socure.com/incidents/167ly5ws2xsk" target="_blank">[1]</a></sup></div></div>
+      <div class="box"><div class="num">0</div><div class="lab">lag trên các partition đang được đọc, nên chỉ số tổng hợp vẫn dưới ngưỡng <sup><a href="https://status.socure.com/incidents/167ly5ws2xsk" target="_blank">[1]</a></sup></div></div>
+    </div>
+
+    <h3 class="sub">Chuyện đã xảy ra, theo mốc giờ</h3>
+    <p>Socure chạy một pipeline webhook: sự kiện đi qua Kafka, một consumer group đọc rồi gọi endpoint của khách. Lúc 14:06 giờ miền Đông Mỹ ngày 25/06, đội vận hành scale-up hạ tầng. Ngay sau đó, một phần event bắt đầu bị giao trễ. Khoảng một nửa số webhook bị ảnh hưởng, nửa còn lại chạy bình thường vì nằm trên các partition vẫn có người đọc <sup><a href="https://status.socure.com/incidents/167ly5ws2xsk" target="_blank">[1]</a></sup>.</p>
+    <p>Báo cáo nói nguyên nhân là consumer group không rebalance đúng sau scale-up. Một nhóm partition bị bỏ lại gần như không có ai nhận. Event vẫn vào đó, nhưng không ai lấy ra <sup><a href="https://status.socure.com/incidents/167ly5ws2xsk" target="_blank">[1]</a></sup>. Tới 05:06 sáng hôm sau, thành viên trong group tự ổn định lại, các partition bị bỏ rơi được đọc, và backlog được xử lý hết trong khoảng một tiếng, tới 06:03 thì độ trễ về bình thường <sup><a href="https://status.socure.com/incidents/167ly5ws2xsk" target="_blank">[1]</a></sup>. Không ai sửa gì. Hệ tự lành.</p>
+    <p>Phần đáng đọc nằm ở chuyện phát hiện. Đến 10:00 ngày 26/06, các kỹ sư on-call mới đối chiếu telemetry với báo cáo từ khách. Sự cố chỉ được khai báo chính thức lúc 11:57, tức là sau khi hệ đã tự hồi phục, nên Socure phải gọi đây là sự cố "truy hồi" (retroactive) <sup><a href="https://status.socure.com/incidents/167ly5ws2xsk" target="_blank">[1]</a></sup>. Postmortem đăng 09/07. Socure cũng ghi thẳng rằng họ <em>vẫn đang xác định</em> vì sao rebalance lỗi <sup><a href="https://status.socure.com/incidents/167ly5ws2xsk" target="_blank">[1]</a></sup>. Tức là bài học ở đây không phải "nguyên nhân là X, sửa X", mà là "chúng tôi không nhìn thấy nó".</p>
+
+    <div class="mech"><b>Cơ chế:</b> vì sao chỉ số lag tổng hợp vẫn xanh? Báo cáo giải thích: các partition đang được đọc có lag bằng 0, và chỉ số theo dõi ở mức topic nằm trong ngưỡng, nên lag đang tăng ở những partition bị bỏ rơi bị che đi <sup><a href="https://status.socure.com/incidents/167ly5ws2xsk" target="_blank">[1]</a></sup>. Nguồn không cho biết chỉ số đó là tổng hay trung bình. Với một ví dụ minh họa của bản tin (không phải số của Socure): nếu 12 partition mà 6 partition lag 0 và 6 partition đang tăng dần, trung bình trên 12 partition chỉ bằng một nửa con số thật của nhóm bị kẹt. Còn nếu ngưỡng đặt theo lượng tổng của cả topic, nó phải đạt cỡ rất lớn mới kêu, trong khi nhóm kẹt đã trễ hàng giờ.</div>
+    <div class="mech"><b>Cơ chế:</b> điều này không mới. Năm 2015, đội SRE của LinkedIn đã viết trong bài giới thiệu Burrow rằng gộp số liệu theo partition "có thể che vấn đề ở các topic chậm" <sup><a href="https://engineering.linkedin.com/apache-kafka/burrow-kafka-consumer-monitoring-reinvented" target="_blank">[2]</a></sup>. Họ cũng chỉ ra ba lỗi của ngưỡng cố định: traffic tăng đột ngột gây báo động giả dù consumer vẫn theo kịp; lag có dạng răng cưa vì offset chỉ commit theo chu kỳ, nên ngưỡng phải đặt cao hơn đỉnh răng cưa và vì thế phát hiện chậm; và một con số lag không phân biệt được consumer chết với consumer đang đuổi kịp <sup><a href="https://engineering.linkedin.com/apache-kafka/burrow-kafka-consumer-monitoring-reinvented" target="_blank">[2]</a></sup>. Burrow chọn cách khác: xét từng partition trên một cửa sổ trượt các lần commit gần nhất (LinkedIn dùng 10 lần, khoảng 10 phút), hỏi consumer có commit không, offset có tăng không, lag có tăng không, rồi gán OK, WARNING hoặc ERROR và gộp lên mức consumer <sup><a href="https://engineering.linkedin.com/apache-kafka/burrow-kafka-consumer-monitoring-reinvented" target="_blank">[2]</a></sup>. Nói gọn: đừng hỏi "lag bao nhiêu", hãy hỏi "partition này có đang tiến lên không".</div>
+
+    <h3 class="sub">Ba lớp phòng thủ Socure thêm sau sự cố</h3>
+    <p>Socure liệt kê ba việc đã làm xong. Thứ nhất, một cảnh báo so sánh tốc độ sinh message với tốc độ tiêu thụ, nhằm bắt được kẹt ở mức partition mà lag tổng hợp bỏ sót. Thứ hai, listener ở tầng ứng dụng theo dõi thay đổi trạng thái partition trong Kafka, để phát hiện gián đoạn và khởi động phục hồi tự động. Thứ ba, một bước kiểm tra theo dõi việc gán partition <sup><a href="https://status.socure.com/incidents/167ly5ws2xsk" target="_blank">[1]</a></sup>. Về phần việc còn mở, họ hứa siết runbook scale-up để người vận hành phải xác nhận rebalance xong và partition được gán khỏe rồi mới được coi là scale-up hoàn tất (mục tiêu giữa quý 3/2026), và tăng quan sát để dị thường rebalance bị gắn cờ ngay khi xảy ra <sup><a href="https://status.socure.com/incidents/167ly5ws2xsk" target="_blank">[1]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế:</b> ba lớp này đo ba thứ khác nhau. Cảnh báo tốc độ vào/ra đo <em>hậu quả</em> (backlog đang phình). Listener trạng thái partition đo <em>nguyên nhân gần</em> (ai đang giữ partition nào). Runbook đo <em>hành động của con người</em> (đã nhìn xác nhận chưa). Một hệ chỉ có tầng thứ nhất sẽ báo sau khi khách đã chịu. Một hệ chỉ có tầng thứ hai sẽ bỏ sót lỗi mà callback không bắn ra. Socure tự thêm cả ba vì mỗi tầng một mình đều có kẽ hở; đây là đọc suy luận của bản tin, nguồn không nói điều này.</div>
+
+    <h3 class="sub">Ánh xạ sang stack của bạn</h3>
+    <p>Spring Kafka cho bạn đúng chỗ để gắn tầng thứ hai. ContainerProperties có thuộc tính consumerRebalanceListener nhận một ConsumerRebalanceListener của Kafka client. Nếu bạn không đặt gì, container dùng một listener chỉ ghi log mức INFO <sup><a href="https://docs.spring.io/spring-kafka/reference/kafka/receiving-messages/rebalance-listeners.html" target="_blank">[3]</a></sup>. Interface ConsumerAwareRebalanceListener thêm các callback quanh việc thu hồi, gán và mất partition; riêng onPartitionsLost có từ phiên bản 2.4 và không nên gọi lại onPartitionsRevoked từ bên trong nó <sup><a href="https://docs.spring.io/spring-kafka/reference/kafka/receiving-messages/rebalance-listeners.html" target="_blank">[3]</a></sup>. Một lưu ý nếu sau này bạn dùng giao thức mới của Kafka 4.0 (KIP-848): onPartitionsAssigned có thể được gọi nhiều lần với từng nhóm partition nhỏ, nên đừng giả định mỗi lần rebalance chỉ có một lần gán <sup><a href="https://docs.spring.io/spring-kafka/reference/kafka/receiving-messages/rebalance-listeners.html" target="_blank">[3]</a></sup>.</p>
+    <table class="tbl">
+      <tr><th>Thứ Socure thiếu</th><th>Chỗ gắn trong stack của bạn (biên tập)</th></tr>
+      <tr><td>Nhìn thấy partition nào không ai giữ</td><td>Kafka/Spring: log số partition được gán cho từng instance qua callback gán và thu hồi, rồi cộng tổng số partition trên mọi instance và so với số partition của topic; lệch là báo.</td></tr>
+      <tr><td>Backlog tăng ở một nhóm nhỏ</td><td>Kafka: theo dõi lag lớn nhất theo partition thay vì trung bình. RabbitMQ: theo dõi từng queue (số message ready, unacked, số consumer đang gắn) và coi "queue có message mà số consumer bằng 0" là sự cố riêng.</td></tr>
+      <tr><td>Kẹt cục bộ trong bảng queue/state ở DB</td><td>Đo tuổi của dòng chưa xử lý cũ nhất, tách theo CompanyID hoặc shard; một tenant bị kẹt sẽ không lộ ra trong tổng số dòng chờ.</td></tr>
+      <tr><td>Scale-up "xong" khi chưa xác nhận</td><td>Thêm bước vào runbook: sau mỗi lần đổi số pod consumer, kiểm tra đủ partition đã được gán và lag từng partition đang giảm, rồi mới đóng thao tác.</td></tr>
+    </table>
+    <div class="editnote">Bảng trên là ánh xạ của bản tin, không phải khuyến nghị của Socure, Burrow hay Spring. Các chỉ số RabbitMQ nêu theo hiểu biết chung về management UI, chưa được kiểm trong lần chạy này.</div>
+
+    <h3 class="sub">Rút ra theo quy mô</h3>
+    <div class="scale">
+      <div class="col small"><h4>Đội nhỏ, &lt;10 người</h4><ul>
+        <li>Thay cảnh báo "lag tổng quá X" bằng hai cảnh báo: lag lớn nhất theo partition, và "có partition mà offset không tiến trong N phút" <sup><a href="https://engineering.linkedin.com/apache-kafka/burrow-kafka-consumer-monitoring-reinvented" target="_blank">[2]</a></sup>.</li>
+        <li>Bật log ở callback gán và thu hồi partition. Chi phí gần như bằng không và cho bạn dòng thời gian khi có sự cố <sup><a href="https://docs.spring.io/spring-kafka/reference/kafka/receiving-messages/rebalance-listeners.html" target="_blank">[3]</a></sup>.</li>
+        <li>Sau mỗi lần đổi số instance consumer, nhìn bằng mắt một lần vào danh sách partition đã gán.</li>
+      </ul></div>
+      <div class="col"><h4>Đội đã có production</h4><ul>
+        <li>Thêm cảnh báo chênh lệch tốc độ vào và ra theo topic, như Socure đã làm <sup><a href="https://status.socure.com/incidents/167ly5ws2xsk" target="_blank">[1]</a></sup>.</li>
+        <li>Ghi "scale-up chưa xong cho tới khi rebalance xác nhận xong" vào runbook và biến nó thành bước có người ký <sup><a href="https://status.socure.com/incidents/167ly5ws2xsk" target="_blank">[1]</a></sup>.</li>
+        <li>Chạy một buổi diễn tập trên staging: scale consumer lên xuống và xem dashboard hiện tại có phát hiện nếu một nửa partition bị bỏ rơi không. Nếu không, bạn đang ở đúng vị trí của Socure trước 25/06.</li>
+        <li>Soát các consumer RabbitMQ và job đọc bảng queue theo cùng câu hỏi: cái gì báo cho tôi khi <em>một phần</em> công việc đứng yên?</li>
+      </ul></div>
+    </div>
+    <div class="takeaway">💡 <b>Rút ra cho bạn:</b> dashboard xanh chỉ có nghĩa là các con số bạn đang vẽ nằm trong ngưỡng, không có nghĩa là mọi partition đang chạy. Socure mất khoảng 20 giờ để nhận ra, và hệ tự lành trước khi họ kịp can thiệp. Hãy đo "có tiến lên không" ở đơn vị nhỏ nhất (partition, queue, tenant), vì chỉ ở đó một lỗi cục bộ mới lộ ra.</div>
+    <div class="refs"><b>Nguồn tham khảo</b><br>
+      [1] <a href="https://status.socure.com/incidents/167ly5ws2xsk" target="_blank">Socure — RETROACTIVE: [Sev2] RiskOS Delayed Webhook Deliveries (status page; sự cố 25–26/06/2026; postmortem 09/07/2026)</a><br>
+      [2] <a href="https://engineering.linkedin.com/apache-kafka/burrow-kafka-consumer-monitoring-reinvented" target="_blank">LinkedIn Engineering — Burrow: Kafka Consumer Monitoring Reinvented (12/06/2015)</a><br>
+      [3] <a href="https://docs.spring.io/spring-kafka/reference/kafka/receiving-messages/rebalance-listeners.html" target="_blank">Spring for Apache Kafka — Rebalancing Listeners</a></div>
+  </article>
+
+  <article class="card" id="bai2">
+    <span class="tag legacy">Tối ưu hệ đang chạy · SQL Server</span>
+    <h2 class="head">Chèn đúng một dòng vào mỗi page đã đầy làm 44.868 lần split và I/O logic tăng 2,5 lần</h2>
+    <p class="src">Nguồn: Mike Byrd — <a href="https://sqlservercentral.com/articles/how-bad-are-bad-page-splits" target="_blank">"How Bad are Bad Page Splits?"</a>, SQLServerCentral, đăng lần đầu 25/11/2019, xuất bản lại 03/03/2020 [4]. Bài cũ, thí nghiệm trên SQL Server 2019 (tác giả nói gần như không khác SQL Server 2014); số đo chỉ là xu hướng.</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">3 so với 44.868</div><div class="lab">số lần "bad page split" khi chèn vào cuối index so với chèn vào giữa các page đầy <sup><a href="https://sqlservercentral.com/articles/how-bad-are-bad-page-splits" target="_blank">[4]</a></sup></div></div>
+      <div class="box"><div class="num">176.764 → 437.417</div><div class="lab">logical read của hai bài test (gấp khoảng 2,5 lần) <sup><a href="https://sqlservercentral.com/articles/how-bad-are-bad-page-splits" target="_blank">[4]</a></sup></div></div>
+      <div class="box"><div class="num">703 → 2.453 ms</div><div class="lab">CPU của hai bài test (gấp khoảng 3,5 lần) <sup><a href="https://sqlservercentral.com/articles/how-bad-are-bad-page-splits" target="_blank">[4]</a></sup></div></div>
+      <div class="box"><div class="num">52.984 → 97.851</div><div class="lab">số page sau khi chèn: tăng khoảng 85%; rebuild lại còn 53.565 <sup><a href="https://sqlservercentral.com/articles/how-bad-are-bad-page-splits" target="_blank">[4]</a></sup></div></div>
+    </div>
+
+    <h3 class="sub">Thí nghiệm</h3>
+    <p>Byrd dùng bản AdventureWorks2017 được phóng to: bảng chi tiết đơn hàng từ 121.317 lên 4.852.680 dòng, bảng header lên 1.290.065 dòng. Anh tách một bản copy không có nonclustered index và chạy hai bài test trên một laptop 4 nhân, 64 GB RAM <sup><a href="https://sqlservercentral.com/articles/how-bad-are-bad-page-splits" target="_blank">[4]</a></sup>. Bài 1: nối thêm 52.747 dòng vào cuối clustered index. Bài 2: chèn một dòng vào <em>mỗi</em> data page của bảng đang để fill factor 100%, trung bình mỗi page có khoảng 92 dòng <sup><a href="https://sqlservercentral.com/articles/how-bad-are-bad-page-splits" target="_blank">[4]</a></sup>.</p>
+    <p>Kết quả hai bài lệch hẳn. Bài 1 có 3 lần split xấu, số page đi từ 52.984 lên 53.591, tốn 176.764 logical read và 703 ms CPU. Bài 2 có 44.868 lần split xấu, số page đi từ 52.984 lên 97.851, tốn 437.417 logical read và 2.453 ms CPU <sup><a href="https://sqlservercentral.com/articles/how-bad-are-bad-page-splits" target="_blank">[4]</a></sup>. Sau khi rebuild bảng ở bài 2, số page quay về 53.565, gần bằng bài 1 <sup><a href="https://sqlservercentral.com/articles/how-bad-are-bad-page-splits" target="_blank">[4]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế:</b> split "tốt" là khi page cuối bên phải đầy, engine cấp page kế tiếp trong cùng extent và thứ tự key được giữ. Split "xấu" là khi dòng mới phải nằm giữa index nhưng page đã đầy: engine cấp page từ extent khác, chuyển khoảng một nửa số dòng của page cũ sang page mới cùng dòng mới, rồi chỉnh lại các con trỏ b-tree. Toàn bộ thao tác này được ghi log, và page mới nằm sai thứ tự vật lý nên range seek về sau tốn I/O hơn, đồng thời để lại những page đầy một nửa nên index phình ra <sup><a href="https://sqlservercentral.com/articles/how-bad-are-bad-page-splits" target="_blank">[4]</a></sup>. Con số 97.851 trừ 52.984 là 44.867, chỉ lệch 1 so với 44.868 lần split: gần đúng mỗi lần split xấu thêm đúng một page (suy luận của bản tin từ hai số trong bảng).</div>
+    <div class="mech"><b>Cơ chế:</b> tác giả tính chi phí mỗi lần split xấu là 0,035 ms CPU và 5,8 logical I/O thêm <sup><a href="https://sqlservercentral.com/articles/how-bad-are-bad-page-splits" target="_blank">[4]</a></sup>. Số I/O khớp: (437.417 − 176.764) chia 44.868 ra khoảng 5,8. Số CPU thì không: (2.453 − 703) chia 44.868 ra khoảng 0,039 ms, và bài còn nhắc một con số 25,6 ms không khớp với bảng <sup><a href="https://sqlservercentral.com/articles/how-bad-are-bad-page-splits" target="_blank">[4]</a></sup>. Đây là lý do bản tin chỉ dùng tỉ lệ (gấp 2,5 và 3,5 lần), không dùng đơn giá của tác giả. Cũng cần nhớ: tác giả viết rõ độ lớn "không dùng cho mọi nơi", chỉ đo clustered index, và nonclustered index nhiều khả năng làm mỗi lần split đắt hơn <sup><a href="https://sqlservercentral.com/articles/how-bad-are-bad-page-splits" target="_blank">[4]</a></sup>.</div>
+
+    <h3 class="sub">Điều bài này không trả lời</h3>
+    <p>Mọi bài test dùng fill factor 100%. Tác giả nhắc rằng fill factor chỉ chừa chỗ trống sau khi rebuild, không test mức thấp hơn, và nói thẳng câu hỏi "ít split hơn" đổi lấy "index to hơn" sẽ không được trả lời trong bài <sup><a href="https://sqlservercentral.com/articles/how-bad-are-bad-page-splits" target="_blank">[4]</a></sup>. Bài cũng không đo lượng log sinh ra và thời gian chạy <sup><a href="https://sqlservercentral.com/articles/how-bad-are-bad-page-splits" target="_blank">[4]</a></sup>. Nên nếu bạn định hạ fill factor cho bảng của mình, bài này chỉ cho bạn thấy cái giá của split, chưa cho bạn thấy mức fill factor nào là đúng.</p>
+
+    <h3 class="sub">Ánh xạ sang database kế toán multi-tenant của bạn</h3>
+    <table class="tbl">
+      <tr><th>Dấu hiệu</th><th>Vì sao liên quan (biên tập)</th></tr>
+      <tr><td>Clustered key bắt đầu bằng CompanyID, rồi mới tới ngày hoặc số chứng từ</td><td>Mỗi tenant chèn vào "đuôi" của riêng mình, nhưng đuôi đó nằm giữa index của cả bảng. Với tenant đang hoạt động mạnh, page của họ đầy dần và split theo kiểu Bài 2, dù bảng nhìn như chỉ-thêm. Đây là suy luận, bài của Byrd không đo bảng multi-tenant.</td></tr>
+      <tr><td>Khóa là GUID ngẫu nhiên</td><td>Mỗi dòng mới rơi vào một page bất kỳ, gần như luôn là kịch bản chèn giữa. Phần này cũng là suy luận từ cơ chế ở trên.</td></tr>
+      <tr><td>AlwaysOn AG, secondary đọc lại log</td><td>Nguồn nói thao tác split được ghi log <sup><a href="https://sqlservercentral.com/articles/how-bad-are-bad-page-splits" target="_blank">[4]</a></sup>; nhiều log hơn nghĩa là secondary có thêm việc phải redo. Số 02/10 đã nói về redo queue; liên hệ này là của bản tin.</td></tr>
+      <tr><td>Bật đọc ở secondary hoặc RCSI</td><td>Số 02/10 đã nêu việc thêm 14 byte versioning vào dòng bị sửa làm tăng nguy cơ split; hai bài kết hợp thành một lý do để kiểm tra mật độ page.</td></tr>
+    </table>
+    <div class="editnote">Bảng trên là ánh xạ của bản tin. Bản tin không có số đo trên hệ thật của bạn; hãy kiểm tra trước khi hành động.</div>
+
+    <h3 class="sub">Rút ra theo quy mô</h3>
+    <div class="scale">
+      <div class="col small"><h4>Đội nhỏ, &lt;10 người</h4><ul>
+        <li>Với bảng mới, chọn clustered key tăng dần (kiểu số tăng hoặc thời gian) trước khi nghĩ tới fill factor, vì kịch bản "chèn cuối" chỉ có 3 split trong thí nghiệm <sup><a href="https://sqlservercentral.com/articles/how-bad-are-bad-page-splits" target="_blank">[4]</a></sup>.</li>
+        <li>Đừng rebuild định kỳ theo lịch "cho chắc". Rebuild trả lại thứ tự và mật độ <sup><a href="https://sqlservercentral.com/articles/how-bad-are-bad-page-splits" target="_blank">[4]</a></sup> nhưng cũng sinh log và khóa; hãy rebuild khi có số liệu về mật độ page thấp.</li>
+      </ul></div>
+      <div class="col"><h4>Đội đã có production</h4><ul>
+        <li>Lấy mười bảng ghi nhiều nhất, xem mật độ page trung bình và số lần split trong ngày; chỉ chạm tới bảng nào thật sự lệch.</li>
+        <li>Thử hạ fill factor trên <em>một</em> bảng ứng viên ở bản sao, đo ba thứ: số split, kích thước index và lượng log. Bài này chưa đo hai trong ba thứ đó <sup><a href="https://sqlservercentral.com/articles/how-bad-are-bad-page-splits" target="_blank">[4]</a></sup>.</li>
+        <li>Với bảng partition theo thời gian, ưu tiên rebuild theo từng partition thay vì cả bảng, để giới hạn log và thời gian.</li>
+      </ul></div>
+    </div>
+    <div class="takeaway">💡 <b>Rút ra cho bạn:</b> hỏi "dòng mới rơi vào đâu trong index" trước khi hỏi "fill factor bao nhiêu". Chèn cuối thì gần như không split; chèn giữa vào page đầy thì mỗi dòng có thể kéo theo một lần split, thêm khoảng 5,8 logical I/O và một page phình ra. Con số chính xác của bạn sẽ khác thí nghiệm laptop này, nhưng chiều của nó thì không.</div>
+    <div class="refs"><b>Nguồn tham khảo</b><br>
+      [4] <a href="https://sqlservercentral.com/articles/how-bad-are-bad-page-splits" target="_blank">Mike Byrd — How Bad are Bad Page Splits?, SQLServerCentral (25/11/2019, xuất bản lại 03/03/2020)</a></div>
+  </article>
+
+  <article class="card" id="goc-nhin">
+    <span class="tag view">Góc nhìn</span>
+    <h2 class="head">Hai lần trung bình nói dối: lag tổng hợp che partition chết, tổng I/O che page đang split</h2>
+    <p>Hai bài hôm nay cùng một kiểu lỗi đo lường. Ở Socure, chỉ số theo dõi nằm ở mức quá cao nên lag của nhóm partition bị bỏ rơi không bao giờ chạm ngưỡng <sup><a href="https://status.socure.com/incidents/167ly5ws2xsk" target="_blank">[1]</a></sup>. Ở thí nghiệm của Byrd, nếu chỉ nhìn tổng số dòng được chèn, bạn không thấy rằng một kịch bản gây 3 lần split còn kịch bản kia gây 44.868 lần <sup><a href="https://sqlservercentral.com/articles/how-bad-are-bad-page-splits" target="_blank">[4]</a></sup>. Cả hai đều cần một câu hỏi ở mức đơn vị nhỏ hơn: partition nào, page nào, tenant nào. Hai bài đều không đo trên hệ của bạn, nên đây là hai mô hình để bạn tự đặt câu hỏi, không phải bằng chứng hiệu quả.</p>
+    <div class="editnote">Đoạn Góc nhìn là diễn giải của bản tin, không trích từ các nguồn trên.</div>
+    <h3 class="sub">Ba việc làm tuần này</h3>
+    <div class="doslist">
+      <div>1. Mở dashboard Kafka hiện có và hỏi: nếu một nửa partition của topic quan trọng nhất không ai đọc trong ba tiếng, chỉ số nào kêu? Ghi lại câu trả lời, kể cả khi là "không có".</div>
+      <div>2. Thêm log ở callback gán và thu hồi partition của một service Spring Kafka và so tổng partition đã gán với số partition của topic.</div>
+      <div>3. Với một bảng OLTP lớn, lấy mật độ page trung bình và số lần split trong 24 giờ; chỉ khi lệch rõ mới bàn tới fill factor.</div>
+    </div>
+  </article>
+
+  <div class="foot">Bản tin sáng · tổng hợp từ nguồn công khai đã xác minh</div>
+</div>
+</body>
+</html>
