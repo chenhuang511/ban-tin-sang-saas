@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flaky test: Atlassian Flakinator &middot; 12/10/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+@media (max-width:560px){h1.title{font-size:25px}.card{padding:20px 18px}.tbl{display:block;overflow-x:auto}}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 12/10/2026</div>
+    <h1 class="title">Test chập chờn tốn 150.000 giờ công mỗi năm: Atlassian chuyển từ danh sách tay sang một nền tảng phát hiện, cách ly và giao việc cho chủ test</h1>
+    <div class="meta">12/10/2026 · Đọc khoảng 12 phút · Nguồn chính: Atlassian Engineering — Nitish Malik (08/12/2025); đối chiếu Google Testing Blog — John Micco (27/05/2016)</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: số này chỉ có <b>một bài</b> (mảng năng suất làm phần mềm). Hôm qua sổ nội dung đã dặn chuyển khỏi mảng vận hành; lần tìm kiếm hôm nay cho mảng AI-SaaS và mảng bảo mật quy trình chỉ ra bài quảng cáo, bài không có số, hoặc bài trùng OIDC đã dùng ngày 15/09 và 17/09 (Pulumi), nên bản tin chọn đào sâu một nguồn kiểm chứng được thay vì lấp bài thứ hai. Nguồn chính là bài <b>công ty tự kể</b>, có số quy mô nhưng <b>không có số trước/sau</b> và không nói cách chỉnh ngưỡng hay xử lý báo nhầm; bài Google đã gần 10 năm. Các khối <b style="color:#1e40af">Cơ chế</b>, bảng ánh xạ sang Java/Spring và phần "Rút ra theo quy mô" là phân tích của bản tin, <em>không trích nguyên văn từ nguồn</em>. Phép tính 63% là bản tin tự tính. Không chèn code.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1"><strong>Bài 1</strong> — Flakinator của Atlassian và bài học từ Google<br><span style="font-size:13.5px;color:#6b7280">· vì sao hệ thống tay hỏng · hai cách phát hiện · cách ly mà vẫn thu tín hiệu · giao việc theo chủ code · phép nhân khiến 1.000 test "gần như ổn" vẫn làm hỏng 63% lần chạy · ánh xạ sang stack của bạn</span></a></li>
+    </ol>
+  </nav>
+
+  <article class="card" id="bai1">
+    <span class="tag saas">Năng suất đội phần mềm · CI</span>
+    <h2 class="head">Khi 21% lần build hỏng trên nhánh chính không phải do code sai</h2>
+    <p class="src">Nguồn: Atlassian Engineering (Inside Atlassian) — <a href="https://www.atlassian.com/blog/atlassian-engineering/taming-test-flakiness-how-we-built-a-scalable-tool-to-detect-and-manage-flaky-tests" target="_blank">"Taming Test Flakiness: How We Built a Scalable Tool to Detect and Manage Flaky Tests"</a>, Nitish Malik, 08/12/2025 [1]; Google Testing Blog — <a href="https://testing.googleblog.com/2016/05/flaky-tests-at-google-and-how-we.html" target="_blank">"Flaky Tests at Google and How We Mitigate Them"</a>, John Micco, 27/05/2016 [2].</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">~21%</div><div class="lab">số lần build hỏng trên nhánh master của repo Jira Frontend là do test chập chờn; backend Jira khoảng 15% <sup><a href="https://www.atlassian.com/blog/atlassian-engineering/taming-test-flakiness-how-we-built-a-scalable-tool-to-detect-and-manage-flaky-tests" target="_blank">[1]</a></sup></div></div>
+      <div class="box"><div class="num">150.000+ giờ</div><div class="lab">công của developer mỗi năm tốn vào chạy lại, theo bài (ước tính của Atlassian) <sup><a href="https://www.atlassian.com/blog/atlassian-engineering/taming-test-flakiness-how-we-built-a-scalable-tool-to-detect-and-manage-flaky-tests" target="_blank">[1]</a></sup></div></div>
+      <div class="box"><div class="num">350 triệu</div><div class="lab">lượt chạy test mỗi ngày, hơn 3 TB dữ liệu, dùng ở 12+ sản phẩm <sup><a href="https://www.atlassian.com/blog/atlassian-engineering/taming-test-flakiness-how-we-built-a-scalable-tool-to-detect-and-manage-flaky-tests" target="_blank">[1]</a></sup></div></div>
+      <div class="box"><div class="num">22.000 / 7.000</div><div class="lab">build "cứu được" và số test chập chờn đã xác định, tính tới quý gần nhất bài báo cáo <sup><a href="https://www.atlassian.com/blog/atlassian-engineering/taming-test-flakiness-how-we-built-a-scalable-tool-to-detect-and-manage-flaky-tests" target="_blank">[1]</a></sup></div></div>
+    </div>
+
+    <p>Test chập chờn (flaky test) là test lúc xanh lúc đỏ trên cùng một đoạn code. Google định nghĩa gần như vậy: một test "vừa pass vừa fail" với cùng code <sup><a href="https://testing.googleblog.com/2016/05/flaky-tests-at-google-and-how-we.html" target="_blank">[2]</a></sup>. Nghe là chuyện nhỏ. Con số của Atlassian cho thấy nó không nhỏ: trên monorepo của họ, cứ năm lần master hỏng ở frontend Jira thì có hơn một lần là do test chập chờn <sup><a href="https://www.atlassian.com/blog/atlassian-engineering/taming-test-flakiness-how-we-built-a-scalable-tool-to-detect-and-manage-flaky-tests" target="_blank">[1]</a></sup>.</p>
+
+    <h3 class="sub">Vì sao hệ thống bằng tay chết ở quy mô lớn</h3>
+    <p>Trước Flakinator, Atlassian quản lý test chập chờn bằng một hệ thống dựa trên file, sửa tay. Bài liệt kê năm tật: quy trình phức tạp, không tùy biến được, không cho ra thông tin để hành động, là một điểm hỏng duy nhất, và không co giãn được <sup><a href="https://www.atlassian.com/blog/atlassian-engineering/taming-test-flakiness-how-we-built-a-scalable-tool-to-detect-and-manage-flaky-tests" target="_blank">[1]</a></sup>. Bài không nói chi tiết file đó trông thế nào.</p>
+    <div class="mech"><b>Cơ chế.</b> Danh sách tay hỏng vì nó đòi một người nhớ ra test nào chập chờn, rồi nhớ gỡ ra khi test đã sửa. Cả hai việc đều không ai chịu trách nhiệm. Danh sách phình dần, test trong đó thành "rác được phép", và không ai biết test nào đã khỏe lại. Một nền tảng chỉ có giá trị khi nó tự làm được ba việc: phát hiện, cách ly, và trả test về khi ổn.</div>
+
+    <h3 class="sub">Hai cách phát hiện, và vì sao không dùng một</h3>
+    <p>Cách đầu rất rẻ: khi test fail, chạy lại ngay trong cùng build. Nếu nó đổi từ fail sang pass, đó là flaky. Số lần chạy lại cấu hình được theo loại test, và bài nói cách này bắt được khoảng 81% ở một số sản phẩm (không nói sản phẩm nào) <sup><a href="https://www.atlassian.com/blog/atlassian-engineering/taming-test-flakiness-how-we-built-a-scalable-tool-to-detect-and-manage-flaky-tests" target="_blank">[1]</a></sup>.</p>
+    <p>Cách thứ hai dùng lịch sử. Hệ thống nhìn các lần chạy trong một cửa sổ trượt, dựng xác suất ban đầu, rồi cập nhật thành xác suất sau mỗi lần có dữ liệu mới (cách tính kiểu Bayes). Nhiều tín hiệu được cân lại: thời gian chạy dao động, môi trường có đồng nhất không, dạng pass/fail, tần suất phải chạy lại. Kết quả là một điểm từ 0 đến 1 cho mỗi test <sup><a href="https://www.atlassian.com/blog/atlassian-engineering/taming-test-flakiness-how-we-built-a-scalable-tool-to-detect-and-manage-flaky-tests" target="_blank">[1]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế.</b> Chạy lại chỉ bắt được test hỏng <i>và</i> khỏe lại trong cùng build. Test chập chờn tần suất thấp (vài phần nghìn) có thể không lộ trong một lần retry, nhưng lộ ra khi cộng dồn nhiều ngàn lần chạy. Đó là chỗ điểm theo lịch sử có ích. Đổi lại, nó cần dữ liệu sạch. Bài thừa nhận điều này: metadata thiếu hoặc không nhất quán làm phát hiện sai, nên đội phải đầu tư riêng vào khâu thu dữ liệu <sup><a href="https://www.atlassian.com/blog/atlassian-engineering/taming-test-flakiness-how-we-built-a-scalable-tool-to-detect-and-manage-flaky-tests" target="_blank">[1]</a></sup>. Bài cũng kết luận không có thuật toán nào dùng được cho mọi nơi; kết hợp luật, thống kê và máy học cho độ chính xác tốt nhất <sup><a href="https://www.atlassian.com/blog/atlassian-engineering/taming-test-flakiness-how-we-built-a-scalable-tool-to-detect-and-manage-flaky-tests" target="_blank">[1]</a></sup>.</div>
+
+    <h3 class="sub">Cách ly nhưng vẫn thu tín hiệu</h3>
+    <p>Test bị đánh dấu sẽ bị cách ly (quarantine), tức là thôi chặn pipeline chính. Nhưng nó không bị tắt: nó vẫn chạy ở build trên nhánh, job theo lịch hoặc pipeline cách ly riêng để tiếp tục thu dữ liệu. Khi đủ thời gian khỏe theo cấu hình, test được trả về hệ thống chính <sup><a href="https://www.atlassian.com/blog/atlassian-engineering/taming-test-flakiness-how-we-built-a-scalable-tool-to-detect-and-manage-flaky-tests" target="_blank">[1]</a></sup>. Google cũng có công cụ tự cách ly test quá chập chờn và mở bug, và tự nhận cách ly "có thể che bug thật" <sup><a href="https://testing.googleblog.com/2016/05/flaky-tests-at-google-and-how-we.html" target="_blank">[2]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế.</b> Tắt hẳn test thì mất tín hiệu và không bao giờ biết khi nào nó khỏe lại. Giữ trong pipeline chính thì nó tiếp tục chặn mọi người. Cách giữa: để test chạy ngoài đường găng, nhưng vẫn ghi kết quả. Cái giá là hai thứ: một vùng "test không còn bảo vệ merge" lớn dần, và hạ tầng chạy thêm. Vì vậy phải có hạn chót cho việc sửa, như phần dưới.</div>
+
+    <h3 class="sub">Giao việc theo chủ code, không theo "ai đó"</h3>
+    <p>Flakinator dùng hệ thống code ownership để tìm chủ của test, tạo ticket Jira có hạn chót và gửi thông báo Slack. Có giao diện React để tắt tiếng, tìm kiếm, xem build liên quan và lịch sử, cùng báo cáo xu hướng theo đội <sup><a href="https://www.atlassian.com/blog/atlassian-engineering/taming-test-flakiness-how-we-built-a-scalable-tool-to-detect-and-manage-flaky-tests" target="_blank">[1]</a></sup>. Bài nói rõ: nhận được dùng hay không phụ thuộc vào giao diện dễ dùng và tích hợp mượt vào quy trình có sẵn <sup><a href="https://www.atlassian.com/blog/atlassian-engineering/taming-test-flakiness-how-we-built-a-scalable-tool-to-detect-and-manage-flaky-tests" target="_blank">[1]</a></sup>.</p>
+
+    <h3 class="sub">Phép nhân khiến "gần như ổn" vẫn là thảm họa</h3>
+    <p>Google công bố từ 2016: khoảng 1,5% lượt chạy test có kết quả chập chờn; gần 16% số test từng có mức chập chờn nào đó; khoảng 84% lần chuyển từ pass sang fail dính tới một test chập chờn <sup><a href="https://testing.googleblog.com/2016/05/flaky-tests-at-google-and-how-we.html" target="_blank">[2]</a></sup>. Dự án trung bình có chừng 1.000 test, và Google ước khoảng 15 test trong đó có thể fail vì chập chờn <sup><a href="https://testing.googleblog.com/2016/05/flaky-tests-at-google-and-how-we.html" target="_blank">[2]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế (bản tin tự tính, không từ nguồn).</b> Giả sử mỗi test trong 1.000 test chỉ chập chờn 0,1% số lần. Khả năng cả 1.000 test đều xanh là 0,999 nâng lũy thừa 1.000, khoảng 37%. Nghĩa là khoảng 63% lần chạy sẽ có ít nhất một đèn đỏ giả. Bạn không cần test tệ; chỉ cần nhiều test "hơi tệ". Chính vì vậy mục tiêu không phải làm từng test hoàn hảo, mà là hệ thống không để vài test hơi tệ chặn cả đội. Giả định 0,1% là ví dụ minh họa, không phải số đo.</div>
+
+    <h3 class="sub">Đọc con số của Atlassian cho đúng</h3>
+    <table class="tbl">
+      <tr><th>Con số</th><th>Nó nói gì</th><th>Nó chưa nói gì</th></tr>
+      <tr><td>~21% master hỏng ở Jira Frontend; ~15% ở backend</td><td>Test chập chờn là một nguồn lớn gây build hỏng <sup><a href="https://www.atlassian.com/blog/atlassian-engineering/taming-test-flakiness-how-we-built-a-scalable-tool-to-detect-and-manage-flaky-tests" target="_blank">[1]</a></sup></td><td>Tỷ lệ này trước và sau Flakinator; bài không đưa số so sánh</td></tr>
+      <tr><td>150.000+ giờ công mỗi năm</td><td>Bài gắn con số này vào việc chạy lại <sup><a href="https://www.atlassian.com/blog/atlassian-engineering/taming-test-flakiness-how-we-built-a-scalable-tool-to-detect-and-manage-flaky-tests" target="_blank">[1]</a></sup></td><td>Cách tính; đây là ước tính của công ty</td></tr>
+      <tr><td>22.000 build cứu được, 7.000 test</td><td>Quy mô của việc cách ly <sup><a href="https://www.atlassian.com/blog/atlassian-engineering/taming-test-flakiness-how-we-built-a-scalable-tool-to-detect-and-manage-flaky-tests" target="_blank">[1]</a></sup></td><td>Độ chính xác: bài không nói cách chỉnh ngưỡng hay xử lý báo nhầm</td></tr>
+      <tr><td>81% bằng retry</td><td>Retry rẻ mà hiệu quả <sup><a href="https://www.atlassian.com/blog/atlassian-engineering/taming-test-flakiness-how-we-built-a-scalable-tool-to-detect-and-manage-flaky-tests" target="_blank">[1]</a></sup></td><td>Chỉ áp dụng "ở một số sản phẩm"</td></tr>
+    </table>
+
+    <h3 class="sub">Ánh xạ sang stack của bạn (biên tập)</h3>
+    <table class="tbl">
+      <tr><th>Nguồn chập chờn thường gặp</th><th>Chỗ gặp trong stack của bạn (suy luận của bản tin)</th></tr>
+      <tr><td>Chờ theo thời gian</td><td>Test Spring Boot dùng ngủ cố định để đợi consumer RabbitMQ hoặc Kafka xử lý xong. Máy CI chậm hơn thì fail. Chữa bằng đợi theo điều kiện có hạn chót thay vì đợi theo giây.</td></tr>
+      <tr><td>Dữ liệu dùng chung</td><td>Nhiều test cùng ghi vào một database SQL Server dựng chung, hoặc cùng một CompanyID mẫu. Test chạy song song giẫm lên nhau. Chữa bằng dữ liệu riêng theo test hoặc theo lần chạy.</td></tr>
+      <tr><td>Thứ tự và thời gian</td><td>Test giả định thứ tự bản ghi khi truy vấn không có sắp xếp rõ ràng, hoặc phụ thuộc múi giờ và giờ hệ thống.</td></tr>
+      <tr><td>Tài nguyên môi trường</td><td>Container dựng chậm, pool kết nối nhỏ, runner thiếu bộ nhớ. Bài của Atlassian nhắc "môi trường có đồng nhất không" là một tín hiệu để chấm điểm <sup><a href="https://www.atlassian.com/blog/atlassian-engineering/taming-test-flakiness-how-we-built-a-scalable-tool-to-detect-and-manage-flaky-tests" target="_blank">[1]</a></sup>.</td></tr>
+    </table>
+
+    <h3 class="sub">Rút ra cho bạn</h3>
+    <div class="takeaway">💡 Đừng bắt đầu bằng việc sửa test. Bắt đầu bằng việc <b>đo</b>: bao nhiêu lần build hỏng thật ra pass khi chạy lại. Có con số đó thì mới thuyết phục được cả đội dành thời gian, như Atlassian đã làm với 21% và 15%.</div>
+    <div class="scale">
+      <div class="col small"><h4>Đội nhỏ, &lt;10 người</h4><ul>
+        <li>Chưa cần nền tảng. Dùng một danh sách có chủ và có hạn: mỗi test bị loại ra phải có người và ngày sửa, rồi thành ticket. Danh sách không chủ là cách Atlassian bỏ <sup><a href="https://www.atlassian.com/blog/atlassian-engineering/taming-test-flakiness-how-we-built-a-scalable-tool-to-detect-and-manage-flaky-tests" target="_blank">[1]</a></sup>.</li>
+        <li>Bật retry có giới hạn, nhưng <b>ghi lại</b> mọi lần "fail rồi pass". Retry im lặng chỉ giấu vấn đề.</li>
+        <li>Tìm trước các test có ngủ cố định; đó thường là nhóm dễ sửa nhất.</li>
+      </ul></div>
+      <div class="col"><h4>Đội đã có production</h4><ul>
+        <li>Xuất kết quả test của 30 ngày gần nhất và đếm test có cả pass lẫn fail trên cùng commit. Đây là phiên bản thô của điểm lịch sử <sup><a href="https://www.atlassian.com/blog/atlassian-engineering/taming-test-flakiness-how-we-built-a-scalable-tool-to-detect-and-manage-flaky-tests" target="_blank">[1]</a></sup>.</li>
+        <li>Cách ly ra khỏi đường găng nhưng vẫn chạy theo lịch, và đặt <b>quy tắc trả về</b> (bao lâu khỏe thì trở lại) <sup><a href="https://www.atlassian.com/blog/atlassian-engineering/taming-test-flakiness-how-we-built-a-scalable-tool-to-detect-and-manage-flaky-tests" target="_blank">[1]</a></sup>.</li>
+        <li>Theo dõi một con số hằng tuần: tỷ lệ build hỏng do test chập chờn. Nếu chưa giảm, đừng khoe công cụ.</li>
+        <li>Nhớ rủi ro Google đã nêu: cách ly có thể che bug thật <sup><a href="https://testing.googleblog.com/2016/05/flaky-tests-at-google-and-how-we.html" target="_blank">[2]</a></sup>. Đặt trần cho số test đang bị cách ly.</li>
+      </ul></div>
+    </div>
+    <div class="doslist">
+      <div>✅ Đo tỷ lệ build hỏng nhưng pass khi chạy lại, trước khi chọn công cụ.</div>
+      <div>✅ Cách ly mà vẫn chạy; có chủ, có hạn, có đường trả về.</div>
+      <div>❌ Retry im lặng cho tới khi "xanh" mà không ghi lại.</div>
+      <div>❌ Danh sách bỏ qua không ai sở hữu.</div>
+    </div>
+    <div class="refs"><b>Nguồn tham khảo</b><br>
+      [1] <a href="https://www.atlassian.com/blog/atlassian-engineering/taming-test-flakiness-how-we-built-a-scalable-tool-to-detect-and-manage-flaky-tests" target="_blank">Nitish Malik — Taming Test Flakiness (Atlassian Engineering, 08/12/2025)</a><br>
+      [2] <a href="https://testing.googleblog.com/2016/05/flaky-tests-at-google-and-how-we.html" target="_blank">John Micco — Flaky Tests at Google and How We Mitigate Them (Google Testing Blog, 27/05/2016)</a></div>
+  </article>
+
+  <div class="foot">Bản tin sáng · tổng hợp từ nguồn công khai đã xác minh</div>
+</div>
+</body>
+</html>

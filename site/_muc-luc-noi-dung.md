@@ -10,13 +10,15 @@
 > 2. Trước khi giải thích một thuật ngữ: xem phần **C. Từ điển thuật ngữ** — nếu đã giải thích ở số trước thì chỉ nhắc gọn/nối link, không giải thích lại dài dòng.
 > 3. Sau khi viết xong: thêm 1 khối vào phần **B. Mục lục theo số** và cập nhật phần A + C nếu có nguồn/thuật ngữ mới (dùng mẫu ở cuối file).
 >
-> _Cập nhật lần cuối: 11/10/2026 — 81 số (24/07 → 11/10/2026; gồm 1 số song song 09/08 chuyên đề An toàn thông tin)._
+> _Cập nhật lần cuối: 12/10/2026 — 82 số (24/07 → 12/10/2026; gồm 1 số song song 09/08 chuyên đề An toàn thông tin)._
 
 ---
 
 ## A. Danh sách nguồn / thực thể ĐÃ DÙNG (tránh lặp)
 
 ### Domain nguồn đã trích dẫn (đừng lặp cùng một bài)
+
+atlassian.com/blog/atlassian-engineering (Nitish Malik, Flakinator, 08/12/2025; công ty tự kể; ~21%/15% master hỏng, 150.000 giờ/năm, 350 triệu test/ngày, 22.000 build/7.000 test) · testing.googleblog.com (John Micco, 27/05/2016; 1,5% lượt chạy, ~16% test, 84%) — ĐÃ DÙNG 12/10/2026
 status.socure.com (Socure postmortem 09/07/2026) · engineering.linkedin.com (Burrow 2015) · docs.spring.io (Spring Kafka) · sqlservercentral.com (Mike Byrd, page splits) — thêm 11/10/2026
 
 learn.microsoft.com/.../resolve-blocking-problems-caused-lock-escalation (KB 323630, cập nhật 04/08/2026; ngưỡng 5.000 khóa, 40% của 60% buffer pool = 24%, lỗi 1204, trace flag 1211/1224, xóa lô 1.000 dòng) · netdata.cloud/guides/microsoft-sql-server/microsoft-sql-server-lock-escalation (không tác giả/ngày; ~6.250 khóa thực tế, LOCK_ESCALATION AUTO/DISABLE, Optimized Locking 2025) · brentozar.com/?p=96871 (Erik Darling, 30/11/2017; demo Votes partition: 10.866 PAGE X, 3.356 KEY X) · sqlskills.com/blogs/paul/?p=1104 (Paul Randal, 14/01/2008; demo 3 partition, 16.999 dòng, deadlock 1205 với AUTO) · learn.microsoft.com/.../alter-table-transact-sql (LOCK_ESCALATION TABLE/AUTO/DISABLE) · engineering.oneutilitybill.co (Joe Alamo-Keilty, One Utility Bill, 01/02/2024; ~15 kỹ sư, threat modelling 3 điểm chèn, không số định lượng) · mssqltips.com/sqlservertip/8025 (Simon Liew, 19/06/2024; laptop i9, 1 data file tempdb, Ostress 100 thread×300 vòng; 2019 vs 2022: ~10→~7 s, đỉnh ~3.100→~4.800 batch/s, 2022 không còn PAGELATCH; bỏ sp_executesql: ~3 s/~1 s; bình luận: stolen memory 50→700+ GB trên 2019 production — không kiểm chứng) · red-gate.com/simple-talk/.../a-use-case-for-memory-optimized-tempdb-metadata (Ben Johnston, 08/01/2025; CPU 100%, page latch tempdb, bật tùy chọn + restart dịch vụ, KHÔNG có số trước/sau) · learn.microsoft.com/.../tempdb-database (memory-optimized tempdb metadata: chỉ bật khi metadata contention; restart; resource pool; MEMORYCLERK_XTP; lỗi 41317; columnstore trên temp table; số data file 8 + bội 4, đồng size; SQL Server 2022 GAM/SGAM latch concurrency) · gohigh.substack.com/p/metadata-contention-on-tempdb (Haripriya, không ngày; 12 bảng metadata, sysobjvalues; 3 cách: không drop tường minh, cache temp object, memory-optimized metadata; 2019 cần CU2; không số) · clickhouse.com/blog/verihubs-data-warehouse (Ray Antonius/Verihubs, 06/07/2026; vendor blog; Postgres+Airflow batch → Kafka Connect + Debezium + MergeTree/ReplacingMergeTree + materialized view + projection + Dagster; query 20–30 phút → 2–3 s trên ≤18 triệu dòng; chi phí cloud tới −50%; ~6 tháng; ~50 triệu API call/tháng; bẫy: ordering key, mutation chưa hiện ngay, MV không tự backfill) — ĐÃ DÙNG 09/10/2026
@@ -171,6 +173,14 @@ LegacyCodeBench 200 tác vụ/4 bậc · Legacy Insights 94%/tài liệu 96% · 
 ---
 
 ## B. Mục lục theo số (mới → cũ)
+
+### 12/10/2026 — Test chập chờn tốn 150.000 giờ công mỗi năm: Atlassian chuyển từ danh sách tay sang nền tảng Flakinator (Atlassian Engineering — Malik; Google Testing Blog — Micco)
+- **Chủ đề:** Mảng 2 — năng suất/CI: phát hiện (retry + điểm Bayes), cách ly vẫn chạy, giao ticket theo code ownership, phép nhân 1.000 test; ánh xạ Java/Spring/SQL Server/RabbitMQ. 1 bài (không Góc nhìn). Tìm mảng 1/4 không ra nguồn tốt (Pulumi OIDC trùng 15/09 & 17/09; CircleCI–Superhuman không có số).
+- **Nguồn:** Nitish Malik, "Taming Test Flakiness…", atlassian.com/blog/atlassian-engineering, 08/12/2025 (công ty tự kể); John Micco, "Flaky Tests at Google and How We Mitigate Them", testing.googleblog.com, 27/05/2016.
+- **Số chính:** ~21% master hỏng Jira Frontend, ~15% backend; 150.000+ giờ/năm; 350 triệu lượt test/ngày, 3 TB, 12+ sản phẩm; retry bắt 81% (một số sản phẩm); 22.000 build cứu, 7.000 test; Google: 1,5% lượt chạy, ~16% số test, 84% chuyển pass→fail, ~15/1.000 test; tính tay 0,999^1000 ≈ 37% → ~63% (bản tin tự tính).
+- **Thực thể:** Atlassian (Flakinator, Jira), Google, Trunk (đã đọc, không dùng), Pulumi ESC & CircleCI–Superhuman (đã xem, không dùng).
+- **Ghi chú tránh lặp:** flaky của M&S (LeadDev, 06/10) khác nguồn; lần sau không dùng lại Atlassian/Google flaky.
+
 
 ### 11/10/2026 — Kafka đứng một nửa partition suốt 16 tiếng mà dashboard vẫn xanh (Socure); & 44.868 lần page split làm một lần chèn tốn gấp 2,5 lần I/O (Byrd/SQLServerCentral) (Socure status page + LinkedIn Burrow + Spring Kafka docs; Mike Byrd)
 - **Chủ đề:** Mảng 3 — Kafka (lag tổng hợp che partition bị bỏ rơi sau scale-up, giám sát theo partition, rebalance listener Spring) + SQL Server (page split tốt/xấu, fillfactor chưa được đo). 2 bài + Góc nhìn ("trung bình nói dối": đo ở đơn vị nhỏ nhất). Lý do dồn mảng 3: tìm kiếm mảng 1/4 chỉ ra bài quảng cáo hoặc bài cũ.
@@ -724,6 +734,8 @@ LegacyCodeBench 200 tác vụ/4 bậc · Legacy Insights 94%/tài liệu 96% · 
 ---
 
 ## C. Từ điển thuật ngữ (đã giải thích ở các số — chỉ nhắc gọn khi tái dùng)
+
+- **Test chập chờn (flaky test)** — test lúc xanh lúc đỏ trên cùng code; cách ly (quarantine) = chạy ngoài đường găng nhưng vẫn thu dữ liệu — giải thích 12/10/2026
 
 - **Lag tổng hợp che partition kẹt / giám sát theo partition (Burrow):** giải thích ở số 11/10/2026 — lag trung bình/tổng không lộ nhóm partition không ai đọc; hỏi "offset có tiến lên không" theo cửa sổ trượt từng partition. **Page split tốt/xấu:** 11/10/2026 — chèn cuối index dùng page kế tiếp; chèn giữa vào page đầy thì chuyển ~nửa dòng sang page mới (extent khác), ghi log, để lại page đầy nửa; rebuild sửa.
 
