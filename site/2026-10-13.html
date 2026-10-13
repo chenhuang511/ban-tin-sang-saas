@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CDC trên SQL Server &middot; 13/10/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+@media (max-width:560px){h1.title{font-size:25px}.card{padding:20px 18px}.tbl{display:block;overflow-x:auto}}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 13/10/2026</div>
+    <h1 class="title">CDC trên SQL Server không phải công tắc "đọc log miễn phí": hai job Agent giữ log của bạn, và một bài thử tải cho thấy 1.000 lệnh update chậm từ 15 lên 73 ms</h1>
+    <div class="meta">13/10/2026 · Đọc khoảng 12 phút · Nguồn chính: tài liệu Microsoft Learn (5 trang, cập nhật tới 2026); đối chiếu Microsoft Tech Community (11/2023), AWS re:Post, tài liệu Debezium</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: số này chỉ có <b>một bài</b> (mảng vận hành, bám stack SQL Server 2022 AlwaysOn → CDC → ClickHouse). Bản tin <b>không tìm được</b> một case "đổi đúng một thứ, số trước/sau" do một công ty tự kể về CDC của SQL Server. Nên bài dựa vào <b>tài liệu chính thức của Microsoft</b> (nguồn mạnh về hành vi, không có số hiệu năng) và <b>một bài thử tải do người dùng tự đăng</b> trên Tech Community (số thật nhưng một môi trường nhỏ, không đại diện). Hai trang Microsoft còn nêu <b>mặc định khác nhau</b> (xem bảng). Các khối <b style="color:#1e40af">Cơ chế</b>, phép tính trần thông lượng, phần ánh xạ sang hệ của bạn và "Rút ra theo quy mô" là phân tích của bản tin, <em>không trích nguyên văn từ nguồn</em>. Không chèn code.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1"><strong>Bài 1</strong> — Chi phí thật của CDC trên SQL Server<br><span style="font-size:13.5px;color:#6b7280">· capture và cleanup làm gì · trần thông lượng tính từ ba tham số · log không cắt được · cleanup 3 ngày/5.000 dòng · con số 15 → 73 ms · failover trong AG · phía đọc (Debezium/ETL) · danh sách theo dõi</span></a></li>
+    </ol>
+  </nav>
+
+  <article class="card" id="bai1">
+    <span class="tag legacy">Tối ưu hệ đang chạy · SQL Server</span>
+    <h2 class="head">CDC là một tiến trình đọc log chạy cả ngày, và log là thứ bạn không muốn ai giữ</h2>
+    <p class="src">Nguồn: Microsoft Learn — <a href="https://learn.microsoft.com/en-us/sql/relational-databases/track-changes/about-change-data-capture-sql-server" target="_blank">About change data capture</a> [1], <a href="https://learn.microsoft.com/en-us/sql/relational-databases/track-changes/administer-and-monitor-change-data-capture-sql-server" target="_blank">Administer and monitor CDC</a> [2], <a href="https://learn.microsoft.com/en-ca/sql/relational-databases/system-stored-procedures/sys-sp-cdc-add-job-transact-sql?view=sql-server-2017" target="_blank">sp_cdc_add_job</a> [3], <a href="https://learn.microsoft.com/sql/relational-databases/system-stored-procedures/sys-sp-cdc-cleanup-change-table-transact-sql" target="_blank">sp_cdc_cleanup_change_table</a> [4], <a href="https://learn.microsoft.com/en-us/sql/database-engine/availability-groups/windows/replicate-track-change-data-capture-always-on-availability" target="_blank">CDC với Always On</a> [5]; Microsoft Tech Community — <a href="https://techcommunity.microsoft.com/discussions/sql_server/impact-of-cdc-on-sql-server/3990813" target="_blank">"Impact of CDC on SQL Server"</a>, PeterK32 (23/11/2023) [6]; AWS re:Post [7]; <a href="https://debezium.io/documentation/reference/stable/connectors/sqlserver.html" target="_blank">Debezium SQL Server connector</a> [8].</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">15 → 73 ms</div><div class="lab">thời gian trung bình cho 1.000 lệnh update khi tắt/bật CDC, trong một bài thử tải của người dùng (180 bảng, ~300.000 DML/phút) <sup><a href="https://techcommunity.microsoft.com/discussions/sql_server/impact-of-cdc-on-sql-server/3990813" target="_blank">[6]</a></sup></div></div>
+      <div class="box"><div class="num">3 ngày · 5.000</div><div class="lab">retention mặc định của cleanup (4.320 phút) và số dòng xóa tối đa mỗi lệnh <sup><a href="https://learn.microsoft.com/en-us/sql/relational-databases/track-changes/about-change-data-capture-sql-server" target="_blank">[1]</a></sup><sup><a href="https://learn.microsoft.com/en-ca/sql/relational-databases/system-stored-procedures/sys-sp-cdc-add-job-transact-sql?view=sql-server-2017" target="_blank">[3]</a></sup></div></div>
+      <div class="box"><div class="num">~10×</div><div class="lab">bộ nhớ log buffer tăng khi bật CDC, theo chính người thử tải (không phải số của Microsoft) <sup><a href="https://techcommunity.microsoft.com/discussions/sql_server/impact-of-cdc-on-sql-server/3990813" target="_blank">[6]</a></sup></div></div>
+      <div class="box"><div class="num">0 số</div><div class="lab">Microsoft không công bố mức overhead hiệu năng của CDC trong các trang đã đọc <sup><a href="https://learn.microsoft.com/en-us/sql/relational-databases/track-changes/about-change-data-capture-sql-server" target="_blank">[1]</a></sup><sup><a href="https://techcommunity.microsoft.com/discussions/sql_server/impact-of-cdc-on-sql-server/3990813" target="_blank">[6]</a></sup></div></div>
+    </div>
+
+    <p>Với một OLTP cỡ TB nạp kho ClickHouse qua CDC, bật CDC thường được coi là "đọc log, không đụng vào giao dịch". Tài liệu Microsoft nói khác một chút. Nguồn thay đổi là transaction log, và <b>capture job</b> (một job SQL Server Agent) đọc log rồi ghi từng thay đổi vào <b>change table</b> của bảng nguồn. Có độ trễ có sẵn giữa lúc commit và lúc thay đổi hiện trong change table <sup><a href="https://learn.microsoft.com/en-us/sql/relational-databases/track-changes/about-change-data-capture-sql-server" target="_blank">[1]</a></sup>. Tức là bạn không chỉ thêm một bên đọc. Bạn thêm một tiến trình ghi dữ liệu, trên chính database đang phục vụ khách.</p>
+    <p>Một người trả lời trong thread Tech Community nói gọn: CDC là "low impact", không phải "zero impact", và Microsoft có rất ít số đo chính thức về mức tác động <sup><a href="https://techcommunity.microsoft.com/discussions/sql_server/impact-of-cdc-on-sql-server/3990813" target="_blank">[6]</a></sup>. Bài này đi qua các chỗ tác động đó theo thứ tự bạn sẽ gặp chúng.</p>
+
+    <h3 class="sub">Hai job, hai kiểu rủi ro</h3>
+    <p>Khi bật CDC cho bảng đầu tiên, SQL Server tạo hai job. <b>Capture</b> chạy liên tục. <b>Cleanup</b> xóa các dòng cũ trong change table theo thời hạn giữ lại. Nếu không có cleanup, change table phình "không kiểm soát được" <sup><a href="https://learn.microsoft.com/en-us/sql/relational-databases/track-changes/about-change-data-capture-sql-server" target="_blank">[1]</a></sup><sup><a href="https://learn.microsoft.com/en-ca/sql/relational-databases/system-stored-procedures/sys-sp-cdc-add-job-transact-sql?view=sql-server-2017" target="_blank">[3]</a></sup>. Giá trị mặc định nằm ở bảng dưới.</p>
+    <table class="tbl">
+      <tr><th>Tham số</th><th>Mặc định theo trang sp_cdc_add_job <sup><a href="https://learn.microsoft.com/en-ca/sql/relational-databases/system-stored-procedures/sys-sp-cdc-add-job-transact-sql?view=sql-server-2017" target="_blank">[3]</a></sup></th><th>Ghi chú</th></tr>
+      <tr><td>maxtrans (capture)</td><td>500 giao dịch mỗi vòng quét</td><td>Trang "About CDC" <sup><a href="https://learn.microsoft.com/en-us/sql/relational-databases/track-changes/about-change-data-capture-sql-server" target="_blank">[1]</a></sup> ghi <b>1.000</b>. Hai trang Microsoft lệch nhau; hãy xem giá trị thật bằng thủ tục liệt kê job của CDC trên server của bạn.</td></tr>
+      <tr><td>maxscans (capture)</td><td>10 vòng quét</td><td>Số vòng tối đa trước khi job nghỉ hoặc chờ</td></tr>
+      <tr><td>pollinginterval (capture)</td><td>5 giây (chế độ liên tục)</td><td>Chế độ chạy một lần không khuyến nghị cho production <sup><a href="https://learn.microsoft.com/en-us/sql/relational-databases/track-changes/administer-and-monitor-change-data-capture-sql-server" target="_blank">[2]</a></sup></td></tr>
+      <tr><td>retention (cleanup)</td><td>4.320 phút = 72 giờ</td><td>Chỉ <b>một</b> giá trị cho mọi bảng được capture trong database <sup><a href="https://learn.microsoft.com/en-us/sql/relational-databases/track-changes/administer-and-monitor-change-data-capture-sql-server" target="_blank">[2]</a></sup></td></tr>
+      <tr><td>threshold (cleanup)</td><td>5.000</td><td>Số dòng xóa tối đa trong một lệnh/một transaction <sup><a href="https://learn.microsoft.com/en-us/sql/relational-databases/track-changes/about-change-data-capture-sql-server" target="_blank">[1]</a></sup><sup><a href="https://learn.microsoft.com/sql/relational-databases/system-stored-procedures/sys-sp-cdc-cleanup-change-table-transact-sql" target="_blank">[4]</a></sup></td></tr>
+    </table>
+
+    <h3 class="sub">Trần thông lượng của capture</h3>
+    <p>Microsoft cho công thức: thông lượng tối đa bằng maxtrans nhân maxscans, chia cho số giây giữa các lần quét <sup><a href="https://learn.microsoft.com/en-us/sql/relational-databases/track-changes/administer-and-monitor-change-data-capture-sql-server" target="_blank">[2]</a></sup>. Với giá trị 500, 10 và 5 giây, trần là 5.000 giao dịch mỗi 5 giây, tức khoảng 1.000 giao dịch mỗi giây (bản tin tự tính; nếu maxtrans thật là 1.000 thì gấp đôi). Trang cũng nói rõ thông lượng đo trong DMV là số <i>lệnh</i> mỗi giây, không phải số giao dịch <sup><a href="https://learn.microsoft.com/en-us/sql/relational-databases/track-changes/administer-and-monitor-change-data-capture-sql-server" target="_blank">[2]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế.</b> Trần này tính theo <i>giao dịch</i>, còn công việc thật của capture tỷ lệ với số <i>dòng</i> bị đổi. Một giao dịch nhỏ và một giao dịch cập nhật hàng triệu dòng đều chiếm "một suất". Vì vậy một ngày bình thường có thể thấy trần rất thừa, rồi đêm có batch lớn thì capture tụt lại hàng giờ. Trễ không báo lỗi. Nó chỉ hiện ra ở chỗ chậm: change table đến muộn, ETL sang ClickHouse đến muộn, báo cáo "gần thời gian thực" thành báo cáo của buổi sáng. DMV về phiên quét log có cột độ trễ và số lần quét rỗng; độ trễ chỉ có nghĩa khi capture chạy liên tục <sup><a href="https://learn.microsoft.com/en-us/sql/relational-databases/track-changes/administer-and-monitor-change-data-capture-sql-server" target="_blank">[2]</a></sup>.</div>
+
+    <h3 class="sub">Log không cắt được: chuyện không liên quan recovery model</h3>
+    <p>Đây là điều dễ bỏ sót nhất. Microsoft viết rõ: khi database bật CDC, kể cả ở chế độ simple recovery, điểm cắt log (log truncation point) <b>không tiến lên</b> cho tới khi capture lấy hết các thay đổi đã đánh dấu. Nếu capture không chạy mà vẫn có thay đổi chờ lấy, chạy CHECKPOINT cũng không cắt được log <sup><a href="https://learn.microsoft.com/en-us/sql/relational-databases/track-changes/about-change-data-capture-sql-server" target="_blank">[1]</a></sup>. Ngoài ra, sau cumulative update hay service pack, SQL Server có thể dựng lại các object nội bộ của CDC như index trên bảng capture, mất thời gian hoặc dùng nhiều log <sup><a href="https://learn.microsoft.com/en-us/sql/relational-databases/track-changes/administer-and-monitor-change-data-capture-sql-server" target="_blank">[2]</a></sup>.</p>
+    <p>Hướng dẫn của AWS cho RDS SQL Server (nguồn cho máy chủ do AWS quản lý, không phải bản tự cài) mô tả đúng triệu chứng: log đầy với lý do REPLICATION, nghĩa là bên đọc chưa lấy xong phần log đó; giá trị khác thường gặp là ACTIVE_TRANSACTION, tức có giao dịch mở giữ log <sup><a href="https://www.repost.aws/knowledge-center/dms-tlog-full-sql-server-source" target="_blank">[7]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế.</b> CDC thêm một "người giữ log" nữa. Trước đây log chỉ bị giữ bởi giao dịch mở, backup log và (nếu có AG) bản sao chưa nhận xong. Giờ thêm capture chưa quét xong. Khi capture tụt lại, log trên primary phình dần dù backup log vẫn chạy đều. Dấu hiệu nhận ra nhanh: file log tăng, backup log chạy đều, mà cột lý do chưa tái sử dụng log trong danh sách database cứ báo REPLICATION. Quản trị viên hay phản ứng bằng cách tăng dung lượng đĩa; việc đó mua thời gian chứ không sửa nguyên nhân. Điều nên xem trước: capture job còn chạy không, và độ trễ hiện bao lâu.</div>
+
+    <h3 class="sub">Cleanup: 3 ngày, một retention cho tất cả, xóa theo lô 5.000</h3>
+    <p>Cleanup mặc định chạy mỗi ngày lúc 2 giờ sáng, giữ 3 ngày và xóa tối đa 5.000 dòng mỗi lệnh <sup><a href="https://learn.microsoft.com/en-us/sql/relational-databases/track-changes/about-change-data-capture-sql-server" target="_blank">[1]</a></sup>. Một job cleanup phục vụ mọi change table và dùng một giá trị retention chung; mốc cắt (low watermark) được cập nhật trong một transaction, còn một lệnh xóa hỏng ở bảng này không chặn việc thử ở bảng khác <sup><a href="https://learn.microsoft.com/en-us/sql/relational-databases/track-changes/administer-and-monitor-change-data-capture-sql-server" target="_blank">[2]</a></sup>. Nếu cleanup báo lỗi xóa, quản trị viên có thể chạy lại thủ tục dọn thủ công cho từng capture instance, và thủ tục đó cũng dùng để tự dựng chiến lược dọn khác với "giữ N ngày" <sup><a href="https://learn.microsoft.com/sql/relational-databases/system-stored-procedures/sys-sp-cdc-cleanup-change-table-transact-sql" target="_blank">[4]</a></sup>. Giữa quét và dọn có thể xảy ra deadlock; Microsoft ghi nhận lỗi 22852 mức thông tin cho trường hợp này <sup><a href="https://learn.microsoft.com/sql/relational-databases/system-stored-procedures/sys-sp-cdc-cleanup-change-table-transact-sql" target="_blank">[4]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế.</b> Xóa theo lô 5.000 là chủ ý để mỗi lệnh ngắn và log không phình. Nhưng nó cũng có nghĩa: nếu bạn ghi vào change table nhanh hơn tốc độ xóa, cleanup không bao giờ đuổi kịp, và bảng chỉ lớn lên. Với một database kế toán nhiều tenant, vài công ty lớn chốt sổ cuối tháng có thể tạo phần lớn thay đổi trong một đêm. Retention chung 3 ngày cho mọi bảng cũng nghĩa là bảng ít đổi giữ 3 ngày không tốn gì, còn bảng nóng phải gánh 3 ngày của dòng chảy lớn nhất. Hai thứ này chỉ ra việc cần đo: kích thước từng change table, và giờ chạy cleanup so với giờ chạy batch của bạn (2 giờ sáng rất dễ trùng với job đêm).</div>
+
+    <h3 class="sub">Con số overhead duy nhất trong tay: một bài thử tải, có giới hạn</h3>
+    <p>Người dùng PeterK32 dựng hai database giống hệt trên SQL Server 2017 chạy trong container Linux, trên máy Azure 4 vCPU, 64 GB RAM. Cả hai bật CDC cho 180 bảng, tải chủ yếu là update, khoảng 300.000 DML mỗi phút mỗi database, cấu hình CDC mặc định. Sau một giờ, 1.000 lệnh update mất trung bình 73 ms khi bật CDC và 15 ms khi tắt, tức chậm khoảng 4,9 lần (bản tin tự chia) <sup><a href="https://techcommunity.microsoft.com/discussions/sql_server/impact-of-cdc-on-sql-server/3990813" target="_blank">[6]</a></sup>. Sau khi nâng cấp đĩa, tác giả thấy khác biệt chính là bộ nhớ log buffer tăng khoảng mười lần, file dữ liệu lớn hơn nhiều, CPU cao hơn, và khoảng cách thời gian update thu hẹp <sup><a href="https://techcommunity.microsoft.com/discussions/sql_server/impact-of-cdc-on-sql-server/3990813" target="_blank">[6]</a></sup>. Database chạy simple recovery <sup><a href="https://techcommunity.microsoft.com/discussions/sql_server/impact-of-cdc-on-sql-server/3990813" target="_blank">[6]</a></sup>.</p>
+    <p>Đừng đọc "4,9 lần" thành phí CDC trên hệ của bạn. Đây là một bài stress test cố ý, trên máy nhỏ, đĩa là yếu tố được nâng cấp giữa chừng, do một người tự đăng, và tác giả vẫn đang hỏi Microsoft xin tài liệu chính thức về chi phí ghi log <sup><a href="https://techcommunity.microsoft.com/discussions/sql_server/impact-of-cdc-on-sql-server/3990813" target="_blank">[6]</a></sup>. Giá trị của nó là chỉ hướng: chi phí rơi vào <b>đường ghi</b> (log buffer, I/O), không chỉ vào "một tiến trình đọc bên cạnh".</p>
+    <div class="mech"><b>Cơ chế.</b> Lệnh update trên bảng có CDC không tự ghi vào change table. Phần ghi đó do capture làm sau, nhưng capture phải đọc lại log, nên log cần được giữ lâu hơn và nằm trong bộ nhớ/đĩa nhiều hơn; hai bên tranh nhau cùng I/O của log. Vì thế câu hỏi đúng với hệ của bạn không phải "CDC có chậm không" mà là "log của tôi đang có chỗ trống đến đâu": nếu đĩa log đã gần kịch trần, bật CDC cho hàng trăm bảng là thứ đẩy nó qua. Cách đo trung thực duy nhất là bật trên bản sao có tải thật, so p99 của vài lệnh ghi quan trọng trước và sau.</div>
+
+    <h3 class="sub">Trong AlwaysOn: job không tự đi theo primary</h3>
+    <p>Trang Microsoft về CDC trong availability group nói CDC luôn được cấu hình trên primary hiện tại hoặc primary dự kiến. Không dùng replication thì capture là một job Agent riêng, và <b>sau failover bạn phải tạo capture job trên primary mới</b>; cleanup cũng phải tạo cục bộ ở primary mới. Trên replica cũ, cần tắt các job và bật lại nếu nó quay lại làm primary. Muốn đọc change data từ secondary đọc được, cần read-only routing và đăng nhập domain, vì login SQL không đi theo sang secondary <sup><a href="https://learn.microsoft.com/en-us/sql/database-engine/availability-groups/windows/replicate-track-change-data-capture-always-on-availability" target="_blank">[5]</a></sup>.</p>
+    <p>Phía Debezium cũng có điểm liên quan: connector không bắt đầu stream được nếu chưa ghi nhận LSN lớn nhất, và nguyên nhân phổ biến nhất là SQL Server Agent không chạy <sup><a href="https://debezium.io/documentation/reference/stable/connectors/sqlserver.html" target="_blank">[8]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế.</b> Failover xong, ứng dụng chạy bình thường, nhưng nếu không ai có capture job ở node mới thì change table đứng yên và log bắt đầu bị giữ. Không có lỗi nào đỏ trên dashboard ứng dụng; chỉ có kho dữ liệu im lặng. Đây là mục nên nằm sẵn trong runbook failover (phần Rút ra bên dưới) và nên có một cảnh báo "không có thay đổi mới trong change table X phút" chạy độc lập với job đó.</div>
+
+    <h3 class="sub">Phía đọc: Debezium hay ETL tự viết</h3>
+    <p>Debezium đọc từng change table giữa LSN đã lưu lần trước và LSN lớn nhất hiện tại, sắp theo commit LSN, rồi lưu mốc mới. Mốc (offset) được commit định kỳ chứ không theo từng sự kiện, nên sau sự cố có thể nhận trùng sự kiện <sup><a href="https://debezium.io/documentation/reference/stable/connectors/sqlserver.html" target="_blank">[8]</a></sup>. Khi đổi schema bảng được capture, bạn phải cập nhật cả change table tương ứng, cần quyền cao; connector không hỗ trợ đổi schema trong lúc incremental snapshot đang chạy <sup><a href="https://debezium.io/documentation/reference/stable/connectors/sqlserver.html" target="_blank">[8]</a></sup>. CDC của SQL Server cho phép tối đa hai capture instance cho mỗi bảng, và dùng cặp này để chuyển sang cấu trúc cột mới <sup><a href="https://learn.microsoft.com/en-us/sql/relational-databases/track-changes/about-change-data-capture-sql-server" target="_blank">[1]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế (suy luận của bản tin, các trang đã đọc không nói trực tiếp).</b> Có hai đồng hồ chạy song song: retention của cleanup (mặc định 3 ngày) và độ trễ của bên đọc. Nếu bên đọc dừng quá retention, những thay đổi nó chưa đọc đã bị xóa khỏi change table, và con đường duy nhất là snapshot lại từ đầu, với bảng cỡ TB là chuyện nhiều giờ. Vì vậy retention nên được đặt theo <i>thời gian xử lý sự cố dài nhất bạn chấp nhận</i> cho pipeline sang ClickHouse, không theo mặc định. Phía ghi ClickHouse cần idempotent để chịu sự kiện trùng.</div>
+
+    <h3 class="sub">Chỗ bài chưa trả lời được</h3>
+    <p>Các trang đã đọc không nói gì về partition switch trên bảng đang bật CDC, về mức overhead của CDC khi AG ở chế độ synchronous commit, hay về cách chia retention theo từng bảng. Đừng suy ra từ sự im lặng đó. Với hệ có archival bằng partition switch, hãy thử trên bản sao trước khi tin rằng hai thứ chạy cùng nhau suôn sẻ.</p>
+
+    <h3 class="sub">Rút ra cho bạn</h3>
+    <div class="takeaway">💡 Xem CDC như <b>một dịch vụ</b> với SLO riêng, không phải một cấu hình. Ba con số cần có trên dashboard trước khi bạn thêm bảng thứ 181: độ trễ capture, lý do chưa tái sử dụng log, và kích thước change table lớn nhất.</div>
+    <div class="scale">
+      <div class="col small"><h4>Đội nhỏ, &lt;10 người (hoặc mới bật CDC)</h4><ul>
+        <li>Chỉ bật cho những bảng thật sự cần cho báo cáo/DWH. Mỗi bảng thêm vào là thêm việc cho capture và thêm dòng cho cleanup.</li>
+        <li>Giữ giá trị mặc định cho tới khi đo được độ trễ; ghi lại giá trị thật của hai job vì tài liệu Microsoft không thống nhất <sup><a href="https://learn.microsoft.com/en-us/sql/relational-databases/track-changes/about-change-data-capture-sql-server" target="_blank">[1]</a></sup><sup><a href="https://learn.microsoft.com/en-ca/sql/relational-databases/system-stored-procedures/sys-sp-cdc-add-job-transact-sql?view=sql-server-2017" target="_blank">[3]</a></sup>.</li>
+        <li>Đặt hai cảnh báo: log database lớn lên bất thường, và không có thay đổi mới trong change table trong N phút.</li>
+      </ul></div>
+      <div class="col"><h4>Đội đã có production (TB, AG)</h4><ul>
+        <li>Bật trên bản sao có tải thật rồi so p99 các lệnh ghi chính; đừng dựa vào "low impact" <sup><a href="https://techcommunity.microsoft.com/discussions/sql_server/impact-of-cdc-on-sql-server/3990813" target="_blank">[6]</a></sup>.</li>
+        <li>Đưa vào runbook failover: tạo capture và cleanup job ở primary mới, tắt ở node cũ, kiểm tra độ trễ sau 15 phút <sup><a href="https://learn.microsoft.com/en-us/sql/database-engine/availability-groups/windows/replicate-track-change-data-capture-always-on-availability" target="_blank">[5]</a></sup>.</li>
+        <li>Đặt retention theo thời gian khôi phục pipeline dài nhất bạn chấp nhận, không theo 3 ngày mặc định; xếp giờ cleanup tránh giờ batch lớn <sup><a href="https://learn.microsoft.com/en-us/sql/relational-databases/track-changes/about-change-data-capture-sql-server" target="_blank">[1]</a></sup><sup><a href="https://learn.microsoft.com/en-us/sql/relational-databases/track-changes/administer-and-monitor-change-data-capture-sql-server" target="_blank">[2]</a></sup>.</li>
+        <li>Theo dõi độ trễ capture bằng DMV ghi lại mỗi phút để nhìn thấy xu hướng, không chỉ lúc sự cố <sup><a href="https://learn.microsoft.com/en-us/sql/relational-databases/track-changes/administer-and-monitor-change-data-capture-sql-server" target="_blank">[2]</a></sup>.</li>
+        <li>Cân nhắc dừng capture trong đợt tải cực đỉnh nếu chấp nhận trễ: Microsoft nói dừng job không làm mất dữ liệu thay đổi, nhưng log sẽ bị giữ trong lúc đó <sup><a href="https://learn.microsoft.com/en-us/sql/relational-databases/track-changes/about-change-data-capture-sql-server" target="_blank">[1]</a></sup>.</li>
+      </ul></div>
+    </div>
+    <div class="doslist">
+      <div>✅ Theo dõi độ trễ capture và lý do chưa tái sử dụng log như hai chỉ số sức khỏe của CDC.</div>
+      <div>✅ Đưa tạo capture/cleanup job vào quy trình failover; kiểm tra bằng diễn tập.</div>
+      <div>✅ Làm bên ghi (ClickHouse) chịu được sự kiện trùng.</div>
+      <div>❌ Cho rằng simple recovery nghĩa là log tự cắt khi CDC đang bật <sup><a href="https://learn.microsoft.com/en-us/sql/relational-databases/track-changes/about-change-data-capture-sql-server" target="_blank">[1]</a></sup>.</div>
+      <div>❌ Tăng đĩa log để "chữa" log đầy do capture tụt.</div>
+      <div>❌ Dùng con số 15 → 73 ms để dự báo chi phí cho hệ của bạn.</div>
+    </div>
+    <div class="refs"><b>Nguồn tham khảo</b><br>
+      [1] <a href="https://learn.microsoft.com/en-us/sql/relational-databases/track-changes/about-change-data-capture-sql-server" target="_blank">Microsoft Learn — About change data capture (SQL Server), cập nhật 20/07/2026</a><br>
+      [2] <a href="https://learn.microsoft.com/en-us/sql/relational-databases/track-changes/administer-and-monitor-change-data-capture-sql-server" target="_blank">Microsoft Learn — Administer and monitor change data capture (SQL Server)</a><br>
+      [3] <a href="https://learn.microsoft.com/en-ca/sql/relational-databases/system-stored-procedures/sys-sp-cdc-add-job-transact-sql?view=sql-server-2017" target="_blank">Microsoft Learn — sys.sp_cdc_add_job</a><br>
+      [4] <a href="https://learn.microsoft.com/sql/relational-databases/system-stored-procedures/sys-sp-cdc-cleanup-change-table-transact-sql" target="_blank">Microsoft Learn — sys.sp_cdc_cleanup_change_table</a><br>
+      [5] <a href="https://learn.microsoft.com/en-us/sql/database-engine/availability-groups/windows/replicate-track-change-data-capture-always-on-availability" target="_blank">Microsoft Learn — Replicate, track changes, CDC trong Always On availability groups, cập nhật 19/01/2026</a><br>
+      [6] <a href="https://techcommunity.microsoft.com/discussions/sql_server/impact-of-cdc-on-sql-server/3990813" target="_blank">Microsoft Tech Community — Impact of CDC on SQL Server (PeterK32, 23/11/2023; trả lời 28/02/2024 và 05/03/2024)</a> — bài thử tải do người dùng tự đăng, chưa kiểm chứng độc lập<br>
+      [7] <a href="https://www.repost.aws/knowledge-center/dms-tlog-full-sql-server-source" target="_blank">AWS re:Post — DMS transaction log full, nguồn RDS SQL Server</a> (không ghi ngày)<br>
+      [8] <a href="https://debezium.io/documentation/reference/stable/connectors/sqlserver.html" target="_blank">Debezium — Connector for SQL Server (tài liệu bản stable)</a></div>
+  </article>
+
+  <div class="foot">Bản tin sáng · tổng hợp từ nguồn công khai đã xác minh</div>
+</div>
+</body>
+</html>

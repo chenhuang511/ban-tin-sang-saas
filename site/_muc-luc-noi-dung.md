@@ -10,7 +10,7 @@
 > 2. Trước khi giải thích một thuật ngữ: xem phần **C. Từ điển thuật ngữ** — nếu đã giải thích ở số trước thì chỉ nhắc gọn/nối link, không giải thích lại dài dòng.
 > 3. Sau khi viết xong: thêm 1 khối vào phần **B. Mục lục theo số** và cập nhật phần A + C nếu có nguồn/thuật ngữ mới (dùng mẫu ở cuối file).
 >
-> _Cập nhật lần cuối: 12/10/2026 — 82 số (24/07 → 12/10/2026; gồm 1 số song song 09/08 chuyên đề An toàn thông tin)._
+> _Cập nhật lần cuối: 13/10/2026 — 83 số (24/07 → 13/10/2026; gồm 1 số song song 09/08 chuyên đề An toàn thông tin)._
 
 ---
 
@@ -18,6 +18,7 @@
 
 ### Domain nguồn đã trích dẫn (đừng lặp cùng một bài)
 
+learn.microsoft.com/.../about-change-data-capture-sql-server (cập nhật 20/07/2026; capture đọc log → change table, trễ có sẵn; mặc định ghi maxtrans 1.000/chờ 5 s; điểm cắt log KHÔNG tiến kể cả simple recovery khi capture chưa lấy xong, CHECKPOINT vô ích; cleanup 2:00 sáng, 3 ngày/4.320 phút, xóa ≤5.000/lệnh; tối đa 2 capture instance/bảng; MaxCmdsInTran không hỗ trợ khi CDC+replication; dừng capture giảm tải đỉnh, không mất dữ liệu) · learn.microsoft.com/.../administer-and-monitor-change-data-capture-sql-server (trần = maxtrans×maxscans÷giây; DMV sys.dm_cdc_log_scan_sessions latency/empty_scan_count/throughput tính LỆNH/giây; một cleanup job, một retention cho mọi bảng; sau CU/SP có thể dựng lại object CDC → tốn log) · learn.microsoft.com/.../sys-sp-cdc-add-job (maxtrans 500, maxscans 10, continuous 1, polling 5 s, retention 4.320, threshold 5.000 — LỆCH trang About 1.000) · learn.microsoft.com/.../sys-sp-cdc-cleanup-change-table (dọn thủ công theo capture instance, lỗi 22852 deadlock quét–dọn, lỗi 22957) · learn.microsoft.com/.../replicate-track-change-data-capture-always-on-availability (cập nhật 19/01/2026; sau failover phải sp_cdc_add_job capture + cleanup trên primary mới, tắt job ở node cũ, đọc secondary cần read-only routing + login domain; change tracking đọc từ secondary lỗi 22117) · techcommunity.microsoft.com/discussions/sql_server/impact-of-cdc-on-sql-server/3990813 (PeterK32, 23/11/2023; NGƯỜI DÙNG TỰ ĐĂNG; SQL Server 2017 container Linux, Azure 4 vCPU/64 GB, 180 bảng/DB, ~300k DML/phút/DB, 1.000 update 73 ms bật vs 15 ms tắt ≈4,9×, log buffer ~10×, simple recovery; trả lời FalseDawn 28/02/2024 "low impact không phải zero") · repost.aws/knowledge-center/dms-tlog-full-sql-server-source (không ngày; RDS; log đầy lý do REPLICATION/ACTIVE_TRANSACTION) · debezium.io/documentation/reference/stable/connectors/sqlserver.html (đọc giữa LSN cũ và LSN max, offset commit định kỳ → có thể trùng, không có max LSN thường do Agent không chạy, đổi schema phải cập nhật change table) — ĐÃ DÙNG 13/10/2026 (đã xem nhưng bỏ: aimbetter.com CDC cleanup delay/log latency — không số; devops.dev Lorenzo Uriel 04/08/2026 — cụt, không số; sqlservercentral thread 2013)
 atlassian.com/blog/atlassian-engineering (Nitish Malik, Flakinator, 08/12/2025; công ty tự kể; ~21%/15% master hỏng, 150.000 giờ/năm, 350 triệu test/ngày, 22.000 build/7.000 test) · testing.googleblog.com (John Micco, 27/05/2016; 1,5% lượt chạy, ~16% test, 84%) — ĐÃ DÙNG 12/10/2026
 status.socure.com (Socure postmortem 09/07/2026) · engineering.linkedin.com (Burrow 2015) · docs.spring.io (Spring Kafka) · sqlservercentral.com (Mike Byrd, page splits) — thêm 11/10/2026
 
@@ -173,6 +174,13 @@ LegacyCodeBench 200 tác vụ/4 bậc · Legacy Insights 94%/tài liệu 96% · 
 ---
 
 ## B. Mục lục theo số (mới → cũ)
+
+### 13/10/2026 — CDC trên SQL Server không phải công tắc "đọc log miễn phí": hai job Agent giữ log của bạn, và một bài thử tải cho thấy 1.000 lệnh update chậm từ 15 lên 73 ms (Microsoft Learn ×5; Tech Community; AWS re:Post; Debezium)
+- **Chủ đề:** Mảng 3 — vận hành/độ tin cậy, SQL Server 2022 AG + CDC → ClickHouse. 1 bài (không Góc nhìn). KHÔNG tìm được case công ty tự kể có số trước/sau về CDC SQL Server → dựa tài liệu Microsoft + một thread người dùng; đã ghi rõ trong editnote.
+- **Nguồn:** Microsoft Learn (About CDC 20/07/2026; Administer & monitor; sp_cdc_add_job; sp_cdc_cleanup_change_table; CDC trong Always On 19/01/2026) · Microsoft Tech Community (PeterK32, 23/11/2023) · AWS re:Post (không ngày) · Debezium SQL Server connector docs.
+- **Số chính:** 1.000 update 73 ms vs 15 ms (≈4,9×, bản tin tự chia), 180 bảng, ~300k DML/phút/DB, log buffer ~10×; mặc định retention 4.320 phút/3 ngày, cleanup 2:00, 5.000 dòng/lệnh; maxtrans 500 (add_job) vs 1.000 (About) — lệch; trần capture ≈1.000 giao dịch/s với 500×10÷5 s (bản tin tự tính).
+- **Thực thể:** Microsoft SQL Server CDC, Debezium, AWS RDS/DMS, PeterK32.
+- **Ghi chú tránh lặp:** Verihubs (09/10) đã dùng CDC→ClickHouse nhưng không bàn vận hành CDC; số này là vận hành capture/cleanup/log/failover. Lần sau không lặp CDC trừ khi có case có số.
 
 ### 12/10/2026 — Test chập chờn tốn 150.000 giờ công mỗi năm: Atlassian chuyển từ danh sách tay sang nền tảng Flakinator (Atlassian Engineering — Malik; Google Testing Blog — Micco)
 - **Chủ đề:** Mảng 2 — năng suất/CI: phát hiện (retry + điểm Bayes), cách ly vẫn chạy, giao ticket theo code ownership, phép nhân 1.000 test; ánh xạ Java/Spring/SQL Server/RabbitMQ. 1 bài (không Góc nhìn). Tìm mảng 1/4 không ra nguồn tốt (Pulumi OIDC trùng 15/09 & 17/09; CircleCI–Superhuman không có số).
@@ -1086,6 +1094,8 @@ LegacyCodeBench 200 tác vụ/4 bậc · Legacy Insights 94%/tài liệu 96% · 
 - **Managed agent (agent được quản lý):** agent chạy tự động trong môi trường do đội nền tảng quản lý (review code, sửa CI, triage cảnh báo…), khác phiên tương tác của kỹ sư; đầu vào lặp lại nên dựng được benchmark, chọn model Pareto riêng và đo chi phí theo đơn vị kết quả (mỗi PR merge/review/cảnh báo). — giải thích ở số 28/09/2026.
 - **Chọn TTL prompt cache theo khoảng nghỉ:** ghi 5 phút 1,25×, ghi 1 giờ 2×, đọc 0,1× → TTL 1 giờ trả thêm 0,75P một lần, TTL 5 phút thiệt 1,15P mỗi lần người dùng nghỉ >5 phút → một lần nghỉ là TTL dài có lời; subagent không nghỉ thì giữ TTL ngắn. Báo cáo cache bằng tiền mất vì miss, không bằng tỷ lệ hit. — giải thích ở số 28/09/2026.
 - **Đồ thị ngữ cảnh cho agent (AI Context Graph):** đồ thị gom service, đội sở hữu, incident, PR, tài liệu thiết kế, dataset, lịch sử truy vấn để agent tra bằng ngôn ngữ tự nhiên thay vì mò code; giảm request/lượt vì agent thiếu ngữ cảnh "thất bại chậm chứ không rẻ" (tổng token ~ n²). — giải thích ở số 28/09/2026.
+- **CDC (change data capture) trên SQL Server** — capture job đọc log → change table; cleanup xóa theo retention (3 ngày, 5.000 dòng/lệnh); điểm cắt log không tiến khi capture chưa lấy xong, cả simple recovery; failover AG phải tạo lại job ở primary mới. Giải thích ở số 13/10/2026.
+
 ---
 - **Virtual thread / pinning / carrier thread (04/10/2026):** luồng nhẹ do JVM lập lịch; pinning = bị đóng đinh vào luồng nền khi gặp synchronized (JDK 21), JEP 491 sửa ở JDK 24; ThreadLocal cache mất tác dụng vì thread chết theo request.
 
