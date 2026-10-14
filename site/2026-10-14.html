@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GC và p99 của service Java &middot; 14/10/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+@media (max-width:560px){h1.title{font-size:25px}.card{padding:20px 18px}.tbl{display:block;overflow-x:auto}}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 14/10/2026</div>
+    <h1 class="title">Netflix đổi mặc định từ G1 sang ZGC thế hệ: pause dưới 1 ms, không mất throughput — nhưng cái giá nằm ở chỗ khác, và không phải p99 nào cũng là lỗi của GC</h1>
+    <div class="meta">14/10/2026 · Đọc khoảng 12 phút · Nguồn chính: Netflix Technology Blog (Danny Thomas, 06/03/2024); đối chiếu OpenJDK JEP 439 và JEP 474, tài liệu Oracle về GC, một bài post-mortem GC do người dùng tự đăng</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: số này chỉ có <b>một bài</b> (mảng vận hành, bám stack Java/Spring Boot). Bản tin dựa vào <b>một case cấp một</b> (Netflix tự kể), hai tài liệu thiết kế của OpenJDK và tài liệu Oracle. Netflix <b>không công bố số p99 hay CPU cụ thể</b>: phần lớn kết quả của họ chỉ nằm trong biểu đồ, nên bài này không bịa số thay họ. Bài của một tác giả ẩn danh (nguồn [6]) có số rõ ràng hơn nhưng không kiểm chứng được và có chỗ tự mâu thuẫn; bản tin dùng nó như ví dụ minh họa, có đánh dấu. Các khối <b style="color:#1e40af">Cơ chế</b>, phần ánh xạ sang Spring Boot/HikariCP/Kafka/RabbitMQ và "Rút ra theo quy mô" là phân tích của bản tin, <em>không trích nguyên văn từ nguồn</em>. Không chèn code.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1"><strong>Bài 1</strong> — GC và p99 của service Java<br><span style="font-size:13.5px;color:#6b7280">· vì sao pause GC thành timeout, retry, hedging · Netflix đổi gì, được gì · cái giá: CPU, bộ nhớ, huge pages, reference processing · chỗ G1 và Parallel vẫn thắng · một ca Full GC 10 giây (có dấu hỏi) · ánh xạ sang Spring Boot, HikariCP, Kafka · việc làm tuần này</span></a></li>
+    </ol>
+  </nav>
+
+  <article class="card" id="bai1">
+    <span class="tag legacy">Tối ưu hệ đang chạy · JVM</span>
+    <h2 class="head">Một pause GC 300 ms không chỉ là 300 ms: nó thành timeout, rồi thành retry</h2>
+    <p class="src">Nguồn: Netflix Technology Blog — <a href="https://netflixtechblog.com/bending-pause-times-to-your-will-with-generational-zgc-256629c9386b" target="_blank">"Bending pause times to your will with Generational ZGC"</a>, Danny Thomas, 06/03/2024 [1]; OpenJDK — <a href="https://openjdk.org/jeps/439" target="_blank">JEP 439</a> [2] và <a href="https://openjdk.org/jeps/474" target="_blank">JEP 474</a> [3]; Oracle — <a href="https://docs.oracle.com/en/java/javase/21/gctuning/available-collectors.html" target="_blank">Available Collectors</a> [4] và <a href="https://docs.oracle.com/en/java/javase/21/gctuning/garbage-first-g1-garbage-collector1.html" target="_blank">G1 Garbage Collector</a> [5]; BestHub — <a href="https://www.besthub.dev/articles/how-we-cut-full-gc-from-10-seconds-to-200-ms-a-complete-jvm-gc-tuning-guide-2036d34acace" target="_blank">"How We Cut Full GC from 10 seconds to 200 ms"</a> (đăng 29/06/2026) [6].</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">&gt; một nửa</div><div class="lab">số service streaming quan trọng của Netflix chạy JDK 21 với ZGC thế hệ; G1 không còn là mặc định <sup><a href="https://netflixtechblog.com/bending-pause-times-to-your-will-with-generational-zgc-256629c9386b" target="_blank">[1]</a></sup></div></div>
+      <div class="box"><div class="num">36% → ~10%</div><div class="lab">ca xấu nhất Netflix đo: ZGC cũ tốn CPU hơn G1 36%; ZGC thế hệ lại tốt hơn G1 gần 10% <sup><a href="https://netflixtechblog.com/bending-pause-times-to-your-will-with-generational-zgc-256629c9386b" target="_blank">[1]</a></sup></div></div>
+      <div class="box"><div class="num">~3% heap</div><div class="lab">overhead cố định của ZGC, cộng thêm native memory nhiều hơn G1 <sup><a href="https://netflixtechblog.com/bending-pause-times-to-your-will-with-generational-zgc-256629c9386b" target="_blank">[1]</a></sup></div></div>
+      <div class="box"><div class="num">6–8%</div><div class="lab">throughput tăng, tiết kiệm khoảng 1 giờ chạy batch, khi một job precompute lớn rời G1 sang Parallel <sup><a href="https://netflixtechblog.com/bending-pause-times-to-your-will-with-generational-zgc-256629c9386b" target="_blank">[1]</a></sup></div></div>
+    </div>
+
+    <h3 class="sub">Vì sao Netflix quan tâm: pause là ngòi nổ của chuỗi retry</h3>
+    <p>Netflix viết rằng pause GC từng là một nguồn tail latency lớn. Request chậm thì bị timeout, timeout kéo theo huỷ request, rồi đến retry, hedging (gửi thêm bản sao request sang nơi khác) và fallback <sup><a href="https://netflixtechblog.com/bending-pause-times-to-your-will-with-generational-zgc-256629c9386b" target="_blank">[1]</a></sup>. Sau khi bật ZGC thế hệ trên một cụm service, tỉ lệ huỷ request giảm, nhưng bài chỉ cho thấy biểu đồ chứ không có con số <sup><a href="https://netflixtechblog.com/bending-pause-times-to-your-will-with-generational-zgc-256629c9386b" target="_blank">[1]</a></sup>. Pause tối đa của ZGC thường dưới 1 ms.</p>
+    <div class="mech"><b>Cơ chế.</b> Một pause stop-the-world (mọi thread ứng dụng đứng hết) 300 ms nghe nhỏ, nhưng nó đánh vào cả hàng đợi: request đang chạy chậm lại, request mới dồn vào, client bên kia hết timeout rồi gửi lại. Lúc service vừa hồi, nó phải gánh cả request cũ lẫn bản retry. Vì thế pause GC ít khi hiện ra như "chậm 300 ms". Nó hiện ra như một đợt tăng tải vài giây sau đó. Nếu p99 của bạn nhảy theo chu kỳ đều, hãy đối chiếu với nhật ký GC trước khi đổ lỗi cho database.</div>
+
+    <h3 class="sub">Netflix đổi đúng một thứ, và những gì họ thấy</h3>
+    <p>Đổi đúng một thứ: collector mặc định, từ G1 sang ZGC thế hệ, trên JDK 21 trở lên. Netflix nêu ba nhóm kết quả <sup><a href="https://netflixtechblog.com/bending-pause-times-to-your-will-with-generational-zgc-256629c9386b" target="_blank">[1]</a></sup>:</p>
+    <table class="tbl">
+      <tr><th>Mặt</th><th>Kết quả Netflix kể</th><th>Có số?</th></tr>
+      <tr><td>Tail latency</td><td>Pause tối đa thường dưới 1 ms; tỉ lệ huỷ request giảm</td><td>Chỉ biểu đồ</td></tr>
+      <tr><td>Throughput</td><td>Họ đã chờ một khoản phí do barrier và việc chạy nền, nhưng không thấy gì ở các service của họ; cùng mức CPU mục tiêu thì latency trung bình và p99 tốt hơn G1</td><td>Chỉ biểu đồ</td></tr>
+      <tr><td>CPU, ca xấu nhất</td><td>ZGC cũ tốn hơn G1 36% CPU; ZGC thế hệ cho kết quả tốt hơn G1 gần 10%</td><td>Có</td></tr>
+      <tr><td>Vận hành</td><td>Không cần tune; allocation stall hiếm và ngắn hơn pause trung bình của G1</td><td>Định tính</td></tr>
+    </table>
+    <p>Một chi tiết nhỏ mà đáng đọc kỹ. Nửa số service streaming của họ dùng thư viện Hollow để giữ bộ dữ liệu metadata lớn ngay trên heap. Khi bộ dữ liệu này được làm mới định kỳ, G1 cho ra các pause vượt xa mục tiêu. Bỏ được nỗi lo đó, Netflix gỡ luôn các mẹo pool mảng, giải phóng vài trăm MB <sup><a href="https://netflixtechblog.com/bending-pause-times-to-your-will-with-generational-zgc-256629c9386b" target="_blank">[1]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế.</b> ZGC thế hệ chia heap thành vùng trẻ và vùng già, thu từng vùng độc lập. Phần lớn đối tượng chết trẻ, nên thu vùng trẻ thường xuyên vừa rẻ vừa giải phóng được nhiều bộ nhớ. OpenJDK nêu mục tiêu rõ: giữ pause từ 1 ms trở xuống, không cần chỉnh kích thước thế hệ hay số thread GC, và không mất throughput đáng kể so với ZGC cũ <sup><a href="https://openjdk.org/jeps/439" target="_blank">[2]</a></sup>. Trong benchmark Cassandra của chính JEP, bản thế hệ dùng heap nhỏ bằng một phần tư mà throughput gấp bốn lần ZGC cũ <sup><a href="https://openjdk.org/jeps/439" target="_blank">[2]</a></sup>. Đây là so sánh với ZGC cũ, không phải với G1, nên đừng đọc thành "gấp 4 lần G1".</div>
+
+    <h3 class="sub">Cái giá: bốn chỗ Netflix gặp, bạn cũng sẽ gặp</h3>
+    <p><b>Một: bộ nhớ.</b> ZGC có overhead cố định khoảng 3% kích thước heap và dùng native memory nhiều hơn G1. Chỉ vài service của họ phải giảm heap tối đa, và đó là những service vốn có nhu cầu native memory cao hơn trung bình <sup><a href="https://netflixtechblog.com/bending-pause-times-to-your-will-with-generational-zgc-256629c9386b" target="_blank">[1]</a></sup>. Ngoài ra heap dưới 32 GB mất compressed references (con trỏ nén), nhưng Netflix nói điều này ít ảnh hưởng ZGC hơn các collector stop-the-world.</p>
+    <p><b>Hai: huge pages.</b> Nhiều bản Linux đặt shmem_enabled là "never", việc này lặng lẽ chặn ZGC dùng huge pages. Chỉ đổi giá trị này sang "advise", không đổi gì khác, đã giảm CPU đáng kể (không có con số) <sup><a href="https://netflixtechblog.com/bending-pause-times-to-your-will-with-generational-zgc-256629c9386b" target="_blank">[1]</a></sup>. Bạn bật cờ rồi tưởng đã xong, trong khi hệ điều hành đang từ chối.</p>
+    <p><b>Ba: reference processing.</b> ZGC chỉ xử lý các reference (như WeakReference, Cleaner) trong lần thu "lớn". Một framework tạo ExecutorService không dùng cho mỗi request làm việc này dồn lại, gây vấn đề hiệu năng khi dump thread dạng JSON (JDK-8321178) <sup><a href="https://netflixtechblog.com/bending-pause-times-to-your-will-with-generational-zgc-256629c9386b" target="_blank">[1]</a></sup>. Nghĩa là collector mới có thể làm lộ một rò rỉ nhỏ mà G1 che đi.</p>
+    <p><b>Bốn: không phải workload nào cũng hợp.</b> Workload có tốc độ cấp phát đột biến và nhiều đối tượng sống lâu, thời gian sống khó đoán, chạy tốt hơn trên G1. Vài job batch/precompute lẽ ra nên dùng Parallel: một job lớn tăng 6–8% throughput, bớt khoảng một giờ chạy <sup><a href="https://netflixtechblog.com/bending-pause-times-to-your-will-with-generational-zgc-256629c9386b" target="_blank">[1]</a></sup>. Tài liệu Oracle cũng mô tả Parallel là lựa chọn cho tập dữ liệu vừa và lớn khi pause một giây hoặc hơn chấp nhận được <sup><a href="https://docs.oracle.com/en/java/javase/21/gctuning/available-collectors.html" target="_blank">[4]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế.</b> Barrier của ZGC là đoạn code nhỏ chen vào mỗi lần đọc/ghi con trỏ; đổi lại, việc dọn dẹp chạy song song với ứng dụng thay vì dừng nó. ZGC thế hệ phức tạp hơn vì có hai collector chạy đồng thời, phải cân bằng tần suất và CPU để không quấy ứng dụng. JEP nói thẳng một số workload không chia thế hệ tự nhiên có thể chậm đi chút ít <sup><a href="https://openjdk.org/jeps/439" target="_blank">[2]</a></sup>. Với job batch không quan tâm latency từng request, bạn đang trả tiền barrier mà không nhận lại gì.</div>
+
+    <h3 class="sub">Mốc phiên bản bạn cần nhớ</h3>
+    <p>Trên JDK 21, ZGC thế hệ phải bật tay bằng cặp cờ UseZGC và ZGenerational <sup><a href="https://openjdk.org/jeps/439" target="_blank">[2]</a></sup>. Từ JDK 23, chế độ thế hệ là mặc định của ZGC và chế độ cũ bị đánh dấu deprecated để gỡ sau <sup><a href="https://openjdk.org/jeps/474" target="_blank">[3]</a></sup>. JEP 474 cảnh báo cấu hình đã tune cho ZGC cũ có thể cần chỉnh lại, và định dạng log GC cùng dữ liệu management API có đổi, nên công cụ giám sát bám sát log cũ có thể hỏng <sup><a href="https://openjdk.org/jeps/474" target="_blank">[3]</a></sup>. Còn nếu bạn không đặt gì, Oracle nói G1 được chọn mặc định trên phần lớn cấu hình phần cứng, còn Serial chỉ ở một số cấu hình nhất định <sup><a href="https://docs.oracle.com/en/java/javase/21/gctuning/available-collectors.html" target="_blank">[4]</a></sup>.</p>
+    <div class="editnote">Bản tin không xác minh được ngưỡng CPU/RAM chính xác mà JVM dùng để chọn Serial thay G1 trong container, vì trang Oracle đã đọc không nêu số. Muốn biết service của bạn đang chạy collector nào, đừng suy luận: xem dòng khởi động trong log GC của chính pod đó.</div>
+
+    <h3 class="sub">Một ca Full GC 10 giây — dùng cẩn thận</h3>
+    <p>Một bài post-mortem ẩn danh trên BestHub kể về service backend với heap cố định 8 GB, đang chạy Parallel GC: Full GC cứ 10 giây một lần, mỗi lần dừng khoảng 10 giây, latency API từ 50 ms lên 15 giây <sup><a href="https://www.besthub.dev/articles/how-we-cut-full-gc-from-10-seconds-to-200-ms-a-complete-jvm-gc-tuning-guide-2036d34acace" target="_blank">[6]</a></sup>. Tác giả chuyển sang G1, chỉnh từng tham số một và ghi lại pause sau mỗi bước, rồi sửa nguyên nhân gốc: một hàm cấp phát mảng 4 MB mỗi lần gọi, khoảng 2 GB mỗi giây ở 500 QPS. Kết quả họ báo: Full GC từ mỗi 10 giây thành mỗi 5 phút, pause từ 10 giây còn 200 ms, p99 từ 15 giây còn 120 ms <sup><a href="https://www.besthub.dev/articles/how-we-cut-full-gc-from-10-seconds-to-200-ms-a-complete-jvm-gc-tuning-guide-2036d34acace" target="_blank">[6]</a></sup>.</p>
+    <p>Đây không phải bằng chứng đáng tin hoàn toàn. Bài không nêu phiên bản JVM, không nêu công ty, và phần chia vùng heap "trước khi sửa" cộng lại thành 9,5 GB trên một heap 8 GB. Một số lời khuyên của bài còn dễ gây hiểu nhầm: MaxGCPauseMillis là mục tiêu, không phải cam kết. Giá trị của bài nằm ở thứ tự việc, không ở các con số.</p>
+    <div class="mech"><b>Cơ chế.</b> Theo Oracle, G1 coi đối tượng lớn hơn hoặc bằng nửa kích thước một region là "humongous" và xử lý riêng; khi bộ nhớ cạn, G1 rơi về Full GC nén toàn heap tại chỗ, và tài liệu cảnh báo bước này có thể rất chậm <sup><a href="https://docs.oracle.com/en/java/javase/21/gctuning/garbage-first-g1-garbage-collector1.html" target="_blank">[5]</a></sup>. Phép tính của bản tin (không có trong nguồn): nếu region là 16 MB như bài [6] đặt, ngưỡng humongous là 8 MB, vậy mảng 4 MB của họ <em>không</em> phải humongous. Thứ làm hại họ nhiều khả năng là tốc độ cấp phát khổng lồ đẩy đối tượng lên vùng già, chứ không phải cơ chế humongous. Bài học: đo tốc độ cấp phát trước khi đổi collector, vì đổi collector có thể chỉ che đi một thói quen cấp phát tệ.</div>
+
+    <h3 class="sub">Ánh xạ sang stack của bạn: Spring Boot, HikariCP, Kafka, RabbitMQ</h3>
+    <p>Phần này là suy luận của bản tin. Một pause lâu trong service Spring Boot làm ba thứ cùng lúc. Thread request đứng, nên request đang chạy chậm theo. Connection mượn từ HikariCP vẫn bị giữ trong lúc đứng, nên cả pool bị giữ lâu hơn bình thường; pool 50 connection có thể cạn dù database hoàn toàn khoẻ. Cuối cùng, client gọi vào service timeout rồi retry, và khi service hồi lại, nó nhận gấp đôi tải. Bạn đọc ba chỉ số này lúc p99 nhảy: pause GC trong log, số connection chờ của HikariCP, và tỉ lệ retry ở client.</p>
+    <p>Với consumer Kafka hoặc RabbitMQ, pause còn tinh vi hơn: một pause dài vượt khoảng thời gian chờ của broker làm consumer bị coi là chết. Với Kafka, nhóm consumer vào vòng rebalance; với RabbitMQ, tin nhắn chưa ack bị trả lại hàng đợi và giao lại, nên consumer xử lý trùng. Đây cũng là lý do thiết kế idempotent quan trọng hơn chuyện chọn collector.</p>
+
+    <h3 class="sub">Rút ra theo quy mô</h3>
+    <div class="scale">
+      <div class="col small"><h4>Đội nhỏ / startup &lt; 10 người</h4><ul>
+        <li>Chưa tune gì. Bật log GC, xem pause tối đa và tần suất Full GC trong một tuần.</li>
+        <li>Nếu đang ở JDK 17 trở xuống, nâng lên JDK 21 trước; đó là điều kiện để thử ZGC thế hệ.</li>
+        <li>Nếu p99 không tương quan với pause GC, dừng ở đây. Vấn đề nằm ở chỗ khác (query, pool, mạng).</li>
+      </ul></div>
+      <div class="col"><h4>Đội đã có sản phẩm production</h4><ul>
+        <li>Chọn một service nhạy latency, ít trạng thái, có SLO rõ. Thử ZGC thế hệ trên một nhóm canary nhỏ, giữ nguyên phần còn lại.</li>
+        <li>Đo CPU, bộ nhớ resident, p99 và tỉ lệ retry trước/sau, cùng khung giờ tải. Kiểm tra cấu hình huge pages của hệ điều hành.</li>
+        <li>Job batch, ETL, precompute: thử Parallel, đừng mặc định cùng collector với service API.</li>
+        <li>Kiểm tra công cụ giám sát có đọc log GC theo định dạng cũ không.</li>
+      </ul></div>
+    </div>
+
+    <div class="takeaway">💡 <b>Rút ra cho bạn:</b> trước khi đổi collector, hãy chứng minh GC là thủ phạm. Netflix có lý do rõ (timeout kéo retry, dữ liệu lớn trên heap) và họ vẫn để lại G1/Parallel cho workload không hợp. Đổi collector là một thử nghiệm có đo, không phải một nâng cấp.</div>
+
+    <div class="doslist">
+      <div>✅ Bật log GC trên mọi service Java production; ghi lại pause tối đa và tần suất Full GC theo tuần.</div>
+      <div>✅ Đối chiếu thời điểm p99 nhảy với pause GC, độ chờ của HikariCP và tỉ lệ retry của client.</div>
+      <div>✅ Thử ZGC thế hệ trên một nhóm canary nhỏ, đo cả CPU và bộ nhớ chứ không chỉ latency.</div>
+      <div>✅ Tách chính sách GC của job batch khỏi service API.</div>
+      <div>❌ Bật ZGC trên toàn bộ service chỉ vì Netflix làm vậy; Netflix cũng không làm vậy cho mọi workload.</div>
+      <div>❌ Coi con số của một post-mortem ẩn danh (như [6]) là chuẩn để so với hệ của bạn.</div>
+      <div>❌ Đổi collector khi chưa đo tốc độ cấp phát; bạn có thể chỉ đang che đi một hàm cấp phát mảng lớn.</div>
+    </div>
+
+    <div class="refs"><b>Nguồn tham khảo</b><br>
+      [1] <a href="https://netflixtechblog.com/bending-pause-times-to-your-will-with-generational-zgc-256629c9386b" target="_blank">Netflix Technology Blog — Bending pause times to your will with Generational ZGC (Danny Thomas, 06/03/2024)</a> — kết quả chủ yếu qua biểu đồ, không có số p99/CPU tuyệt đối<br>
+      [2] <a href="https://openjdk.org/jeps/439" target="_blank">OpenJDK — JEP 439: Generational ZGC (JDK 21)</a><br>
+      [3] <a href="https://openjdk.org/jeps/474" target="_blank">OpenJDK — JEP 474: ZGC Generational Mode by Default (JDK 23)</a><br>
+      [4] <a href="https://docs.oracle.com/en/java/javase/21/gctuning/available-collectors.html" target="_blank">Oracle — Java SE 21 GC Tuning Guide: Available Collectors</a><br>
+      [5] <a href="https://docs.oracle.com/en/java/javase/21/gctuning/garbage-first-g1-garbage-collector1.html" target="_blank">Oracle — Java SE 21 GC Tuning Guide: Garbage-First (G1) Garbage Collector</a><br>
+      [6] <a href="https://www.besthub.dev/articles/how-we-cut-full-gc-from-10-seconds-to-200-ms-a-complete-jvm-gc-tuning-guide-2036d34acace" target="_blank">BestHub — How We Cut Full GC from 10 seconds to 200 ms (tác giả ẩn danh, 29/06/2026)</a> — chưa kiểm chứng độc lập, có mâu thuẫn nội bộ</div>
+  </article>
+
+  <div class="foot">Bản tin sáng · tổng hợp từ nguồn công khai đã xác minh</div>
+</div>
+</body>
+</html>
