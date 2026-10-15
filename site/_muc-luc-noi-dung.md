@@ -10,13 +10,15 @@
 > 2. Trước khi giải thích một thuật ngữ: xem phần **C. Từ điển thuật ngữ** — nếu đã giải thích ở số trước thì chỉ nhắc gọn/nối link, không giải thích lại dài dòng.
 > 3. Sau khi viết xong: thêm 1 khối vào phần **B. Mục lục theo số** và cập nhật phần A + C nếu có nguồn/thuật ngữ mới (dùng mẫu ở cuối file).
 >
-> _Cập nhật lần cuối: 14/10/2026 — 84 số (24/07 → 14/10/2026; gồm 1 số song song 09/08 chuyên đề An toàn thông tin)._
+> _Cập nhật lần cuối: 15/10/2026 — 85 số (24/07 → 15/10/2026; gồm 1 số song song 09/08 chuyên đề An toàn thông tin)._
 
 ---
 
 ## A. Danh sách nguồn / thực thể ĐÃ DÙNG (tránh lặp)
 
 ### Domain nguồn đã trích dẫn (đừng lặp cùng một bài)
+
+mailchimp.com/what-we-learned-from-the-recent-mandrill-outage (Eric Muntz, 26/03/2019; Mandrill/Mailchimp tự kể; shard4 dừng 05:35 UTC 04/02/2019, 40 giờ 34 phút tới 22:09 05/02, hồi phục đủ 01:00 06/02; vacuum ước tới 40 ngày, cắt bảng Search/Url cỡ TB; 80% mail gửi được; alert XID thêm 22:40) · sqlservercentral.com/articles/i-too-have-a-production-story-a-downtime-caused-by-postgres-transaction-id-wraparound-problem (Chandan Shukla, 23/02/2026; ~10 TPS = 864.000 XID/ngày, ngưỡng 200 triệu ≈ 231 ngày; autovacuum tắt tạm rồi quên; lẫn mốc 200 triệu với 2 tỉ) · postgresql.org/docs/current/routine-vacuuming.html (cảnh báo còn 40 triệu, từ chối ghi còn <3 triệu, freeze_max_age mặc định 200 triệu, thủ phạm: prepared xact/transaction lâu/replication slot, khuyên VACUUM thường, không FULL/FREEZE) · cloudsmith.com/blog/my-ci-cd-platform-was-breached-now-what (Ciara Carey, 06/05/2024; vendor; FT >1.000 pipeline, >14.000 env var → ~5.000 secret sống lâu, 30–40 kỹ sư nhiều tuần, OIDC + Doppler) · circleci.com/blog/jan-4-2023-incident-report (laptop nhiễm 16/12/2022, exfil 22/12, báo khách 04/01/2023; MDM, hạn chế quyền prod) — ĐÃ DÙNG 15/10/2026
 
 learn.microsoft.com/.../about-change-data-capture-sql-server (cập nhật 20/07/2026; capture đọc log → change table, trễ có sẵn; mặc định ghi maxtrans 1.000/chờ 5 s; điểm cắt log KHÔNG tiến kể cả simple recovery khi capture chưa lấy xong, CHECKPOINT vô ích; cleanup 2:00 sáng, 3 ngày/4.320 phút, xóa ≤5.000/lệnh; tối đa 2 capture instance/bảng; MaxCmdsInTran không hỗ trợ khi CDC+replication; dừng capture giảm tải đỉnh, không mất dữ liệu) · learn.microsoft.com/.../administer-and-monitor-change-data-capture-sql-server (trần = maxtrans×maxscans÷giây; DMV sys.dm_cdc_log_scan_sessions latency/empty_scan_count/throughput tính LỆNH/giây; một cleanup job, một retention cho mọi bảng; sau CU/SP có thể dựng lại object CDC → tốn log) · learn.microsoft.com/.../sys-sp-cdc-add-job (maxtrans 500, maxscans 10, continuous 1, polling 5 s, retention 4.320, threshold 5.000 — LỆCH trang About 1.000) · learn.microsoft.com/.../sys-sp-cdc-cleanup-change-table (dọn thủ công theo capture instance, lỗi 22852 deadlock quét–dọn, lỗi 22957) · learn.microsoft.com/.../replicate-track-change-data-capture-always-on-availability (cập nhật 19/01/2026; sau failover phải sp_cdc_add_job capture + cleanup trên primary mới, tắt job ở node cũ, đọc secondary cần read-only routing + login domain; change tracking đọc từ secondary lỗi 22117) · techcommunity.microsoft.com/discussions/sql_server/impact-of-cdc-on-sql-server/3990813 (PeterK32, 23/11/2023; NGƯỜI DÙNG TỰ ĐĂNG; SQL Server 2017 container Linux, Azure 4 vCPU/64 GB, 180 bảng/DB, ~300k DML/phút/DB, 1.000 update 73 ms bật vs 15 ms tắt ≈4,9×, log buffer ~10×, simple recovery; trả lời FalseDawn 28/02/2024 "low impact không phải zero") · repost.aws/knowledge-center/dms-tlog-full-sql-server-source (không ngày; RDS; log đầy lý do REPLICATION/ACTIVE_TRANSACTION) · debezium.io/documentation/reference/stable/connectors/sqlserver.html (đọc giữa LSN cũ và LSN max, offset commit định kỳ → có thể trùng, không có max LSN thường do Agent không chạy, đổi schema phải cập nhật change table) — ĐÃ DÙNG 13/10/2026 (đã xem nhưng bỏ: aimbetter.com CDC cleanup delay/log latency — không số; devops.dev Lorenzo Uriel 04/08/2026 — cụt, không số; sqlservercentral thread 2013)
 atlassian.com/blog/atlassian-engineering (Nitish Malik, Flakinator, 08/12/2025; công ty tự kể; ~21%/15% master hỏng, 150.000 giờ/năm, 350 triệu test/ngày, 22.000 build/7.000 test) · testing.googleblog.com (John Micco, 27/05/2016; 1,5% lượt chạy, ~16% test, 84%) — ĐÃ DÙNG 12/10/2026
@@ -176,6 +178,13 @@ LegacyCodeBench 200 tác vụ/4 bậc · Legacy Insights 94%/tài liệu 96% · 
 ---
 
 ## B. Mục lục theo số (mới → cũ)
+
+### 15/10/2026 — Postgres tự khóa ghi vì "tuổi" transaction ID: Mandrill nghỉ 40 giờ 34 phút, ca autovacuum tắt rồi quên; & FT xoay vòng ~5.000 secret sống lâu sau vụ CircleCI (Mailchimp/Muntz; Shukla/SQLServerCentral; PostgreSQL docs; Cloudsmith/Carey; CircleCI)
+- **Chủ đề:** Mảng 3 (PostgreSQL vận hành, ánh xạ sang log truncation/version store của SQL Server) + mảng 4 (quản lý secret CI/CD, OIDC). 2 bài + Góc nhìn.
+- **Nguồn:** Mailchimp (Eric Muntz, 26/03/2019) · SQLServerCentral (Chandan Shukla, 23/02/2026) · docs PostgreSQL Routine Vacuuming · Cloudsmith (Ciara Carey, 06/05/2024, vendor) · CircleCI incident report 04/01/2023.
+- **Số chính:** 40 giờ 34 phút downtime · vacuum ước tới 40 ngày · 10 TPS = 864.000 XID/ngày ≈ 231 ngày tới 200 triệu (bản tin tính 1.000 TPS ≈ 2,3 ngày) · cảnh báo 40 triệu/khóa <3 triệu · FT >14.000 env var → ~5.000 secret, 30–40 kỹ sư · CircleCI 19 ngày từ nhiễm tới báo khách.
+- **Thực thể:** Mandrill, Mailchimp, Financial Times, CircleCI, Cloudsmith, Doppler.
+- **Ghi chú tránh lặp:** wraparound/XID và xoay vòng secret sau vụ CircleCI đã có. Ghi chú: số FT chỉ qua blog vendor; docs nói anti-wraparound autovacuum chạy dù tắt (ca 2026 không giải thích).
 
 ### 14/10/2026 — Netflix đổi mặc định từ G1 sang ZGC thế hệ: pause dưới 1 ms, không mất throughput — nhưng cái giá nằm ở chỗ khác, và không phải p99 nào cũng là lỗi của GC (Netflix Technology Blog; OpenJDK JEP 439/474; Oracle GC Tuning Guide; BestHub)
 - **Chủ đề:** Mảng 3 — vận hành/độ tin cậy, JVM/GC cho Java/Spring Boot (ánh xạ HikariCP, Kafka rebalance, RabbitMQ redelivery). 1 bài (không Góc nhìn). Netflix không công bố p99/CPU tuyệt đối (chỉ biểu đồ) → bản tin không bịa số; BestHub dùng như ví dụ có đánh dấu "chưa kiểm chứng".
@@ -751,6 +760,9 @@ LegacyCodeBench 200 tác vụ/4 bậc · Legacy Insights 94%/tài liệu 96% · 
 ---
 
 ## C. Từ điển thuật ngữ (đã giải thích ở các số — chỉ nhắc gọn khi tái dùng)
+
+- **XID wraparound / freeze (Postgres):** XID 32 bit so sánh vòng tròn (~2 tỉ cũ/2 tỉ mới); VACUUM phải đóng băng dòng cũ, không thì Postgres khóa ghi; cảnh báo còn 40 triệu, từ chối ghi <3 triệu; freeze_max_age mặc định 200 triệu — giải thích 15/10/2026.
+- **OIDC cho CI (token ngắn hạn thay secret sống lâu):** pipeline trình danh tính job cho cloud, nhận token vài phút — giải thích 15/10/2026.
 
 - **Pause stop-the-world / ZGC thế hệ / humongous object / allocation stall** (14/10/2026): pause = mọi thread ứng dụng đứng; ZGC thế hệ thu vùng trẻ và già độc lập, pause ≤1 ms; humongous (G1) = đối tượng ≥ nửa region; pause GC → timeout → retry/hedging; JDK 21 bật tay, JDK 23 mặc định.
 

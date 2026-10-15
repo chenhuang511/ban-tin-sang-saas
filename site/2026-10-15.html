@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wraparound XID và xoay vòng secret &middot; 15/10/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+@media (max-width:560px){h1.title{font-size:25px}.card{padding:20px 18px}.tbl{display:block;overflow-x:auto}}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+
+
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 15/10/2026</div>
+    <h1 class="title">Postgres tự khóa ghi vì "tuổi" transaction ID: Mandrill nghỉ gần 41 tiếng, và vì sao một công tắc autovacuum tắt tạm có thể nằm im cả năm — kèm bài học FT sau vụ CircleCI: 14.000 biến môi trường, 5.000 secret sống lâu</h1>
+    <div class="meta">15/10/2026 · Đọc khoảng 13 phút · Nguồn chính: Mailchimp (Eric Muntz, 26/03/2019), SQLServerCentral (Chandan Shukla, 02/2026), tài liệu PostgreSQL; Cloudsmith (Ciara Carey, 06/05/2024) và báo cáo sự cố của CircleCI</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: số này có <b>hai bài</b>. Các đoạn "Cơ chế", phần ánh xạ sang stack của bạn và khuyến nghị theo quy mô là <b>biên tập tổng hợp từ thực hành phổ biến, không trích nguyên văn từ nguồn</b>. Mọi con số đều dẫn nguồn ngay cạnh câu. Bản tin tự tính vài phép nhân đơn giản và ghi rõ "bản tin tính". Chi tiết về Financial Times lấy qua blog của Cloudsmith (một nhà cung cấp công cụ), chứ không phải bài do FT tự đăng.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1"><strong>Bài 1</strong> — Transaction ID wraparound trong Postgres<br><span style="font-size:13.5px;color:#6b7280">· Mandrill: 40 tiếng 34 phút · ca 2026: autovacuum tắt rồi quên · docs nói gì về ngưỡng cảnh báo · ánh xạ sang SQL Server</span></a></li>
+      <li><a href="#bai2"><strong>Bài 2</strong> — Xoay vòng secret sau sự cố CircleCI<br><span style="font-size:13.5px;color:#6b7280">· FT: 14.000 biến môi trường, 30–40 kỹ sư, nhiều tuần · OIDC thay credential sống lâu · lịch 19 ngày của CircleCI</span></a></li>
+      <li><a href="#goc-nhin"><strong>Góc nhìn</strong> — Thứ không ai sở hữu thì không ai canh<br><span style="font-size:13.5px;color:#6b7280">· 3 việc làm trong tuần</span></a></li>
+    </ol>
+  </nav>
+
+  <article class="card" id="bai1">
+    <span class="tag legacy">Tối ưu hệ đang chạy · PostgreSQL</span>
+    <h2 class="head">Postgres không hỏng. Nó tự khóa ghi để bảo vệ dữ liệu, và bạn chỉ có vài giờ để nhận ra</h2>
+    <p class="src">Nguồn: Mailchimp — <a href="https://mailchimp.com/what-we-learned-from-the-recent-mandrill-outage/" target="_blank">"What we learned from the recent Mandrill outage"</a> (Eric Muntz, 26/03/2019); SQLServerCentral — <a href="https://www.sqlservercentral.com/articles/i-too-have-a-production-story-a-downtime-caused-by-postgres-transaction-id-wraparound-problem" target="_blank">ca wraparound của Chandan Shukla</a> (02/2026); <a href="https://www.postgresql.org/docs/current/routine-vacuuming.html" target="_blank">tài liệu PostgreSQL về routine vacuuming</a>.</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">40 giờ 34 phút</div><div class="lab">từ lúc shard4 của Mandrill tự dừng (05:35 UTC ngày 04/02/2019) đến lúc báo đã xử lý xong (22:09 ngày 05/02) <sup><a href="https://mailchimp.com/what-we-learned-from-the-recent-mandrill-outage/" target="_blank">[1]</a></sup></div></div>
+      <div class="box"><div class="num">tới 40 ngày</div><div class="lab">thời gian ước tính để VACUUM xong các bảng cỡ TB của shard đó, nên họ phải cắt bỏ hai bảng <sup><a href="https://mailchimp.com/what-we-learned-from-the-recent-mandrill-outage/" target="_blank">[1]</a></sup></div></div>
+      <div class="box"><div class="num">~231 ngày</div><div class="lab">khoảng thời gian một DB 10 giao dịch ghi/giây chạm ngưỡng 200 triệu, theo phép tính trong bài 2026 <sup><a href="https://www.sqlservercentral.com/articles/i-too-have-a-production-story-a-downtime-caused-by-postgres-transaction-id-wraparound-problem" target="_blank">[2]</a></sup></div></div>
+      <div class="box"><div class="num">40 triệu → 3 triệu</div><div class="lab">Postgres cảnh báo khi còn 40 triệu transaction nữa là wraparound; từ chối ghi khi còn dưới 3 triệu <sup><a href="https://www.postgresql.org/docs/current/routine-vacuuming.html" target="_blank">[3]</a></sup></div></div>
+    </div>
+
+    <h3 class="sub">Chuyện gì xảy ra với Mandrill</h3>
+    <p>Mandrill là dịch vụ gửi email giao dịch của Mailchimp. Dữ liệu key/value của nó chia trên nhiều shard Postgres. Thuật toán hash đẩy nhiều ghi vào shard4 hơn các shard còn lại, nên shard này nóng nhất <sup><a href="https://mailchimp.com/what-we-learned-from-the-recent-mandrill-outage/" target="_blank">[1]</a></sup>.</p>
+    <p>Tháng 11/2018, kỹ sư đã thấy transaction ID (XID) leo tới khoảng nửa giới hạn lúc cao điểm. Họ đánh giá chưa gấp và ghi một ticket backlog để thêm giám sát. Đến 05:35 UTC ngày 04/02/2019, shard4 chạm giới hạn và tự vào chế độ dừng an toàn <sup><a href="https://mailchimp.com/what-we-learned-from-the-recent-mandrill-outage/" target="_blank">[1]</a></sup>.</p>
+    <p>Phần chậm nhất là phát hiện. Exception đầu tiên bị chôn giữa các cảnh báo không liên quan trong đêm Chủ nhật. Mãi 11:58 mới có người mở điều tra, và 12:56 mới gọi đúng tên nguyên nhân. VACUUM bắt đầu lúc 14:16 ở chế độ standalone. Đến 16:30 ngày hôm sau họ họp để bàn phương án quyết liệt hơn, và 19:12 thì cắt (truncate) hai bảng Search và Url, vốn lớn cỡ TB trong khi hầu hết bảng khác chỉ cỡ MB. VACUUM xong khoảng một tiếng sau <sup><a href="https://mailchimp.com/what-we-learned-from-the-recent-mandrill-outage/" target="_blank">[1]</a></sup>.</p>
+    <p>Trong lúc đó chỉ khoảng 80% email trong hàng đợi được gửi đi, và email xếp hàng quá 48 giờ bị xóa theo mặc định. Mailchimp hoàn tiền cho các giao dịch mua Mandrill từ 01/01 đến 13/02/2019 <sup><a href="https://mailchimp.com/what-we-learned-from-the-recent-mandrill-outage/" target="_blank">[1]</a></sup>. Bài viết thừa nhận một điều đáng chú ý: họ không xác định được autovacuum đã tụt lại hay đã hỏng hẳn <sup><a href="https://mailchimp.com/what-we-learned-from-the-recent-mandrill-outage/" target="_blank">[1]</a></sup>.</p>
+
+    <div class="mech"><b>Cơ chế.</b> XID là số 32 bit. Postgres so sánh hai XID theo kiểu vòng tròn, nên mỗi XID chỉ có khoảng hai tỉ XID "cũ hơn" và hai tỉ XID "mới hơn". Một dòng dữ liệu quá hai tỉ transaction tuổi sẽ bỗng trông như nằm trong tương lai, tức là biến mất khỏi mắt mọi query. Muốn tránh, Postgres phải "đóng băng" (freeze) các dòng cũ, và việc đó do VACUUM làm. Khi VACUUM không theo kịp, Postgres thà dừng nhận lệnh ghi còn hơn làm hỏng dữ liệu <sup><a href="https://www.postgresql.org/docs/current/routine-vacuuming.html" target="_blank">[3]</a></sup>. Vì vậy sự cố này nghe như "database sập" nhưng thật ra là cơ chế bảo vệ chạy đúng.</div>
+
+    <h3 class="sub">Ca 2026: không có shard nóng, chỉ có một công tắc bị quên</h3>
+    <p>Chandan Shukla kể một công ty B2B SaaS cỡ vừa, Postgres làm OLTP chính nhiều năm, khoảng 10 giao dịch ghi mỗi giây, toàn giao dịch ngắn, không batch, không báo cáo trên primary. Từ trước khi anh vào, một sự cố I/O đĩa khiến đội cũ tắt autovacuum trên nhiều bảng, có chỗ tắt rộng hơn, như biện pháp tạm. Không ai bật lại <sup><a href="https://www.sqlservercentral.com/articles/i-too-have-a-production-story-a-downtime-caused-by-postgres-transaction-id-wraparound-problem" target="_blank">[2]</a></sup>.</p>
+    <p>Sau khi anh vào, đội tập trung vào backup, thử restore, DR và failover. Không ai xem sức khỏe wraparound. Khoảng một tháng sau, INSERT, UPDATE và DDL đồng loạt lỗi; hệ thống ở chế độ bảo vệ và gần như chỉ đọc. Cách xử lý là chấm dứt các transaction chạy lâu hoặc idle giữ snapshot cũ, rồi chạy VACUUM FREEZE thủ công trên các bảng "già" nhất <sup><a href="https://www.sqlservercentral.com/articles/i-too-have-a-production-story-a-downtime-caused-by-postgres-transaction-id-wraparound-problem" target="_blank">[2]</a></sup>.</p>
+    <p>Tác giả đưa ra phép tính: 10 TPS là 864.000 XID mỗi ngày, nên chạm ngưỡng 200 triệu sau khoảng 231 ngày <sup><a href="https://www.sqlservercentral.com/articles/i-too-have-a-production-story-a-downtime-caused-by-postgres-transaction-id-wraparound-problem" target="_blank">[2]</a></sup>. Con số này dễ đọc nhầm. 200 triệu là giá trị mặc định của autovacuum_freeze_max_age, tức điểm Postgres bắt đầu ép chạy vacuum chống wraparound, không phải điểm khóa ghi. Điểm khóa còn xa hơn, gần hai tỉ <sup><a href="https://www.postgresql.org/docs/current/routine-vacuuming.html" target="_blank">[3]</a></sup>. Chính bài viết cũng lẫn hai mốc này.</p>
+    <div class="editnote">Bản tin tính thêm: với 1.000 giao dịch ghi mỗi giây (cỡ OLTP kế toán nhiều khách), cùng phép nhân đó cho 86,4 triệu XID mỗi ngày, tức chạm 200 triệu chỉ sau khoảng 2,3 ngày. Đây là phép tính của bản tin, không phải số đo từ nguồn; thực tế còn phụ thuộc có bao nhiêu giao dịch thật sự lấy XID mới.</div>
+
+    <h3 class="sub">Chỗ hai nguồn không khớp nhau, và vì sao đáng để ý</h3>
+    <p>Tài liệu Postgres nói autovacuum vẫn được gọi cho bảng có dòng chưa đóng băng quá tuổi autovacuum_freeze_max_age, dù autovacuum đang tắt <sup><a href="https://www.postgresql.org/docs/current/routine-vacuuming.html" target="_blank">[3]</a></sup>. Vậy sao ca 2026 vẫn lọt tới mức khóa ghi? Bài của Shukla không giải thích. Phần dưới là suy luận của bản tin: có thể vacuum chống wraparound cứ chạy nhưng bị chặn bởi thứ giữ snapshot cũ, như bài chính nói khi họ phải chấm dứt transaction chạy lâu; hoặc chạy không kịp vì đã tắt rộng và bỏ lâu.</p>
+    <p>Tài liệu liệt kê ba thủ phạm cần dọn trước khi vacuum có tác dụng: prepared transaction treo, transaction mở rất lâu, và replication slot cũ <sup><a href="https://www.postgresql.org/docs/current/routine-vacuuming.html" target="_blank">[3]</a></sup>. Ngoài ra, tài liệu khuyên chạy VACUUM thường toàn database với tài khoản superuser, và nói đừng dùng VACUUM FULL (cần XID) hay VACUUM FREEZE (làm nhiều việc hơn mức cần) <sup><a href="https://www.postgresql.org/docs/current/routine-vacuuming.html" target="_blank">[3]</a></sup>. Bài của Shukla lại dùng VACUUM FREEZE. Trong lúc đang cháy, nó có thể vẫn hiệu quả; nhưng nếu bạn soạn runbook, hãy lấy khuyến nghị của tài liệu làm gốc.</p>
+    <div class="mech"><b>Cơ chế.</b> Cái đáng sợ ở wraparound là đường cong im lặng. Hệ thống chạy hoàn toàn bình thường cho tới ngày chạm mốc, không chậm đi, không lỗi vặt báo trước. Postgres chỉ lên tiếng khi còn 40 triệu transaction, và khóa ghi khi còn dưới 3 triệu <sup><a href="https://www.postgresql.org/docs/current/routine-vacuuming.html" target="_blank">[3]</a></sup>. Với DB ghi nặng, 40 triệu có thể là vài giờ. Cảnh báo của chính Postgres đến quá muộn để làm mốc báo động; bạn cần ngưỡng sớm hơn nhiều, tính theo "tuổi" chứ không theo lỗi.</div>
+
+    <h3 class="sub">Ánh xạ sang stack của bạn (suy luận của bản tin)</h3>
+    <p>Bạn chạy PostgreSQL ở vai phụ, còn lõi OLTP là SQL Server. SQL Server không có wraparound, nên không áp nguyên cơ chế. Nhưng hình dạng sự cố thì quen: một thứ dọn dẹp nền bị chặn hoặc bị tắt, hậu quả tích lũy âm thầm, rồi hệ thống đột ngột dừng. Ở SQL Server, các "bộ dọn" tương ứng là log truncation (bị giữ bởi transaction mở lâu, CDC chưa quét xong, AG chưa áp xong), version store khi bật RCSI, và job dọn của CDC. Các số trước trong bản tin đã mô tả từng cái. Điểm chung là: transaction mở lâu hay session "đang ngủ" luôn là thủ phạm đầu tiên cần kiểm tra.</p>
+    <p>Với Postgres của bạn, bài học cụ thể hơn. Bất kỳ ai tắt autovacuum "tạm thời" thì cần một ngày hết hạn cho quyết định đó. Ở bài 2026, công tắc tắt từ trước khi người kể chuyện vào đội, nghĩa là quyết định tồn tại lâu hơn trí nhớ của tổ chức.</p>
+
+    <h3 class="sub">Rút ra theo quy mô</h3>
+    <div class="scale">
+      <div class="col small"><h4>Đội nhỏ / startup &lt; 10 người</h4><ul>
+        <li>Chạy một lần truy vấn tuổi theo bảng và theo database (tuổi của relfrozenxid, datfrozenxid), sắp từ già đến trẻ. Tài liệu Postgres mô tả hai truy vấn này <sup><a href="https://www.postgresql.org/docs/current/routine-vacuuming.html" target="_blank">[3]</a></sup>.</li>
+        <li>Tìm mọi bảng bị tắt autovacuum riêng. Nếu lý do là "đã từng nghẽn I/O", chỉnh tốc độ vacuum thay vì tắt hẳn.</li>
+        <li>Đặt cảnh báo khi tuổi database vượt khoảng một nửa mốc 200 triệu, không đợi tới cảnh báo của Postgres.</li>
+      </ul></div>
+      <div class="col"><h4>Đội đã có sản phẩm production</h4><ul>
+        <li>Đưa tuổi XID vào dashboard cạnh replication lag và disk. Báo theo tốc độ tăng chứ không chỉ theo giá trị tuyệt đối, vì shard nóng (như shard4) già nhanh hơn.</li>
+        <li>Viết runbook: kiểm tra prepared transaction, transaction mở lâu và replication slot cũ trước, rồi mới VACUUM toàn database. Thử trên bản sao có dữ liệu cỡ thật để biết VACUUM mất bao lâu.</li>
+        <li>Với bảng cỡ TB, biết trước thời gian vacuum. Mandrill ước tính tới 40 ngày <sup><a href="https://mailchimp.com/what-we-learned-from-the-recent-mandrill-outage/" target="_blank">[1]</a></sup>; nếu số của bạn cũng là "tuần", bạn cần partition hoặc archival từ bây giờ.</li>
+      </ul></div>
+    </div>
+
+    <div class="takeaway">💡 <b>Rút ra cho bạn:</b> "tuổi XID" là chỉ số vận hành như disk đầy: nó chỉ có một chiều, và khi hết thì bạn ngừng ghi. Mandrill có ticket giám sát từ 11/2018 và mất 40 tiếng vào 02/2019. Khoảng cách đó không phải là thiếu kiến thức, mà là ticket nằm trong backlog.</div>
+
+    <div class="doslist">
+      <div>✅ Chạy truy vấn tuổi XID trên mọi Postgres production trong tuần này và lưu kết quả làm mốc.</div>
+      <div>✅ Liệt kê bảng nào bị tắt autovacuum, ai tắt, vì sao, và đặt ngày xét lại.</div>
+      <div>✅ Cảnh báo theo ngưỡng sớm (khoảng một nửa mốc freeze) và theo tốc độ tăng.</div>
+      <div>❌ Tin rằng "autovacuum bật là đủ": nó vẫn có thể bị transaction mở lâu hoặc replication slot cũ chặn.</div>
+      <div>❌ Coi cảnh báo 40 triệu của Postgres là hệ thống báo động của bạn.</div>
+      <div>❌ Tắt autovacuum để chữa nghẽn I/O mà không ghi lại để bật lại.</div>
+    </div>
+
+    <div class="refs"><b>Nguồn tham khảo</b><br>
+      [1] <a href="https://mailchimp.com/what-we-learned-from-the-recent-mandrill-outage/" target="_blank">Mailchimp — What we learned from the recent Mandrill outage (Eric Muntz, 26/03/2019)</a> — bài tự thuật của chính công ty, có mốc giờ chi tiết; không nêu số shard, thời gian vacuum thật hay lượng dữ liệu mất.<br>
+      [2] <a href="https://www.sqlservercentral.com/articles/i-too-have-a-production-story-a-downtime-caused-by-postgres-transaction-id-wraparound-problem" target="_blank">SQLServerCentral — I too have a production story: downtime caused by Postgres transaction ID wraparound (Chandan Shukla, đăng 23/02/2026)</a> — tự thuật, không nêu phiên bản Postgres, cỡ DB hay thời gian downtime.<br>
+      [3] <a href="https://www.postgresql.org/docs/current/routine-vacuuming.html" target="_blank">PostgreSQL Documentation — Routine Vacuuming (mục ngăn wraparound)</a>
+    </div>
+  </article>
+
+  <article class="card" id="bai2">
+    <span class="tag saas">DevSecOps · Quản lý secret</span>
+    <h2 class="head">Khi nhà cung cấp CI bị xâm nhập, bạn phải xoay vòng mọi secret trong tay: Financial Times mất nhiều tuần, 30–40 kỹ sư</h2>
+    <p class="src">Nguồn: Cloudsmith — <a href="https://cloudsmith.com/blog/my-ci-cd-platform-was-breached-now-what" target="_blank">"My CI/CD platform was breached, now what?"</a> (Ciara Carey, 06/05/2024; blog của nhà cung cấp, kể lại ca FT); CircleCI — <a href="https://circleci.com/blog/jan-4-2023-incident-report/" target="_blank">báo cáo sự cố 04/01/2023</a>.</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">&gt; 14.000</div><div class="lab">biến môi trường FT phải rà trên hơn 1.000 pipeline CircleCI <sup><a href="https://cloudsmith.com/blog/my-ci-cd-platform-was-breached-now-what" target="_blank">[4]</a></sup></div></div>
+      <div class="box"><div class="num">~5.000</div><div class="lab">trong đó là secret sống lâu cần xoay vòng <sup><a href="https://cloudsmith.com/blog/my-ci-cd-platform-was-breached-now-what" target="_blank">[4]</a></sup></div></div>
+      <div class="box"><div class="num">30–40 kỹ sư</div><div class="lab">làm xoay vòng thủ công trong nhiều tuần <sup><a href="https://cloudsmith.com/blog/my-ci-cd-platform-was-breached-now-what" target="_blank">[4]</a></sup></div></div>
+      <div class="box"><div class="num">19 ngày</div><div class="lab">từ lúc máy kỹ sư CircleCI bị nhiễm (16/12/2022) đến lúc khách hàng được báo (04/01/2023); bản tin tính từ các mốc trong báo cáo <sup><a href="https://circleci.com/blog/jan-4-2023-incident-report/" target="_blank">[5]</a></sup></div></div>
+    </div>
+
+    <h3 class="sub">Điều gì làm cả công ty phải xoay vòng mọi thứ</h3>
+    <p>Theo báo cáo của CircleCI, mã độc trên laptop một kỹ sư (nhiễm ngày 16/12/2022, phần mềm diệt virus không bắt được) đã đánh cắp một phiên SSO còn hiệu lực và đã qua 2FA. Kẻ tấn công dùng phiên đó vào một phần hệ thống production, vì kỹ sư này có quyền tạo token truy cập production <sup><a href="https://circleci.com/blog/jan-4-2023-incident-report/" target="_blank">[5]</a></sup>.</p>
+    <p>Ngày 22/12/2022, dữ liệu bị lấy ra, gồm biến môi trường, token và key của khách hàng. Dữ liệu được mã hóa khi lưu, nhưng kẻ tấn công lấy được khóa mã hóa từ một tiến trình đang chạy <sup><a href="https://circleci.com/blog/jan-4-2023-incident-report/" target="_blank">[5]</a></sup>. Ngày 04/01/2023, CircleCI báo khách hàng: xoay vòng tất cả secret đã lưu (OAuth, API token, SSH key…) và rà hoạt động từ 16/12/2022 đến lúc xoay xong <sup><a href="https://circleci.com/blog/jan-4-2023-incident-report/" target="_blank">[5]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế.</b> Biến môi trường trong CI là chỗ để secret sống lâu: key triển khai, token registry, mật khẩu DB. Nền tảng CI nắm hết chúng, nên khi nền tảng bị xâm nhập thì toàn bộ trở thành tài sản của kẻ tấn công. Secret sống lâu thường kèm quyền rộng, nên bán kính ảnh hưởng của một lần rò rỉ lớn theo <sup><a href="https://cloudsmith.com/blog/my-ci-cd-platform-was-breached-now-what" target="_blank">[4]</a></sup>. Mã hóa khi lưu không cứu được, vì khóa nằm trong bộ nhớ của chính hệ thống bị vào.</div>
+
+    <h3 class="sub">Financial Times đã làm gì</h3>
+    <p>FT có hơn 1.000 pipeline trên CircleCI và tìm thấy hơn 14.000 biến môi trường. Sau khi lọc còn khoảng 5.000 secret sống lâu. Xoay vòng thủ công tốn nhiều tuần công của một đội 30 đến 40 kỹ sư. Họ xoay secret mức nghiêm trọng và cao trước <sup><a href="https://cloudsmith.com/blog/my-ci-cd-platform-was-breached-now-what" target="_blank">[4]</a></sup>.</p>
+    <p>Sau đó FT đổi cách làm theo bốn hướng, theo lời kể trong bài: dùng OIDC ở mọi nơi công cụ hỗ trợ; tự động xoay vòng bằng Doppler ở chỗ chưa có OIDC; giữ danh mục nội bộ ghi từng secret và người sở hữu; và chọn công cụ build có hỗ trợ OIDC <sup><a href="https://cloudsmith.com/blog/my-ci-cd-platform-was-breached-now-what" target="_blank">[4]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế.</b> OIDC (đăng nhập bằng token ngắn hạn do chính pipeline xin) đảo ngược mô hình. Thay vì cất một key dài hạn trong CI, pipeline trình danh tính của job (repo nào, nhánh nào) cho nhà cung cấp cloud, và nhận lại token chỉ sống vài phút. Nếu nền tảng CI bị xâm nhập, kẻ tấn công không lấy được gì để dùng lại sau đó. Đây là suy luận kỹ thuật của bản tin, không trích từ nguồn; bài Cloudsmith chỉ nói FT dùng OIDC khi có thể <sup><a href="https://cloudsmith.com/blog/my-ci-cd-platform-was-breached-now-what" target="_blank">[4]</a></sup>.</div>
+
+    <h3 class="sub">Phía CircleCI đổi gì, và nó nói gì về bạn</h3>
+    <p>CircleCI thêm phát hiện mã độc qua MDM và diệt virus, giới hạn quyền production cho một nhóm rất nhỏ kèm xác thực bổ sung, và thêm giám sát hành vi tấn công. Họ cũng lên kế hoạch tự động xoay OAuth định kỳ, chuyển sang GitHub Apps và cấp quyền ngắn hạn hơn <sup><a href="https://circleci.com/blog/jan-4-2023-incident-report/" target="_blank">[5]</a></sup>. Hãy chú ý hướng đi chung: bên bán công cụ cũng kết luận rằng quyền sống lâu là vấn đề.</p>
+    <table class="tbl">
+      <tr><th>Câu hỏi</th><th>Nếu nền tảng CI của bạn bị xâm nhập hôm nay</th></tr>
+      <tr><td>Bạn có danh sách secret trong CI không?</td><td>FT phải tự đếm: &gt; 14.000 biến, ~5.000 sống lâu <sup><a href="https://cloudsmith.com/blog/my-ci-cd-platform-was-breached-now-what" target="_blank">[4]</a></sup></td></tr>
+      <tr><td>Mỗi secret có chủ không?</td><td>FT sau đó giữ danh mục có người sở hữu <sup><a href="https://cloudsmith.com/blog/my-ci-cd-platform-was-breached-now-what" target="_blank">[4]</a></sup></td></tr>
+      <tr><td>Xoay vòng mất bao lâu?</td><td>Thủ công: nhiều tuần, 30–40 người <sup><a href="https://cloudsmith.com/blog/my-ci-cd-platform-was-breached-now-what" target="_blank">[4]</a></sup></td></tr>
+      <tr><td>Secret nào không cần tồn tại?</td><td>Bất cứ thứ gì OIDC thay được, vì nó không còn gì để lộ</td></tr>
+    </table>
+
+    <h3 class="sub">Rút ra theo quy mô</h3>
+    <div class="scale">
+      <div class="col small"><h4>Đội nhỏ / startup &lt; 10 người</h4><ul>
+        <li>Đếm secret trong CI và ghi mỗi cái dùng cho gì. Một bảng tính là đủ để bắt đầu.</li>
+        <li>Chuyển trước hết đường triển khai lên cloud sang OIDC, vì đó là key có quyền rộng nhất.</li>
+        <li>Bật quét secret trong repo để tìm cái đã lỡ commit.</li>
+      </ul></div>
+      <div class="col"><h4>Đội đã có sản phẩm production</h4><ul>
+        <li>Gắn chủ cho từng secret và ngày hết hạn; secret nào không ai nhận thì thu hồi.</li>
+        <li>Diễn tập "xoay vòng mọi thứ" trên một môi trường: đo bao lâu và cái gì vỡ. Con số của FT (nhiều tuần) là mốc để so.</li>
+        <li>Siết quyền production của máy kỹ sư: CircleCI cho thấy một phiên SSO bị đánh cắp là đủ <sup><a href="https://circleci.com/blog/jan-4-2023-incident-report/" target="_blank">[5]</a></sup>.</li>
+      </ul></div>
+    </div>
+
+    <div class="takeaway">💡 <b>Rút ra cho bạn:</b> bạn không kiểm soát được nhà cung cấp CI, nhưng kiểm soát được lượng secret nằm sẵn trong đó. Mỗi secret OIDC thay được là một việc bạn khỏi phải làm trong tuần tồi tệ nhất.</div>
+
+    <div class="doslist">
+      <div>✅ Dựng danh mục secret trong CI/CD, có chủ và ngày xét lại.</div>
+      <div>✅ Thay credential triển khai cloud bằng OIDC trước, các thứ còn lại sau.</div>
+      <div>✅ Diễn tập xoay vòng và ghi lại thời gian thật.</div>
+      <div>❌ Coi "mã hóa khi lưu" là đủ khi nền tảng giữ cả khóa.</div>
+      <div>❌ Để secret không ai nhận nằm trong pipeline "vì sợ gỡ ra hỏng".</div>
+    </div>
+
+    <div class="refs"><b>Nguồn tham khảo</b><br>
+      [4] <a href="https://cloudsmith.com/blog/my-ci-cd-platform-was-breached-now-what" target="_blank">Cloudsmith — My CI/CD platform was breached, now what? (Ciara Carey, 06/05/2024)</a> — blog của nhà cung cấp; kể lại lời Rob Godfrey của FT, không phải bài FT tự đăng. Bản tin chưa kiểm chứng chéo số liệu FT với nguồn thứ hai.<br>
+      [5] <a href="https://circleci.com/blog/jan-4-2023-incident-report/" target="_blank">CircleCI — Incident report for January 4, 2023 security incident</a>
+    </div>
+  </article>
+
+  <article class="card" id="goc-nhin">
+    <span class="tag view">Góc nhìn</span>
+    <h2 class="head">Thứ không ai sở hữu thì không ai canh</h2>
+    <p>Hai bài nói về hai thế giới khác nhau, nhưng cấu trúc giống nhau. Autovacuum tắt "tạm" và 5.000 secret sống lâu đều là quyết định đã quá hạn, nằm ở chỗ không ai nhìn. Cả hai chỉ lộ ra khi có biến cố: hệ thống khóa ghi, hoặc nhà cung cấp bị xâm nhập. Mandrill có ticket giám sát từ 11/2018 mà vẫn mất 40 tiếng; FT mất nhiều tuần vì phải đếm secret ngay lúc đang khẩn cấp.</p>
+    <p>Điểm chung của cách chữa: một danh mục có chủ, một ngưỡng báo động sớm hơn ngưỡng của công cụ, và một lần diễn tập. Nó nhàm, và đó là lý do nó hiệu quả.</p>
+    <div class="doslist">
+      <div>✅ Thứ Hai: chạy truy vấn tuổi XID trên mọi Postgres và liệt kê bảng bị tắt autovacuum.</div>
+      <div>✅ Giữa tuần: đếm secret trong CI/CD, gắn chủ cho từng cái, đánh dấu cái OIDC thay được.</div>
+      <div>✅ Thứ Sáu: lấy một ticket "giám sát" đang nằm backlog và quyết định làm hay đóng, đừng để nó thành tin nhắn cho tương lai.</div>
+    </div>
+  </article>
+
+  <div class="foot">Bản tin sáng · tổng hợp từ nguồn công khai đã xác minh</div>
+</div>
+</body>
+</html>
