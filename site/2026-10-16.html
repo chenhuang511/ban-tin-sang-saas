@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AG sync commit và retry storm &middot; 16/10/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+@media (max-width:560px){h1.title{font-size:25px}.card{padding:20px 18px}.tbl{display:block;overflow-x:auto}}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 16/10/2026</div>
+    <h1 class="title">AG synchronous commit: một thread không chịu nhường CPU làm cả database đứng hình, và cách đọc HADR_SYNC_COMMIT cho đúng — kèm Uber: chỉ service sở hữu lỗi mới được quyền retry</h1>
+    <div class="meta">16/10/2026 · Đọc khoảng 13 phút · Nguồn chính: Microsoft PSS SQL Server blog (Simon Su, 05/04/2018, hai bài); Uber Engineering (Deepanshu Mehndiratta, Alok Srivastava, Vibhor Dhingra, 17/09/2026)</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: số này có <b>hai bài</b>. Các đoạn "Cơ chế", phần ánh xạ sang SQL Server/Spring Boot/HikariCP của bạn và khuyến nghị theo quy mô là <b>biên tập tổng hợp từ thực hành phổ biến, không trích nguyên văn từ nguồn</b>. Mọi con số đều dẫn nguồn ngay cạnh câu; vài phép nhân đơn giản do bản tin tự tính và có ghi rõ. Bài 1 dựa trên SQL Server 2016 (bản vá đã có từ lâu), nên giá trị nằm ở <b>cách đo</b>, không phải ở lỗi cụ thể đó. Bài 2 là hạ tầng cỡ Uber, nên phần áp dụng được là nguyên tắc, không phải công cụ.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1"><strong>Bài 1</strong> — Đọc HADR_SYNC_COMMIT: nó là triệu chứng, không phải nguyên nhân<br><span style="font-size:13.5px;color:#6b7280">· ca throughput rơi về 0 mỗi 5–10 phút · thread giữ khóa bị kẹt hàng đợi · ba thành phần độ trễ commit · ánh xạ sang AG của bạn</span></a></li>
+      <li><a href="#bai2"><strong>Bài 2</strong> — Retry storm: Uber cho "chủ lỗi" quyền retry duy nhất<br><span style="font-size:13.5px;color:#6b7280">· bán kính bão retry từ 25 xuống 3 · 9,5 triệu request bị chặn trong một sự cố · ánh xạ sang Spring Boot và HikariCP</span></a></li>
+      <li><a href="#goc-nhin"><strong>Góc nhìn</strong> — Chờ đợi là thứ duy nhất bạn nhìn thấy<br><span style="font-size:13.5px;color:#6b7280">· 3 việc làm trong tuần</span></a></li>
+    </ol>
+  </nav>
+
+  <article class="card" id="bai1">
+    <span class="tag legacy">Tối ưu hệ đang chạy · SQL Server AlwaysOn</span>
+    <h2 class="head">Throughput rơi về 0 mỗi 5–10 phút trong khi CPU 30%, đĩa nhanh, mạng sạch: thủ phạm là một query không chịu nhường CPU</h2>
+    <p class="src">Nguồn: Microsoft PSS SQL Server blog — <a href="https://learn.microsoft.com/sv-se/archive/blogs/psssql/lesson-learned-from-an-availability-group-performance-case" target="_blank">"Lesson learned from an Availability Group performance case"</a> và <a href="https://learn.microsoft.com/en-us/archive/blogs/psssql/troubleshooting-data-movement-latency-between-synchronous-commit-always-on-availability-groups" target="_blank">"Troubleshooting data movement latency between synchronous-commit AlwaysOn Availability Groups"</a> (cùng tác giả Simon Su, cùng ngày 05/04/2018; bài lưu trữ trên Microsoft Learn).</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">10.000 giao dịch/giây</div><div class="lab">mục tiêu của khách trên AG synchronous commit, SQL Server 2016, có bảng in-memory <sup><a href="https://learn.microsoft.com/sv-se/archive/blogs/psssql/lesson-learned-from-an-availability-group-performance-case" target="_blank">[1]</a></sup></div></div>
+      <div class="box"><div class="num">~1 giây</div><div class="lab">mỗi 5–10 phút, bộ đếm Transactions Created/sec rơi về 0 rồi tự hồi phục <sup><a href="https://learn.microsoft.com/sv-se/archive/blogs/psssql/lesson-learned-from-an-availability-group-performance-case" target="_blank">[1]</a></sup></div></div>
+      <div class="box"><div class="num">2.407 ms</div><div class="lab">thời gian thread giữ khóa HADR_LOGPROGRESS_SYNC (SPID 438) nằm trong hàng đợi runnable <sup><a href="https://learn.microsoft.com/sv-se/archive/blogs/psssql/lesson-learned-from-an-availability-group-performance-case" target="_blank">[1]</a></sup></div></div>
+      <div class="box"><div class="num">20 ms</div><div class="lab">độ trễ trung bình mỗi giao dịch tính từ hai bộ đếm: 1.000 ms chia 50 giao dịch/giây (ví dụ trong bài) <sup><a href="https://learn.microsoft.com/en-us/archive/blogs/psssql/troubleshooting-data-movement-latency-between-synchronous-commit-always-on-availability-groups" target="_blank">[2]</a></sup></div></div>
+    </div>
+
+    <h3 class="sub">Cái bẫy: mọi thứ bình thường trừ throughput</h3>
+    <p>Khách muốn chạy 10.000 giao dịch mỗi giây trên AG synchronous commit. Khi thử tải, cứ 5–10 phút một lần, bộ đếm số giao dịch tạo ra mỗi giây rơi về 0 chừng một giây rồi hồi phục. Khách để ý vì họ có phép tính tốc độ giao dịch rất nhạy theo thời gian <sup><a href="https://learn.microsoft.com/sv-se/archive/blogs/psssql/lesson-learned-from-an-availability-group-performance-case" target="_blank">[1]</a></sup>.</p>
+    <p>Đội hỗ trợ của Microsoft nhìn Performance Monitor trước và không thấy gì bất thường. CPU thấp nhất khoảng 30%. Đĩa nhanh, không có hàng đợi đĩa. Mạng không nghẽn. Các bộ đếm log send queue và recovery queue cũng không nói được gì <sup><a href="https://learn.microsoft.com/sv-se/archive/blogs/psssql/lesson-learned-from-an-availability-group-performance-case" target="_blank">[1]</a></sup>.</p>
+    <p>Chỉ có hai bộ đếm trùng khớp với những lần rơi: Transaction Delay (tổng độ trễ tích lũy, tính bằng ms, của các giao dịch đang chạy) và Mirrored Write Transactions/sec trong nhóm Database Replica <sup><a href="https://learn.microsoft.com/sv-se/archive/blogs/psssql/lesson-learned-from-an-availability-group-performance-case" target="_blank">[1]</a></sup>. Đây là manh mối đầu tiên: độ trễ nằm ở khâu chờ replica, không nằm ở tài nguyên máy.</p>
+
+    <div class="mech"><b>Cơ chế.</b> Với synchronous commit, primary chỉ báo "commit xong" cho client sau khi secondary đã ghi (harden) log block xuống đĩa và báo lại. Luồng chạy như sau: primary ghi log block xuống file log cục bộ và gửi log block sang secondary song song với nhau; secondary nhận, ghi xuống đĩa, rồi gửi lại thông báo harden LSN; primary nhận thông báo đó mới cho phép commit hoàn tất <sup><a href="https://learn.microsoft.com/en-us/archive/blogs/psssql/troubleshooting-data-movement-latency-between-synchronous-commit-always-on-availability-groups" target="_blank">[2]</a></sup>. Mỗi giao dịch chờ ở đây sẽ hiện wait type HADR_SYNC_COMMIT. Vì vậy HADR_SYNC_COMMIT cao chỉ cho bạn biết "đang chờ replica", chứ chưa nói ai làm chậm.</div>
+
+    <h3 class="sub">Ba thành phần độ trễ, và vì sao không cộng thẳng chúng</h3>
+    <p>Bài thứ hai của Simon Su chia độ trễ commit thành ba phần: ghi log trên primary, ghi log trên secondary, và mạng (hai chiều: gửi log block sang, và gửi harden LSN về) <sup><a href="https://learn.microsoft.com/en-us/archive/blogs/psssql/troubleshooting-data-movement-latency-between-synchronous-commit-always-on-availability-groups" target="_blank">[2]</a></sup>. Mỗi phần đo được bằng một cặp Extended Events cụ thể, ví dụ log_flush_start đến log_flush_complete cho khâu ghi đĩa <sup><a href="https://learn.microsoft.com/en-us/archive/blogs/psssql/troubleshooting-data-movement-latency-between-synchronous-commit-always-on-availability-groups" target="_blank">[2]</a></sup>.</p>
+    <p>Có một chỗ dễ nhầm. Tổng thời gian commit không bằng tổng ba phần, vì ghi log trên primary chạy song song với đường mạng. Secondary thì không ghi được trước khi log block tới nơi, nên thời gian ghi của nó nối đuôi sau đường mạng. Cách đo đúng là lấy khoảng cách giữa hai sự kiện hadr_log_block_group_commit liên tiếp <sup><a href="https://learn.microsoft.com/en-us/archive/blogs/psssql/troubleshooting-data-movement-latency-between-synchronous-commit-always-on-availability-groups" target="_blank">[2]</a></sup>.</p>
+
+    <table class="tbl">
+      <tr><th>Thành phần</th><th>Đo bằng</th><th>Nếu lớn thì nghi</th></tr>
+      <tr><td>Ghi log trên primary</td><td>log_flush_start → log_flush_complete (primary) <sup><a href="https://learn.microsoft.com/en-us/archive/blogs/psssql/troubleshooting-data-movement-latency-between-synchronous-commit-always-on-availability-groups" target="_blank">[2]</a></sup></td><td>Đĩa log primary chậm. Song song với mạng, nên ít khi là nút thắt duy nhất.</td></tr>
+      <tr><td>Ghi log trên secondary</td><td>log_flush_start → log_flush_complete (secondary) <sup><a href="https://learn.microsoft.com/en-us/archive/blogs/psssql/troubleshooting-data-movement-latency-between-synchronous-commit-always-on-availability-groups" target="_blank">[2]</a></sup></td><td>Đĩa log secondary yếu hơn primary; hoặc secondary đang bận.</td></tr>
+      <tr><td>Mạng, hai chiều</td><td>hadr_log_block_send_complete → hadr_transport_receive_log_block_message, và hadr_lsn_send_complete → hadr_receive_harden_lsn_message <sup><a href="https://learn.microsoft.com/en-us/archive/blogs/psssql/troubleshooting-data-movement-latency-between-synchronous-commit-always-on-availability-groups" target="_blank">[2]</a></sup></td><td>Băng thông, độ trễ đường truyền, nén/giải nén log block.</td></tr>
+      <tr><td>Khoảng trống không thuộc ba phần trên</td><td>Thời gian giữa nhận harden LSN và cập nhật commit manager (như ca 3,2 giây ở dưới) <sup><a href="https://learn.microsoft.com/sv-se/archive/blogs/psssql/lesson-learned-from-an-availability-group-performance-case" target="_blank">[1]</a></sup></td><td>Thread xử lý tiến độ log bị kẹt: thiếu CPU, hoặc worker khác chiếm scheduler.</td></tr>
+    </table>
+    <div class="editnote">Cột "Nếu lớn thì nghi" là suy luận biên tập từ cách các thành phần nối nhau, không phải trích từ bài gốc. Dòng cuối là cách bản tin tóm tắt kết luận của ca thực tế bên dưới.</div>
+    <p>Bài viết cũng có một ví dụ minh họa trên dữ liệu thử: mạng chiều đi mất 3,907 giây, chiều về 0,587 giây, mỗi lần ghi log 0,663 giây, và tổng commit 5,157 giây. Con số lớn vậy vì đây là ví dụ dựng để học cách đọc, không phải số đo từ production <sup><a href="https://learn.microsoft.com/en-us/archive/blogs/psssql/troubleshooting-data-movement-latency-between-synchronous-commit-always-on-availability-groups" target="_blank">[2]</a></sup>. Điều đáng nhớ là cách bóc: mạng 4,494 giây cộng ghi log ở secondary 0,663 giây ra đúng 5,157 giây, còn ghi log ở primary nằm "ẩn" trong đó vì chạy song song.</p>
+
+    <h3 class="sub">Lần theo từng lớp cho đến khi gặp thread bị kẹt</h3>
+    <p>Trong ca của khách, đội hỗ trợ bật phiên Extended Events trên cả hai replica. Kết quả loại được ba nghi phạm: truyền mạng, ghi log cục bộ và ghi log ở secondary đều nhanh. Khoảng chậm nằm ở primary, sau khi nó đã nhận harden LSN từ secondary: bài đo được chừng 3,2 giây giữa sự kiện hadr_receive_harden_lsn_message và hadr_db_commit_mgr_update_harden <sup><a href="https://learn.microsoft.com/sv-se/archive/blogs/psssql/lesson-learned-from-an-availability-group-performance-case" target="_blank">[1]</a></sup>.</p>
+    <p>Bước kế tiếp là lấy mẫu mỗi giây hai view dm_exec_requests và dm_os_waiting_tasks. Mỗi lần rơi đều trùng với wait type HADR_LOGPROGRESS_SYNC, và kéo theo một đống HADR_SYNC_COMMIT. Session giữ khóa đó là SPID 438 <sup><a href="https://learn.microsoft.com/sv-se/archive/blogs/psssql/lesson-learned-from-an-availability-group-performance-case" target="_blank">[1]</a></sup>.</p>
+
+    <div class="mech"><b>Cơ chế.</b> HADR_LOGPROGRESS_SYNC là khóa bảo vệ việc cập nhật tiến độ log của các replica; mỗi lúc chỉ một thread giữ được, nên các cập nhật LSN xếp hàng tuần tự. HADR_SYNC_COMMIT là phía chờ: các commit đợi thread tiến độ báo "LSN đã được harden tới mức giao dịch của tôi cần" <sup><a href="https://learn.microsoft.com/sv-se/archive/blogs/psssql/lesson-learned-from-an-availability-group-performance-case" target="_blank">[1]</a></sup>. Nếu thread giữ khóa không được chạy, mọi commit đang chờ đều đứng cùng nó. Throughput rơi về 0 vì thế, dù không tài nguyên nào cạn.</div>
+
+    <p>Vì sao thread giữ khóa không được chạy? Phần cuối của chẩn đoán trả lời. SQL Server dùng lập lịch hợp tác: mỗi scheduler chạy một worker tại một thời điểm, và worker phải tự nhường (yield) cho nhau. Trên scheduler số 23, yield_count đứng yên ở 27.076.130 trong một giây, nghĩa là có worker chạy mà không nhường. Hàng đợi runnable có 7 task, và wait_info cho thấy SPID 438 có signal_duration 2.407 ms đúng bằng tổng duration: toàn bộ thời gian đó nó chỉ chờ tới lượt chạy <sup><a href="https://learn.microsoft.com/sv-se/archive/blogs/psssql/lesson-learned-from-an-availability-group-performance-case" target="_blank">[1]</a></sup>.</p>
+    <p>Worker không chịu nhường là một query quét bảng in-memory có index rất lớn. Bình thường chạy trong vài trăm micro giây, nhưng ở đường đi gặp lỗi thì chạy khoảng một giây liền mà không yield. Nó chặn thread tiến độ log chừng 100 ms đến 1 giây, và mọi commit đang chờ trễ đúng bằng khoảng đó <sup><a href="https://learn.microsoft.com/sv-se/archive/blogs/psssql/lesson-learned-from-an-availability-group-performance-case" target="_blank">[1]</a></sup>. Microsoft sửa bằng cách thêm đoạn yield vào phép quét bảng in-memory, có trong SQL Server 2016 SP1 CU7 <sup><a href="https://learn.microsoft.com/sv-se/archive/blogs/psssql/lesson-learned-from-an-availability-group-performance-case" target="_blank">[1]</a></sup>.</p>
+    <p>Một chi tiết bài viết không giải thích: con số 3,2 giây (đo bằng XEvents) và 2.407 ms (đo từ signal_duration) là hai phép đo khác nhau, và bài không đối chiếu hai số này. Bạn nên coi chúng là thứ tự độ lớn, không phải một mốc chính xác. Bài cũng không có số trước/sau khi vá.</p>
+
+    <h3 class="sub">Ánh xạ sang AG của bạn</h3>
+    <p>Lỗi cụ thể đã vá từ lâu và nó dính tới bảng in-memory, thứ database kế toán multi-tenant của bạn có thể không dùng. Cái còn nguyên giá trị là trình tự chẩn đoán, áp được lên SQL Server 2022 theo suy luận: thấy HADR_SYNC_COMMIT thì chưa kết luận gì; đo ba thành phần trước; nếu cả ba đều nhanh mà commit vẫn chậm theo nhịp, hãy tìm thread bị kẹt trên scheduler, không tìm thêm đĩa hay mạng.</p>
+
+    <div class="scale">
+      <div class="col small">
+        <h4>Đội nhỏ / mới có AG</h4>
+        <ul>
+          <li>Thêm hai bộ đếm Transaction Delay và Mirrored Write Transactions/sec vào giám sát, rồi tự tính độ trễ trung bình mỗi giao dịch (chia hai số) để có đường chuẩn <sup><a href="https://learn.microsoft.com/en-us/archive/blogs/psssql/troubleshooting-data-movement-latency-between-synchronous-commit-always-on-availability-groups" target="_blank">[2]</a></sup>.</li>
+          <li>Dùng báo cáo Availability Group Latency trong SSMS mà bài nhắc tới, trước khi tự dựng XEvents <sup><a href="https://learn.microsoft.com/en-us/archive/blogs/psssql/troubleshooting-data-movement-latency-between-synchronous-commit-always-on-availability-groups" target="_blank">[2]</a></sup>.</li>
+          <li>Đặt cảnh báo trên độ trễ trung bình này, không đặt trên HADR_SYNC_COMMIT thô.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Đội đã có production TB</h4>
+        <ul>
+          <li>Có sẵn một phiên XEvents mẫu để bật khi nghi ngờ, nhưng chỉ bật ngắn: bài cảnh báo trace có thể phình vài GB mỗi phút trên server bận <sup><a href="https://learn.microsoft.com/en-us/archive/blogs/psssql/troubleshooting-data-movement-latency-between-synchronous-commit-always-on-availability-groups" target="_blank">[2]</a></sup>.</li>
+          <li>Khi nghi thread bị kẹt, lấy mẫu mỗi giây dm_exec_requests và dm_os_waiting_tasks, đọc cột yield của scheduler. Đừng đặt khoảng nghỉ 1 giây này chạy mãi: chính bài cảnh báo nó ngốn một core <sup><a href="https://learn.microsoft.com/sv-se/archive/blogs/psssql/lesson-learned-from-an-availability-group-performance-case" target="_blank">[1]</a></sup>.</li>
+          <li>Nếu AG của bạn có nhiều CompanyID dùng chung một log, một query lạ chạy lâu trên bất kỳ tenant nào cũng đáng bị loại trừ khi commit chậm theo nhịp. Đây là suy luận biên tập, chưa có số.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="takeaway">💡 <b>Rút ra cho bạn:</b> HADR_SYNC_COMMIT là biển báo "đang chờ", không phải kết luận. Đo ba thành phần độ trễ, và nếu cả ba sạch, đi tìm thread đang giữ khóa tiến độ log chứ không phải thêm phần cứng. Nếu bạn nghĩ tới chuyển replica sang async commit để "hết chờ", hãy nhớ đó là đổi độ trễ lấy rủi ro mất dữ liệu khi failover, không phải sửa nguyên nhân.</div>
+
+    <div class="refs">
+      <b>Nguồn tham khảo</b><br>
+      [1] <a href="https://learn.microsoft.com/sv-se/archive/blogs/psssql/lesson-learned-from-an-availability-group-performance-case" target="_blank">Microsoft PSS SQL Server — Lesson learned from an Availability Group performance case</a> (Simon Su, 05/04/2018)<br>
+      [2] <a href="https://learn.microsoft.com/en-us/archive/blogs/psssql/troubleshooting-data-movement-latency-between-synchronous-commit-always-on-availability-groups" target="_blank">Microsoft PSS SQL Server — Troubleshooting data movement latency between synchronous-commit AlwaysOn Availability Groups</a> (Simon Su, 05/04/2018; áp dụng cho SQL Server 2014 SP2, 2016 SP1, 2017 RTM)
+    </div>
+  </article>
+
+  <article class="card" id="bai2">
+    <span class="tag legacy">Tối ưu hệ đang chạy · Độ tin cậy microservices</span>
+    <h2 class="head">Mỗi tầng retry thêm một lần là cả chuỗi gấp đôi tải: Uber chỉ cho đúng service sở hữu lỗi được retry</h2>
+    <p class="src">Nguồn: Uber Engineering — <a href="https://www.uber.com/blog/protecting-against-retry-storms" target="_blank">"How Uber Protects Against Retry Storms"</a> (Deepanshu Mehndiratta, Alok Srivastava, Vibhor Dhingra; 17/09/2026).</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">25 → 3</div><div class="lab">bán kính bão retry tối đa (độ sâu call path có thể xảy ra bão); trung bình từ 20 còn 2 <sup><a href="https://www.uber.com/blog/protecting-against-retry-storms" target="_blank">[3]</a></sup></div></div>
+      <div class="box"><div class="num">~9,5 triệu</div><div class="lab">request thừa bị chặn tại gốc trong sự cố 18/11/2025 <sup><a href="https://www.uber.com/blog/protecting-against-retry-storms" target="_blank">[3]</a></sup></div></div>
+      <div class="box"><div class="num">+46% đến +135%</div><div class="lab">mức tăng tải lên service đang hỏng nếu chỉ dùng retry budget thường, theo ước tính của Uber <sup><a href="https://www.uber.com/blog/protecting-against-retry-storms" target="_blank">[3]</a></sup></div></div>
+      <div class="box"><div class="num">8×</div><div class="lab">tải tại tầng sâu nhất của chuỗi 1:1 khi mỗi nút retry một lần <sup><a href="https://www.uber.com/blog/protecting-against-retry-storms" target="_blank">[3]</a></sup></div></div>
+    </div>
+
+    <h3 class="sub">Vấn đề: mỗi tầng retry là đúng, nhưng cộng lại thì sai</h3>
+    <p>Uber mô tả một chuỗi service từ A đến G, mỗi nút gọi nút sau. Nếu mỗi nút retry một lần, B chịu 2 lần tải, C chịu 4 lần, và từ D đến G mỗi nút chịu 8 lần tải gốc <sup><a href="https://www.uber.com/blog/protecting-against-retry-storms" target="_blank">[3]</a></sup>. Mỗi tầng retry đều hợp lý nếu nhìn riêng. Cả chuỗi thì nhân lên theo lũy thừa của độ sâu.</p>
+    <p>Retry budget (chỉ cho retry tối đa một tỷ lệ request, ví dụ 10%) giảm mạnh mức nhân đó: còn 1,1× ở B, 1,21× ở C và 1,33× ở D đến G <sup><a href="https://www.uber.com/blog/protecting-against-retry-storms" target="_blank">[3]</a></sup>. Nhưng Uber chỉ ra giới hạn của budget. Nó cấu hình tay từng service, không thấy được khuếch đại qua chuỗi sâu và nhiều nhánh gọi. Và nó chỉ chỉnh được "bao nhiêu lần", không chỉnh được "khi nào" <sup><a href="https://www.uber.com/blog/protecting-against-retry-storms" target="_blank">[3]</a></sup>. Trong sự cố 18/11/2025, nếu chỉ dùng budget thường thì tải lên service hỏng sẽ tăng 46% đến 135%, theo ước tính của họ <sup><a href="https://www.uber.com/blog/protecting-against-retry-storms" target="_blank">[3]</a></sup>.</p>
+
+    <div class="mech"><b>Cơ chế.</b> Lúc lỗi nhẹ và lẻ tẻ, retry giúp vì lần thử sau thường thành công. Lúc service ở dưới quá tải, retry đẩy thêm tải vào đúng chỗ đang gãy, và mỗi tầng phía trên cũng retry nữa. Uber lưu ý mô hình availability của họ giả định lỗi độc lập và xóa được bằng retry; với database quá tải, host hỏng hay lỗi sharding thì retry thường vẫn thất bại <sup><a href="https://www.uber.com/blog/protecting-against-retry-storms" target="_blank">[3]</a></sup>. Nghĩa là retry là thuốc cho lỗi thoáng qua và là chất đốt cho lỗi do quá tải.</div>
+
+    <h3 class="sub">Giải pháp: error ownership, "lỗi của ai thì người đó retry"</h3>
+    <p>Ý tưởng gọn: nếu service trả lỗi vì một lời gọi đi ra ngoài của nó thất bại, lỗi đó là triệu chứng và thủ phạm ở downstream. Nếu không có lời gọi nào thất bại mà vẫn trả lỗi, service tự sở hữu lỗi <sup><a href="https://www.uber.com/blog/protecting-against-retry-storms" target="_blank">[3]</a></sup>. Một thành phần tên Service Dependency Analysis đối chiếu lỗi vào với lỗi ra để quyết định "nhận" hay "bỏ nhận" từng lỗi. Trạng thái này đi theo một header giữa các service <sup><a href="https://www.uber.com/blog/protecting-against-retry-storms" target="_blank">[3]</a></sup>.</p>
+    <p>Người gọi nhìn header đó: nếu callee đã bỏ nhận lỗi (tức nó chỉ chuyển tiếp lỗi của downstream), người gọi không retry nữa. Chỉ nút ở đúng cạnh sinh ra lỗi mới retry, rồi báo lên trên bằng trạng thái "không nhận" <sup><a href="https://www.uber.com/blog/protecting-against-retry-storms" target="_blank">[3]</a></sup>. Trong ví dụ A→B→C, C nhận lỗi nội bộ, B retry C; nếu thất bại, B trả lỗi "không nhận" và A không retry B <sup><a href="https://www.uber.com/blog/protecting-against-retry-storms" target="_blank">[3]</a></sup>.</p>
+    <p>Còn một lựa chọn mặc định đáng chú ý: nếu thiếu header (downstream không hỗ trợ hoặc mất ngữ cảnh), nút đầu tiên thấy thiếu sẽ bỏ nhận lỗi. Điều đó chặn bão nhưng vẫn cho phép một ít retry <sup><a href="https://www.uber.com/blog/protecting-against-retry-storms" target="_blank">[3]</a></sup>. Nói cách khác, thiết kế chọn thất bại theo hướng an toàn.</p>
+
+    <h3 class="sub">Kết quả: cái gì đổi, đổi bao nhiêu</h3>
+    <p>Uber đã triển khai trong service mesh, chạy ở retry middleware và SDA trên đường request của API người dùng, nên service nhận bảo vệ mà không cần viết thêm xử lý lỗi riêng <sup><a href="https://www.uber.com/blog/protecting-against-retry-storms" target="_blank">[3]</a></sup>. Số đo: bán kính bão retry tối đa giảm từ 25 xuống 3, trung bình từ 20 xuống 2 <sup><a href="https://www.uber.com/blog/protecting-against-retry-storms" target="_blank">[3]</a></sup>.</p>
+    <p>Sự cố 18/11/2025 là phép thử thật. Một service lõi nằm sâu hơn 5 tầng trong chuỗi gọi trả lỗi nhiều vì hạ tầng bên dưới. Error ownership đã bật sẵn nên tự giới hạn phạm vi: các caller trực tiếp không retry nữa, có chỗ tiết kiệm tới 200.000 request, và tổng hợp tại gốc là khoảng 9,5 triệu request thừa không bao giờ được gửi <sup><a href="https://www.uber.com/blog/protecting-against-retry-storms" target="_blank">[3]</a></sup>.</p>
+    <p>Hai điểm Uber tự thừa nhận, đáng đọc kỹ. Thứ nhất, lỗi trùng hợp (service vừa có lỗi nội bộ vừa có lỗi từ downstream) có thể khiến một phần lỗi bị bỏ nhận nhầm; trong ví dụ của họ là 1,9 trên 10 lỗi nội bộ, và dữ liệu sáu tháng cho trường hợp xấu nhất khoảng 0,396 trên 10 request <sup><a href="https://www.uber.com/blog/protecting-against-retry-storms" target="_blank">[3]</a></sup>. Thứ hai, dependency mà SDA không theo dõi như cache hay database có thể gây phân loại sai <sup><a href="https://www.uber.com/blog/protecting-against-retry-storms" target="_blank">[3]</a></sup>.</p>
+
+    <table class="tbl">
+      <tr><th>Độ sâu</th><th>Mỗi nút retry 1 lần</th><th>Retry budget 10%</th><th>Error ownership</th></tr>
+      <tr><td>B</td><td>2× <sup><a href="https://www.uber.com/blog/protecting-against-retry-storms" target="_blank">[3]</a></sup></td><td>1,1× <sup><a href="https://www.uber.com/blog/protecting-against-retry-storms" target="_blank">[3]</a></sup></td><td>1× (chỉ cạnh sinh lỗi retry) <sup><a href="https://www.uber.com/blog/protecting-against-retry-storms" target="_blank">[3]</a></sup></td></tr>
+      <tr><td>C</td><td>4× <sup><a href="https://www.uber.com/blog/protecting-against-retry-storms" target="_blank">[3]</a></sup></td><td>1,21× <sup><a href="https://www.uber.com/blog/protecting-against-retry-storms" target="_blank">[3]</a></sup></td><td>1× <sup><a href="https://www.uber.com/blog/protecting-against-retry-storms" target="_blank">[3]</a></sup></td></tr>
+      <tr><td>D đến G</td><td>8× <sup><a href="https://www.uber.com/blog/protecting-against-retry-storms" target="_blank">[3]</a></sup></td><td>1,33× <sup><a href="https://www.uber.com/blog/protecting-against-retry-storms" target="_blank">[3]</a></sup></td><td>1,1× (nơi lỗi bắt nguồn) <sup><a href="https://www.uber.com/blog/protecting-against-retry-storms" target="_blank">[3]</a></sup></td></tr>
+    </table>
+
+    <h3 class="sub">Ánh xạ sang Spring Boot, HikariCP và SQL Server</h3>
+    <p>Bạn không có service mesh cỡ Uber, nên đừng cố sao chép SDA. Nhưng nguyên tắc dùng được ngay, và đây là phần biên tập của bản tin. Giả sử một request đi gateway → service A → service B → SQL Server, mỗi tầng retry một lần. Bản tin tính: kết nối tới SQL Server có thể bị gọi tới 8 lần cho một request người dùng nếu lỗi nằm ở tầng cuối, tức đúng hệ số 8× của chuỗi Uber.</p>
+    <p>Tác động lên stack của bạn rất cụ thể. Mỗi lần gọi thêm ngốn một connection từ HikariCP. Khi SQL Server chậm, pool cạn, request ở A và B bắt đầu timeout, và retry của chúng chồng thêm vào pool đang cạn. Retry cũng nhân đôi việc ghi nếu thao tác không idempotent, nên một retry mù trên đường ghi của phần mềm kế toán có thể sinh bút toán trùng.</p>
+
+    <div class="scale">
+      <div class="col small">
+        <h4>Đội nhỏ / chưa có mesh</h4>
+        <ul>
+          <li>Liệt kê mọi nơi có retry: client HTTP, Resilience4j/Spring Retry, RabbitMQ consumer, JDBC. Tính tích số lần thử theo chuỗi gọi dài nhất.</li>
+          <li>Quy tắc đơn giản: chỉ một tầng được retry, thường là tầng gần nguồn lỗi nhất; các tầng trên chỉ báo lỗi.</li>
+          <li>Thao tác ghi chỉ retry khi có idempotency key.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Đội đã có production TB / nhiều service</h4>
+        <ul>
+          <li>Truyền một header "lỗi này do tôi hay do downstream" qua các service Spring (filter hoặc interceptor), bắt chước error ownership ở mức tối thiểu.</li>
+          <li>Thêm retry budget theo tỷ lệ request, không theo số lần cố định, và đo hệ số khuếch đại giữa tải vào và tải chạm SQL Server.</li>
+          <li>Nhớ giới hạn Uber đã nêu: nếu database quá tải thì retry hầu như không cứu được, nên cần circuit breaker và cắt tải đi cùng.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="takeaway">💡 <b>Rút ra cho bạn:</b> Đừng hỏi "tầng này có retry không". Hãy hỏi "trong cả chuỗi gọi, ai là người duy nhất được retry". Sáng thứ Hai, tìm chuỗi gọi dài nhất chạm database chính và nhân số lần thử ở mỗi tầng. Nếu ra hơn 4, bạn đang có sẵn một bộ khuếch đại.</div>
+
+    <div class="refs">
+      <b>Nguồn tham khảo</b><br>
+      [3] <a href="https://www.uber.com/blog/protecting-against-retry-storms" target="_blank">Uber Engineering — How Uber Protects Against Retry Storms</a> (17/09/2026)
+    </div>
+  </article>
+
+  <article class="card" id="goc-nhin">
+    <span class="tag view">Góc nhìn</span>
+    <h2 class="head">Chờ đợi là thứ duy nhất bạn nhìn thấy</h2>
+    <p>Hai bài nói về hai tầng khác nhau nhưng cùng một bài học: chỉ số hiện ra ở nơi bạn đang chờ, còn thủ phạm nằm ở nơi khác. HADR_SYNC_COMMIT cho bạn thấy các commit đang chờ, và thủ phạm là một thread bị kẹt trên scheduler. Lỗi timeout ở service A cho bạn thấy A đang chờ, và thủ phạm là một database ở cuối chuỗi cộng với mọi tầng retry ở giữa.</p>
+    <p>Cả hai ca được giải quyết bằng cùng một động tác: đo từng chặng riêng, rồi gán trách nhiệm cho đúng chặng. Microsoft tách độ trễ commit thành ba phần. Uber tách lỗi thành "của tôi" và "của downstream".</p>
+    <div class="doslist">
+      <div>✅ Thứ Hai: thêm hai bộ đếm Transaction Delay và Mirrored Write Transactions/sec vào dashboard AG, rồi tự tính độ trễ trung bình mỗi giao dịch.</div>
+      <div>✅ Giữa tuần: vẽ chuỗi gọi dài nhất chạm SQL Server và nhân số lần thử ở mọi tầng. Con số đó là hệ số khuếch đại tiềm năng của bạn.</div>
+      <div>✅ Thứ Sáu: chọn ra một thao tác ghi đang có retry mà chưa có idempotency key, và quyết định thêm key hoặc tắt retry.</div>
+    </div>
+  </article>
+
+  <div class="foot">Bản tin sáng · tổng hợp từ nguồn công khai đã xác minh</div>
+</div>
+</body>
+</html>

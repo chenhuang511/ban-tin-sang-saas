@@ -10,13 +10,15 @@
 > 2. Trước khi giải thích một thuật ngữ: xem phần **C. Từ điển thuật ngữ** — nếu đã giải thích ở số trước thì chỉ nhắc gọn/nối link, không giải thích lại dài dòng.
 > 3. Sau khi viết xong: thêm 1 khối vào phần **B. Mục lục theo số** và cập nhật phần A + C nếu có nguồn/thuật ngữ mới (dùng mẫu ở cuối file).
 >
-> _Cập nhật lần cuối: 15/10/2026 — 85 số (24/07 → 15/10/2026; gồm 1 số song song 09/08 chuyên đề An toàn thông tin)._
+> _Cập nhật lần cuối: 16/10/2026 — 86 số (24/07 → 16/10/2026; gồm 1 số song song 09/08 chuyên đề An toàn thông tin)._
 
 ---
 
 ## A. Danh sách nguồn / thực thể ĐÃ DÙNG (tránh lặp)
 
 ### Domain nguồn đã trích dẫn (đừng lặp cùng một bài)
+
+learn.microsoft.com/archive/blogs/psssql (Simon Su, 05/04/2018: "Lesson learned from an AG performance case" — HADR_LOGPROGRESS_SYNC, non-yielding scheduler, sửa 2016 SP1 CU7; "Troubleshooting data movement latency between synchronous-commit AGs" — 3 thành phần độ trễ, XEvents hadr_*) · uber.com/blog/protecting-against-retry-storms (17/09/2026; error ownership, SDA, bán kính bão 25→3, ~9,5 triệu request) — ĐÃ DÙNG 16/10/2026
 
 mailchimp.com/what-we-learned-from-the-recent-mandrill-outage (Eric Muntz, 26/03/2019; Mandrill/Mailchimp tự kể; shard4 dừng 05:35 UTC 04/02/2019, 40 giờ 34 phút tới 22:09 05/02, hồi phục đủ 01:00 06/02; vacuum ước tới 40 ngày, cắt bảng Search/Url cỡ TB; 80% mail gửi được; alert XID thêm 22:40) · sqlservercentral.com/articles/i-too-have-a-production-story-a-downtime-caused-by-postgres-transaction-id-wraparound-problem (Chandan Shukla, 23/02/2026; ~10 TPS = 864.000 XID/ngày, ngưỡng 200 triệu ≈ 231 ngày; autovacuum tắt tạm rồi quên; lẫn mốc 200 triệu với 2 tỉ) · postgresql.org/docs/current/routine-vacuuming.html (cảnh báo còn 40 triệu, từ chối ghi còn <3 triệu, freeze_max_age mặc định 200 triệu, thủ phạm: prepared xact/transaction lâu/replication slot, khuyên VACUUM thường, không FULL/FREEZE) · cloudsmith.com/blog/my-ci-cd-platform-was-breached-now-what (Ciara Carey, 06/05/2024; vendor; FT >1.000 pipeline, >14.000 env var → ~5.000 secret sống lâu, 30–40 kỹ sư nhiều tuần, OIDC + Doppler) · circleci.com/blog/jan-4-2023-incident-report (laptop nhiễm 16/12/2022, exfil 22/12, báo khách 04/01/2023; MDM, hạn chế quyền prod) — ĐÃ DÙNG 15/10/2026
 
@@ -178,6 +180,12 @@ LegacyCodeBench 200 tác vụ/4 bậc · Legacy Insights 94%/tài liệu 96% · 
 ---
 
 ## B. Mục lục theo số (mới → cũ)
+
+### 16/10/2026 — AG synchronous commit: thread giữ khóa HADR_LOGPROGRESS_SYNC bị kẹt hàng đợi làm throughput rơi về 0; & Uber "error ownership": chỉ service sở hữu lỗi mới được retry (Microsoft PSS SQL ×2 — Simon Su; Uber Engineering)
+- **Chủ đề:** mảng 3 (tối ưu hệ đang chạy) — SQL Server AlwaysOn + độ tin cậy microservices/retry. Cả hai bài tag legacy.
+- **Nguồn:** learn.microsoft.com/archive/blogs/psssql/lesson-learned-from-an-availability-group-performance-case & .../troubleshooting-data-movement-latency-between-synchronous-commit-always-on-availability-groups (Simon Su, 05/04/2018; SQL 2014 SP2/2016 SP1/2017); uber.com/blog/protecting-against-retry-storms (Mehndiratta, Srivastava, Dhingra; 17/09/2026).
+- **Số chính:** mục tiêu 10.000 tx/s, rơi về 0 ~1 giây mỗi 5–10 phút, CPU ~30%; XEvents gap ~3,2 s; scheduler 23 yield_count 27.076.130 đứng yên, signal_duration 2.407 ms (SPID 438); sửa ở 2016 SP1 CU7 (KB 4057280); ví dụ 1.000 ms/50 = 20 ms; ví dụ demo mạng 3,907 s + 0,587 s, harden 0,663 s, commit 5,157 s; harden_still_waiting mỗi 2 s; trace vài GB/phút. Uber: chuỗi 1 retry → 2×/4×/8×; budget 10% → 1,1/1,21/1,33×; bán kính bão 25→3 (TB 20→2); sự cố 18/11/2025 ~9,5 triệu request bị chặn, tới 200.000 ở caller, budget thường +46–135%; header x-uber-error-claim; lỗi bỏ nhận nhầm 1,9/10 (ví dụ), 0,396/10 (worst case 6 tháng).
+- **Thực thể:** Microsoft PSS SQL Server team (Simon Su), Uber (SDA – Service Dependency Analysis, retry middleware, service mesh). Đã đối chiếu nhưng KHÔNG dùng: TinyFish "How three retries become sixty-four…" (Takahashi, 31/12/2025; thứ cấp, số thiếu), Devrim Ozcay "Why we removed Resilience4j…" (paywall), RevenueCat SOC 2 (2021, ít số), SOC 2 CI/CD đã có 09/09.
 
 ### 15/10/2026 — Postgres tự khóa ghi vì "tuổi" transaction ID: Mandrill nghỉ 40 giờ 34 phút, ca autovacuum tắt rồi quên; & FT xoay vòng ~5.000 secret sống lâu sau vụ CircleCI (Mailchimp/Muntz; Shukla/SQLServerCentral; PostgreSQL docs; Cloudsmith/Carey; CircleCI)
 - **Chủ đề:** Mảng 3 (PostgreSQL vận hành, ánh xạ sang log truncation/version store của SQL Server) + mảng 4 (quản lý secret CI/CD, OIDC). 2 bài + Góc nhìn.
@@ -760,6 +768,8 @@ LegacyCodeBench 200 tác vụ/4 bậc · Legacy Insights 94%/tài liệu 96% · 
 ---
 
 ## C. Từ điển thuật ngữ (đã giải thích ở các số — chỉ nhắc gọn khi tái dùng)
+
+- **HADR_SYNC_COMMIT / ba thành phần độ trễ commit AG; HADR_LOGPROGRESS_SYNC; yield (lập lịch hợp tác); error ownership / retry budget:** HADR_SYNC_COMMIT = commit chờ secondary harden (triệu chứng, không phải nguyên nhân); độ trễ = ghi log primary ∥ mạng, rồi ghi log secondary; thread giữ khóa tiến độ log không được chạy thì mọi commit đứng; error ownership = chỉ nút sinh lỗi được retry. _16/10._
 
 - **XID wraparound / freeze (Postgres):** XID 32 bit so sánh vòng tròn (~2 tỉ cũ/2 tỉ mới); VACUUM phải đóng băng dòng cũ, không thì Postgres khóa ghi; cảnh báo còn 40 triệu, từ chối ghi <3 triệu; freeze_max_age mặc định 200 triệu — giải thích 15/10/2026.
 - **OIDC cho CI (token ngắn hạn thay secret sống lâu):** pipeline trình danh tính job cho cloud, nhận token vài phút — giải thích 15/10/2026.
