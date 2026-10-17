@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Segment về một service &middot; 17/10/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+@media (max-width:560px){h1.title{font-size:25px}.card{padding:20px 18px}.tbl{display:block;overflow-x:auto}}
+</style>
+</head>
+<body>
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 17/10/2026</div>
+    <h1 class="title">Một queue cho mỗi đích đến chữa được nghẽn đầu hàng, nhưng đẻ ra hơn 140 service: Segment đi từ microservices về một service duy nhất, và ba thứ họ chấp nhận mất</h1>
+    <div class="meta">17/10/2026 · Đọc khoảng 12 phút · Nguồn chính: Segment/Twilio (Alexandra Noonan, 10/07/2018); SDxCentral (03/08/2018)</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: số này chỉ có <b>một bài</b>, đào sâu một case. Nguồn gốc đã 8 năm tuổi, nhưng đây vẫn là case kể "quay về một service" rõ số liệu nhất mà bản tin tìm được, và nó rất sát hệ queue của bạn. Các đoạn "Cơ chế", phần ánh xạ sang stack của bạn và khuyến nghị theo quy mô là <b>biên tập tổng hợp từ thực hành phổ biến, không trích nguyên văn từ nguồn</b>. Mọi con số đều dẫn nguồn ngay cạnh câu. Bài này không có code minh họa; mọi ý kỹ thuật viết bằng lời.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1"><strong>Bài 1</strong> — Segment: từ hơn 140 service về một service<br><span style="font-size:13.5px;color:#6b7280">· vì sao tách queue theo đích rồi vẫn đau · test từ 1 giờ xuống mili giây · ba thứ phải đánh đổi · ánh xạ sang RabbitMQ, Spring Boot, đa khách hàng</span></a></li>
+    </ol>
+  </nav>
+
+  <article class="card" id="bai1">
+    <span class="tag legacy">Tối ưu hệ đang chạy · Tách / gộp service</span>
+    <h2 class="head">Tách để cô lập lỗi là đúng. Tách tới mức mỗi đích đến một repo, một queue, một service thì cái giá bắt đầu lớn hơn lợi ích</h2>
+    <p class="src">Nguồn: Segment (nay trên blog Twilio) — <a href="https://twilio.com/en-us/blog/developers/best-practices/goodbye-microservices" target="_blank">"Goodbye Microservices: From 100s of problem children to 1 superstar"</a> (Alexandra Noonan, 10/07/2018); SDxCentral — <a href="https://www.sdxcentral.com/articles/news/segment-struggled-with-microservices-went-back-to-monolith/2018/08/" target="_blank">bản tin về quyết định này</a> (03/08/2018).</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">&gt; 140</div><div class="lab">service mà hệ gửi event của Segment phình ra, mỗi đích đến một service và một repo <sup><a href="https://twilio.com/en-us/blog/developers/best-practices/goodbye-microservices" target="_blank">[1]</a></sup></div></div>
+      <div class="box"><div class="num">3 kỹ sư</div><div class="lab">làm toàn thời gian chỉ để giữ hệ chạy, thay vì làm tính năng <sup><a href="https://twilio.com/en-us/blog/developers/best-practices/goodbye-microservices" target="_blank">[1]</a></sup></div></div>
+      <div class="box"><div class="num">~1 giờ → mili giây</div><div class="lab">thời gian chạy hết test của các đích, sau khi ghi và phát lại traffic thay cho gọi API đối tác thật <sup><a href="https://twilio.com/en-us/blog/developers/best-practices/goodbye-microservices" target="_blank">[1]</a></sup></div></div>
+      <div class="box"><div class="num">32 → 46</div><div class="lab">số cải tiến thư viện dùng chung: 32 trong thời microservices, 46 trong một năm sau khi gộp <sup><a href="https://twilio.com/en-us/blog/developers/best-practices/goodbye-microservices" target="_blank">[1]</a></sup></div></div>
+    </div>
+
+    <h3 class="sub">Bắt đầu từ một bài toán rất thật</h3>
+    <p>Segment nhận event của khách hàng với tốc độ hàng trăm nghìn event mỗi giây, rồi chuyển tiếp tới hơn 100 loại đích phía server như Google Analytics, Optimizely hay webhook tự cấu hình <sup><a href="https://twilio.com/en-us/blog/developers/best-practices/goodbye-microservices" target="_blank">[1]</a></sup>. Ban đầu chỉ có một queue phân tán. API đẩy event vào, worker lấy ra, kiểm tra cấu hình khách rồi gọi lần lượt API của từng đích <sup><a href="https://twilio.com/en-us/blog/developers/best-practices/goodbye-microservices" target="_blank">[1]</a></sup>.</p>
+    <p>Lỗi gọi đích được chia hai loại. Lỗi có thể thử lại gồm HTTP 500, bị giới hạn tốc độ, hết thời gian chờ. Lỗi không thể thử lại gồm sai credential hoặc thiếu trường bắt buộc <sup><a href="https://twilio.com/en-us/blog/developers/best-practices/goodbye-microservices" target="_blank">[1]</a></sup>. Vấn đề nằm ở chỗ queue duy nhất chứa cả event mới lẫn event chờ retry của mọi đích. Một đích chậm làm cả hàng đứng. Đây là head-of-line blocking (kẻ đầu hàng chặn cả hàng sau) <sup><a href="https://twilio.com/en-us/blog/developers/best-practices/goodbye-microservices" target="_blank">[1]</a></sup>.</p>
+
+    <div class="mech"><b>Cơ chế.</b> Khi nhiều loại việc có "tốc độ chết" khác nhau dùng chung một hàng đợi và cùng một nhóm worker, việc chậm nhất quyết định thông lượng của tất cả. Retry làm nặng thêm: event lỗi quay lại hàng, chiếm chỗ của event lành. Cách chữa kinh điển là tách hàng theo loại việc, để đích nào chậm thì chỉ hàng của đích đó đầy. Segment làm đúng như vậy, và cách chữa này đúng. Điều đáng học là phần sau.</div>
+
+    <h3 class="sub">Chữa đúng bệnh, nhưng đóng gói sai đơn vị</h3>
+    <p>Segment cho mỗi đích một service và một queue riêng, kèm một router sao chép event tới các đích khách đã chọn <sup><a href="https://twilio.com/en-us/blog/developers/best-practices/goodbye-microservices" target="_blank">[1]</a></sup>. Họ làm tiếp một bước nữa: mỗi đích một repo riêng, rồi viết thư viện dùng chung cho phần biến đổi dữ liệu và phần gọi HTTP <sup><a href="https://twilio.com/en-us/blog/developers/best-practices/goodbye-microservices" target="_blank">[1]</a></sup>.</p>
+    <p>Từ đây chi phí tích lũy theo số đích, không theo số khách. Mỗi tháng đội thêm khoảng ba đích. Hơn 50 đích mới nghĩa là hơn 50 repo mới, và hệ cuối cùng vượt 140 service <sup><a href="https://twilio.com/en-us/blog/developers/best-practices/goodbye-microservices" target="_blank">[1]</a></sup>. Sáu thứ cùng đau một lúc:</p>
+    <table class="tbl">
+      <tr><th>Chỗ đau</th><th>Biểu hiện theo bài gốc</th></tr>
+      <tr><td>Thư viện dùng chung</td><td>Sửa một lần phải test và deploy hàng chục service. Kỹ sư thường chỉ cập nhật đúng đích mình đang sửa, nên phiên bản thư viện lệch dần giữa các đích <sup><a href="https://twilio.com/en-us/blog/developers/best-practices/goodbye-microservices" target="_blank">[1]</a></sup></td></tr>
+      <tr><td>Tải lệch nhau cực mạnh</td><td>Có service chỉ nhận vài event mỗi ngày, có service nhận hàng nghìn mỗi giây. Đích nhỏ cần scale tay khi có đỉnh <sup><a href="https://twilio.com/en-us/blog/developers/best-practices/goodbye-microservices" target="_blank">[1]</a></sup></td></tr>
+      <tr><td>Autoscale</td><td>Mỗi service một hồ sơ CPU và bộ nhớ khác, nên chỉnh autoscale "nghệ thuật nhiều hơn khoa học" <sup><a href="https://twilio.com/en-us/blog/developers/best-practices/goodbye-microservices" target="_blank">[1]</a></sup></td></tr>
+      <tr><td>On-call</td><td>Người trực bị gọi vì đỉnh tải của đích nhỏ <sup><a href="https://twilio.com/en-us/blog/developers/best-practices/goodbye-microservices" target="_blank">[1]</a></sup></td></tr>
+      <tr><td>Test</td><td>Test gọi HTTP thật tới đối tác nên hay chập chờn. Một thay đổi nhỏ mất vài ngày tới một tuần <sup><a href="https://twilio.com/en-us/blog/developers/best-practices/goodbye-microservices" target="_blank">[1]</a></sup></td></tr>
+      <tr><td>Năng suất</td><td>Ba kỹ sư toàn thời gian lo vận hành; vận tốc giảm, tỷ lệ lỗi tăng <sup><a href="https://twilio.com/en-us/blog/developers/best-practices/goodbye-microservices" target="_blank">[1]</a></sup></td></tr>
+    </table>
+
+    <div class="mech"><b>Cơ chế.</b> Tách theo đích giải quyết cô lập lỗi, nhưng nó kéo theo ba loại chi phí cố định cho mỗi đơn vị tách: một pipeline, một cấu hình scale, một điểm phải trực. Chi phí cố định chia cho tải thấp cho ra tỷ lệ tệ: service nhận vài event mỗi ngày vẫn tốn nguyên một pipeline và một quy tắc autoscale. Thư viện dùng chung thì biến N service thành một đồ thị phụ thuộc ngầm: thứ trông như tách rời thật ra phải đổi cùng lúc. Dấu hiệu nhận biết: mọi thay đổi "nhỏ" đều động tới nhiều repo.</div>
+
+    <h3 class="sub">Họ đổi đúng những gì</h3>
+    <p>Segment làm bốn việc, và thứ tự có ý nghĩa <sup><a href="https://twilio.com/en-us/blog/developers/best-practices/goodbye-microservices" target="_blank">[1]</a></sup>:</p>
+    <p><b>Thay các queue riêng bằng Centrifuge.</b> Đây là thành phần giao event tới một service nguyên khối duy nhất; về sau nó thành lõi của Segment Connections. SDxCentral mô tả nó là bộ gom thay cho queue theo từng service <sup><a href="https://www.sdxcentral.com/articles/news/segment-struggled-with-microservices-went-back-to-monolith/2018/08/" target="_blank">[2]</a></sup>. <b>Gộp mã vào một repo</b> và ghim cả 120 dependency khác nhau về đúng một phiên bản. <b>Gộp 140+ service thành một.</b> <b>Dựng Traffic Recorder</b> trên công cụ yakbak: lần chạy test đầu ghi traffic HTTP ra file lưu trong repo, các lần sau phát lại file thay vì gọi API đối tác <sup><a href="https://twilio.com/en-us/blog/developers/best-practices/goodbye-microservices" target="_blank">[1]</a></sup>.</p>
+    <p>Chú ý việc đứng đầu danh sách không phải "gộp service". Họ thay cách giao việc (Centrifuge) trước, nên head-of-line blocking không quay lại khi chỉ còn một nhóm worker. Nhóm worker lớn và dùng chung nay hấp thụ đỉnh tải, nên đích nhỏ không còn làm ai bị gọi trực <sup><a href="https://twilio.com/en-us/blog/developers/best-practices/goodbye-microservices" target="_blank">[1]</a></sup>.</p>
+
+    <div class="mech"><b>Cơ chế.</b> Nhìn kỹ, chỗ đáng giá nhất là Traffic Recorder chứ không phải việc gộp. Test chạy từ tối đa một giờ (có đích riêng lẻ mất tới 5 phút) xuống mili giây cho cả 140+ đích <sup><a href="https://twilio.com/en-us/blog/developers/best-practices/goodbye-microservices" target="_blank">[1]</a></sup>. Khi test nhanh và ổn định, ghim dependency về một phiên bản mới là việc chịu được: mỗi lần nâng cấp thư viện, test cả hệ chạy gần như tức thì. Nói cách khác, cái gộp chỉ an toàn nhờ lưới test đủ nhanh. Gộp mà không có lưới đó thì bạn đổi nỗi đau nhiều repo lấy nỗi đau một repo dễ vỡ.</div>
+
+    <h3 class="sub">Số liệu "sau", và chỗ cần đọc cẩn thận</h3>
+    <p>Trước đây sửa thư viện dùng chung phải deploy hơn 140 service. Giờ một kỹ sư deploy một service trong vài phút. Số cải tiến thư viện dùng chung tăng từ 32 trong thời microservices lên 46 một năm sau khi gộp <sup><a href="https://twilio.com/en-us/blog/developers/best-practices/goodbye-microservices" target="_blank">[1]</a></sup>. Hai con số này không được bài gốc nêu thời gian đo chính xác ngoài "một năm sau", và không có số CPU, bộ nhớ hay độ trễ nào để so. Vì vậy hãy coi đây là bằng chứng về tốc độ thay đổi, không phải bằng chứng về hiệu năng.</p>
+    <p>SDxCentral đưa thêm bối cảnh từ phía lãnh đạo kỹ thuật: hệ có khoảng 250 microservice, tới 16.000 container và 300 tỷ event mỗi tháng. Con số 250 khác với "hơn 140" trong bài gốc, và bản tin không xác định được vì sao (có thể đếm cả phần hạ tầng khác); khi cần một con số, hãy dùng "hơn 140" của bài gốc <sup><a href="https://www.sdxcentral.com/articles/news/segment-struggled-with-microservices-went-back-to-monolith/2018/08/" target="_blank">[2]</a></sup>. Bài này cũng ghi một phép tính đáng nhớ của một lãnh đạo Segment: một API khá ổn có thể hỏng một ngày mỗi năm; cộng hơn 200 API lại thì hệ gặp sự cố gần như cứ một ngày rưỡi một lần <sup><a href="https://www.sdxcentral.com/articles/news/segment-struggled-with-microservices-went-back-to-monolith/2018/08/" target="_blank">[2]</a></sup>.</p>
+
+    <h3 class="sub">Ba thứ họ nói thẳng là đã đánh đổi</h3>
+    <div class="doslist">
+      <div>1. <b>Cô lập lỗi yếu đi.</b> Một đích có bug làm sập service thì mọi đích cùng sập. Đội nói đang tìm cách cô lập đích tốt hơn ngay trong khối nguyên <sup><a href="https://twilio.com/en-us/blog/developers/best-practices/goodbye-microservices" target="_blank">[1]</a></sup>.</div>
+      <div>2. <b>Cache trong bộ nhớ kém hiệu quả.</b> Cache của control plane trải trên hơn 3.000 process nên tỷ lệ trúng giảm. Họ cân nhắc Redis nhưng sẽ thêm một điểm phải scale, và chấp nhận mất <sup><a href="https://twilio.com/en-us/blog/developers/best-practices/goodbye-microservices" target="_blank">[1]</a></sup>.</div>
+      <div>3. <b>Nâng cấp dependency có thể làm vỡ nhiều đích cùng lúc.</b> Họ cho rằng sự đơn giản đáng giá, miễn có bộ test tự động <sup><a href="https://twilio.com/en-us/blog/developers/best-practices/goodbye-microservices" target="_blank">[1]</a></sup>.</div>
+    </div>
+    <p>Và một giới hạn về phạm vi: người của Segment nói quyết định này chỉ hợp với nền tảng đó, công ty vẫn dùng microservices ở chỗ khác <sup><a href="https://www.sdxcentral.com/articles/news/segment-struggled-with-microservices-went-back-to-monolith/2018/08/" target="_blank">[2]</a></sup>. Bài này không phải lời kêu gọi bỏ microservices.</p>
+
+    <h3 class="sub">Ánh xạ sang stack của bạn (suy luận của bản tin)</h3>
+    <p><b>RabbitMQ.</b> Bạn đã gặp hai kiểu: một queue dùng chung cho nhiều loại việc, hoặc queue riêng theo loại việc hay theo khách. Câu chuyện Segment cho thấy hai đầu của một dải. Queue chung dễ bị một consumer chậm kéo cả hàng; queue riêng chặn được chuyện đó nhưng kéo theo chi phí vận hành cho từng queue. Điểm giữa hay hợp lý: queue theo nhóm tải (ví dụ nhóm nhanh và nhóm chậm hay lỗi), không theo từng đích hoặc từng khách. Với multi-tenant theo CompanyID, tách riêng từng công ty là mốc phải cân rất kỹ: vài khách lớn có thể cần hàng riêng, còn đa số thì dùng chung.</p>
+    <p><b>Retry.</b> Cách Segment phân loại lỗi (thử lại được hay không) chính là nền của DLQ. Lỗi không thể thử lại mà cứ quay lại hàng thì chiếm chỗ vô ích. Lỗi thử lại được mà không có trần số lần thì thành bão retry, đề tài số 16/10 đã nói.</p>
+    <p><b>Spring Boot.</b> Thư viện dùng chung của Segment đóng vai tương tự starter hoặc BOM dùng chung trong hệ Spring của bạn. Nếu mỗi service ghim một phiên bản khác và chỉ nâng khi đụng tới, bạn đang đi đúng con đường phiên bản lệch dần mà bài gốc mô tả. Một BOM chung do một đội giữ, kèm bài test hợp đồng chạy nhanh, là phiên bản nhẹ của "ghim 120 dependency về một".</p>
+    <p><b>Tích hợp đối tác.</b> Phần Traffic Recorder dùng được ngay, không cần gộp service nào. Bất kỳ chỗ nào test của bạn gọi hệ ngoài thật (cổng đối tác, dịch vụ bên thứ ba) đều có thể ghi lại và phát lại. Đây là phần ít rủi ro nhất để thử.</p>
+
+    <h3 class="sub">Rút ra theo quy mô</h3>
+    <div class="scale">
+      <div class="col small"><h4>Đội nhỏ / startup &lt; 10 người</h4><ul>
+        <li>Đừng tách service trước khi có bằng chứng đau thật. Nếu cần tránh một đích chậm kéo cả hàng, tách queue trước, chưa cần tách service hay repo.</li>
+        <li>Nếu đã lỡ có nhiều service nhỏ, đếm: bao nhiêu service nhận tải thấp mà vẫn tốn trọn một pipeline và một cấu hình scale?</li>
+        <li>Làm record/replay cho test gọi hệ ngoài trước mọi thứ khác.</li>
+      </ul></div>
+      <div class="col"><h4>Đội đã có sản phẩm production</h4><ul>
+        <li>Đo "một thay đổi nhỏ động tới mấy repo". Con số lớn hơn 3 là dấu hiệu thư viện dùng chung đang ràng buộc ngầm.</li>
+        <li>Trước khi gộp, đo thời gian chạy hết test và mức ổn định. Chưa chạy nhanh thì chưa nên gộp.</li>
+        <li>Nếu gộp, viết ra trước ba thứ sẽ mất (cô lập lỗi, cache, nâng dependency) và quyết định cách giảm từng cái, như Segment đã làm.</li>
+      </ul></div>
+    </div>
+
+    <div class="takeaway">💡 <b>Rút ra cho bạn:</b> đơn vị để tách queue, đơn vị để deploy và đơn vị để đặt repo là ba quyết định khác nhau. Segment gộp cả ba thành "một đích một thứ" và trả giá. Hãy hỏi riêng từng cái: cái nào thật sự cần cô lập, cái nào chỉ là thói quen?</div>
+
+    <div class="doslist">
+      <div>✅ Liệt kê queue và service của bạn, đánh dấu cái nào tải thấp mà vẫn tốn nguyên một bộ vận hành.</div>
+      <div>✅ Phân loại lỗi thử lại được và không thử lại được ở mọi consumer; cái sau đi thẳng DLQ.</div>
+      <div>✅ Thử ghi và phát lại traffic cho một test gọi hệ ngoài, đo thời gian trước và sau.</div>
+      <div>❌ Coi "nhiều service" là bằng chứng của kiến trúc tốt, và "một service" là bằng chứng của kiến trúc tồi.</div>
+      <div>❌ Gộp service khi test còn chậm và chập chờn.</div>
+      <div>❌ Áp nguyên kết luận của Segment cho hệ khác: chính họ nói nó chỉ hợp với nền tảng của họ.</div>
+    </div>
+
+    <div class="refs"><b>Nguồn tham khảo</b><br>
+      [1] <a href="https://twilio.com/en-us/blog/developers/best-practices/goodbye-microservices" target="_blank">Segment/Twilio — Goodbye Microservices: From 100s of problem children to 1 superstar (Alexandra Noonan, 10/07/2018)</a> — bài tự thuật của chính công ty; không nêu CPU, bộ nhớ, độ trễ hay mốc đo chính xác cho hai con số 32 và 46.<br>
+      [2] <a href="https://www.sdxcentral.com/articles/news/segment-struggled-with-microservices-went-back-to-monolith/2018/08/" target="_blank">SDxCentral — Segment struggled with microservices, went back to monolith (03/08/2018)</a> — bài báo thứ cấp, có thêm số về quy mô và phát biểu của lãnh đạo; số "250 microservice" khác với bài gốc.
+    </div>
+  </article>
+
+  <div class="foot">Bản tin sáng · tổng hợp từ nguồn công khai đã xác minh</div>
+</div>
+</body>
+</html>

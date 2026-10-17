@@ -10,13 +10,15 @@
 > 2. Trước khi giải thích một thuật ngữ: xem phần **C. Từ điển thuật ngữ** — nếu đã giải thích ở số trước thì chỉ nhắc gọn/nối link, không giải thích lại dài dòng.
 > 3. Sau khi viết xong: thêm 1 khối vào phần **B. Mục lục theo số** và cập nhật phần A + C nếu có nguồn/thuật ngữ mới (dùng mẫu ở cuối file).
 >
-> _Cập nhật lần cuối: 16/10/2026 — 86 số (24/07 → 16/10/2026; gồm 1 số song song 09/08 chuyên đề An toàn thông tin)._
+> _Cập nhật lần cuối: 17/10/2026 — 87 số (24/07 → 17/10/2026; gồm 1 số song song 09/08 chuyên đề An toàn thông tin)._
 
 ---
 
 ## A. Danh sách nguồn / thực thể ĐÃ DÙNG (tránh lặp)
 
 ### Domain nguồn đã trích dẫn (đừng lặp cùng một bài)
+
+twilio.com/en-us/blog/developers/best-practices/goodbye-microservices (Noonan, 10/07/2018; Segment >140 service → 1; 32→46 cải tiến thư viện; test ~1 giờ → mili giây) · sdxcentral.com/articles/news/segment-struggled-with-microservices-went-back-to-monolith/2018/08/ (03/08/2018; 250 microservice, 16.000 container) — ĐÃ DÙNG 17/10/2026
 
 learn.microsoft.com/archive/blogs/psssql (Simon Su, 05/04/2018: "Lesson learned from an AG performance case" — HADR_LOGPROGRESS_SYNC, non-yielding scheduler, sửa 2016 SP1 CU7; "Troubleshooting data movement latency between synchronous-commit AGs" — 3 thành phần độ trễ, XEvents hadr_*) · uber.com/blog/protecting-against-retry-storms (17/09/2026; error ownership, SDA, bán kính bão 25→3, ~9,5 triệu request) — ĐÃ DÙNG 16/10/2026
 
@@ -76,6 +78,8 @@ docs.litellm.ai/blog (LiteLLM Engineering Blog — Ishaan Jaffer, Krrish Dholaki
 assembled.com/blog (John Wang, đồng sáng lập & CTO Assembled — "Code review bottlenecks: How we hill climbed our way to higher PR throughput", 07/08/2026; tường thuật cấp một, công ty bán phần mềm quản lý lực lượng hỗ trợ khách hàng — KHÔNG bán công cụ dev nên ít động cơ tiếp thị; chờ review đầu tiên 3,5h (12/2025) → >16h (05/2026); PR size +2,5×; chồng 20 PR/dự án; thử đầu tiên auto-approve PR chỉ-test thất bại vì quá ít; kiến trúc 2 reviewer độc lập Codex GPT-5.6-sol high + Claude Code Opus 5 high trong sandbox riêng + agent trọng tài GPT-5.6-sol áp chính sách; chính sách trộn luật xác định (<1.000 dòng) và luật LLM (không duyệt credential/secret/khóa mật mã); 6 yêu cầu chất lượng (mô tả tử tế, bằng chứng test, theo khuôn mẫu repo, không đụng auth/billing/permission, không khuôn mẫu kiến trúc mới); "dải hẹp giữa hai vách" lỏng-vs-chặt, vách quá chặt hỏng trong im lặng; alpha soi TỪNG PR và phát hiện chính sách ban đầu QUÁ BẢO THỦ; theo dõi tỷ lệ duyệt theo TỪNG NGƯỜI vì gộp che hành vi; kết quả: PR merge 2,4× mức nền, LOC 2,8×, auto-approval 43% số merge trong 3 tuần, PR lớn ≥600 dòng throughput 3,5× với p90 chờ giữ nguyên, refactor 7,5×/test 3,4×/bugfix 3,7×/feature 2,5×, bug báo mỗi tuần −27%, revert/PR giữ 0,8%, non-engineer 13% PR, median review 8 phút, 3,57 USD LLM/lần (mẫu 14 ngày), CPU database chính −20%; tự ghi: quan sát không đối chứng, cửa sổ đo bug quá ngắn) · ona.com/stories (Benjamin Stark — "How auto-approving low-risk PRs with AI cut our lead time by 74%", 09/04/2026; Ona tiền thân Gitpod, NAY THUỘC OPENAI, BÁN ĐÚNG SẢN PHẨM NÀY → xung đột lợi ích; nền 10,8 PR/kỹ sư/tuần = 2,5× phân vị 90 theo DX; review automation có sẵn 88% acceptance & −50% thời gian cho PR; 2 tuần quan sát PR bị đóng dấu cho qua trước khi viết chính sách; 6 tiêu chí rủi ro thấp: <1.000 dòng, không protobuf, không migration, không hạ tầng/CI, không authn/authz, không audit log/monitoring; kỹ sư KHÔNG được tự khai; agent review MỌI PR; "bot duyệt, người merge" = sự kiện phê duyệt truy vết cho SOC 2; đội nền tảng sở hữu công cụ phân loại, đổi model = thay đổi TRỌNG YẾU của chính sách; bot đầu tiên 13/03/2026 ~15:07 UTC; kết quả 4 tuần trước/sau chỉ tính PR người viết: lead time 4,1h→1,1h (−74%), chờ duyệt đầu 2h49→3,8 phút (−98%), PR merge 1.316→4.149 (+215%), deploy/tuần 329→1.037, 39→43 contributor, 34→96 PR/người/tháng (2,9×), duyệt trong 10 phút 13%→73%; THAY ĐỔI ĐỒNG THỜI: bỏ tự-động-gán reviewer + tác giả tự chọn reviewer → không tách được đóng góp) · engineering.zalando.com (Bartosz Ocytko, Executive Principal Engineer — "Agentic Engineering at Zalando: a snapshot", 14/08/2026; >250 đội kỹ thuật, KHÔNG bán công cụ dev, tổng kết 2,5 năm; LiteLLM proxy từ 01/2024 (OpenAI/Bedrock/Vertex), 2k MAU trên 6 pod 2 CPU/4 GB nhờ --max_requests_before_restart 20k, pre-call hook chặn theo User-Agent để ép nâng client, auto-inject prompt caching checkpoint; Chat UI + CLI pydantic-ai từ hackathon 08/2024, MCP proxy http→stdio + bearer token injection; KHÔNG bắt buộc một công cụ chung — opencode/pi trộn Copilot subscription và API nội bộ; risk-based PR approval chạy lúc TẠO PR, 3 mức thấp/trung bình/cao, 33% PR mức thấp được bot tự duyệt, lead time PR −20–40% so với toàn bộ PR; luật rút TỪ PHÂN TÍCH SỰ CỐ PRODUCTION của chính họ (typo cấu hình = cao, phá tương thích ngược = trung bình, chỉ tài liệu = thấp); hành vi đổi: kỹ sư tách phần ship-nhanh-được khỏi phần cần duyệt thêm; PR size phình 2 năm, nhóm 100–500 tăng đều, 500–1k và 1k–2k tăng từ Sonnet 4 (Q2/2025), ép hook giới hạn kích thước ÍT được ưa chuộng; điểm gãy độ phức tạp vòng (CCN) trùng lúc agent xuất hiện, 4 codebase Go/Java; commit message ~5k ký tự; agent skill tập trung theo plugin + Tech Radar có mục AI; auto-detect model qua quét Docker image; GenAI Labs 20 người/1–4h, 6 phiên/120–150 người trong 3 ngày; LLM guild từ 2024; risk-based approval giảm nhu cầu "đóng dấu" cho prototype/tooling nội bộ)
 
 ### Công ty / báo cáo / case study đã khai thác (KHÔNG viết lại trừ khi có số liệu mới)
+
+Segment/Twilio — gộp >140 service về 1 (Centrifuge, Traffic Recorder, monorepo) — ĐÃ DÙNG 17/10/2026
 - **Netflix Generational ZGC (14/10/2026):** netflixtechblog.com (Danny Thomas, 06/03/2024) · openjdk.org/jeps/439, /474 · docs.oracle.com/en/java/javase/21/gctuning (available-collectors; G1) · besthub.dev (Full GC 10 s → 200 ms, ẩn danh) — đừng lặp trừ khi có số đo mới.
 - **Socure RiskOS webhook / Kafka partition bị bỏ rơi sau scale-up (11/10/2026):** status.socure.com, sự cố 25–26/06/2026, ~½ event trễ ~16 giờ, lag tổng hợp xanh; Burrow (LinkedIn, 2015); Spring Kafka rebalance listeners; Mike Byrd page splits (SQLServerCentral, 2019/2020): 3 vs 44.868 split.
 
@@ -146,6 +150,8 @@ Buildkite — case cardinality explosion (nhãn build_id làm hóa đơn metric 
 - **Quy trình phát triển an toàn / least-privilege CI/CD trên AWS (bộ khung + tự thuật):** Alexey Vidanov (AWS Community Builders) — "Least-Privilege CI/CD on AWS: The 4-Layer Pattern That Scales", DEV Community, 12/05/2026, dev.to/aws-builders (phần 1 của series 3 bài). "Pipeline chỉ là một principal gọi API AWS"; ranh giới tin cậy là ROLE không phải repo; OIDC token ~1 giờ thay access key; điều kiện `sub` ghim repo+nhánh là cổng an toàn duy nhất (thiếu = role assumable bởi bất kỳ ai trên GitHub, mà vẫn chạy đúng); 4 tầng SCP / permission boundary / identity policy / resource policy; `iam:PassRole` phải ghim cả role đích lẫn dịch vụ đích; Learning role (dev, rộng nhưng có boundary, bị CloudTrail quan sát) → Access Analyzer đọc ~90 ngày → chính sách vào Git → Operations role ở prod; 3 khoảng trống Access Analyzer (PassRole không vào CloudTrail, S3 data event mặc định tắt, hành động hiếm ngoài cửa sổ 90 ngày) → `known-gaps.tf`, "90% không phải 100%"; vòng fail-forward (AccessDenied → alarm → Lambda mở PR → người duyệt → merge); role vending machine (Terraform module / CDK construct); lộ trình 90 ngày 4 pha; bảng quy mô 1–5 / 5–15 / 15–50 / 50–200 pipeline; dấu hiệu "chính sách quá rộng" = AccessDenied KHÔNG BAO GIỜ xảy ra; 3 hằng số mọi quy mô (OIDC / boundary trên mọi role / trust policy ghim repo+nhánh). Bối cảnh mối đe dọa anh dẫn: Trivy GitHub Action 3/2026 (force-push 75/76 thẻ, CanisterWorm — đã mổ ở số 05/09), chiến dịch 4/2026 475 PR độc trong 26 giờ qua `pull_request_target` (Wiz), tj-actions/changed-files 3/2025 >23.000 repo, CircleCI 2022, Codecov 2021.
 
 ### Số liệu "đầu bài" đã dùng (đừng lặp làm điểm nhấn chính)
+
+17/10/2026: >140 service; 3 kỹ sư toàn thời gian; test ~1 giờ → mili giây; 32 → 46 cải tiến thư viện chung (Segment).
 - 14/10/2026: Netflix ZGC thế hệ: >½ service streaming quan trọng, +36% CPU (ZGC cũ) → ~10% tốt hơn G1, ~3% heap overhead, Parallel +6–8% cho batch · JEP 439 Cassandra ¼ heap/4× throughput · BestHub p99 15 s → 120 ms
 - 11/10/2026: Socure ~½ webhook trễ, 14:06→06:03 ET, phát hiện ~20 giờ sau · Byrd 3 vs 44.868 split, 176.764→437.417 logical read, 703→2.453 ms CPU, 5,8 I/O/split
 - 10/10/2026: lock escalation >5.000 khóa / 24% buffer pool / lỗi 1204 (Microsoft) · demo AUTO 10.866 PAGE X (Darling) · One Utility Bill ~15 kỹ sư, threat modelling 3 điểm chèn, không số đo
@@ -180,6 +186,13 @@ LegacyCodeBench 200 tác vụ/4 bậc · Legacy Insights 94%/tài liệu 96% · 
 ---
 
 ## B. Mục lục theo số (mới → cũ)
+
+### 17/10/2026 — Segment: từ hơn 140 service (mỗi đích một queue, một repo) về một service duy nhất; test từ ~1 giờ xuống mili giây nhờ ghi/phát lại traffic; ba thứ chấp nhận mất (Segment/Twilio — Noonan; SDxCentral)
+- **Chủ đề:** mảng 3 (tối ưu hệ đang chạy) — tách/gộp service, queue theo đích, retry. 1 bài (không Góc nhìn). Tag legacy.
+- **Nguồn:** twilio.com/en-us/blog/developers/best-practices/goodbye-microservices (Alexandra Noonan, 10/07/2018, bài gốc Segment); sdxcentral.com/articles/news/segment-struggled-with-microservices-went-back-to-monolith/2018/08/ (03/08/2018).
+- **Số chính:** hàng trăm nghìn event/giây, 100+ loại đích; >140 service; ~3 đích mới/tháng; 3 kỹ sư toàn thời gian lo vận hành; test tối đa ~1 giờ (đích riêng tới 5 phút) → mili giây; 120 dependency ghim về 1 phiên bản; cải tiến thư viện chung 32 → 46 sau 1 năm; cache trải 3.000+ process. SDX: ~250 microservice, 16.000 container, 300 tỷ event/tháng (lệch với 140+ của bài gốc); sự cố ~1,5 ngày/lần với 200+ API.
+- **Thực thể:** Segment (Twilio), Centrifuge, Traffic Recorder (yakbak), Segment Connections, Calvin French-Owen (phát biểu trên SDX). Đã đối chiếu nhưng KHÔNG dùng: DEV "Why we moved back to a modular monolith" (thứ cấp, số bên thứ ba), Prime Video 90% (bài gốc primevideotech chuyển hướng, không xác minh được), OneUptime Dapr migration.
+- **Thuật ngữ đã giải thích:** head-of-line blocking; chi phí cố định theo đơn vị tách; Traffic Recorder/record-replay.
 
 ### 16/10/2026 — AG synchronous commit: thread giữ khóa HADR_LOGPROGRESS_SYNC bị kẹt hàng đợi làm throughput rơi về 0; & Uber "error ownership": chỉ service sở hữu lỗi mới được retry (Microsoft PSS SQL ×2 — Simon Su; Uber Engineering)
 - **Chủ đề:** mảng 3 (tối ưu hệ đang chạy) — SQL Server AlwaysOn + độ tin cậy microservices/retry. Cả hai bài tag legacy.
@@ -768,6 +781,8 @@ LegacyCodeBench 200 tác vụ/4 bậc · Legacy Insights 94%/tài liệu 96% · 
 ---
 
 ## C. Từ điển thuật ngữ (đã giải thích ở các số — chỉ nhắc gọn khi tái dùng)
+
+- **Head-of-line blocking** (kẻ đầu hàng chặn cả hàng) — 17/10/2026; **record/replay traffic** (Traffic Recorder: ghi HTTP lần đầu, phát lại ở lần sau) — 17/10/2026.
 
 - **HADR_SYNC_COMMIT / ba thành phần độ trễ commit AG; HADR_LOGPROGRESS_SYNC; yield (lập lịch hợp tác); error ownership / retry budget:** HADR_SYNC_COMMIT = commit chờ secondary harden (triệu chứng, không phải nguyên nhân); độ trễ = ghi log primary ∥ mạng, rồi ghi log secondary; thread giữ khóa tiến độ log không được chạy thì mọi commit đứng; error ownership = chỉ nút sinh lỗi được retry. _16/10._
 
