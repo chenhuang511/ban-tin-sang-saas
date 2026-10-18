@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deadlock sau RCSI và SLSA cấp 3 &middot; 18/10/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+@media (max-width:560px){h1.title{font-size:25px}.card{padding:20px 18px}.tbl{display:block;overflow-x:auto}}
+</style>
+</head>
+<body>
+
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 18/10/2026</div>
+    <h1 class="title">Deadlock vẫn còn sau khi bật RCSI: một cái heap thiếu clustered index đủ gây hàng trăm deadlock mỗi ngày. Và Tenable đi từ SBOM lên SLSA cấp 3 cho Nessus ra sao</h1>
+    <div class="meta">18/10/2026 · Đọc khoảng 13 phút · Nguồn chính: MSSQLTips (Jared Westover, 16/07/2025); Microsoft Learn; Tenable (Kizer &amp; Cornwell, 16/04/2024); SLSA.dev</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: số này có hai bài và một phần "Góc nhìn". Cả hai nguồn đều không mới (2025 và 2024); bản tin chọn chúng vì kể rõ "đổi đúng một thứ thì ra sao". Các đoạn "Cơ chế", phần ánh xạ sang stack của bạn và khuyến nghị theo quy mô là <b>biên tập tổng hợp từ thực hành phổ biến, không trích nguyên văn từ nguồn</b>. Mọi con số đều dẫn nguồn cạnh câu. Bài thử của Westover chạy trên một VM thử nghiệm, không phải production của ai. Không có code minh họa.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1"><strong>Bài 1</strong> — Deadlock giữa hai lệnh ghi: vì sao RCSI không cứu, và một clustered index cứu được<br><span style="font-size:13.5px;color:#6b7280">· heap và thứ tự khóa · RCSI chỉ chữa reader-writer · victim và retry 1205 · ánh xạ sang SQL Server 2022 multi-tenant</span></a></li>
+      <li><a href="#bai2"><strong>Bài 2</strong> — Tenable đưa Nessus lên SLSA cấp 3<br><span style="font-size:13.5px;color:#6b7280">· ba cấp là ba loại tấn công · provenance làm lộ secret · đội nhỏ nên dừng ở cấp nào</span></a></li>
+      <li><a href="#goc"><strong>Góc nhìn</strong> — cái cơ bản bị bỏ sót luôn đắt hơn cái nâng cao bị bỏ sót, và 3 việc cho tuần này</a></li>
+    </ol>
+  </nav>
+
+  <article class="card" id="bai1">
+    <span class="tag legacy">Tối ưu hệ đang chạy · SQL Server</span>
+    <h2 class="head">Bật RCSI rồi mà vẫn deadlock? Nếu hai lệnh ghi đi vào cùng một heap theo thứ tự khác nhau, chỉ một clustered index mới dẹp được</h2>
+    <p class="src">Nguồn: MSSQLTips — <a href="https://www.mssqltips.com/sqlservertip/8296/reduce-sql-server-deadlocks-with-a-clustered-index/" target="_blank">"Reduce SQL Server Deadlocks with a Clustered Index"</a> (Jared Westover, 16/07/2025); Microsoft Learn — <a href="https://learn.microsoft.com/en-us/sql/relational-databases/sql-server-deadlocks-guide" target="_blank">Transaction locking and row versioning guide: deadlocks</a>; Microsoft blog (kho lưu) — <a href="https://learn.microsoft.com/en-us/archive/blogs/amolravande/troubleshooting-sql-deadlocks-with-read-committed-isolation-using-row-versioning" target="_blank">Troubleshooting SQL deadlocks with RCSI</a> (2008).</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">Hàng trăm/ngày</div><div class="lab">deadlock do một script chạy hàng nghìn lần mỗi ngày, theo lời DBA trong bài (số do DBA nêu, bài không đo lại) <sup><a href="https://www.mssqltips.com/sqlservertip/8296/reduce-sql-server-deadlocks-with-a-clustered-index/" target="_blank">[1]</a></sup></div></div>
+      <div class="box"><div class="num">75.000 hàng</div><div class="lab">cỡ bảng thử, mỗi lần gọi xóa rồi chèn 3.000 hàng trong một transaction; 10.000 lần gọi, chỉ 25 giá trị Number2 khác nhau <sup><a href="https://www.mssqltips.com/sqlservertip/8296/reduce-sql-server-deadlocks-with-a-clustered-index/" target="_blank">[1]</a></sup></div></div>
+      <div class="box"><div class="num">0 deadlock</div><div class="lab">sau khi thêm clustered index, qua ít nhất 12 lần chạy lại bài thử <sup><a href="https://www.mssqltips.com/sqlservertip/8296/reduce-sql-server-deadlocks-with-a-clustered-index/" target="_blank">[1]</a></sup></div></div>
+      <div class="box"><div class="num">6 → 0</div><div class="lab">deadlock reader-writer trong 30 phút, về 0 trong 1 giờ khi bật RCSI (ca năm 2008, một workload) <sup><a href="https://learn.microsoft.com/en-us/archive/blogs/amolravande/troubleshooting-sql-deadlocks-with-read-committed-isolation-using-row-versioning" target="_blank">[2]</a></sup></div></div>
+    </div>
+
+    <h3 class="sub">Ca gì, và chữa thử những gì</h3>
+    <p>Một DBA báo rằng một script T-SQL chạy hàng nghìn lần mỗi ngày gây hàng trăm deadlock. Westover dựng lại trên SQL Server 2022: một bảng heap (không có clustered index) 75.000 hàng. Mỗi lần gọi, thủ tục tạo bảng tạm 3.000 hàng, xóa các hàng trùng giá trị rồi chèn lại 3.000 hàng mới, tất cả trong một transaction <sup><a href="https://www.mssqltips.com/sqlservertip/8296/reduce-sql-server-deadlocks-with-a-clustered-index/" target="_blank">[1]</a></sup>.</p>
+    <p>Đồ thị deadlock cho thấy một vòng bốn bước giữa hai session. Session 74 giữ khóa U (update) trên khóa B. Session 78 giữ khóa X trên khóa A, rồi xin khóa U trên B nên phải chờ 74. Session 74 quay sang xin khóa U trên A, vòng khép lại và 74 bị chọn làm nạn nhân <sup><a href="https://www.mssqltips.com/sqlservertip/8296/reduce-sql-server-deadlocks-with-a-clustered-index/" target="_blank">[1]</a></sup>. Nói gọn: hai lệnh DELETE quét cùng tập hàng nhưng gặp chúng theo thứ tự khác nhau.</p>
+    <table class="tbl">
+      <tr><th>Cách thử</th><th>Kết quả theo bài <sup><a href="https://www.mssqltips.com/sqlservertip/8296/reduce-sql-server-deadlocks-with-a-clustered-index/" target="_blank">[1]</a></sup></th></tr>
+      <tr><td>Bật RCSI</td><td>Không hết deadlock</td></tr>
+      <tr><td>Khóa cả bảng (TABLOCKX) cho lệnh xóa</td><td>Hết deadlock, nhưng mọi lệnh khác phải xếp hàng; tác giả loại</td></tr>
+      <tr><td>Chia lô xóa nhỏ hơn</td><td>Không khả thi vì phải commit sau khi chèn xong</td></tr>
+      <tr><td>Gợi ý READPAST</td><td>Bỏ qua hàng đang bị khóa, nên có thể để sót hàng cần xóa; tác giả chưa chọn</td></tr>
+      <tr><td>Clustered index trên cột Id (fillfactor 80)</td><td>Hết deadlock qua ít nhất 12 lần chạy lại</td></tr>
+    </table>
+
+    <div class="mech"><b>Cơ chế.</b> Heap không có thứ tự vật lý. Hai lệnh quét bảng cùng lúc có thể chạm các hàng theo thứ tự khác nhau, mà mỗi hàng chạm tới lại bị khóa U rồi nâng lên X. Hai bên nắm hai đầu của một sợi dây là đủ để khóa chết. Với clustered index, các hàng có một thứ tự chung, nên các session có xu hướng đi qua cùng một lối và xếp hàng thay vì đan chéo. Tác giả cũng nói rõ đây là cách giải thích của ông và ông mở cửa cho giải thích chính xác hơn <sup><a href="https://www.mssqltips.com/sqlservertip/8296/reduce-sql-server-deadlocks-with-a-clustered-index/" target="_blank">[1]</a></sup>. Quy tắc cổ điển của Microsoft cùng hướng: truy cập các đối tượng theo cùng một thứ tự <sup><a href="https://learn.microsoft.com/en-us/sql/relational-databases/sql-server-deadlocks-guide" target="_blank">[3]</a></sup>.</div>
+
+    <h3 class="sub">Vì sao RCSI không cứu ca này</h3>
+    <p>Ca năm 2008 của Microsoft cho thấy RCSI hợp với kiểu deadlock nào. Đồ thị khi đó là xung đột đọc-ghi. Cùng một workload, chế độ READ COMMITTED mặc định có 6 deadlock trong 30 phút, còn bật RCSI thì 0 deadlock trong một giờ <sup><a href="https://learn.microsoft.com/en-us/archive/blogs/amolravande/troubleshooting-sql-deadlocks-with-read-committed-isolation-using-row-versioning" target="_blank">[2]</a></sup>. Bài ghi rõ RCSI chỉ giúp xung đột reader-writer, và phải chấp nhận thêm tải tempdb cùng chuỗi phiên bản hàng <sup><a href="https://learn.microsoft.com/en-us/archive/blogs/amolravande/troubleshooting-sql-deadlocks-with-read-committed-isolation-using-row-versioning" target="_blank">[2]</a></sup>. Hướng dẫn hiện hành của Microsoft cũng nói đọc bằng row versioning không lấy khóa shared nên giảm deadlock đọc-ghi, và khuyên dùng cho mọi ứng dụng trừ khi ứng dụng dựa vào việc đọc bị chặn <sup><a href="https://learn.microsoft.com/en-us/sql/relational-databases/sql-server-deadlocks-guide" target="_blank">[3]</a></sup>.</p>
+    <p>Còn ca của Westover là hai lệnh ghi tranh nhau. Phiên bản hàng không đổi được việc hai lệnh DELETE cùng cần khóa cập nhật trên cùng tập hàng. Đây chính là chỗ nhiều đội bật RCSI xong rồi tưởng deadlock đã xử lý xong.</p>
+
+    <div class="mech"><b>Cơ chế.</b> Hãy phân loại deadlock trước khi chọn thuốc. Reader-writer: RCSI chữa. Writer-writer trên cùng tập hàng: cần đổi thứ tự truy cập, thêm index để quét đúng hàng cần, hoặc rút ngắn transaction. Vòng chờ giữa hai transaction đều giữ khóa X thì không có công tắc isolation nào cứu; phải sửa thiết kế. Microsoft ghi nhận nạn nhân mặc định là transaction rẻ nhất để rollback, tính theo log đã dùng, và ứng dụng nào cũng có thể là nạn nhân nên phải bắt lỗi 1205 và thử lại sau một khoảng nghỉ ngẫu nhiên khoảng 1 đến 3 giây <sup><a href="https://learn.microsoft.com/en-us/sql/relational-databases/sql-server-deadlocks-guide" target="_blank">[3]</a></sup>. Retry là lưới an toàn, không phải cách chữa.</div>
+
+    <h3 class="sub">Ánh xạ sang hệ của bạn</h3>
+    <p>Bạn đã chạy RCSI trên SQL Server 2022, nên nhóm deadlock reader-writer coi như đã hết. Cái còn lại là writer-writer, và chỗ dễ có nhất là các bảng "trạng thái" và "log tác vụ" mà consumer RabbitMQ/Kafka cùng ghi: nhiều worker cùng cập nhật hoặc xóa các hàng theo điều kiện, trong database multi-tenant theo CompanyID. Ba điểm nên soi, đều là suy luận biên tập:</p>
+    <p>Một, liệt kê các bảng là heap trong database (chỉ mục loại 0 trong danh mục index), nhất là bảng staging và bảng log tác vụ. Westover nhắc đừng mặc định rằng việc thiếu clustered index là cố ý <sup><a href="https://www.mssqltips.com/sqlservertip/8296/reduce-sql-server-deadlocks-with-a-clustered-index/" target="_blank">[1]</a></sup>; trong ca của ông, nhóm phát triển xác nhận index bị bỏ sót do nhầm lẫn. Hai, xem điều kiện xóa/cập nhật có index phủ đúng không, để lệnh không quét cả bảng và không lấy khóa trên hàng không liên quan. Hai thứ này kéo theo nhau: quét rộng thì khóa rộng, khóa rộng thì dễ chạm leo thang khóa mà bản tin 10/10 đã nói. Ba, bắt deadlock bằng Extended Events ở sự kiện xml_deadlock_report để đọc đúng đồ thị trước khi sửa.</p>
+
+    <h3 class="sub">Rút ra theo quy mô</h3>
+    <div class="scale">
+      <div class="col small"><h4>Đội nhỏ / startup &lt; 10 người</h4><ul>
+        <li>Mỗi bảng có clustered index, kể cả bảng staging, trừ khi có lý do ghi lại.</li>
+        <li>Bắt 1205 ở tầng data access và retry có độ trễ ngẫu nhiên; đừng để lỗi này lọt tới người dùng.</li>
+        <li>Chưa cần đồ phức tạp: bật ghi nhận deadlock và đọc đồ thị khi nó xảy ra.</li>
+      </ul></div>
+      <div class="col"><h4>Đội đã có sản phẩm production</h4><ul>
+        <li>Quét hệ thống tìm heap có ghi nhiều và đối chiếu với danh sách bảng có deadlock gần đây.</li>
+        <li>Phân loại mọi deadlock của một tháng: đọc-ghi hay ghi-ghi. Ghi-ghi mới là việc còn lại sau RCSI.</li>
+        <li>Thử thêm clustered index trên staging trước; đo cả thời gian ghi hàng loạt, vì thứ tự chèn và page split cũng đổi.</li>
+      </ul></div>
+    </div>
+
+    <div class="takeaway">💡 <b>Rút ra cho bạn:</b> bật RCSI là việc nên làm, nhưng nó chỉ dọn một loại deadlock. Phần còn lại thường nằm ở thiết kế bảng và thứ tự truy cập, và một chiếc heap bị bỏ quên là ứng viên số một.</div>
+    <div class="doslist">
+      <div>✅ Đếm số bảng là heap, ưu tiên bảng nhận ghi liên tục.</div>
+      <div>✅ Gắn nhãn mỗi deadlock: đọc-ghi hay ghi-ghi, trước khi chọn cách chữa.</div>
+      <div>✅ Thêm retry cho 1205 với nghỉ ngẫu nhiên, như một lưới an toàn.</div>
+      <div>❌ Dùng TABLOCKX để "hết deadlock": hết thật, nhưng bạn vừa biến bảng thành một làn đường.</div>
+      <div>❌ Dùng READPAST mà không có kế hoạch cho hàng bị bỏ sót.</div>
+      <div>❌ Tin con số "6 xuống 0" của ca 2008 là phổ quát: đó là một workload, hai khung thời gian khác nhau.</div>
+    </div>
+    <div class="refs"><b>Nguồn tham khảo</b><br>
+      [1] <a href="https://www.mssqltips.com/sqlservertip/8296/reduce-sql-server-deadlocks-with-a-clustered-index/" target="_blank">MSSQLTips — Reduce SQL Server Deadlocks with a Clustered Index (Jared Westover, 16/07/2025)</a> — bài thử trên VM Developer Edition, không đo production; số "hàng trăm/ngày" do DBA nêu, bài không cho số trước/sau chính xác.<br>
+      [2] <a href="https://learn.microsoft.com/en-us/archive/blogs/amolravande/troubleshooting-sql-deadlocks-with-read-committed-isolation-using-row-versioning" target="_blank">Microsoft Learn (kho lưu) — Troubleshooting SQL deadlocks with read committed isolation using row versioning (2008)</a> — viết cho SQL Server 2005; chỉ nên đọc để hiểu nguyên lý. Hai khung thời gian 30 phút và 1 giờ khác nhau.<br>
+      [3] <a href="https://learn.microsoft.com/en-us/sql/relational-databases/sql-server-deadlocks-guide" target="_blank">Microsoft Learn — Transaction locking and row versioning guide (deadlocks)</a>
+    </div>
+  </article>
+
+  <article class="card" id="bai2">
+    <span class="tag view">Secure SDLC · Chuỗi cung ứng phần mềm</span>
+    <h2 class="head">Tenable đưa Nessus lên SLSA cấp 3: ba cấp là ba loại kẻ tấn công khác nhau, và bản "provenance" suýt làm lộ secret</h2>
+    <p class="src">Nguồn: Tenable — <a href="https://es-la.tenable.com/blog/strengthening-the-nessus-software-supply-chain-with-slsa" target="_blank">"Strengthening the Nessus software supply chain with SLSA"</a> (Blake Kizer, Amanda Cornwell, 16/04/2024); SLSA.dev — <a href="https://slsa.dev/spec/v1.0/levels" target="_blank">Build track levels (spec v1.0)</a>.</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">Cấp 3</div><div class="lab">SLSA Build mà Nessus được một hãng bảo mật bên thứ ba xác nhận, đánh giá tháng 12/2023 <sup><a href="https://es-la.tenable.com/blog/strengthening-the-nessus-software-supply-chain-with-slsa" target="_blank">[4]</a></sup></div></div>
+      <div class="box"><div class="num">Từ 2020</div><div class="lab">Tenable đã đưa SBOM dạng CycloneDX vào bản build, trước khi làm SLSA <sup><a href="https://es-la.tenable.com/blog/strengthening-the-nessus-software-supply-chain-with-slsa" target="_blank">[4]</a></sup></div></div>
+      <div class="box"><div class="num">Nhiều tháng</div><div class="lab">chỉ để đạt cấp 1 theo lời bài viết <sup><a href="https://es-la.tenable.com/blog/strengthening-the-nessus-software-supply-chain-with-slsa" target="_blank">[4]</a></sup></div></div>
+    </div>
+
+    <h3 class="sub">Ba cấp, ba loại tấn công</h3>
+    <p>SLSA (đọc là "salsa") là bộ khung chấm điểm độ tin cậy của quy trình build. Phần Build có ba cấp. Cấp 1: có quy trình build nhất quán và có bản "provenance", tức bản khai ai build, từ nguồn nào, bằng lệnh nào, rồi phát cho người dùng. Cấp 2: build chạy trên hạ tầng được host riêng, hạ tầng này ký provenance và người dùng kiểm chữ ký. Cấp 3: build cứng hơn, các lần chạy song song không ảnh hưởng nhau và khóa ký không để lọt tới các bước build do người dùng định nghĩa <sup><a href="https://slsa.dev/spec/v1.0/levels" target="_blank">[5]</a></sup>.</p>
+    <table class="tbl">
+      <tr><th>Cấp</th><th>Chặn được gì theo SLSA <sup><a href="https://slsa.dev/spec/v1.0/levels" target="_blank">[5]</a></sup></th><th>Tenable làm gì <sup><a href="https://es-la.tenable.com/blog/strengthening-the-nessus-software-supply-chain-with-slsa" target="_blank">[4]</a></sup></th></tr>
+      <tr><td>1</td><td>Sai sót khi phát hành, như build từ commit không có trong repo gốc. Dễ lách và dễ giả.</td><td>Pipeline build viết thành script, quản lý phiên bản; provenance ghi tag nguồn, lệnh build, tham số; mọi merge qua PR; SBOM CycloneDX.</td></tr>
+      <tr><td>2</td><td>Sửa đổi sau khi build, từ kẻ tấn công không tinh vi hoặc kẻ ngại rủi ro pháp lý.</td><td>Mọi bước build chạy trên dịch vụ build được quản lý, không chạy trên máy dev; provenance được ký; kiểm bằng chính sách Rego trên Open Policy Agent.</td></tr>
+      <tr><td>3</td><td>Sửa đổi trong lúc build, kể cả từ người trong nhà, credential bị lộ hoặc tenant khác trên nền tảng.</td><td>Mỗi bước build chạy trong môi trường tạm, cô lập; cache build đánh địa chỉ theo nội dung; khóa ký lưu bên ngoài, người commit không với tới.</td></tr>
+    </table>
+
+    <div class="mech"><b>Cơ chế.</b> Cách đọc hữu ích nhất của bảng này là theo "ai là kẻ tấn công". Cấp 1 bắt lỗi của chính bạn. Cấp 2 bắt người nhét thứ lạ vào artifact sau khi build xong. Cấp 3 bắt người nằm trong hệ thống build, kể cả đồng nghiệp hoặc một tài khoản bị chiếm. Mỗi cấp tốn công hơn nhiều cấp trước, nên câu hỏi đúng là kẻ nào bạn đang phòng, chứ không phải phải lên cấp mấy.</div>
+
+    <h3 class="sub">Cái bẫy ít ai nghĩ tới: provenance làm lộ secret</h3>
+    <p>Chính bài của Tenable nêu một trở ngại ở cấp 1: provenance ghi lại lệnh và tham số build, nên có thể mang theo API key hoặc token. Họ quét các file provenance bằng một công cụ phát hiện secret ngay trong lúc biên dịch, và thay giá trị bị phát hiện bằng chữ giữ chỗ "Redacted" <sup><a href="https://es-la.tenable.com/blog/strengthening-the-nessus-software-supply-chain-with-slsa" target="_blank">[4]</a></sup>. Họ cũng nói SLSA chỉ là bản thiết kế, không có plugin cắm vào là xong; phải tự làm kỹ thuật và đổi quy trình <sup><a href="https://es-la.tenable.com/blog/strengthening-the-nessus-software-supply-chain-with-slsa" target="_blank">[4]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế.</b> Một bản khai "mọi thứ đã dùng để build" là kho dữ liệu hấp dẫn đối với kẻ tấn công, vì nó nằm cạnh artifact và được phát ra ngoài. Cho nên artifact "minh bạch" càng nhiều thì càng phải lọc secret. Rút ra thực tế: truyền secret cho bước build bằng cơ chế che của CI, đừng đưa nó vào tham số dòng lệnh; rồi quét provenance như quét log.</div>
+
+    <h3 class="sub">Đọc bài này thế nào cho đúng quy mô</h3>
+    <p>Tenable bán sản phẩm bảo mật và có đội kỹ sư bảo mật chuyên trách; bài không nêu thời gian build, chi phí hay số lỗ hổng bắt được, nên không có số "trước/sau" để so <sup><a href="https://es-la.tenable.com/blog/strengthening-the-nessus-software-supply-chain-with-slsa" target="_blank">[4]</a></sup>. Bài là bản đồ làm gì, không phải bằng chứng "đáng làm tới đâu". Chữ "cấp 3" cũng nên đọc cùng bản đánh giá bên thứ ba và đúng sản phẩm Nessus, chứ không phải cả công ty.</p>
+
+    <h3 class="sub">Rút ra theo quy mô</h3>
+    <div class="scale">
+      <div class="col small"><h4>Đội nhỏ / startup &lt; 10 người</h4><ul>
+        <li>Mục tiêu thực tế là cấp 1 và nửa đầu cấp 2: build chỉ chạy trên CI được host, không bao giờ từ laptop, pipeline nằm trong repo.</li>
+        <li>Sinh SBOM trong mỗi lần build và lưu cạnh artifact. Việc này rẻ và giúp bạn trả lời nhanh "mình có dùng gói X không" khi có CVE.</li>
+        <li>Ghi lại provenance nếu nền tảng CI của bạn hỗ trợ, và quét nó tìm secret.</li>
+      </ul></div>
+      <div class="col"><h4>Đội đã có sản phẩm production</h4><ul>
+        <li>Chọn kẻ tấn công cần chặn. Nếu lo credential CI bị lộ hoặc người trong nhà, mới cần cấp 3: cô lập từng bước, khóa ký tách khỏi code người commit.</li>
+        <li>Thêm bước kiểm provenance trước khi deploy, bằng chính sách "builder tin cậy, nguồn đúng repo" như Tenable làm với Rego.</li>
+        <li>Nếu đang chuẩn bị SOC 2 hoặc ISO 27001, provenance và SBOM là bằng chứng kiểm soát thay đổi rất tốt.</li>
+      </ul></div>
+    </div>
+
+    <div class="takeaway">💡 <b>Rút ra cho bạn:</b> đừng hỏi "mình đã SLSA cấp mấy". Hãy hỏi "ai có thể sửa artifact của mình giữa commit và production, và mình có bằng chứng gì để biết họ không làm". Câu trả lời của bạn sẽ chỉ ra cấp cần thiết.</div>
+    <div class="doslist">
+      <div>✅ Chuyển mọi build phát hành sang CI được host; cấm build phát hành từ máy cá nhân.</div>
+      <div>✅ Lưu SBOM của từng bản phát hành cạnh artifact.</div>
+      <div>✅ Quét file provenance tìm secret trước khi phát hành.</div>
+      <div>❌ Tự gắn nhãn "cấp 3" khi chưa cô lập bước build và chưa tách khóa ký.</div>
+      <div>❌ Sao chép nguyên danh sách của Tenable khi đội bạn chưa có người sở hữu quy trình build.</div>
+    </div>
+    <div class="refs"><b>Nguồn tham khảo</b><br>
+      [4] <a href="https://es-la.tenable.com/blog/strengthening-the-nessus-software-supply-chain-with-slsa" target="_blank">Tenable — Strengthening the Nessus software supply chain with SLSA (Kizer, Cornwell, 16/04/2024)</a> — bài tự thuật của hãng; không có số liệu hiệu quả.<br>
+      [5] <a href="https://slsa.dev/spec/v1.0/levels" target="_blank">SLSA.dev — Build track levels, spec v1.0</a>
+    </div>
+  </article>
+
+  <article class="card" id="goc">
+    <span class="tag saas">Góc nhìn</span>
+    <h2 class="head">Hai bài, một bài học: cái cơ bản bị bỏ sót thường đắt hơn cái nâng cao bị bỏ sót</h2>
+    <p>Bài 1 kết thúc ở một clustered index. Bài 2 bắt đầu từ một script build quản lý phiên bản và một dịch vụ build được host. Cả hai đều là thứ "ai cũng nghĩ đã có". Westover nhắc rằng nhóm phát triển xác nhận việc thiếu index là do bỏ sót <sup><a href="https://www.mssqltips.com/sqlservertip/8296/reduce-sql-server-deadlocks-with-a-clustered-index/" target="_blank">[1]</a></sup>; Tenable mất nhiều tháng chỉ để làm cấp 1 <sup><a href="https://es-la.tenable.com/blog/strengthening-the-nessus-software-supply-chain-with-slsa" target="_blank">[4]</a></sup>. Khi hệ thống chạy lâu, những việc nền như vậy mới dễ trượt khỏi tầm nhìn.</p>
+    <p>Điểm chung thứ hai: cả hai bài đều ép bạn gọi tên đối thủ trước khi chọn công cụ. Deadlock đọc-ghi hay ghi-ghi. Kẻ tấn công là lỗi của mình, người ngoài hay người trong nhà. Chọn sai loại thì công sức không giảm được rủi ro.</p>
+    <div class="doslist">
+      <div>✅ Thứ Hai: chạy một truy vấn danh mục tìm các bảng heap lớn hoặc ghi nhiều trong database chính, kèm danh sách deadlock 30 ngày.</div>
+      <div>✅ Thứ Tư: kiểm tra một bản phát hành gần nhất đã build ở đâu, bởi ai, và SBOM nằm đâu.</div>
+      <div>✅ Thứ Sáu: viết ra một câu "kẻ tấn công cần chặn của đội mình" và một câu "loại deadlock còn lại của mình".</div>
+    </div>
+  </article>
+
+  <div class="foot">Bản tin sáng · tổng hợp từ nguồn công khai đã xác minh</div>
+</div>
+</body>
+</html>
