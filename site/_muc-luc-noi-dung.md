@@ -10,13 +10,15 @@
 > 2. Trước khi giải thích một thuật ngữ: xem phần **C. Từ điển thuật ngữ** — nếu đã giải thích ở số trước thì chỉ nhắc gọn/nối link, không giải thích lại dài dòng.
 > 3. Sau khi viết xong: thêm 1 khối vào phần **B. Mục lục theo số** và cập nhật phần A + C nếu có nguồn/thuật ngữ mới (dùng mẫu ở cuối file).
 >
-> _Cập nhật lần cuối: 18/10/2026 — 88 số (24/07 → 18/10/2026; gồm 1 số song song 09/08 chuyên đề An toàn thông tin)._
+> _Cập nhật lần cuối: 19/10/2026 — 89 số (24/07 → 19/10/2026; gồm 1 số song song 09/08 chuyên đề An toàn thông tin)._
 
 ---
 
 ## A. Danh sách nguồn / thực thể ĐÃ DÙNG (tránh lặp)
 
 ### Domain nguồn đã trích dẫn (đừng lặp cùng một bài)
+
+erikdarling.com/building-reusable-queues-part-2 (Darling, 13/05/2020; ~20.000 hàng/26 giây, 10 phút, 3 lần thử) · mssqltips.com/sqlservertip/1257 (READPAST+UPDLOCK, 2007) · learn.microsoft.com/en-us/sql/t-sql/queries/hints-transact-sql-table (READPAST vs RCSI) · oneuptime.com/blog/post/2026-07-22-inbox-pattern-atomic-deduplication & 2026-07-21-consumer-crash-side-effect-before-ack (Dhandala; inbox pattern) — ĐÃ DÙNG 19/10/2026
 
 twilio.com/en-us/blog/developers/best-practices/goodbye-microservices (Noonan, 10/07/2018; Segment >140 service → 1; 32→46 cải tiến thư viện; test ~1 giờ → mili giây) · sdxcentral.com/articles/news/segment-struggled-with-microservices-went-back-to-monolith/2018/08/ (03/08/2018; 250 microservice, 16.000 container) — ĐÃ DÙNG 17/10/2026
 
@@ -188,6 +190,13 @@ LegacyCodeBench 200 tác vụ/4 bậc · Legacy Insights 94%/tài liệu 96% · 
 ---
 
 ## B. Mục lục theo số (mới → cũ)
+
+### 19/10/2026 — Bảng SQL Server làm hàng đợi: trùng việc, READPAST không đi chung với RCSI, và cửa sổ lỗi giữa commit với ack — inbox gộp dedup vào transaction (Darling; MSSQLTips; Microsoft Learn; OneUptime/Dhandala ×2)
+- **Chủ đề:** Số một bài, mảng 3 (SQL Server queue/task log + RabbitMQ idempotency) tag legacy; không có Góc nhìn.
+- **Nguồn:** erikdarling.com/building-reusable-queues-part-2 (Erik Darling, 13/05/2020); mssqltips.com/sqlservertip/1257 (đăng 2007); learn.microsoft.com/en-us/sql/t-sql/queries/hints-transact-sql-table; oneuptime.com/blog/post/2026-07-22-inbox-pattern-atomic-deduplication (Nawaz Dhandala, 22/07/2026); oneuptime.com/blog/post/2026-07-21-consumer-crash-side-effect-before-ack (21/07/2026).
+- **Số chính:** Darling ~20.000 hàng / ~26 giây, quá hạn 10 phút, tối đa 3 lần thử, clustered key (in_process, id); MSSQLTips 3 kiểu lấy việc (không hint trùng, UPDLOCK chờ nhau, UPDLOCK+READPAST song song) trên bảng 10 hàng; Microsoft: READPAST không dùng được khi RCSI bật ở read committed, dùng READCOMMITTEDLOCK, chỉ bỏ qua khóa hàng; inbox: 4 điểm lỗi, khóa consumer + event id.
+- **Thực thể:** Erik Darling, MSSQLTips, Microsoft Learn, OneUptime/Nawaz Dhandala, RabbitMQ, inbox pattern.
+- **Thuật ngữ đã giải thích:** READPAST/UPDLOCK trên bảng queue; inbox pattern; poison message.
 
 ### 18/10/2026 — Deadlock ghi-ghi trên heap: RCSI không cứu, clustered index cứu (MSSQLTips/Westover; Microsoft Learn ×2); & Tenable đưa Nessus lên SLSA cấp 3, provenance có thể lộ secret (Tenable/Kizer & Cornwell; SLSA.dev)
 - **Chủ đề:** Bài 1 mảng 3 (SQL Server deadlock, RCSI, heap) tag legacy; Bài 2 mảng 4 (secure SDLC, SLSA/SBOM) tag view; có Góc nhìn.
@@ -790,6 +799,8 @@ LegacyCodeBench 200 tác vụ/4 bậc · Legacy Insights 94%/tài liệu 96% · 
 ---
 
 ## C. Từ điển thuật ngữ (đã giải thích ở các số — chỉ nhắc gọn khi tái dùng)
+
+- **Bảng queue + READPAST/UPDLOCK; inbox pattern; poison message:** UPDLOCK chặn trùng việc, READPAST bỏ qua hàng bị khóa để worker không chờ nhau (không dùng được với RCSI ở read committed, dùng READCOMMITTEDLOCK); inbox = bảng khóa consumer+event id chèn cùng transaction với cập nhật nghiệp vụ rồi mới ack — giải thích 19/10/2026.
 
 - **Head-of-line blocking** (kẻ đầu hàng chặn cả hàng) — 17/10/2026; **record/replay traffic** (Traffic Recorder: ghi HTTP lần đầu, phát lại ở lần sau) — 17/10/2026.
 

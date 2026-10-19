@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bảng queue trong SQL Server &middot; 19/10/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+@media (max-width:560px){h1.title{font-size:25px}.card{padding:20px 18px}.tbl{display:block;overflow-x:auto}}
+</style>
+</head>
+<body>
+
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 19/10/2026</div>
+    <h1 class="title">Dùng bảng SQL Server làm hàng đợi: ba chỗ vấp khi nhiều worker cùng lấy việc, và vì sao "ack sau khi commit" vẫn chưa đủ</h1>
+    <div class="meta">19/10/2026 · Đọc khoảng 12 phút · Nguồn chính: Erik Darling (13/05/2020); MSSQLTips (2007); Microsoft Learn; OneUptime — Nawaz Dhandala (21–22/07/2026)</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: số này chỉ có một bài, đào sâu vào bảng task/queue trong database, đúng chỗ bạn đang chạy bảng task log kết hợp RabbitMQ. Các nguồn đều là bài hướng dẫn và thử nghiệm nhỏ, không phải số liệu production của một công ty; bản tin nói rõ chỗ nào là số đo thật, chỗ nào là chú ý. Các đoạn "Cơ chế", phần ánh xạ sang stack của bạn và khuyến nghị theo quy mô là <b>biên tập tổng hợp từ thực hành phổ biến, không trích nguyên văn từ nguồn</b>. Mọi con số đều có dẫn nguồn nội dòng.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1"><strong>Bài 1</strong> — Bảng queue trong SQL Server và cửa sổ lỗi giữa "làm xong" với "báo xong"<br><span style="font-size:13.5px;color:#6b7280">· ba kiểu lấy việc, ba kết quả · READPAST và RCSI không đi chung · retry, quá hạn, giới hạn lần thử · inbox gộp dedup vào transaction</span></a></li>
+    </ol>
+  </nav>
+
+  <article class="card" id="bai1">
+    <span class="tag legacy">Tối ưu hệ đang chạy · SQL Server + RabbitMQ</span>
+    <h2 class="head">Hai worker cùng lấy một việc, hoặc lấy xong thì kẹt nhau: bảng queue trong database hỏng ở đâu, và sửa ở đâu</h2>
+    <p class="src">Nguồn: Erik Darling — <a href="https://erikdarling.com/building-reusable-queues-part-2/" target="_blank">"Building Reusable Queues In SQL Server, Part 2"</a> (13/05/2020); MSSQLTips — <a href="https://www.mssqltips.com/sqlservertip/1257/processing-data-queues-in-sql-server-with-readpast-and-updlock/" target="_blank">Processing Data Queues in SQL Server with READPAST and UPDLOCK</a> (đăng 2007); Microsoft Learn — <a href="https://learn.microsoft.com/en-us/sql/t-sql/queries/hints-transact-sql-table" target="_blank">Table hints (Transact-SQL)</a>; OneUptime — Nawaz Dhandala, <a href="https://oneuptime.com/blog/post/2026-07-22-inbox-pattern-atomic-deduplication/markdown" target="_blank">The Inbox Pattern</a> (22/07/2026) và <a href="https://oneuptime.com/blog/post/2026-07-21-consumer-crash-side-effect-before-ack/markdown" target="_blank">Consumer crashes after the side effect but before ack</a> (21/07/2026).</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">~20.000 hàng / ~26 giây</div><div class="lab">tải thử hàng đợi nhiều worker của Darling, không báo lỗi deadlock <sup><a href="https://erikdarling.com/building-reusable-queues-part-2/" target="_blank">[1]</a></sup></div></div>
+      <div class="box"><div class="num">10 phút · 3 lần</div><div class="lab">ngưỡng coi worker là "chết" và số lần thử tối đa trong thiết kế của Darling <sup><a href="https://erikdarling.com/building-reusable-queues-part-2/" target="_blank">[1]</a></sup></div></div>
+      <div class="box"><div class="num">3 kiểu</div><div class="lab">lấy việc trong bài MSSQLTips: không hint (trùng việc), chỉ khóa update (chờ nhau), khóa update kèm bỏ qua hàng bị khóa (chạy song song) <sup><a href="https://www.mssqltips.com/sqlservertip/1257/processing-data-queues-in-sql-server-with-readpast-and-updlock/" target="_blank">[2]</a></sup></div></div>
+      <div class="box"><div class="num">4 điểm</div><div class="lab">cửa sổ lỗi cần thử: trước transaction, trước commit, sau commit trước ack, sau ack <sup><a href="https://oneuptime.com/blog/post/2026-07-22-inbox-pattern-atomic-deduplication/markdown" target="_blank">[4]</a></sup></div></div>
+    </div>
+
+    <h3 class="sub">Chỗ vấp 1: lấy việc mà không "đặt chỗ" thì hai worker cùng làm một việc</h3>
+    <p>Bài MSSQLTips thử rất đơn giản: bảng queue 10 hàng, mở hai cửa sổ truy vấn, mỗi cửa sổ lấy hàng trên cùng, "làm việc" 10 giây rồi xóa hàng. Không có hint nào: cả hai session lấy đúng cùng một hàng và xử lý hai lần <sup><a href="https://www.mssqltips.com/sqlservertip/1257/processing-data-queues-in-sql-server-with-readpast-and-updlock/" target="_blank">[2]</a></sup>. Đây là lỗi "trùng việc" quen thuộc: mặc định, lệnh đọc chỉ giữ khóa chia sẻ rất ngắn, nên hai session cùng thấy một hàng.</p>
+    <p>Thêm khóa update (UPDLOCK) thì mỗi session lấy một hàng khác nhau, nhưng session thứ hai phải chờ session đầu commit mới đi tiếp, tức là các worker xếp hàng một. Thêm tiếp READPAST (bỏ qua hàng đang bị khóa) thì hai session xong gần như cùng lúc, không ai chờ ai <sup><a href="https://www.mssqltips.com/sqlservertip/1257/processing-data-queues-in-sql-server-with-readpast-and-updlock/" target="_blank">[2]</a></sup>. Tác giả khuyên dùng cặp này cho hàng đợi cần throughput cao. Nhưng hãy đọc kỹ: bài chỉ nêu quan sát định tính trên 10 hàng và thời gian giả lập, không có số đo, và tự bài cũng ghi nhận người đọc gợi ý thêm ROWLOCK hoặc đánh dấu hàng bằng mã tiến trình để phục hồi lỗi <sup><a href="https://www.mssqltips.com/sqlservertip/1257/processing-data-queues-in-sql-server-with-readpast-and-updlock/" target="_blank">[2]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế</b> (biên tập, không trích nguyên văn). Ba hint làm ba việc khác nhau. Khóa update nói "hàng này của tôi, đừng ai lấy" nên chặn được trùng việc. Bỏ qua hàng bị khóa nói "hàng nào có chủ rồi thì tôi đi hàng khác" nên chặn được cảnh chờ nhau. Thiếu cái đầu thì trùng việc, thiếu cái sau thì worker thứ N chờ N−1 worker trước nó. Đây cũng là lý do thêm worker mà throughput không tăng: bạn đang trả tiền cho worker nhưng chúng đang xếp hàng ở cửa database.</div>
+
+    <h3 class="sub">Chỗ vấp 2: READPAST và RCSI không đi chung mặc định</h3>
+    <p>Đây là chỗ đáng chú ý nhất với bạn, vì database của bạn chạy RCSI (read committed snapshot). Tài liệu Microsoft nói rõ: READPAST chỉ dùng được ở mức cô lập read committed hoặc repeatable read, chỉ bỏ qua khóa mức hàng chứ không bỏ qua khóa mức trang, và <b>không dùng được</b> khi READ_COMMITTED_SNAPSHOT đang bật mà session ở read committed (hoặc câu lệnh chỉ định READCOMMITTED). Cách tránh theo tài liệu là chỉ định READCOMMITTEDLOCK thay cho READCOMMITTED <sup><a href="https://learn.microsoft.com/en-us/sql/t-sql/queries/hints-transact-sql-table" target="_blank">[3]</a></sup>. Cũng theo tài liệu, UPDLOCK làm các hint READCOMMITTED và READCOMMITTEDLOCK bị bỏ qua, nên khi gộp nhiều hint hãy chạy thử trên đúng cấu hình database thật, đừng suy luận từ bảng thử.</p>
+    <p>Tài liệu cũng nhắc hai bẫy khác: UPDATE hoặc DELETE vẫn có thể bị chặn khi phải đọc khóa ngoại hoặc view có index, hoặc khi sửa index phụ. Bảng queue càng nhiều index và khóa ngoại thì hint càng ít tác dụng <sup><a href="https://learn.microsoft.com/en-us/sql/t-sql/queries/hints-transact-sql-table" target="_blank">[3]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế</b> (biên tập). Bài MSSQLTips viết từ năm 2007, trước khi RCSI phổ biến, nên ví dụ của nó không cảnh báo chuyện này. Với database OLTP cỡ TB đã bật RCSI, đừng copy mẫu "UPDLOCK + READPAST" từ blog cũ rồi thả lên bảng task log. Việc cần làm trước là thử đúng câu lệnh lấy việc trên bản sao có RCSI. Một lỗi chạy ngay còn dễ chịu hơn một câu lệnh chạy được nhưng lặng lẽ làm worker xếp hàng.</div>
+
+    <h3 class="sub">Chỗ vấp 3: bảng queue cần index, thời hạn và giới hạn thử, không chỉ hint</h3>
+    <p>Darling mô tả một worker lặp cho đến khi hết việc chưa xử lý. Mỗi vòng, worker "đặt chỗ" một hàng bằng cách đặt cờ đang xử lý và ghi giờ bắt đầu, làm xong thì ghi giờ kết thúc để sau này lọc việc chậm <sup><a href="https://erikdarling.com/building-reusable-queues-part-2/" target="_blank">[1]</a></sup>. Bản mở rộng thêm giờ hẹn bắt đầu, tên máy chủ ứng dụng và bộ đếm số lần thử. Worker khởi động lại có thể nhặt lại việc dở của chính nó, hoặc nhận việc của máy khác nếu việc đó 10 phút mà chưa có giờ kết thúc, và mỗi việc chỉ được thử tối đa 3 lần <sup><a href="https://erikdarling.com/building-reusable-queues-part-2/" target="_blank">[1]</a></sup>.</p>
+    <p>Về index, Darling dùng khóa clustered gồm cờ đang xử lý và id để worker seek thẳng tới việc chưa xử lý, cộng một unique index chống trùng. Kết quả thử: khoảng 20.000 hàng xử lý trong khoảng 26 giây với nhiều worker chạy song song, và công cụ tải không báo lỗi deadlock; tác giả suy ra "không có deadlock" từ đó chứ không đo trực tiếp, và phần wait-stats trong bài chỉ có ảnh, không có số <sup><a href="https://erikdarling.com/building-reusable-queues-part-2/" target="_blank">[1]</a></sup>. Hãy coi 20.000 hàng / 26 giây là bằng chứng "thiết kế này chạy được", không phải con số để so với hệ của bạn.</p>
+    <div class="mech"><b>Cơ chế</b> (biên tập). Có ba thứ mà hint không thay được. Một là index để worker tìm việc chưa xử lý bằng seek; thiếu index thì mỗi lần lấy việc quét cả bảng và mọi worker giẫm lên nhau. Hai là thời hạn: worker chết giữa chừng sẽ để lại hàng "đang xử lý" mãi mãi, nên cần giờ bắt đầu và ngưỡng quá hạn. Ba là giới hạn thử: không có nó, một message độc (poison message) sẽ bị nhặt lại vô tận và ăn hết khe worker. Chữ "3 lần" của Darling nên đi kèm một bảng hoặc trạng thái "thất bại" để người trực xem được.</div>
+
+    <table class="tbl">
+      <tr><th>Cách lấy việc</th><th>Ai thắng</th><th>Triệu chứng khi hỏng</th></tr>
+      <tr><td>Không hint</td><td>Cả hai cùng lấy một hàng <sup><a href="https://www.mssqltips.com/sqlservertip/1257/processing-data-queues-in-sql-server-with-readpast-and-updlock/" target="_blank">[2]</a></sup></td><td>Việc chạy hai lần, ví dụ gửi hai email, trừ tiền hai lần</td></tr>
+      <tr><td>Chỉ khóa update</td><td>Mỗi session một hàng, nhưng chờ nhau <sup><a href="https://www.mssqltips.com/sqlservertip/1257/processing-data-queues-in-sql-server-with-readpast-and-updlock/" target="_blank">[2]</a></sup></td><td>Thêm worker không tăng throughput; wait lock tăng</td></tr>
+      <tr><td>Khóa update + bỏ qua hàng bị khóa</td><td>Mỗi session một hàng, không chờ <sup><a href="https://www.mssqltips.com/sqlservertip/1257/processing-data-queues-in-sql-server-with-readpast-and-updlock/" target="_blank">[2]</a></sup></td><td>Lỗi hint khi bật RCSI; hàng bị khóa mức trang vẫn chặn <sup><a href="https://learn.microsoft.com/en-us/sql/t-sql/queries/hints-transact-sql-table" target="_blank">[3]</a></sup></td></tr>
+    </table>
+
+    <h3 class="sub">Nửa còn lại: message được giao lại, và chỗ ack nằm đâu</h3>
+    <p>Bảng queue chỉ là nửa đầu. Nửa sau là consumer RabbitMQ nhận message rồi ghi vào database. Dhandala chỉ ra cửa sổ lỗi: giữa lúc tác dụng phụ đã commit và lúc broker ghi nhận xong (ack với RabbitMQ), nếu consumer chết thì broker không biết việc đã làm và giao lại, nên thao tác có thể chạy hai lần <sup><a href="https://oneuptime.com/blog/post/2026-07-21-consumer-crash-side-effect-before-ack/markdown" target="_blank">[5]</a></sup>. Ack trước khi xử lý thì hết trùng nhưng có thể mất việc âm thầm; bài nói cách đó chỉ hợp với dữ liệu bỏ được, không hợp với đơn hàng, thanh toán hay sự kiện tuân thủ <sup><a href="https://oneuptime.com/blog/post/2026-07-21-consumer-crash-side-effect-before-ack/markdown" target="_blank">[5]</a></sup>. Với RabbitMQ, bài khuyên dùng ack thủ công và giới hạn prefetch để consumer lỗi không giữ quá nhiều việc chưa ack <sup><a href="https://oneuptime.com/blog/post/2026-07-21-consumer-crash-side-effect-before-ack/markdown" target="_blank">[5]</a></sup>.</p>
+    <p>Cách chữa của bài thứ hai là "inbox": một bảng khóa theo tên consumer logic và id sự kiện. Trong cùng một transaction, consumer chèn dòng inbox trước (khóa chính từ chối lần chèn thứ hai), chỉ khi chèn được mới chạy cập nhật nghiệp vụ, commit rồi mới ack <sup><a href="https://oneuptime.com/blog/post/2026-07-22-inbox-pattern-atomic-deduplication/markdown" target="_blank">[4]</a></sup>. Bài loại cả hai thứ tự "kiểm tra rồi làm": kiểm tra-rồi-ghi có race giữa hai worker; ghi-rồi-kiểm-tra mở một khe mà việc nghiệp vụ mất còn bản ghi thì báo đã xong <sup><a href="https://oneuptime.com/blog/post/2026-07-22-inbox-pattern-atomic-deduplication/markdown" target="_blank">[4]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế</b> (biên tập). Bảng inbox thực chất là "bảng queue lật ngược". Bảng queue chống hai worker lấy cùng một việc; inbox chống một việc được xử lý hai lần dù broker giao hai lần. Điểm hay là ràng buộc unique của database làm trọng tài, thay vì code ứng dụng. Với SQL Server của bạn nghĩa là: khóa chính (hoặc unique) trên cặp consumer–event id, cùng transaction với cập nhật nghiệp vụ. Hai lần giao đồng thời thì một lần thắng, lần kia nhận lỗi trùng khóa và chỉ việc bỏ qua rồi ack.</div>
+
+    <p>Bảng 4 điểm lỗi của bài cho thấy vì sao thiết kế này đủ chắc: lỗi trước transaction hoặc trước commit thì cả hai bản ghi lùi lại, xử lý bình thường khi giao lại; lỗi sau commit nhưng trước ack thì tác dụng và dòng inbox cùng tồn tại nên lần giao lại bị bỏ qua và message được ack; lỗi sau ack thì lần trùng vẫn an toàn <sup><a href="https://oneuptime.com/blog/post/2026-07-22-inbox-pattern-atomic-deduplication/markdown" target="_blank">[4]</a></sup>. Bài gọi kết quả là "gọi ít nhất một lần, nhưng tác dụng trong database chỉ một lần", và nói rõ nó không kéo dài sang hệ thống bên ngoài như API thanh toán hay email <sup><a href="https://oneuptime.com/blog/post/2026-07-22-inbox-pattern-atomic-deduplication/markdown" target="_blank">[4]</a></sup>.</p>
+
+    <h3 class="sub">Ba cái bẫy khi áp inbox lên database của bạn</h3>
+    <p>Thứ nhất, id phải là id của sự kiện logic, sống sót qua retry, đẩy lại từ DLQ và publish lại; đừng dùng delivery tag hay offset Kafka, vì chúng không nhận ra cùng một sự kiện được đẩy ở nơi khác <sup><a href="https://oneuptime.com/blog/post/2026-07-22-inbox-pattern-atomic-deduplication/markdown" target="_blank">[4]</a></sup>. Thứ hai, lỗi tạm thời phải lùi cả transaction gồm dòng inbox; commit mỗi dòng inbox rồi ack sẽ làm việc chưa xong bị chặn vĩnh viễn <sup><a href="https://oneuptime.com/blog/post/2026-07-22-inbox-pattern-atomic-deduplication/markdown" target="_blank">[4]</a></sup>. Thứ ba, giữ dòng inbox đủ lâu: xóa sớm thì trùng cũ quay lại. Thời hạn giữ phải phủ thời gian giữ của broker và DLQ, tuổi tối đa khi đẩy lại, và cả lần reset offset Kafka hay phát lại từ bản lưu <sup><a href="https://oneuptime.com/blog/post/2026-07-22-inbox-pattern-atomic-deduplication/markdown" target="_blank">[4]</a></sup>. Bài còn cảnh báo: nếu bạn partition bảng inbox PostgreSQL theo ngày, khóa partition phải nằm trong ràng buộc unique, và khi đó tính duy nhất xuyên partition bị phá trừ khi giữ thêm một sổ khóa riêng <sup><a href="https://oneuptime.com/blog/post/2026-07-22-inbox-pattern-atomic-deduplication/markdown" target="_blank">[4]</a></sup>. Bảng của bạn partition theo thời gian trên SQL Server cũng gặp ràng buộc tương tự về cột partition trong index unique.</p>
+    <div class="mech"><b>Cơ chế</b> (biên tập). Hai bảng này có thể là một. Nếu bảng task log của bạn đã có id sự kiện và trạng thái, việc "đặt chỗ" lấy việc (Darling) và "đặt chỗ" chống trùng (inbox) cùng dùng một ràng buộc unique. Gộp được thì đỡ một bảng nóng, nhưng cũng dồn mọi thứ vào một chỗ; nên đo trước khi gộp.</div>
+
+    <h3 class="sub">Rút ra theo quy mô</h3>
+    <div class="scale">
+      <div class="col small"><h4>Đội nhỏ, hệ mới (&lt;10 người)</h4><ul>
+        <li>Dùng đúng một cách: bảng queue có index tìm việc chưa xử lý, đặt chỗ bằng khóa update, ack thủ công sau commit.</li>
+        <li>Thêm cột số lần thử và giờ bắt đầu ngay từ đầu; thêm sau rất đau.</li>
+        <li>Một bảng inbox với khóa chính consumer–event id là đủ, chưa cần partition.</li>
+      </ul></div>
+      <div class="col"><h4>Đã có production (SQL Server + RabbitMQ)</h4><ul>
+        <li>Thử lệnh lấy việc trên bản sao bật RCSI; nếu READPAST báo lỗi thì dùng READCOMMITTEDLOCK như tài liệu gợi ý, rồi đo lại.</li>
+        <li>Đếm số lần trùng khóa ở inbox mỗi ngày: đó là bằng chứng bảo vệ đang chạy, và tăng đột ngột thường là dấu hiệu rebalance hay ack lỗi.</li>
+        <li>Đặt thời hạn giữ inbox dài hơn thời gian giữ DLQ và tuổi đẩy lại tối đa; kiểm tra cột partition có nằm trong khóa unique không.</li>
+      </ul></div>
+    </div>
+
+    <div class="takeaway">💡 <b>Rút ra cho bạn:</b> hint chỉ giải quyết "hai worker lấy cùng một việc". Hết ca trùng việc rồi, bạn vẫn còn hai việc: giao lại message sau khi commit (inbox) và worker chết giữa chừng (thời hạn + giới hạn thử). Với database đã bật RCSI, kiểm tra xem READPAST có chạy được không trước khi dựa vào nó.</div>
+
+    <div class="doslist">
+      <div>✅ Thứ Hai: liệt kê bảng task/queue của bạn: có index tìm việc chưa xử lý không, có cột số lần thử và giờ bắt đầu không.</div>
+      <div>✅ Thứ Tư: chọn một consumer RabbitMQ, vẽ ra bốn điểm lỗi (trước transaction, trước commit, sau commit trước ack, sau ack) và xem điểm nào đang gây trùng.</div>
+      <div>✅ Thứ Sáu: đo số hàng "đang xử lý" quá 10 phút; nếu khác 0, bạn đang có worker chết mà chưa ai nhận việc.</div>
+      <div>❌ Copy mẫu UPDLOCK + READPAST từ blog cũ vào database bật RCSI mà không thử.</div>
+      <div>❌ Ack trước khi xử lý để "hết trùng" với dữ liệu không được mất.</div>
+      <div>❌ Xóa dòng inbox sau vài ngày trong khi DLQ giữ message lâu hơn.</div>
+    </div>
+
+    <div class="refs"><b>Nguồn tham khảo</b><br>
+      [1] <a href="https://erikdarling.com/building-reusable-queues-part-2/" target="_blank">Erik Darling — Building Reusable Queues In SQL Server, Part 2 (13/05/2020, cập nhật 29/04/2026)</a> — tải thử nhỏ, kết luận "không deadlock" suy từ công cụ tải, không có số wait-stats dạng chữ.<br>
+      [2] <a href="https://www.mssqltips.com/sqlservertip/1257/processing-data-queues-in-sql-server-with-readpast-and-updlock/" target="_blank">MSSQLTips — Processing Data Queues in SQL Server with READPAST and UPDLOCK (đăng 2007)</a> — bảng 10 hàng, thời gian giả lập, không có số đo throughput.<br>
+      [3] <a href="https://learn.microsoft.com/en-us/sql/t-sql/queries/hints-transact-sql-table" target="_blank">Microsoft Learn — Table hints (Transact-SQL)</a><br>
+      [4] <a href="https://oneuptime.com/blog/post/2026-07-22-inbox-pattern-atomic-deduplication/markdown" target="_blank">OneUptime — Nawaz Dhandala, The Inbox Pattern: Atomically Deduplicating Messages with Business Updates (22/07/2026)</a> — bài hướng dẫn, không có số liệu production.<br>
+      [5] <a href="https://oneuptime.com/blog/post/2026-07-21-consumer-crash-side-effect-before-ack/markdown" target="_blank">OneUptime — Nawaz Dhandala, Consumer crashes after the side effect but before acknowledgement (21/07/2026)</a> — bài hướng dẫn, không đưa ngưỡng cụ thể cho timeout hay prefetch.
+    </div>
+  </article>
+
+  <div class="foot">Bản tin sáng · tổng hợp từ nguồn công khai đã xác minh</div>
+</div>
+</body>
+</html>
