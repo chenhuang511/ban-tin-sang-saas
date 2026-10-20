@@ -10,7 +10,7 @@
 > 2. Trước khi giải thích một thuật ngữ: xem phần **C. Từ điển thuật ngữ** — nếu đã giải thích ở số trước thì chỉ nhắc gọn/nối link, không giải thích lại dài dòng.
 > 3. Sau khi viết xong: thêm 1 khối vào phần **B. Mục lục theo số** và cập nhật phần A + C nếu có nguồn/thuật ngữ mới (dùng mẫu ở cuối file).
 >
-> _Cập nhật lần cuối: 19/10/2026 — 89 số (24/07 → 19/10/2026; gồm 1 số song song 09/08 chuyên đề An toàn thông tin)._
+> _Cập nhật lần cuối: 20/10/2026 — 90 số (24/07 → 20/10/2026; gồm 1 số song song 09/08 chuyên đề An toàn thông tin)._
 
 ---
 
@@ -83,6 +83,7 @@ mssqltips.com/sqlservertip/8296/reduce-sql-server-deadlocks-with-a-clustered-ind
 
 ### Công ty / báo cáo / case study đã khai thác (KHÔNG viết lại trừ khi có số liệu mới)
 
+Index thừa trên SQL Server / AG: Bertrand (MSSQLTips 11510), Golovko (MSSQLTips 5202), Randal (sqlperformance ?p=2376), Microsoft ISV 2011, Chang 2009, Darling sp_IndexCleanup — ĐÃ DÙNG 20/10/2026
 Segment/Twilio — gộp >140 service về 1 (Centrifuge, Traffic Recorder, monorepo) — ĐÃ DÙNG 17/10/2026
 - **Netflix Generational ZGC (14/10/2026):** netflixtechblog.com (Danny Thomas, 06/03/2024) · openjdk.org/jeps/439, /474 · docs.oracle.com/en/java/javase/21/gctuning (available-collectors; G1) · besthub.dev (Full GC 10 s → 200 ms, ẩn danh) — đừng lặp trừ khi có số đo mới.
 - **Socure RiskOS webhook / Kafka partition bị bỏ rơi sau scale-up (11/10/2026):** status.socure.com, sự cố 25–26/06/2026, ~½ event trễ ~16 giờ, lag tổng hợp xanh; Burrow (LinkedIn, 2015); Spring Kafka rebalance listeners; Mike Byrd page splits (SQLServerCentral, 2019/2020): 3 vs 44.868 split.
@@ -155,6 +156,7 @@ Buildkite — case cardinality explosion (nhãn build_id làm hóa đơn metric 
 
 ### Số liệu "đầu bài" đã dùng (đừng lặp làm điểm nhấn chính)
 
+20/10/2026: log page split >40× insert thường; usage stats ≥1 tuần; theo dõi 6–12 tháng; báo cáo 2,5 giờ → ~15 phút (Golovko, minh họa).
 17/10/2026: >140 service; 3 kỹ sư toàn thời gian; test ~1 giờ → mili giây; 32 → 46 cải tiến thư viện chung (Segment).
 - 14/10/2026: Netflix ZGC thế hệ: >½ service streaming quan trọng, +36% CPU (ZGC cũ) → ~10% tốt hơn G1, ~3% heap overhead, Parallel +6–8% cho batch · JEP 439 Cassandra ¼ heap/4× throughput · BestHub p99 15 s → 120 ms
 - 11/10/2026: Socure ~½ webhook trễ, 14:06→06:03 ET, phát hiện ~20 giờ sau · Byrd 3 vs 44.868 split, 176.764→437.417 logical read, 703→2.453 ms CPU, 5,8 I/O/split
@@ -190,6 +192,13 @@ LegacyCodeBench 200 tác vụ/4 bậc · Legacy Insights 94%/tài liệu 96% · 
 ---
 
 ## B. Mục lục theo số (mới → cũ)
+
+### 20/10/2026 — Index "không ai dùng" vẫn bị ghi mỗi lần insert: chấm điểm index thừa trên SQL Server, usage stats chỉ nhớ từ lần restart cuối, và AG phải gộp đọc qua mọi replica (Bertrand/MSSQLTips; Golovko/MSSQLTips; Randal; Microsoft ISV; Chang; Darling)
+- **Chủ đề:** Số một bài, mảng 3 (SQL Server index thừa, AG readable secondary) tag legacy; không có Góc nhìn. Không có nguồn nào có số đo trước/sau — đã ghi rõ trong bài.
+- **Nguồn:** mssqltips.com/sqlservertip/11510 (Aaron Bertrand, 03/10/2025); mssqltips.com/sqlservertip/5202 (Svetlana Golovko, 07/12/2017); sqlperformance.com/?p=2376 (Paul Randal, 17/12/2012); learn.microsoft.com/archive/blogs/sql_server_isv (15/04/2011); learn.microsoft.com/archive/blogs/mikecha (Mike Chang, 15/12/2009); erikdarling.com/?p=11669 (sp_IndexCleanup, cập nhật 15/02/2026).
+- **Số chính:** log page split >40× insert thường (phân tích 2009 do Randal dẫn); thu usage stats ≥1 tuần, ngưỡng ví dụ 10.000 update/tuần (ISV); theo dõi 6–12 tháng trước khi drop (Golovko); báo cáo tháng 2,5 giờ → ~15 phút nhờ index ít dùng (ví dụ minh họa); duplicate/overlap, mặc định bỏ qua index <30 ngày (Darling).
+- **Thực thể:** Aaron Bertrand, Svetlana Golovko, Paul Randal, Mike Chang, Erik Darling, Microsoft ISV team; sys.dm_db_index_usage_stats; Availability Group.
+- **Thuật ngữ đã giải thích:** usage stats và chuyện reset khi restart; index thừa (không đọc/ghi nhiều); disable trước drop; lỗi hint 308/315.
 
 ### 19/10/2026 — Bảng SQL Server làm hàng đợi: trùng việc, READPAST không đi chung với RCSI, và cửa sổ lỗi giữa commit với ack — inbox gộp dedup vào transaction (Darling; MSSQLTips; Microsoft Learn; OneUptime/Dhandala ×2)
 - **Chủ đề:** Số một bài, mảng 3 (SQL Server queue/task log + RabbitMQ idempotency) tag legacy; không có Góc nhìn.
@@ -800,6 +809,7 @@ LegacyCodeBench 200 tác vụ/4 bậc · Legacy Insights 94%/tài liệu 96% · 
 
 ## C. Từ điển thuật ngữ (đã giải thích ở các số — chỉ nhắc gọn khi tái dùng)
 
+- **Index thừa / sys.dm_db_index_usage_stats:** DMV đếm seek/scan/lookup (đọc) và update (ghi) mỗi index nhưng chỉ từ lần khởi động cuối, bị xóa khi restart/patch; trên AG phải gộp đọc qua mọi replica; disable trước drop; hint gây lỗi 308 (drop) và 315 (disable) — đã giải thích ở số 20/10/2026.
 - **Bảng queue + READPAST/UPDLOCK; inbox pattern; poison message:** UPDLOCK chặn trùng việc, READPAST bỏ qua hàng bị khóa để worker không chờ nhau (không dùng được với RCSI ở read committed, dùng READCOMMITTEDLOCK); inbox = bảng khóa consumer+event id chèn cùng transaction với cập nhật nghiệp vụ rồi mới ack — giải thích 19/10/2026.
 
 - **Head-of-line blocking** (kẻ đầu hàng chặn cả hàng) — 17/10/2026; **record/replay traffic** (Traffic Recorder: ghi HTTP lần đầu, phát lại ở lần sau) — 17/10/2026.

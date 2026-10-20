@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Index thừa trên SQL Server &middot; 20/10/2026</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 64px}
+.backbar{max-width:760px;margin:0 auto;padding:18px 20px 0}
+.backbar a{display:inline-block;font-size:13px;text-decoration:none;background:#eef2ff;color:#4338ca;padding:6px 14px;border-radius:20px}
+.masthead{border-bottom:3px solid #111;padding:26px 0 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#6b7280;font-weight:600}
+h1.title{font-size:32px;line-height:1.15;margin:6px 0 10px;font-weight:800;letter-spacing:-.02em}
+.meta{font-size:14px;color:#6b7280}
+.meta a{color:#2563eb;text-decoration:none}
+.toc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 22px;margin:24px 0}
+.toc h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:#6b7280;margin:0 0 10px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:6px 0}
+.toc a{color:#1a1a1a;text-decoration:none;border-bottom:1px solid #d1d5db}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:26px 28px;margin:22px 0;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;margin-bottom:12px}
+.tag.saas{background:#eef2ff;color:#4338ca}
+.tag.legacy{background:#ecfdf5;color:#047857}
+.tag.view{background:#fff7ed;color:#c2410c}
+.card h2.head{font-size:23px;line-height:1.25;margin:2px 0 8px;font-weight:800;letter-spacing:-.01em}
+.card h3.sub{font-size:17px;line-height:1.3;margin:22px 0 6px;font-weight:800;color:#111}
+.src{font-size:13.5px;color:#6b7280;margin:0 0 16px}
+.src a{color:#2563eb;text-decoration:none}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+.stat .box{flex:1;min-width:150px;background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:12px 14px}
+.stat .num{font-size:22px;font-weight:800;color:#111}
+.stat .lab{font-size:12.5px;color:#6b7280;margin-top:2px}
+.stat .lab a{color:#2563eb;text-decoration:none}
+p{margin:12px 0}
+sup a{color:#2563eb;text-decoration:none;font-weight:600}
+.takeaway{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:18px 0;font-size:15px}
+.doslist{background:#f9fafb;border:1px solid #eef0f2;border-radius:10px;padding:14px 18px;margin:16px 0;font-size:15px}
+.doslist div{margin:6px 0}
+.mech{background:#eff6ff;border:1px solid #dbeafe;border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14.5px}
+.mech b{color:#1e40af}
+.scale{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.scale .col{flex:1;min-width:210px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;font-size:14px}
+.scale .col h4{margin:0 0 8px;font-size:14px;color:#4338ca;letter-spacing:.02em}
+.scale .col.small h4{color:#047857}
+.scale .col ul{margin:0;padding-left:18px}
+.scale .col li{margin:5px 0}
+.editnote{font-size:12.5px;color:#92400e;background:#fffbeb;border:1px dashed #fcd34d;border-radius:8px;padding:8px 12px;margin:10px 0;font-style:italic}
+.refs{margin-top:18px;padding-top:14px;border-top:1px dashed #e5e7eb;font-size:13.5px;color:#4b5563}
+.refs a{color:#2563eb;text-decoration:none}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid #e5e7eb;padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:#f3f4f6}
+.foot{text-align:center;color:#9ca3af;font-size:13px;margin-top:40px}
+hr.sep{border:none;border-top:1px solid #e5e7eb;margin:30px 0}
+@media (max-width:560px){h1.title{font-size:25px}.card{padding:20px 18px}.tbl{display:block;overflow-x:auto}}
+</style>
+</head>
+<body>
+
+<div class="backbar"><a href="/">← Về trang bìa</a></div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="kicker">Bản tin sáng · Số 20/10/2026</div>
+    <h1 class="title">Index "không ai dùng" vẫn bị ghi mỗi lần insert: cách chấm điểm index thừa trên SQL Server, và vì sao nhìn mỗi primary là chưa đủ</h1>
+    <div class="meta">20/10/2026 · Đọc khoảng 12 phút · Nguồn chính: Aaron Bertrand (MSSQLTips, 2025); Svetlana Golovko (MSSQLTips, 2017); Paul Randal (2012); nhóm SQL Server ISV của Microsoft (2011)</div>
+  </header>
+
+  <div class="editnote">Ghi chú biên tập: số này chỉ có một bài, về index thừa ở bảng ghi nhiều, đúng loại bảng hóa đơn multi-tenant của bạn. Cần nói thẳng: các nguồn dưới đây là bài hướng dẫn và kinh nghiệm của chuyên gia, <b>không có bài nào đưa số đo trước/sau của một công ty thật</b>; bản tin không bịa số để lấp chỗ. Các đoạn "Cơ chế", phần ánh xạ sang Availability Group và khuyến nghị theo quy mô là <b>biên tập tổng hợp từ thực hành phổ biến, không trích nguyên văn từ nguồn</b>. Mọi con số đều có dẫn nguồn nội dòng.</div>
+
+  <nav class="toc">
+    <h2>Trong số này</h2>
+    <ol>
+      <li><a href="#bai1"><strong>Bài 1</strong> — Index thừa: trả giá ở mỗi lần ghi, và quy trình gỡ không đau<br><span style="font-size:13.5px;color:#6b7280">· mỗi index thêm một bản ghi log · usage stats chỉ nhớ từ lần khởi động cuối · AG: đọc ở secondary không hiện trên primary · disable trước, drop sau</span></a></li>
+    </ol>
+  </nav>
+
+  <article class="card" id="bai1">
+    <span class="tag legacy">Tối ưu hệ đang chạy · SQL Server AG</span>
+    <h2 class="head">Một index không ai query vẫn phải được cập nhật mỗi lần insert, và nó còn đi theo log sang cả secondary</h2>
+    <p class="src">Nguồn: Aaron Bertrand — <a href="https://www.mssqltips.com/sqlservertip/11510/managing-underused-indexes-in-sql-server-availability-groups/" target="_blank">Managing Underused Indexes in SQL Server Availability Groups, Part 1</a> (MSSQLTips, 03/10/2025); Svetlana Golovko — <a href="https://www.mssqltips.com/sqlservertip/5202/safely-dropping-unused-sql-server-indexes/" target="_blank">Safely Dropping Unused SQL Server Indexes</a> (07/12/2017); Paul Randal — <a href="https://sqlperformance.com/?p=2376" target="_blank">Trimming the Transaction Log Fat</a> (17/12/2012); nhóm SQL Server ISV — <a href="https://learn.microsoft.com/en-us/archive/blogs/sql_server_isv/fundamentals-improving-insert-and-update-performance-by-dropping-unused-indexes" target="_blank">Improving insert and update performance by dropping unused indexes</a> (15/04/2011); Mike Chang — <a href="https://learn.microsoft.com/en-us/archive/blogs/mikecha/improving-replication-performance-by-removing-unused-indexes" target="_blank">Improving Replication Performance By Removing Unused Indexes</a> (15/12/2009); Erik Darling — <a href="https://erikdarling.com/?p=11669" target="_blank">sp_IndexCleanup</a> (cập nhật 15/02/2026).</p>
+
+    <div class="stat">
+      <div class="box"><div class="num">&gt; 40×</div><div class="lab">lượng log của một lần page split so với insert thường, theo phân tích 2009 mà Randal dẫn lại <sup><a href="https://sqlperformance.com/?p=2376" target="_blank">[4]</a></sup></div></div>
+      <div class="box"><div class="num">≥ 1 tuần</div><div class="lab">thời gian thu usage stats tối thiểu theo nhóm ISV Microsoft; ngưỡng ví dụ 10.000 lần update/tuần <sup><a href="https://learn.microsoft.com/en-us/archive/blogs/sql_server_isv/fundamentals-improving-insert-and-update-performance-by-dropping-unused-indexes" target="_blank">[2]</a></sup></div></div>
+      <div class="box"><div class="num">6–12 tháng</div><div class="lab">cửa sổ theo dõi Golovko khuyên trước khi drop, để bắt báo cáo cuối quý, cuối năm <sup><a href="https://www.mssqltips.com/sqlservertip/5202/safely-dropping-unused-sql-server-indexes/" target="_blank">[3]</a></sup></div></div>
+      <div class="box"><div class="num">2,5 giờ → ~15 phút</div><div class="lab">báo cáo tháng chạy nhờ một index "ít dùng": ví dụ của Golovko cho thấy vì sao không drop chỉ vì ít dùng <sup><a href="https://www.mssqltips.com/sqlservertip/5202/safely-dropping-unused-sql-server-indexes/" target="_blank">[3]</a></sup></div></div>
+    </div>
+
+    <h3 class="sub">Cái giá: mỗi index là thêm một cây phải sửa</h3>
+    <p>Ý nền của cả năm nguồn giống nhau: insert hoặc delete một hàng thì SQL Server phải sửa cả bảng lẫn mọi nonclustered index của nó. Nhóm ISV viết rõ điều này, kèm lời khuyên dùng Tuning Advisor đến lúc hiệu năng gần mức tối đa dự báo (trong vòng khoảng 5%), vì cố vắt nốt 5% cuối thường đẻ ra nhiều index đến mức chi phí bảo trì ăn mất lợi ích <sup><a href="https://learn.microsoft.com/en-us/archive/blogs/sql_server_isv/fundamentals-improving-insert-and-update-performance-by-dropping-unused-indexes" target="_blank">[2]</a></sup>. Randal đo theo đơn vị mà DBA AG quan tâm: log. Mỗi insert hoặc delete sinh ít nhất một bản ghi log cho mỗi nonclustered index, còn update chỉ đụng index khi sửa cột khóa hoặc cột include <sup><a href="https://sqlperformance.com/?p=2376" target="_blank">[4]</a></sup>.</p>
+    <p>Randal gọi hai nguồn log thừa là index không dùng và phân mảnh gây page split. Với split, ông dẫn lại phân tích năm 2009: một lần split sinh hơn 40 lần log so với insert thường. Bài không đưa số đo cho chi phí của index thừa; đó là mô tả định tính <sup><a href="https://sqlperformance.com/?p=2376" target="_blank">[4]</a></sup>. Chữa split là chuyện fillfactor (chừa chỗ trống trong trang để chèn không phải tách trang, đổi lấy tốn thêm dung lượng) <sup><a href="https://sqlperformance.com/?p=2376" target="_blank">[4]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế</b> (biên tập). Hãy đọc "thêm một index" thành "thêm một dòng vào mỗi lần ghi": một bảng hóa đơn có 8 nonclustered index thì mỗi lần insert là 1 hàng bảng cộng 8 hàng index, có thể lên 9 bản ghi log và 9 trang bị khóa. Số cụ thể phụ thuộc bảng của bạn, nên đừng lấy 9 làm kết luận. Đo bằng cách đếm số index mỗi bảng ghi nặng, rồi so với số index thật sự được seek mỗi tuần. Với AG sync commit, log là thứ đi qua mạng sang secondary rồi được redo; log nhiều hơn nghĩa là tải nhiều hơn ở mọi bước đó (xem số 16/10 và 02/10).</div>
+
+    <h3 class="sub">Chỗ vấp 1: usage stats chỉ nhớ từ lần khởi động cuối</h3>
+    <p>Công cụ chung của mọi hướng dẫn là DMV sys.dm_db_index_usage_stats: đếm seek, scan, lookup (đọc) và update (ghi) cho từng index. Cách tìm index thừa kinh điển là lọc index nonclustered, không phải của Microsoft, có tổng đọc bằng 0, rồi sắp xếp theo số update giảm dần <sup><a href="https://learn.microsoft.com/en-us/archive/blogs/sql_server_isv/fundamentals-improving-insert-and-update-performance-by-dropping-unused-indexes" target="_blank">[2]</a></sup> <sup><a href="https://learn.microsoft.com/en-us/archive/blogs/mikecha/improving-replication-performance-by-removing-unused-indexes" target="_blank">[5]</a></sup>. Mike Chang gọn hơn: đọc có, ghi có thì giữ; đọc không, ghi có thì drop (tăng hiệu năng); cả hai không thì drop chỉ để tiết kiệm dung lượng <sup><a href="https://learn.microsoft.com/en-us/archive/blogs/mikecha/improving-replication-performance-by-removing-unused-indexes" target="_blank">[5]</a></sup>.</p>
+    <p>Nhưng cả nhóm ISV lẫn Golovko đều cảnh báo bộ đếm này bị xóa khi restart. Golovko liệt kê thêm: database offline, drop hoặc tạo lại index, và vài phiên bản SQL Server còn xóa khi rebuild; index memory-optimized không có trong DMV này <sup><a href="https://www.mssqltips.com/sqlservertip/5202/safely-dropping-unused-sql-server-indexes/" target="_blank">[3]</a></sup>. Nhóm ISV nhắc một chi tiết rất thực tế: máy chủ tự khởi động lại sau patch sẽ xóa sạch số liệu, nên hãy phân tích trước Patch Tuesday; và bảng không có update nào thì không hiện dòng nào, "không có kết quả" là "không có thông tin" chứ không phải "không có index thừa" <sup><a href="https://learn.microsoft.com/en-us/archive/blogs/sql_server_isv/fundamentals-improving-insert-and-update-performance-by-dropping-unused-indexes" target="_blank">[2]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế</b> (biên tập). Bộ đếm chạy từ lúc instance khởi động, không phải từ lúc index ra đời. Một index phục vụ job đối soát cuối tháng sẽ hiện "chưa từng dùng" nếu instance vừa restart hôm 25. Quy tắc tự vệ: ghi lại thời điểm khởi động (ngày start của instance), chỉ tin con số 0 khi khoảng thời gian đã phủ ít nhất một chu kỳ nghiệp vụ dài nhất, và lưu snapshot định kỳ vào một bảng riêng để số liệu sống sót qua restart. Chuyện lưu snapshot là gợi ý biên tập, các nguồn chỉ nhắc cần thu đủ lâu.</div>
+
+    <h3 class="sub">Chỗ vấp 2: với AG, nhìn mỗi primary dễ drop nhầm index đang phục vụ báo cáo</h3>
+    <p>Đây là điểm hợp nhất với stack của bạn. Bertrand nói thẳng: usage stats không được cộng gộp ở đâu qua các replica. Đọc có thể xảy ra trên readable secondary (qua read-only routing hoặc kết nối trực tiếp), còn ghi chỉ xảy ra trên primary. Nên chỉ nhìn primary thì index phục vụ báo cáo trên secondary trông như không dùng <sup><a href="https://www.mssqltips.com/sqlservertip/11510/managing-underused-indexes-in-sql-server-availability-groups/" target="_blank">[1]</a></sup>.</p>
+    <p>Cách cũ là chạy truy vấn từng replica, dán vào bảng tính, so tay. Bertrand tự động hóa: tìm các replica khác của database từ metadata AG, chạy cùng truy vấn qua linked server, gom vào bảng tạm; đọc = seek + scan + lookup cộng gộp các replica, ghi tính từ primary, lấy giờ đọc gần nhất làm mốc <sup><a href="https://www.mssqltips.com/sqlservertip/11510/managing-underused-indexes-in-sql-server-availability-groups/" target="_blank">[1]</a></sup>. Ông ghi nhận giới hạn: cần linked server tới mọi replica; dò tên máy dễ sai nếu đổi tên hay dùng instance có tên; bản Part 1 chưa cho biết replica nào là primary; và hiện secondary không thể có bộ index khác primary, dù đây là tính năng được yêu cầu nhiều <sup><a href="https://www.mssqltips.com/sqlservertip/11510/managing-underused-indexes-in-sql-server-availability-groups/" target="_blank">[1]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế</b> (biên tập). Vì index trên secondary là bản sao của primary, drop trên primary sẽ lan sang secondary bằng chính log. Index "chỉ dùng ở secondary" vì thế vẫn làm chậm ghi ở primary: nó là lý do chính để xem xét giữ bộ index nhỏ gọn. Quyết định đúng là cân hai phía: tổng đọc trên mọi replica so với chi phí ghi ở primary. Index có tổng đọc cao nhưng toàn ở secondary có thể đáng giữ; index có tổng đọc gần 0 trên cả ba máy là ứng viên rõ nhất.</div>
+
+    <h3 class="sub">Chỗ vấp 3: drop là quyết định khó đảo ngược, nên đi theo từng bước</h3>
+    <p>Golovko kể lý do nhiều script tìm index thừa trên mạng bị coi là chưa đủ: thiếu loại trừ ràng buộc primary key và unique, dùng tỷ lệ update/đọc như bộ lọc cứng thay vì chỉ để sắp xếp, và quên rằng index ít dùng vẫn có thể cứu một báo cáo quan trọng. Ví dụ của bà: báo cáo tháng giảm từ 2,5 giờ xuống khoảng 15 phút nhờ index, tiết kiệm gần 3,5 ngày công mỗi năm, đủ bù chi phí update <sup><a href="https://www.mssqltips.com/sqlservertip/5202/safely-dropping-unused-sql-server-indexes/" target="_blank">[3]</a></sup>.</p>
+    <p>Quy trình của bà gồm tám bước: xác nhận index do đội mình tạo (đặc biệt với database của vendor); kiểm tra ứng dụng có tạo lại index khi khởi động không; tìm index hint trong các module (drop sẽ gây lỗi 308, disable gây lỗi 315 cho truy vấn dùng hint); tạo script đầy đủ gồm fill factor và compression; disable trước, drop sau; chuẩn bị sẵn lệnh rebuild để quay lại; theo dõi dài hạn; đo truy vấn có và không có index cùng chi phí update <sup><a href="https://www.mssqltips.com/sqlservertip/5202/safely-dropping-unused-sql-server-indexes/" target="_blank">[3]</a></sup>. Bà cũng nhắc maintenance job có thể vô tình bật lại index đã disable, nên cần kiểm tra danh sách disabled <sup><a href="https://www.mssqltips.com/sqlservertip/5202/safely-dropping-unused-sql-server-indexes/" target="_blank">[3]</a></sup>.</p>
+    <p>Với duplicate và overlap, sp_IndexCleanup của Darling định nghĩa duplicate là cùng thứ tự cột khóa và cùng cột include (thứ tự include không quan trọng), overlap là chung cột khóa đầu hoặc toàn bộ theo cùng thứ tự; mặc định bỏ qua index dưới 30 ngày tuổi, và công cụ cho biết dung lượng, thống kê đọc/ghi, có hỗ trợ ràng buộc hay không <sup><a href="https://erikdarling.com/?p=11669" target="_blank">[6]</a></sup>. Việc chọn drop cái nào vẫn là quyết định của bạn, kể cả với heap, như tác giả ghi <sup><a href="https://erikdarling.com/?p=11669" target="_blank">[6]</a></sup>.</p>
+    <div class="mech"><b>Cơ chế</b> (biên tập). Disable có hai lợi: định nghĩa còn nguyên và giải phóng chi phí ghi ngay (cây index không còn được cập nhật), còn quay lại bằng rebuild. Đổi lại, truy vấn dùng hint sẽ lỗi ngay, nên nó cũng là một phép thử tốt: lỗi 315 trong log ứng dụng trong tuần đầu cho bạn biết ai đang phụ thuộc. Với bảng TB, rebuild để quay lại có thể mất nhiều giờ và tốn log, nên hãy tính trước cửa sổ bảo trì cho đường lui; đó là cảnh báo biên tập, không phải số liệu từ nguồn.</div>
+
+    <table class="tbl">
+      <tr><th>Phát hiện từ DMV</th><th>Nghĩa là gì</th><th>Việc nên làm</th></tr>
+      <tr><td>Đọc = 0 trên mọi replica, ghi cao, chạy đủ chu kỳ</td><td>Ứng viên rõ nhất <sup><a href="https://learn.microsoft.com/en-us/archive/blogs/mikecha/improving-replication-performance-by-removing-unused-indexes" target="_blank">[5]</a></sup> <sup><a href="https://www.mssqltips.com/sqlservertip/11510/managing-underused-indexes-in-sql-server-availability-groups/" target="_blank">[1]</a></sup></td><td>Kiểm tra hint, ràng buộc; disable; theo dõi</td></tr>
+      <tr><td>Đọc = 0 trên primary, đọc cao trên secondary</td><td>Index phục vụ báo cáo <sup><a href="https://www.mssqltips.com/sqlservertip/11510/managing-underused-indexes-in-sql-server-availability-groups/" target="_blank">[1]</a></sup></td><td>Giữ, hoặc cân lại chi phí ghi trên primary</td></tr>
+      <tr><td>Đọc rất ít nhưng cuối kỳ có báo cáo lớn</td><td>Có thể cứu một job 2,5 giờ <sup><a href="https://www.mssqltips.com/sqlservertip/5202/safely-dropping-unused-sql-server-indexes/" target="_blank">[3]</a></sup></td><td>Đo thử có/không có index trước khi quyết</td></tr>
+      <tr><td>Instance vừa restart hoặc vừa patch</td><td>Số liệu chưa đủ tin <sup><a href="https://learn.microsoft.com/en-us/archive/blogs/sql_server_isv/fundamentals-improving-insert-and-update-performance-by-dropping-unused-indexes" target="_blank">[2]</a></sup></td><td>Chờ đủ chu kỳ, hoặc dùng snapshot đã lưu</td></tr>
+    </table>
+
+    <div class="scale">
+      <div class="col small"><h4>Đội nhỏ, hệ mới (&lt;10 người)</h4><ul>
+        <li>Đừng tạo index theo gợi ý tự động mà không xem lại; ghi chú lý do cho từng index (báo cáo nào, query nào).</li>
+        <li>Mỗi quý chạy một lần truy vấn đếm đọc/ghi; chưa cần tự động hóa nhiều replica nếu chỉ có một server.</li>
+        <li>Đặt quy ước đặt tên index theo chức năng để sau này biết ai tạo.</li>
+      </ul></div>
+      <div class="col"><h4>Đã có production (AG, bảng TB, nhiều CompanyID)</h4><ul>
+        <li>Chọn năm bảng ghi nặng nhất; với mỗi bảng, so số index với số index được dùng, trên cả primary và readable secondary.</li>
+        <li>Lưu snapshot usage stats hằng ngày để sống qua restart và patch; chỉ xem xét index có 0 đọc trên mọi replica qua ít nhất một kỳ đóng sổ.</li>
+        <li>Disable thay vì drop ở đợt đầu; theo dõi lỗi hint; sau vài kỳ báo cáo mới drop hẳn.</li>
+      </ul></div>
+    </div>
+
+    <div class="takeaway">💡 <b>Rút ra cho bạn:</b> trước khi tìm cách làm ghi nhanh hơn bằng phần cứng, hãy đếm xem mỗi lần insert đang kéo theo bao nhiêu index. Nhưng đừng tin con số 0 khi chỉ nhìn primary hoặc chỉ nhìn từ lần restart cuối: ở AG, đọc có thể đang nằm ở secondary.</div>
+
+    <div class="doslist">
+      <div>✅ Thứ Hai: ghi lại ngày giờ khởi động instance trên từng replica, rồi lập danh sách index nonclustered có 0 đọc trên bảng ghi nặng nhất.</div>
+      <div>✅ Thứ Tư: chạy cùng truy vấn trên các readable secondary, gộp đọc ba máy, loại các index có đọc ở secondary.</div>
+      <div>✅ Thứ Sáu: tìm index hint trong stored procedure và code Hibernate/native query cho các ứng viên còn lại; chọn một index để disable thử.</div>
+      <div>❌ Drop dựa trên usage stats của một replica hoặc của vài ngày sau restart.</div>
+      <div>❌ Drop index đang hỗ trợ ràng buộc unique hoặc khóa chính chỉ vì không có đọc.</div>
+      <div>❌ Đánh giá index chỉ bằng dung lượng đĩa; chi phí chính là CPU, memory và log lúc ghi <sup><a href="https://www.mssqltips.com/sqlservertip/5202/safely-dropping-unused-sql-server-indexes/" target="_blank">[3]</a></sup>.</div>
+    </div>
+
+    <div class="refs"><b>Nguồn tham khảo</b><br>
+      [1] <a href="https://www.mssqltips.com/sqlservertip/11510/managing-underused-indexes-in-sql-server-availability-groups/" target="_blank">Aaron Bertrand — Managing Underused Indexes in SQL Server Availability Groups, Part 1 (MSSQLTips, 03/10/2025)</a> — kết quả mẫu của bài là ảnh, không có số đo trước/sau.<br>
+      [2] <a href="https://learn.microsoft.com/en-us/archive/blogs/sql_server_isv/fundamentals-improving-insert-and-update-performance-by-dropping-unused-indexes" target="_blank">Nhóm SQL Server ISV, Microsoft — Fundamentals: improving insert and update performance by dropping unused indexes (15/04/2011)</a> — không có đo trước/sau; tác giả tự ghi chú nội dung cũ.<br>
+      [3] <a href="https://www.mssqltips.com/sqlservertip/5202/safely-dropping-unused-sql-server-indexes/" target="_blank">Svetlana Golovko — Safely Dropping Unused SQL Server Indexes (MSSQLTips, 07/12/2017)</a> — ví dụ 2,5 giờ → 15 phút là minh họa của tác giả.<br>
+      [4] <a href="https://sqlperformance.com/?p=2376" target="_blank">Paul Randal — Trimming the Transaction Log Fat (17/12/2012)</a> — con số "hơn 40 lần" lấy từ phân tích 2009 do bài dẫn lại.<br>
+      [5] <a href="https://learn.microsoft.com/en-us/archive/blogs/mikecha/improving-replication-performance-by-removing-unused-indexes" target="_blank">Mike Chang — Improving Replication Performance By Removing Unused Indexes (Microsoft, 15/12/2009)</a> — không đo lợi ích.<br>
+      [6] <a href="https://erikdarling.com/?p=11669" target="_blank">Erik Darling — sp_IndexCleanup (Darling Data, cập nhật 15/02/2026)</a> — mô tả công cụ, không có số kết quả.
+    </div>
+  </article>
+
+  <div class="foot">Bản tin sáng · tổng hợp từ nguồn công khai đã xác minh</div>
+</div>
+</body>
+</html>
